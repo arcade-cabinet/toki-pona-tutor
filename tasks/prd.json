@@ -850,7 +850,7 @@
         "Files: src/field/warp_watcher.gd, schema/region_resource.gd"
       ],
       "priority": 2,
-      "passes": false,
+      "passes": true,
       "dependsOn": [
         "US-052"
       ]
@@ -946,7 +946,7 @@
         "Files: src/common/music/music_player.gd, new content/audio/biome_music.tres"
       ],
       "priority": 2,
-      "passes": false,
+      "passes": true,
       "dependsOn": [
         "US-043"
       ]
@@ -960,7 +960,7 @@
         "Files: src/common/music/music_player.gd"
       ],
       "priority": 3,
-      "passes": false,
+      "passes": true,
       "dependsOn": [
         "US-060"
       ]
@@ -975,7 +975,7 @@
         "Files: src/combat/combat.gd"
       ],
       "priority": 2,
-      "passes": false,
+      "passes": true,
       "dependsOn": [
         "US-060"
       ]

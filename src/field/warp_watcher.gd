@@ -71,9 +71,31 @@ func _on_player_arrived() -> void:
 	var target_region: String = String(warp.get("to_region", ""))
 	var to_tile_dict: Dictionary = warp.get("to_tile", {"x": 0, "y": 0})
 	var to_cell := Vector2i(int(to_tile_dict.get("x", 0)), int(to_tile_dict.get("y", 0)))
+	# US-054: badge gate. If warp.required_badge is set, block until
+	# TokiSave says we've earned it; show a short dialog instead of
+	# just failing silently.
+	var required_badge := String(warp.get("required_badge", ""))
+	if required_badge != "" and TokiSave != null and not TokiSave.has_badge(required_badge):
+		print("[WarpWatcher] blocked: need %s badge for %s" % [required_badge, target_region])
+		_show_badge_gate_message(required_badge)
+		return
 	print("[WarpWatcher] → %s at %s" % [target_region, to_cell])
 	_warp_firing = true
 	_perform_warp(target_region, to_cell)
+
+
+func _show_badge_gate_message(badge_id: String) -> void:
+	# Uses the victory panel (re-used as a generic message panel) for
+	# consistency with other in-field modal blurbs.
+	var panel_scene: PackedScene = load("res://src/combat/ui/victory_panel.tscn")
+	if panel_scene == null: return
+	var panel = panel_scene.instantiate()
+	var overlay: CanvasLayer = get_tree().root.get_node_or_null("TokiTown")
+	if overlay == null: overlay = get_tree().root
+	overlay.add_child(panel)
+	panel.show_sequence(["You need the %s badge to pass here." % badge_id])
+	await panel.finished
+	panel.queue_free()
 
 
 func _maybe_fire_rival(rival: Dictionary) -> void:

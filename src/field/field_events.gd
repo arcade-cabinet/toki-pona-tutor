@@ -66,3 +66,9 @@ signal item_given(item_id: String, count: int)
 signal party_add(species_id: String, level: int)
 @warning_ignore("unused_signal")
 signal quest_advanced(quest_id: String, stage: String)
+
+## Emitted by RegionBuilder._ready after the region is live. Lets
+## BiomeMusic route biome → track and anything else that needs to
+## react to a region swap. US-060.
+@warning_ignore("unused_signal")
+signal region_changed(region: RegionResource)

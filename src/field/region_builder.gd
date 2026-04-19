@@ -73,6 +73,11 @@ func _ready() -> void:
 	if TokiSave:
 		TokiSave.current_region_id = region.id
 	_build()
+	# Publish on the field event bus so BiomeMusic / cd transitions /
+	# other listeners can react to the swap (US-060). Emit AFTER _build
+	# so listeners see a fully-hydrated scene tree.
+	if FieldEvents != null and FieldEvents.has_signal("region_changed"):
+		FieldEvents.emit_signal("region_changed", region)
 
 
 func _build() -> void:
