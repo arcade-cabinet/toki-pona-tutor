@@ -3469,7 +3469,7 @@
           }
         },
         {
-          "id": "jan_wawa_victory",
+          "id": "jan_wawa_post_badge",
           "npc_id": "jan_wawa",
           "when_flags": {
             "badge_sewi": true
@@ -3478,19 +3478,11 @@
           "beats": [
             {
               "text": {
-                "en": "I lost.",
-                "tp": "mi kama anpa."
+                "en": "You are so strong.",
+                "tp": "sina wawa a."
               },
-              "mood": "sad",
-              "glyph": "anpa"
-            },
-            {
-              "text": {
-                "en": "Tom has the high ground.",
-                "tp": "jan Ton li lon ma sewi."
-              },
-              "mood": "thinking",
-              "glyph": "sewi"
+              "mood": "happy",
+              "glyph": "wawa"
             }
           ]
         },
