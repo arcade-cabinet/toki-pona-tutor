@@ -1,0 +1,25 @@
+[gd_resource type="Resource" script_class="SpeciesResource" format=3]
+
+[ext_resource type="Script" path="res://schema/species_resource.gd" id="1_pdai1"]
+
+[resource]
+script = ExtResource("1_pdai1")
+id = "pipi_kon"
+name_tp = "pipi"
+name_en = "pipi"
+description_en = "The bug is thirsty."
+description_tp = "pipi li wile moku e telo."
+hp = 34
+attack = 38
+defense = 30
+speed = 48
+learnset = [{
+"level": 1.0,
+"move_id": "utala_lili"
+}, {
+"level": 5.0,
+"move_id": "utala"
+}]
+catch_rate = 0.45
+xp_yield = 28
+sprite_frame = 118

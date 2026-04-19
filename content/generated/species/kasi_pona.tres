@@ -1,0 +1,31 @@
+[gd_resource type="Resource" script_class="SpeciesResource" format=3]
+
+[ext_resource type="Script" path="res://schema/species_resource.gd" id="1_oqwcs"]
+
+[resource]
+script = ExtResource("1_oqwcs")
+id = "kasi_pona"
+name_tp = "kasi"
+name_en = "kasi"
+description_en = "Flowers are yellow."
+description_tp = "kasi kule li jelo."
+type = "kasi"
+hp = 46
+defense = 48
+speed = 38
+learnset = [{
+"level": 1.0,
+"move_id": "utala_lili"
+}, {
+"level": 1.0,
+"move_id": "kasi_lili"
+}, {
+"level": 8.0,
+"move_id": "utala"
+}, {
+"level": 15.0,
+"move_id": "kasi_wawa"
+}]
+catch_rate = 0.45
+xp_yield = 60
+sprite_frame = 106

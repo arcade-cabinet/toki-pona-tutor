@@ -1,0 +1,34 @@
+[gd_resource type="Resource" script_class="SpeciesResource" format=3]
+
+[ext_resource type="Script" path="res://schema/species_resource.gd" id="1_2p47w"]
+
+[resource]
+script = ExtResource("1_2p47w")
+id = "waso_suli"
+name_tp = "waso"
+name_en = "waso"
+description_en = "The eagle is king of birds."
+description_tp = "waso wawa li lawa e waso ali."
+hp = 65
+attack = 72
+defense = 55
+speed = 80
+learnset = [{
+"level": 1.0,
+"move_id": "utala_lili"
+}, {
+"level": 1.0,
+"move_id": "wawa_waso"
+}, {
+"level": 8.0,
+"move_id": "kon_wawa"
+}, {
+"level": 14.0,
+"move_id": "utala"
+}, {
+"level": 20.0,
+"move_id": "kiwen_wawa"
+}]
+catch_rate = 0.15
+xp_yield = 70
+sprite_frame = 107

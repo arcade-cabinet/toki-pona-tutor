@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="ItemResource" format=3]
+
+[ext_resource type="Script" path="res://schema/item_resource.gd" id="1_ifp1x"]
+
+[resource]
+script = ExtResource("1_ifp1x")
+id = "poki_wawa"
+name_tp = "poki"
+name_en = "poki"
+description_en = "Tom opened the box."
+description_tp = "jan Ton li open e poki."
+kind = "poki"
+power = 1.5
+sprite_frame = 81

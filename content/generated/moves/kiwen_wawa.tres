@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="MoveResource" format=3]
+
+[ext_resource type="Script" path="res://schema/move_resource.gd" id="1_k1u36"]
+
+[resource]
+script = ExtResource("1_k1u36")
+id = "kiwen_wawa"
+name_tp = "stoneblow"
+name_en = "stoneblow"
+description_en = "That animal is strong."
+description_tp = "soweli ni li wawa."
+power = 40
+pp = 20

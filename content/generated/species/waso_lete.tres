@@ -1,0 +1,32 @@
+[gd_resource type="Resource" script_class="SpeciesResource" format=3]
+
+[ext_resource type="Script" path="res://schema/species_resource.gd" id="1_00p0j"]
+
+[resource]
+script = ExtResource("1_00p0j")
+id = "waso_lete"
+name_tp = "waso"
+name_en = "waso"
+description_en = "The snow is white."
+description_tp = "ko lete li walo."
+type = "lete"
+hp = 38
+attack = 48
+defense = 30
+speed = 70
+learnset = [{
+"level": 1.0,
+"move_id": "utala_lili"
+}, {
+"level": 1.0,
+"move_id": "lete_lili"
+}, {
+"level": 7.0,
+"move_id": "utala"
+}, {
+"level": 13.0,
+"move_id": "lete_wawa"
+}]
+catch_rate = 0.35
+xp_yield = 45
+sprite_frame = 121

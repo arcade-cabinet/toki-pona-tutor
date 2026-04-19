@@ -1,0 +1,158 @@
+[gd_resource type="Theme" load_steps=10 format=3]
+
+[ext_resource type="FontFile" path="res://assets/gui/font/google/Nunito-Regular.ttf" id="1_nunito"]
+[ext_resource type="FontFile" path="res://assets/gui/font/google/Fredoka-Regular.ttf" id="2_fredoka"]
+[ext_resource type="FontFile" path="res://assets/gui/font/google/JetBrainsMono-Regular.ttf" id="3_jb_mono"]
+[ext_resource type="FontFile" path="res://assets/gui/font/google/nasin-nanpa-UCSUR.otf" id="4_nasin"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_panel_parchment"]
+bg_color = Color(0.9608, 0.902, 0.7725, 1)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.7843, 0.6627, 0.4196, 1)
+corner_radius_top_left = 12
+corner_radius_top_right = 12
+corner_radius_bottom_right = 12
+corner_radius_bottom_left = 12
+shadow_color = Color(0.2392, 0.1804, 0.1176, 0.15)
+shadow_size = 8
+shadow_offset = Vector2(0, 3)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_button_normal"]
+bg_color = Color(0.2902, 0.6157, 0.3529, 1)
+border_width_left = 0
+border_width_top = 0
+border_width_right = 0
+border_width_bottom = 3
+border_color = Color(0.1961, 0.4431, 0.2667, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+content_margin_left = 16.0
+content_margin_top = 8.0
+content_margin_right = 16.0
+content_margin_bottom = 8.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_button_hover"]
+bg_color = Color(0.3373, 0.6824, 0.4039, 1)
+border_width_bottom = 3
+border_color = Color(0.1961, 0.4431, 0.2667, 1)
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+content_margin_left = 16.0
+content_margin_top = 8.0
+content_margin_right = 16.0
+content_margin_bottom = 8.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_button_pressed"]
+bg_color = Color(0.1961, 0.4431, 0.2667, 1)
+border_width_bottom = 0
+corner_radius_top_left = 8
+corner_radius_top_right = 8
+corner_radius_bottom_right = 8
+corner_radius_bottom_left = 8
+content_margin_left = 16.0
+content_margin_top = 10.0
+content_margin_right = 16.0
+content_margin_bottom = 6.0
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_dialog_box"]
+bg_color = Color(0.9608, 0.902, 0.7725, 0.97)
+border_width_left = 2
+border_width_top = 2
+border_width_right = 2
+border_width_bottom = 2
+border_color = Color(0.7843, 0.6627, 0.4196, 1)
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+content_margin_left = 16.0
+content_margin_top = 12.0
+content_margin_right = 16.0
+content_margin_bottom = 12.0
+shadow_color = Color(0.2392, 0.1804, 0.1176, 0.2)
+shadow_size = 12
+shadow_offset = Vector2(0, 4)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_line_edit"]
+bg_color = Color(1, 0.965, 0.890, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.7843, 0.6627, 0.4196, 1)
+corner_radius_top_left = 6
+corner_radius_top_right = 6
+corner_radius_bottom_right = 6
+corner_radius_bottom_left = 6
+content_margin_left = 10.0
+content_margin_top = 6.0
+content_margin_right = 10.0
+content_margin_bottom = 6.0
+
+[resource]
+default_font = ExtResource("1_nunito")
+default_font_size = 16
+
+Button/colors/font_color = Color(1, 1, 1, 1)
+Button/colors/font_hover_color = Color(1, 1, 1, 1)
+Button/colors/font_pressed_color = Color(0.9608, 0.902, 0.7725, 1)
+Button/colors/font_disabled_color = Color(0.7843, 0.6627, 0.4196, 1)
+Button/font_sizes/font_size = 16
+Button/fonts/font = ExtResource("2_fredoka")
+Button/styles/normal = SubResource("StyleBoxFlat_button_normal")
+Button/styles/hover = SubResource("StyleBoxFlat_button_hover")
+Button/styles/pressed = SubResource("StyleBoxFlat_button_pressed")
+Button/styles/disabled = SubResource("StyleBoxFlat_button_normal")
+Button/styles/focus = SubResource("StyleBoxFlat_button_hover")
+
+Label/colors/font_color = Color(0.2392, 0.1804, 0.1176, 1)
+Label/font_sizes/font_size = 16
+Label/fonts/font = ExtResource("1_nunito")
+
+Panel/styles/panel = SubResource("StyleBoxFlat_panel_parchment")
+
+PanelContainer/styles/panel = SubResource("StyleBoxFlat_panel_parchment")
+
+RichTextLabel/colors/default_color = Color(0.2392, 0.1804, 0.1176, 1)
+RichTextLabel/font_sizes/normal_font_size = 16
+RichTextLabel/fonts/normal_font = ExtResource("1_nunito")
+RichTextLabel/fonts/bold_font = ExtResource("2_fredoka")
+RichTextLabel/fonts/mono_font = ExtResource("3_jb_mono")
+
+LineEdit/colors/font_color = Color(0.2392, 0.1804, 0.1176, 1)
+LineEdit/colors/caret_color = Color(0.2902, 0.6157, 0.3529, 1)
+LineEdit/colors/selection_color = Color(0.2902, 0.6157, 0.3529, 0.3)
+LineEdit/font_sizes/font_size = 16
+LineEdit/fonts/font = ExtResource("1_nunito")
+LineEdit/styles/normal = SubResource("StyleBoxFlat_line_edit")
+LineEdit/styles/focus = SubResource("StyleBoxFlat_line_edit")
+
+; "dialog" is our custom theme type — PanelContainer with type "dialog" gets
+; the parchment dialog box styling. See theme/BRAND.md.
+dialog/base_type = "PanelContainer"
+dialog/styles/panel = SubResource("StyleBoxFlat_dialog_box")
+
+; "sitelen_pona" — Label variation for sitelen-pona glyphs.
+sitelen_pona/base_type = "Label"
+sitelen_pona/fonts/font = ExtResource("4_nasin")
+sitelen_pona/font_sizes/font_size = 32
+sitelen_pona/colors/font_color = Color(0.1961, 0.4431, 0.2667, 1)
+
+; "display" — Label variation for headers/titles (Fredoka).
+display/base_type = "Label"
+display/fonts/font = ExtResource("2_fredoka")
+display/font_sizes/font_size = 22
+display/colors/font_color = Color(0.2392, 0.1804, 0.1176, 1)
+
+; "mono" — Label variation for numbers/stats (JetBrains Mono).
+mono/base_type = "Label"
+mono/fonts/font = ExtResource("3_jb_mono")
+mono/font_sizes/font_size = 14
+mono/colors/font_color = Color(0.2392, 0.1804, 0.1176, 1)

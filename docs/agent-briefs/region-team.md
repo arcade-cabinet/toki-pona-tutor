@@ -7,7 +7,7 @@ domain: ops
 
 # Region team agent brief
 
-You're authoring one complete region for Toki Town. A region is a single Phaser scene's worth of world — tile layout, NPCs, dialog, signs, warps to adjacent regions, encounter table. You write one file at `src/content/spine/regions/<region_id>.json` that validates against `src/content/schema/region.ts`.
+You're authoring one complete region for poki soweli. A region is a single Phaser scene's worth of world — tile layout, NPCs, dialog, signs, warps to adjacent regions, encounter table. You write one file at `src/content/spine/regions/<region_id>.json` that validates against `src/content/schema/region.ts`.
 
 ## Worktree prologue
 

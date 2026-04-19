@@ -7,7 +7,7 @@ domain: ops
 
 # Running agent teams in this repo
 
-Toki Town is authored by a human orchestrator plus a small fleet of content-writing subagents running in parallel. This doc is the contract between the orchestrator and the teammates: how they isolate work, how they review, when they self-merge, when they escalate.
+poki soweli is authored by a human orchestrator plus a small fleet of content-writing subagents running in parallel. This doc is the contract between the orchestrator and the teammates: how they isolate work, how they review, when they self-merge, when they escalate.
 
 ## Ground truth on the Claude Code team primitives
 

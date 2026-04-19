@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="MoveResource" format=3]
+
+[ext_resource type="Script" path="res://schema/move_resource.gd" id="1_bntvy"]
+
+[resource]
+script = ExtResource("1_bntvy")
+id = "seli_wawa"
+name_tp = "blaze"
+name_en = "blaze"
+description_en = "This is very hot."
+description_tp = "ni li seli mute."
+type = "seli"
+power = 75
+accuracy = 90
+pp = 10

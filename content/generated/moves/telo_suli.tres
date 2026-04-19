@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="MoveResource" format=3]
+
+[ext_resource type="Script" path="res://schema/move_resource.gd" id="1_vf6tj"]
+
+[resource]
+script = ExtResource("1_vf6tj")
+id = "telo_suli"
+name_tp = "torrent"
+name_en = "torrent"
+description_en = "The fish swam in the lake."
+description_tp = "kala li tawa lon telo suli."
+type = "telo"
+power = 80
+accuracy = 90
+pp = 8

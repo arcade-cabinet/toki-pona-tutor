@@ -1,0 +1,28 @@
+[gd_resource type="Resource" script_class="SpeciesResource" format=3]
+
+[ext_resource type="Script" path="res://schema/species_resource.gd" id="1_ys6fl"]
+
+[resource]
+script = ExtResource("1_ys6fl")
+id = "pipi_kiwen"
+name_tp = "pipi"
+name_en = "pipi"
+description_en = "The bug is still alive."
+description_tp = "pipi li awen lon."
+hp = 50
+attack = 38
+defense = 54
+speed = 30
+learnset = [{
+"level": 1.0,
+"move_id": "utala_lili"
+}, {
+"level": 1.0,
+"move_id": "kiwen_wawa"
+}, {
+"level": 8.0,
+"move_id": "utala"
+}]
+catch_rate = 0.4
+xp_yield = 42
+sprite_frame = 119

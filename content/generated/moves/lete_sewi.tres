@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="MoveResource" format=3]
+
+[ext_resource type="Script" path="res://schema/move_resource.gd" id="1_dmc0k"]
+
+[resource]
+script = ExtResource("1_dmc0k")
+id = "lete_sewi"
+name_tp = "frost"
+name_en = "frost"
+description_en = "It was chilly."
+description_tp = "lete li lon."
+type = "lete"
+power = 45
+accuracy = 95

@@ -1,0 +1,30 @@
+[gd_resource type="Resource" script_class="SpeciesResource" format=3]
+
+[ext_resource type="Script" path="res://schema/species_resource.gd" id="1_lte3f"]
+
+[resource]
+script = ExtResource("1_lte3f")
+id = "waso_sewi"
+name_tp = "waso"
+name_en = "waso"
+description_en = "The birds are red."
+description_tp = "waso li loje."
+attack = 44
+defense = 32
+speed = 58
+learnset = [{
+"level": 1.0,
+"move_id": "utala_lili"
+}, {
+"level": 1.0,
+"move_id": "wawa_waso"
+}, {
+"level": 6.0,
+"move_id": "utala"
+}, {
+"level": 12.0,
+"move_id": "kiwen_wawa"
+}]
+catch_rate = 0.4
+xp_yield = 40
+sprite_frame = 121

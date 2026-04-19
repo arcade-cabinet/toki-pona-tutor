@@ -1,0 +1,31 @@
+[gd_resource type="Resource" script_class="SpeciesResource" format=3]
+
+[ext_resource type="Script" path="res://schema/species_resource.gd" id="1_1th8d"]
+
+[resource]
+script = ExtResource("1_1th8d")
+id = "soweli_suwi"
+name_tp = "soweli"
+name_en = "soweli"
+description_en = "The cat is very cute."
+description_tp = "soweli tomo li suwi mute."
+hp = 44
+attack = 42
+defense = 38
+speed = 45
+learnset = [{
+"level": 1.0,
+"move_id": "utala_lili"
+}, {
+"level": 1.0,
+"move_id": "kasi_lili"
+}, {
+"level": 8.0,
+"move_id": "utala"
+}, {
+"level": 15.0,
+"move_id": "kasi_wawa"
+}]
+catch_rate = 0.4
+xp_yield = 40
+sprite_frame = 110

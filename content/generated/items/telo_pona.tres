@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="ItemResource" format=3]
+
+[ext_resource type="Script" path="res://schema/item_resource.gd" id="1_ggcp5"]
+
+[resource]
+script = ExtResource("1_ggcp5")
+id = "telo_pona"
+name_tp = "telo"
+name_en = "telo"
+description_en = "Water is good."
+description_tp = "telo li pona."
+kind = "heal"
+power = 50.0
+sprite_frame = 65

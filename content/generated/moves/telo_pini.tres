@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="MoveResource" format=3]
+
+[ext_resource type="Script" path="res://schema/move_resource.gd" id="1_ww4ax"]
+
+[resource]
+script = ExtResource("1_ww4ax")
+id = "telo_pini"
+name_tp = "current"
+name_en = "current"
+description_en = "Tom fell into the water."
+description_tp = "jan Ton li tawa ike tawa telo."
+type = "telo"
+power = 55
+accuracy = 95
+pp = 12
+effect = "lower_defense"

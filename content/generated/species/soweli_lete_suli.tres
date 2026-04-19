@@ -1,0 +1,35 @@
+[gd_resource type="Resource" script_class="SpeciesResource" format=3]
+
+[ext_resource type="Script" path="res://schema/species_resource.gd" id="1_d8wxx"]
+
+[resource]
+script = ExtResource("1_d8wxx")
+id = "soweli_lete_suli"
+name_tp = "soweli"
+name_en = "soweli"
+description_en = "The bear is big."
+description_tp = "soweli wawa li suli."
+type = "lete"
+hp = 78
+attack = 72
+defense = 70
+speed = 35
+learnset = [{
+"level": 1.0,
+"move_id": "utala_lili"
+}, {
+"level": 1.0,
+"move_id": "lete_lili"
+}, {
+"level": 8.0,
+"move_id": "utala"
+}, {
+"level": 12.0,
+"move_id": "lete_wawa"
+}, {
+"level": 18.0,
+"move_id": "lete_suli"
+}]
+catch_rate = 0.18
+xp_yield = 80
+sprite_frame = 112

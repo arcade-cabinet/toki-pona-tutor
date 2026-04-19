@@ -1,0 +1,16 @@
+[gd_resource type="Resource" script_class="MoveResource" format=3]
+
+[ext_resource type="Script" path="res://schema/move_resource.gd" id="1_l0ih4"]
+
+[resource]
+script = ExtResource("1_l0ih4")
+id = "lete_wawa"
+name_tp = "freeze"
+name_en = "freeze"
+description_en = "Ice is very cold."
+description_tp = "telo kiwen li lete mute."
+type = "lete"
+power = 75
+accuracy = 90
+pp = 10
+effect = "lower_defense"

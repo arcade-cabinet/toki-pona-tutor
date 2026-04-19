@@ -1,0 +1,31 @@
+[gd_resource type="Resource" script_class="SpeciesResource" format=3]
+
+[ext_resource type="Script" path="res://schema/species_resource.gd" id="1_5bk3l"]
+
+[resource]
+script = ExtResource("1_5bk3l")
+id = "soweli_seli"
+name_tp = "soweli"
+name_en = "soweli"
+description_en = "That animal is strong."
+description_tp = "soweli ni li wawa."
+type = "seli"
+hp = 48
+attack = 46
+speed = 42
+learnset = [{
+"level": 1.0,
+"move_id": "utala_lili"
+}, {
+"level": 1.0,
+"move_id": "seli_lili"
+}, {
+"level": 8.0,
+"move_id": "utala"
+}, {
+"level": 15.0,
+"move_id": "seli_wawa"
+}]
+catch_rate = 0.45
+xp_yield = 60
+sprite_frame = 102

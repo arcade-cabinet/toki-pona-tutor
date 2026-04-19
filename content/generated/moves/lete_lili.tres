@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="MoveResource" format=3]
+
+[ext_resource type="Script" path="res://schema/move_resource.gd" id="1_llog0"]
+
+[resource]
+script = ExtResource("1_llog0")
+id = "lete_lili"
+name_tp = "chill"
+name_en = "chill"
+description_en = "It's cold."
+description_tp = "ona li lete."
+type = "lete"
+power = 25
+pp = 25

@@ -1,0 +1,52 @@
+name: CI
+
+on:
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    name: Validate Godot Project
+    runs-on: ubuntu-latest
+    container:
+      image: barichello/godot-ci:4.6.2
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          lfs: true
+
+      - name: Import assets
+        run: |
+          godot --headless --import 2>&1 || true
+          echo "Import complete"
+
+      - name: Parse check (GDScript compilation)
+        run: |
+          godot --headless --quit 2>&1 | tee /tmp/godot_output.txt
+          if grep -qi "parser error\|compile error" /tmp/godot_output.txt; then
+            echo "::error::GDScript compilation errors found"
+            grep -i "parser error\|compile error" /tmp/godot_output.txt
+            exit 1
+          fi
+          echo "All scripts compile clean"
+
+      - name: Validate spine content (writing rules + Tatoeba cache)
+        run: |
+          timeout 120 godot --headless --path . --script res://tools/validate_tp.gd -- --offline
+
+      - name: Build generated resources (spine → .tres)
+        run: |
+          timeout 120 godot --headless --path . --script res://tools/build_spine.gd
+
+      - name: Run gdUnit4 tests
+        run: |
+          if [ -d test ]; then
+            # gdUnit4 CLI runs all tests under test/ by convention.
+            timeout 300 godot --headless --path . -s addons/gdUnit4/bin/GdUnitCmdTool.gd -a test/
+          else
+            echo "test/ not yet present — skipping (placeholder)"
+          fi
