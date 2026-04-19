@@ -1,0 +1,10 @@
+{
+  "schema_version": 1,
+  "title": { "en": "land" },
+  "start_region_id": "ma_tomo_lili",
+  "main_spine": [
+    { "id": "starter_chosen", "summary": "Player chooses their starter from jan Sewi." },
+    { "id": "first_rival_fight", "summary": "jan Ike challenges the player at the end of the route." },
+    { "id": "first_gym", "summary": "Clear jan Telo's gym at the next village." }
+  ]
+}

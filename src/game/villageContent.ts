@@ -1,4 +1,9 @@
-import villageData from '../content/village.json';
+/**
+ * Legacy shim. `village.json` was deleted as part of the declarative
+ * content pipeline pivot. The engine will be rewired against
+ * `src/content/generated/world.json` in Wave 3 (see docs/STATE.md);
+ * until then this module returns empty data so consumers compile.
+ */
 
 export type DialogMood = 'happy' | 'sad' | 'thinking' | 'excited';
 
@@ -35,9 +40,9 @@ export interface NpcData {
   greeting: { tp: string; en: string; mood: DialogMood };
 }
 
-const data = villageData as unknown as {
-  dialog: DialogLine[];
-  npcs: NpcData[];
+const data: { dialog: DialogLine[]; npcs: NpcData[] } = {
+  dialog: [],
+  npcs: [],
 };
 
 export function pickDialogLine(
