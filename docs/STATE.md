@@ -5,58 +5,107 @@ status: current
 domain: context
 ---
 
-# Where we are
+# Where we are — 2026-04-19
 
-**2026-04-19 — mid-pivot.** The game just turned from a procedurally-generated village tutor into a hand-authored creature-catching RPG. Every design call about the pivot is locked; see `docs/ARCHITECTURE.md`.
+**Mid-revive.** The Godot engine experiment on `main` created more problems than it solved; this branch (`spike/phaser-koota-revive`) is a clean revive of the pre-Godot Phaser + Koota stack from commit `0a582e0`, modernized with:
 
-## Immediately before this state
+- A unified **Fan-tasy tileset family** (6 biome packs with Tiled `.tmx`/`.tsx` support) replacing the old Kenney/Lonesome-Forest/Old-Town patchwork that drove tonal inconsistency.
+- **Tiled adopted as the map authoring format** (no more JSON tile arrays, no more region schema).
+- **Scaffolding ported from `remarkablegames/phaser-rpg`** (Phaser 3 template modernized to Phaser 4 + Solid + TS strict).
+- **Boss vs. creature tiering** by animation depth — green dragon reserved as final boss.
 
-PR #22 merged: WASD sitelen rendering fix, `AdventureAudio` bus-driven SFX layer, `scripts/validate-tp.mjs` informational validator. Main is clean.
+## Just landed in this PR
 
-## What's landing next
+### Doc standard compliance (complete)
 
-**Wave 0 — infra (this PR, `feat/declarative-content-pipeline`).** Contents:
+- `CLAUDE.md`, `AGENTS.md` — agent entry points
+- `STANDARDS.md` — code/content/asset/process non-negotiables
+- `CHANGELOG.md` — Keep-a-Changelog, rooted at `0a582e0`
+- `README.md` — frontmatter + rewrite
+- `docs/DESIGN.md` — product vision
+- `docs/LORE.md` — 7 regions + 17 species + named NPCs, canonical
+- `docs/DEPLOYMENT.md` — honest stub
+- `docs/ARCHITECTURE.md` — rewritten for Fan-tasy + Tiled + journey
 
-- Three architecture docs (`ARCHITECTURE.md`, `AGENT_TEAMS.md`, `STATE.md`) — landed first in this PR
-- Zod schemas for every content type in `src/content/schema/`
-- `zodToKootaTrait()` helper
-- `scripts/build-spine.mjs` — reads spine, validates schemas, resolves Tatoeba, emits `generated/world.json`
-- `pnpm validate-tp` wired as a mandatory prebuild step
-- `pnpm build-spine` script
-- `.github/workflows/content-validate.yml` — CI gate
-- Initial spine files for region 1 (`ma tomo lili`) — minimal stub, real content lands in Wave 2
-- Agent-brief templates in `docs/agent-briefs/`
-- `scripts/worktree-janitor.mjs`
-- Delete procgen: `src/game/procgen/`, `NewGameModal`, seed HUD chip
-- Delete `src/content/village.json` (replaced by spine)
+### Asset unification (complete)
 
-## After Wave 0
+- 6 Fan-tasy biome packs unpacked under `public/assets/tilesets/{core,seasons,snow,desert,fortress,indoor}/`
+- Per-pack PDFs moved to `docs/tilesets/`
+- Character/boss/creature/NPC tiering under `public/assets/{player,bosses,creatures,npcs,combatants,effects}/`
+- `public/assets/CREDITS.md` consolidated licenses
+- Original archives preserved in `pending/`
 
-**Wave 1 — schema audit (1 agent).** Reads the Zod schemas, writes `docs/schema/*.md` human-readable references.
+### Copyrighted-reference scrub (complete)
 
-**Wave 2 — content fanout (up to 5 agents parallel).**
-- species team: 15–20 creature JSONs
-- moves team: ~15 move JSONs
-- region-1 team: ma tomo lili full content
-- region-2 team: nasin wan (first route) full content
-- items team: poki variants + healing items
+- 7 source files + 4 docs scrubbed of trademark references
+- Corpus data files (upstream CC BY 2.0) intentionally untouched
 
-**Wave 3 — engine integration (me).** Rip procgen, rewire scenes to world.json, wire catch/party/lipu soweli.
+## In flight (this PR continues)
 
-**Wave 4 — content fanout (up to 5 agents parallel).** Regions 3–6, dialog polish, balance pass.
+### L0 — Architecture + state docs ✅ (this commit)
+
+Rewrite `docs/ARCHITECTURE.md` and `docs/STATE.md` for the post-leapfrog architecture.
+
+### L1 — Foundation
+
+Port `Boot.ts` / `Main.ts` / `Menu.ts` / `Player.ts` / `constants/*` from `remarkablegames/phaser-rpg` to Phaser 4 + Solid + pnpm. Build one test map (`public/assets/maps/ma_tomo_lili.tmj`) from Fan-tasy's Village Bridge sample. Delete `src/game/tiles.ts`, `src/game/content/tile-keys.ts`, `src/game/scenes/RegionScene.ts`. Player walks around.
+
+### L2 — Test harness
+
+Vitest browser mode + Playwright (chromium). `tests/harness/` primitives + `window.__toki_harness__` inspector. First test: foundation — boot, map renders, player walks.
+
+### L3 — Journey manifest
+
+Zod schema for `journey.ts`. Write `src/content/spine/journey.json` materializing the 7-region arc from `docs/LORE.md`. Write `docs/JOURNEY.md` as the prose/creative-writing pass. Delete `src/content/schema/region.ts` + tile arrays from `src/content/spine/regions/*.json`.
+
+### L4 — Interaction layer
+
+Tiled `Objects` layer — spawn point + signs + NPCs as markers. Port selector-body pattern from reference. Port Typewriter from `phaser-jsx` to Solid.
+
+### L5 — Dialog + NPCs + starter ceremony
+
+Per-NPC dialog JSON under `src/content/spine/dialog/`. jan Sewi starter ceremony: three-choice starter, party populated at L5, 3×`poki_lili` granted, `starter_chosen` flag set.
+
+### L6 — Warps + multi-map
+
+Second map (`nasin_wan`). Warp object-layer markers.
+
+### L7 — Encounters + combat
+
+`Encounters` object layer with weighted species tables. Combat engine + overlay wired to new scene.
+
+### L8 — Rival + gym
+
+jan Ike set-piece at `nasin_wan`. jan Telo gym at `ma_telo` unlocked by catch count.
+
+### L9 — Final docs
+
+`docs/ROADMAP.md` / `SLICE_CHECK.md` / `TESTING.md` / `ASSET_PIPELINE.md` — all describing what's actually built.
+
+### L10 — Polish + PR
+
+Full test suite green. CHANGELOG update. PR against `main`.
 
 ## Locked design decisions
 
-- **Creature-catching** RPG. Party of up to 6. Catch wild creatures with **poki** (net). Five types: seli / telo / kasi / lete / wawa. Seven regions planned. Set-piece jan-lawa fights gate region boundaries. No player stats — party is the character sheet.
-- **ma tomo lili = the starter village.** jan Sewi is the starter-giver (Professor Oak role); same NPC, new job.
-- **Tall-grass random encounters** exist and are the B-gameplay to the A-gameplay of set-piece fights.
-- **Hand-authored TP is banned.** Every multi-word TP string must round-trip through Tatoeba. Single-word TP (dictionary entries) is vetted and exempt.
-- **Declarative content pipeline is load-bearing.** The engine reads `generated/world.json` and paints; all richness lives in spine files that both humans and agents can author against Zod schemas.
+- **Creature-catching RPG.** Party of up to 6. Catch wild with **poki** (net). Five types: seli/telo/kasi/lete/wawa. Seven regions. Set-piece jan-lawa fights gate region boundaries. No player stats.
+- **Green dragon is the final boss.** Only creature with a dedicated death animation. Never appears mid-game.
+- **Fan-tasy is the only tileset family.** No mixing. Tonal consistency is the headline feature.
+- **Tiled is the map authoring format.** Region layout + triggers + NPCs + warps live in `.tmx` object layers. JSON is for content (species, moves, dialog), not layout.
+- **Docs > tests > code.** Strict dependency chain; tests never chase code.
+- **No copyrighted references.** Never Pokemon/Pokedex/Pokeball. "lipu soweli" for the catalog, "poki" for the net, "jan lawa" for region masters. See `STANDARDS.md`.
+- **Kid audience.** Dread knight, not death knight. Fierce but friendly. No permadeath.
 
-## What's being deleted in this pivot
+## Context for the next session
 
-- `src/game/procgen/` (all of it)
-- `src/game/solid-ui/NewGameModal.tsx`
-- Seed HUD chip in `AdventureHUD.tsx`
-- `src/content/village.json`
-- The hungry-friend quest (reframed as the starter-choose ceremony on jan Sewi's side)
+If you land here mid-batch:
+
+1. Read the task-batch state: `cat .claude/state/task-batch/batch-phaser-revive.json`
+2. Read the PR-in-progress: `git log --oneline -10` on `spike/phaser-koota-revive`
+3. The reference repo lives at `~/src/reference-codebases/phaser-rpg` — do not modify it.
+4. Current tasks tracked via TaskList with IDs #15-#25.
+5. The memory at `~/.claude/projects/-Users-jbogaty-src-arcade-cabinet-toki-pona-tutor/memory/` has the non-obvious rules.
+
+## Godot-era context (off-branch reference)
+
+Not on this branch. On `main` between commits `1d924fe`..`0edfe61` there's a parallel Godot 4 implementation. It has working CI/release-please/dependabot/Maestro E2E infrastructure that may be worth porting later but is out of scope for this PR. The Godot port's assets + tilemap work is archived under `pending/extracted/` (pre-extracted by the Godot attempt).
