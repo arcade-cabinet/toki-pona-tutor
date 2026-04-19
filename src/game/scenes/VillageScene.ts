@@ -244,7 +244,7 @@ export class VillageScene extends Phaser.Scene {
     // the kili until the player 'calms it with words' via combat.
     const ax = 19 * TILE + TILE / 2;
     const ay = 11 * TILE + TILE / 2;
-    const akesi = this.add.sprite(ax, ay, 'dungeon', DUNGEON.GHOST);
+    const akesi = this.add.sprite(ax, ay, 'dungeon', DUNGEON.ORC_RED);
     akesi.setDepth(5);
     this.tweens.add({
       targets: akesi,
