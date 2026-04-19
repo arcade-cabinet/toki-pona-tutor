@@ -155,13 +155,12 @@
       }
     },
     {
-      "id": "jan_wawa_victory",
+      "id": "jan_wawa_post_badge",
       "npc_id": "jan_wawa",
       "when_flags": { "badge_sewi": true },
       "priority": 5,
       "beats": [
-        { "text": { "en": "I lost." }, "mood": "sad", "glyph": "anpa" },
-        { "text": { "en": "Tom has the high ground." }, "mood": "thinking", "glyph": "sewi" }
+        { "text": { "en": "You are so strong." }, "mood": "happy", "glyph": "wawa" }
       ]
     },
     {
