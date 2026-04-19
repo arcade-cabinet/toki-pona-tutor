@@ -21,3 +21,8 @@ signal player_battler_selected(battler: Battler)
 ## as a defeat (WarpWatcher's faint-warp) can opt out.
 @warning_ignore("unused_signal")
 signal combat_fled
+
+## Emitted by PokiThrowAction after rolling. Combat.gd listens and
+## drives the catch-result VictoryPanel sequence before ending combat.
+@warning_ignore("unused_signal")
+signal poki_thrown(species_id: String, caught: bool, chance: float)

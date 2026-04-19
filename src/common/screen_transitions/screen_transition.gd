@@ -24,6 +24,24 @@ const COVERED: = Color.WHITE
 var _tween: Tween
 
 @onready var _color_rect: = $ColorRect as ColorRect
+@onready var _region_label: Label = get_node_or_null("RegionLabel") as Label
+
+
+## Cover screen + display a label (typically the destination region's
+## toki-pona name) while async work happens, then call clear() to
+## reveal. Used by WarpWatcher to show the region name on transition.
+func cover_with_label(label_text: String, duration: float = 0.25) -> void:
+	if _region_label != null:
+		_region_label.text = label_text
+		_region_label.modulate.a = 1.0
+	await cover(duration)
+
+
+## Reveal the scene and fade the label back to invisible.
+func clear_with_label_fade(duration: float = 0.25) -> void:
+	if _region_label != null:
+		_region_label.modulate.a = 0.0
+	await clear(duration)
 
 
 func _ready() -> void:

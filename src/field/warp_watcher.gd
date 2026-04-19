@@ -172,7 +172,21 @@ func _on_combat_finished(is_player_victory: bool) -> void:
 func _perform_warp(region_id: String, to_cell: Vector2i) -> void:
 	Engine.set_meta("warp_target_region", region_id)
 	Engine.set_meta("warp_target_tile", to_cell)
-	# Transition out and reload.
-	if Transition and Transition.has_method("cover"):
+	# US-036: show the destination region's name on the cover screen so
+	# the player understands "where am I going" during the transition.
+	var label_text: String = _pretty_region_label(region_id)
+	if Transition and Transition.has_method("cover_with_label"):
+		await Transition.cover_with_label(label_text, 0.3)
+	elif Transition and Transition.has_method("cover"):
 		await Transition.cover(0.2)
 	get_tree().reload_current_scene()
+
+
+func _pretty_region_label(region_id: String) -> String:
+	var world_autoload: Node = get_tree().root.get_node_or_null("World")
+	if world_autoload != null and world_autoload.has_method("find_region"):
+		var r = world_autoload.find_region(region_id)
+		if r != null and "name_tp" in r and String(r.name_tp) != "":
+			return String(r.name_tp)
+	# Fallback: humanize the id (ma_tomo_lili → ma tomo lili)
+	return region_id.replace("_", " ")

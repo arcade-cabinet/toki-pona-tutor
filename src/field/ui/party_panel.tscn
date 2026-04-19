@@ -1,0 +1,78 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://src/field/ui/party_panel.gd" id="1_script"]
+
+[node name="PartyPanel" type="CanvasLayer"]
+layer = 50
+script = ExtResource("1_script")
+
+[node name="Root" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="Dim" type="ColorRect" parent="Root"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color(0, 0, 0, 0.55)
+
+[node name="Margin" type="MarginContainer" parent="Root"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+theme_override_constants/margin_left = 48
+theme_override_constants/margin_top = 48
+theme_override_constants/margin_right = 48
+theme_override_constants/margin_bottom = 48
+
+[node name="Panel" type="PanelContainer" parent="Root/Margin"]
+layout_mode = 2
+theme_type_variation = &"dialog"
+
+[node name="Columns" type="HBoxContainer" parent="Root/Margin/Panel"]
+layout_mode = 2
+theme_override_constants/separation = 16
+
+[node name="Slots" type="VBoxContainer" parent="Root/Margin/Panel/Columns"]
+layout_mode = 2
+size_flags_horizontal = 3
+theme_override_constants/separation = 8
+
+[node name="Detail" type="PanelContainer" parent="Root/Margin/Panel/Columns"]
+layout_mode = 2
+size_flags_horizontal = 3
+
+[node name="V" type="VBoxContainer" parent="Root/Margin/Panel/Columns/Detail"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="Title" type="Label" parent="Root/Margin/Panel/Columns/Detail/V"]
+layout_mode = 2
+theme_type_variation = &"display"
+
+[node name="HP" type="Label" parent="Root/Margin/Panel/Columns/Detail/V"]
+layout_mode = 2
+theme_type_variation = &"mono"
+
+[node name="XP" type="Label" parent="Root/Margin/Panel/Columns/Detail/V"]
+layout_mode = 2
+theme_type_variation = &"mono"
+
+[node name="Moves" type="VBoxContainer" parent="Root/Margin/Panel/Columns/Detail/V"]
+layout_mode = 2
+theme_override_constants/separation = 2
+
+[node name="UseKili" type="Button" parent="Root/Margin/Panel/Columns/Detail/V"]
+layout_mode = 2
+custom_minimum_size = Vector2(0, 44)
+text = "Use kili (+20 HP) × 0"
+
+[node name="Hint" type="Label" parent="Root/Margin/Panel"]
+layout_mode = 2
+theme_type_variation = &"mono"
+horizontal_alignment = 2
+text = "P: close"

@@ -317,7 +317,7 @@
         "Files: src/combat/battlers/toki_battler_anim.gd"
       ],
       "priority": 2,
-      "passes": false,
+      "passes": true,
       "dependsOn": [
         "US-018"
       ]
@@ -350,7 +350,7 @@
         "Files: new src/combat/ui/defeat_panel.tscn"
       ],
       "priority": 2,
-      "passes": false,
+      "passes": true,
       "dependsOn": [
         "US-010"
       ]
@@ -366,7 +366,7 @@
         "Files: src/combat/actions/poki_throw_action.gd, new src/combat/ui/catch_result_panel.tscn"
       ],
       "priority": 2,
-      "passes": false,
+      "passes": true,
       "dependsOn": []
     },
     {
@@ -379,7 +379,7 @@
         "Files: new src/field/ui/party_panel.tscn, party_panel.gd"
       ],
       "priority": 2,
-      "passes": false,
+      "passes": true,
       "dependsOn": []
     },
     {
@@ -392,7 +392,7 @@
         "Files: src/field/ui/party_panel.gd"
       ],
       "priority": 2,
-      "passes": false,
+      "passes": true,
       "dependsOn": [
         "US-024"
       ]
@@ -439,7 +439,7 @@
         "Files: src/field/ui/party_panel.gd, content/spine/items/kili.json"
       ],
       "priority": 2,
-      "passes": false,
+      "passes": true,
       "dependsOn": [
         "US-024"
       ]
@@ -512,7 +512,7 @@
         "Files: new src/common/app_root.gd, project.godot notification wiring"
       ],
       "priority": 2,
-      "passes": false,
+      "passes": true,
       "dependsOn": [
         "US-031"
       ]
@@ -561,7 +561,7 @@
         "Files: src/common/screen_transitions/screen_transition.gd"
       ],
       "priority": 3,
-      "passes": false,
+      "passes": true,
       "dependsOn": []
     },
     {
@@ -574,7 +574,7 @@
         "Files: src/title.gd"
       ],
       "priority": 2,
-      "passes": false,
+      "passes": true,
       "dependsOn": [
         "US-030"
       ]
@@ -591,7 +591,7 @@
         "Files: new src/field/ui/pause_menu.tscn + pause_menu.gd"
       ],
       "priority": 2,
-      "passes": false,
+      "passes": true,
       "dependsOn": [
         "US-030",
         "US-035"

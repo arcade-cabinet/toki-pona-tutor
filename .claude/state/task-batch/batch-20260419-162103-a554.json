@@ -1,0 +1,10 @@
+{
+  "batch_id": "batch-20260419-162103-a554",
+  "input_path": "tasks/prd.json",
+  "started_at": "2026-04-19T16:21:37Z",
+  "current_task_id": null,
+  "completed": [],
+  "failed": [],
+  "pending_count": 64,
+  "config": { "stop_on_failure": false, "max_retries": 2 }
+}
