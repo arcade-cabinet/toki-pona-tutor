@@ -12,11 +12,12 @@ extends Node
 ## Pokemon was ~12%, which felt right for our earlier prototype.
 @export_range(0.0, 1.0) var per_step_chance: float = 0.12
 
-## Placeholder combat arena scene. Used until we build a dynamic arena
-## that constructs Battlers from our SpeciesResource data. For now,
-## routing encounters to open-rpg's test_combat_arena gets the field →
-## combat transition visible end-to-end.
-const PLACEHOLDER_ARENA: PackedScene = preload("res://overworld/maps/town/battles/test_combat_arena.tscn")
+## Default species granted to the player when their save has no party
+## yet — jan Sewi's starter gift. Matches the dialog-driven starter
+## ceremony. Used as a placeholder lead for encounters triggered before
+## the player has chosen a starter.
+const DEFAULT_LEAD_SPECIES := "soweli_seli"
+const DEFAULT_LEAD_LEVEL := 5
 
 var _region: RegionResource = null
 var _grass_cells: Dictionary = {}  # Vector2i → true for tall-grass tiles
@@ -72,10 +73,25 @@ func _on_player_arrived() -> void:
 	if enc == null:
 		return
 	print("[EncounterWatcher] encounter! %s @ L%d" % [enc.species_id, enc.level])
-	# Trigger the combat transition. Open-rpg's Field root listens for
-	# FieldEvents.combat_triggered and hides itself while Combat runs.
+	# Resolve species resources from the World registry.
+	var wild_species: SpeciesResource = World.find_species(enc.species_id)
+	if wild_species == null:
+		push_warning("[EncounterWatcher] unknown species %s" % enc.species_id)
+		return
+	var lead_species: SpeciesResource = World.find_species(DEFAULT_LEAD_SPECIES)
+	if lead_species == null:
+		push_warning("[EncounterWatcher] starter species %s not in world" % DEFAULT_LEAD_SPECIES)
+		return
+	# Build a dynamic arena scene from Toki Town content data.
+	var arena: PackedScene = TokiArenaBuilder.build_arena_for_encounter(
+		wild_species, enc.level, lead_species, DEFAULT_LEAD_LEVEL,
+	)
+	if arena == null:
+		push_error("[EncounterWatcher] arena build failed")
+		return
+	# Trigger the combat transition. Combat.setup(arena) takes it from here.
 	if FieldEvents and FieldEvents.has_signal("combat_triggered"):
-		FieldEvents.emit_signal("combat_triggered", PLACEHOLDER_ARENA)
+		FieldEvents.emit_signal("combat_triggered", arena)
 
 
 class Encounter:
