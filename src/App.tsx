@@ -29,8 +29,8 @@ export default function App() {
     if (!audioEnabled) return;
     if (view === 'menu' || view === 'study') playBgm('menu');
     else if (view === 'learn') playBgm('lesson');
-    else if (view === 'results') playBgm('results');
-  }, [view, audioEnabled, playBgm]);
+    else if (view === 'results') playBgm(gameOver ? 'gameover' : 'results');
+  }, [view, audioEnabled, playBgm, gameOver]);
 
   const startGame = useCallback(async () => {
     await initAudio();
@@ -89,9 +89,9 @@ export default function App() {
   }, [gameOver, challengeIndex, playSfx]);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-100 via-blue-50 to-slate-100 font-sans flex items-center justify-center sm:p-4">
-      <div className="bg-white w-full h-[100dvh] sm:h-auto sm:max-h-[95vh] sm:max-w-md sm:rounded-[3rem] sm:shadow-xl sm:border-8 sm:border-slate-200 sm:aspect-[9/16] flex flex-col overflow-hidden">
-        <div className="flex-1 flex flex-col p-4 sm:p-6 min-h-0">
+    <div className="min-h-screen bg-sunset flex items-center justify-center sm:p-4">
+      <div className="bg-sunset-deep w-full h-[100dvh] sm:h-auto sm:max-h-[95vh] sm:max-w-md sm:rounded-[3rem] sm:shadow-2xl sm:border-[6px] sm:border-white/40 sm:aspect-[9/16] flex flex-col overflow-hidden">
+        <div className="flex-1 flex flex-col p-4 sm:p-6 min-h-0 text-slate-900">
           {view === 'menu' && (
             <MenuScreen
               audioEnabled={audioEnabled}

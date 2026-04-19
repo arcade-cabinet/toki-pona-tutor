@@ -20,76 +20,78 @@ export function DictionaryScreen({ onBack, playSfx }: DictionaryScreenProps) {
 
   return (
     <div className="flex flex-col h-full animate-in fade-in duration-300 min-h-0">
-      <div className="flex items-center space-x-3 mb-4 shrink-0">
+      <div className="flex items-center space-x-3 mb-3 shrink-0">
         <button
           onClick={() => {
             playSfx('untap');
             onBack();
           }}
-          className="p-2 bg-slate-200 hover:bg-slate-300 rounded-xl text-slate-700 transition-colors active:scale-95 shrink-0"
+          className="p-2 bg-white/90 hover:bg-white rounded-xl text-orange-700 transition-colors active:scale-95 shrink-0 shadow-md"
           aria-label="Back"
         >
-          <ArrowLeft size={22} strokeWidth={3} />
+          <ArrowLeft size={20} strokeWidth={3} />
         </button>
-        <h2 className="text-2xl font-black text-slate-800">Dictionary</h2>
+        <h2 className="font-display text-2xl text-white drop-shadow-[0_2px_0_rgba(234,88,12,0.85)]">
+          DICTIONARY
+        </h2>
       </div>
 
-      <div className="relative mb-4 shrink-0">
-        <Search size={18} className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400" />
+      <div className="relative mb-3 shrink-0">
+        <Search size={16} className="absolute left-3 top-1/2 -translate-y-1/2 text-orange-400" />
         <input
           type="text"
           value={query}
           onChange={(e) => setQuery(e.target.value)}
-          placeholder="Search words or meanings..."
-          className="w-full pl-10 pr-4 py-2.5 bg-slate-100 border-2 border-slate-200 rounded-xl font-medium text-slate-800 placeholder:text-slate-400 focus:outline-none focus:border-blue-400"
+          placeholder="Search words..."
+          className="w-full pl-9 pr-3 py-2 bg-white border-b-4 border-orange-300 rounded-xl font-tile text-slate-800 placeholder:text-orange-300 focus:outline-none focus:border-pink-400 shadow-md"
         />
       </div>
 
-      <div className="flex-1 overflow-y-auto custom-scrollbar pr-2 pb-4 space-y-5 min-h-0">
-        <section className="bg-blue-50 border-2 border-blue-200 p-4 rounded-2xl">
-          <h3 className="font-black text-lg text-blue-800 mb-1">Grammar: Adjectives follow Nouns</h3>
-          <div className="bg-white p-2 rounded-lg shadow-sm font-bold text-slate-700 text-sm">
-            jan pona = <span className="text-blue-600">person good</span> (friend)
+      <div className="flex-1 overflow-y-auto custom-scrollbar pr-2 pb-4 space-y-3 min-h-0">
+        <section className="bg-white rounded-2xl p-3 border-b-4 border-pink-300 shadow-md">
+          <h3 className="font-display text-sm text-pink-600 mb-1">ADJ FOLLOWS NOUN</h3>
+          <div className="bg-pink-50 p-2 rounded-lg font-tile text-sm text-slate-700">
+            jan pona = <span className="text-pink-600 font-bold">person good</span> (friend)
           </div>
         </section>
-        <section className="bg-emerald-50 border-2 border-emerald-200 p-4 rounded-2xl">
-          <h3 className="font-black text-lg text-emerald-800 mb-1">Grammar: "li" verb marker</h3>
-          <p className="text-emerald-900 text-sm font-medium mb-2">
-            Use <strong>li</strong> before the verb UNLESS the subject is 'mi' or 'sina'.
+        <section className="bg-white rounded-2xl p-3 border-b-4 border-lime-300 shadow-md">
+          <h3 className="font-display text-sm text-lime-600 mb-1">"LI" MARKER</h3>
+          <p className="text-xs text-slate-600 mb-2">
+            Use <strong>li</strong> before the verb UNLESS subject is mi or sina.
           </p>
-          <ul className="space-y-1">
-            <li className="bg-white p-2 rounded-lg shadow-sm font-bold text-slate-700 text-sm">
-              mi moku (I eat — no 'li')
-            </li>
-            <li className="bg-white p-2 rounded-lg shadow-sm font-bold text-slate-700 text-sm">
-              soweli <span className="text-emerald-500 font-black">li</span> moku (The animal eats)
-            </li>
-          </ul>
+          <div className="space-y-1">
+            <div className="bg-lime-50 p-2 rounded-lg font-tile text-sm text-slate-700">
+              mi moku <span className="text-lime-600">(no li)</span>
+            </div>
+            <div className="bg-lime-50 p-2 rounded-lg font-tile text-sm text-slate-700">
+              soweli <span className="text-lime-600 font-bold">li</span> moku
+            </div>
+          </div>
         </section>
-        <section className="bg-purple-50 border-2 border-purple-200 p-4 rounded-2xl">
-          <h3 className="font-black text-lg text-purple-800 mb-1">Grammar: "e" object marker</h3>
-          <div className="bg-white p-2 rounded-lg shadow-sm font-bold text-slate-700 text-sm">
-            mi lukin <span className="text-purple-500 font-black">e</span> kili (I see the fruit)
+        <section className="bg-white rounded-2xl p-3 border-b-4 border-orange-300 shadow-md">
+          <h3 className="font-display text-sm text-orange-600 mb-1">"E" OBJECT MARKER</h3>
+          <div className="bg-orange-50 p-2 rounded-lg font-tile text-sm text-slate-700">
+            mi lukin <span className="text-orange-600 font-bold">e</span> kili
           </div>
         </section>
 
         <section>
-          <h3 className="font-black text-lg text-slate-700 mb-2 sticky top-0 bg-white py-1">
+          <h3 className="font-display text-base text-white uppercase tracking-wide mb-2 mt-3">
             Words ({filtered.length})
           </h3>
           <ul className="space-y-2">
             {filtered.map((w) => (
               <li
                 key={w.word}
-                className="bg-white border-2 border-slate-200 p-3 rounded-xl"
+                className="bg-white rounded-xl p-2.5 shadow-sm border-l-4 border-pink-400"
               >
-                <div className="flex items-baseline justify-between gap-2 mb-1">
-                  <span className="font-black text-lg text-slate-800">{w.word}</span>
-                  <span className="text-[10px] uppercase tracking-wider font-bold text-slate-400">
+                <div className="flex items-baseline justify-between gap-2 mb-0.5">
+                  <span className="font-tile text-base text-slate-800">{w.word}</span>
+                  <span className="font-pixel text-[9px] uppercase tracking-wider text-orange-400">
                     {w.usage_category} · {w.book}
                   </span>
                 </div>
-                <p className="text-sm text-slate-600 leading-snug">{w.definition}</p>
+                <p className="text-xs text-slate-600 leading-snug">{w.definition}</p>
               </li>
             ))}
           </ul>
