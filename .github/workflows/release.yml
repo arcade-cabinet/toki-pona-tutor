@@ -129,9 +129,8 @@ jobs:
       - name: Export HTML5
         run: |
           mkdir -p export/html5
-          curl --fail --show-error --silent --location \
-            -o export/html5/coi-serviceworker.js \
-            https://raw.githubusercontent.com/gzuidhof/coi-serviceworker/master/coi-serviceworker.js
+          # Vendored — see cd.yml for rationale.
+          cp templates/web/coi-serviceworker.js export/html5/coi-serviceworker.js
           set +e
           godot --headless --path . \
             --export-release "HTML5" \

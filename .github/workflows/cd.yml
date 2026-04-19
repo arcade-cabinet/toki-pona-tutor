@@ -38,16 +38,12 @@ jobs:
       - name: Export HTML5
         run: |
           mkdir -p export/html5
-          # Vendored fallback: pinned commit of coi-serviceworker for
-          # cross-origin-isolation (required by thread_support=true in
-          # export_presets.cfg on GitHub Pages, which doesn't ship
-          # COOP/COEP headers by default).
-          curl --fail --show-error --silent --location \
-            -o export/html5/coi-serviceworker.js \
-            https://raw.githubusercontent.com/gzuidhof/coi-serviceworker/7b1d2a1a40b8f9f8e8f8e8f8e8f8e8f8e8f8e8f8/coi-serviceworker.js || \
-          curl --fail --show-error --silent --location \
-            -o export/html5/coi-serviceworker.js \
-            https://raw.githubusercontent.com/gzuidhof/coi-serviceworker/master/coi-serviceworker.js
+          # Vendored coi-serviceworker provides COOP/COEP headers for
+          # SharedArrayBuffer / thread_support on GitHub Pages (which
+          # doesn't ship these headers natively). Source of truth:
+          # templates/web/coi-serviceworker.js, refreshed deliberately
+          # via PR rather than pulled from the network at build time.
+          cp templates/web/coi-serviceworker.js export/html5/coi-serviceworker.js
           set +e
           godot --headless --path . --export-release "HTML5" export/html5/index.html
           set -e
