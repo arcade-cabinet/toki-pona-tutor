@@ -26,6 +26,11 @@ export function assignFirstGids(tilesets: ParsedTileset[]): FirstGidMap {
   let cursor = 1;
   for (const ts of tilesets) {
     const key = tsxStem(ts);
+    if (m.has(key)) {
+      throw new Error(
+        `assignFirstGids: duplicate tileset stem "${key}" (tilesets with the same .tsx filename cannot coexist in one map). First seen at firstgid=${m.get(key)}; duplicate at ${ts.absolutePath}`,
+      );
+    }
     m.set(key, cursor);
     cursor += ts.tileCount;
   }

@@ -17,6 +17,15 @@ import type { MapSpec, ValidationIssue } from '../lib/index';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const worktreeRoot = resolve(__dirname, '..', '..', '..');
+
+function assertSafeMapId(id: string): void {
+  if (!/^[a-zA-Z0-9_-]+$/.test(id)) {
+    console.error(
+      `invalid map id "${id}" — only alphanumerics, underscore, and dash are allowed`,
+    );
+    process.exit(1);
+  }
+}
 const specsDir = join(worktreeRoot, 'scripts', 'map-authoring', 'specs');
 const mapsDir = join(worktreeRoot, 'public', 'assets', 'maps');
 const speciesDir = join(worktreeRoot, 'src', 'content', 'spine', 'species');
@@ -33,6 +42,7 @@ async function main(): Promise<void> {
     console.error('usage: pnpm author:all <map-id> [<map-id>...] | --all');
     process.exit(1);
   }
+  for (const id of specs) assertSafeMapId(id);
 
   await mkdir(mapsDir, { recursive: true });
   let hadError = false;

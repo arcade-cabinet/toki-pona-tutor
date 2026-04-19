@@ -10,12 +10,22 @@ import type { MapSpec } from '../lib/index';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
+function assertSafeMapId(id: string): void {
+  if (!/^[a-zA-Z0-9_-]+$/.test(id)) {
+    console.error(
+      `invalid map id "${id}" — only alphanumerics, underscore, and dash are allowed`,
+    );
+    process.exit(1);
+  }
+}
+
 async function main(): Promise<void> {
   const [, , mapId] = process.argv;
   if (!mapId) {
     console.error('usage: pnpm author:validate <map-id>');
     process.exit(1);
   }
+  assertSafeMapId(mapId);
 
   const worktreeRoot = resolve(__dirname, '..', '..', '..');
   const specPath = join(worktreeRoot, 'scripts', 'map-authoring', 'specs', `${mapId}.ts`);

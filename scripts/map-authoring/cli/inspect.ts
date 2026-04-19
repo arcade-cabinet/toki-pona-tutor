@@ -42,9 +42,16 @@ async function main(): Promise<void> {
   // Convert to .tmj in /tmp
   const tmpTmj = `/tmp/inspect-${sampleMap.replace(/\s+/g, '_')}-${Date.now()}.tmj`;
   const res = spawnSync('tiled', ['--export-map', 'json', tmxPath, tmpTmj], { stdio: 'inherit' });
-  if (res.status !== 0) {
-    console.error('tiled CLI failed');
+  if (res.error || res.status === null) {
+    console.error(
+      `could not execute \`tiled\` — is Tiled installed? \`brew install --cask tiled\``,
+    );
+    if (res.error) console.error(`  cause: ${res.error.message}`);
     process.exit(1);
+  }
+  if (res.status !== 0) {
+    console.error(`tiled CLI exited with status ${res.status} converting ${tmxPath}`);
+    process.exit(res.status);
   }
 
   const tmj: TmjMap = JSON.parse(await readFile(tmpTmj, 'utf-8'));

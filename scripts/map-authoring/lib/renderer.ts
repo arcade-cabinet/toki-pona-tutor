@@ -102,6 +102,13 @@ export async function renderTmj(
           ctx.drawImage(img, dx, dy);
         } else if (found.atlas) {
           // Atlas: slice out the tile from the source image grid.
+          if (ts.columns <= 0) {
+            // Defensive: `columns=0` is Tiled's marker for image-collection
+            // tilesets; those should go through the perTile path above. If
+            // we land here with columns<=0 the tileset is malformed — skip
+            // the tile rather than dividing by zero.
+            continue;
+          }
           const col = local % ts.columns;
           const row = Math.floor(local / ts.columns);
           const sx = ts.margin + col * (ts.tileWidth + ts.spacing);

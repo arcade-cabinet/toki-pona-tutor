@@ -73,10 +73,19 @@ export async function parseTsx(path: string): Promise<ParsedTileset> {
     imageWidth = imageEl.width != null ? parseInt(imageEl.width, 10) : 0;
     imageHeight = imageEl.height != null ? parseInt(imageEl.height, 10) : 0;
     if ((!imageWidth || !imageHeight) && existsSync(imageAbs)) {
-      const buf = await readFile(imageAbs);
-      const dims = imageSize(new Uint8Array(buf));
-      imageWidth = dims.width ?? 0;
-      imageHeight = dims.height ?? 0;
+      try {
+        const buf = await readFile(imageAbs);
+        const dims = imageSize(new Uint8Array(buf));
+        imageWidth = dims.width ?? 0;
+        imageHeight = dims.height ?? 0;
+      } catch (err) {
+        // Unsupported/corrupt image — leave dimensions at 0 so callers can
+        // tell the tile is unusable. Fan-tasy ships only PNGs so this should
+        // never fire in practice; the guard keeps the parser fault-tolerant.
+        console.warn(
+          `[parser] could not read image dimensions for ${imageAbs}: ${(err as Error).message}`,
+        );
+      }
     }
   }
 
@@ -96,10 +105,16 @@ export async function parseTsx(path: string): Promise<ParsedTileset> {
       let w = tile.image.width != null ? parseInt(tile.image.width, 10) : 0;
       let h = tile.image.height != null ? parseInt(tile.image.height, 10) : 0;
       if ((!w || !h) && existsSync(abs)) {
-        const buf = await readFile(abs);
-        const dims = imageSize(new Uint8Array(buf));
-        w = dims.width ?? 0;
-        h = dims.height ?? 0;
+        try {
+          const buf = await readFile(abs);
+          const dims = imageSize(new Uint8Array(buf));
+          w = dims.width ?? 0;
+          h = dims.height ?? 0;
+        } catch (err) {
+          console.warn(
+            `[parser] could not read per-tile image ${abs}: ${(err as Error).message}`,
+          );
+        }
       }
       perTileImages[id] = { source: src, absolutePath: abs, width: w, height: h };
       // For compatibility, seed the tileset-level image fields from the

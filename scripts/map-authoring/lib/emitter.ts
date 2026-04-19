@@ -24,7 +24,7 @@ import type {
 } from './types';
 import { assignFirstGids, resolvePaletteName, tsxStem } from './palette';
 
-const TIED_VERSION = '1.11.2';
+const TILED_VERSION = '1.11.2';
 
 const LAYER_ORDER = ['Below Player', 'World', 'Above Player'] as const;
 
@@ -112,7 +112,7 @@ export function emitTmj(
   return {
     type: 'map',
     version: '1.10',
-    tiledversion: TIED_VERSION,
+    tiledversion: TILED_VERSION,
     orientation: 'orthogonal',
     renderorder: 'right-down',
     width: spec.width,

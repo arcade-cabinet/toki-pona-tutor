@@ -75,7 +75,7 @@ describe('renderTmj — tile placement', () => {
     await writeFile(tmjPath, JSON.stringify(tmj));
 
     const png = await renderTmj(tmjPath, [ground]);
-    // Sample center pixel of first tile vs center pixel of third tile —
+    // Sample center pixel of tile (0,0) vs center pixel of tile (1,0) —
     // both come from the same source tile, so they should be identical.
     const p1 = samplePixel(png, 8, 8);       // center of tile (0,0)
     const p2 = samplePixel(png, 8 + 16, 8);  // center of tile (1,0)

@@ -44,9 +44,13 @@ describe('parseTsx — Tileset_Ground', () => {
   it('declares columns consistent with image width / tile width', async () => {
     const t = await parseTsx(path);
     // columns attribute on <tileset> is definitive; we also sanity-check
-    // that it lines up with the image geometry.
+    // that it lines up with the image geometry. Default spacing to 0 so
+    // the arithmetic is never NaN even when the TSX omits it.
     expect(t.columns).toBeGreaterThan(0);
-    const expectedCols = Math.floor((t.image.width + t.spacing) / (t.tileWidth + t.spacing));
+    const spacing = t.spacing ?? 0;
+    const expectedCols = Math.floor(
+      (t.image.width + spacing) / (t.tileWidth + spacing),
+    );
     expect(t.columns).toBe(expectedCols);
   });
 });

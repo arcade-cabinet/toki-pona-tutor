@@ -11,6 +11,19 @@ import type { MapSpec } from '../lib/index';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
+/**
+ * Reject map ids that contain path separators or traversal sequences.
+ * Keeps CLI inputs from reaching outside scripts/map-authoring/specs/.
+ */
+function assertSafeMapId(id: string): void {
+  if (!/^[a-zA-Z0-9_-]+$/.test(id)) {
+    console.error(
+      `invalid map id "${id}" — only alphanumerics, underscore, and dash are allowed`,
+    );
+    process.exit(1);
+  }
+}
+
 async function main(): Promise<void> {
   const args = process.argv.slice(2);
   const mapId = args.find((a) => !a.startsWith('--'));
@@ -21,6 +34,7 @@ async function main(): Promise<void> {
     console.error('usage: pnpm author:render <map-id> [--grid] [--no-overlay]');
     process.exit(1);
   }
+  assertSafeMapId(mapId);
 
   const worktreeRoot = resolve(__dirname, '..', '..', '..');
   const specPath = join(worktreeRoot, 'scripts', 'map-authoring', 'specs', `${mapId}.ts`);
