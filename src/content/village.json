@@ -65,9 +65,9 @@
       "location_id": "tomo_pona",
       "sprite": "npc_villager_happy",
       "greeting": {
-        "tp": "toki! mi jan Pona. sina suli a!",
-        "en": "Hello! I am jan Pona. You are so big!",
-        "mood": "happy"
+        "tp": "toki! mi jan Pona. soweli mi li pilin ike.",
+        "en": "Hello! I'm jan Pona. My animal friend is feeling sick.",
+        "mood": "sad"
       }
     },
     {

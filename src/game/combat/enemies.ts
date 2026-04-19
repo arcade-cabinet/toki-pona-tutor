@@ -28,7 +28,9 @@ export const ENEMIES: Record<string, EnemyDef> = {
     nameEn: 'startled reptile',
     flavorTp: 'akesi li pilin ike. ona li weka e sina.',
     flavorEn: 'The akesi is scared. It wants you to go away.',
-    spriteFrame: DUNGEON.GHOST,
+    // tile 110 (ORC_RED) — a squat creature sprite that reads as 'critter' not
+    // 'ghost'. Son's feedback: previous GHOST sprite looked like a ghost.
+    spriteFrame: DUNGEON.ORC_RED,
     hp: 3,
     weakPattern: 'noun_adj',
     hintLines: [
