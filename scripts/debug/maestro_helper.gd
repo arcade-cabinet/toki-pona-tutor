@@ -1,5 +1,10 @@
-class_name MaestroHelper
 extends Node
+
+# Intentionally no class_name: this script is only instantiated as the
+# 'MaestroHelper' autoload in project.godot, and declaring a matching
+# class_name would clash with the autoload singleton at parse time
+# ("Class X hides an autoload singleton") — preventing the autoload
+# from registering at all.
 
 # Maestro E2E bridge. Activates only when the game is launched with
 # --maestro-helper (the "Android Debug Helper" preset passes this flag
@@ -145,9 +150,10 @@ func _refresh_world_labels() -> void:
 		if id.is_empty():
 			continue
 		var path := String(node.get_path())
-		var screen_pos := _world_to_screen(node, cam)
-		if screen_pos == null:
+		var screen_pos_v: Variant = _world_to_screen(node, cam)
+		if screen_pos_v == null:
 			continue
+		var screen_pos: Vector2 = screen_pos_v
 		var label: Label
 		if _world_labels.has(path):
 			label = _world_labels[path]
@@ -189,7 +195,7 @@ func _active_camera_2d(scene: Node) -> Camera2D:
 	return null
 
 
-func _world_to_screen(node: Node, cam: Camera2D):
+func _world_to_screen(node: Node, cam: Camera2D) -> Variant:
 	if node is Node2D:
 		var world_pos: Vector2 = (node as Node2D).global_position
 		# Camera2D in Godot 4 applies viewport transform; the simplest
