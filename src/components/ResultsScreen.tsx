@@ -3,6 +3,7 @@ import confetti from 'canvas-confetti';
 import { RotateCcw, Star, Volume2, VolumeX } from 'lucide-react';
 import type { SfxType } from '../types';
 import { HeartDisplay } from './HeartDisplay';
+import { Mascot } from './Mascot';
 
 interface ResultsScreenProps {
   score: number;
@@ -44,18 +45,18 @@ export function ResultsScreen({
   const stars = computeStars(hearts, maxHearts, gameOver);
   const percent = Math.round((score / total) * 100);
   const title = gameOver
-    ? 'Give it another go!'
+    ? 'Shake it off!'
     : stars === 3
-    ? 'pona mute a! Perfect run!'
+    ? 'PONA MUTE!'
     : stars === 2
-    ? 'Great work!'
-    : 'Nice effort!';
+    ? 'NICE RUN!'
+    : 'GOOD GO!';
   const subtitle = gameOver
-    ? 'Every attempt builds the path to sona.'
+    ? 'Hop back in — every try levels you up.'
     : stars === 3
-    ? "You're mastering Toki Pona grammar."
+    ? 'Perfect — you crushed it.'
     : stars === 2
-    ? 'Just a few stumbles — keep going!'
+    ? 'Few stumbles — you got this.'
     : 'Practice makes pona.';
   const fired = useRef(false);
 
@@ -65,11 +66,11 @@ export function ResultsScreen({
       fired.current = true;
       const burst = (x: number) =>
         confetti({
-          particleCount: 100,
-          spread: 80,
-          startVelocity: 40,
+          particleCount: 120,
+          spread: 90,
+          startVelocity: 45,
           origin: { x, y: 0.5 },
-          colors: ['#3b82f6', '#10b981', '#f59e0b', '#ec4899', '#8b5cf6'],
+          colors: ['#ff6b6b', '#feb47b', '#ffd26f', '#84fab0', '#ec4899'],
         });
       burst(0.2);
       setTimeout(() => burst(0.8), 200);
@@ -82,24 +83,30 @@ export function ResultsScreen({
       <button
         onClick={onToggleAudio}
         className={`absolute top-0 right-0 p-2 rounded-xl transition-colors ${
-          audioEnabled ? 'bg-emerald-100 text-emerald-600' : 'bg-slate-100 text-slate-400'
+          audioEnabled ? 'bg-white/90 text-pink-600' : 'bg-white/40 text-white'
         }`}
         aria-label="Toggle audio"
       >
-        {audioEnabled ? <Volume2 size={22} /> : <VolumeX size={22} />}
+        {audioEnabled ? <Volume2 size={20} /> : <VolumeX size={20} />}
       </button>
 
+      <div className="mb-2">
+        <Mascot mood={gameOver ? 'gameover' : stars === 3 ? 'streak' : 'correct'} size={90} />
+      </div>
+
       {/* Stars */}
-      <div className="flex gap-2 mb-5">
+      <div className="flex gap-2 mb-3">
         {[0, 1, 2].map((i) => {
           const earned = i < stars;
           return (
             <Star
               key={i}
-              size={64}
+              size={58}
               strokeWidth={2}
               className={`transition-all duration-700 ${
-                earned ? 'text-amber-400 fill-amber-400 drop-shadow-md' : 'text-slate-300 fill-slate-200'
+                earned
+                  ? 'text-yellow-300 fill-yellow-300 drop-shadow-[0_2px_0_rgba(234,88,12,0.8)]'
+                  : 'text-white/30 fill-white/20'
               }`}
               style={{
                 animationDelay: `${i * 200}ms`,
@@ -111,51 +118,56 @@ export function ResultsScreen({
         })}
       </div>
 
-      <div className="space-y-2 mb-6">
-        <h2 className="text-2xl sm:text-3xl font-black text-slate-800">{title}</h2>
-        <p className="text-sm text-slate-600 font-medium">{subtitle}</p>
+      <div className="space-y-1 mb-5">
+        <h2 className="font-display text-4xl text-white drop-shadow-[0_3px_0_rgba(234,88,12,0.85)]">
+          {title}
+        </h2>
+        <p className="text-sm text-white/90 font-medium">{subtitle}</p>
       </div>
 
-      <div className="grid grid-cols-2 gap-3 w-full max-w-xs mb-6">
-        <div className="bg-blue-50 border-2 border-blue-100 rounded-2xl p-3">
-          <div className="text-[10px] font-bold uppercase tracking-wider text-blue-500 mb-0.5">
+      <div className="grid grid-cols-2 gap-3 w-full max-w-xs mb-5">
+        <div className="bg-white rounded-2xl p-3 shadow-lg border-b-4 border-orange-300">
+          <div className="font-display text-[10px] uppercase tracking-widest text-orange-500 mb-0.5">
             Score
           </div>
-          <div className="text-2xl font-black text-blue-700">
-            {score}<span className="text-sm text-blue-400">/{total}</span>
+          <div className="font-display text-3xl text-pink-600">
+            {score}
+            <span className="text-sm text-orange-400">/{total}</span>
           </div>
-          <div className="text-xs text-blue-500 font-bold">{percent}%</div>
+          <div className="font-pixel text-xs text-orange-600">{percent}%</div>
         </div>
-        <div className="bg-amber-50 border-2 border-amber-100 rounded-2xl p-3">
-          <div className="text-[10px] font-bold uppercase tracking-wider text-amber-600 mb-0.5">
+        <div className="bg-white rounded-2xl p-3 shadow-lg border-b-4 border-yellow-300">
+          <div className="font-display text-[10px] uppercase tracking-widest text-yellow-600 mb-0.5">
             Level
           </div>
-          <div className="text-2xl font-black text-amber-600">{level}</div>
-          <div className="text-xs text-amber-500 font-bold">{streak > 0 ? `🔥 ${streak} best streak` : 'No streak yet'}</div>
+          <div className="font-display text-3xl text-orange-600">{level}</div>
+          <div className="font-pixel text-xs text-orange-500">
+            {streak > 0 ? `🔥 ${streak} streak` : 'No streak'}
+          </div>
         </div>
       </div>
 
-      <div className="flex items-center gap-2 mb-6">
-        <span className="text-xs font-bold text-slate-500 uppercase">Hearts left</span>
+      <div className="flex items-center gap-2 mb-5">
+        <span className="font-pixel text-[10px] text-white/90 uppercase">Hearts</span>
         <HeartDisplay hearts={hearts} max={maxHearts} />
       </div>
 
       <div className="flex flex-col w-full max-w-xs space-y-3">
         <button
           onClick={onRestart}
-          className="flex items-center justify-center space-x-2 bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-400 hover:to-blue-500 text-white p-3 rounded-2xl text-base font-black border-b-[6px] border-blue-700 active:border-b-0 active:translate-y-[6px] transition-all"
+          className="flex items-center justify-center space-x-2 bg-gradient-to-b from-lime-400 to-green-500 hover:from-lime-300 hover:to-green-400 text-white p-3 rounded-2xl font-display text-lg border-b-[6px] border-green-700 active:border-b-0 active:translate-y-[6px] transition-all shadow-lg"
         >
           <RotateCcw size={20} strokeWidth={3} />
-          <span>Play Again</span>
+          <span>PLAY AGAIN</span>
         </button>
         <button
           onClick={() => {
             playSfx('tap');
             onMenu();
           }}
-          className="flex items-center justify-center space-x-2 bg-slate-200 hover:bg-slate-300 text-slate-700 p-3 rounded-2xl text-base font-black border-b-[6px] border-slate-400 active:border-b-0 active:translate-y-[6px] transition-all"
+          className="flex items-center justify-center bg-white/90 hover:bg-white text-orange-700 p-2.5 rounded-2xl font-display text-base border-b-[5px] border-orange-300 active:border-b-0 active:translate-y-[5px] transition-all shadow-md"
         >
-          <span>Main Menu</span>
+          Main Menu
         </button>
       </div>
     </div>

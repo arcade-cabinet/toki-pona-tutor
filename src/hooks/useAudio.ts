@@ -17,14 +17,24 @@ interface SfxRefs {
   masterVol: any;
 }
 
-export type BgmTrack = 'menu' | 'lesson' | 'results';
+export type BgmTrack = 'menu' | 'lesson' | 'results' | 'gameover';
 
-const BGM_BASE = `${import.meta.env.BASE_URL}audio`;
+const AUDIO_BASE = `${import.meta.env.BASE_URL}audio`;
+const SFX_BASE = `${import.meta.env.BASE_URL}sfx`;
+
 const BGM_SOURCES: Record<BgmTrack, string[]> = {
-  menu: [`${BGM_BASE}/contemplation.mp3`],
-  lesson: [`${BGM_BASE}/ambient-loop.ogg`, `${BGM_BASE}/ambient-loop.mp3`],
-  results: [`${BGM_BASE}/heavenly-loop.ogg`, `${BGM_BASE}/heavenly-loop.mp3`],
+  menu: [`${AUDIO_BASE}/bgm-menu-kenney.ogg`, `${AUDIO_BASE}/bgm-menu-kenney.mp3`],
+  lesson: [`${AUDIO_BASE}/bgm-lesson-kenney.ogg`, `${AUDIO_BASE}/bgm-lesson-kenney.mp3`],
+  results: [`${AUDIO_BASE}/bgm-victory-kenney.ogg`, `${AUDIO_BASE}/bgm-victory-kenney.mp3`],
+  gameover: [`${AUDIO_BASE}/bgm-gameover-kenney.ogg`, `${AUDIO_BASE}/bgm-gameover-kenney.mp3`],
 };
+
+const SAMPLE_SFX_SOURCES = {
+  click: [`${SFX_BASE}/click.ogg`, `${SFX_BASE}/click.mp3`],
+  confirm: [`${SFX_BASE}/confirm.ogg`, `${SFX_BASE}/confirm.mp3`],
+  error: [`${SFX_BASE}/error.ogg`, `${SFX_BASE}/error.mp3`],
+  drop: [`${SFX_BASE}/drop.ogg`, `${SFX_BASE}/drop.mp3`],
+} as const;
 
 const BGM_VOLUME = 0.35;
 const CROSSFADE_MS = 600;
@@ -34,6 +44,7 @@ export function useAudio() {
   const [audioEnabled, setAudioEnabled] = useState(false);
   const sfxRefs = useRef<SfxRefs | null>(null);
   const bgmRefs = useRef<Record<BgmTrack, Howl> | null>(null);
+  const sampleSfxRefs = useRef<Record<keyof typeof SAMPLE_SFX_SOURCES, Howl> | null>(null);
   const currentTrack = useRef<BgmTrack | null>(null);
 
   useEffect(() => {
@@ -99,6 +110,16 @@ export function useAudio() {
     }
     bgmRefs.current = tracks;
 
+    const samples = {} as Record<keyof typeof SAMPLE_SFX_SOURCES, Howl>;
+    for (const key of Object.keys(SAMPLE_SFX_SOURCES) as (keyof typeof SAMPLE_SFX_SOURCES)[]) {
+      samples[key] = new Howl({
+        src: [...SAMPLE_SFX_SOURCES[key]],
+        volume: 0.5,
+        preload: true,
+      });
+    }
+    sampleSfxRefs.current = samples;
+
     setAudioEnabled(true);
   }, []);
 
@@ -128,30 +149,36 @@ export function useAudio() {
     for (const howl of Object.values(bgmRefs.current)) {
       howl.mute(!willEnable);
     }
+    if (sampleSfxRefs.current) {
+      for (const howl of Object.values(sampleSfxRefs.current)) {
+        howl.mute(!willEnable);
+      }
+    }
     setAudioEnabled(willEnable);
   }, [audioEnabled]);
 
   const playSfx = useCallback(
     (type: SfxType) => {
       if (!audioEnabled || !sfxRefs.current) return;
-      const { popSynth, chordSynth, errorSynth, starSynth, T } = sfxRefs.current;
+      const { chordSynth, starSynth, T } = sfxRefs.current;
+      const samples = sampleSfxRefs.current;
       const now = T.now();
       switch (type) {
         case 'tap':
-          popSynth.triggerAttackRelease('C5', '32n', now);
+          samples?.click.play();
           break;
         case 'untap':
-          popSynth.triggerAttackRelease('A4', '32n', now);
+          samples?.drop.play();
           break;
         case 'correct':
+          samples?.confirm.play();
           chordSynth.triggerAttackRelease(['C4', 'E4', 'G4', 'C5'], '4n', now);
           starSynth.triggerAttackRelease('E6', '16n', now + 0.05);
           starSynth.triggerAttackRelease('G6', '16n', now + 0.1);
           starSynth.triggerAttackRelease('C7', '16n', now + 0.15);
           break;
         case 'wrong':
-          errorSynth.triggerAttackRelease('Eb3', '8n', now);
-          errorSynth.triggerAttackRelease('C3', '4n', now + 0.15);
+          samples?.error.play();
           break;
         case 'win':
           chordSynth.triggerAttackRelease(['C4', 'E4', 'G4', 'B4', 'D5'], '1m', now);
