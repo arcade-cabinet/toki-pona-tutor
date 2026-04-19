@@ -50,9 +50,12 @@ interface GameEventMap {
   'game:pause': boolean;
   'toast:show': ToastEvent;
   'seed:open-new-game': SeedOpenNewGameEvent;
-  'combat:enter': { enemyId: string };
+  /** species_id to spawn + level to spawn it at (from encounter table or set-piece). */
+  'combat:enter': { enemyId: string; level?: number };
   'combat:victory': { enemyId: string };
   'combat:defeat': { enemyId: string };
+  /** Catch succeeded — species added to party. */
+  'combat:caught': { enemyId: string };
 }
 
 type Handler<T> = (payload: T) => void;

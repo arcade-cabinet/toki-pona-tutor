@@ -265,6 +265,12 @@ export class RegionScene extends Phaser.Scene {
         this.encounterCooldownMs = 1500;
       }),
     );
+    this.unsubs.push(
+      gameBus.on('combat:caught', () => {
+        this.dialogOpen = false;
+        this.encounterCooldownMs = 1500;
+      }),
+    );
   }
 
   private nearestNpc(): Npc | null {
@@ -320,7 +326,10 @@ export class RegionScene extends Phaser.Scene {
         if (roll <= 0) {
           this.dialogOpen = true;
           this.encounterCooldownMs = 1500;
-          gameBus.emit('combat:enter', { enemyId: e.species_id });
+          const level = Math.floor(
+            e.min_level + Math.random() * (e.max_level - e.min_level + 1),
+          );
+          gameBus.emit('combat:enter', { enemyId: e.species_id, level });
           return;
         }
       }
