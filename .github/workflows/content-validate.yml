@@ -1,0 +1,40 @@
+name: content-validate
+
+# Gate every PR on the declarative content pipeline: validate spine files
+# against Zod schemas, ensure every multi-word TP string round-trips through
+# the vendored Tatoeba corpus, and compile generated/world.json cleanly.
+on:
+  pull_request:
+    paths:
+      - 'src/content/**'
+      - 'scripts/validate-tp.mjs'
+      - 'scripts/build-spine.mjs'
+      - 'src/content/schema/**'
+      - 'package.json'
+      - '.github/workflows/content-validate.yml'
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          lfs: true
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 22
+          cache: pnpm
+      - run: pnpm install --ignore-workspace --frozen-lockfile
+      - name: Validate challenges
+        run: pnpm validate-challenges
+      - name: Validate canonical Toki Pona
+        run: pnpm validate-tp
+      - name: Compile spine
+        run: pnpm build-spine
+      - name: Typecheck
+        run: pnpm typecheck
+      - name: Build
+        run: pnpm build
