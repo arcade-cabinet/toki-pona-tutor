@@ -113,9 +113,19 @@ jobs:
       - name: Export Android debug APK
         run: |
           mkdir -p export/android
+          # Godot 4.6 + Dialogic's editor plugin segfault during _exit_tree
+          # in headless mode AFTER the APK has been signed and written.
+          # Trust the APK file as the source of truth, not the exit code.
+          set +e
           godot --headless --path . \
             --export-debug "Android Debug Helper" \
             export/android/poki-soweli-debug.apk
+          set -e
+          if [ ! -f export/android/poki-soweli-debug.apk ]; then
+            echo "::error::APK was not produced — real export failure"
+            exit 1
+          fi
+          echo "APK size: $(stat -c%s export/android/poki-soweli-debug.apk) bytes"
 
       - name: Upload debug APK artifact
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1

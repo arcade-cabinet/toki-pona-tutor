@@ -38,7 +38,13 @@ jobs:
         run: |
           mkdir -p export/html5
           curl -L -o export/html5/coi-serviceworker.js https://raw.githubusercontent.com/gzuidhof/coi-serviceworker/master/coi-serviceworker.js
+          set +e
           godot --headless --path . --export-release "HTML5" export/html5/index.html
+          set -e
+          if [ ! -f export/html5/index.html ]; then
+            echo "::error::HTML5 export was not produced"
+            exit 1
+          fi
           touch export/html5/.nojekyll
 
       - name: Setup Pages
@@ -108,9 +114,17 @@ jobs:
       - name: Export Android debug APK
         run: |
           mkdir -p export/android
+          # See ci.yml note: Godot 4.6 + Dialogic editor plugin segfault
+          # at shutdown after the APK is signed; trust the artifact.
+          set +e
           godot --headless --path . \
             --export-debug "Android Debug Helper" \
             export/android/poki-soweli-debug.apk
+          set -e
+          if [ ! -f export/android/poki-soweli-debug.apk ]; then
+            echo "::error::APK was not produced"
+            exit 1
+          fi
 
       - name: Upload debug APK artifact
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1

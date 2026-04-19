@@ -1,4 +1,4 @@
-[gd_resource type="Resource" script_class="AttackBattlerAction" load_steps=3 format=3 uid="uid://c01ilo1olkfsm"]
+[gd_resource type="Resource" script_class="AttackBattlerAction" format=3 uid="uid://c01ilo1olkfsm"]
 
 [ext_resource type="Texture2D" uid="uid://dt7jcphqs175b" path="res://combat/battlers/squirrel/icon_arrows.svg" id="1_eedy7"]
 [ext_resource type="Script" uid="uid://cpbigevghfrjn" path="res://src/combat/actions/battler_action_attack.gd" id="2_x25ju"]

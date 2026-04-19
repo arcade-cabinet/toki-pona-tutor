@@ -79,9 +79,17 @@ jobs:
         run: |
           mkdir -p export/android
           APK_NAME="poki-soweli-${RELEASE_TAG}.apk"
+          # See ci.yml note: Godot 4.6 + Dialogic plugin segfault at
+          # shutdown after signing; verify the APK file exists.
+          set +e
           godot --headless --path . \
             --export-release "Android Release" \
             "export/android/${APK_NAME}"
+          set -e
+          if [ ! -f "export/android/${APK_NAME}" ]; then
+            echo "::error::APK was not produced"
+            exit 1
+          fi
           echo "APK_PATH=export/android/${APK_NAME}" >> "$GITHUB_ENV"
 
       - name: Upload APK to release
@@ -114,9 +122,15 @@ jobs:
         run: |
           mkdir -p export/html5
           curl -L -o export/html5/coi-serviceworker.js https://raw.githubusercontent.com/gzuidhof/coi-serviceworker/master/coi-serviceworker.js
+          set +e
           godot --headless --path . \
             --export-release "HTML5" \
             export/html5/index.html
+          set -e
+          if [ ! -f export/html5/index.html ]; then
+            echo "::error::HTML5 export was not produced"
+            exit 1
+          fi
           ZIP_NAME="poki-soweli-${RELEASE_TAG}-web.zip"
           cd export && zip -r "../${ZIP_NAME}" html5/
           echo "ZIP_PATH=${ZIP_NAME}" >> "$GITHUB_ENV"
