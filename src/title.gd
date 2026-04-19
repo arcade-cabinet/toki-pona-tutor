@@ -43,7 +43,28 @@ func _ready() -> void:
 
 
 func _on_play_pressed() -> void:
+	# US-037: if a save already exists, confirm-wipe before starting fresh.
+	if TokiSave != null and TokiSave.has_save():
+		_show_new_game_confirm()
+		return
 	get_tree().change_scene_to_file(GAME_SCENE)
+
+
+func _show_new_game_confirm() -> void:
+	var dialog := ConfirmationDialog.new()
+	dialog.title = "Start over?"
+	dialog.dialog_text = "A saved game exists. Starting a new game will overwrite it. Continue?"
+	dialog.get_ok_button().text = "Start new"
+	dialog.get_cancel_button().text = "Keep save"
+	add_child(dialog)
+	dialog.confirmed.connect(func():
+		# Wipe the save file so the next boot doesn't show Continue.
+		if FileAccess.file_exists(TokiSave.SAVE_PATH):
+			DirAccess.remove_absolute(ProjectSettings.globalize_path(TokiSave.SAVE_PATH))
+		get_tree().change_scene_to_file(GAME_SCENE)
+	)
+	dialog.canceled.connect(func(): dialog.queue_free())
+	dialog.popup_centered()
 
 
 # Boot the field scene pointed at the saved region+tile. Reuses the

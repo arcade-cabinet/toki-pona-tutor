@@ -50,6 +50,18 @@ func _ready() -> void:
 	if Player:
 		Player.gamepiece_changed.connect(_on_player_gamepiece_changed)
 		_on_player_gamepiece_changed()
+	# Save before the app closes so the player never loses progress on
+	# quit (window X, cmd-Q, Android back-to-home, etc). process_mode
+	# stays Always so this runs even during a paused tree.
+	get_tree().set_auto_accept_quit(false)
+	process_mode = Node.PROCESS_MODE_ALWAYS
+
+
+func _notification(what: int) -> void:
+	if what == NOTIFICATION_WM_CLOSE_REQUEST or what == NOTIFICATION_APPLICATION_PAUSED:
+		save()
+		if what == NOTIFICATION_WM_CLOSE_REQUEST:
+			get_tree().quit()
 
 
 # Ensure the "toki" namespace + all known sub-keys exist in
