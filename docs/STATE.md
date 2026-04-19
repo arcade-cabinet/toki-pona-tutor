@@ -7,56 +7,69 @@ domain: context
 
 # Where we are
 
-**2026-04-19 — mid-pivot.** The game just turned from a procedurally-generated village tutor into a hand-authored Pokemon-shape RPG. Every design call about the pivot is locked; see `docs/ARCHITECTURE.md`.
+**2026-04-19 — post-pivot, content pipeline + first region live.**
 
-## Immediately before this state
+Toki Town is a Godot 4.6 native project. The old Vite/React/SolidJS/Phaser/Koota web stack was retired entirely — see `docs/ENGINE_DECISION.md`. All tooling is GDScript; all content is committed JSON → compiled `.tres` Resources.
 
-PR #22 merged: WASD sitelen rendering fix, `AdventureAudio` bus-driven SFX layer, `scripts/validate-tp.mjs` informational validator. Main is clean.
+## What works today
 
-## What's landing next
+- **Project boots.** `make run` opens the editor; press Play, the scene loads.
+- **Content pipeline.** `make validate` and `make build` run the full authoring flow in pure GDScript:
+  - `tools/complexity_scorer.gd` — writing-rules scorer (rank 0-100, ceiling 40)
+  - `tools/tatoeba_client.gd` — live HTTPClient to Tatoeba, results cached in `content/corpus/cache.json` (33,830 keys seeded from the old 37k-pair vendored blob; network only for new lines)
+  - `tools/validate_tp.gd` — walks `content/spine/`, runs scorer + cache/API, exits 0/1
+  - `tools/build_spine.gd` — emits .tres Resources per region/species/move/item, plus a top-level `content/generated/world.tres`
+- **Content bank.** 7 regions, 17 species, 17 moves, 4 items authored in JSON. 123 multi-word translatable lines validated canonical.
+- **Brand identity.** Warm/cute amber + emerald + parchment palette in `theme/toki_theme.tres`, Google Fonts (Nunito body / Fredoka display / JetBrains Mono / nasin-nanpa for sitelen-pona), rounded UI chrome. No Kenney pixel fonts.
+- **First playable region.** Boot the project and the main scene hydrates `ma_tomo_lili` (20×14 starter village) from `world.tres`:
+  - Painted tile grid from the region layers
+  - 3 NPCs with dungeon-atlas sprites + TP name labels (jan Sewi, jan Pona, jan Telo)
+  - 2 signs at authored tile positions
+  - Player gamepiece spawned at region.spawn with the open-rpg generic character gfx + player controller — player walks with WASD / arrow keys
+  - Camera follows the player
 
-**Wave 0 — infra (this PR, `feat/declarative-content-pipeline`).** Contents:
+## What's not wired yet (known next steps)
 
-- Three architecture docs (`ARCHITECTURE.md`, `AGENT_TEAMS.md`, `STATE.md`) — landed first in this PR
-- Zod schemas for every content type in `src/content/schema/`
-- `zodToKootaTrait()` helper
-- `scripts/build-spine.mjs` — reads spine, validates schemas, resolves Tatoeba, emits `generated/world.json`
-- `pnpm validate-tp` wired as a mandatory prebuild step
-- `pnpm build-spine` script
-- `.github/workflows/content-validate.yml` — CI gate
-- Initial spine files for region 1 (`ma tomo lili`) — minimal stub, real content lands in Wave 2
-- Agent-brief templates in `docs/agent-briefs/`
-- `scripts/worktree-janitor.mjs`
-- Delete procgen: `src/game/procgen/`, `NewGameModal`, seed HUD chip
-- Delete `src/content/village.json` (replaced by spine)
+- **NPC interaction**: pressing space near an NPC doesn't open dialog yet. Need an `NpcInteraction` Area2D + input handler that reads `region.dialog[]` for the matching npc and activates the dialog overlay.
+- **Dialog overlay**: Dialogic ships with open-rpg but throws a runtime warning on Godot 4.6 (`subsystem_text` Dictionary vs String). Decide: (a) patch Dialogic for 4.6, or (b) write a lightweight `DialogOverlay.tscn` that reads our `DialogResource`.
+- **Encounter trigger**: stepping onto a `tall_grass` tile doesn't roll yet. Need a tile-step watcher that consults `region.encounters[]`.
+- **Combat handoff**: encounter roll → `combat.tscn` with the chosen species as wild combatant. open-rpg's Battler system is in-tree; needs binding to our `SpeciesResource`.
+- **Save / load**: addons/save_system/ is in-tree but not wired to party / flags / current_region.
+- **Region transitions**: warps defined in spine but not activated; stepping on a warp tile should transition to the target region.
 
-## After Wave 0
+## Addons in-tree (vetted, gd-plug-manifest mirrored)
 
-**Wave 1 — schema audit (1 agent).** Reads the Zod schemas, writes `docs/schema/*.md` human-readable references.
+- `gdUnit4` — testing
+- `godot_mcp` — WebSocket editor control for agents
+- `gd-plug` + `gd-plug-ui` — addon manifest
+- `save_system`, `quest_system`, `gloot` — RPG infra replacements for dict-based state
+- `dialogic` — from open-rpg (pending 4.6 compatibility decision)
+- `dialogue_manager` — alternative to Dialogic
+- `AdaptiSound`, `phantom_camera`, `limboai` — reserved (music layering, boss cams, battler AI trees)
+- `godot_material_footsteps`, `shaky_camera_3d` — less likely needed for 2D; retained for completeness
 
-**Wave 2 — content fanout (up to 5 agents parallel).**
-- species team: 15–20 creature JSONs
-- moves team: ~15 move JSONs
-- region-1 team: ma tomo lili full content
-- region-2 team: nasin wan (first route) full content
-- items team: poki variants + healing items
+## Build + test
 
-**Wave 3 — engine integration (me).** Rip procgen, rewire scenes to world.json, wire catch/party/Pokedex.
+```bash
+make validate   # writing rules + Tatoeba cache (offline)
+make build      # emit .tres from spine JSON
+make run        # open editor
+make test       # gdUnit4 headless (no tests yet)
+```
 
-**Wave 4 — content fanout (up to 5 agents parallel).** Regions 3–6, dialog polish, balance pass.
+CI runs `ci.yml` on PR: import + parse check + validate + build. `release.yml` cuts release-please tags on main and exports Linux/Windows/HTML5/Android.
 
-## Locked design decisions
+## Pivot branch
 
-- **Pokemon-shape** RPG. Party of up to 6. Catch wild creatures with **poki** (net). Five types: seli / telo / kasi / lete / wawa. Seven regions planned. Set-piece jan-lawa fights gate region boundaries. No player stats — party is the character sheet.
-- **ma tomo lili = the starter village.** jan Sewi is the starter-giver (Professor Oak role); same NPC, new job.
-- **Tall-grass random encounters** exist and are the B-gameplay to the A-gameplay of set-piece fights.
-- **Hand-authored TP is banned.** Every multi-word TP string must round-trip through Tatoeba. Single-word TP (dictionary entries) is vetted and exempt.
-- **Declarative content pipeline is load-bearing.** The engine reads `generated/world.json` and paints; all richness lives in spine files that both humans and agents can author against Zod schemas.
+All work lives on `pivot/godot`. 8 commits so far:
 
-## What's being deleted in this pivot
+1. `docs: ADR — pivot Toki Town to Godot 4, pure GDScript`
+2. `chore: delete web stack, move content to repo root`
+3. `chore(pivot): lift godot-open-rpg as engine base`
+4. `chore(pivot): bootstrap Godot project — open-rpg base + ashworth skeleton`
+5. `feat(brand): Toki Town warm/cute identity + Google Fonts + mobile renderer`
+6. `feat(pipeline): pure GDScript content pipeline — Tatoeba API + scorer + builder`
+7. `feat(engine): first playable region — RegionBuilder hydrates ma_tomo_lili`
+8. `feat(engine): NPCs + signs render with sprites; player gamepiece spawns`
 
-- `src/game/procgen/` (all of it)
-- `src/game/solid-ui/NewGameModal.tsx`
-- Seed HUD chip in `AdventureHUD.tsx`
-- `src/content/village.json`
-- The hungry-friend quest (reframed as the starter-choose ceremony on jan Sewi's side)
+Merge to main when the next slice (interaction + encounter + combat handoff) lands — at that point the demo is self-evident.

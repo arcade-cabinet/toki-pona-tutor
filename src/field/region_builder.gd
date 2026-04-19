@@ -40,6 +40,7 @@ var _gamepieces_root: Node2D = null
 func _ready() -> void:
 	if Engine.is_editor_hint():
 		return
+	add_to_group("region_builder")
 	if region_id == "":
 		region_id = World.start_region_id
 	if region_id == "":
@@ -179,14 +180,61 @@ func _spawn_npc_sprite(npc_res: NpcResource, dungeon_tex: Texture2D) -> void:
 	label.position = Vector2(0, -14)
 	label.anchor_left = 0.5
 	label.add_theme_font_size_override("font_size", 8)
-	# Center-justify by shifting by half the measured width on layout.
 	label.set("theme_override_colors/font_color", Color("#3D2E1E"))
 	label.set("theme_override_colors/font_outline_color", Color("#FDF6E3"))
 	label.set("theme_override_constants/outline_size", 2)
-	# Quick centering: Label measures its text; put it at -half-width.
 	label.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
 	label.position.x = -label.get_minimum_size().x * 0.5 - 8
 	pivot.add_child(label)
+
+	# Interaction — Area2D on interaction layer so the player can talk.
+	var interaction := NpcInteraction.new()
+	interaction.npc_id = npc_res.id
+	interaction.name = "Interaction"
+	interaction.interaction_requested.connect(_on_npc_interaction_requested)
+	pivot.add_child(interaction)
+
+
+func _on_npc_interaction_requested(npc_id: String) -> void:
+	# Pick the highest-priority dialog node matching current state.
+	var node := _select_dialog_for(npc_id)
+	if node == null:
+		print("[RegionBuilder] no dialog for npc %s" % npc_id)
+		return
+	# Route through FieldEvents so the overlay can live independently.
+	if FieldEvents and FieldEvents.has_signal("dialog_requested"):
+		FieldEvents.emit_signal("dialog_requested", node)
+	else:
+		# Fallback: dump to console so devs can see it works.
+		print("[RegionBuilder] dialog for %s (priority %d): %d beat(s)" % [
+			npc_id, node.priority, node.beats.size(),
+		])
+		for beat in node.beats:
+			var text_dict: Dictionary = beat.get("text", {})
+			print("  — %s" % text_dict.get("tp", text_dict.get("en", "")))
+
+
+# Return the best dialog node for this NPC given current save state.
+# Picks the highest-priority node whose when_flags and when_quest match.
+func _select_dialog_for(npc_id: String) -> DialogResource:
+	var best: DialogResource = null
+	for d: DialogResource in region.dialog:
+		if d.npc_id != npc_id: continue
+		# Flag gate — simple boolean check. Flags come from save_system or
+		# just Godot project variables until wired.
+		var flags_ok := true
+		for key in d.when_flags:
+			var required: bool = d.when_flags[key]
+			# Temporary: read from Engine.get_meta(); save system wiring later.
+			var current: bool = bool(Engine.get_meta("flag_" + key, false))
+			if current != required:
+				flags_ok = false
+				break
+		if not flags_ok: continue
+		# Quest gate ignored for now — quest_system wiring is a follow-up.
+		if best == null or d.priority > best.priority:
+			best = d
+	return best
 
 
 func _spawn_signs() -> void:

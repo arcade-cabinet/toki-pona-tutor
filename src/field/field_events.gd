@@ -39,3 +39,30 @@ signal cutscene_ended
 ## Typically emitted by combat, dialogues, etc.
 @warning_ignore("unused_signal")
 signal input_paused(is_paused: bool)
+
+# --- Toki Town dialog / interaction events ---
+
+## Request the DialogOverlay to play a dialog node. Fired by
+## NpcInteraction after RegionBuilder has selected the right node for
+## current save state.
+@warning_ignore("unused_signal")
+signal dialog_requested(node: DialogResource)
+
+## Emitted when the player enters / leaves interaction range of an NPC,
+## so a HUD can show/hide an "[E] Talk" prompt.
+@warning_ignore("unused_signal")
+signal interaction_range_entered(npc_id: String)
+@warning_ignore("unused_signal")
+signal interaction_range_exited(npc_id: String)
+
+## Emitted when a dialog node fires a trigger on close. Separate signals
+## per trigger kind so each system can subscribe to only what it cares
+## about (save system, inventory, party manager, quest tracker).
+@warning_ignore("unused_signal")
+signal flag_set(flag: String, value: bool)
+@warning_ignore("unused_signal")
+signal item_given(item_id: String, count: int)
+@warning_ignore("unused_signal")
+signal party_add(species_id: String, level: int)
+@warning_ignore("unused_signal")
+signal quest_advanced(quest_id: String, stage: String)

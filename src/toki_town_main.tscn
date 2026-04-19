@@ -1,8 +1,9 @@
-[gd_scene load_steps=4 format=3]
+[gd_scene load_steps=5 format=3]
 
 [ext_resource type="Script" path="res://src/field/toki_map.gd" id="1_map"]
 [ext_resource type="Script" path="res://src/field/region_builder.gd" id="2_rb"]
 [ext_resource type="TileSet" path="res://overworld/maps/tilesets/kenney_terrain.tres" id="3_tileset"]
+[ext_resource type="PackedScene" path="res://src/field/ui/dialog_overlay.tscn" id="4_dialog"]
 
 [node name="TokiTown" type="Node2D"]
 
@@ -14,3 +15,5 @@ script = ExtResource("1_map")
 [node name="RegionBuilder" type="Node2D" parent="Field/Map"]
 script = ExtResource("2_rb")
 tileset = ExtResource("3_tileset")
+
+[node name="DialogOverlay" parent="." instance=ExtResource("4_dialog")]
