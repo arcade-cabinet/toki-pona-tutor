@@ -7,6 +7,7 @@ interface QuestState {
   hungryFriend: QuestStage;
   inventory: Record<string, boolean>;
   masteredWords: string[];
+  xp: number;
 }
 
 const KEY = 'kama-sona.questState.v1';
@@ -26,6 +27,7 @@ function defaultState(): QuestState {
     hungryFriend: 'not_started',
     inventory: {},
     masteredWords: [],
+    xp: 0,
   };
 }
 
@@ -77,6 +79,11 @@ export function completeHungryFriend() {
 export function masterWord(word: string) {
   if (state.masteredWords.includes(word)) return;
   state = { ...state, masteredWords: [...state.masteredWords, word] };
+  save();
+}
+
+export function addXp(amount: number) {
+  state = { ...state, xp: state.xp + amount };
   save();
 }
 
