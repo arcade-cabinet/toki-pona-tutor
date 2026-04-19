@@ -19,6 +19,7 @@ const GAME_SCENE := "res://src/toki_town_main.tscn"
 
 
 func _ready() -> void:
+	_maybe_spawn_maestro_helper()
 	_continue_button.pressed.connect(_on_continue_pressed)
 	_play_button.pressed.connect(_on_play_pressed)
 	_settings_button.pressed.connect(_on_settings_pressed)
@@ -123,3 +124,27 @@ func _unhandled_input(event: InputEvent) -> void:
 	if _settings_panel.visible and event.is_action_pressed("back"):
 		get_viewport().set_input_as_handled()
 		_on_settings_back_pressed()
+
+
+func _maybe_spawn_maestro_helper() -> void:
+	# Gate on --maestro-helper (baked into the Android Debug Helper preset;
+	# never present in release builds). Spawn once as a child of the scene
+	# tree root so it survives scene changes. Same pattern as
+	# ../ashworth-manor/scripts/game_manager.gd::_maybe_enable_maestro_helper.
+	if DisplayServer.get_name() == "headless":
+		return
+	var args := PackedStringArray(OS.get_cmdline_args())
+	for user_arg in OS.get_cmdline_user_args():
+		if not args.has(user_arg):
+			args.append(user_arg)
+	if not args.has("--maestro-helper"):
+		return
+	var tree := get_tree()
+	if tree == null or tree.root == null or tree.root.has_node("MaestroHelper"):
+		return
+	var script := load("res://scripts/debug/maestro_helper.gd")
+	if script == null:
+		return
+	var helper: Node = script.new()
+	helper.name = "MaestroHelper"
+	tree.root.call_deferred("add_child", helper)

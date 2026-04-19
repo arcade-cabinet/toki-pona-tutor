@@ -36,7 +36,6 @@ World="*res://src/common/world.gd"
 TokiSave="*res://src/common/toki_save.gd"
 SettingsStore="*res://src/common/settings_store.gd"
 BiomeMusic="*res://src/common/music/biome_music.gd"
-MaestroHelper="*res://scripts/debug/maestro_helper.gd"
 
 [dialogic]
 
@@ -132,8 +131,6 @@ window/size/window_width_override=960
 window/size/window_height_override=540
 window/stretch/mode="canvas_items"
 window/stretch/aspect="expand"
-window/stretch/scale=1.0
-window/handheld/orientation=0
 
 [editor_plugins]
 

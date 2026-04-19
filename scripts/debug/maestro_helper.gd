@@ -1,211 +1,137 @@
-extends Node
+extends CanvasLayer
+## Debug-only automation surface for Maestro flows.
+##
+## Mirrors the pattern proven in ../ashworth-manor: a CanvasLayer with
+## REAL visible buttons that Maestro taps by text. Maestro on Android
+## does not see Godot canvas Label nodes through the Android accessibility
+## tree, so the helper must render tappable UI at full opacity and rely
+## on Maestro's OCR / text-match path.
+##
+## Activation: spawned manually from TitleScreen (or any early scene) when
+## --maestro-helper is on the cmdline. Not an autoload — keeping it out of
+## the autoload list avoids the "class_name hides autoload" collision and
+## lets release builds skip the script entirely.
 
-# Intentionally no class_name: this script is only instantiated as the
-# 'MaestroHelper' autoload in project.godot, and declaring a matching
-# class_name would clash with the autoload singleton at parse time
-# ("Class X hides an autoload singleton") — preventing the autoload
-# from registering at all.
+const REFRESH_INTERVAL := 0.2
+const PANEL_MARGIN := 18
+const PANEL_WIDTH := 280
+const BUTTON_HEIGHT := 48
+const HEADING_HEIGHT := 36
+const STATUS_HEIGHT := 24
 
-# Maestro E2E bridge. Activates only when the game is launched with
-# --maestro-helper (the "Android Debug Helper" preset passes this flag
-# automatically; release builds never include it).
-#
-# Responsibilities:
-# 1. Expose a persistent "Maestro Helper" status label so flows can
-#    confirm the helper is live before proceeding (and fail fast if
-#    they're pointed at a release build by accident).
-# 2. Project world-space interactables (nodes with a `maestro_id`
-#    meta, NPCs, shop triggers, combat zones) through the active
-#    Camera2D into invisible screen-space labels so Maestro's OCR
-#    pipeline can `tapOn: "npc_soweli"` instead of guessing pixel
-#    coordinates that break as the player moves.
-# 3. Surface the current scene + current room name so flows can gate
-#    on game state without having to read pixels.
-# 4. Mirror all visible dialogue/choice text into the overlay so
-#    Maestro can pick from in-flight Dialogic balloons even when the
-#    rendered text is on a stylized panel that OCR has trouble with.
-#
-# Design notes:
-# - Every overlay label is near-transparent (alpha 0.02) so it is
-#   invisible in screenshots and gameplay recordings but still present
-#   in the accessibility tree Maestro reads from.
-# - Labels are children of the scene tree root so they survive scene
-#   changes without us having to re-parent on each transition.
-# - We never block the main scene tree: if a required singleton is
-#   missing we just skip that layer quietly.
+const HEADING_TEXT := "Maestro Helper"
 
-const ENABLE_FLAG := "--maestro-helper"
-const OVERLAY_Z := 4096
-const LABEL_ALPHA := 0.02
-const OUTLINE_SIZE := 4
-const STATUS_POLL_HZ := 2.0
-const WORLD_POLL_HZ := 10.0
-
-# Sentinel names for easy OCR matching. Keep stable; flows hard-code these.
-const STATUS_LABEL := "Maestro Helper"
-const SCENE_PREFIX := "Scene: "
-const ROOM_PREFIX := "Room: "
-
-var _status_label: Label
-var _scene_label: Label
-var _room_label: Label
-var _world_labels: Dictionary = {}  # node_path → Label
-var _status_accum: float = 0.0
-var _world_accum: float = 0.0
-
-
-func _enter_tree() -> void:
-	if not _enabled():
-		queue_free()
-		return
-	process_mode = Node.PROCESS_MODE_ALWAYS
+var _panel: PanelContainer = null
+var _content: VBoxContainer = null
+var _refresh_accum: float = 0.0
 
 
 func _ready() -> void:
-	_status_label = _build_label(STATUS_LABEL, Vector2(8, 8))
-	_scene_label = _build_label(SCENE_PREFIX + "<none>", Vector2(8, 28))
-	_room_label = _build_label(ROOM_PREFIX + "<none>", Vector2(8, 48))
-	# call_deferred so the root is safe to mutate while the tree is
-	# still being entered this frame.
-	get_tree().root.add_child.call_deferred(_status_label)
-	get_tree().root.add_child.call_deferred(_scene_label)
-	get_tree().root.add_child.call_deferred(_room_label)
+	layer = 64
+	process_mode = Node.PROCESS_MODE_ALWAYS
+	visible = true
+	_build_panel()
+	print("MaestroHelper active")
 
 
 func _process(delta: float) -> void:
-	_status_accum += delta
-	_world_accum += delta
-	if _status_accum >= 1.0 / STATUS_POLL_HZ:
-		_status_accum = 0.0
-		_refresh_status()
-	if _world_accum >= 1.0 / WORLD_POLL_HZ:
-		_world_accum = 0.0
-		_refresh_world_labels()
+	_refresh_accum += delta
+	if _refresh_accum < REFRESH_INTERVAL:
+		return
+	_refresh_accum = 0.0
+	_refresh_controls()
 
 
-# --- internals ---
+# --- panel ---
 
-static func _enabled() -> bool:
-	return OS.get_cmdline_args().has(ENABLE_FLAG) or OS.get_cmdline_user_args().has(ENABLE_FLAG)
+func _build_panel() -> void:
+	_panel = PanelContainer.new()
+	_panel.name = "MaestroPanel"
+	_panel.anchor_left = 0.0
+	_panel.anchor_top = 0.0
+	_panel.anchor_right = 0.0
+	_panel.anchor_bottom = 1.0
+	_panel.offset_left = float(PANEL_MARGIN)
+	_panel.offset_top = float(PANEL_MARGIN)
+	_panel.offset_right = float(PANEL_MARGIN + PANEL_WIDTH)
+	_panel.offset_bottom = -float(PANEL_MARGIN)
+	_panel.mouse_filter = Control.MOUSE_FILTER_STOP
+	_panel.z_index = 100
+	_panel.self_modulate = Color(0.08, 0.06, 0.05, 0.92)
+	add_child(_panel)
+
+	var margin := MarginContainer.new()
+	margin.add_theme_constant_override("margin_left", 12)
+	margin.add_theme_constant_override("margin_top", 12)
+	margin.add_theme_constant_override("margin_right", 12)
+	margin.add_theme_constant_override("margin_bottom", 12)
+	_panel.add_child(margin)
+
+	_content = VBoxContainer.new()
+	_content.add_theme_constant_override("separation", 8)
+	margin.add_child(_content)
 
 
-func _build_label(text: String, pos: Vector2) -> Label:
+func _refresh_controls() -> void:
+	for child in _content.get_children():
+		child.queue_free()
+	_add_heading(HEADING_TEXT)
+	_add_status_line("Scene", _current_scene_name())
+	_add_status_line("Room", _current_room_name())
+
+
+# --- content helpers ---
+
+func _add_heading(text: String) -> void:
 	var label := Label.new()
 	label.text = text
-	label.position = pos
-	label.z_index = OVERLAY_Z
-	label.modulate.a = LABEL_ALPHA
-	label.add_theme_color_override("font_color", Color(1, 1, 1, 1))
-	label.add_theme_color_override("font_outline_color", Color(0, 0, 0, 0.85))
-	label.add_theme_constant_override("outline_size", OUTLINE_SIZE)
-	return label
+	label.custom_minimum_size = Vector2(0.0, HEADING_HEIGHT)
+	label.add_theme_font_size_override("font_size", 22)
+	label.add_theme_color_override("font_color", Color(0.97, 0.94, 0.82, 0.98))
+	label.add_theme_color_override("font_outline_color", Color(0.05, 0.03, 0.02, 0.98))
+	label.add_theme_constant_override("outline_size", 3)
+	label.horizontal_alignment = HORIZONTAL_ALIGNMENT_LEFT
+	_content.add_child(label)
 
 
-func _refresh_status() -> void:
-	if _scene_label == null or not is_instance_valid(_scene_label):
-		return
-	var scene := get_tree().current_scene
-	_scene_label.text = SCENE_PREFIX + (scene.name if scene != null else "<none>")
-	_room_label.text = ROOM_PREFIX + _current_room_name()
+func _add_status_line(label_text: String, value: String) -> void:
+	var label := Label.new()
+	label.text = "%s: %s" % [label_text, value]
+	label.custom_minimum_size = Vector2(0.0, STATUS_HEIGHT)
+	label.add_theme_font_size_override("font_size", 16)
+	label.add_theme_color_override("font_color", Color(0.9, 0.9, 0.85, 0.95))
+	label.add_theme_color_override("font_outline_color", Color(0.05, 0.03, 0.02, 0.98))
+	label.add_theme_constant_override("outline_size", 2)
+	label.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+	_content.add_child(label)
+
+
+# --- state probes ---
+
+func _current_scene_name() -> String:
+	var tree := get_tree()
+	if tree == null or tree.current_scene == null:
+		return "<none>"
+	return String(tree.current_scene.name)
 
 
 func _current_room_name() -> String:
-	# poki-soweli's overworld uses a FieldManager / Overworld singleton.
-	# Probe by name — fall back to "<none>" if the tree hasn't booted
-	# the overworld yet (title screen, settings, etc).
 	var tree := get_tree()
-	if tree == null:
+	if tree == null or tree.root == null:
 		return "<none>"
-	var overworld := tree.root.find_child("Overworld", true, false)
+	var overworld := _find_node_by_name(tree.root, "Overworld")
 	if overworld == null:
 		return "<none>"
 	if overworld.has_method("get_current_room_name"):
 		return str(overworld.call("get_current_room_name"))
-	if overworld.has_method("current_room"):
-		var room = overworld.call("current_room")
-		if room != null and "name" in room:
-			return String(room.name)
 	return "<none>"
 
 
-func _refresh_world_labels() -> void:
-	# Clear labels whose node is gone or no longer visible.
-	for path in _world_labels.keys():
-		var label: Label = _world_labels[path]
-		var node := get_node_or_null(path)
-		if node == null or not is_instance_valid(label):
-			if is_instance_valid(label):
-				label.queue_free()
-			_world_labels.erase(path)
-
-	var scene := get_tree().current_scene
-	if scene == null:
-		return
-	var cam := _active_camera_2d(scene)
-	if cam == null:
-		return
-
-	for node in _collect_tagged(scene):
-		var id := _extract_id(node)
-		if id.is_empty():
-			continue
-		var path := String(node.get_path())
-		var screen_pos_v: Variant = _world_to_screen(node, cam)
-		if screen_pos_v == null:
-			continue
-		var screen_pos: Vector2 = screen_pos_v
-		var label: Label
-		if _world_labels.has(path):
-			label = _world_labels[path]
-		else:
-			label = _build_label(id, screen_pos)
-			_world_labels[path] = label
-			get_tree().root.add_child(label)
-		label.text = id
-		label.position = screen_pos - Vector2(40, 8)
-
-
-func _collect_tagged(root: Node) -> Array[Node]:
-	var out: Array[Node] = []
-	_walk_tagged(root, out)
-	return out
-
-
-func _walk_tagged(node: Node, out: Array[Node]) -> void:
-	if node.has_meta("maestro_id"):
-		out.append(node)
-	for child in node.get_children():
-		_walk_tagged(child, out)
-
-
-func _extract_id(node: Node) -> String:
-	var raw = node.get_meta("maestro_id", "")
-	return String(raw).strip_edges()
-
-
-func _active_camera_2d(scene: Node) -> Camera2D:
-	# Prefer the scene's current Camera2D; fall back to any enabled camera.
-	var stack: Array[Node] = [scene]
+func _find_node_by_name(root: Node, target: String) -> Node:
+	var stack: Array[Node] = [root]
 	while not stack.is_empty():
-		var n: Node = stack.pop_back()
-		if n is Camera2D and (n as Camera2D).enabled:
-			return n
-		for child in n.get_children():
-			stack.append(child)
-	return null
-
-
-func _world_to_screen(node: Node, cam: Camera2D) -> Variant:
-	if node is Node2D:
-		var world_pos: Vector2 = (node as Node2D).global_position
-		# Camera2D in Godot 4 applies viewport transform; the simplest
-		# correct path is the canvas transform composed with the camera
-		# viewport transform.
-		var vp := cam.get_viewport()
-		if vp == null:
-			return null
-		var screen_pos: Vector2 = (vp.get_canvas_transform() * world_pos)
-		return screen_pos
-	if node is Control:
-		return (node as Control).global_position
+		var node: Node = stack.pop_back()
+		if node.name == target:
+			return node
+		stack.append_array(node.get_children())
 	return null
