@@ -23,6 +23,8 @@ const dictionary = [
   { tp: 'lete', en: 'cold', type: 'root' },
   { tp: 'sona', en: 'know, knowledge', type: 'root' },
   { tp: 'ilo', en: 'tool, device', type: 'root' },
+  { tp: 'awen', en: 'stay, wait, remain, endure', type: 'root' },
+  { tp: 'lape', en: 'sleep, rest', type: 'root' },
   { tp: 'li', en: '[verb marker]', type: 'particle' },
   { tp: 'e', en: '[object marker]', type: 'particle' }
 ];
@@ -182,13 +184,10 @@ export default function App() {
   // --- Game Logic ---
 
   const getDistractors = (targetWords, count) => {
-    const distractors = [];
-    const pool = dictionary.filter(w => !targetWords.includes(w.tp));
+    const targetSet = new Set(targetWords);
+    const pool = dictionary.filter(w => !targetSet.has(w.tp));
     const shuffledPool = [...pool].sort(() => 0.5 - Math.random());
-    for (let i = 0; i < count; i++) {
-      if (shuffledPool[i]) distractors.push(shuffledPool[i].tp);
-    }
-    return distractors;
+    return shuffledPool.slice(0, count).map(w => w.tp);
   };
 
   const loadChallenge = (index) => {
