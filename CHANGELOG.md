@@ -1,5 +1,17 @@
 # Changelog
 
+## [0.1.3](https://github.com/arcade-cabinet/poki-soweli/compare/poki-soweli-v0.1.2...poki-soweli-v0.1.3) (2026-04-19)
+
+
+### Features
+
+* jan lawa set-pieces + credits scene + combat kili — US-029/041/051 ([#56](https://github.com/arcade-cabinet/poki-soweli/issues/56)) ([7f97167](https://github.com/arcade-cabinet/poki-soweli/commit/7f971679c2b86b1936972a0bbeac5e3c15ceddd6))
+
+
+### Bug Fixes
+
+* **ci,android,web:** sign APKs with ad-hoc keystore, two-pass import, asset naming, canvas sizing ([#58](https://github.com/arcade-cabinet/poki-soweli/issues/58)) ([d566d0e](https://github.com/arcade-cabinet/poki-soweli/commit/d566d0ea068b32b7838e4a1e6ad315e94a52def2))
+
 ## [0.1.2](https://github.com/arcade-cabinet/poki-soweli/compare/poki-soweli-v0.1.1...poki-soweli-v0.1.2) (2026-04-19)
 
 
