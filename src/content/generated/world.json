@@ -121,7 +121,7 @@
       ],
       "catch_rate": 0.35,
       "xp_yield": 72,
-      "sprite_frame": 104
+      "sprite_frame": 127
     },
     {
       "id": "kala_telo",
@@ -421,7 +421,7 @@
       ],
       "catch_rate": 0.4,
       "xp_yield": 60,
-      "sprite_frame": 110
+      "sprite_frame": 111
     },
     {
       "id": "waso_lili",
@@ -1825,7 +1825,12 @@
               "mood": "excited",
               "glyph": "utala"
             }
-          ]
+          ],
+          "triggers": {
+            "set_flag": {
+              "badge_telo": true
+            }
+          }
         },
         {
           "id": "jan_suli_victory",
@@ -1851,12 +1856,7 @@
               "mood": "happy",
               "glyph": "telo"
             }
-          ],
-          "triggers": {
-            "set_flag": {
-              "badge_telo": true
-            }
-          }
+          ]
         },
         {
           "id": "jan_moku_flavor",

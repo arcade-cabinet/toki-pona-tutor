@@ -175,7 +175,10 @@
         { "text": { "en": "Are you strong?" }, "mood": "thinking", "glyph": "wawa" },
         { "text": { "en": "We live near the lake." }, "mood": "thinking", "glyph": "telo" },
         { "text": { "en": "Let's attack." }, "mood": "excited", "glyph": "utala" }
-      ]
+      ],
+      "triggers": {
+        "set_flag": { "badge_telo": true }
+      }
     },
     {
       "id": "jan_suli_victory",
@@ -185,10 +188,7 @@
       "beats": [
         { "text": { "en": "You are so strong." }, "mood": "happy", "glyph": "wawa" },
         { "text": { "en": "Water is good." }, "mood": "happy", "glyph": "telo" }
-      ],
-      "triggers": {
-        "set_flag": { "badge_telo": true }
-      }
+      ]
     },
     {
       "id": "jan_moku_flavor",
