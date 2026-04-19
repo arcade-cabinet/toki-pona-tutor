@@ -46,7 +46,7 @@ jobs:
         run: |
           if [ -d test ]; then
             # gdUnit4 CLI runs all tests under test/ by convention.
-            timeout 300 godot --headless --path . -s addons/gdUnit4/bin/GdUnitCmdTool.gd -a test/
+            timeout 300 godot --headless --path . -s addons/gdUnit4/bin/GdUnitCmdTool.gd --ignoreHeadlessMode -a test/
           else
             echo "test/ not yet present — skipping (placeholder)"
           fi
