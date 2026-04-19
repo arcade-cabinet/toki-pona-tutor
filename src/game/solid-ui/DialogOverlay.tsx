@@ -174,10 +174,10 @@ export function DialogOverlay() {
               <Show when={currentBeat()?.glyph}>
                 <div class="flex flex-col items-center gap-1 py-2 rounded-xl bg-emerald-50 border-2 border-dashed border-emerald-300">
                   <span class="font-sitelen text-5xl text-emerald-800 leading-none">
-                    {sitelenFor(currentBeat()!.glyph!)}
+                    {sitelenFor(currentBeat()?.glyph ?? '')}
                   </span>
                   <span class="font-tile text-xs text-emerald-900">
-                    {currentBeat()!.glyph}
+                    {currentBeat()?.glyph ?? ''}
                   </span>
                 </div>
               </Show>
@@ -196,9 +196,9 @@ export function DialogOverlay() {
                   {currentBeat()?.text.en}
                 </div>
               </Show>
-              <Show when={node()!.beats.length > 1}>
+              <Show when={(node()?.beats.length ?? 0) > 1}>
                 <div class="text-[10px] text-center text-amber-700/60 font-display uppercase tracking-widest">
-                  {beatIndex() + 1} / {node()!.beats.length}
+                  {beatIndex() + 1} / {node()?.beats.length ?? 1}
                 </div>
               </Show>
               <div class="flex gap-2 pt-1 items-center">

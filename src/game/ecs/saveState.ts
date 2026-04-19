@@ -94,7 +94,11 @@ function commit() {
   for (const fn of listeners) fn();
 }
 
-export function getSave(): SaveState {
+/**
+ * Return a readonly view of the current save. Mutations must go through
+ * the exported helpers below so localStorage + subscribers stay in sync.
+ */
+export function getSave(): Readonly<SaveState> {
   return state;
 }
 

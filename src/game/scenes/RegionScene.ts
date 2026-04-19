@@ -103,9 +103,11 @@ export class RegionScene extends Phaser.Scene {
     this.registerWarps(region);
 
     // Player — spawn at saved tile if this is a re-enter, else at region.spawn.
+    // Fall back to (0, 0) if a malformed world.json region omits the spawn;
+    // malformed content is a schema-validation bug, but we survive it here.
     const spawnTile = save.current_region_id === region.id && save.player_tile
       ? save.player_tile
-      : region.spawn;
+      : region.spawn ?? { x: 0, y: 0 };
     const px = spawnTile.x * TILE + TILE / 2;
     const py = spawnTile.y * TILE + TILE / 2;
     this.player = this.physics.add.sprite(px, py, 'dungeon', 85 /* villager yellow */);
@@ -211,7 +213,13 @@ export class RegionScene extends Phaser.Scene {
   }
 
   private setupControls() {
-    const kb = this.input.keyboard!;
+    // In some Phaser configs / test envs `this.input.keyboard` is null —
+    // bail cleanly instead of trusting the non-null assertion.
+    const kb = this.input.keyboard;
+    if (!kb) {
+      console.error('[RegionScene] keyboard input not available; controls disabled');
+      return;
+    }
     this.cursors = kb.createCursorKeys();
     this.wasd = {
       W: kb.addKey(Phaser.Input.Keyboard.KeyCodes.W),
@@ -298,11 +306,14 @@ export class RegionScene extends Phaser.Scene {
     if (ty < 0 || ty >= this.grassMap.length) return;
     if (tx < 0 || tx >= this.grassMap[ty].length) return;
     if (!this.grassMap[ty][tx]) return;
-    // ~8% chance per tile step (checked every frame while moving, but
-    // gated by a 300ms per-step cooldown so rolls happen per tile-cross).
+    // ~8% chance per tile step. On a hit we set a long cooldown (post-combat
+    // grace), on a miss a short per-step one so rolls happen tile-by-tile.
     if (Math.random() < 0.08) {
-      this.encounterCooldownMs = 300;
       const total = this.region.encounters.reduce((n, e) => n + e.weight, 0);
+      if (total <= 0) {
+        this.encounterCooldownMs = 300;
+        return;
+      }
       let roll = Math.random() * total;
       for (const e of this.region.encounters) {
         roll -= e.weight;
@@ -313,9 +324,8 @@ export class RegionScene extends Phaser.Scene {
           return;
         }
       }
-    } else {
-      this.encounterCooldownMs = 300;
     }
+    this.encounterCooldownMs = 300;
   }
 
   update(_time: number, delta: number) {

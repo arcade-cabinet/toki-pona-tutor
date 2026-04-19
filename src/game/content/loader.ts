@@ -85,6 +85,8 @@ export function selectDialog(
   });
 
   if (matches.length === 0) return null;
-  matches.sort((a, b) => b.priority - a.priority);
+  // priority is defaulted to 0 by the Zod schema, but guard here too in case
+  // generated/world.json was produced by an older build.
+  matches.sort((a, b) => (b.priority ?? 0) - (a.priority ?? 0));
   return matches[0];
 }
