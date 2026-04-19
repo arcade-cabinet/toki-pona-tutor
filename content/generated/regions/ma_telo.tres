@@ -1,0 +1,270 @@
+[gd_resource type="Resource" script_class="RegionResource" format=3]
+
+[ext_resource type="Script" path="res://schema/dialog_resource.gd" id="1_he5ci"]
+[ext_resource type="Script" path="res://schema/npc_resource.gd" id="2_hm0ny"]
+[ext_resource type="Script" path="res://schema/region_resource.gd" id="3_8y2w3"]
+
+[sub_resource type="Resource" id="Resource_sayap"]
+script = ExtResource("1_he5ci")
+id = "jan_kala_intro"
+npc_id = "jan_kala"
+when_flags = {
+"jan_kala_helped": false
+}
+priority = 10
+beats = [{
+"glyph": "pilin",
+"mood": "sad",
+"text": {
+"en": "I'm sad like you.",
+"tp": "mi pilin ike sama sina."
+}
+}, {
+"glyph": "weka",
+"mood": "sad",
+"text": {
+"en": "I have lost my key.",
+"tp": "ilo open mi li weka."
+}
+}, {
+"glyph": "telo",
+"mood": "thinking",
+"text": {
+"en": "I dove into the lake.",
+"tp": "mi tawa insa telo."
+}
+}, {
+"glyph": "kala",
+"mood": "thinking",
+"text": {
+"en": "Who caught this fish?",
+"tp": "jan seme li alasa e kala ni?"
+}
+}]
+trigger_set_flags = {
+"jan_kala_helped": true
+}
+
+[sub_resource type="Resource" id="Resource_aa8dd"]
+script = ExtResource("1_he5ci")
+id = "jan_kala_idle"
+npc_id = "jan_kala"
+when_flags = {
+"jan_kala_helped": true
+}
+priority = 1
+beats = [{
+"glyph": "kala",
+"mood": "thinking",
+"text": {
+"en": "The fish swam in the lake.",
+"tp": "kala li tawa lon telo suli."
+}
+}]
+
+[sub_resource type="Resource" id="Resource_utuba"]
+script = ExtResource("1_he5ci")
+id = "jan_suli_prebattle"
+npc_id = "jan_suli"
+when_flags = {
+"badge_telo": false
+}
+priority = 10
+beats = [{
+"glyph": "wawa",
+"mood": "thinking",
+"text": {
+"en": "Are you strong?",
+"tp": "sina wawa ala wawa?"
+}
+}, {
+"glyph": "telo",
+"mood": "thinking",
+"text": {
+"en": "We live near the lake.",
+"tp": "mi awen lon poka pi telo suli."
+}
+}, {
+"glyph": "utala",
+"mood": "excited",
+"text": {
+"en": "Let's attack.",
+"tp": "mi mute o utala."
+}
+}]
+trigger_set_flags = {
+"badge_telo": true
+}
+
+[sub_resource type="Resource" id="Resource_b5yqd"]
+script = ExtResource("1_he5ci")
+id = "jan_suli_victory"
+npc_id = "jan_suli"
+when_flags = {
+"badge_telo": true
+}
+priority = 5
+beats = [{
+"glyph": "wawa",
+"mood": "happy",
+"text": {
+"en": "You are so strong.",
+"tp": "sina wawa a."
+}
+}, {
+"glyph": "telo",
+"mood": "happy",
+"text": {
+"en": "Water is good.",
+"tp": "telo li pona."
+}
+}]
+
+[sub_resource type="Resource" id="Resource_gnjad"]
+script = ExtResource("1_he5ci")
+id = "jan_moku_flavor"
+npc_id = "jan_moku"
+beats = [{
+"glyph": "kala",
+"mood": "happy",
+"text": {
+"en": "Tom buys fish.",
+"tp": "jan Ton li esun e kala."
+}
+}]
+
+[sub_resource type="Resource" id="Resource_l3vcj"]
+script = ExtResource("1_he5ci")
+id = "plaza_narration"
+beats = [{
+"glyph": "telo",
+"mood": "thinking",
+"text": {
+"en": "We live near the lake.",
+"tp": "mi awen lon poka pi telo suli."
+}
+}]
+
+[sub_resource type="Resource" id="Resource_wwcrn"]
+script = ExtResource("2_hm0ny")
+id = "jan_kala"
+name_tp = "jan Kala"
+name_en = "jan Kala"
+role = "quest_giver"
+personality = "a fisher sitting at the lake's edge, quietly distressed; lost something precious in the water and hopes the player will hear him out."
+tile = Vector2i(6, 6)
+sprite_frame = 86
+greeting_text_en = "I'm sad like you."
+greeting_text_tp = "mi pilin ike sama sina."
+greeting_mood = "sad"
+
+[sub_resource type="Resource" id="Resource_083kj"]
+script = ExtResource("2_hm0ny")
+id = "jan_suli"
+name_tp = "jan Suli"
+name_en = "jan Suli"
+role = "jan_lawa"
+personality = "the lake village's master; imposing but fair. Stands at the south plaza blocking the path to the deeper route until her trial is cleared."
+tile = Vector2i(11, 11)
+sprite_frame = 96
+greeting_text_en = "Are you strong?"
+greeting_text_tp = "sina wawa ala wawa?"
+team = [{
+"level": 10.0,
+"moves": ["telo_lili", "utala", "telo_wawa"],
+"species_id": "kala_suli"
+}, {
+"level": 12.0,
+"moves": ["kasi_lili", "utala", "kasi_wawa"],
+"species_id": "kasi_pona"
+}]
+reward_word = "telo"
+
+[sub_resource type="Resource" id="Resource_ugo86"]
+script = ExtResource("2_hm0ny")
+id = "jan_moku"
+name_tp = "jan Moku"
+name_en = "jan Moku"
+role = "shopkeeper"
+personality = "runs a lakeside stall selling dried fish. Unhurried, content, fond of repeating herself."
+tile = Vector2i(17, 5)
+sprite_frame = 88
+greeting_text_en = "Tom buys fish."
+greeting_text_tp = "jan Ton li esun e kala."
+greeting_mood = "happy"
+
+[resource]
+script = ExtResource("3_8y2w3")
+id = "ma_telo"
+name_tp = "ma telo"
+name_en = "The Lake Village"
+description_en = "We live near the lake."
+description_tp = "mi awen lon poka pi telo suli."
+width = 22
+height = 16
+sky_color = "#5ba7d8"
+layers = [{
+"depth": 0.0,
+"name": "ground",
+"solid_keys": [],
+"tiles": [["grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "path", "path", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass"], ["grass", "grass", "grass", "grass", "grass", "grass", "grass", "stone", "stone", "stone", "path", "path", "stone", "stone", "stone", "grass", "grass", "grass", "grass", "grass", "grass", "grass"], ["grass", "grass", "grass", "grass", "grass", "grass", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "grass", "grass", "grass", "grass", "grass", "grass"], ["grass", "grass", "grass", "grass", "grass", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "grass", "grass", "grass", "grass", "grass"], ["grass", "grass", "grass", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "grass", "grass", "grass", "grass"], ["grass", "grass", "grass", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "grass", "grass", "grass"], ["grass", "grass", "grass", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "grass", "grass", "grass"], ["path", "path", "path", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "grass", "grass", "grass"], ["path", "path", "path", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "grass", "grass", "grass"], ["grass", "grass", "grass", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "grass", "grass", "grass"], ["grass", "grass", "grass", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "grass", "grass", "grass"], ["grass", "grass", "grass", "grass", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "grass", "grass", "grass", "grass"], ["grass", "grass", "grass", "grass", "grass", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "grass", "grass", "grass", "grass", "grass"], ["grass", "grass", "grass", "grass", "grass", "grass", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "grass", "grass", "grass", "grass", "grass", "grass"], ["grass", "grass", "grass", "grass", "grass", "grass", "grass", "stone", "stone", "stone", "path", "path", "stone", "stone", "stone", "grass", "grass", "grass", "grass", "grass", "grass", "grass"], ["grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "path", "path", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass"]]
+}, {
+"depth": 1.0,
+"name": "objects",
+"solid_keys": ["tree_g", "tree_y", "bush", "house_b", "house_r", "sign"],
+"tiles": [["tree_g", "tree_g", "tree_g", "tree_g", "tree_g", "tree_g", "tree_g", "tree_g", "tree_g", "tree_g", null, null, "tree_g", "tree_g", "tree_g", "tree_g", "tree_g", "tree_g", "tree_g", "tree_g", "tree_g", "tree_g"], ["tree_g", null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, "tree_g"], ["tree_g", null, "house_b", null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, "house_r", null, null, "tree_g"], ["tree_g", null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, "tree_g"], ["tree_g", null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, "tree_g"], ["tree_g", null, "bush", null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, "bush", null, "tree_g"], ["tree_g", null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, "tree_g"], [null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, "tree_g"], [null, null, null, "sign", null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, "tree_g"], ["tree_g", null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, "tree_g"], ["tree_g", null, null, null, null, null, null, null, null, "sign", null, null, null, null, null, null, null, null, null, "house_b", null, "tree_g"], ["tree_g", null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, "tree_g"], ["tree_g", null, "house_r", null, null, null, null, null, null, null, null, null, "sign", null, null, null, null, null, null, null, null, "tree_g"], ["tree_g", null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, "tree_g"], ["tree_g", null, null, null, null, null, "bush", null, null, null, null, null, null, null, null, "bush", null, null, null, null, null, "tree_g"], ["tree_g", "tree_g", "tree_g", "tree_g", "tree_g", "tree_g", "tree_g", "tree_g", "tree_g", "tree_g", null, null, "tree_g", "tree_g", "tree_g", "tree_g", "tree_g", "tree_g", "tree_g", "tree_g", "tree_g", "tree_g"]]
+}]
+npcs = Array[ExtResource("2_hm0ny")]([SubResource("Resource_wwcrn"), SubResource("Resource_083kj"), SubResource("Resource_ugo86")])
+signs = [{
+"id": "sign_lake",
+"text": {
+"en": "telo"
+},
+"tile": {
+"x": 9.0,
+"y": 10.0
+}
+}, {
+"id": "sign_gym",
+"text": {
+"en": "suli"
+},
+"tile": {
+"x": 12.0,
+"y": 12.0
+}
+}, {
+"id": "sign_entrance",
+"text": {
+"en": "ma"
+},
+"tile": {
+"x": 3.0,
+"y": 8.0
+}
+}]
+warps = [{
+"id": "warp_north",
+"tile": {
+"x": 10.0,
+"y": 0.0
+},
+"to_region": "nena_sewi",
+"to_tile": {
+"x": 8.0,
+"y": 18.0
+}
+}, {
+"id": "warp_south",
+"tile": {
+"x": 10.0,
+"y": 15.0
+},
+"to_region": "nasin_pi_telo",
+"to_tile": {
+"x": 1.0,
+"y": 5.0
+}
+}]
+dialog = Array[ExtResource("1_he5ci")]([SubResource("Resource_sayap"), SubResource("Resource_aa8dd"), SubResource("Resource_utuba"), SubResource("Resource_b5yqd"), SubResource("Resource_gnjad"), SubResource("Resource_l3vcj")])
+spawn = Vector2i(3, 8)

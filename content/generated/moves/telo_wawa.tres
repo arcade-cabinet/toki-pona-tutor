@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="MoveResource" format=3]
+
+[ext_resource type="Script" path="res://schema/move_resource.gd" id="1_3g751"]
+
+[resource]
+script = ExtResource("1_3g751")
+id = "telo_wawa"
+name_tp = "wave"
+name_en = "wave"
+description_en = "Water is good."
+description_tp = "telo li pona."
+type = "telo"
+power = 70
+accuracy = 95
+pp = 10

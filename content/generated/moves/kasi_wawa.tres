@@ -1,0 +1,15 @@
+[gd_resource type="Resource" script_class="MoveResource" format=3]
+
+[ext_resource type="Script" path="res://schema/move_resource.gd" id="1_abfas"]
+
+[resource]
+script = ExtResource("1_abfas")
+id = "kasi_wawa"
+name_tp = "bloom"
+name_en = "bloom"
+description_en = "The tree falls."
+description_tp = "kasi suli li kama anpa."
+type = "kasi"
+power = 70
+accuracy = 95
+pp = 10

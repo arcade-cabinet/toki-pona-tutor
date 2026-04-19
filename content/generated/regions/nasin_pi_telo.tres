@@ -1,0 +1,269 @@
+[gd_resource type="Resource" script_class="RegionResource" format=3]
+
+[ext_resource type="Script" path="res://schema/dialog_resource.gd" id="1_ik0r5"]
+[ext_resource type="Script" path="res://schema/npc_resource.gd" id="2_1cdxu"]
+[ext_resource type="Script" path="res://schema/region_resource.gd" id="3_72py1"]
+
+[sub_resource type="Resource" id="Resource_wks3f"]
+script = ExtResource("1_ik0r5")
+id = "jan_kala_suli_prebattle"
+npc_id = "jan_kala_suli"
+when_flags = {
+"jan_kala_suli_beaten": false
+}
+priority = 10
+beats = [{
+"glyph": "kala",
+"mood": "thinking",
+"text": {
+"en": "I like to fish in the river.",
+"tp": "mi alasa e kala lon nasin telo. ni li pona tawa mi."
+}
+}, {
+"glyph": "telo",
+"mood": "thinking",
+"text": {
+"en": "Tom swam in the river.",
+"tp": "jan Ton li tawa lon telo tawa."
+}
+}, {
+"glyph": "wawa",
+"mood": "excited",
+"text": {
+"en": "Are you strong?",
+"tp": "sina wawa ala wawa?"
+}
+}, {
+"glyph": "utala",
+"mood": "excited",
+"text": {
+"en": "Let's attack.",
+"tp": "mi mute o utala."
+}
+}]
+trigger_set_flags = {
+"jan_kala_suli_beaten": true
+}
+
+[sub_resource type="Resource" id="Resource_8omgd"]
+script = ExtResource("1_ik0r5")
+id = "jan_kala_suli_postbattle"
+npc_id = "jan_kala_suli"
+when_flags = {
+"jan_kala_suli_beaten": true
+}
+priority = 5
+beats = [{
+"glyph": "wawa",
+"mood": "happy",
+"text": {
+"en": "You are so strong.",
+"tp": "sina wawa a."
+}
+}, {
+"glyph": "telo",
+"mood": "happy",
+"text": {
+"en": "Water is good.",
+"tp": "telo li pona."
+}
+}]
+
+[sub_resource type="Resource" id="Resource_4vsmu"]
+script = ExtResource("1_ik0r5")
+id = "jan_kala_lili_flavor"
+npc_id = "jan_kala_lili"
+beats = [{
+"glyph": "kala",
+"mood": "happy",
+"text": {
+"en": "Who caught this fish?",
+"tp": "jan seme li alasa e kala ni?"
+}
+}]
+
+[sub_resource type="Resource" id="Resource_sn1s8"]
+script = ExtResource("1_ik0r5")
+id = "jan_moku_pona_flavor"
+npc_id = "jan_moku_pona"
+beats = [{
+"glyph": "moku",
+"mood": "happy",
+"text": {
+"en": "Tom sells fish.",
+"tp": "jan Ton li pana esun e kala."
+}
+}]
+
+[sub_resource type="Resource" id="Resource_noxvh"]
+script = ExtResource("1_ik0r5")
+id = "jan_olin_telo_flavor"
+npc_id = "jan_olin_telo"
+beats = [{
+"glyph": "telo",
+"mood": "thinking",
+"text": {
+"en": "The river is wide.",
+"tp": "nasin telo li suli."
+}
+}]
+
+[sub_resource type="Resource" id="Resource_4ca82"]
+script = ExtResource("2_1cdxu")
+id = "jan_kala_suli"
+name_tp = "jan Kala Suli"
+name_en = "jan Kala Suli"
+role = "jan_lawa"
+personality = "a veteran fisher who has walked this riverside path for decades. No badge to give — just offers a tough fight for experience and a chance to test your skills."
+tile = Vector2i(18, 5)
+sprite_frame = 90
+greeting_text_en = "I like to fish in the river."
+greeting_text_tp = "mi alasa e kala lon nasin telo. ni li pona tawa mi."
+team = [{
+"level": 10.0,
+"moves": ["telo_lili", "utala", "telo_wawa"],
+"species_id": "kala_suli"
+}, {
+"level": 11.0,
+"moves": ["telo_lili", "utala", "telo_pini"],
+"species_id": "kala_telo"
+}]
+
+[sub_resource type="Resource" id="Resource_wtrg4"]
+script = ExtResource("2_1cdxu")
+id = "jan_kala_lili"
+name_tp = "jan Kala Lili"
+name_en = "jan Kala Lili"
+personality = "a kid with a small net, sitting by the riverbank watching the water. Not a trainer — just a cheerful bystander."
+tile = Vector2i(8, 7)
+sprite_frame = 84
+greeting_text_en = "Who caught this fish?"
+greeting_text_tp = "jan seme li alasa e kala ni?"
+greeting_mood = "happy"
+
+[sub_resource type="Resource" id="Resource_acuq6"]
+script = ExtResource("2_1cdxu")
+id = "jan_moku_pona"
+name_tp = "jan Moku Pona"
+name_en = "jan Moku Pona"
+role = "shopkeeper"
+personality = "a friendly merchant selling grilled river fish from a small cart. Always in a good mood, smells like smoke."
+tile = Vector2i(4, 3)
+sprite_frame = 88
+greeting_text_en = "Tom sells fish."
+greeting_text_tp = "jan Ton li pana esun e kala."
+greeting_mood = "happy"
+
+[sub_resource type="Resource" id="Resource_hs8rf"]
+script = ExtResource("2_1cdxu")
+id = "jan_olin_telo"
+name_tp = "jan Olin Telo"
+name_en = "jan Olin Telo"
+personality = "a contemplative person sitting at the river's edge, watching the current drift by. Speaks quietly and loves the sound of water."
+tile = Vector2i(14, 9)
+sprite_frame = 86
+greeting_text_en = "The river is wide."
+greeting_text_tp = "nasin telo li suli."
+
+[resource]
+script = ExtResource("3_72py1")
+id = "nasin_pi_telo"
+name_tp = "nasin pi telo"
+name_en = "The Water Path"
+description_en = "The river is wide."
+description_tp = "nasin telo li suli."
+width = 32
+height = 12
+sky_color = "#7fb3c9"
+layers = [{
+"depth": 0.0,
+"name": "ground",
+"solid_keys": [],
+"tiles": [["g", "g", "g", "g", "g", "g", "g", "g", "g", "g", "g", "g", "g", "g", "g", "g", "g", "g", "g", "g", "g", "g", "water_shallow", "water", "water", "water", "water", "water", "water", "water", "water", "water_shallow"], ["g", "g", "tall_grass", "tall_grass", "g", "g", "tall_grass", "tall_grass", "g", "g", "tall_grass", "tall_grass", "g", "g", "tall_grass", "tall_grass", "g", "g", "tall_grass", "g", "g", "g", "water_shallow", "water", "water", "water", "water", "water", "water", "water", "water", "water_shallow"], ["g", "g", "tall_grass", "tall_grass", "g", "g", "tall_grass", "tall_grass", "g", "g", "tall_grass", "tall_grass", "g", "g", "tall_grass", "tall_grass", "g", "g", "tall_grass", "g", "g", "g", "water_shallow", "water", "water", "water", "water", "water_deep", "water_deep", "water_deep", "water", "water_shallow"], ["g", "g", "g", "g", "g", "g", "g", "g", "g", "g", "g", "g", "g", "g", "g", "g", "g", "g", "g", "g", "g", "g", "water_shallow", "water", "water", "water", "water_deep", "water_deep", "water_deep", "water", "water", "water_shallow"], ["g", "g", "tall_grass", "tall_grass", "tall_grass", "g", "g", "tall_grass", "tall_grass", "g", "g", "tall_grass", "tall_grass", "g", "g", "tall_grass", "tall_grass", "g", "g", "tall_grass", "g", "g", "water_shallow", "water", "water", "water_deep", "water_deep", "water_deep", "water", "water", "water", "water_shallow"], ["g", "g", "g", "g", "g", "g", "g", "g", "g", "g", "g", "g", "g", "g", "g", "g", "g", "g", "g", "g", "g", "g", "water_shallow", "water", "water", "water_deep", "water_deep", "water", "water", "water", "water", "water_shallow"], ["g", "g", "g", "g", "g", "g", "g", "g", "g", "g", "g", "g", "g", "g", "g", "g", "g", "g", "g", "g", "g", "g", "water_shallow", "water", "water", "water_deep", "water_deep", "water", "water", "water", "water", "water_shallow"], ["g", "g", "tall_grass", "tall_grass", "tall_grass", "g", "g", "tall_grass", "tall_grass", "g", "g", "tall_grass", "tall_grass", "g", "g", "tall_grass", "tall_grass", "g", "g", "tall_grass", "g", "g", "water_shallow", "water", "water", "water", "water_deep", "water_deep", "water", "water", "water", "water_shallow"], ["g", "g", "tall_grass", "tall_grass", "g", "g", "tall_grass", "tall_grass", "g", "g", "tall_grass", "tall_grass", "g", "g", "tall_grass", "tall_grass", "g", "g", "tall_grass", "g", "g", "g", "water_shallow", "water", "water", "water", "water", "water_deep", "water_deep", "water", "water", "water_shallow"], ["g", "g", "g", "g", "g", "g", "g", "g", "g", "g", "g", "g", "g", "g", "g", "g", "g", "g", "g", "g", "g", "g", "water_shallow", "water", "water", "water", "water", "water", "water", "water", "water", "water_shallow"], ["g", "g", "tall_grass", "tall_grass", "g", "g", "tall_grass", "tall_grass", "g", "g", "tall_grass", "tall_grass", "g", "g", "tall_grass", "tall_grass", "g", "g", "tall_grass", "g", "g", "g", "water_shallow", "water", "water", "water", "water", "water", "water", "water", "water", "water_shallow"], ["g", "g", "g", "g", "g", "g", "g", "g", "g", "g", "g", "g", "g", "g", "g", "g", "g", "g", "g", "g", "g", "g", "water_shallow", "water", "water", "water", "water", "water", "water", "water", "water", "water_shallow"]]
+}, {
+"depth": 1.0,
+"name": "objects",
+"solid_keys": ["tree_g", "bush", "sign", "water", "water_deep", "water_shallow"],
+"tiles": [["tree_g", null, null, null, null, "tree_g", null, null, null, null, "tree_g", null, null, null, null, "tree_g", null, null, null, null, "tree_g", null, null, null, null, null, null, null, null, null, null, null], [null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null], [null, null, null, null, null, null, null, null, null, "sign", null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null], [null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null], [null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null], [null, null, null, null, "sign", null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null], [null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null], [null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null], [null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, "sign", null, null, null, null, null, null, null, null, null, null, null, null, null, null, null], [null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null], ["tree_g", null, null, null, null, "tree_g", null, null, null, null, "tree_g", null, null, null, null, "tree_g", null, null, null, null, "tree_g", null, null, null, null, null, null, null, null, null, null, null], [null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null]]
+}]
+tall_grass_keys = ["tall_grass"]
+encounters = [{
+"max_level": 10.0,
+"min_level": 7.0,
+"species_id": "kala_lili",
+"weight": 0.3
+}, {
+"max_level": 11.0,
+"min_level": 8.0,
+"species_id": "kala_telo",
+"weight": 0.25
+}, {
+"max_level": 9.0,
+"min_level": 7.0,
+"species_id": "waso_telo",
+"weight": 0.2
+}, {
+"max_level": 11.0,
+"min_level": 8.0,
+"species_id": "soweli_telo",
+"weight": 0.15
+}, {
+"max_level": 13.0,
+"min_level": 10.0,
+"species_id": "kala_suli",
+"weight": 0.1
+}]
+npcs = Array[ExtResource("2_1cdxu")]([SubResource("Resource_4ca82"), SubResource("Resource_wtrg4"), SubResource("Resource_acuq6"), SubResource("Resource_hs8rf")])
+signs = [{
+"id": "sign_kala",
+"text": {
+"en": "kala"
+},
+"tile": {
+"x": 9.0,
+"y": 2.0
+}
+}, {
+"id": "sign_nasin",
+"text": {
+"en": "nasin"
+},
+"tile": {
+"x": 4.0,
+"y": 5.0
+}
+}, {
+"id": "sign_telo",
+"text": {
+"en": "telo"
+},
+"tile": {
+"x": 16.0,
+"y": 8.0
+}
+}]
+warps = [{
+"id": "warp_west",
+"tile": {
+"x": 0.0,
+"y": 5.0
+},
+"to_region": "ma_telo",
+"to_tile": {
+"x": 10.0,
+"y": 14.0
+}
+}, {
+"id": "warp_east",
+"tile": {
+"x": 21.0,
+"y": 5.0
+},
+"to_region": "ma_kala",
+"to_tile": {
+"x": 1.0,
+"y": 5.0
+}
+}]
+dialog = Array[ExtResource("1_ik0r5")]([SubResource("Resource_wks3f"), SubResource("Resource_8omgd"), SubResource("Resource_4vsmu"), SubResource("Resource_sn1s8"), SubResource("Resource_noxvh")])
+spawn = Vector2i(1, 5)

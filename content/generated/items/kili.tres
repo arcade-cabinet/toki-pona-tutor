@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="ItemResource" format=3]
+
+[ext_resource type="Script" path="res://schema/item_resource.gd" id="1_jmqr0"]
+
+[resource]
+script = ExtResource("1_jmqr0")
+id = "kili"
+name_tp = "kili"
+name_en = "kili"
+description_en = "Eat fruit."
+description_tp = "o moku e kili!"
+kind = "heal"
+power = 20.0
+sprite_frame = 64

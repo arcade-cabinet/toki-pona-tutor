@@ -1,0 +1,239 @@
+[gd_resource type="Resource" script_class="RegionResource" format=3]
+
+[ext_resource type="Script" path="res://schema/dialog_resource.gd" id="1_np16o"]
+[ext_resource type="Script" path="res://schema/npc_resource.gd" id="2_crld2"]
+[ext_resource type="Script" path="res://schema/region_resource.gd" id="3_0wlqx"]
+
+[sub_resource type="Resource" id="Resource_nhurn"]
+script = ExtResource("1_np16o")
+id = "jan_suli_challenge"
+npc_id = "jan_suli"
+when_flags = {
+"badge_suli": false
+}
+priority = 10
+beats = [{
+"glyph": "wawa",
+"mood": "thinking",
+"text": {
+"en": "Are you strong?",
+"tp": "sina wawa ala wawa?"
+}
+}, {
+"glyph": "nena",
+"mood": "thinking",
+"text": {
+"en": "The mountains are tall.",
+"tp": "nena suli li sewi."
+}
+}, {
+"glyph": "utala",
+"mood": "excited",
+"text": {
+"en": "I want to fight.",
+"tp": "mi wile utala."
+}
+}, {
+"glyph": "utala",
+"mood": "excited",
+"text": {
+"en": "Attack them.",
+"tp": "o utala e ona."
+}
+}]
+trigger_set_flags = {
+"badge_suli": true
+}
+
+[sub_resource type="Resource" id="Resource_8boqx"]
+script = ExtResource("1_np16o")
+id = "jan_suli_post_badge"
+npc_id = "jan_suli"
+when_flags = {
+"badge_suli": true
+}
+priority = 5
+beats = [{
+"glyph": "wawa",
+"mood": "happy",
+"text": {
+"en": "You are so strong.",
+"tp": "sina wawa a."
+}
+}, {
+"glyph": "nena",
+"mood": "thinking",
+"text": {
+"en": "The mountain is green.",
+"tp": "nena ma li laso kasi."
+}
+}]
+
+[sub_resource type="Resource" id="Resource_bhof5"]
+script = ExtResource("1_np16o")
+id = "jan_pi_kon_flavor"
+npc_id = "jan_pi_kon"
+beats = [{
+"glyph": "kon",
+"mood": "thinking",
+"text": {
+"en": "Tom sat alone on a rock.",
+"tp": "jan Ton li awen taso lon kiwen."
+}
+}, {
+"glyph": "kon",
+"mood": "thinking",
+"text": {
+"en": "The wind blows.",
+"tp": "kon li kon."
+}
+}]
+
+[sub_resource type="Resource" id="Resource_m05bt"]
+script = ExtResource("1_np16o")
+id = "jan_pi_nasin_flavor"
+npc_id = "jan_pi_nasin"
+beats = [{
+"glyph": "nasin",
+"mood": "sad",
+"text": {
+"en": "Where is the store?",
+"tp": "esun li lon seme?"
+}
+}, {
+"glyph": "nasin",
+"mood": "sad",
+"text": {
+"en": "I chose another path.",
+"tp": "mi kama wile e nasin ante."
+}
+}]
+
+[sub_resource type="Resource" id="Resource_we2xr"]
+script = ExtResource("2_crld2")
+id = "jan_suli"
+name_tp = "jan Suli"
+name_en = "jan Suli"
+role = "jan_lawa"
+personality = "stoic gym master of the great peak; weathered and wordless. Teaches suli on victory."
+tile = Vector2i(8, 5)
+sprite_frame = 96
+greeting_text_en = "Are you strong?"
+greeting_text_tp = "sina wawa ala wawa?"
+team = [{
+"level": 12.0,
+"moves": ["utala_lili", "wawa_waso", "kon_wawa"],
+"species_id": "waso_sewi"
+}, {
+"level": 14.0,
+"moves": ["utala", "lete_wawa", "lete_suli"],
+"species_id": "soweli_lete_suli"
+}]
+reward_word = "suli"
+
+[sub_resource type="Resource" id="Resource_ifo7s"]
+script = ExtResource("2_crld2")
+id = "jan_pi_kon"
+name_tp = "jan pi kon"
+name_en = "jan pi kon"
+personality = "a monk meditating on the peak; offers a quiet word about the wind."
+tile = Vector2i(3, 11)
+sprite_frame = 99
+greeting_text_en = "Tom sat alone on a rock."
+greeting_text_tp = "jan Ton li awen taso lon kiwen."
+
+[sub_resource type="Resource" id="Resource_1ffua"]
+script = ExtResource("2_crld2")
+id = "jan_pi_nasin"
+name_tp = "jan pi nasin"
+name_en = "jan pi nasin"
+personality = "a lost traveler unsure of the path; asks for directions down."
+tile = Vector2i(12, 18)
+sprite_frame = 100
+greeting_text_en = "Where is the store?"
+greeting_text_tp = "esun li lon seme?"
+greeting_mood = "sad"
+
+[resource]
+script = ExtResource("3_0wlqx")
+id = "nena_suli"
+name_tp = "nena suli"
+name_en = "The Great Peak"
+description_en = "The mountain is covered in snow."
+description_tp = "ko lete li lon nena."
+width = 16
+height = 24
+sky_color = "#4a5d70"
+layers = [{
+"depth": 0.0,
+"name": "ground",
+"solid_keys": [],
+"tiles": [["stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone"], ["stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone"], ["stone", "stone", "stone", "stone", "stone", "stone", "grass", "grass", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone"], ["stone", "stone", "stone", "stone", "stone", "stone", "grass", "grass", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone"], ["stone", "stone", "tall_grass", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "tall_grass", "stone", "stone", "stone", "stone", "stone"], ["stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone"], ["stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone"], ["stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone"], ["stone", "stone", "tall_grass", "tall_grass", "stone", "stone", "stone", "stone", "stone", "stone", "tall_grass", "tall_grass", "stone", "stone", "stone", "stone"], ["stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone"], ["stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone"], ["stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone"], ["stone", "tall_grass", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "tall_grass", "stone", "stone"], ["stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone"], ["stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone"], ["stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone"], ["stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone"], ["stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone"], ["stone", "stone", "stone", "tall_grass", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "tall_grass", "stone", "stone", "stone", "stone"], ["stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone"], ["stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone"], ["stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone"], ["stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone"], ["stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone"]]
+}, {
+"depth": 1.0,
+"name": "objects",
+"solid_keys": ["rock", "tree", "sign", "bush"],
+"tiles": [["rock", "rock", "rock", null, null, null, null, null, null, null, null, null, null, "rock", "rock", "rock"], ["rock", null, null, null, null, null, null, null, null, null, null, null, null, null, null, "rock"], [null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null], [null, null, null, "rock", null, null, "sign", null, null, null, null, "rock", null, null, null, null], [null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null], [null, null, null, null, "rock", null, null, null, null, null, null, "rock", null, null, null, null], [null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null], ["rock", null, null, null, null, null, null, null, null, null, null, null, null, null, null, "rock"], [null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null], [null, null, null, null, null, "rock", null, null, null, null, null, "rock", null, null, null, null], [null, "rock", null, null, null, null, null, null, null, null, null, null, null, "rock", null, null], [null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null], [null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null], [null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null], ["rock", null, null, null, null, null, null, null, null, null, null, null, null, null, null, "rock"], [null, null, null, "rock", null, null, null, null, null, null, null, null, "rock", null, null, null], [null, null, null, null, null, null, null, "sign", null, null, null, null, null, null, null, null], [null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null], [null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null], [null, null, "rock", null, null, null, null, null, null, null, null, null, "rock", null, null, null], [null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null], ["rock", null, null, null, null, null, null, null, null, null, null, null, null, null, null, "rock"], ["rock", null, null, null, null, null, null, null, null, null, null, null, null, null, null, "rock"], ["rock", "rock", "rock", "rock", "rock", null, null, null, null, null, null, "rock", "rock", "rock", "rock", "rock"]]
+}]
+tall_grass_keys = ["tall_grass"]
+encounters = [{
+"max_level": 14.0,
+"min_level": 10.0,
+"species_id": "waso_suli",
+"weight": 0.35
+}, {
+"max_level": 13.0,
+"min_level": 10.0,
+"species_id": "waso_sewi",
+"weight": 0.35
+}, {
+"max_level": 15.0,
+"min_level": 11.0,
+"species_id": "soweli_lete_suli",
+"weight": 0.3
+}]
+npcs = Array[ExtResource("2_crld2")]([SubResource("Resource_we2xr"), SubResource("Resource_ifo7s"), SubResource("Resource_1ffua")])
+signs = [{
+"id": "sign_foot",
+"text": {
+"en": "suli"
+},
+"tile": {
+"x": 6.0,
+"y": 3.0
+}
+}, {
+"id": "sign_gym",
+"text": {
+"en": "kon"
+},
+"tile": {
+"x": 7.0,
+"y": 16.0
+}
+}]
+warps = [{
+"id": "warp_south",
+"tile": {
+"x": 8.0,
+"y": 23.0
+},
+"to_region": "ma_lete",
+"to_tile": {
+"x": 16.0,
+"y": 0.0
+}
+}, {
+"id": "warp_north",
+"tile": {
+"x": 8.0,
+"y": 0.0
+},
+"to_region": "sike_mun",
+"to_tile": {
+"x": 8.0,
+"y": 14.0
+}
+}]
+dialog = Array[ExtResource("1_np16o")]([SubResource("Resource_nhurn"), SubResource("Resource_8boqx"), SubResource("Resource_bhof5"), SubResource("Resource_m05bt")])
+spawn = Vector2i(8, 22)

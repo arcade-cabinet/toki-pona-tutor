@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="MoveResource" format=3]
+
+[ext_resource type="Script" path="res://schema/move_resource.gd" id="1_h0amx"]
+
+[resource]
+script = ExtResource("1_h0amx")
+id = "utala"
+name_tp = "fight"
+name_en = "fight"
+description_en = "Attack them."
+description_tp = "o utala e ona."
+power = 50
+accuracy = 95
+pp = 20

@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="MoveResource" format=3]
+
+[ext_resource type="Script" path="res://schema/move_resource.gd" id="1_rh3xi"]
+
+[resource]
+script = ExtResource("1_rh3xi")
+id = "telo_lili"
+name_tp = "splash"
+name_en = "splash"
+description_en = "That's water."
+description_tp = "ni li telo."
+type = "telo"
+power = 25
+pp = 25

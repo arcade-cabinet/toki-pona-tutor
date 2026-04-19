@@ -34,15 +34,13 @@ jobs:
           fi
           echo "All scripts compile clean"
 
-      - name: Validate spine content (GDScript tool script)
+      - name: Validate spine content (writing rules + Tatoeba cache)
         run: |
-          # Placeholder — week 2 adds res://tools/validate_tp.gd and
-          # res://tools/build_spine.gd. Until then, this step is a no-op.
-          if [ -f tools/validate_tp.gd ]; then
-            timeout 120 godot --headless --path . --script res://tools/validate_tp.gd --offline
-          else
-            echo "tools/validate_tp.gd not yet present — skipping (week 2 deliverable)"
-          fi
+          timeout 120 godot --headless --path . --script res://tools/validate_tp.gd -- --offline
+
+      - name: Build generated resources (spine → .tres)
+        run: |
+          timeout 120 godot --headless --path . --script res://tools/build_spine.gd
 
       - name: Run gdUnit4 tests
         run: |

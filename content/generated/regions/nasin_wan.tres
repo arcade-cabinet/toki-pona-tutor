@@ -1,0 +1,119 @@
+[gd_resource type="Resource" script_class="RegionResource" format=3]
+
+[ext_resource type="Script" path="res://schema/dialog_resource.gd" id="1_o6k17"]
+[ext_resource type="Script" path="res://schema/npc_resource.gd" id="2_l8v5h"]
+[ext_resource type="Script" path="res://schema/region_resource.gd" id="3_yh5qm"]
+
+[sub_resource type="Resource" id="Resource_yj2pj"]
+script = ExtResource("1_o6k17")
+id = "jan_ike_challenge"
+npc_id = "jan_ike"
+priority = 5
+beats = [{
+"glyph": "wawa",
+"mood": "excited",
+"text": {
+"en": "Are you strong?",
+"tp": "sina wawa ala wawa?"
+}
+}, {
+"glyph": "utala",
+"mood": "excited",
+"text": {
+"en": "Let's attack.",
+"tp": "mi mute o utala."
+}
+}]
+
+[sub_resource type="Resource" id="Resource_715ff"]
+script = ExtResource("2_l8v5h")
+id = "jan_ike"
+name_tp = "jan Ike"
+name_en = "jan Ike"
+role = "rival"
+personality = "cocky rival — took a starter too; wants to prove he's stronger."
+tile = Vector2i(29, 5)
+sprite_frame = 98
+greeting_text_en = "Are you strong?"
+greeting_text_tp = "sina wawa ala wawa?"
+greeting_mood = "excited"
+team = [{
+"level": 5.0,
+"moves": ["utala_lili", "seli_lili"],
+"species_id": "soweli_seli"
+}]
+
+[resource]
+script = ExtResource("3_yh5qm")
+id = "nasin_wan"
+name_tp = "nasin wan"
+name_en = "first route"
+description_en = "The path was narrow."
+description_tp = "nasin li lili."
+width = 32
+height = 10
+layers = [{
+"depth": 0.0,
+"name": "ground",
+"solid_keys": [],
+"tiles": [["grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass"], ["grass", "grass", "grass", "grass", "tall_grass", "tall_grass", "tall_grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "tall_grass", "tall_grass", "tall_grass", "tall_grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass"], ["grass", "grass", "grass", "grass", "tall_grass", "tall_grass", "tall_grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "tall_grass", "tall_grass", "tall_grass", "tall_grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass"], ["grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass"], ["path", "path", "path", "path", "path", "path", "path", "path", "path", "path", "path", "path", "path", "path", "path", "path", "path", "path", "path", "path", "path", "path", "path", "path", "path", "path", "path", "path", "path", "path", "path", "path"], ["path", "path", "path", "path", "path", "path", "path", "path", "path", "path", "path", "path", "path", "path", "path", "path", "path", "path", "path", "path", "path", "path", "path", "path", "path", "path", "path", "path", "path", "path", "path", "path"], ["grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass"], ["grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "tall_grass", "tall_grass", "tall_grass", "tall_grass", "tall_grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass"], ["grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "tall_grass", "tall_grass", "tall_grass", "tall_grass", "tall_grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass"], ["grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass", "grass"]]
+}, {
+"depth": 1.0,
+"name": "objects",
+"solid_keys": ["tree", "sign"],
+"tiles": [["tree", null, null, "tree", null, null, null, null, "tree", null, null, null, null, null, null, "tree", null, null, null, null, null, null, "tree", null, null, null, "tree", null, null, null, null, "tree"], [null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null], [null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null], [null, null, null, null, null, null, null, "sign", null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null], [null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null], [null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null], [null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null], [null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null], [null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null], ["tree", "tree", null, null, "tree", null, null, null, null, "tree", null, null, null, null, "tree", null, null, null, null, "tree", null, null, null, null, "tree", null, null, null, "tree", null, "tree", "tree"]]
+}]
+tall_grass_keys = ["tall_grass"]
+encounters = [{
+"max_level": 5.0,
+"min_level": 3.0,
+"species_id": "pipi_kon",
+"weight": 0.5
+}, {
+"max_level": 7.0,
+"min_level": 5.0,
+"species_id": "akesi_ma",
+"weight": 0.3
+}, {
+"max_level": 6.0,
+"min_level": 3.0,
+"species_id": "kala_lili",
+"weight": 0.2
+}]
+npcs = Array[ExtResource("2_l8v5h")]([SubResource("Resource_715ff")])
+signs = [{
+"id": "sign_route",
+"text": {
+"en": "The path was narrow.",
+"tp": "nasin li lili."
+},
+"tile": {
+"x": 7.0,
+"y": 3.0
+}
+}]
+warps = [{
+"id": "warp_west",
+"tile": {
+"x": 0.0,
+"y": 5.0
+},
+"to_region": "ma_tomo_lili",
+"to_tile": {
+"x": 19.0,
+"y": 7.0
+}
+}, {
+"id": "warp_east",
+"tile": {
+"x": 31.0,
+"y": 5.0
+},
+"to_region": "nena_sewi",
+"to_tile": {
+"x": 1.0,
+"y": 5.0
+}
+}]
+dialog = Array[ExtResource("1_o6k17")]([SubResource("Resource_yj2pj")])
+spawn = Vector2i(1, 5)

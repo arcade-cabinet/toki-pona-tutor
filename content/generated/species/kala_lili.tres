@@ -1,0 +1,31 @@
+[gd_resource type="Resource" script_class="SpeciesResource" format=3]
+
+[ext_resource type="Script" path="res://schema/species_resource.gd" id="1_ubvj4"]
+
+[resource]
+script = ExtResource("1_ubvj4")
+id = "kala_lili"
+name_tp = "kala"
+name_en = "kala"
+description_en = "There's some fish."
+description_tp = "kala lili li lon."
+type = "telo"
+attack = 36
+defense = 38
+speed = 48
+learnset = [{
+"level": 1.0,
+"move_id": "telo_lili"
+}, {
+"level": 1.0,
+"move_id": "utala_lili"
+}, {
+"level": 7.0,
+"move_id": "utala"
+}, {
+"level": 14.0,
+"move_id": "telo_wawa"
+}]
+catch_rate = 0.4
+xp_yield = 36
+sprite_frame = 126

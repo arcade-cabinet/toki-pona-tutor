@@ -1,0 +1,245 @@
+[gd_resource type="Resource" script_class="RegionResource" format=3]
+
+[ext_resource type="Script" path="res://schema/dialog_resource.gd" id="1_gcspj"]
+[ext_resource type="Script" path="res://schema/npc_resource.gd" id="2_y3tmr"]
+[ext_resource type="Script" path="res://schema/region_resource.gd" id="3_omw36"]
+
+[sub_resource type="Resource" id="Resource_e1flk"]
+script = ExtResource("1_gcspj")
+id = "jan_lete_challenge"
+npc_id = "jan_lete"
+when_flags = {
+"badge_lete": false
+}
+priority = 10
+beats = [{
+"glyph": "toki",
+"mood": "thinking",
+"text": {
+"en": "Hello, friends.",
+"tp": "jan pona o, toki."
+}
+}, {
+"glyph": "lete",
+"mood": "thinking",
+"text": {
+"en": "The night is dark and cold.",
+"tp": "tenpo pimeja li pimeja li lete."
+}
+}, {
+"glyph": "wawa",
+"mood": "excited",
+"text": {
+"en": "Are you strong?",
+"tp": "sina wawa ala wawa?"
+}
+}, {
+"glyph": "utala",
+"mood": "excited",
+"text": {
+"en": "Let's attack.",
+"tp": "mi mute o utala."
+}
+}]
+
+[sub_resource type="Resource" id="Resource_7psna"]
+script = ExtResource("1_gcspj")
+id = "jan_lete_post_badge"
+npc_id = "jan_lete"
+when_flags = {
+"badge_lete": true
+}
+priority = 5
+beats = [{
+"glyph": "wawa",
+"mood": "happy",
+"text": {
+"en": "You are so strong.",
+"tp": "sina wawa a."
+}
+}, {
+"glyph": "lete",
+"mood": "thinking",
+"text": {
+"en": "Ice is very cold.",
+"tp": "telo kiwen li lete mute."
+}
+}]
+
+[sub_resource type="Resource" id="Resource_iitld"]
+script = ExtResource("1_gcspj")
+id = "jan_anpa_flavor"
+npc_id = "jan_anpa"
+beats = [{
+"glyph": "lete",
+"mood": "thinking",
+"text": {
+"en": "The night is dark and cold.",
+"tp": "tenpo pimeja li pimeja li lete."
+}
+}]
+
+[sub_resource type="Resource" id="Resource_61kap"]
+script = ExtResource("1_gcspj")
+id = "jan_kasi_flavor"
+npc_id = "jan_kasi"
+beats = [{
+"glyph": "kasi",
+"mood": "happy",
+"text": {
+"en": "Flowers are yellow.",
+"tp": "kasi kule li jelo."
+}
+}, {
+"glyph": "lete",
+"mood": "thinking",
+"text": {
+"en": "The food is cold.",
+"tp": "moku li lete."
+}
+}]
+
+[sub_resource type="Resource" id="Resource_jxg8b"]
+script = ExtResource("1_gcspj")
+id = "sign_gym_narration"
+beats = [{
+"glyph": "wawa",
+"mood": "thinking",
+"text": {
+"en": "You are so strong.",
+"tp": "sina wawa a."
+}
+}]
+
+[sub_resource type="Resource" id="Resource_w7chd"]
+script = ExtResource("2_y3tmr")
+id = "jan_lete"
+name_tp = "jan Lete"
+name_en = "jan Lete"
+role = "jan_lawa"
+personality = "cold-natured wanderer and master of the snow village; tests challengers with his ice team."
+tile = Vector2i(10, 8)
+sprite_frame = 96
+greeting_text_en = "Are you strong?"
+greeting_text_tp = "sina wawa ala wawa?"
+team = [{
+"level": 10.0,
+"moves": ["utala_lili", "lete_lili"],
+"species_id": "waso_lete"
+}, {
+"level": 13.0,
+"moves": ["utala", "lete_wawa"],
+"species_id": "soweli_lete_suli"
+}]
+reward_word = "lete"
+
+[sub_resource type="Resource" id="Resource_s5rn3"]
+script = ExtResource("2_y3tmr")
+id = "jan_anpa"
+name_tp = "jan Anpa"
+name_en = "jan Anpa"
+personality = "quiet elder who sits by the houses and watches the snow."
+tile = Vector2i(13, 6)
+sprite_frame = 100
+greeting_text_en = "The night is dark and cold."
+greeting_text_tp = "tenpo pimeja li pimeja li lete."
+
+[sub_resource type="Resource" id="Resource_04dnm"]
+script = ExtResource("2_y3tmr")
+id = "jan_kasi"
+name_tp = "jan Kasi"
+name_en = "jan Kasi"
+personality = "plant-keeper who tends cold-hardy herbs inside the fenced garden."
+tile = Vector2i(10, 12)
+sprite_frame = 99
+greeting_text_en = "Flowers are yellow."
+greeting_text_tp = "kasi kule li jelo."
+greeting_mood = "happy"
+
+[resource]
+script = ExtResource("3_omw36")
+id = "ma_lete"
+name_tp = "ma lete"
+name_en = "The Cold Land"
+description_en = "The night is dark and cold."
+description_tp = "tenpo pimeja li pimeja li lete."
+height = 16
+sky_color = "#c4d8e8"
+layers = [{
+"depth": 0.0,
+"name": "ground",
+"solid_keys": [],
+"tiles": [["stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone"], ["stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone"], ["stone", "stone", "stone", "stone", "grass_detail", "grass_detail", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "grass_detail", "grass_detail", "grass_detail", "stone", "stone", "stone", "stone"], ["stone", "stone", "stone", "stone", "grass_detail", "grass_detail", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "grass_detail", "grass_detail", "grass_detail", "stone", "stone", "stone", "stone"], ["stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone"], ["stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone"], ["stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone"], ["stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone"], ["stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone"], ["stone", "stone", "grass_detail", "grass_detail", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "grass_detail", "grass_detail", "grass_detail", "stone", "stone"], ["stone", "stone", "grass_detail", "grass_detail", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "grass_detail", "grass_detail", "grass_detail", "stone", "stone"], ["stone", "stone", "grass_detail", "grass_detail", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone"], ["stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone"], ["stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone"], ["stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone"], ["stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone", "stone"]]
+}, {
+"depth": 1.0,
+"name": "objects",
+"solid_keys": ["tree", "tree_g", "house_b", "house_r", "sign", "fence", "bush"],
+"tiles": [["tree", "tree", null, null, "tree", null, null, null, null, "tree", null, null, null, null, "tree", null, null, null, "tree", "tree"], ["tree", null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, "tree"], [null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null], [null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null], [null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null], [null, null, null, null, null, null, "house_b", null, null, null, null, null, "house_r", null, null, null, null, null, null, null], [null, null, null, null, null, null, null, null, null, "house_b", null, null, null, null, null, null, null, null, null, null], [null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null], [null, null, null, null, "sign", null, null, null, null, null, null, null, null, null, null, null, null, null, null, null], [null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null], [null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null], [null, null, null, null, null, null, null, null, "fence", "fence", "fence", "fence", null, null, null, null, null, null, null, null], [null, null, null, null, null, null, null, null, "fence", null, null, "fence", null, null, null, "sign", null, null, null, null], ["tree", null, null, null, null, null, null, null, "fence", "fence", "fence", "fence", null, null, null, null, null, null, null, "tree"], ["tree", null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, "tree"], ["tree", "tree", null, null, "tree", null, null, null, null, null, null, null, "tree", null, null, null, "tree", null, "tree", "tree"]]
+}]
+tall_grass_keys = ["grass_detail"]
+encounters = [{
+"max_level": 12.0,
+"min_level": 8.0,
+"species_id": "soweli_lete_suli",
+"weight": 0.25
+}, {
+"max_level": 11.0,
+"min_level": 7.0,
+"species_id": "waso_lete",
+"weight": 0.4
+}, {
+"max_level": 10.0,
+"min_level": 7.0,
+"species_id": "kasi_pona",
+"weight": 0.2
+}, {
+"max_level": 10.0,
+"min_level": 7.0,
+"species_id": "soweli_suwi",
+"weight": 0.15
+}]
+npcs = Array[ExtResource("2_y3tmr")]([SubResource("Resource_w7chd"), SubResource("Resource_s5rn3"), SubResource("Resource_04dnm")])
+signs = [{
+"id": "sign_entrance",
+"text": {
+"en": "lete"
+},
+"tile": {
+"x": 4.0,
+"y": 8.0
+}
+}, {
+"id": "sign_gym",
+"text": {
+"en": "wawa"
+},
+"tile": {
+"x": 15.0,
+"y": 12.0
+}
+}]
+warps = [{
+"id": "warp_south",
+"tile": {
+"x": 3.0,
+"y": 15.0
+},
+"to_region": "nena_sewi",
+"to_tile": {
+"x": 15.0,
+"y": 1.0
+}
+}, {
+"id": "warp_north",
+"tile": {
+"x": 16.0,
+"y": 0.0
+},
+"to_region": "nena_suli",
+"to_tile": {
+"x": 10.0,
+"y": 14.0
+}
+}]
+dialog = Array[ExtResource("1_gcspj")]([SubResource("Resource_e1flk"), SubResource("Resource_7psna"), SubResource("Resource_iitld"), SubResource("Resource_61kap"), SubResource("Resource_jxg8b")])
+spawn = Vector2i(3, 15)

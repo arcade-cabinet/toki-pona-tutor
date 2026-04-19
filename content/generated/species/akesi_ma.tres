@@ -1,0 +1,32 @@
+[gd_resource type="Resource" script_class="SpeciesResource" format=3]
+
+[ext_resource type="Script" path="res://schema/species_resource.gd" id="1_gqhln"]
+
+[resource]
+script = ExtResource("1_gqhln")
+id = "akesi_ma"
+name_tp = "akesi"
+name_en = "akesi"
+description_en = "That's a lizard."
+description_tp = "ni li akesi."
+type = "lete"
+hp = 42
+attack = 38
+defense = 44
+speed = 34
+learnset = [{
+"level": 1.0,
+"move_id": "utala_lili"
+}, {
+"level": 1.0,
+"move_id": "lete_lili"
+}, {
+"level": 9.0,
+"move_id": "utala"
+}, {
+"level": 16.0,
+"move_id": "lete_wawa"
+}]
+catch_rate = 0.35
+xp_yield = 42
+sprite_frame = 122

@@ -1,0 +1,14 @@
+[gd_resource type="Resource" script_class="MoveResource" format=3]
+
+[ext_resource type="Script" path="res://schema/move_resource.gd" id="1_cgr4q"]
+
+[resource]
+script = ExtResource("1_cgr4q")
+id = "wawa_waso"
+name_tp = "flit"
+name_en = "flit"
+description_en = "Flies fly."
+description_tp = "pipi jaki li tawa lon kon."
+power = 30
+pp = 25
+priority = 1

@@ -1,0 +1,32 @@
+[gd_resource type="Resource" script_class="SpeciesResource" format=3]
+
+[ext_resource type="Script" path="res://schema/species_resource.gd" id="1_cubov"]
+
+[resource]
+script = ExtResource("1_cubov")
+id = "soweli_lete"
+name_tp = "soweli"
+name_en = "soweli"
+description_en = "That animal is strong."
+description_tp = "soweli ni li wawa."
+type = "lete"
+hp = 48
+attack = 46
+defense = 42
+speed = 48
+learnset = [{
+"level": 1.0,
+"move_id": "utala_lili"
+}, {
+"level": 1.0,
+"move_id": "lete_lili"
+}, {
+"level": 7.0,
+"move_id": "lete_sewi"
+}, {
+"level": 13.0,
+"move_id": "lete_wawa"
+}]
+catch_rate = 0.35
+xp_yield = 48
+sprite_frame = 123

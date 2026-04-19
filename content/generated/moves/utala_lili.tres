@@ -1,0 +1,13 @@
+[gd_resource type="Resource" script_class="MoveResource" format=3]
+
+[ext_resource type="Script" path="res://schema/move_resource.gd" id="1_273hw"]
+
+[resource]
+script = ExtResource("1_273hw")
+id = "utala_lili"
+name_tp = "attack"
+name_en = "attack"
+description_en = "It hurts."
+description_tp = "ona li pilin ike."
+power = 20
+pp = 30
