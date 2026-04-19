@@ -22,7 +22,7 @@ import type {
   PlacedTile,
   TileGrid,
 } from './types';
-import { assignFirstGids, resolvePaletteName, tsxStem } from './palette';
+import { assignFirstGids, resolvePaletteName, tsxQualifiedKey, tsxStem } from './palette';
 
 const TILED_VERSION = '1.11.2';
 
@@ -34,7 +34,9 @@ export function emitTmj(
   outputPath: string,
 ): TmjMap {
   const referenced = spec.tilesets.map((name) => {
-    const ts = tilesets.find((t) => tsxStem(t) === name);
+    const ts = tilesets.find(
+      (t) => tsxQualifiedKey(t) === name || tsxStem(t) === name,
+    );
     if (!ts) {
       throw new Error(
         `emit: spec.tilesets references "${name}" but it is not loaded (pass it in the tilesets arg)`,
@@ -46,7 +48,7 @@ export function emitTmj(
   const firstGids = assignFirstGids(referenced);
 
   const tilesetRefs: TmjTilesetRef[] = referenced.map((ts) => {
-    const firstgid = firstGids.get(tsxStem(ts))!;
+    const firstgid = firstGids.get(tsxQualifiedKey(ts))!;
     // Tiled's TMJ format expects POSIX-style forward slashes in source paths
     // regardless of the authoring OS. `node:path.relative` emits whatever the
     // host platform uses (backslashes on Windows), so normalize here.

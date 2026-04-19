@@ -14,7 +14,7 @@ export default defineMap({
   width: 10,
   height: 6,
   tileSize: 16,
-  tilesets: ['Tileset_Ground'],
+  tilesets: ['core/Tileset_Ground'],
   palette: corePalette,
   layers: {
     'Below Player': [

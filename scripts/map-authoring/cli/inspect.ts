@@ -8,9 +8,10 @@
  */
 import { dirname, resolve, join, basename } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { existsSync } from 'node:fs';
+import { existsSync, mkdtempSync, rmSync } from 'node:fs';
 import { readFile } from 'node:fs/promises';
 import { spawnSync } from 'node:child_process';
+import { tmpdir } from 'node:os';
 import type { TmjMap } from '../lib/index';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
@@ -39,22 +40,35 @@ async function main(): Promise<void> {
     process.exit(1);
   }
 
-  // Convert to .tmj in /tmp
-  const tmpTmj = `/tmp/inspect-${sampleMap.replace(/\s+/g, '_')}-${Date.now()}.tmj`;
-  const res = spawnSync('tiled', ['--export-map', 'json', tmxPath, tmpTmj], { stdio: 'inherit' });
-  if (res.error || res.status === null) {
-    console.error(
-      `could not execute \`tiled\` — is Tiled installed? \`brew install --cask tiled\``,
-    );
-    if (res.error) console.error(`  cause: ${res.error.message}`);
-    process.exit(1);
+  // Convert to .tmj in an OS-appropriate temp dir that we clean up on exit.
+  // /tmp is hard-coded on POSIX — Windows uses %TEMP%; tmpdir() handles both.
+  const scratchDir = mkdtempSync(join(tmpdir(), 'poki-inspect-'));
+  const tmpTmj = join(
+    scratchDir,
+    `${sampleMap.replace(/\s+/g, '_')}.tmj`,
+  );
+  let tmj: TmjMap;
+  try {
+    const res = spawnSync('tiled', ['--export-map', 'json', tmxPath, tmpTmj], {
+      stdio: 'inherit',
+    });
+    if (res.error || res.status === null) {
+      console.error(
+        `could not execute \`tiled\` — is Tiled installed? \`brew install --cask tiled\``,
+      );
+      if (res.error) console.error(`  cause: ${res.error.message}`);
+      process.exit(1);
+    }
+    if (res.status !== 0) {
+      console.error(`tiled CLI exited with status ${res.status} converting ${tmxPath}`);
+      process.exit(res.status);
+    }
+    tmj = JSON.parse(await readFile(tmpTmj, 'utf-8'));
+  } finally {
+    // Remove the scratch dir regardless of outcome. `force: true` swallows
+    // ENOENT if something deleted it already.
+    rmSync(scratchDir, { recursive: true, force: true });
   }
-  if (res.status !== 0) {
-    console.error(`tiled CLI exited with status ${res.status} converting ${tmxPath}`);
-    process.exit(res.status);
-  }
-
-  const tmj: TmjMap = JSON.parse(await readFile(tmpTmj, 'utf-8'));
   // Find the firstgid for the tileset
   const tsRef = tmj.tilesets.find((t) => basename(t.source, '.tsx') === tilesetName);
   if (!tsRef) {

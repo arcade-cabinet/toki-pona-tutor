@@ -16,7 +16,7 @@ import type {
   PlacedTile,
   ObjectMarker,
 } from './types';
-import { tsxStem } from './palette';
+import { tsxQualifiedKey, tsxStem } from './palette';
 
 /**
  * A lookup function that returns a species record (or null) for a given id.
@@ -32,12 +32,17 @@ export async function validateSpec(
 ): Promise<ValidationReport> {
   const issues: ValidationIssue[] = [];
 
-  // Map available tilesets by stem for quick lookup.
-  const tsByStem = new Map(tilesets.map((t) => [tsxStem(t), t]));
+  // Index available tilesets under both their bare stem and their
+  // pack-qualified key so palette entries using either form resolve.
+  const tsByKey = new Map<string, ParsedTileset>();
+  for (const t of tilesets) {
+    tsByKey.set(tsxQualifiedKey(t), t);
+    if (!tsByKey.has(tsxStem(t))) tsByKey.set(tsxStem(t), t);
+  }
 
   // Every tileset the spec declares must be loaded.
   for (const name of spec.tilesets) {
-    if (!tsByStem.has(name)) {
+    if (!tsByKey.has(name)) {
       issues.push({
         severity: 'error',
         code: 'tileset_not_loaded',
@@ -64,7 +69,7 @@ export async function validateSpec(
       });
       continue;
     }
-    const ts = tsByStem.get(entry.tsx);
+    const ts = tsByKey.get(entry.tsx);
     if (!ts) continue; // already reported as tileset_not_loaded
     if (entry.local_id < 0 || entry.local_id >= ts.tileCount) {
       issues.push({

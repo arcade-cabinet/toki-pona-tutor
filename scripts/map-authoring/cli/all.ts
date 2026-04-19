@@ -3,7 +3,7 @@
  * Runs validate → build → render for one map (or every spec with --all).
  */
 import { dirname, resolve, join, basename } from 'node:path';
-import { fileURLToPath } from 'node:url';
+import { fileURLToPath, pathToFileURL } from 'node:url';
 import { readdir, mkdir, writeFile } from 'node:fs/promises';
 import { existsSync } from 'node:fs';
 import { PNG } from 'pngjs';
@@ -49,42 +49,50 @@ async function main(): Promise<void> {
 
   for (const id of specs) {
     console.log(`\n── ${id} ─────────────────────`);
-    const specPath = join(specsDir, `${id}.ts`);
-    const mod = (await import(specPath)) as { default?: MapSpec };
-    if (!mod.default) {
-      console.error(`  spec "${specPath}" has no default export`);
+    try {
+      await processOne(id);
+      console.log(`  ✓ done`);
+    } catch (err) {
+      console.error(`  ✗ ${id} failed: ${(err as Error).message}`);
       hadError = true;
-      continue;
+      // Continue to next map — --all mode should not abort on one broken spec.
     }
-    const spec = mod.default;
-    const tilesets = await loadTilesetsForSpec(spec, worktreeRoot);
-
-    // Validate
-    const speciesLookup = (sid: string): unknown | null =>
-      existsSync(join(speciesDir, `${sid}.json`)) ? { id: sid } : null;
-    const report = await validateSpec(spec, tilesets, speciesLookup);
-    for (const issue of report.issues) printIssue(issue);
-    if (!report.ok) {
-      console.error(`  ✗ validation failed`);
-      hadError = true;
-      continue;
-    }
-    console.log(`  ✓ validated`);
-
-    // Build
-    const tmjPath = join(mapsDir, `${spec.id}.tmj`);
-    const tmj = emitTmj(spec, tilesets, tmjPath);
-    await writeFile(tmjPath, JSON.stringify(tmj, null, 2) + '\n', 'utf-8');
-    console.log(`  ✓ built ${basename(tmjPath)}`);
-
-    // Render
-    const png = await renderTmj(tmjPath, tilesets, { overlay: true });
-    const pngPath = join(mapsDir, `${spec.id}.preview.png`);
-    await writeFile(pngPath, PNG.sync.write(png));
-    console.log(`  ✓ rendered ${basename(pngPath)} (${png.width}×${png.height})`);
   }
 
   process.exit(hadError ? 1 : 0);
+}
+
+async function processOne(id: string): Promise<void> {
+  const specPath = join(specsDir, `${id}.ts`);
+  // ESM dynamic import requires a file:// URL on Windows.
+  const mod = (await import(pathToFileURL(specPath).href)) as { default?: MapSpec };
+  if (!mod.default) {
+    throw new Error(`spec "${specPath}" has no default export`);
+  }
+  const spec = mod.default;
+  const tilesets = await loadTilesetsForSpec(spec, worktreeRoot);
+
+  // Validate
+  const speciesLookup = (sid: string): unknown | null =>
+    existsSync(join(speciesDir, `${sid}.json`)) ? { id: sid } : null;
+  const report = await validateSpec(spec, tilesets, speciesLookup);
+  for (const issue of report.issues) printIssue(issue);
+  if (!report.ok) {
+    throw new Error('validation failed');
+  }
+  console.log(`  ✓ validated`);
+
+  // Build
+  const tmjPath = join(mapsDir, `${spec.id}.tmj`);
+  const tmj = emitTmj(spec, tilesets, tmjPath);
+  await writeFile(tmjPath, JSON.stringify(tmj, null, 2) + '\n', 'utf-8');
+  console.log(`  ✓ built ${basename(tmjPath)}`);
+
+  // Render
+  const png = await renderTmj(tmjPath, tilesets, { overlay: true });
+  const pngPath = join(mapsDir, `${spec.id}.preview.png`);
+  await writeFile(pngPath, PNG.sync.write(png));
+  console.log(`  ✓ rendered ${basename(pngPath)} (${png.width}×${png.height})`);
 }
 
 function printIssue(issue: ValidationIssue): void {

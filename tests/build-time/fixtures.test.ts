@@ -12,10 +12,10 @@
  * See docs/build-time/MAP_AUTHORING.md § "Fan-tasy sample maps are
  * per-tileset fixtures".
  */
-import { describe, expect, it } from 'vitest';
+import { afterAll, describe, expect, it } from 'vitest';
 import { resolve, join } from 'node:path';
 import { readdir, readFile, writeFile, mkdir } from 'node:fs/promises';
-import { existsSync, mkdtempSync } from 'node:fs';
+import { existsSync, mkdtempSync, rmSync } from 'node:fs';
 import { tmpdir } from 'node:os';
 import { spawnSync } from 'node:child_process';
 import { renderTmj } from '../../scripts/map-authoring/lib/renderer';
@@ -31,6 +31,13 @@ const TILED_AVAILABLE = (() => {
     return false;
   }
 })();
+
+// Track every temp dir created during this test file so we can clean up
+// in afterAll. Keeps /tmp tidy across repeated runs.
+const tmpDirs: string[] = [];
+afterAll(() => {
+  for (const d of tmpDirs) rmSync(d, { recursive: true, force: true });
+});
 
 async function listSamples(pack: string): Promise<string[]> {
   const dir = join(TILESETS_ROOT, pack, 'Tiled', 'Tilemaps');
@@ -89,6 +96,7 @@ describe.skipIf(!TILED_AVAILABLE)('Fan-tasy sample round-trip', () => {
       if (samples.length === 0) return;
       const tmxPath = samples[0];
       const tmpDir = mkdtempSync(join(tmpdir(), `poki-fixture-${pack}-`));
+      tmpDirs.push(tmpDir);
       const tmjPath = join(tmpDir, 'sample.tmj');
 
       const r = spawnSync('tiled', ['--export-map', 'json', tmxPath, tmjPath], {

@@ -5,7 +5,7 @@
  * Also the `defineMap` + `paint` helpers authors use in spec files.
  */
 export { parseTsx } from './parser';
-export { assignFirstGids, resolvePaletteName, tsxStem } from './palette';
+export { assignFirstGids, resolvePaletteName, tsxQualifiedKey, tsxStem } from './palette';
 export { emitTmj } from './emitter';
 export { renderTmj, type RenderOptions } from './renderer';
 export { validateSpec, type SpeciesLookup } from './validator';

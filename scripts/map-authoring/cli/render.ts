@@ -3,7 +3,7 @@
  * Renders public/assets/maps/<map-id>.tmj → public/assets/maps/<map-id>.preview.png
  */
 import { dirname, resolve, join } from 'node:path';
-import { fileURLToPath } from 'node:url';
+import { fileURLToPath, pathToFileURL } from 'node:url';
 import { writeFile } from 'node:fs/promises';
 import { PNG } from 'pngjs';
 import { renderTmj, loadTilesetsForSpec } from '../lib/index';
@@ -38,7 +38,8 @@ async function main(): Promise<void> {
 
   const worktreeRoot = resolve(__dirname, '..', '..', '..');
   const specPath = join(worktreeRoot, 'scripts', 'map-authoring', 'specs', `${mapId}.ts`);
-  const mod = (await import(specPath)) as { default?: MapSpec };
+  // ESM dynamic import requires a file:// URL on Windows.
+  const mod = (await import(pathToFileURL(specPath).href)) as { default?: MapSpec };
   if (!mod.default) {
     console.error(`spec "${specPath}" has no default export`);
     process.exit(1);
