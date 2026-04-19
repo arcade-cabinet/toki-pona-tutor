@@ -1,9 +1,11 @@
-[gd_scene load_steps=5 format=3]
+[gd_scene load_steps=8 format=3]
 
 [ext_resource type="Script" path="res://src/field/toki_map.gd" id="1_map"]
 [ext_resource type="Script" path="res://src/field/region_builder.gd" id="2_rb"]
 [ext_resource type="TileSet" path="res://overworld/maps/tilesets/kenney_terrain.tres" id="3_tileset"]
 [ext_resource type="PackedScene" path="res://src/field/ui/dialog_overlay.tscn" id="4_dialog"]
+[ext_resource type="Script" path="res://src/combat/combat.gd" id="5_combat"]
+[ext_resource type="PackedScene" path="res://src/combat/ui/ui_combat.tscn" id="6_ui_combat"]
 
 [node name="TokiTown" type="Node2D"]
 
@@ -15,5 +17,19 @@ script = ExtResource("1_map")
 [node name="RegionBuilder" type="Node2D" parent="Field/Map"]
 script = ExtResource("2_rb")
 tileset = ExtResource("3_tileset")
+
+[node name="Combat" type="CanvasLayer" parent="."]
+script = ExtResource("5_combat")
+
+[node name="CenterContainer" type="CenterContainer" parent="Combat"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="UI" parent="Combat" instance=ExtResource("6_ui_combat")]
+
+[node name="TransitionDelay" type="Timer" parent="Combat/UI"]
+wait_time = 0.5
+one_shot = true
 
 [node name="DialogOverlay" parent="." instance=ExtResource("4_dialog")]

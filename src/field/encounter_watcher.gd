@@ -12,6 +12,12 @@ extends Node
 ## Pokemon was ~12%, which felt right for our earlier prototype.
 @export_range(0.0, 1.0) var per_step_chance: float = 0.12
 
+## Placeholder combat arena scene. Used until we build a dynamic arena
+## that constructs Battlers from our SpeciesResource data. For now,
+## routing encounters to open-rpg's test_combat_arena gets the field →
+## combat transition visible end-to-end.
+const PLACEHOLDER_ARENA: PackedScene = preload("res://overworld/maps/town/battles/test_combat_arena.tscn")
+
 var _region: RegionResource = null
 var _grass_cells: Dictionary = {}  # Vector2i → true for tall-grass tiles
 var _rng: RandomNumberGenerator = null
@@ -66,9 +72,10 @@ func _on_player_arrived() -> void:
 	if enc == null:
 		return
 	print("[EncounterWatcher] encounter! %s @ L%d" % [enc.species_id, enc.level])
-	# TODO: emit CombatEvents.combat_triggered with a combat scene
-	# configured for enc.species_id + enc.level. For now, just log so
-	# the flow is visible end-to-end.
+	# Trigger the combat transition. Open-rpg's Field root listens for
+	# FieldEvents.combat_triggered and hides itself while Combat runs.
+	if FieldEvents and FieldEvents.has_signal("combat_triggered"):
+		FieldEvents.emit_signal("combat_triggered", PLACEHOLDER_ARENA)
 
 
 class Encounter:
