@@ -3,12 +3,16 @@ import { Scroll, Heart, Users, Award, RefreshCw } from 'lucide-react';
 import { getSave, subscribeSave, resetSave } from '../game/ecs/saveState';
 import { getRegion } from '../game/content/loader';
 
+interface AdventureHUDProps {
+  onOpenParty?: () => void;
+}
+
 /**
  * Top-of-viewport HUD for the overworld: current region name, party
  * summary, badge count, mastered-words count. Replaces the old
  * hungry-friend-specific HUD with a generic Pokemon-shape display.
  */
-export function AdventureHUD() {
+export function AdventureHUD({ onOpenParty }: AdventureHUDProps = {}) {
   const [, tick] = useState(0);
   useEffect(() => subscribeSave(() => tick((n) => n + 1)), []);
 
@@ -43,10 +47,15 @@ export function AdventureHUD() {
 
       <div className="flex-1" />
 
-      <div className="bg-white/90 backdrop-blur rounded-xl shadow-md px-2 py-1 flex items-center gap-1 pointer-events-auto">
+      <button
+        type="button"
+        onClick={onOpenParty}
+        aria-label="Open party"
+        className="bg-white/90 backdrop-blur rounded-xl shadow-md px-2 py-1 flex items-center gap-1 pointer-events-auto hover:bg-emerald-50 active:scale-95 transition-transform"
+      >
         <Users size={12} className="text-emerald-600 shrink-0" />
         <span className="font-display text-xs text-slate-700">{partyCount}/6</span>
-      </div>
+      </button>
       <div className="bg-white/90 backdrop-blur rounded-xl shadow-md px-2 py-1 flex items-center gap-1 pointer-events-auto">
         <Award size={12} className="text-amber-500 shrink-0" />
         <span className="font-display text-xs text-slate-700">{badgeCount}</span>

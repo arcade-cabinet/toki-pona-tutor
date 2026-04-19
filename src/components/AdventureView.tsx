@@ -1,9 +1,10 @@
-import { lazy, Suspense, useEffect } from 'react';
+import { lazy, Suspense, useCallback, useEffect, useState } from 'react';
 import { ArrowLeft } from 'lucide-react';
 import { AdventureHUD } from './AdventureHUD';
 import { AmbientParticles } from './AmbientParticles';
 import { AdventureAudio } from './AdventureAudio';
 import { MobileControls } from './MobileControls';
+import { PartyPanel } from './PartyPanel';
 
 const PhaserGame = lazy(() =>
   import('../game/PhaserGame').then((m) => ({ default: m.PhaserGame }))
@@ -21,6 +22,24 @@ function dispatchKey(type: 'keydown' | 'keyup', code: string, key: string, keyCo
 }
 
 export function AdventureView({ onExit }: AdventureViewProps) {
+  const [partyOpen, setPartyOpen] = useState(false);
+  const togglePartyPanel = useCallback(() => setPartyOpen((v) => !v), []);
+  const closePartyPanel = useCallback(() => setPartyOpen(false), []);
+
+  useEffect(() => {
+    const onKey = (e: KeyboardEvent) => {
+      // Don't hijack keys while typing in inputs (future-proofing).
+      const target = e.target as HTMLElement | null;
+      if (target && (target.tagName === 'INPUT' || target.tagName === 'TEXTAREA')) return;
+      if (e.key === 'p' || e.key === 'P') {
+        e.preventDefault();
+        togglePartyPanel();
+      }
+    };
+    window.addEventListener('keydown', onKey);
+    return () => window.removeEventListener('keydown', onKey);
+  }, [togglePartyPanel]);
+
   useEffect(() => {
     return () => {
       ['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown'].forEach((k) => {
@@ -55,10 +74,12 @@ export function AdventureView({ onExit }: AdventureViewProps) {
         </button>
 
         {/* Quest HUD — parchment strip up top showing current objective */}
-        <AdventureHUD />
+        <AdventureHUD onOpenParty={togglePartyPanel} />
 
         <MobileControls />
         <AdventureAudio />
+
+        <PartyPanel open={partyOpen} onClose={closePartyPanel} />
       </div>
     </div>
   );
