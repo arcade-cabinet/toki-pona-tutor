@@ -44,10 +44,14 @@ Your brief specifies **one region** by id — e.g. `ma_telo` (the lake village),
 
 Every multi-word `{ en }` field — `description`, sign text, dialog beats — will be validated against `src/content/corpus/tatoeba.json` at build time. Single-word TP (names, sign text like `"ma"`) is exempt.
 
+**Read `docs/WRITING_RULES.md` before writing any line.** The validator now scores every line against those rules (hard + soft) *before* checking corpus membership — lines that violate the rules fail the build with a complexity breakdown (rare words, uncommon starter, subordinate clauses, length). The ceiling is rank ≤ 40; stay well under.
+
 Process:
-1. Write the English line the beat needs.
-2. Run `pnpm validate-tp`. If it complains, read the suggestions.
-3. Rewrite the English to match the closest suggested line. Accept that it may phrase things differently; canonical > authored.
+1. Read `docs/WRITING_RULES.md`. Internalize: ≤ 9 words, single clause, `.`/`?`/`!`, top-1000 vocabulary, starters like `I/You/Tom/The/We/This`.
+2. Write the English beat following the rules.
+3. Run `pnpm validate-tp`. If it flags complexity, the message names the offending axis (e.g. `rare words: mountains, climb; compound clause`). Rewrite to fix the axis.
+4. If the line passes complexity but misses the corpus, use one of the suggested Tatoeba pairs verbatim. Canonical > authored.
+5. When in doubt, `grep -i "YOUR IDEA" src/content/corpus/tatoeba.json | head -5` and pick from what already exists.
 
 **Short English works.** Three-to-six-word sentences are your friend. "Water is good." / "telo li pona." will pass. "My wise friend sits by the ancient well and sings" will never find a pair.
 

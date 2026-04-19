@@ -19,6 +19,7 @@ import { fileURLToPath } from 'node:url';
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const root = resolve(__dirname, '..');
 const corpusPath = resolve(root, 'src/content/corpus/tatoeba.json');
+const vocabPath = resolve(root, 'src/content/corpus/en-top2000.json');
 const spineDir = resolve(root, 'src/content/spine');
 const legacyVillagePath = resolve(root, 'src/content/village.json');
 
@@ -28,6 +29,101 @@ if (!existsSync(corpusPath)) {
 }
 
 const corpus = JSON.parse(readFileSync(corpusPath, 'utf8'));
+const topVocab = existsSync(vocabPath) ? JSON.parse(readFileSync(vocabPath, 'utf8')) : [];
+const vocabRank = new Map();
+for (let i = 0; i < topVocab.length; i++) vocabRank.set(topVocab[i], i);
+
+/**
+ * Score an EN line against the writing rules (docs/WRITING_RULES.md).
+ * Returns { rank, reasons[] } where rank is 0..100 — the build fails
+ * non-legacy lines with rank > 40. Reasons carry a human-readable
+ * breakdown so authors can see which axis pushed them over.
+ */
+const FUNCTION_WORDS = new Set([
+  'the', 'a', 'an', 'is', 'are', 'was', 'were', 'be', 'been', 'to', 'of',
+  'in', 'on', 'at', 'and', 'or', 'but', 'not', 'no', 'do', 'does', 'did',
+  'have', 'has', 'had', 'my', 'your', 'his', 'her', 'their', 'our', 'its',
+  'it', 'he', 'she', 'they', 'we', 'you', 'i', 'me', 'him', 'them', 'us',
+  'this', 'that', 'these', 'those', 'for', 'from', 'with', "i'm", "don't",
+  "you're", "it's", "that's", "can't", "i've",
+]);
+const GOOD_STARTERS = new Set([
+  'i', 'you', 'he', 'she', 'we', 'they', 'tom', 'the', 'this', 'that',
+  'it', 'do', 'does', 'did', 'is', 'are', 'was', 'were', 'what', 'why',
+  'how', 'where', 'when', 'who', "i'm", "you're", "it's", "don't",
+]);
+const EXOTIC_PUNCT = /[\u2026\u2014;:/()\u201c\u201d]/;
+
+function scoreLine(en) {
+  const reasons = [];
+  const trimmed = en.trim();
+  const words = trimmed.toLowerCase().replace(/[.!?,"'\u2018\u2019\u201c\u201d]/g, '').split(/\s+/).filter(Boolean);
+  const n = words.length;
+
+  // S1 vocabulary tier — weight 35
+  const content = words.filter((w) => !FUNCTION_WORDS.has(w));
+  let vocabScore = 0;
+  if (content.length > 0 && vocabRank.size > 0) {
+    let sum = 0;
+    const worst = [];
+    for (const w of content) {
+      const r = vocabRank.get(w);
+      let ws;
+      if (r === undefined) ws = 100;
+      else if (r < 250) ws = 0;
+      else if (r < 1000) ws = 15;
+      else ws = 50;
+      if (ws >= 50) worst.push(w);
+      sum += ws;
+    }
+    vocabScore = sum / content.length;
+    if (worst.length > 0) reasons.push(`rare words: ${worst.slice(0, 4).join(', ')}`);
+  }
+
+  // S2 starter shape — weight 25
+  const starter = words[0] ?? '';
+  let starterScore = 0;
+  if (starter.endsWith('ing')) {
+    starterScore = 70;
+    reasons.push(`gerund starter "${starter}"`);
+  } else if (!GOOD_STARTERS.has(starter)) {
+    starterScore = 50;
+    reasons.push(`uncommon starter "${starter}"`);
+  }
+
+  // S3 clause count — weight 20
+  let clauseScore = 0;
+  const lc = trimmed.toLowerCase();
+  if (/\b(because|although|while|which|whom|whose)\b/.test(lc)) {
+    clauseScore = 70;
+    reasons.push('subordinate clause');
+  } else if (/\b(and|but|or)\b/.test(lc)) {
+    clauseScore = 40;
+    reasons.push('compound clause');
+  } else if (trimmed.includes(',')) {
+    clauseScore = 30;
+    reasons.push('comma (likely multi-clause)');
+  }
+
+  // S4 length fit — weight 15
+  let lenScore = 0;
+  if (n >= 10) {
+    lenScore = 100;
+    reasons.push(`length ${n} words (p99=18, target ≤ 9)`);
+  } else if (n >= 7) lenScore = 25;
+
+  // S5 exotic punctuation — weight 5
+  let punctScore = 0;
+  if (EXOTIC_PUNCT.test(trimmed)) {
+    punctScore = 100;
+    reasons.push('exotic punctuation (…—;:/())');
+  }
+
+  const rank = Math.round(
+    vocabScore * 0.35 + starterScore * 0.25 + clauseScore * 0.20 + lenScore * 0.15 + punctScore * 0.05,
+  );
+  return { rank, reasons };
+}
 
 const norm = (s) =>
   s
@@ -111,9 +207,11 @@ if (scanFiles.length === 0) {
   process.exit(0);
 }
 
+const COMPLEXITY_CEILING = 40;
 let errors = 0;
 let legacyWarnings = 0;
 let checked = 0;
+let complexityFlags = 0;
 
 for (const file of scanFiles) {
   const rel = file.replace(`${root}/`, '');
@@ -133,6 +231,27 @@ for (const file of scanFiles) {
       if (bucket === 'legacy') legacyWarnings++;
       else errors++;
     };
+
+    // Score against the writing rules. Lines over the ceiling fail even if
+    // they coincidentally have a corpus match — the rules exist so authors
+    // stop writing out-of-corpus EN. Legacy files get a warning.
+    const { rank, reasons } = scoreLine(en);
+    if (rank > COMPLEXITY_CEILING) {
+      if (bucket === 'blocking') {
+        errors++;
+        complexityFlags++;
+        console.error(`\n[validate-tp] COMPLEXITY ${path} (rank ${rank}/100)`);
+        console.error(`  EN: "${en}"`);
+        if (reasons.length > 0) console.error(`  ${reasons.join('; ')}`);
+        console.error(`  See docs/WRITING_RULES.md — target rank ≤ ${COMPLEXITY_CEILING}.`);
+        // Don't also report a corpus miss for the same line — the author
+        // needs to rewrite the EN first, then the corpus check will re-run.
+        continue;
+      } else {
+        legacyWarnings++;
+        complexityFlags++;
+      }
+    }
 
     if (!tp) {
       // pre-translation pair — succeeds if any TP exists for this EN
@@ -179,4 +298,7 @@ if (errors > 0) {
   );
   process.exit(1);
 }
-console.log(`[validate-tp] ✓ ${checked} multi-word translatable(s) canonical across ${scanFiles.length} file(s)`);
+console.log(
+  `[validate-tp] ✓ ${checked} multi-word translatable(s) canonical across ${scanFiles.length} file(s)` +
+    (complexityFlags > 0 ? ` (${complexityFlags} complexity warning${complexityFlags === 1 ? '' : 's'} in legacy files)` : ''),
+);

@@ -35,7 +35,7 @@ Every species JSON must include all required fields from the Zod schema:
 
 - `id` — snake_case, unique across all species
 - `name` — `{ en: <single-word> }` using a canonical TP dictionary word. Single-word `en` is dictionary-exempt; just pick a real word.
-- `description` — `{ en: <short EN line> }`. Multi-word — must round-trip through Tatoeba. Keep it 3–6 words.
+- `description` — `{ en: <short EN line> }`. Multi-word — must round-trip through Tatoeba **and** pass the writing-rules complexity scorer (rank ≤ 40). Read `docs/WRITING_RULES.md` first. Keep it 3–6 words, single clause, ends in `.`/`?`/`!`, vocabulary in the corpus top-1000.
 - `type` — one of the TypeId values
 - `base_stats` — four integers; see per-tier guidance below
 - `learnset` — array of `{ level, move_id }`, at least one at level 1. Move ids must match an actual move in `src/content/spine/moves/*.json`
@@ -69,7 +69,11 @@ node scripts/build-spine.mjs   # must compile
 pnpm typecheck            # must be clean
 ```
 
-If validate-tp flags an English line you wrote, rewrite it to match one of the printed suggestions from Tatoeba. The whole point: never hand-author TP.
+If validate-tp flags an English line you wrote:
+- **Complexity flag** (rank > 40) — the message names the axes (rare words, compound clause, length). Rewrite to the rules in `docs/WRITING_RULES.md`.
+- **Corpus miss** — pick one of the printed suggestions verbatim.
+
+Never hand-author TP. If you can't express the idea within the rules, pick a different idea.
 
 ## PR
 
