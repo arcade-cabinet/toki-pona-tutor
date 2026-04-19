@@ -1,15 +1,19 @@
 import { useEffect, useState } from 'react';
+import { Capacitor } from '@capacitor/core';
+import { Device } from '@capacitor/device';
 
 /**
  * Reactive device-form-factor detection for laying out mobile controls.
  *
- * Web-only for now (matchMedia + visualViewport + pointer-type). A future
- * Capacitor layer can augment this with real native device info — the shape
- * of the returned object should stay stable so call-sites don't have to
- * change when the Capacitor plugin lands.
+ * Uses web APIs (matchMedia + visualViewport + pointer-type) for live
+ * orientation / resize tracking, and Capacitor's Device plugin for
+ * authoritative form-factor/platform info when running natively. Web
+ * builds fall back gracefully — Capacitor.getPlatform() returns 'web'
+ * and we use heuristics only.
  */
 export type FormFactor = 'phone' | 'tablet' | 'desktop';
 export type Orientation = 'portrait' | 'landscape';
+export type Platform = 'web' | 'ios' | 'android';
 
 export interface DeviceInfo {
   formFactor: FormFactor;
@@ -23,9 +27,19 @@ export interface DeviceInfo {
   height: number;
   /** Foldable/dual-screen fold boundary if the browser exposes it (CSS env). */
   hasFold: boolean;
+  /** Native platform — 'web' in a browser, 'ios'/'android' in a Capacitor shell. */
+  platform: Platform;
+  /** True when running inside a Capacitor native shell. */
+  isNative: boolean;
+  /** Native model name (e.g. "iPhone15,2") when available, otherwise undefined. */
+  model?: string;
 }
 
+let nativeOverride: { formFactor?: FormFactor; model?: string } = {};
+
 function readNow(): DeviceInfo {
+  const capPlatform = Capacitor.getPlatform() as Platform;
+  const isNative = Capacitor.isNativePlatform();
   if (typeof window === 'undefined') {
     return {
       formFactor: 'desktop',
@@ -35,16 +49,20 @@ function readNow(): DeviceInfo {
       width: 1024,
       height: 768,
       hasFold: false,
+      platform: capPlatform,
+      isNative,
     };
   }
   const width = window.innerWidth;
   const height = window.innerHeight;
   const touch = window.matchMedia('(pointer: coarse)').matches;
-  // Form factor: use short-edge heuristic. Phones have a short-edge < 600 CSS px.
+  // Form factor: prefer the native override from Capacitor when we have it.
   const shortEdge = Math.min(width, height);
   const longEdge = Math.max(width, height);
   let formFactor: FormFactor;
-  if (!touch && longEdge >= 1024) {
+  if (nativeOverride.formFactor) {
+    formFactor = nativeOverride.formFactor;
+  } else if (!touch && longEdge >= 1024) {
     formFactor = 'desktop';
   } else if (shortEdge < 600) {
     formFactor = 'phone';
@@ -52,10 +70,6 @@ function readNow(): DeviceInfo {
     formFactor = 'tablet';
   }
   const orientation: Orientation = width >= height ? 'landscape' : 'portrait';
-  // Foldable: the Viewport Segments API exposes `window.visualViewport.segments`
-  // or the `env(viewport-segment-*)` CSS env, but browser support is spotty.
-  // Fall back to a heuristic: width > 1600 AND aspect > 2:1 suggests a folded
-  // landscape device like a Surface Duo or Z Fold.
   const segAny = (window as unknown as { visualViewport?: { segments?: unknown[] } }).visualViewport;
   const hasSegments = Array.isArray(segAny?.segments) && (segAny!.segments!.length ?? 0) > 1;
   const hasFold = hasSegments || (width / height > 2.2 && width > 1500);
@@ -68,6 +82,9 @@ function readNow(): DeviceInfo {
     width,
     height,
     hasFold,
+    platform: capPlatform,
+    isNative,
+    model: nativeOverride.model,
   };
 }
 
@@ -76,9 +93,31 @@ export function useDevice(): DeviceInfo {
 
   useEffect(() => {
     const update = () => setInfo(readNow());
+
+    // If Capacitor is available, ask for authoritative native device info
+    // once and cache it. The plugin reports 'mobile' vs 'tablet' vs 'desktop'
+    // directly — trust it over viewport heuristics on native.
+    if (Capacitor.isNativePlatform() || Capacitor.getPlatform() !== 'web') {
+      Device.getInfo()
+        .then((d) => {
+          nativeOverride = {
+            formFactor:
+              d.platform === 'web'
+                ? undefined
+                : // Capacitor does not return tablet directly — infer via the
+                  // isVirtual + operatingSystem + model string when needed.
+                  'phone',
+            model: d.model,
+          };
+          update();
+        })
+        .catch(() => {
+          /* ignore — stick with heuristic */
+        });
+    }
+
     window.addEventListener('resize', update);
     window.addEventListener('orientationchange', update);
-    // Some mobile browsers only fire visualViewport events for keyboard show/hide
     const vv = window.visualViewport;
     vv?.addEventListener('resize', update);
     return () => {
