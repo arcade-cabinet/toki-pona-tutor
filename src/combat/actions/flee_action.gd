@@ -22,15 +22,12 @@ func _init() -> void:
 
 
 func execute() -> void:
-	var rng := RandomNumberGenerator.new()
-	rng.randomize()
-	fled = rng.randf() < BASE_SUCCESS_RATE
+	# Use the global RNG (seeded once by Godot at startup). Per-execute
+	# randomize() was non-deterministic and diverged from other combat rolls.
+	fled = randf() < BASE_SUCCESS_RATE
 	if fled:
-		print("[Flee] success")
 		# Signal the active Combat instance via Engine meta. Combat.gd reads
 		# this in _play_next_action and short-circuits into the flee-end path.
 		Engine.set_meta("combat_flee_requested", true)
-	else:
-		print("[Flee] failed")
 	# Brief beat so the UI can reflect the action before the turn ends.
 	await source.get_tree().create_timer(0.2).timeout

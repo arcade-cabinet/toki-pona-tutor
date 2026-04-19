@@ -479,7 +479,7 @@
       "description": "As a player, I want the game to autosave when I cross between regions.",
       "acceptanceCriteria": [
         "Every FieldEvents.region_changed triggers SaveSystem.save()",
-        "Save file at user://save.tres",
+        "Save file at user://save_data.sav (SaveSystem addon default)",
         "Files: src/common/toki_save.gd"
       ],
       "priority": 1,

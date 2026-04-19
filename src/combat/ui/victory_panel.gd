@@ -45,7 +45,8 @@ func show_sequence(entries: Array) -> void:
 func _show_entry() -> void:
 	_full_text = String(_entries[_index])
 	_revealed = 0
-	_body.text = ""
+	_body.text = _full_text
+	_body.visible_characters = 0
 	_hint.text = "space"
 	_typewriter.start(1.0 / TYPEWRITER_CPS)
 
@@ -55,7 +56,7 @@ func _on_tick() -> void:
 	if _revealed >= _full_text.length():
 		_revealed = _full_text.length()
 		_typewriter.stop()
-	_body.text = _full_text.substr(0, _revealed)
+	_body.visible_characters = _revealed
 
 
 func _unhandled_input(event: InputEvent) -> void:
@@ -68,7 +69,7 @@ func _unhandled_input(event: InputEvent) -> void:
 	if not _typewriter.is_stopped():
 		_typewriter.stop()
 		_revealed = _full_text.length()
-		_body.text = _full_text
+		_body.visible_characters = _revealed
 		return
 
 	_index += 1

@@ -97,8 +97,8 @@ func _maybe_fire_rival(rival: Dictionary) -> void:
 	var enemy_level := int(slot.get("level", 1))
 	var enemy_moves: Array = slot.get("moves", []) if slot.get("moves") is Array else []
 
-	var lead_species_id := "soweli_seli"
-	var lead_level := 5
+	var lead_species_id := EncounterWatcher.DEFAULT_LEAD_SPECIES
+	var lead_level := EncounterWatcher.DEFAULT_LEAD_LEVEL
 	var party: Array = TokiSave.party() if TokiSave else []
 	if not party.is_empty() and party[0] is Dictionary:
 		var lead: Dictionary = party[0]

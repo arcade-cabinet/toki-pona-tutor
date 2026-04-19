@@ -27,7 +27,7 @@ var target_value := 0.0:
 			_tween.kill()
 
 		_tween = create_tween().set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
-		_tween.parallel().tween_property(self, "value", target_value, TWEEN_DURATION)
+		_tween.tween_property(self, "value", target_value, TWEEN_DURATION)
 		_tween.parallel().tween_property(
 			self, "tint_progress", _color_for_value(target_value), TWEEN_DURATION
 		)

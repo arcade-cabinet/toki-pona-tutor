@@ -107,7 +107,7 @@ Six phases. Each ends with a demoable, mergeable slice. Total task count: **91**
 | ID | Title | Deps | Acceptance | Est | Files |
 |---|---|---|---|---|---|
 | T3-01 | Title scene — logo, "new game" / "continue" / "settings" / "quit" | — | `res://src/title.tscn` is new `run/main_scene`; routes to game or settings | M | new `src/title.tscn` + `title.gd`, `project.godot` |
-| T3-02 | Hook `SaveSystem.save()` to autosave on region change | — | Every `FieldEvents.region_changed` → `SaveSystem.save()`; file at `user://save.tres` | S | `src/common/toki_save.gd` |
+| T3-02 | Hook `SaveSystem.save()` to autosave on region change | — | Every `FieldEvents.region_changed` → `SaveSystem.save()`; file at `user://save_data.sav` (SaveSystem addon default) | S | `src/common/toki_save.gd` |
 | T3-03 | Autosave on combat_finished | T1-08 | After every battle end, save flushes | S | `src/common/toki_save.gd`, `src/combat/combat.gd` |
 | T3-04 | Save on `WM_CLOSE_REQUEST` (quit intent) | T3-02 | Closing window persists; next launch + Continue restores state | S | new `src/common/app_root.gd`, `project.godot` notification wiring |
 | T3-05 | "Continue" boots directly into `current_region_id` at `player_tile` | T3-02, T3-01 | Selecting Continue loads save, builds region, places player on last tile, no starter prompt | M | `src/title.gd`, `src/field/region_builder.gd`, `src/common/toki_save.gd` |

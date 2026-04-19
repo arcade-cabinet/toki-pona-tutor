@@ -17,9 +17,11 @@ extends Node
 #     when_flags: {flag: bool},    # optional gate
 #   }
 #
-# "Once" state is tracked in Engine meta (intra-session) so re-entering
-# the same tile does not re-fire. Cross-session persistence can layer on
-# TokiSave flags via the trigger's own set_flag side-effect if desired.
+# "Once" state persists across save/load via a dedicated TokiSave flag
+# (trigger_fired_{region}_{id}). Engine meta is used only as a fallback
+# when the TokiSave autoload isn't present (tests, tools).
+# when_flags gating reads from TokiSave first, Engine meta second, so
+# triggers respect flags restored by Continue.
 
 var _region: RegionResource = null
 var _player_gp: Gamepiece = null
@@ -61,7 +63,7 @@ func _on_player_arrived() -> void:
 	if trigger_id == "":
 		trigger_id = "%d_%d" % [cell.x, cell.y]
 	var fired_key := "trigger_fired_%s_%s" % [_region.id, trigger_id]
-	if once and bool(Engine.get_meta(fired_key, false)):
+	if once and _once_already_fired(fired_key):
 		return
 	_firing = true
 	var kind := String(trigger.get("kind", ""))
@@ -77,16 +79,41 @@ func _on_player_arrived() -> void:
 			_firing = false
 			return
 	if once:
-		Engine.set_meta(fired_key, true)
+		_mark_once_fired(fired_key)
 	_firing = false
+
+
+func _once_already_fired(fired_key: String) -> bool:
+	var save := _toki_save()
+	if save != null:
+		return save.get_flag(fired_key)
+	return bool(Engine.get_meta(fired_key, false))
+
+
+func _mark_once_fired(fired_key: String) -> void:
+	var save := _toki_save()
+	if save != null:
+		save.set_flag(fired_key, true)
+	else:
+		Engine.set_meta(fired_key, true)
+
+
+func _flag_value(key: String) -> bool:
+	var save := _toki_save()
+	if save != null:
+		return save.get_flag(key)
+	return bool(Engine.get_meta("flag_" + key, false))
+
+
+func _toki_save() -> Node:
+	return get_tree().root.get_node_or_null("TokiSave")
 
 
 func _flags_satisfied(trigger: Dictionary) -> bool:
 	var when_flags: Dictionary = trigger.get("when_flags", {})
 	for key in when_flags:
 		var required: bool = bool(when_flags[key])
-		var current: bool = bool(Engine.get_meta("flag_" + String(key), false))
-		if current != required:
+		if _flag_value(String(key)) != required:
 			return false
 	return true
 

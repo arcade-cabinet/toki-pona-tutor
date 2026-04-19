@@ -306,7 +306,7 @@ As a player, I want the game to autosave when I cross between regions.
 
 **Acceptance Criteria:**
 - [ ] Every `FieldEvents.region_changed` triggers `SaveSystem.save()`
-- [ ] Save file at `user://save.tres`
+- [x] Save file at `user://save_data.sav` (SaveSystem addon default)
 - [ ] Files: `src/common/toki_save.gd`
 
 ### US-032: Autosave on combat_finished

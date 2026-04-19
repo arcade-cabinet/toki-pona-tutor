@@ -34,7 +34,6 @@ var _previous_music_track: AudioStream = null
 
 const VICTORY_PANEL_SCENE: PackedScene = preload("res://src/combat/ui/victory_panel.tscn")
 
-# A reference to
 @onready var _battler_roster: BattlerRoster
 @onready var _combat_container: = $CenterContainer as CenterContainer
 @onready var _transition_delay_timer: = $UI/TransitionDelay as Timer
@@ -271,7 +270,10 @@ func _on_combat_finished(is_player_victory: bool) -> void:
 
 # Snapshot the lead's pre-grant state, tally XP via TokiSave, then
 # walk a VictoryPanel sequence showing +N xp, level-up, and any
-# newly-learned moves. Replaces the previous Dialogic timeline.
+# newly-learned moves. Uses our own VictoryPanel instead of a
+# Dialogic timeline to avoid the 4.6 subsystem_text runtime warning;
+# field dialogs continue to use the existing DialogOverlay + resource
+# pipeline, which is the long-term dialogue approach for this game.
 func _run_victory_sequence() -> void:
 	var amount: int = max(0, _pending_xp_yield)
 	var pre_level: int = 0

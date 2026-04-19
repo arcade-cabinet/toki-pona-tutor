@@ -32,8 +32,12 @@ extends Resource
 @export var trigger_add_party_level: int = 0
 
 # Optional branching choices presented after beats complete. When
-# non-empty, the overlay shows lettered options (A/B/C…) and fires
-# the selected choice's triggers instead of the dialog-level triggers.
+# non-empty, the overlay shows lettered options (A/B/C…). Dialog-level
+# triggers (trigger_set_flags, trigger_give_item_id, etc.) ALWAYS fire
+# on close; the selected choice's triggers fire IN ADDITION to — not
+# instead of — the dialog-level ones. Author choice triggers for what
+# only the picked branch should do, and dialog-level triggers for
+# effects common to every branch.
 # Each entry is a Dictionary: {label: {tp,en}, glyph, triggers: {...}}
 @export var choices: Array = []
 
