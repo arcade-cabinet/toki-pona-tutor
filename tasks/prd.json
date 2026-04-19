@@ -422,7 +422,7 @@
         "Files: schema/species_resource.gd, content/spine/species/*.json, src/combat/combat.gd"
       ],
       "priority": 2,
-      "passes": false,
+      "passes": true,
       "dependsOn": [
         "US-009"
       ]
@@ -818,7 +818,7 @@
         "Files: src/common/toki_save.gd, src/combat/combat.gd"
       ],
       "priority": 1,
-      "passes": false,
+      "passes": true,
       "dependsOn": [
         "US-051"
       ]
@@ -882,7 +882,7 @@
         "Files: src/combat/combat.gd, src/combat/actions/poki_throw_action.gd"
       ],
       "priority": 2,
-      "passes": false,
+      "passes": true,
       "dependsOn": []
     },
     {
@@ -932,7 +932,7 @@
         "Files: src/common/toki_save.gd, src/combat/combat.gd"
       ],
       "priority": 2,
-      "passes": false,
+      "passes": true,
       "dependsOn": []
     },
     {
