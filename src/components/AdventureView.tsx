@@ -1,6 +1,7 @@
 import { lazy, Suspense, useEffect, useRef } from 'react';
-import { X } from 'lucide-react';
+import { ArrowLeft } from 'lucide-react';
 import { gameBus } from '../game/GameBus';
+import { AdventureHUD } from './AdventureHUD';
 
 const PhaserGame = lazy(() =>
   import('../game/PhaserGame').then((m) => ({ default: m.PhaserGame }))
@@ -13,8 +14,6 @@ interface AdventureViewProps {
   onExit: () => void;
 }
 
-// Synthetic key dispatch so the Phaser scene's keyboard plugin picks these up
-// identically to real keypresses — no new event API in VillageScene.
 function dispatchKey(type: 'keydown' | 'keyup', code: string, key: string, keyCode: number) {
   document.dispatchEvent(new KeyboardEvent(type, { code, key, keyCode, bubbles: true }));
 }
@@ -24,13 +23,11 @@ function DpadButton({
   code,
   keyName,
   keyCode,
-  className = '',
 }: {
   label: string;
   code: string;
   keyName: string;
   keyCode: number;
-  className?: string;
 }) {
   const pressed = useRef(false);
   const down = (e: React.PointerEvent) => {
@@ -53,7 +50,7 @@ function DpadButton({
       onPointerLeave={up}
       onPointerCancel={up}
       aria-label={label}
-      className={`w-12 h-12 rounded-xl bg-white/90 text-slate-800 font-display text-xl shadow-lg border-b-[4px] border-slate-400 active:border-b-0 active:translate-y-[4px] transition-all select-none touch-none ${className}`}
+      className="w-12 h-12 rounded-2xl bg-amber-50/95 text-emerald-900 font-display text-xl shadow-[0_3px_0_rgba(120,53,15,0.35)] active:shadow-none active:translate-y-[3px] transition-all select-none touch-none"
     >
       {label}
     </button>
@@ -61,7 +58,6 @@ function DpadButton({
 }
 
 export function AdventureView({ onExit }: AdventureViewProps) {
-  // Release any held keys on unmount so nothing stays stuck.
   useEffect(() => {
     return () => {
       ['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown'].forEach((k) => {
@@ -77,30 +73,12 @@ export function AdventureView({ onExit }: AdventureViewProps) {
   };
 
   return (
-    <div className="flex flex-col h-full min-h-0 relative">
-      {/* Top bar */}
-      <div className="flex items-center gap-2 mb-2 shrink-0">
-        <button
-          onClick={onExit}
-          className="p-1.5 bg-white/90 hover:bg-white rounded-xl text-orange-700 shadow-md"
-          aria-label="Exit adventure"
-        >
-          <X size={20} strokeWidth={3} />
-        </button>
-        <h2 className="font-display text-xl sm:text-2xl text-white drop-shadow-[0_2px_0_rgba(234,88,12,0.85)]">
-          TOKI TOWN
-        </h2>
-        <div className="flex-1" />
-        <div className="hidden sm:block font-pixel text-[10px] text-white/80 uppercase">
-          Arrows / WASD · E to talk
-        </div>
-      </div>
-
-      {/* Game viewport */}
-      <div className="flex-1 min-h-0 relative bg-[#2a1810] rounded-2xl overflow-hidden shadow-xl border-2 border-white/40">
+    <div className="flex flex-col h-full min-h-0 relative p-0">
+      {/* Game viewport fills all available space — no bezel, no headbar */}
+      <div className="flex-1 min-h-0 relative overflow-hidden">
         <Suspense
           fallback={
-            <div className="absolute inset-0 flex items-center justify-center text-white font-display text-xl">
+            <div className="absolute inset-0 flex items-center justify-center text-amber-100 font-display text-xl bg-emerald-800">
               Loading Toki Town…
             </div>
           }
@@ -109,7 +87,19 @@ export function AdventureView({ onExit }: AdventureViewProps) {
           <SolidDialogMount />
         </Suspense>
 
-        {/* Mobile on-screen controls — shown on touch devices / small viewports */}
+        {/* Subtle back button, parchment disc */}
+        <button
+          onClick={onExit}
+          className="absolute top-3 left-3 w-9 h-9 rounded-full bg-amber-50/95 text-emerald-900 shadow-md flex items-center justify-center active:scale-95 transition-transform z-30"
+          aria-label="Return to menu"
+        >
+          <ArrowLeft size={18} strokeWidth={3} />
+        </button>
+
+        {/* Quest HUD — parchment strip up top showing current objective */}
+        <AdventureHUD />
+
+        {/* Mobile controls */}
         <div className="sm:hidden absolute bottom-3 left-3 grid grid-cols-3 gap-1 z-20">
           <div />
           <DpadButton label="↑" code="ArrowUp" keyName="ArrowUp" keyCode={38} />
@@ -124,10 +114,10 @@ export function AdventureView({ onExit }: AdventureViewProps) {
         <button
           type="button"
           onClick={interact}
-          aria-label="Interact"
-          className="sm:hidden absolute bottom-5 right-5 w-16 h-16 rounded-full bg-gradient-to-b from-lime-400 to-green-500 text-white font-display text-2xl shadow-xl border-b-[6px] border-green-700 active:border-b-0 active:translate-y-[6px] transition-all z-20 touch-none select-none"
+          aria-label="Talk / Pick up"
+          className="sm:hidden absolute bottom-5 right-5 w-16 h-16 rounded-full bg-amber-50 text-emerald-900 font-display text-lg shadow-[0_4px_0_rgba(120,53,15,0.4)] active:shadow-none active:translate-y-[4px] transition-all z-20 touch-none select-none"
         >
-          E
+          TALK
         </button>
       </div>
     </div>

@@ -7,6 +7,7 @@ import {
   completeHungryFriend,
   getQuestState,
 } from '../ecs/questState';
+import { sitelenFor, toSitelenPona } from '../../lib/sitelen';
 
 type Mode = 'dialog' | 'gate' | 'none';
 
@@ -108,26 +109,62 @@ export function DialogOverlay() {
     <Show when={line() && mode() !== 'none'}>
       {(_) => (
         <div class="absolute inset-0 z-30 flex items-end justify-center pointer-events-none p-3 pb-6">
-          <div class="bg-white rounded-2xl border-b-4 border-orange-300 shadow-2xl max-w-md w-full pointer-events-auto overflow-hidden animate-in slide-in-from-bottom-4 duration-200">
-            <div class={`px-4 py-1.5 bg-gradient-to-r ${moodColor(line()!.mood)} text-white font-display text-sm tracking-wider`}>
+          {/* Parchment dialog — warm cream background, irregular drop-shadow to
+              suggest a hand-laid paper sheet, not a modal */}
+          <div
+            class="relative max-w-md w-full pointer-events-auto animate-in slide-in-from-bottom-4 duration-200"
+            style={{
+              background:
+                'linear-gradient(180deg, #fff7e5 0%, #fdeccb 100%)',
+              'border-radius': '18px 22px 16px 20px',
+              'box-shadow':
+                '0 6px 0 rgba(120,53,15,0.18), 0 14px 30px -8px rgba(0,0,0,0.35)',
+              border: '2px solid rgba(180,120,60,0.35)',
+            }}
+          >
+            {/* Speaker tag — looks like a paper nametag clipped to the top edge */}
+            <div
+              class={`absolute -top-3 left-4 px-3 py-0.5 text-white font-display text-xs tracking-wider rounded-full shadow-md bg-gradient-to-r ${moodColor(line()!.mood)}`}
+            >
               {npcName()}
             </div>
 
             <Show when={mode() === 'gate'}>
-              <div class="p-4 space-y-3">
-                <div class="font-tile text-lg text-slate-800 leading-snug">
-                  <span>"mi wile e </span>
-                  <span
-                    class={`inline-block min-w-[60px] px-2 rounded font-display text-pink-600 border-b-2 border-pink-300 ${
-                      gateFeedback() === 'right' ? 'bg-lime-100 text-lime-700 border-lime-400' : ''
-                    } ${gateFeedback() === 'wrong' ? 'bg-red-100 text-red-600 border-red-400 animate-pulse' : ''}`}
-                  >
-                    {gatePick() ?? '___'}
-                  </span>
-                  <span>."</span>
+              <div class="p-4 pt-5 space-y-3">
+                <div class="flex flex-col items-center gap-1">
+                  <div class="font-sitelen text-4xl text-emerald-800 leading-none flex items-center gap-2">
+                    <span>{sitelenFor('mi')}</span>
+                    <span>{sitelenFor('wile')}</span>
+                    <span>{sitelenFor('e')}</span>
+                    <span
+                      class={`inline-block min-w-[42px] h-9 rounded px-1 text-center border-b-2 ${
+                        gateFeedback() === 'right'
+                          ? 'bg-lime-100 text-lime-700 border-lime-400'
+                          : gateFeedback() === 'wrong'
+                          ? 'bg-red-100 text-red-600 border-red-400 animate-pulse'
+                          : 'bg-amber-100 text-pink-600 border-pink-300'
+                      }`}
+                    >
+                      {gatePick() ? sitelenFor(gatePick()!) : '?'}
+                    </span>
+                  </div>
+                  <div class="font-tile text-sm text-amber-900">
+                    mi wile e{' '}
+                    <span
+                      class={`font-semibold px-1.5 rounded ${
+                        gateFeedback() === 'right'
+                          ? 'bg-lime-100 text-lime-700'
+                          : gateFeedback() === 'wrong'
+                          ? 'bg-red-100 text-red-600'
+                          : 'bg-amber-100 text-pink-700'
+                      }`}
+                    >
+                      {gatePick() ?? '___'}
+                    </span>
+                  </div>
                 </div>
-                <div class="text-xs text-slate-500 italic">
-                  Help jan Pona finish her sentence. What does she want?
+                <div class="text-xs text-amber-800/70 italic text-center">
+                  jan Pona wants something. Tap the right word.
                 </div>
                 <div class="grid grid-cols-4 gap-2">
                   <For each={GATE_WORDS}>
@@ -136,11 +173,14 @@ export function DialogOverlay() {
                         type="button"
                         onClick={() => setGatePick(word)}
                         disabled={gateFeedback() === 'right'}
-                        class={`py-2 rounded-xl font-tile text-base bg-white border-b-[4px] border-orange-300 text-slate-800 active:border-b-0 active:translate-y-[4px] transition-all disabled:opacity-50 ${
+                        class={`py-2 rounded-xl bg-amber-50 border-b-[4px] border-amber-300 text-amber-900 active:border-b-0 active:translate-y-[4px] transition-all disabled:opacity-50 flex flex-col items-center ${
                           gatePick() === word ? 'bg-pink-100 border-pink-400' : ''
                         }`}
                       >
-                        {word}
+                        <span class="font-sitelen text-2xl leading-none text-emerald-700">
+                          {sitelenFor(word)}
+                        </span>
+                        <span class="font-tile text-xs mt-0.5">{word}</span>
                       </button>
                     )}
                   </For>
@@ -149,7 +189,7 @@ export function DialogOverlay() {
                   type="button"
                   onClick={submitGate}
                   disabled={!gatePick() || gateFeedback() === 'right'}
-                  class="w-full py-2.5 rounded-xl bg-gradient-to-b from-lime-400 to-green-500 border-b-[4px] border-green-700 text-white font-display text-sm uppercase tracking-wide active:border-b-0 active:translate-y-[4px] transition-all disabled:opacity-40"
+                  class="w-full py-2.5 rounded-xl bg-gradient-to-b from-emerald-500 to-emerald-700 border-b-[4px] border-emerald-900 text-amber-50 font-display text-sm uppercase tracking-wide active:border-b-0 active:translate-y-[4px] transition-all disabled:opacity-40"
                 >
                   {gateFeedback() === 'right' ? 'pona!' : 'Say it!'}
                 </button>
@@ -157,12 +197,15 @@ export function DialogOverlay() {
             </Show>
 
             <Show when={mode() === 'dialog'}>
-              <div class="p-4 space-y-3">
-                <div class="font-tile text-lg text-slate-800 leading-snug">
+              <div class="p-4 pt-5 space-y-2.5">
+                <div class="font-sitelen text-3xl text-emerald-800 leading-tight">
+                  {toSitelenPona(line()!.tp)}
+                </div>
+                <div class="font-tile text-base text-amber-900 leading-snug">
                   "{line()!.tp}"
                 </div>
                 <Show when={showEn()}>
-                  <div class="text-sm text-slate-500 italic border-l-2 border-orange-300 pl-3">
+                  <div class="text-sm text-amber-800/70 italic border-l-2 border-amber-400 pl-3">
                     {line()!.en}
                   </div>
                 </Show>
@@ -170,16 +213,16 @@ export function DialogOverlay() {
                   <button
                     type="button"
                     onClick={() => setShowEn(!showEn())}
-                    class="flex-1 py-2 rounded-xl bg-white border-b-[4px] border-orange-300 text-orange-700 font-display text-xs uppercase tracking-wide active:border-b-0 active:translate-y-[4px] transition-all"
+                    class="flex-1 py-2 rounded-xl bg-amber-50 border-b-[4px] border-amber-300 text-amber-800 font-display text-xs uppercase tracking-wide active:border-b-0 active:translate-y-[4px] transition-all"
                   >
-                    {showEn() ? 'Hide English' : 'Show English'}
+                    {showEn() ? 'hide English' : 'show English'}
                   </button>
                   <button
                     type="button"
                     onClick={closeDialog}
-                    class="flex-1 py-2 rounded-xl bg-gradient-to-b from-lime-400 to-green-500 border-b-[4px] border-green-700 text-white font-display text-xs uppercase tracking-wide active:border-b-0 active:translate-y-[4px] transition-all"
+                    class="flex-1 py-2 rounded-xl bg-gradient-to-b from-emerald-500 to-emerald-700 border-b-[4px] border-emerald-900 text-amber-50 font-display text-xs uppercase tracking-wide active:border-b-0 active:translate-y-[4px] transition-all"
                   >
-                    Continue →
+                    o tawa →
                   </button>
                 </div>
               </div>

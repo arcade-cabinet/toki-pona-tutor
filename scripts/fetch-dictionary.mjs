@@ -23,6 +23,8 @@ const entries = Object.values(raw)
     book: w.book,
     usage_category: w.usage_category,
     source_language: w.source_language ?? '',
+    ucsur: w.representations?.ucsur ?? '',
+    sitelen_emosi: w.representations?.sitelen_emosi ?? '',
   }))
   .sort((a, b) => a.word.localeCompare(b.word));
 

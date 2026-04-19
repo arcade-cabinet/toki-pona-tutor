@@ -91,10 +91,10 @@ export default function App() {
 
   return (
     <div className="min-h-screen bg-sunset flex items-center justify-center sm:p-4">
-      <div className={`bg-sunset-deep w-full h-[100dvh] sm:h-auto sm:max-h-[95vh] sm:rounded-[3rem] sm:shadow-2xl sm:border-[6px] sm:border-white/40 flex flex-col overflow-hidden ${
+      <div className={`w-full h-[100dvh] flex flex-col overflow-hidden ${
         view === 'adventure'
-          ? 'sm:max-w-[1200px] sm:aspect-video'
-          : 'sm:max-w-md sm:aspect-[9/16]'
+          ? 'bg-[#1b3e2f] sm:h-auto sm:max-h-[96vh] sm:max-w-[1280px] sm:aspect-video sm:rounded-3xl sm:shadow-[0_20px_50px_-10px_rgba(0,0,0,0.5)]'
+          : 'bg-sunset-deep sm:h-auto sm:max-h-[95vh] sm:max-w-md sm:rounded-[3rem] sm:shadow-2xl sm:border-[6px] sm:border-white/40 sm:aspect-[9/16]'
       }`}>
         <div className="flex-1 flex flex-col p-4 sm:p-6 min-h-0 text-slate-900">
           {view === 'menu' && (
