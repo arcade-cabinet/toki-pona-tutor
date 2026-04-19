@@ -1,6 +1,7 @@
 import { useEffect, useRef } from 'react';
 import type * as Phaser from 'phaser';
 import { createGame } from './config';
+import { installHarness, setHarnessReady, uninstallHarness } from './harness';
 
 export function PhaserGame() {
   const containerRef = useRef<HTMLDivElement>(null);
@@ -10,6 +11,19 @@ export function PhaserGame() {
     if (gameRef.current || !containerRef.current) return;
     const container = containerRef.current;
     gameRef.current = createGame(container);
+
+    // Dev-only: expose the harness inspector at window.__toki_harness__ so
+    // the Vitest browser harness can read live scene state. No-op in
+    // production. L1 will populate the per-scene query callbacks
+    // (harnessPlayer / harnessMapId / harnessDialogOpen) as it lands.
+    installHarness(() => {
+      const scenes = gameRef.current?.scene.getScenes(true);
+      return scenes && scenes.length > 0 ? scenes[0] : null;
+    });
+    // Until L1 wires per-scene ready signalling, mark ready once the game
+    // booted — this lets the harness foundation test prove the inspector
+    // is alive end-to-end.
+    setHarnessReady(true);
 
     // WebGL context-loss recovery. Browsers (especially mobile + foldables)
     // sometimes drop the GL context under memory pressure / device-state
@@ -60,6 +74,7 @@ export function PhaserGame() {
     return () => {
       cancelAnimationFrame(rafId);
       ro.disconnect();
+      uninstallHarness();
       gameRef.current?.destroy(true);
       gameRef.current = null;
     };
