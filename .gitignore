@@ -32,9 +32,16 @@ user://
 .worktrees/
 
 # Local caches, agent scratch
+# NOTE: .remember/ is TRACKED (contains memory docs); only ignore artifacts+temp state
+.remember/logs/
+.remember/tmp/
 .remember/now.md
+.remember/*.pid
 .tatoeba-cache/
 .playwright-mcp/
+
+# Claude local task-batch runtime state (keep directory tracked, ignore volatile files)
+.claude/state/task-batch/.last-compaction
 
 # Raw asset drop zone — unzip/import into assets/ intentionally,
 # don't commit the archives.
