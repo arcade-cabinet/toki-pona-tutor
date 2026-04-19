@@ -1,4 +1,4 @@
-import { useCallback, useState } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import { MenuScreen } from './components/MenuScreen';
 import { LearnScreen } from './components/LearnScreen';
 import { ResultsScreen } from './components/ResultsScreen';
@@ -7,50 +7,89 @@ import { useAudio } from './hooks/useAudio';
 import { challenges } from './lib/challenges';
 import type { View } from './types';
 
+const STARTING_HEARTS = 3;
+const XP_PER_CORRECT = 10;
+const XP_STREAK_BONUS = 5;
+const XP_PER_LEVEL = 50;
+
 export default function App() {
   const [view, setView] = useState<View>('menu');
   const [challengeIndex, setChallengeIndex] = useState(0);
   const [score, setScore] = useState(0);
+  const [hearts, setHearts] = useState(STARTING_HEARTS);
+  const [xp, setXp] = useState(0);
+  const [level, setLevel] = useState(1);
   const [currentStreak, setCurrentStreak] = useState(0);
   const [bestStreak, setBestStreak] = useState(0);
+  const [gameOver, setGameOver] = useState(false);
 
-  const { toneLoaded, audioEnabled, initAudio, toggleAudio, playSfx } = useAudio();
+  const { toneLoaded, audioEnabled, initAudio, toggleAudio, playSfx, playBgm } = useAudio();
+
+  useEffect(() => {
+    if (!audioEnabled) return;
+    if (view === 'menu' || view === 'study') playBgm('menu');
+    else if (view === 'learn') playBgm('lesson');
+    else if (view === 'results') playBgm('results');
+  }, [view, audioEnabled, playBgm]);
 
   const startGame = useCallback(async () => {
     await initAudio();
     setChallengeIndex(0);
     setScore(0);
+    setHearts(STARTING_HEARTS);
+    setXp(0);
+    setLevel(1);
     setCurrentStreak(0);
     setBestStreak(0);
+    setGameOver(false);
     setView('learn');
   }, [initAudio]);
 
-  const handleNext = useCallback(
+  const handleAnswer = useCallback(
     (wasCorrect: boolean) => {
       if (wasCorrect) {
         setScore((s) => s + 1);
-        setCurrentStreak((s) => {
-          const next = s + 1;
-          setBestStreak((b) => Math.max(b, next));
+        const newStreak = currentStreak + 1;
+        setCurrentStreak(newStreak);
+        setBestStreak((b) => Math.max(b, newStreak));
+        const xpEarned = XP_PER_CORRECT + (newStreak >= 2 ? XP_STREAK_BONUS : 0);
+        setXp((prev) => {
+          const next = prev + xpEarned;
+          if (next >= XP_PER_LEVEL) {
+            setLevel((l) => l + 1);
+            return next - XP_PER_LEVEL;
+          }
           return next;
         });
       } else {
         setCurrentStreak(0);
-      }
-      const nextIndex = challengeIndex + 1;
-      if (nextIndex >= challenges.length) {
-        playSfx('win');
-        setView('results');
-      } else {
-        setChallengeIndex(nextIndex);
+        setHearts((h) => {
+          const next = h - 1;
+          if (next <= 0) setGameOver(true);
+          return next;
+        });
       }
     },
-    [challengeIndex, playSfx]
+    [currentStreak]
   );
 
+  const handleNext = useCallback(() => {
+    if (gameOver) {
+      playSfx('win');
+      setView('results');
+      return;
+    }
+    const nextIndex = challengeIndex + 1;
+    if (nextIndex >= challenges.length) {
+      playSfx('win');
+      setView('results');
+    } else {
+      setChallengeIndex(nextIndex);
+    }
+  }, [gameOver, challengeIndex, playSfx]);
+
   return (
-    <div className="min-h-screen bg-slate-100 font-sans flex items-center justify-center sm:p-4">
-      {/* Desktop: polished "phone frame" bezel. Mobile: full viewport. */}
+    <div className="min-h-screen bg-gradient-to-br from-slate-100 via-blue-50 to-slate-100 font-sans flex items-center justify-center sm:p-4">
       <div className="bg-white w-full h-[100dvh] sm:h-auto sm:max-h-[95vh] sm:max-w-md sm:rounded-[3rem] sm:shadow-xl sm:border-8 sm:border-slate-200 sm:aspect-[9/16] flex flex-col overflow-hidden">
         <div className="flex-1 flex flex-col p-4 sm:p-6 min-h-0">
           {view === 'menu' && (
@@ -68,9 +107,16 @@ export default function App() {
               totalChallenges={challenges.length}
               score={score}
               streak={currentStreak}
+              hearts={hearts}
+              maxHearts={STARTING_HEARTS}
+              xp={xp}
+              xpPerLevel={XP_PER_LEVEL}
+              level={level}
+              gameOver={gameOver}
               audioEnabled={audioEnabled}
               onToggleAudio={toggleAudio}
               onExit={() => setView('menu')}
+              onAnswer={handleAnswer}
               onNext={handleNext}
               playSfx={playSfx}
             />
@@ -80,6 +126,11 @@ export default function App() {
               score={score}
               total={challenges.length}
               streak={bestStreak}
+              hearts={hearts}
+              maxHearts={STARTING_HEARTS}
+              level={level}
+              xp={xp}
+              gameOver={gameOver}
               audioEnabled={audioEnabled}
               onToggleAudio={toggleAudio}
               onRestart={startGame}
