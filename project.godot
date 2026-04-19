@@ -34,6 +34,8 @@ QuestSystem="*uid://b77kvbliweux5"
 SaveSystem="*uid://cx1yhcewu54g5"
 World="*res://src/common/world.gd"
 TokiSave="*res://src/common/toki_save.gd"
+SettingsStore="*res://src/common/settings_store.gd"
+BiomeMusic="*res://src/common/music/biome_music.gd"
 
 [dialogic]
 

@@ -73,6 +73,11 @@ func _ready() -> void:
 	if TokiSave:
 		TokiSave.current_region_id = region.id
 	_build()
+	# Publish on the field event bus so BiomeMusic / cd transitions /
+	# other listeners can react to the swap (US-060). Emit AFTER _build
+	# so listeners see a fully-hydrated scene tree.
+	if FieldEvents != null and FieldEvents.has_signal("region_changed"):
+		FieldEvents.emit_signal("region_changed", region)
 
 
 func _build() -> void:
@@ -238,6 +243,12 @@ func _spawn_npc_sprite(npc_res: NpcResource, dungeon_tex: Texture2D) -> void:
 
 
 func _on_npc_interaction_requested(npc_id: String) -> void:
+	# Shopkeepers bypass the dialog tree and open the ShopPanel
+	# directly, reading `shop` stock from the NPC resource (US-058).
+	var npc: NpcResource = _find_npc_resource(npc_id)
+	if npc != null and npc.role == "shopkeeper":
+		_open_shop_for(npc)
+		return
 	# Pick the highest-priority dialog node matching current state.
 	var node := _select_dialog_for(npc_id)
 	if node == null:
@@ -254,6 +265,24 @@ func _on_npc_interaction_requested(npc_id: String) -> void:
 		for beat in node.beats:
 			var text_dict: Dictionary = beat.get("text", {})
 			print("  — %s" % text_dict.get("tp", text_dict.get("en", "")))
+
+
+func _find_npc_resource(npc_id: String) -> NpcResource:
+	for n: NpcResource in region.npcs:
+		if n.id == npc_id:
+			return n
+	return null
+
+
+func _open_shop_for(npc: NpcResource) -> void:
+	# NpcResource.stock is an Array of {item_id, price}. Resolved at
+	# content-load time by schema/npc_resource.from_dict.
+	var stock: Array = npc.stock if "stock" in npc else []
+	var shop := get_tree().root.get_node_or_null("TokiTown/ShopPanel")
+	if shop == null:
+		shop = get_tree().root.find_child("ShopPanel", true, false)
+	if shop != null and shop.has_method("open"):
+		shop.open(stock)
 
 
 # Return the best dialog node for this NPC given current save state.

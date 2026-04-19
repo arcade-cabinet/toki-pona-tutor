@@ -2,7 +2,9 @@
   "id": "ma_lete",
   "name_tp": "ma lete",
   "name_en": "The Cold Land",
-  "description": { "en": "The night is dark and cold." },
+  "description": {
+    "en": "The night is dark and cold."
+  },
   "width": 20,
   "height": 16,
   "sky_color": "#c4d8e8",
@@ -12,54 +14,756 @@
       "depth": 0,
       "solid_keys": [],
       "tiles": [
-        ["stone","stone","stone","stone","stone","stone","stone","stone","stone","stone","stone","stone","stone","stone","stone","stone","stone","stone","stone","stone"],
-        ["stone","stone","stone","stone","stone","stone","stone","stone","stone","stone","stone","stone","stone","stone","stone","stone","stone","stone","stone","stone"],
-        ["stone","stone","stone","stone","grass_detail","grass_detail","stone","stone","stone","stone","stone","stone","stone","grass_detail","grass_detail","grass_detail","stone","stone","stone","stone"],
-        ["stone","stone","stone","stone","grass_detail","grass_detail","stone","stone","stone","stone","stone","stone","stone","grass_detail","grass_detail","grass_detail","stone","stone","stone","stone"],
-        ["stone","stone","stone","stone","stone","stone","stone","stone","stone","stone","stone","stone","stone","stone","stone","stone","stone","stone","stone","stone"],
-        ["stone","stone","stone","stone","stone","stone","stone","stone","stone","stone","stone","stone","stone","stone","stone","stone","stone","stone","stone","stone"],
-        ["stone","stone","stone","stone","stone","stone","stone","stone","stone","stone","stone","stone","stone","stone","stone","stone","stone","stone","stone","stone"],
-        ["stone","stone","stone","stone","stone","stone","stone","stone","stone","stone","stone","stone","stone","stone","stone","stone","stone","stone","stone","stone"],
-        ["stone","stone","stone","stone","stone","stone","stone","stone","stone","stone","stone","stone","stone","stone","stone","stone","stone","stone","stone","stone"],
-        ["stone","stone","grass_detail","grass_detail","stone","stone","stone","stone","stone","stone","stone","stone","stone","stone","stone","grass_detail","grass_detail","grass_detail","stone","stone"],
-        ["stone","stone","grass_detail","grass_detail","stone","stone","stone","stone","stone","stone","stone","stone","stone","stone","stone","grass_detail","grass_detail","grass_detail","stone","stone"],
-        ["stone","stone","grass_detail","grass_detail","stone","stone","stone","stone","stone","stone","stone","stone","stone","stone","stone","stone","stone","stone","stone","stone"],
-        ["stone","stone","stone","stone","stone","stone","stone","stone","stone","stone","stone","stone","stone","stone","stone","stone","stone","stone","stone","stone"],
-        ["stone","stone","stone","stone","stone","stone","stone","stone","stone","stone","stone","stone","stone","stone","stone","stone","stone","stone","stone","stone"],
-        ["stone","stone","stone","stone","stone","stone","stone","stone","stone","stone","stone","stone","stone","stone","stone","stone","stone","stone","stone","stone"],
-        ["stone","stone","stone","stone","stone","stone","stone","stone","stone","stone","stone","stone","stone","stone","stone","stone","stone","stone","stone","stone"]
+        [
+          "stone",
+          "stone",
+          "stone",
+          "stone",
+          "stone",
+          "stone",
+          "stone",
+          "stone",
+          "stone",
+          "stone",
+          "stone",
+          "stone",
+          "stone",
+          "stone",
+          "stone",
+          "stone",
+          "stone",
+          "stone",
+          "stone",
+          "stone"
+        ],
+        [
+          "stone",
+          "stone",
+          "stone",
+          "stone",
+          "stone",
+          "stone",
+          "stone",
+          "stone",
+          "stone",
+          "stone",
+          "stone",
+          "stone",
+          "stone",
+          "stone",
+          "stone",
+          "stone",
+          "stone",
+          "stone",
+          "stone",
+          "stone"
+        ],
+        [
+          "stone",
+          "stone",
+          "stone",
+          "stone",
+          "grass_detail",
+          "grass_detail",
+          "stone",
+          "stone",
+          "stone",
+          "stone",
+          "stone",
+          "stone",
+          "stone",
+          "grass_detail",
+          "grass_detail",
+          "grass_detail",
+          "stone",
+          "stone",
+          "stone",
+          "stone"
+        ],
+        [
+          "stone",
+          "stone",
+          "stone",
+          "stone",
+          "grass_detail",
+          "grass_detail",
+          "stone",
+          "stone",
+          "stone",
+          "stone",
+          "stone",
+          "stone",
+          "stone",
+          "grass_detail",
+          "grass_detail",
+          "grass_detail",
+          "stone",
+          "stone",
+          "stone",
+          "stone"
+        ],
+        [
+          "stone",
+          "stone",
+          "stone",
+          "stone",
+          "stone",
+          "stone",
+          "stone",
+          "stone",
+          "stone",
+          "stone",
+          "stone",
+          "stone",
+          "stone",
+          "stone",
+          "stone",
+          "stone",
+          "stone",
+          "stone",
+          "stone",
+          "stone"
+        ],
+        [
+          "stone",
+          "stone",
+          "stone",
+          "stone",
+          "stone",
+          "stone",
+          "stone",
+          "stone",
+          "stone",
+          "stone",
+          "stone",
+          "stone",
+          "stone",
+          "stone",
+          "stone",
+          "stone",
+          "stone",
+          "stone",
+          "stone",
+          "stone"
+        ],
+        [
+          "stone",
+          "stone",
+          "stone",
+          "stone",
+          "stone",
+          "stone",
+          "stone",
+          "stone",
+          "stone",
+          "stone",
+          "stone",
+          "stone",
+          "stone",
+          "stone",
+          "stone",
+          "stone",
+          "stone",
+          "stone",
+          "stone",
+          "stone"
+        ],
+        [
+          "stone",
+          "stone",
+          "stone",
+          "stone",
+          "stone",
+          "stone",
+          "stone",
+          "stone",
+          "stone",
+          "stone",
+          "stone",
+          "stone",
+          "stone",
+          "stone",
+          "stone",
+          "stone",
+          "stone",
+          "stone",
+          "stone",
+          "stone"
+        ],
+        [
+          "stone",
+          "stone",
+          "stone",
+          "stone",
+          "stone",
+          "stone",
+          "stone",
+          "stone",
+          "stone",
+          "stone",
+          "stone",
+          "stone",
+          "stone",
+          "stone",
+          "stone",
+          "stone",
+          "stone",
+          "stone",
+          "stone",
+          "stone"
+        ],
+        [
+          "stone",
+          "stone",
+          "grass_detail",
+          "grass_detail",
+          "stone",
+          "stone",
+          "stone",
+          "stone",
+          "stone",
+          "stone",
+          "stone",
+          "stone",
+          "stone",
+          "stone",
+          "stone",
+          "grass_detail",
+          "grass_detail",
+          "grass_detail",
+          "stone",
+          "stone"
+        ],
+        [
+          "stone",
+          "stone",
+          "grass_detail",
+          "grass_detail",
+          "stone",
+          "stone",
+          "stone",
+          "stone",
+          "stone",
+          "stone",
+          "stone",
+          "stone",
+          "stone",
+          "stone",
+          "stone",
+          "grass_detail",
+          "grass_detail",
+          "grass_detail",
+          "stone",
+          "stone"
+        ],
+        [
+          "stone",
+          "stone",
+          "grass_detail",
+          "grass_detail",
+          "stone",
+          "stone",
+          "stone",
+          "stone",
+          "stone",
+          "stone",
+          "stone",
+          "stone",
+          "stone",
+          "stone",
+          "stone",
+          "stone",
+          "stone",
+          "stone",
+          "stone",
+          "stone"
+        ],
+        [
+          "stone",
+          "stone",
+          "stone",
+          "stone",
+          "stone",
+          "stone",
+          "stone",
+          "stone",
+          "stone",
+          "stone",
+          "stone",
+          "stone",
+          "stone",
+          "stone",
+          "stone",
+          "stone",
+          "stone",
+          "stone",
+          "stone",
+          "stone"
+        ],
+        [
+          "stone",
+          "stone",
+          "stone",
+          "stone",
+          "stone",
+          "stone",
+          "stone",
+          "stone",
+          "stone",
+          "stone",
+          "stone",
+          "stone",
+          "stone",
+          "stone",
+          "stone",
+          "stone",
+          "stone",
+          "stone",
+          "stone",
+          "stone"
+        ],
+        [
+          "stone",
+          "stone",
+          "stone",
+          "stone",
+          "stone",
+          "stone",
+          "stone",
+          "stone",
+          "stone",
+          "stone",
+          "stone",
+          "stone",
+          "stone",
+          "stone",
+          "stone",
+          "stone",
+          "stone",
+          "stone",
+          "stone",
+          "stone"
+        ],
+        [
+          "stone",
+          "stone",
+          "stone",
+          "stone",
+          "stone",
+          "stone",
+          "stone",
+          "stone",
+          "stone",
+          "stone",
+          "stone",
+          "stone",
+          "stone",
+          "stone",
+          "stone",
+          "stone",
+          "stone",
+          "stone",
+          "stone",
+          "stone"
+        ]
       ]
     },
     {
       "name": "objects",
       "depth": 1,
-      "solid_keys": ["tree","tree_g","house_b","house_r","sign","fence","bush"],
+      "solid_keys": [
+        "tree",
+        "tree_g",
+        "house_b",
+        "house_r",
+        "sign",
+        "fence",
+        "bush"
+      ],
       "tiles": [
-        ["tree","tree",null,null,"tree",null,null,null,null,"tree",null,null,null,null,"tree",null,null,null,"tree","tree"],
-        ["tree",null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,"tree"],
-        [null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null],
-        [null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null],
-        [null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null],
-        [null,null,null,null,null,null,"house_b",null,null,null,null,null,"house_r",null,null,null,null,null,null,null],
-        [null,null,null,null,null,null,null,null,null,"house_b",null,null,null,null,null,null,null,null,null,null],
-        [null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null],
-        [null,null,null,null,"sign",null,null,null,null,null,null,null,null,null,null,null,null,null,null,null],
-        [null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null],
-        [null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null],
-        [null,null,null,null,null,null,null,null,"fence","fence","fence","fence",null,null,null,null,null,null,null,null],
-        [null,null,null,null,null,null,null,null,"fence",null,null,"fence",null,null,null,"sign",null,null,null,null],
-        ["tree",null,null,null,null,null,null,null,"fence","fence","fence","fence",null,null,null,null,null,null,null,"tree"],
-        ["tree",null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,"tree"],
-        ["tree","tree",null,null,"tree",null,null,null,null,null,null,null,"tree",null,null,null,"tree",null,"tree","tree"]
+        [
+          "tree",
+          "tree",
+          null,
+          null,
+          "tree",
+          null,
+          null,
+          null,
+          null,
+          "tree",
+          null,
+          null,
+          null,
+          null,
+          "tree",
+          null,
+          null,
+          null,
+          "tree",
+          "tree"
+        ],
+        [
+          "tree",
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          "tree"
+        ],
+        [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          "house_b",
+          null,
+          null,
+          null,
+          null,
+          null,
+          "house_r",
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          "house_b",
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null,
+          "sign",
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          "fence",
+          "fence",
+          "fence",
+          "fence",
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          "fence",
+          null,
+          null,
+          "fence",
+          null,
+          null,
+          null,
+          "sign",
+          null,
+          null,
+          null,
+          null
+        ],
+        [
+          "tree",
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          "fence",
+          "fence",
+          "fence",
+          "fence",
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          "tree"
+        ],
+        [
+          "tree",
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          "tree"
+        ],
+        [
+          "tree",
+          "tree",
+          null,
+          null,
+          "tree",
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          null,
+          "tree",
+          null,
+          null,
+          null,
+          "tree",
+          null,
+          "tree",
+          "tree"
+        ]
       ]
     }
   ],
-  "tall_grass_keys": ["grass_detail"],
+  "tall_grass_keys": [
+    "grass_detail"
+  ],
   "encounters": [
-    { "species_id": "soweli_lete_suli", "weight": 0.25, "min_level": 8, "max_level": 12 },
-    { "species_id": "waso_lete", "weight": 0.4, "min_level": 7, "max_level": 11 },
-    { "species_id": "kasi_pona", "weight": 0.2, "min_level": 7, "max_level": 10 },
-    { "species_id": "soweli_suwi", "weight": 0.15, "min_level": 7, "max_level": 10 }
+    {
+      "species_id": "soweli_lete_suli",
+      "weight": 0.25,
+      "min_level": 8,
+      "max_level": 12
+    },
+    {
+      "species_id": "waso_lete",
+      "weight": 0.4,
+      "min_level": 7,
+      "max_level": 11
+    },
+    {
+      "species_id": "kasi_pona",
+      "weight": 0.2,
+      "min_level": 7,
+      "max_level": 10
+    },
+    {
+      "species_id": "soweli_suwi",
+      "weight": 0.15,
+      "min_level": 7,
+      "max_level": 10
+    }
   ],
   "npcs": [
     {
@@ -68,22 +772,33 @@
       "name_en": "jan Lete",
       "role": "jan_lawa",
       "personality": "cold-natured wanderer and master of the snow village; tests challengers with his ice team.",
-      "tile": { "x": 10, "y": 8 },
+      "tile": {
+        "x": 10,
+        "y": 8
+      },
       "sprite_frame": 96,
       "greeting": {
-        "text": { "en": "Are you strong?" },
+        "text": {
+          "en": "Are you strong?"
+        },
         "mood": "thinking"
       },
       "team": [
         {
           "species_id": "waso_lete",
           "level": 10,
-          "moves": ["utala_lili","lete_lili"]
+          "moves": [
+            "utala_lili",
+            "lete_lili"
+          ]
         },
         {
           "species_id": "soweli_lete_suli",
           "level": 13,
-          "moves": ["utala","lete_wawa"]
+          "moves": [
+            "utala",
+            "lete_wawa"
+          ]
         }
       ],
       "reward_word": "lete"
@@ -94,10 +809,15 @@
       "name_en": "jan Anpa",
       "role": "ambient",
       "personality": "quiet elder who sits by the houses and watches the snow.",
-      "tile": { "x": 13, "y": 6 },
+      "tile": {
+        "x": 13,
+        "y": 6
+      },
       "sprite_frame": 100,
       "greeting": {
-        "text": { "en": "The night is dark and cold." },
+        "text": {
+          "en": "The night is dark and cold."
+        },
         "mood": "thinking"
       }
     },
@@ -107,10 +827,15 @@
       "name_en": "jan Kasi",
       "role": "ambient",
       "personality": "plant-keeper who tends cold-hardy herbs inside the fenced garden.",
-      "tile": { "x": 10, "y": 12 },
+      "tile": {
+        "x": 10,
+        "y": 12
+      },
       "sprite_frame": 99,
       "greeting": {
-        "text": { "en": "Flowers are yellow." },
+        "text": {
+          "en": "Flowers are yellow."
+        },
         "mood": "happy"
       }
     }
@@ -118,50 +843,112 @@
   "signs": [
     {
       "id": "sign_entrance",
-      "tile": { "x": 4, "y": 8 },
-      "text": { "en": "lete" }
+      "tile": {
+        "x": 4,
+        "y": 8
+      },
+      "text": {
+        "en": "lete"
+      }
     },
     {
       "id": "sign_gym",
-      "tile": { "x": 15, "y": 12 },
-      "text": { "en": "wawa" }
+      "tile": {
+        "x": 15,
+        "y": 12
+      },
+      "text": {
+        "en": "wawa"
+      }
     }
   ],
   "warps": [
     {
       "id": "warp_south",
-      "tile": { "x": 3, "y": 15 },
+      "tile": {
+        "x": 3,
+        "y": 15
+      },
       "to_region": "nena_sewi",
-      "to_tile": { "x": 15, "y": 1 }
+      "to_tile": {
+        "x": 15,
+        "y": 1
+      }
     },
     {
       "id": "warp_north",
-      "tile": { "x": 16, "y": 0 },
+      "tile": {
+        "x": 16,
+        "y": 0
+      },
       "to_region": "nena_suli",
-      "to_tile": { "x": 10, "y": 14 }
+      "to_tile": {
+        "x": 10,
+        "y": 14
+      }
     }
   ],
   "dialog": [
     {
       "id": "jan_lete_challenge",
       "npc_id": "jan_lete",
-      "when_flags": { "badge_lete": false },
+      "when_flags": {
+        "badge_lete": false
+      },
       "priority": 10,
       "beats": [
-        { "text": { "en": "Hello, friends." }, "mood": "thinking", "glyph": "toki" },
-        { "text": { "en": "The night is dark and cold." }, "mood": "thinking", "glyph": "lete" },
-        { "text": { "en": "Are you strong?" }, "mood": "excited", "glyph": "wawa" },
-        { "text": { "en": "Let's attack." }, "mood": "excited", "glyph": "utala" }
+        {
+          "text": {
+            "en": "Hello, friends."
+          },
+          "mood": "thinking",
+          "glyph": "toki"
+        },
+        {
+          "text": {
+            "en": "The night is dark and cold."
+          },
+          "mood": "thinking",
+          "glyph": "lete"
+        },
+        {
+          "text": {
+            "en": "Are you strong?"
+          },
+          "mood": "excited",
+          "glyph": "wawa"
+        },
+        {
+          "text": {
+            "en": "Let's attack."
+          },
+          "mood": "excited",
+          "glyph": "utala"
+        }
       ]
     },
     {
       "id": "jan_lete_post_badge",
       "npc_id": "jan_lete",
-      "when_flags": { "badge_lete": true },
+      "when_flags": {
+        "badge_lete": true
+      },
       "priority": 5,
       "beats": [
-        { "text": { "en": "You are so strong." }, "mood": "happy", "glyph": "wawa" },
-        { "text": { "en": "Ice is very cold." }, "mood": "thinking", "glyph": "lete" }
+        {
+          "text": {
+            "en": "You are so strong."
+          },
+          "mood": "happy",
+          "glyph": "wawa"
+        },
+        {
+          "text": {
+            "en": "Ice is very cold."
+          },
+          "mood": "thinking",
+          "glyph": "lete"
+        }
       ]
     },
     {
@@ -169,7 +956,13 @@
       "npc_id": "jan_anpa",
       "priority": 0,
       "beats": [
-        { "text": { "en": "The night is dark and cold." }, "mood": "thinking", "glyph": "lete" }
+        {
+          "text": {
+            "en": "The night is dark and cold."
+          },
+          "mood": "thinking",
+          "glyph": "lete"
+        }
       ]
     },
     {
@@ -177,8 +970,20 @@
       "npc_id": "jan_kasi",
       "priority": 0,
       "beats": [
-        { "text": { "en": "Flowers are yellow." }, "mood": "happy", "glyph": "kasi" },
-        { "text": { "en": "The food is cold." }, "mood": "thinking", "glyph": "lete" }
+        {
+          "text": {
+            "en": "Flowers are yellow."
+          },
+          "mood": "happy",
+          "glyph": "kasi"
+        },
+        {
+          "text": {
+            "en": "The food is cold."
+          },
+          "mood": "thinking",
+          "glyph": "lete"
+        }
       ]
     },
     {
@@ -186,9 +991,19 @@
       "npc_id": null,
       "priority": 0,
       "beats": [
-        { "text": { "en": "You are so strong." }, "mood": "thinking", "glyph": "wawa" }
+        {
+          "text": {
+            "en": "You are so strong."
+          },
+          "mood": "thinking",
+          "glyph": "wawa"
+        }
       ]
     }
   ],
-  "spawn": { "x": 3, "y": 15 }
+  "spawn": {
+    "x": 3,
+    "y": 15
+  },
+  "biome": "ice"
 }

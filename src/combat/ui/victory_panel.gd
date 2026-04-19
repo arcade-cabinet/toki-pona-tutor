@@ -13,7 +13,14 @@ extends CanvasLayer
 
 signal finished
 
-const TYPEWRITER_CPS := 40.0
+const TYPEWRITER_CPS_DEFAULT := 40.0
+
+
+func _cps() -> float:
+	var store := get_tree().root.get_node_or_null("SettingsStore")
+	if store != null and "text_speed" in store:
+		return float(store.text_speed)
+	return TYPEWRITER_CPS_DEFAULT
 
 @onready var _body: RichTextLabel = $Root/Margin/Panel/VBox/Body
 @onready var _hint: Label = $Root/Margin/Panel/VBox/Hint
@@ -64,7 +71,7 @@ func _show_entry() -> void:
 	_revealed = 0
 	_body.text = _full_text
 	_body.visible_characters = 0
-	_typewriter.start(1.0 / TYPEWRITER_CPS)
+	_typewriter.start(1.0 / _cps())
 
 
 func _on_tick() -> void:

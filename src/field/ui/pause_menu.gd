@@ -13,6 +13,8 @@ const TITLE_SCENE := "res://src/title.tscn"
 @onready var _party_btn: Button = $Root/Margin/Panel/V/PartyBtn
 @onready var _pokedex_btn: Button = $Root/Margin/Panel/V/PokedexBtn
 @onready var _badges_btn: Button = $Root/Margin/Panel/V/BadgesBtn
+@onready var _words_btn: Button = $Root/Margin/Panel/V/WordsBtn
+@onready var _settings_btn: Button = $Root/Margin/Panel/V/SettingsBtn
 @onready var _save_btn: Button = $Root/Margin/Panel/V/SaveBtn
 @onready var _quit_btn: Button = $Root/Margin/Panel/V/QuitBtn
 
@@ -24,8 +26,24 @@ func _ready() -> void:
 	_party_btn.pressed.connect(_on_party_pressed)
 	_pokedex_btn.pressed.connect(_on_pokedex_pressed)
 	_badges_btn.pressed.connect(_on_badges_pressed)
+	_words_btn.pressed.connect(_on_words_pressed)
+	_settings_btn.pressed.connect(_on_settings_pressed)
+
+
+func _on_words_pressed() -> void:
+	var target := _find_sibling_overlay("MasteredWords")
+	if target != null and target.has_method("open"):
+		target.open()
+	visible = false
 	_save_btn.pressed.connect(_on_save_pressed)
 	_quit_btn.pressed.connect(_on_quit_pressed)
+
+
+func _on_settings_pressed() -> void:
+	var target := _find_sibling_overlay("SettingsPanel")
+	if target != null and target.has_method("open"):
+		target.open()
+	visible = false
 
 
 func _on_pokedex_pressed() -> void:

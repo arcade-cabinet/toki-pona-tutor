@@ -1,0 +1,119 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://src/field/ui/settings_panel.gd" id="1_script"]
+
+[node name="SettingsPanel" type="CanvasLayer"]
+layer = 80
+script = ExtResource("1_script")
+
+[node name="Root" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="Dim" type="ColorRect" parent="Root"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color(0, 0, 0, 0.7)
+
+[node name="Margin" type="MarginContainer" parent="Root"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -220.0
+offset_top = -160.0
+offset_right = 220.0
+offset_bottom = 160.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Panel" type="PanelContainer" parent="Root/Margin"]
+layout_mode = 2
+theme_type_variation = &"dialog"
+
+[node name="V" type="VBoxContainer" parent="Root/Margin/Panel"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="Title" type="Label" parent="Root/Margin/Panel/V"]
+layout_mode = 2
+theme_type_variation = &"display"
+text = "settings"
+horizontal_alignment = 1
+
+[node name="MusicRow" type="HBoxContainer" parent="Root/Margin/Panel/V"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Root/Margin/Panel/V/MusicRow"]
+layout_mode = 2
+custom_minimum_size = Vector2(100, 0)
+text = "Music"
+
+[node name="Music" type="HSlider" parent="Root/Margin/Panel/V/MusicRow"]
+layout_mode = 2
+size_flags_horizontal = 3
+min_value = 0.0
+max_value = 1.0
+step = 0.05
+value = 0.7
+
+[node name="Value" type="Label" parent="Root/Margin/Panel/V/MusicRow"]
+layout_mode = 2
+custom_minimum_size = Vector2(60, 0)
+theme_type_variation = &"mono"
+horizontal_alignment = 2
+
+[node name="SfxRow" type="HBoxContainer" parent="Root/Margin/Panel/V"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Root/Margin/Panel/V/SfxRow"]
+layout_mode = 2
+custom_minimum_size = Vector2(100, 0)
+text = "SFX"
+
+[node name="Sfx" type="HSlider" parent="Root/Margin/Panel/V/SfxRow"]
+layout_mode = 2
+size_flags_horizontal = 3
+min_value = 0.0
+max_value = 1.0
+step = 0.05
+value = 0.9
+
+[node name="Value" type="Label" parent="Root/Margin/Panel/V/SfxRow"]
+layout_mode = 2
+custom_minimum_size = Vector2(60, 0)
+theme_type_variation = &"mono"
+horizontal_alignment = 2
+
+[node name="TextRow" type="HBoxContainer" parent="Root/Margin/Panel/V"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Root/Margin/Panel/V/TextRow"]
+layout_mode = 2
+custom_minimum_size = Vector2(100, 0)
+text = "Text speed"
+
+[node name="Text" type="HSlider" parent="Root/Margin/Panel/V/TextRow"]
+layout_mode = 2
+size_flags_horizontal = 3
+min_value = 5.0
+max_value = 120.0
+step = 5.0
+value = 40.0
+
+[node name="Value" type="Label" parent="Root/Margin/Panel/V/TextRow"]
+layout_mode = 2
+custom_minimum_size = Vector2(60, 0)
+theme_type_variation = &"mono"
+horizontal_alignment = 2
+
+[node name="Close" type="Button" parent="Root/Margin/Panel/V"]
+layout_mode = 2
+custom_minimum_size = Vector2(0, 44)
+text = "Close"

@@ -220,7 +220,7 @@
         "Files: docs/SLICE_CHECK.md (new)"
       ],
       "priority": 3,
-      "passes": false,
+      "passes": true,
       "dependsOn": [
         "US-001",
         "US-008",
@@ -546,7 +546,7 @@
         "Files: new src/title/settings.tscn + settings.gd, src/field/ui/dialog_overlay.gd"
       ],
       "priority": 2,
-      "passes": false,
+      "passes": true,
       "dependsOn": [
         "US-030"
       ]
@@ -621,7 +621,7 @@
         "Files: src/common/toki_save.gd"
       ],
       "priority": 2,
-      "passes": false,
+      "passes": true,
       "dependsOn": [
         "US-031"
       ]
@@ -653,7 +653,7 @@
         "Files: new src/field/ui/mastered_words.tscn, src/common/toki_save.gd"
       ],
       "priority": 3,
-      "passes": false,
+      "passes": true,
       "dependsOn": [
         "US-038"
       ]
@@ -682,7 +682,7 @@
         "Files: content/spine/regions/nasin_wan.json, tools/tile_keys.gd"
       ],
       "priority": 2,
-      "passes": false,
+      "passes": true,
       "dependsOn": [
         "US-043",
         "US-013"
@@ -699,7 +699,7 @@
         "Files: content/spine/regions/nasin_pi_telo.json, new content/tilesets/water.tres"
       ],
       "priority": 2,
-      "passes": false,
+      "passes": true,
       "dependsOn": [
         "US-043"
       ]
@@ -713,7 +713,7 @@
         "Files: content/spine/regions/ma_telo.json"
       ],
       "priority": 2,
-      "passes": false,
+      "passes": true,
       "dependsOn": [
         "US-043"
       ]
@@ -728,7 +728,7 @@
         "Files: content/spine/regions/ma_lete.json, tools/tile_keys.gd"
       ],
       "priority": 2,
-      "passes": false,
+      "passes": true,
       "dependsOn": [
         "US-043"
       ]
@@ -744,7 +744,7 @@
         "Files: content/spine/regions/nena_sewi.json"
       ],
       "priority": 2,
-      "passes": false,
+      "passes": true,
       "dependsOn": [
         "US-043"
       ]
@@ -759,7 +759,7 @@
         "Files: content/spine/regions/nena_suli.json"
       ],
       "priority": 2,
-      "passes": false,
+      "passes": true,
       "dependsOn": [
         "US-043"
       ]
@@ -775,7 +775,7 @@
         "Files: new test/integration/test_warp_graph.gd"
       ],
       "priority": 2,
-      "passes": false,
+      "passes": true,
       "dependsOn": [
         "US-044",
         "US-045",
@@ -850,7 +850,7 @@
         "Files: src/field/warp_watcher.gd, schema/region_resource.gd"
       ],
       "priority": 2,
-      "passes": false,
+      "passes": true,
       "dependsOn": [
         "US-052"
       ]
@@ -916,7 +916,7 @@
         "Files: new src/field/ui/shop_panel.tscn + shop_panel.gd, schema/npc_resource.gd (role=shop)"
       ],
       "priority": 2,
-      "passes": false,
+      "passes": true,
       "dependsOn": [
         "US-046",
         "US-059"
@@ -946,7 +946,7 @@
         "Files: src/common/music/music_player.gd, new content/audio/biome_music.tres"
       ],
       "priority": 2,
-      "passes": false,
+      "passes": true,
       "dependsOn": [
         "US-043"
       ]
@@ -960,7 +960,7 @@
         "Files: src/common/music/music_player.gd"
       ],
       "priority": 3,
-      "passes": false,
+      "passes": true,
       "dependsOn": [
         "US-060"
       ]
@@ -975,7 +975,7 @@
         "Files: src/combat/combat.gd"
       ],
       "priority": 2,
-      "passes": false,
+      "passes": true,
       "dependsOn": [
         "US-060"
       ]

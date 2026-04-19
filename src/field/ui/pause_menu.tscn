@@ -67,6 +67,16 @@ layout_mode = 2
 custom_minimum_size = Vector2(0, 44)
 text = "Badges"
 
+[node name="WordsBtn" type="Button" parent="Root/Margin/Panel/V"]
+layout_mode = 2
+custom_minimum_size = Vector2(0, 44)
+text = "Mastered words"
+
+[node name="SettingsBtn" type="Button" parent="Root/Margin/Panel/V"]
+layout_mode = 2
+custom_minimum_size = Vector2(0, 44)
+text = "Settings"
+
 [node name="SaveBtn" type="Button" parent="Root/Margin/Panel/V"]
 layout_mode = 2
 custom_minimum_size = Vector2(0, 44)
