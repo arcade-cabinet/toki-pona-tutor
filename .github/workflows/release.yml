@@ -95,9 +95,10 @@ jobs:
 
       - name: Configure Godot Android SDK + keystore paths
         # Godot reads keystore paths from editor_settings when the export
-        # preset leaves them empty. Pointing BOTH release and debug slots
-        # at our ad-hoc keystore makes --export-release sign the APK with
-        # the debug key (valid for sideload, rejected only by Play Store).
+        # preset leaves them empty. Pre-production: point BOTH release
+        # and debug slots at the same ad-hoc keystore so --export-release
+        # still signs the APK (with the debug key). Valid for sideload;
+        # rejected only by Play Store.
         run: |
           mkdir -p ~/.config/godot
           KEYSTORE_PATH="$(pwd)/android/debug.keystore"
@@ -108,6 +109,9 @@ jobs:
           export/android/debug_keystore = "${KEYSTORE_PATH}"
           export/android/debug_keystore_user = "androiddebugkey"
           export/android/debug_keystore_pass = "android"
+          export/android/release_keystore = "${KEYSTORE_PATH}"
+          export/android/release_keystore_user = "androiddebugkey"
+          export/android/release_keystore_pass = "android"
           EOF
 
       - name: Export Android APK
