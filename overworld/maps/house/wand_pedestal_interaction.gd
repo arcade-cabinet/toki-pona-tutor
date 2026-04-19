@@ -20,7 +20,7 @@ static var _correct_pedestals: = {}
 @export var solved_animation: AnimationPlayer
 
 ## Specify a timeline that should be run if an item is already placed on the pedestal.
-@export var wand_placed_timeline: DialogicTimeline
+@export var wand_placed_timeline: Resource
 
 ## Specify which wand color this pedestal expects.
 @export_enum("Red", "Blue", "Green") var pedestal_requirement: = "Red"
@@ -120,13 +120,10 @@ func _on_dialogic_signal_event(argument: String) -> void:
 
 
 # Match puzzle-specific variables to the player's inventory.
-func _on_inventory_item_changed(item_type: OpenRpgInventory.ItemTypes, inventory: OpenRpgInventory) -> void:
-	match item_type:
-		OpenRpgInventory.ItemTypes.RED_WAND:
-			Dialogic.VAR.set_variable("RedWandCount", inventory.get_item_count(item_type))
-		
-		OpenRpgInventory.ItemTypes.BLUE_WAND:
-			Dialogic.VAR.set_variable("BlueWandCount", inventory.get_item_count(item_type))
-			
-		OpenRpgInventory.ItemTypes.GREEN_WAND:
-			Dialogic.VAR.set_variable("GreenWandCount", inventory.get_item_count(item_type))
+# Post-Dialogic: this used to sync Dialogic.VAR.{Red,Blue,Green}WandCount
+# with the inventory so timelines could branch on counts. When the wand
+# puzzle is re-authored as a DialogueManager .dialogue resource, use
+# DialogueManager variable helpers (DialogueManager.game_states.set_state)
+# instead. For now the callback is a no-op so boot stays clean.
+func _on_inventory_item_changed(_item_type, _inventory) -> void:
+	pass

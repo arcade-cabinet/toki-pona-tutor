@@ -66,3 +66,4 @@ pending/
 .ralph-tui/session*.json
 .ralph-tui/iterations/
 .ralph-tui/reports/
+reports/

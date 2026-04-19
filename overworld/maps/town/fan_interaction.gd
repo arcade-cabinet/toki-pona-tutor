@@ -17,12 +17,9 @@ func _ready() -> void:
 
 func _execute() -> void:
 	await super._execute()
-	
-	# The quest's state is tracked by a Dialogic variable.
-	# After speaking with the character for the first time, he should run to a new position so that
-	# the player can speak with the other NPCs.
-	if Dialogic.VAR.get_variable("TokenQuestStatus") == 1:
-		await _on_initial_conversation_finished()
+	# Dialogic → DialogueManager port: the old TokenQuestStatus Dialogic
+	# variable is gone; guard the quest-advance path on a TokiSave flag
+	# once the fan dialog is re-authored as a .dialogue resource.
 
 
 func _on_initial_conversation_finished() -> void:

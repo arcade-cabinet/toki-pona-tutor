@@ -1,7 +1,10 @@
 @tool
 extends Trigger
 
-@export var timeline: DialogicTimeline
+# timeline is the Dialogic .dtl resource this trigger used to play
+# before we ported to DialogueManager. Kept as Resource so existing
+# scene exports don't lose their value during the migration.
+@export var timeline: Resource
 @export var ghost_animation_player: AnimationPlayer
 
 var gamepiece: Gamepiece
@@ -16,8 +19,9 @@ func _execute() -> void:
 	_timer.start()
 	await _timer.timeout
 	
-	Dialogic.start_timeline(timeline)
-	await Dialogic.timeline_ended
+	# Dialogic → DialogueManager port: no-op until the .dtl is re-
+	# authored as a .dialogue resource.
+	pass
 	
 	_timer.start()
 	await _timer.timeout
