@@ -9,10 +9,10 @@ export const TOWN = {
 
   TREE_ORANGE_1: 3,
   TREE_ORANGE_2: 4,
-  TREE_GREEN_ROUND: 5,
-  TREE_GREEN_TALL_1: 6,
-  TREE_GREEN_TALL_2: 7,
-  TREE_GREEN_TALL_3: 8,
+  TREE_GREEN_ROUND: 5, // full green bush (complete single tile)
+  SPROUT_1: 6, // small green sprout
+  SPROUT_2: 7,
+  SPROUT_3: 8,
 
   PATH_TL: 12,
   PATH_TM: 13,
@@ -52,7 +52,11 @@ export const TOWN = {
   FENCE_R: 82,
 
   SIGN_POST: 92,
-  TENT: 104,
+  // Single-icon buildings — use roof-peak tiles as stand-alone 1-tile houses.
+  HOUSE_ICON_BLUE: 63,
+  HOUSE_ICON_RED: 67,
+  // Village guard character (knight sprite in the town sheet)
+  GUARD_CHAR: 104,
 } as const;
 
 // Tiny Dungeon characters and items. These are used as "sprites placed on top
