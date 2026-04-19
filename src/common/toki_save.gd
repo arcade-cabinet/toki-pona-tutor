@@ -28,6 +28,11 @@ const KEY := "toki"
 # exact path, no manual hydration needed.
 const SAVE_PATH := "user://save_data.sav"
 
+# Save schema version. Bump whenever the "toki" subtree structure
+# changes in a way older saves don't know how to read. _migrate_save()
+# handles upgrades.
+const SCHEMA_VERSION := 1
+
 
 func _ready() -> void:
 	# Seed the SaveSystem namespace before anything writes. SaveSystem's
@@ -79,8 +84,30 @@ func _ensure_namespace() -> void:
 	if not ns.has("party"): ns["party"] = []
 	if not ns.has("bestiary"): ns["bestiary"] = {}
 	if not ns.has("badges"): ns["badges"] = []
+	if not ns.has("mastered_words"): ns["mastered_words"] = []
 	if not ns.has("current_region_id"): ns["current_region_id"] = ""
 	if not ns.has("player_tile"): ns["player_tile"] = {"x": 0, "y": 0}
+	# US-040: stamp the current schema version. On load this is
+	# inspected by _migrate_save() to decide whether to upgrade.
+	_migrate_save(ns)
+	if not ns.has("schema_version") or int(ns.get("schema_version", 0)) < SCHEMA_VERSION:
+		ns["schema_version"] = SCHEMA_VERSION
+
+
+# Upgrade an older save payload in place. Add per-version blocks as
+# schema changes land. Unknown newer versions log a warning but
+# don't fail the boot — the autoloaded save just gets best-effort read.
+func _migrate_save(ns: Dictionary) -> void:
+	var v: int = int(ns.get("schema_version", 0))
+	if v > SCHEMA_VERSION:
+		push_warning("[TokiSave] save is newer (v%d) than this build (v%d) — reading anyway" % [v, SCHEMA_VERSION])
+		return
+	# v0 → v1: add bestiary + badges, which older saves wouldn't have.
+	# Already handled by the _ensure_namespace block above, but calling
+	# out the migration point so future bumps have a clear template.
+	if v < 1:
+		# (nothing to do beyond what _ensure_namespace already did)
+		pass
 
 
 # --- Flags ---
@@ -312,6 +339,30 @@ func award_badge(badge_id: String) -> bool:
 
 func has_badge(badge_id: String) -> bool:
 	return badge_id in badges()
+
+
+# --- Mastered words, US-042 ---
+# Unique toki-pona phrases the player has heard at least once (from
+# dialog beats + victory panels). DialogOverlay calls mark_word_heard
+# for each beat it renders. The Mastered Words screen reads this list.
+
+func mastered_words() -> Array:
+	return _get_array("mastered_words")
+
+
+func mark_word_heard(tp_phrase: String, region_id: String = "") -> void:
+	var trimmed := tp_phrase.strip_edges()
+	if trimmed == "": return
+	var list: Array = mastered_words()
+	for entry in list:
+		if entry is Dictionary and String(entry.get("tp", "")) == trimmed:
+			return
+	list.append({
+		"tp": trimmed,
+		"region": region_id,
+		"heard_at": Time.get_datetime_string_from_system(),
+	})
+	_set_array("mastered_words", list)
 
 
 # --- Party mutations (public API — consumers should NOT touch the

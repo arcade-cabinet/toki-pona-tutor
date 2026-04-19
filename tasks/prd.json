@@ -220,7 +220,7 @@
         "Files: docs/SLICE_CHECK.md (new)"
       ],
       "priority": 3,
-      "passes": false,
+      "passes": true,
       "dependsOn": [
         "US-001",
         "US-008",
@@ -546,7 +546,7 @@
         "Files: new src/title/settings.tscn + settings.gd, src/field/ui/dialog_overlay.gd"
       ],
       "priority": 2,
-      "passes": false,
+      "passes": true,
       "dependsOn": [
         "US-030"
       ]
@@ -621,7 +621,7 @@
         "Files: src/common/toki_save.gd"
       ],
       "priority": 2,
-      "passes": false,
+      "passes": true,
       "dependsOn": [
         "US-031"
       ]
@@ -653,7 +653,7 @@
         "Files: new src/field/ui/mastered_words.tscn, src/common/toki_save.gd"
       ],
       "priority": 3,
-      "passes": false,
+      "passes": true,
       "dependsOn": [
         "US-038"
       ]

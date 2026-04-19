@@ -14,7 +14,17 @@ extends CanvasLayer
 # Uses the project theme's `dialog` type for panel styling and
 # `sitelen_pona` for the glyph card. No Dialogic dependency.
 
-const TYPEWRITER_CPS := 40.0  # characters per second
+const TYPEWRITER_CPS_DEFAULT := 40.0  # characters per second fallback
+
+
+# US-035 text-speed setting. Read from SettingsStore.text_speed when
+# present; falls back to the compile-time default in tools/tests.
+static func _cps() -> float:
+	if Engine.has_singleton("SettingsStore"): return TYPEWRITER_CPS_DEFAULT
+	var store := Engine.get_main_loop().root.get_node_or_null("SettingsStore")
+	if store != null and "text_speed" in store:
+		return float(store.text_speed)
+	return TYPEWRITER_CPS_DEFAULT
 const CHOICE_LETTERS := ["A", "B", "C", "D", "E"]
 
 @onready var _panel: PanelContainer = $Root/Margin/Panel
@@ -60,7 +70,13 @@ func _show_beat() -> void:
 	_full_text = String(text_dict.get("tp", text_dict.get("en", "")))
 	_revealed_chars = 0
 	_body_label.text = ""
-	_typewriter.start(1.0 / TYPEWRITER_CPS)
+	_typewriter.start(1.0 / _cps())
+	# US-042: remember this TP phrase for the Mastered Words screen.
+	if TokiSave != null and _full_text != "":
+		var region_id := ""
+		if TokiSave:
+			region_id = TokiSave.current_region_id
+		TokiSave.mark_word_heard(_full_text, region_id)
 
 	var glyph: String = beat.get("glyph", "")
 	_glyph_label.text = glyph
