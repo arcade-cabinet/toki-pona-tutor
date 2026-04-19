@@ -4,8 +4,8 @@ import { typeId } from './types';
 
 /**
  * Base stats a creature is born with. Level-up scales these by a curve
- * defined in the combat engine. Raw values are roughly in Pokemon range
- * (30–120 for level 1).
+ * defined in the combat engine. Raw values are roughly in the genre-
+ * typical 30–120 range for level 1.
  */
 export const baseStats = z.object({
   hp: z.number().int().min(1).max(250),
@@ -16,17 +16,17 @@ export const baseStats = z.object({
 export type BaseStats = z.infer<typeof baseStats>;
 
 /**
- * A creature species. The Pokedex entry, basically.
+ * A creature species — the lipu soweli entry.
  *
- * `sprite_frame` / `portrait_src` are kept as-is for the vertical slice
- * using the existing Kenney Tiny Dungeon sheet + Animal Pack Redux
- * portraits; a future asset pass can replace them without schema churn.
+ * `sprite_frame` / `portrait_src` are legacy fields from the pre-Fan-tasy
+ * asset pipeline; new regions should reference sprites under
+ * public/assets/creatures/ or bosses/ by path, not frame index.
  */
 export const species = z.object({
   id: z.string().regex(/^[a-z][a-z0-9_]*$/),
   /** Canonical TP name — must be a dictionary word. */
   name: translatableWord,
-  /** One-sentence Pokedex flavor. Must round-trip through Tatoeba. */
+  /** One-sentence lipu soweli flavor. Must round-trip through Tatoeba. */
   description: translatable,
   type: typeId,
   base_stats: baseStats,

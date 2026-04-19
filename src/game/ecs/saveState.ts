@@ -12,7 +12,7 @@
  *   - `bestiary`: species the player has encountered or caught
  *   - `inventory`: item id → count
  *   - `masteredWords`: vocabulary the player has earned (shown in the
- *      Pokedex as sitelen-pona glyphs)
+ *      lipu soweli as sitelen-pona glyphs)
  */
 
 export interface PartyMember {
@@ -23,7 +23,7 @@ export interface PartyMember {
   xp: number;
   hp: number;
   max_hp: number;
-  /** Known move ids — cap 4 per Pokemon convention. */
+  /** Known move ids — cap 4 per genre convention. */
   moves: string[];
   /** Per-move PP remaining, parallel to `moves`. */
   pp: number[];
@@ -215,9 +215,9 @@ export function earnBadge(badgeWord: string): void {
 
 // ----- party member progression -----
 
-/** XP required to reach `level` from level 1. Classic Pokemon-ish cubic
- *  curve, tuned so level 5 starters need ~125 XP to hit 6 and feels
- *  brisk through the early regions. */
+/** XP required to reach `level` from level 1. Classic cubic curve,
+ *  tuned so level 5 starters need ~125 XP to hit 6 and feels brisk
+ *  through the early regions. */
 export function xpToReachLevel(level: number): number {
   const l = Math.max(1, level);
   return Math.round(Math.pow(l, 3));

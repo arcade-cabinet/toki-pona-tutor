@@ -7,7 +7,7 @@ domain: technical
 
 # Toki Town Architecture
 
-Toki Town is a Pokemon-shaped RPG whose world is named in Toki Pona. The player walks between villages, catches creatures in tall grass with a net (**poki**), builds a party of up to six, and beats a **jan lawa** (master) in each village to unlock the next region.
+poki soweli is a creature-catching RPG whose world is named in toki pona. The player walks between villages, catches creatures in tall grass with a net (**poki**), builds a party of up to six, and beats a **jan lawa** (master) in each village to unlock the next region.
 
 Language is diegetic flavor, not the mechanic. Every creature, place, and move has a canonical Toki Pona name that the player accumulates as vocabulary simply by playing. The game never makes the player translate — it just lets the language saturate the world.
 
@@ -93,7 +93,7 @@ Every starter kit contains three **poki** (nets). During a wild fight the player
 
 ### Progression gates
 
-Each region has a `gate_species_to_pass` — creatures you must have in your Pokedex before the jan lawa fight unlocks. This keeps players in-region long enough to experience the biome and learn its vocabulary without forcing grind.
+Each region has a `gate_species_to_pass` — creatures you must have in your **lipu soweli** (creature book) before the jan lawa fight unlocks. This keeps players in-region long enough to experience the biome and learn its vocabulary without forcing grind.
 
 ## Engine sketch
 

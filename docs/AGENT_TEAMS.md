@@ -29,7 +29,7 @@ Content is landed in waves. Each wave is a small set of PRs that can be authored
    - region-1: ma tomo lili — starter village, jan Sewi's ceremony
    - region-2: nasin wan — first route, tall-grass encounter table
    - items: poki variants, healing items
-3. **Wave 3 — Engine integration (orchestrator only).** Rewire Phaser scenes to read `generated/world.json`, wire catch mechanic, party, Pokedex.
+3. **Wave 3 — Engine integration (orchestrator only).** Rewire Phaser scenes to read `generated/world.json`, wire catch mechanic, party, lipu soweli.
 4. **Wave 4 — Content fanout (more teammates).** Regions 3–6, dialog polish, balance pass, gym-master fights.
 
 Max five teammates in flight at once. More than that strains context budgets, tangles the git remote, and multiplies review load.

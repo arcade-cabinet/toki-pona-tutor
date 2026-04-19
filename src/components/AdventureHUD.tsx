@@ -6,7 +6,7 @@ import { getRegion } from '../game/content/loader';
 /**
  * Top-of-viewport HUD for the overworld: current region name, party
  * summary, badge count, mastered-words count. Replaces the old
- * hungry-friend-specific HUD with a generic Pokemon-shape display.
+ * hungry-friend-specific HUD with a generic party-oriented display.
  */
 export function AdventureHUD() {
   const [, tick] = useState(0);

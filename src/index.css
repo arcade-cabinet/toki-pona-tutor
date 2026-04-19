@@ -306,7 +306,7 @@
     animation: fanfareRays 1.4s ease-out forwards;
   }
 
-  /* Pokemon-style encounter wipe — flashing bands sweep over the screen */
+  /* Encounter wipe — flashing bands sweep over the screen at battle start */
   @keyframes encounterWipe {
     0%   { opacity: 0; transform: scale(0.8); }
     20%  { opacity: 1; transform: scale(1.05); }

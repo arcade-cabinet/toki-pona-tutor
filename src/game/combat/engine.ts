@@ -1,7 +1,7 @@
 /**
  * Combat engine — pure logic, no UI.
  *
- * Pokemon-shape: the player's lead party member fights the wild creature
+ * The player's lead party member fights the wild creature
  * that spawned from a region's encounter table. Both sides have HP / moves
  * / types. Move damage = base_power * type_multiplier with a tiny level
  * scale. Catch mechanic uses a poki item; success scales with the wild

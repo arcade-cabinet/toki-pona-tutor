@@ -53,7 +53,7 @@ export const npc = z.object({
     )
     .optional(),
   /** Short 1–3 word dictionary word the player earns by beating this
-   *  jan-lawa (e.g. "telo"). Added to their Pokedex/vocabulary. */
+   *  jan-lawa (e.g. "telo"). Added to their lipu soweli + vocabulary. */
   reward_word: z.string().optional(),
 });
 export type Npc = z.infer<typeof npc>;

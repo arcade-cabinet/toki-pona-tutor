@@ -42,7 +42,7 @@ function hpBarGradient(c: Combatant | null): string {
 }
 
 /**
- * Pokemon-shape combat overlay.
+ * Creature-combat overlay.
  *
  * Player's lead party member fights the wild creature that opened the
  * encounter. Commands: a list of the lead's moves, Throw poki (catches

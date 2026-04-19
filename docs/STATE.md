@@ -7,7 +7,7 @@ domain: context
 
 # Where we are
 
-**2026-04-19 — mid-pivot.** The game just turned from a procedurally-generated village tutor into a hand-authored Pokemon-shape RPG. Every design call about the pivot is locked; see `docs/ARCHITECTURE.md`.
+**2026-04-19 — mid-pivot.** The game just turned from a procedurally-generated village tutor into a hand-authored creature-catching RPG. Every design call about the pivot is locked; see `docs/ARCHITECTURE.md`.
 
 ## Immediately before this state
 
@@ -41,13 +41,13 @@ PR #22 merged: WASD sitelen rendering fix, `AdventureAudio` bus-driven SFX layer
 - region-2 team: nasin wan (first route) full content
 - items team: poki variants + healing items
 
-**Wave 3 — engine integration (me).** Rip procgen, rewire scenes to world.json, wire catch/party/Pokedex.
+**Wave 3 — engine integration (me).** Rip procgen, rewire scenes to world.json, wire catch/party/lipu soweli.
 
 **Wave 4 — content fanout (up to 5 agents parallel).** Regions 3–6, dialog polish, balance pass.
 
 ## Locked design decisions
 
-- **Pokemon-shape** RPG. Party of up to 6. Catch wild creatures with **poki** (net). Five types: seli / telo / kasi / lete / wawa. Seven regions planned. Set-piece jan-lawa fights gate region boundaries. No player stats — party is the character sheet.
+- **Creature-catching** RPG. Party of up to 6. Catch wild creatures with **poki** (net). Five types: seli / telo / kasi / lete / wawa. Seven regions planned. Set-piece jan-lawa fights gate region boundaries. No player stats — party is the character sheet.
 - **ma tomo lili = the starter village.** jan Sewi is the starter-giver (Professor Oak role); same NPC, new job.
 - **Tall-grass random encounters** exist and are the B-gameplay to the A-gameplay of set-piece fights.
 - **Hand-authored TP is banned.** Every multi-word TP string must round-trip through Tatoeba. Single-word TP (dictionary entries) is vetted and exempt.
