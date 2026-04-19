@@ -61,9 +61,18 @@ jobs:
           include-templates: true
 
       - name: Import project resources
-        run: godot --headless --path . --import --quit-after 180
+        # Two-pass import; see cd.yml for rationale (custom theme
+        # loaded before its font resources are imported in pass 1).
+        run: |
+          godot --headless --path . --import --quit-after 180 || true
+          godot --headless --path . --import --quit-after 180
 
-      - name: Generate debug keystore (fallback — no production keystore yet)
+      - name: Generate ad-hoc debug keystore
+        # Pre-production: sign every release APK with a freshly generated
+        # debug keystore so sideloads install cleanly. Unsigned APKs are
+        # rejected by Android as "invalid package". When the project is
+        # production-ready, swap this for a persistent keystore stored
+        # in CI secrets.
         run: |
           mkdir -p android
           keytool -genkeypair \
@@ -84,19 +93,33 @@ jobs:
           sed -i -E "s|^version/name=.*|version/name=\"${VERSION_NAME}\"|" export_presets.cfg
           sed -i -E "s|^version/code=.*|version/code=${VERSION_CODE}|" export_presets.cfg
 
-      - name: Configure Godot Android SDK path
+      - name: Configure Godot Android SDK + keystore paths
+        # Godot reads keystore paths from editor_settings when the export
+        # preset leaves them empty. Pre-production: point BOTH release
+        # and debug slots at the same ad-hoc keystore so --export-release
+        # still signs the APK (with the debug key). Valid for sideload;
+        # rejected only by Play Store.
         run: |
           mkdir -p ~/.config/godot
+          KEYSTORE_PATH="$(pwd)/android/debug.keystore"
           cat > ~/.config/godot/editor_settings-4.tres <<EOF
           [gd_resource type="EditorSettings"]
           [resource]
           export/android/android_sdk_path = "${ANDROID_SDK_ROOT}"
+          export/android/debug_keystore = "${KEYSTORE_PATH}"
+          export/android/debug_keystore_user = "androiddebugkey"
+          export/android/debug_keystore_pass = "android"
+          export/android/release_keystore = "${KEYSTORE_PATH}"
+          export/android/release_keystore_user = "androiddebugkey"
+          export/android/release_keystore_pass = "android"
           EOF
 
       - name: Export Android APK
         run: |
           mkdir -p export/android
-          APK_NAME="poki-soweli-${RELEASE_TAG}.apk"
+          # RELEASE_TAG already contains the 'poki-soweli-' prefix from
+          # release-please, so don't double-prefix here.
+          APK_NAME="${RELEASE_TAG}.apk"
           set +e
           godot --headless --path . \
             --export-release "Android Release" \
@@ -135,7 +158,11 @@ jobs:
           include-templates: true
 
       - name: Import project resources
-        run: godot --headless --path . --import --quit-after 180
+        # Two-pass import; see cd.yml for rationale (custom theme
+        # loaded before its font resources are imported in pass 1).
+        run: |
+          godot --headless --path . --import --quit-after 180 || true
+          godot --headless --path . --import --quit-after 180
 
       - name: Export HTML5
         run: |
@@ -150,7 +177,7 @@ jobs:
             echo "::error::HTML5 export was not produced"
             exit 1
           fi
-          ZIP_NAME="poki-soweli-${RELEASE_TAG}-web.zip"
+          ZIP_NAME="${RELEASE_TAG}-web.zip"
           cd export && zip -r "../${ZIP_NAME}" html5/
           echo "ZIP_PATH=${ZIP_NAME}" >> "$GITHUB_ENV"
 

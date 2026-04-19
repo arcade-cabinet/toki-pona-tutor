@@ -40,7 +40,17 @@ jobs:
           include-templates: true
 
       - name: Import project resources
-        run: godot --headless --path . --import --quit-after 180
+        # Two-pass import is required because the project declares a
+        # custom default theme (theme/toki_theme.tres) that references
+        # font resources. On a cold checkout the theme loads before
+        # those fonts have been imported, and the first pass fails the
+        # theme load (→ default untemplated UI in the export). The
+        # second pass sees the now-populated .godot/imported cache and
+        # loads the theme cleanly. Industry-standard workaround for
+        # Godot 4.x headless CI.
+        run: |
+          godot --headless --path . --import --quit-after 180 || true
+          godot --headless --path . --import --quit-after 180
 
       - name: Export HTML5
         run: |
