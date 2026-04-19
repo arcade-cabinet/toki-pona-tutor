@@ -79,6 +79,14 @@
 [ext_resource type="PackedScene" uid="uid://ic0pyjko2i46" path="res://src/combat/ui/ui_combat.tscn" id="66_mo8tx"]
 [ext_resource type="Resource" uid="uid://bwjallq2c71rq" path="res://overworld/maps/opening_cutscene.dtl" id="68_jcriq"]
 [ext_resource type="Script" uid="uid://i6j3l72wljdc" path="res://src/combat/combat.gd" id="69_meyff"]
+[ext_resource type="PackedScene" path="res://src/field/ui/dialog_overlay.tscn" id="70_tpdlg"]
+[ext_resource type="PackedScene" path="res://src/field/ui/party_panel.tscn" id="71_tppar"]
+[ext_resource type="PackedScene" path="res://src/field/ui/pause_menu.tscn" id="72_tppau"]
+[ext_resource type="PackedScene" path="res://src/field/ui/pokedex.tscn" id="73_tppok"]
+[ext_resource type="PackedScene" path="res://src/field/ui/badges_panel.tscn" id="74_tpbdg"]
+[ext_resource type="PackedScene" path="res://src/field/ui/settings_panel.tscn" id="75_tpset"]
+[ext_resource type="PackedScene" path="res://src/field/ui/mastered_words.tscn" id="76_tpwor"]
+[ext_resource type="PackedScene" path="res://src/field/ui/shop_panel.tscn" id="77_tpshp"]
 
 [sub_resource type="Animation" id="Animation_y8463"]
 length = 0.001
@@ -921,3 +929,21 @@ script = ExtResource("53_w1dgf")
 choice_index = 4
 
 [connection signal="area_entered" from="Field/Map/Forest/Gamepieces/GameEndTrigger/Area2D2" to="Field/Map/Forest/Gamepieces/GameEndTrigger" method="_on_area_entered"]
+
+[node name="TokiPonaOverlays" type="Node" parent="."]
+
+[node name="DialogOverlay" parent="TokiPonaOverlays" instance=ExtResource("70_tpdlg")]
+
+[node name="PartyPanel" parent="TokiPonaOverlays" instance=ExtResource("71_tppar")]
+
+[node name="PauseMenu" parent="TokiPonaOverlays" instance=ExtResource("72_tppau")]
+
+[node name="Pokedex" parent="TokiPonaOverlays" instance=ExtResource("73_tppok")]
+
+[node name="BadgesPanel" parent="TokiPonaOverlays" instance=ExtResource("74_tpbdg")]
+
+[node name="SettingsPanel" parent="TokiPonaOverlays" instance=ExtResource("75_tpset")]
+
+[node name="MasteredWords" parent="TokiPonaOverlays" instance=ExtResource("76_tpwor")]
+
+[node name="ShopPanel" parent="TokiPonaOverlays" instance=ExtResource("77_tpshp")]

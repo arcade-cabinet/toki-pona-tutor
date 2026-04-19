@@ -6,7 +6,7 @@ extends Control
 #   - nasin (Settings) → in-scene panel (master volume slider)
 #   - o pini (Quit) → SceneTree.quit()
 
-const GAME_SCENE := "res://src/toki_town_main.tscn"
+const GAME_SCENE := "res://src/main.tscn"
 
 @onready var _continue_button: Button = $Menu/Continue
 @onready var _play_button: Button = $Menu/Primary

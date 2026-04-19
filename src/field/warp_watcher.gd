@@ -90,9 +90,13 @@ func _show_badge_gate_message(badge_id: String) -> void:
 	var panel_scene: PackedScene = load("res://src/combat/ui/victory_panel.tscn")
 	if panel_scene == null: return
 	var panel = panel_scene.instantiate()
-	var overlay: CanvasLayer = get_tree().root.get_node_or_null("TokiTown")
-	if overlay == null: overlay = get_tree().root
-	overlay.add_child(panel)
+	# Attach to whatever Node2D root the current scene has; fall back to
+	# the viewport Window so we never crash. The panel is a CanvasLayer
+	# so parent type doesn't matter visually.
+	var parent_node: Node = get_tree().current_scene
+	if parent_node == null:
+		parent_node = get_tree().root
+	parent_node.add_child(panel)
 	panel.show_sequence(["You need the %s badge to pass here." % badge_id])
 	await panel.finished
 	panel.queue_free()
