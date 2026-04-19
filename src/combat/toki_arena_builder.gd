@@ -13,6 +13,7 @@ const BASE_ARENA: PackedScene = preload("res://src/combat/combat_arena.tscn")
 const BATTLER_ANIM_SCENE: PackedScene = preload("res://src/combat/battlers/toki_battler_anim.tscn")
 const AI_SCENE: PackedScene = preload("res://src/combat/CombatAI.tscn")
 const ATTACK_ACTION_SCRIPT := preload("res://src/combat/actions/battler_action_attack.gd")
+const POKI_THROW_SCRIPT := preload("res://src/combat/actions/poki_throw_action.gd")
 
 # Battler screen positions — mirroring open-rpg's layout.
 # Player on the right (x ~1370), enemy on the left (x ~465).
@@ -69,8 +70,13 @@ static func _build_arena_node(
 	enemy.position = ENEMY_POS
 	battlers_root.add_child(enemy)
 
-	# Player battler (right side, player-controlled).
+	# Player battler (right side, player-controlled). Gets a PokiThrow
+	# action pre-wired to the wild species for the catch flow.
 	var player: Battler = _build_battler(player_species, player_level, true)
+	var poki: PokiThrowAction = POKI_THROW_SCRIPT.new()
+	poki.wild_species_id = wild_species.id
+	poki.poki_power = 1.0  # standard; UI can tune based on player inventory
+	player.actions.append(poki)
 	player.name = "Player_%s" % player_species.id
 	player.position = PLAYER_POS
 	battlers_root.add_child(player)

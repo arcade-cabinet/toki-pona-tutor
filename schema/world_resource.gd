@@ -6,7 +6,7 @@ extends Resource
 # content/generated/world.tres.
 
 @export var schema_version: int = 1
-@export var title_en: String = "Toki Town"
+@export var title_en: String = "poki soweli"
 @export var title_tp: String = ""
 @export var start_region_id: String = ""
 

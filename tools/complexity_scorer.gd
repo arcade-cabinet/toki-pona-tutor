@@ -1,7 +1,7 @@
 class_name ComplexityScorer
 extends RefCounted
 
-# Scores an EN line against Toki Town's writing rules. Returns a rank 0–100
+# Scores an EN line against poki soweli's writing rules. Returns a rank 0–100
 # and a list of reasons. Build fails on rank > CEILING for non-legacy files.
 #
 # See docs/WRITING_RULES.md for the full spec. Ported 1:1 from the Node

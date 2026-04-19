@@ -1,7 +1,7 @@
 @tool
 extends "res://addons/gd-plug/plug.gd"
 
-# Addon manifest for Toki Town. `gd-plug install` installs the pinned set.
+# Addon manifest for poki soweli. `gd-plug install` installs the pinned set.
 #
 # Design direction: warm and cute — not "2play", not dark/edgy. Keep the
 # list small and load-bearing. Anything we can do in plain GDScript we do

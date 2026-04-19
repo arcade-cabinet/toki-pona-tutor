@@ -5,9 +5,9 @@ status: current
 domain: technical
 ---
 
-# Toki Town Architecture
+# poki soweli Architecture
 
-Toki Town is a Pokemon-shaped RPG whose world is named in Toki Pona. The player walks between villages, catches creatures in tall grass with a net (**poki**), builds a party of up to six, and beats a **jan lawa** (master) in each village to unlock the next region.
+poki soweli is a Pokemon-shaped RPG whose world is named in Toki Pona. The player walks between villages, catches creatures in tall grass with a net (**poki**), builds a party of up to six, and beats a **jan lawa** (master) in each village to unlock the next region.
 
 Language is diegetic flavor, not the mechanic. Every creature, place, and move has a canonical Toki Pona name that the player accumulates as vocabulary simply by playing. The game never makes the player translate — it just lets the language saturate the world.
 

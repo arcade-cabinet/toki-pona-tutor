@@ -9,7 +9,7 @@ domain: context
 
 **2026-04-19 — post-pivot, content pipeline + first region live.**
 
-Toki Town is a Godot 4.6 native project. The old Vite/React/SolidJS/Phaser/Koota web stack was retired entirely — see `docs/ENGINE_DECISION.md`. All tooling is GDScript; all content is committed JSON → compiled `.tres` Resources.
+poki soweli is a Godot 4.6 native project. The old Vite/React/SolidJS/Phaser/Koota web stack was retired entirely — see `docs/ENGINE_DECISION.md`. All tooling is GDScript; all content is committed JSON → compiled `.tres` Resources.
 
 ## What works today
 
@@ -63,11 +63,11 @@ CI runs `ci.yml` on PR: import + parse check + validate + build. `release.yml` c
 
 All work lives on `pivot/godot`. 8 commits so far:
 
-1. `docs: ADR — pivot Toki Town to Godot 4, pure GDScript`
+1. `docs: ADR — pivot poki soweli to Godot 4, pure GDScript`
 2. `chore: delete web stack, move content to repo root`
 3. `chore(pivot): lift godot-open-rpg as engine base`
 4. `chore(pivot): bootstrap Godot project — open-rpg base + ashworth skeleton`
-5. `feat(brand): Toki Town warm/cute identity + Google Fonts + mobile renderer`
+5. `feat(brand): poki soweli warm/cute identity + Google Fonts + mobile renderer`
 6. `feat(pipeline): pure GDScript content pipeline — Tatoeba API + scorer + builder`
 7. `feat(engine): first playable region — RegionBuilder hydrates ma_tomo_lili`
 8. `feat(engine): NPCs + signs render with sprites; player gamepiece spawns`

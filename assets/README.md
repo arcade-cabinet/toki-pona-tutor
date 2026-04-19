@@ -1,4 +1,4 @@
-# Toki Town assets
+# poki soweli assets
 
 Art, audio, and data used by the game. Organized by domain so region
 authors know where to look.

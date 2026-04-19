@@ -7,7 +7,7 @@ domain: ops
 
 # Species team agent brief
 
-You're authoring creature species JSON for Toki Town. You write files under `src/content/spine/species/` that validate against `src/content/schema/species.ts`.
+You're authoring creature species JSON for poki soweli. You write files under `src/content/spine/species/` that validate against `src/content/schema/species.ts`.
 
 ## Worktree prologue
 

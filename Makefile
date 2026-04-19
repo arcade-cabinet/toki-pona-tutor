@@ -1,4 +1,4 @@
-# Toki Town — developer convenience targets.
+# poki soweli — developer convenience targets.
 #
 # `make validate` runs the TP writing-rules + Tatoeba cache check.
 # `make build` compiles spine JSON → .tres Godot resources.

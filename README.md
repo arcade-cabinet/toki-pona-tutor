@@ -1,4 +1,4 @@
-# Toki Town
+# poki soweli
 
 A Pokemon-shape 2D RPG whose language is **toki pona** — not as the mechanic, but as the diegetic flavor of the world. Every multi-word English line the game ships with has a canonical toki pona pair, validated live against the Tatoeba corpus; no hand-authored translations.
 

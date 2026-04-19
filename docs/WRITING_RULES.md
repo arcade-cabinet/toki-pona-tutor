@@ -5,7 +5,7 @@ status: current
 domain: creative
 ---
 
-# Writing Rules for Toki Town
+# Writing Rules for poki soweli
 
 Every user-facing English string (NPC dialogue, signs, narration, combat log, toasts, tutorial beats) must be writable under these rules. The rules exist because **every line has to round-trip through a real toki pona corpus** — we never hand-author TP, we write EN that the corpus can already translate.
 

@@ -1,7 +1,7 @@
 class_name Palette
 extends RefCounted
 
-# Toki Town color tokens. Single source of truth. See theme/BRAND.md for
+# poki soweli color tokens. Single source of truth. See theme/BRAND.md for
 # meanings and usage guidance.
 #
 # Import: const Palette = preload("res://theme/palette.gd")

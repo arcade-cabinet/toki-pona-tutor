@@ -1,11 +1,11 @@
 ---
-title: Toki Town brand identity
+title: poki soweli brand identity
 updated: 2026-04-19
 status: current
 domain: product
 ---
 
-# Toki Town brand
+# poki soweli brand
 
 **Warm and cute, not 2play.** Think cozy Sunday morning, warm bread, a friend
 teaching you a word you didn't know. Not edgy, not gamer, not dark, not

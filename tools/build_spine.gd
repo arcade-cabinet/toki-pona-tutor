@@ -33,7 +33,7 @@ func _init() -> void:
 	# Assemble top-level WorldResource pointing at everything we just saved.
 	var world := WorldResource.new()
 	world.schema_version = 1
-	world.title_en = "Toki Town"
+	world.title_en = "poki soweli"
 	world.start_region_id = _read_start_region_id()
 
 	for id in species_ids:
