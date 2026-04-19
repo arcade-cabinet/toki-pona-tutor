@@ -36,6 +36,10 @@ user://
 .tatoeba-cache/
 .playwright-mcp/
 
+# Raw asset drop zone — unzip/import into assets/ intentionally,
+# don't commit the archives.
+pending/
+
 # Ad-hoc screenshots (never commit screenshots at repo root)
 /*.png
 
