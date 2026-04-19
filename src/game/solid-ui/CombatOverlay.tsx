@@ -6,23 +6,12 @@ import { classifyDamage, isGrammaticallyValid } from '../combat/grammar';
 import { sitelenFor, toSitelenPona } from '../../lib/sitelen';
 import { masterWord, addXp } from '../ecs/questState';
 
-const BASE = import.meta.env.BASE_URL;
-const TILE = 16;
-
-// Word pool available during combat. Includes the essentials plus creature
-// vocab. Later this will be filtered by masteredWords.
+// Word pool available during combat. Later this will be filtered by masteredWords.
 const SPELL_BANK = ['mi', 'sina', 'akesi', 'soweli', 'pona', 'wawa', 'lete', 'seli', 'e', 'li', 'wile'];
 
 interface SelectedWord {
   id: string;
   text: string;
-}
-
-function framePos(frame: number): string {
-  // 12 cols × 11 rows, 0 spacing (we verified this earlier)
-  const col = frame % 12;
-  const row = Math.floor(frame / 12);
-  return `-${col * TILE}px -${row * TILE}px`;
 }
 
 export function CombatOverlay() {
@@ -166,17 +155,13 @@ export function CombatOverlay() {
                 </span>
               </div>
             </div>
-            {/* Enemy sprite — centered, pixel-art */}
-            <div
-              class={`absolute left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2 w-32 h-32 ${
+            {/* Enemy portrait — high-res 2D low-poly from Animal Pack Redux */}
+            <img
+              src={enemy()!.portraitSrc}
+              alt={enemy()!.nameEn}
+              class={`absolute left-1/2 -translate-x-1/2 top-1/2 -translate-y-1/2 w-44 h-44 object-contain drop-shadow-xl ${
                 enemyShake() ? 'animate-wiggle' : ''
               }`}
-              style={{
-                'image-rendering': 'pixelated',
-                background: `url('${BASE}rpg/tiles/dungeon_packed.png')`,
-                'background-position': framePos(enemy()!.spriteFrame),
-                'background-size': `${12 * TILE * 8}px auto`,
-              }}
             />
             {/* Feedback */}
             <Show when={feedback() !== 'idle'}>

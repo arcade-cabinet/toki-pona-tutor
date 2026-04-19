@@ -273,7 +273,7 @@ export class VillageScene extends Phaser.Scene {
     if (d < 40) {
       this.combatDistanceTriggered = true;
       this.dialogOpen = true;
-      gameBus.emit('combat:enter', { enemyId: 'akesi' });
+      gameBus.emit('combat:enter', { enemyId: 'pipi_loje' });
     }
   }
 

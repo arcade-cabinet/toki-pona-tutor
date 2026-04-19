@@ -65,8 +65,8 @@
       "location_id": "tomo_pona",
       "sprite": "npc_villager_happy",
       "greeting": {
-        "tp": "toki! mi jan Pona. soweli mi li pilin ike.",
-        "en": "Hello! I'm jan Pona. My animal friend is feeling sick.",
+        "tp": "toki! mi jan Pona. soweli mi li ike.",
+        "en": "Hello! I'm jan Pona. My animal is unwell.",
         "mood": "sad"
       }
     },
@@ -190,8 +190,8 @@
       "npc": "jan Pona",
       "npc_id": "jan_pona",
       "quest_stage": "not_started",
-      "tp": "toki! soweli mi li pilin ike. ona li wile e kili.",
-      "en": "Hello! My animal friend feels sick. It needs fruit.",
+      "tp": "toki! soweli mi li ike. ona li wile e kili.",
+      "en": "Hello! My animal is unwell. It needs fruit.",
       "mood": "sad",
       "triggers_quest_accept": true
     },
@@ -200,8 +200,8 @@
       "npc": "jan Pona",
       "npc_id": "jan_pona",
       "quest_stage": "accepted",
-      "tp": "kili li lon ma kasi. taso akesi li lon ma kasi. o awen.",
-      "en": "The fruit is in the garden. But a reptile is there too. Be careful.",
+      "tp": "kili li lon ma kasi. taso pipi loje li lon ma kasi. o awen.",
+      "en": "The fruit is in the garden. But a red bug is there. Be careful.",
       "mood": "thinking"
     },
     {
