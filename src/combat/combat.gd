@@ -48,6 +48,24 @@ var _pending_xp_yield: int = 0
 func _ready() -> void:
 	hide()
 	FieldEvents.combat_triggered.connect(setup)
+	if CombatEvents.has_signal("poki_thrown"):
+		CombatEvents.poki_thrown.connect(_on_poki_thrown)
+
+
+# Queue the catch-result dialog lines; _run_victory_sequence / the
+# defeat path will consume them next time the victory panel opens.
+var _pending_catch_message: PackedStringArray = PackedStringArray()
+
+
+func _on_poki_thrown(species_id: String, caught: bool, _chance: float) -> void:
+	if caught:
+		_pending_catch_message = PackedStringArray([
+			"[b]poki li awen![/b]\nYou caught %s!" % species_id,
+		])
+	else:
+		_pending_catch_message = PackedStringArray([
+			"poki li pakala.\nThe %s escaped." % species_id,
+		])
 
 
 # Tracks whether the current combat is ending because the player
@@ -300,6 +318,16 @@ func _run_victory_sequence() -> void:
 			post_moves = am if am is Array else pre_moves
 
 	var entries: Array = _build_victory_entries(amount, pre_level, post_level, pre_moves, post_moves)
+	# Prepend any pending catch-result lines so a successful/failed
+	# poki throw shows BEFORE the xp/level-up tally.
+	if _pending_catch_message.size() > 0:
+		var combined: Array = []
+		for m in _pending_catch_message:
+			combined.append(m)
+		for e in entries:
+			combined.append(e)
+		entries = combined
+		_pending_catch_message = PackedStringArray()
 	if entries.is_empty():
 		return
 	var panel: VictoryPanel = VICTORY_PANEL_SCENE.instantiate() as VictoryPanel
@@ -337,15 +365,21 @@ func _move_display_name(move_id: String) -> String:
 # consistency. (It's still technically the end-of-combat panel; the
 # name reflects its primary role.)
 func _display_defeat_dialog() -> void:
-	var leader_name: String = "Party"
+	var leader_name: String = "sina"
 	if _battler_roster != null:
 		var players := _battler_roster.get_player_battlers()
 		if not players.is_empty():
 			leader_name = players[0].name
 	var panel: VictoryPanel = VICTORY_PANEL_SCENE.instantiate() as VictoryPanel
 	add_child(panel)
-	panel.show_sequence(["%s's party lost the battle!" % leader_name])
-	await panel.finished
+	# Diegetic toki-pona "pakala!" (~breakage/failure) + English help.
+	panel.show_sequence([
+		"pakala!\n[i]%s has fainted.[/i]" % leader_name,
+		"[i]sina tawa ma tomo.[/i]\nYou wake up back in the village.",
+	])
+	# Auto-advance after 2s per AC — players can still press to skip.
+	var timer := get_tree().create_timer(2.0)
+	await timer.timeout
 	panel.queue_free()
 
 

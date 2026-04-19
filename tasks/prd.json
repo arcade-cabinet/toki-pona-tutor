@@ -317,7 +317,7 @@
         "Files: src/combat/battlers/toki_battler_anim.gd"
       ],
       "priority": 2,
-      "passes": false,
+      "passes": true,
       "dependsOn": [
         "US-018"
       ]
@@ -350,7 +350,7 @@
         "Files: new src/combat/ui/defeat_panel.tscn"
       ],
       "priority": 2,
-      "passes": false,
+      "passes": true,
       "dependsOn": [
         "US-010"
       ]
@@ -366,7 +366,7 @@
         "Files: src/combat/actions/poki_throw_action.gd, new src/combat/ui/catch_result_panel.tscn"
       ],
       "priority": 2,
-      "passes": false,
+      "passes": true,
       "dependsOn": []
     },
     {

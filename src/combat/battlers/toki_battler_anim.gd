@@ -16,9 +16,13 @@ const HURT_DURATION := 0.15
 const HURT_SHAKE_PIXELS := 6.0
 const HURT_FLASH_COLOR := Color(1.8, 1.8, 1.8, 1.0)
 
+const FAINT_DURATION := 0.5
+const FAINT_SLIDE_PIXELS := 40.0
+
 var _sprite: Sprite2D = null
 var _anim_player: AnimationPlayer = null
 var _hurt_tween: Tween = null
+var _faint_tween: Tween = null
 var _sprite_rest_position := Vector2.ZERO
 
 
@@ -101,7 +105,26 @@ func play(anim_name: String) -> void:
 	if anim_name == "hurt":
 		_play_hurt_effect()
 		return
+	if anim_name == "die":
+		_play_faint_effect()
+		return
 	super(anim_name)
+
+
+func _play_faint_effect() -> void:
+	_ensure_children()
+	if _sprite == null:
+		return
+	if _faint_tween != null and _faint_tween.is_valid():
+		_faint_tween.kill()
+	var start_pos: Vector2 = _sprite_rest_position
+	_sprite.position = start_pos
+	_sprite.modulate = Color.WHITE
+	_faint_tween = create_tween().set_parallel(true)
+	_faint_tween.tween_property(_sprite, "position",
+		start_pos + Vector2(0, FAINT_SLIDE_PIXELS), FAINT_DURATION
+	).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_IN)
+	_faint_tween.tween_property(_sprite, "modulate:a", 0.0, FAINT_DURATION)
 
 
 func _play_hurt_effect() -> void:
