@@ -111,18 +111,20 @@ Prerequisites:
 
 ## CI
 
-The Maestro run lives inside `.github/workflows/ci.yml` as a `maestro` job
-downstream of `build-android-debug`. Keeping it in the same file as every
-other PR check means one status list on the PR, and we reuse the debug
-APK artifact the build step already produces instead of rebuilding inside
-the emulator job.
+**Currently local-only.** Maestro reads Android UI state via the
+accessibility tree + `uiautomator` dump, neither of which can see text
+rendered inside Godot's `SurfaceView`. Maestro's fallback OCR path does
+pick up the helper panel reliably on a warm real device, but on CI's
+headless emulator (`api-level=34, x86_64, swiftshader_indirect`) the
+OCR pickup is not yet stable — same unresolved issue documented in
+`../ashworth-manor/docs/checkpoints/US-025-packaged-helper.md`:
+*"its device-side OCR pickup still needs stabilization for richer
+Maestro flows."*
 
-Emulator: `api-level=34, arch=x86_64, target=google_apis, profile=pixel_6`
-via [`reactivecircus/android-emulator-runner`](https://github.com/ReactiveCircus/android-emulator-runner),
-which handles AVD creation, boot, and animation-disabling.
-
-Screenshots are uploaded as a CI artifact named
-`maestro-screenshots-<PR-#>` with 14-day retention.
+Re-enable the CI job once we have a repeatable OCR-stable setup.
+The scaffolding (helper script, flow files, local runner, docs)
+stays in place so resuming is a one-commit change to
+`.github/workflows/ci.yml`.
 
 ## Known limitations
 
