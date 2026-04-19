@@ -18,9 +18,13 @@ const TYPEWRITER_CPS_DEFAULT := 40.0  # characters per second fallback
 
 
 # US-035 text-speed setting. Read from SettingsStore.text_speed when
-# present; falls back to the compile-time default in tools/tests.
+# present; falls back to the compile-time default in tools/tests where
+# the node isn't attached to a SceneTree yet.
 func _cps() -> float:
-	var store: Node = get_tree().root.get_node_or_null("SettingsStore")
+	var tree: SceneTree = get_tree()
+	if tree == null:
+		return TYPEWRITER_CPS_DEFAULT
+	var store: Node = tree.root.get_node_or_null("SettingsStore")
 	if store != null and "text_speed" in store:
 		return float(store.text_speed)
 	return TYPEWRITER_CPS_DEFAULT

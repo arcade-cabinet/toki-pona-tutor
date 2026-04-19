@@ -2,7 +2,7 @@ class_name TitleScreen
 extends Control
 
 # Title scene entry point. Menu routes to:
-#   - o open (Play) → res://src/toki_town_main.tscn
+#   - o open (Play) → res://src/main.tscn (the open-rpg-derived world)
 #   - nasin (Settings) → in-scene panel (master volume slider)
 #   - o pini (Quit) → SceneTree.quit()
 
