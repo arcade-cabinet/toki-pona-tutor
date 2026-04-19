@@ -156,6 +156,20 @@ export class RegionScene extends Phaser.Scene {
             res.frame,
           );
           img.setDepth(layer.depth ?? 0);
+          if (res.color_overlay) {
+            // Paint a solid color over the base tile (used for water — the
+            // Kenney sheet has no water sprite, so we fake it).
+            const overlay = this.add
+              .rectangle(
+                x * TILE + TILE / 2,
+                y * TILE + TILE / 2,
+                TILE,
+                TILE,
+                Phaser.Display.Color.HexStringToColor(res.color_overlay).color,
+              )
+              .setAlpha(0.78);
+            overlay.setDepth((layer.depth ?? 0) + 0.1);
+          }
           const solid = res.solid || solidKeyOverride.has(key);
           if (solid && this.colliders) {
             const r = this.colliders.create(
