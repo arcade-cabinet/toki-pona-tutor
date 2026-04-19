@@ -60,6 +60,9 @@ func setup(battler_name: String, max_hp: int, start_hp: int) -> void:
 
 	max_value = max_hp
 	value = start_hp
+	# Seed target_value so the first HP decrease triggers the damage
+	# animation via the setter's target_value > new_value comparison.
+	target_value = start_hp
 	tint_progress = _color_for_value(start_hp)
 
 

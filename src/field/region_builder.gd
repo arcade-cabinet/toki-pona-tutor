@@ -102,8 +102,11 @@ func _build_tilemap() -> void:
 	_tilemap.name = "Ground"
 	var resolved := _resolve_tileset()
 	if resolved != null:
+		# Only the tilemap gets the biome TileSet. The scene-assigned
+		# `tileset` remains the NPC/sign atlas used by
+		# _find_town_texture / _find_dungeon_texture, which would
+		# otherwise lose their atlas sources in forest regions.
 		_tilemap.tile_set = resolved
-		tileset = resolved
 	add_child(_tilemap)
 
 	# Paint each layer. Higher-depth layers render on top via z_index.

@@ -63,6 +63,10 @@ func _on_continue_pressed() -> void:
 	var tile := TokiSave.player_tile
 	if tile != Vector2i.ZERO:
 		Engine.set_meta("warp_target_tile", tile)
+	else:
+		# Explicitly clear any stale tile meta from a prior Continue in
+		# this session so the player doesn't warp to an outdated cell.
+		Engine.remove_meta("warp_target_tile")
 	get_tree().change_scene_to_file(GAME_SCENE)
 
 

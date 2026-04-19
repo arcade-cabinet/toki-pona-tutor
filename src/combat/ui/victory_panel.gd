@@ -29,6 +29,23 @@ var _open: bool = false
 func _ready() -> void:
 	visible = false
 	_typewriter.timeout.connect(_on_tick)
+	_hint.text = _resolve_continue_hint()
+
+
+func _resolve_continue_hint() -> String:
+	# Prefer the "interact" binding (our game's primary action), fall back
+	# to ui_accept, then a generic label. Covers remapped keys & controller.
+	for action in ["interact", "ui_accept"]:
+		if InputMap.has_action(action):
+			for ev in InputMap.action_get_events(action):
+				if ev is InputEventKey:
+					var sc: Key = ev.physical_keycode if ev.physical_keycode != 0 else ev.keycode
+					var label := OS.get_keycode_string(sc)
+					if label != "":
+						return label.to_lower()
+				elif ev is InputEventJoypadButton:
+					return "button"
+	return "continue"
 
 
 func show_sequence(entries: Array) -> void:
@@ -47,7 +64,6 @@ func _show_entry() -> void:
 	_revealed = 0
 	_body.text = _full_text
 	_body.visible_characters = 0
-	_hint.text = "space"
 	_typewriter.start(1.0 / TYPEWRITER_CPS)
 
 

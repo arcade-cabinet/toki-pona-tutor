@@ -123,8 +123,8 @@ func _show_choices() -> void:
 	_awaiting_choice = true
 	_clear_choices()
 	_choices_box.visible = true
-	for i in _current.choices.size():
-		if i >= CHOICE_LETTERS.size(): break
+	var count: int = min(_current.choices.size(), CHOICE_LETTERS.size())
+	for i in count:
 		var choice: Dictionary = _current.choices[i]
 		var label_dict: Dictionary = choice.get("label", {})
 		var label_text: String = String(label_dict.get("tp", label_dict.get("en", "")))
@@ -133,7 +133,11 @@ func _show_choices() -> void:
 		var glyph_prefix := ("%s  " % glyph) if glyph != "" else ""
 		row.text = "[%s]  %s%s" % [CHOICE_LETTERS[i], glyph_prefix, label_text]
 		_choices_box.add_child(row)
-	_advance_hint.text = "A / B / C"
+	# Hint mirrors the letters actually rendered, so players see D/E when present.
+	var used: Array = []
+	for i in count:
+		used.append(CHOICE_LETTERS[i])
+	_advance_hint.text = " / ".join(used)
 
 
 func _clear_choices() -> void:
@@ -168,8 +172,12 @@ func _close() -> void:
 	_awaiting_choice = false
 	visible = false
 	_clear_choices()
-	_fire_triggers(_current)
+	# Snapshot & null `_current` before firing triggers, so a trigger
+	# handler that reopens a new dialog doesn't get clobbered when we
+	# return from _fire_triggers.
+	var to_fire: DialogResource = _current
 	_current = null
+	_fire_triggers(to_fire)
 
 
 func _fire_triggers(node: DialogResource) -> void:
@@ -189,8 +197,9 @@ func _fire_triggers(node: DialogResource) -> void:
 	if node.trigger_advance_quest_id != "" and FieldEvents and FieldEvents.has_signal("quest_advanced"):
 		FieldEvents.emit_signal("quest_advanced", node.trigger_advance_quest_id, node.trigger_advance_quest_stage)
 
-	# Choice-level triggers fire only for the picked option.
-	if _selected_choice >= 0 and _selected_choice < node.choices.size():
+	# Choice-level triggers fire only for the picked option. Guard against
+	# a null/absent choices list so dialogs without branches don't crash.
+	if _selected_choice >= 0 and node.choices is Array and _selected_choice < node.choices.size():
 		_fire_choice_triggers(node.choices[_selected_choice])
 
 

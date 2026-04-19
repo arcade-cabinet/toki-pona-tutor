@@ -44,23 +44,24 @@ extends Resource
 
 static func from_dict(d: Dictionary) -> DialogResource:
 	var r := DialogResource.new()
-	r.id = d.get("id", "")
-	r.npc_id = d.get("npc_id", "") if d.get("npc_id") != null else ""
-	r.when_quest = d.get("when_quest", {})
-	r.when_flags = d.get("when_flags", {})
-	r.priority = d.get("priority", 0)
-	r.beats = d.get("beats", [])
-	r.choices = d.get("choices", [])
+	r.id = String(d.get("id", ""))
+	r.npc_id = String(d.get("npc_id", "")) if d.get("npc_id") != null else ""
+	r.when_quest = d.get("when_quest", {}) if d.get("when_quest") is Dictionary else {}
+	r.when_flags = d.get("when_flags", {}) if d.get("when_flags") is Dictionary else {}
+	r.priority = int(d.get("priority", 0))
+	r.beats = d.get("beats", []) if d.get("beats") is Array else []
+	r.choices = d.get("choices", []) if d.get("choices") is Array else []
 
-	var triggers: Dictionary = d.get("triggers", {})
-	r.trigger_set_flags = triggers.get("set_flag", {})
-	var adv: Dictionary = triggers.get("advance_quest", {})
-	r.trigger_advance_quest_id = adv.get("quest_id", "")
-	r.trigger_advance_quest_stage = adv.get("stage", "")
-	var gi: Dictionary = triggers.get("give_item", {})
-	r.trigger_give_item_id = gi.get("item_id", "")
-	r.trigger_give_item_count = gi.get("count", 0)
-	var ap: Dictionary = triggers.get("add_party", {})
-	r.trigger_add_party_species = ap.get("species_id", "")
-	r.trigger_add_party_level = ap.get("level", 0)
+	var triggers_raw: Variant = d.get("triggers", {})
+	var triggers: Dictionary = triggers_raw if triggers_raw is Dictionary else {}
+	r.trigger_set_flags = triggers.get("set_flag", {}) if triggers.get("set_flag") is Dictionary else {}
+	var adv: Dictionary = triggers.get("advance_quest", {}) if triggers.get("advance_quest") is Dictionary else {}
+	r.trigger_advance_quest_id = String(adv.get("quest_id", ""))
+	r.trigger_advance_quest_stage = String(adv.get("stage", ""))
+	var gi: Dictionary = triggers.get("give_item", {}) if triggers.get("give_item") is Dictionary else {}
+	r.trigger_give_item_id = String(gi.get("item_id", ""))
+	r.trigger_give_item_count = int(gi.get("count", 0))
+	var ap: Dictionary = triggers.get("add_party", {}) if triggers.get("add_party") is Dictionary else {}
+	r.trigger_add_party_species = String(ap.get("species_id", ""))
+	r.trigger_add_party_level = int(ap.get("level", 0))
 	return r

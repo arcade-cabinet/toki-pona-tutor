@@ -44,7 +44,7 @@ text = ""
 layout_mode = 2
 theme_type_variation = &"mono"
 horizontal_alignment = 2
-text = "space"
+text = "continue"
 
 [node name="Typewriter" type="Timer" parent="."]
 one_shot = false

@@ -335,7 +335,11 @@ func _move_display_name(move_id: String) -> String:
 # consistency. (It's still technically the end-of-combat panel; the
 # name reflects its primary role.)
 func _display_defeat_dialog() -> void:
-	var leader_name: String = _battler_roster.get_player_battlers()[0].name
+	var leader_name: String = "Party"
+	if _battler_roster != null:
+		var players := _battler_roster.get_player_battlers()
+		if not players.is_empty():
+			leader_name = players[0].name
 	var panel: VictoryPanel = VICTORY_PANEL_SCENE.instantiate() as VictoryPanel
 	add_child(panel)
 	panel.show_sequence(["%s's party lost the battle!" % leader_name])

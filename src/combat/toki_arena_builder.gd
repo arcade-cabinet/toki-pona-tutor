@@ -40,8 +40,10 @@ static func build_arena_for_encounter(
 	if err != OK:
 		push_error("[ArenaBuilder] failed to pack arena: %s" % error_string(err))
 		return null
-	# The source node is no longer needed.
-	arena_node.queue_free()
+	# The source node is no longer needed. Use free() (sync) instead of
+	# queue_free() so the node is gone by return; the PackedScene already
+	# owns a serialized copy and we don't leave a dangling tree node.
+	arena_node.free()
 	return packed
 
 
@@ -69,7 +71,7 @@ static func build_arena_for_rival(
 	if err != OK:
 		push_error("[ArenaBuilder] failed to pack rival arena: %s" % error_string(err))
 		return null
-	arena_node.queue_free()
+	arena_node.free()
 	return packed
 
 
