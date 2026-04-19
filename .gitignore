@@ -141,3 +141,6 @@ vite.config.ts.timestamp-*
 .playwright-mcp/
 *.png
 !public/**/*.png
+
+# Tatoeba corpus cache (regenerate via scripts/fetch-tatoeba-corpus.mjs)
+.tatoeba-cache/
