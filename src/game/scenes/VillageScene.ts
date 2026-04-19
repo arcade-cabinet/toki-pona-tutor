@@ -3,6 +3,8 @@ import { gameBus } from '../GameBus';
 import { spawnPlayer, spawnNpc, spawnItem } from '../ecs/world';
 import { TOWN, DUNGEON, CAST } from '../tiles';
 import { pickUpItem, getQuestState } from '../ecs/questState';
+import { loadSeed } from '../procgen/seed';
+import { planVillage, type VillagePlan } from '../procgen/villageGen';
 
 const TILE = 16;
 const MAP_W = 28;
@@ -58,8 +60,14 @@ export class VillageScene extends Phaser.Scene {
     });
   }
 
+  private villagePlan!: VillagePlan;
+
   create() {
-    this.cameras.main.setBackgroundColor('#7bb65a');
+    const seed = loadSeed();
+    this.villagePlan = seed
+      ? planVillage(seed)
+      : planVillage({ noun: 'ma', adj1: 'pona', adj2: 'suli' });
+    this.cameras.main.setBackgroundColor(this.villagePlan.biome.skyColor);
     this.cameras.main.setBounds(0, 0, MAP_W * TILE, MAP_H * TILE);
     this.physics.world.setBounds(0, 0, MAP_W * TILE, MAP_H * TILE);
     this.colliders = this.physics.add.staticGroup();
@@ -175,8 +183,8 @@ export class VillageScene extends Phaser.Scene {
       this.tile(tx, ty, frame, 'town', 2);
       this.addCollider(tx, ty);
     };
-    // Use only tiles verified to render as COMPLETE trees on the packed sheet.
-    const treeFrames = [TOWN.TREE_GREEN_ROUND, TOWN.TREE_ORANGE_1, TOWN.TREE_ORANGE_2, TOWN.BUSH_GREEN];
+    // Tree frames come from the seed's biome theme so each seed looks distinct.
+    const treeFrames = this.villagePlan.biome.treeFrames;
     const pick = (x: number, y: number) => treeFrames[(x * 13 + y * 7) % treeFrames.length];
     // Top edge (two rows of offset trees)
     for (let x = 0; x < MAP_W; x++) {

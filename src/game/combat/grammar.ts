@@ -5,9 +5,10 @@ const dictionarySet = new Set(dictionary.map((w) => w.word));
 const PARTICLES = new Set(['li', 'e', 'la', 'pi']);
 const PRONOUNS = new Set(['mi', 'sina', 'ona']);
 
-/** Every word must be in dictionary, no sentence-initial particles, etc. */
+/** Every word must be in dictionary, no sentence-initial particles, etc.
+ * Minimum 2 tokens — a single word is vocabulary, not a sentence. */
 export function isGrammaticallyValid(tokens: string[]): boolean {
-  if (tokens.length === 0) return false;
+  if (tokens.length < 2) return false;
   for (const t of tokens) if (!dictionarySet.has(t)) return false;
   if (PARTICLES.has(tokens[0])) return false;
   const subj = tokens[0];
@@ -15,6 +16,10 @@ export function isGrammaticallyValid(tokens: string[]): boolean {
   for (let i = 1; i < tokens.length; i++) {
     if (PARTICLES.has(tokens[i]) && tokens[i] === tokens[i - 1]) return false;
   }
+  // Sentence must have a subject + predicate — at least one non-particle
+  // token after the first.
+  const nonParticleAfterFirst = tokens.slice(1).some((t) => !PARTICLES.has(t));
+  if (!nonParticleAfterFirst) return false;
   return true;
 }
 
