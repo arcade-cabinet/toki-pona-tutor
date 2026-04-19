@@ -1,5 +1,47 @@
 # Changelog
 
+## 1.0.0 (2026-04-19)
+
+
+### Features
+
+* build-time TP translator via vendored Tatoeba corpus ([#17](https://github.com/arcade-cabinet/poki-soweli/issues/17)) ([0d81c7b](https://github.com/arcade-cabinet/poki-soweli/commit/0d81c7b27444892109e997a10408609744c6b206))
+* **combat:** species-driven Pokemon combat + catch mechanic + auto-starter ([#27](https://github.com/arcade-cabinet/poki-soweli/issues/27)) ([e0a1c3c](https://github.com/arcade-cabinet/poki-soweli/commit/e0a1c3cba1b4057dd55375573a5e71a41cd384be))
+* **content:** region 1 + region 2 spine — starter village, first route, 8 species, 10 moves, 4 items ([#25](https://github.com/arcade-cabinet/poki-soweli/issues/25)) ([7719b6d](https://github.com/arcade-cabinet/poki-soweli/commit/7719b6ddcd649f3fdbb61b9cc17c4dea3e1ce398))
+* **content:** region 3 nena sewi — mountain pass + jan Wawa gym ([#29](https://github.com/arcade-cabinet/poki-soweli/issues/29)) ([103f3a5](https://github.com/arcade-cabinet/poki-soweli/commit/103f3a519a4f8b9bac2ad607d88d821fe4c1699c))
+* **content:** region 4 ma telo — lake village ([#31](https://github.com/arcade-cabinet/poki-soweli/issues/31)) ([6d9f380](https://github.com/arcade-cabinet/poki-soweli/commit/6d9f380cc0534b2a5416a243ca7f2dd54c5c5680))
+* **content:** region 5 ma lete — cold land with jan Lete gym ([#35](https://github.com/arcade-cabinet/poki-soweli/issues/35)) ([c72cbb8](https://github.com/arcade-cabinet/poki-soweli/commit/c72cbb814255da268f584fa7470985c19666ec3d))
+* **content:** region 6 nena suli — great peak with jan Suli gym ([c85ca6e](https://github.com/arcade-cabinet/poki-soweli/commit/c85ca6e6aebde9d1ac1d1a44ff1c27fc24b7c541))
+* **content:** region 7 nasin pi telo — riverside fishing route ([#38](https://github.com/arcade-cabinet/poki-soweli/issues/38)) ([dc91d1d](https://github.com/arcade-cabinet/poki-soweli/commit/dc91d1db87523faa47c45da051200b53b19a87ba))
+* declarative content pipeline — Zod schemas + Tatoeba build step + agent-teams playbook ([#23](https://github.com/arcade-cabinet/poki-soweli/issues/23)) ([d2ed647](https://github.com/arcade-cabinet/poki-soweli/commit/d2ed647663e46e435f4d0608417b2688796e37b6))
+* **engine:** rewire scenes to consume generated/world.json, delete procgen ([#26](https://github.com/arcade-cabinet/poki-soweli/issues/26)) ([a29f6b7](https://github.com/arcade-cabinet/poki-soweli/commit/a29f6b73c462443cdd03bbae61d4df37ffd0218d))
+* **engine:** water tile key + per-creature XP persistence ([#36](https://github.com/arcade-cabinet/poki-soweli/issues/36)) ([906ad5c](https://github.com/arcade-cabinet/poki-soweli/commit/906ad5c9bab791c8c850cad58462738b8232c4b6))
+* high-res Animal Pack portraits in combat + honest sprite naming + TP dialog cleanup ([#16](https://github.com/arcade-cabinet/poki-soweli/issues/16)) ([b1fc02a](https://github.com/arcade-cabinet/poki-soweli/commit/b1fc02a3475be33faaab3b11cb148468e59bedbd))
+* initial Vite + React Toki Pona tutor with GH Pages deploy ([#1](https://github.com/arcade-cabinet/poki-soweli/issues/1)) ([5307c52](https://github.com/arcade-cabinet/poki-soweli/commit/5307c52df3243d1a96f9e368c69f5167bf354161))
+* make the tutorial diegetic — jan Sewi is a real NPC, not an overlay ([#21](https://github.com/arcade-cabinet/poki-soweli/issues/21)) ([d753b21](https://github.com/arcade-cabinet/poki-soweli/commit/d753b21d6b836fdfa6a6a6587f0c5421dc49de07))
+* opening tutorial — jan Sewi + 5 dialog beats that teach the game ([#19](https://github.com/arcade-cabinet/poki-soweli/issues/19)) ([2f8c9f6](https://github.com/arcade-cabinet/poki-soweli/commit/2f8c9f684b04faacf9a669cad44c135e0415cf6f))
+* pivot to Godot 4 as poki soweli (formerly Toki Town) ([#41](https://github.com/arcade-cabinet/poki-soweli/issues/41)) ([1d924fe](https://github.com/arcade-cabinet/poki-soweli/commit/1d924feebcc70cd3ef0b48ece0bcdab6db61a4fc))
+* Pokemon-style combat + narrative-coherent quest arc + akesi anchor encounter ([#14](https://github.com/arcade-cabinet/poki-soweli/issues/14)) ([8521b1c](https://github.com/arcade-cabinet/poki-soweli/commit/8521b1cabd421b6588eae3751a07a83df7b4700e))
+* ralph-tui phase 1 slice — 22 of 91 roadmap tasks ([#45](https://github.com/arcade-cabinet/poki-soweli/issues/45)) ([d2233d2](https://github.com/arcade-cabinet/poki-soweli/commit/d2233d2af962ab73c2e3edd80f89cb29cf97a13d))
+* real game feel — hearts, XP, level-ups, confetti, CC0 BGM, challenge validation ([#7](https://github.com/arcade-cabinet/poki-soweli/issues/7)) ([9029d91](https://github.com/arcade-cabinet/poki-soweli/commit/9029d91dffe72c5089498ddba3cfb27b4394dc0f))
+* seed drives biome + grammar exploit fix + akesi sprite + narrative greeting ([#15](https://github.com/arcade-cabinet/poki-soweli/issues/15)) ([04d3daf](https://github.com/arcade-cabinet/poki-soweli/commit/04d3daf820f21f5099020d5bb1fddadb7a3019a2))
+* sitelen pona hieroglyphs + parchment dialog + desktop bezel kill + HUD ([#12](https://github.com/arcade-cabinet/poki-soweli/issues/12)) ([cd34449](https://github.com/arcade-cabinet/poki-soweli/commit/cd3444939fe1ed4b1ffd8ff562674a4417e06a12))
+* **starter:** diegetic ceremony via jan Sewi dialog ([#39](https://github.com/arcade-cabinet/poki-soweli/issues/39)) ([0a582e0](https://github.com/arcade-cabinet/poki-soweli/commit/0a582e0d76ad3ded649c7aec54dafc75b6739245))
+* sunset arcade — Kenney mascot, Kenney fonts, Kenney BGM/SFX, combo bursts, screen shake ([#8](https://github.com/arcade-cabinet/poki-soweli/issues/8)) ([c38a820](https://github.com/arcade-cabinet/poki-soweli/commit/c38a820d9ead1afed6b310a2f03c1ea553459bf4))
+* Toki Pona seed system — shuffle-and-begin New Game modal ([#13](https://github.com/arcade-cabinet/poki-soweli/issues/13)) ([0878488](https://github.com/arcade-cabinet/poki-soweli/commit/0878488ae8198d2c616ffc2c3bc2d0d4d29dbd96))
+* Toki Town — Phaser RPG + Solid dialog + Koota ECS foundation ([#9](https://github.com/arcade-cabinet/poki-soweli/issues/9)) ([19a9084](https://github.com/arcade-cabinet/poki-soweli/commit/19a90847e8a2980f5890e089cded91e83c5962b0))
+
+
+### Bug Fixes
+
+* add missing 'awen' word so challenge 7 is winnable ([#4](https://github.com/arcade-cabinet/poki-soweli/issues/4)) ([e49cf3e](https://github.com/arcade-cabinet/poki-soweli/commit/e49cf3ec82ebc82128eba6fa9ef221f254b1df9f))
+* coherent Toki Town village with labeled Tiny Town + Tiny Dungeon tiles ([#10](https://github.com/arcade-cabinet/poki-soweli/issues/10)) ([8ba18c2](https://github.com/arcade-cabinet/poki-soweli/commit/8ba18c27cdd9506f731c92050ec7846af16e3092))
+* combat freeze + drop sentence-casting + FF-style polish ([#18](https://github.com/arcade-cabinet/poki-soweli/issues/18)) ([9fd7c06](https://github.com/arcade-cabinet/poki-soweli/commit/9fd7c0643703d780eff3ba1233238187df5ae9bd))
+* correct tilesheet spacing + quest loop + toast + desktop aspect ([#11](https://github.com/arcade-cabinet/poki-soweli/issues/11)) ([7890100](https://github.com/arcade-cabinet/poki-soweli/commit/7890100c688475ee109aa4e74c3dc00d406424f3))
+* feedback card intercepts Check Answer button clicks ([#5](https://github.com/arcade-cabinet/poki-soweli/issues/5)) ([a2798ea](https://github.com/arcade-cabinet/poki-soweli/commit/a2798ea18a021c534c85b7582aeb0a59f9c9b953))
+* foldable white-canvas — debounce Phaser resize, recover GL context loss ([#20](https://github.com/arcade-cabinet/poki-soweli/issues/20)) ([c76c158](https://github.com/arcade-cabinet/poki-soweli/commit/c76c158038b8a90425512ae7e538d35a4e88ea81))
+* WASD sitelen render + adventure audio + TP validator ([#22](https://github.com/arcade-cabinet/poki-soweli/issues/22)) ([e2c2529](https://github.com/arcade-cabinet/poki-soweli/commit/e2c25292a58ad4b53a372dc4031dda88a5b9ca47))
+
 ## v0.3.4 Combat Rework 🛡️
 
 ### Classic turn-based combat
