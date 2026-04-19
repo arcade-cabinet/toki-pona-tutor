@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.1.4](https://github.com/arcade-cabinet/poki-soweli/compare/poki-soweli-v0.1.3...poki-soweli-v0.1.4) (2026-04-19)
+
+
+### Features
+
+* **test:** Maestro E2E bridge + smoke flow + CI emulator job ([#59](https://github.com/arcade-cabinet/poki-soweli/issues/59)) ([20da022](https://github.com/arcade-cabinet/poki-soweli/commit/20da0225f6b18f5a7a4889f2bce95534cff2d31b))
+
 ## [0.1.3](https://github.com/arcade-cabinet/poki-soweli/compare/poki-soweli-v0.1.2...poki-soweli-v0.1.3) (2026-04-19)
 
 
