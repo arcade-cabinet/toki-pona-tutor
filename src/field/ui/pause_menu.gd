@@ -9,10 +9,12 @@ extends CanvasLayer
 const TITLE_SCENE := "res://src/title.tscn"
 
 @onready var _root: Control = $Root
-@onready var _resume_btn: Button = $Root/Margin/Panel/V/Resume
-@onready var _party_btn: Button = $Root/Margin/Panel/V/Party
-@onready var _save_btn: Button = $Root/Margin/Panel/V/Save
-@onready var _quit_btn: Button = $Root/Margin/Panel/V/Quit
+@onready var _resume_btn: Button = $Root/Margin/Panel/V/ResumeBtn
+@onready var _party_btn: Button = $Root/Margin/Panel/V/PartyBtn
+@onready var _pokedex_btn: Button = $Root/Margin/Panel/V/PokedexBtn
+@onready var _badges_btn: Button = $Root/Margin/Panel/V/BadgesBtn
+@onready var _save_btn: Button = $Root/Margin/Panel/V/SaveBtn
+@onready var _quit_btn: Button = $Root/Margin/Panel/V/QuitBtn
 
 
 func _ready() -> void:
@@ -20,8 +22,35 @@ func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_ALWAYS
 	_resume_btn.pressed.connect(close)
 	_party_btn.pressed.connect(_on_party_pressed)
+	_pokedex_btn.pressed.connect(_on_pokedex_pressed)
+	_badges_btn.pressed.connect(_on_badges_pressed)
 	_save_btn.pressed.connect(_on_save_pressed)
 	_quit_btn.pressed.connect(_on_quit_pressed)
+
+
+func _on_pokedex_pressed() -> void:
+	# Synchronous handoff: open the target panel first (it re-pauses the
+	# tree), then hide ourselves. Keeps the tree paused the whole way so
+	# the player/world can't step for a frame between menus.
+	var target := _find_sibling_overlay("Pokedex")
+	if target != null and target.has_method("open"):
+		target.open()
+	visible = false
+
+
+func _on_badges_pressed() -> void:
+	var target := _find_sibling_overlay("BadgesPanel")
+	if target != null and target.has_method("open"):
+		target.open()
+	visible = false
+
+
+# Look up a sibling overlay by node name relative to our parent. Avoids
+# tree-wide find_child() colliding with our same-named buttons.
+func _find_sibling_overlay(node_name: String) -> Node:
+	var parent := get_parent()
+	if parent == null: return null
+	return parent.get_node_or_null(node_name)
 
 
 func _unhandled_input(event: InputEvent) -> void:
@@ -44,10 +73,10 @@ func close() -> void:
 
 
 func _on_party_pressed() -> void:
-	close()
-	var panel := get_tree().root.find_child("PartyPanel", true, false)
-	if panel != null and panel.has_method("open"):
-		panel.call_deferred("open")
+	var target := _find_sibling_overlay("PartyPanel")
+	if target != null and target.has_method("open"):
+		target.open()
+	visible = false
 
 
 func _on_save_pressed() -> void:

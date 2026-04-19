@@ -84,8 +84,5 @@ func _play_throw_arc(target: Battler) -> void:
 
 
 func _find_species(id: String) -> SpeciesResource:
-	if id == "": return null
-	var world_autoload: Node = Engine.get_main_loop().root.get_node_or_null("World")
-	if world_autoload != null and world_autoload.has_method("find_species"):
-		return world_autoload.find_species(id)
-	return null
+	if id == "" or World == null: return null
+	return World.find_species(id)

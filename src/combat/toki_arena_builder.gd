@@ -92,6 +92,7 @@ static func _build_rival_arena_node(
 	# rewards consistent with wild encounters of the same creature.
 	if arena is CombatArena:
 		(arena as CombatArena).xp_yield = int(enemy_species.xp_yield)
+		(arena as CombatArena).enemy_species_id = enemy_species.id
 
 	var enemy: Battler = _build_battler(enemy_species, enemy_level, false)
 	# Override move list from authored NPC team when present.
@@ -151,6 +152,7 @@ static func _build_arena_node(
 	if arena is CombatArena:
 		(arena as CombatArena).xp_yield = int(wild_species.xp_yield)
 		(arena as CombatArena).allow_flee = true
+		(arena as CombatArena).enemy_species_id = wild_species.id
 
 	# Enemy battler (left side, AI-controlled).
 	var enemy: Battler = _build_battler(wild_species, wild_level, false)

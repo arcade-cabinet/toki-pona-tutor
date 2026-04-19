@@ -1,4 +1,4 @@
-[gd_scene load_steps=10 format=3]
+[gd_scene load_steps=12 format=3]
 
 [ext_resource type="Script" path="res://src/field/toki_map.gd" id="1_map"]
 [ext_resource type="Script" path="res://src/field/region_builder.gd" id="2_rb"]
@@ -8,6 +8,8 @@
 [ext_resource type="PackedScene" path="res://src/combat/ui/ui_combat.tscn" id="6_ui_combat"]
 [ext_resource type="PackedScene" path="res://src/field/ui/party_panel.tscn" id="7_party"]
 [ext_resource type="PackedScene" path="res://src/field/ui/pause_menu.tscn" id="8_pause"]
+[ext_resource type="PackedScene" path="res://src/field/ui/pokedex.tscn" id="9_dex"]
+[ext_resource type="PackedScene" path="res://src/field/ui/badges_panel.tscn" id="10_badges"]
 
 [node name="TokiTown" type="Node2D"]
 
@@ -39,3 +41,7 @@ one_shot = true
 [node name="PartyPanel" parent="." instance=ExtResource("7_party")]
 
 [node name="PauseMenu" parent="." instance=ExtResource("8_pause")]
+
+[node name="Pokedex" parent="." instance=ExtResource("9_dex")]
+
+[node name="BadgesPanel" parent="." instance=ExtResource("10_badges")]
