@@ -1,4 +1,23 @@
-# Credits for external assets. 
+# Credits
+
+## Code
+
+**Godot 4 Open RPG** by GDQuest — MIT-licensed.
+Source: https://github.com/gdquest-demos/godot-open-rpg
+Used as the base project for Toki Town (overworld, combat, dialogue, tilemap,
+gameboard/pathfinder). Modifications and additions are under the Toki Town
+license (see LICENSE).
+
+**Godot MCP Pro**, **gdUnit4**, **gd-plug**, and all other addons in `addons/`
+are listed with their respective licenses in each addon's `plugin.cfg`.
+
+## External assets
+
+All audio and visual assets below are inherited from the Open RPG demo or
+imported from Kenney's CC0 asset packs. Additions for Toki Town are credited
+alongside.
+
+
 
 Apple Cider
 Author: Zane Little Music

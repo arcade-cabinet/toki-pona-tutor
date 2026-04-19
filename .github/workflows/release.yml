@@ -1,0 +1,85 @@
+name: Release
+
+on:
+  push:
+    branches: [main]
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  release-please:
+    name: Release Please
+    runs-on: ubuntu-latest
+    outputs:
+      release_created: ${{ steps.release.outputs.release_created }}
+      tag_name: ${{ steps.release.outputs.tag_name }}
+
+    steps:
+      - uses: googleapis/release-please-action@v4
+        id: release
+        with:
+          token: ${{ secrets.CI_GITHUB_TOKEN }}
+          release-type: simple
+          package-name: toki-town
+
+  export:
+    name: Export Game Builds
+    needs: release-please
+    if: ${{ needs.release-please.outputs.release_created }}
+    runs-on: ubuntu-latest
+    container:
+      image: barichello/godot-ci:4.6.2
+
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          lfs: true
+
+      - name: Import assets
+        run: godot --headless --import 2>&1 || true
+
+      - name: Build main scene
+        run: |
+          # Optional pre-export build step — runs only if the project defines
+          # one (week 2+). Open-rpg / week-1 bootstrap doesn't need it.
+          if [ -f tools/build_main.gd ]; then
+            timeout 60 godot --headless --script res://tools/build_main.gd
+          else
+            echo "tools/build_main.gd not present — skipping (not required for open-rpg base)"
+          fi
+
+      - name: Export Linux
+        run: |
+          mkdir -p build/linux
+          godot --headless --export-release "Linux" build/linux/toki-town.x86_64 || echo "Linux export not configured yet"
+
+      - name: Export Windows
+        run: |
+          mkdir -p build/windows
+          godot --headless --export-release "Windows Desktop" build/windows/toki-town.exe || echo "Windows export not configured yet"
+
+      - name: Export Web
+        run: |
+          mkdir -p build/web
+          godot --headless --export-release "HTML5" build/web/index.html || echo "Web export not configured yet"
+
+      - name: Export Android
+        run: |
+          mkdir -p build/android
+          godot --headless --export-release "Android" build/android/toki-town.apk || echo "Android export not configured yet"
+
+      - name: Upload release artifacts
+        if: ${{ needs.release-please.outputs.release_created }}
+        env:
+          TAG_NAME: ${{ needs.release-please.outputs.tag_name }}
+          GH_TOKEN: ${{ secrets.CI_GITHUB_TOKEN }}
+        run: |
+          for dir in build/*/; do
+            platform=$(basename "$dir")
+            if [ -n "$(ls -A "$dir" 2>/dev/null)" ]; then
+              tar czf "toki-town-${platform}.tar.gz" -C "$dir" .
+              gh release upload "$TAG_NAME" "toki-town-${platform}.tar.gz" || true
+            fi
+          done
