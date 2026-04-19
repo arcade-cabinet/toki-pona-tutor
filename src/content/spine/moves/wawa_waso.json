@@ -1,0 +1,11 @@
+{
+  "id": "wawa_waso",
+  "name": { "en": "flit" },
+  "description": { "en": "Flies fly." },
+  "type": "wawa",
+  "power": 30,
+  "accuracy": 100,
+  "pp": 25,
+  "effect": "none",
+  "priority": 1
+}
