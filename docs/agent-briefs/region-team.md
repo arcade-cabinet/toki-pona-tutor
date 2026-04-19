@@ -1,0 +1,112 @@
+---
+title: Agent Brief — Region Team
+updated: 2026-04-19
+status: current
+domain: ops
+---
+
+# Region team agent brief
+
+You're authoring one complete region for Toki Town. A region is a single Phaser scene's worth of world — tile layout, NPCs, dialog, signs, warps to adjacent regions, encounter table. You write one file at `src/content/spine/regions/<region_id>.json` that validates against `src/content/schema/region.ts`.
+
+## Worktree prologue
+
+```bash
+BRANCH="content/region-<region-id>"
+WT_PATH=".worktrees/${BRANCH}"
+cd /Users/jbogaty/src/arcade-cabinet/toki-pona-tutor
+if [[ "$(git rev-parse --show-toplevel)" == "$(pwd)" && ! "$(pwd)" == *"/.worktrees/"* ]]; then
+  git fetch origin main
+  git worktree add -B "$BRANCH" "$WT_PATH" origin/main
+  cd "$WT_PATH" || exit 1
+fi
+pnpm install --ignore-workspace
+```
+
+## What to author
+
+Your brief specifies **one region** by id — e.g. `ma_telo` (the lake village), `nena_sewi` (the mountain pass). Write its region JSON plus any dialog nodes its NPCs need.
+
+### Required content
+
+- Grid dimensions: villages are ~20×14, routes are long (~32×10), mountain passes are ~16×20. Your brief will specify.
+- Sky color: villages `#8bc260` (kenney town green), routes same, mountains `#6b7a83` (stone), lakes `#5ba7d8` (blue).
+- At least **2 tile layers** (`ground`, `objects`). A third `overlay` layer is optional (flowers, shimmer).
+- **3–5 NPCs**, each with a distinct role — one quest-giver / jan-lawa, one ambient, optionally a shopkeeper or rival.
+- **2–3 signs** with canonical-TP text.
+- **1–2 warps** to adjacent regions.
+- **Tall grass:** if this region has encounters, 30–60% of walkable ground should be tall-grass keys.
+- **Encounters:** 3–6 species in a weighted table summing to 1.0. Species must already exist in `src/content/spine/species/`.
+- **Dialog array:** at least 1 dialog node per NPC. Quest-giver NPCs get multi-beat dialog (3–5 beats); ambient NPCs get single-beat flavor lines.
+- **Spawn point:** where the player lands when warping in.
+
+### Writing canonical TP
+
+Every multi-word `{ en }` field — `description`, sign text, dialog beats — will be validated against `src/content/corpus/tatoeba.json` at build time. Single-word TP (names, sign text like `"ma"`) is exempt.
+
+Process:
+1. Write the English line the beat needs.
+2. Run `pnpm validate-tp`. If it complains, read the suggestions.
+3. Rewrite the English to match the closest suggested line. Accept that it may phrase things differently; canonical > authored.
+
+**Short English works.** Three-to-six-word sentences are your friend. "Water is good." / "telo li pona." will pass. "My wise friend sits by the ancient well and sings" will never find a pair.
+
+### Tile keys
+
+Tile keys in `layers[].tiles` are short strings the engine maps to frames at runtime. Use:
+
+- `"g"` — grass
+- `"gf"` — grass with flowers
+- `"gd"` — grass detail (small weeds)
+- `"stone"` — stone floor (plaza)
+- `"tree_g"`, `"tree_y"` — full-canopy trees (solid)
+- `"bush"` — bushes (solid)
+- `"house_b"`, `"house_r"` — house icons (solid)
+- `"sign"` — signpost (solid)
+- `"mushroom"` — kili patch
+- `"grass_tall"` — tall grass tile (goes in `tall_grass_keys`)
+
+Add new keys if your region needs them; the engine will translate them via the shared tile-key → frame lookup in `src/game/content-loader.ts`.
+
+### Warps
+
+A warp moves the player to another region when they step on a specific tile. Place warps on the EDGE of the map, at walkable tiles:
+
+```json
+{
+  "id": "east_exit",
+  "tile": { "x": 19, "y": 7 },
+  "to_region": "nasin_wan",
+  "to_tile": { "x": 1, "y": 5 }
+}
+```
+
+## Validate loop
+
+```bash
+pnpm validate-tp
+node scripts/build-spine.mjs
+pnpm typecheck
+```
+
+All three must be green.
+
+## PR
+
+```bash
+git add -A
+git commit -m "feat(content): region <id> — <short descriptor>"
+git push -u origin "$BRANCH"
+gh pr create --title "..." --body "..."
+```
+
+## Stall + self-review + merge
+
+See `docs/AGENT_TEAMS.md`.
+
+## Guardrails
+
+- Only edit inside your worktree
+- Only create files under `src/content/spine/regions/<region_id>.json` — no engine changes
+- Never hand-author TP; always let the pipeline resolve it
+- Always squash-merge, never force-push, never skip hooks
