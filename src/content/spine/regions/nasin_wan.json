@@ -1,0 +1,106 @@
+{
+  "id": "nasin_wan",
+  "name_tp": "nasin wan",
+  "name_en": "first route",
+  "description": { "en": "The path was narrow." },
+  "width": 32,
+  "height": 10,
+  "sky_color": "#8bc260",
+  "layers": [
+    {
+      "name": "ground",
+      "depth": 0,
+      "solid_keys": [],
+      "tiles": [
+        ["grass","grass","grass","grass","grass","grass","grass","grass","grass","grass","grass","grass","grass","grass","grass","grass","grass","grass","grass","grass","grass","grass","grass","grass","grass","grass","grass","grass","grass","grass","grass","grass"],
+        ["grass","grass","grass","grass","tall_grass","tall_grass","tall_grass","grass","grass","grass","grass","grass","grass","grass","grass","grass","grass","grass","tall_grass","tall_grass","tall_grass","tall_grass","grass","grass","grass","grass","grass","grass","grass","grass","grass","grass"],
+        ["grass","grass","grass","grass","tall_grass","tall_grass","tall_grass","grass","grass","grass","grass","grass","grass","grass","grass","grass","grass","grass","tall_grass","tall_grass","tall_grass","tall_grass","grass","grass","grass","grass","grass","grass","grass","grass","grass","grass"],
+        ["grass","grass","grass","grass","grass","grass","grass","grass","grass","grass","grass","grass","grass","grass","grass","grass","grass","grass","grass","grass","grass","grass","grass","grass","grass","grass","grass","grass","grass","grass","grass","grass"],
+        ["path","path","path","path","path","path","path","path","path","path","path","path","path","path","path","path","path","path","path","path","path","path","path","path","path","path","path","path","path","path","path","path"],
+        ["path","path","path","path","path","path","path","path","path","path","path","path","path","path","path","path","path","path","path","path","path","path","path","path","path","path","path","path","path","path","path","path"],
+        ["grass","grass","grass","grass","grass","grass","grass","grass","grass","grass","grass","grass","grass","grass","grass","grass","grass","grass","grass","grass","grass","grass","grass","grass","grass","grass","grass","grass","grass","grass","grass","grass"],
+        ["grass","grass","grass","grass","grass","grass","grass","grass","grass","grass","grass","tall_grass","tall_grass","tall_grass","tall_grass","tall_grass","grass","grass","grass","grass","grass","grass","grass","grass","grass","grass","grass","grass","grass","grass","grass","grass"],
+        ["grass","grass","grass","grass","grass","grass","grass","grass","grass","grass","grass","tall_grass","tall_grass","tall_grass","tall_grass","tall_grass","grass","grass","grass","grass","grass","grass","grass","grass","grass","grass","grass","grass","grass","grass","grass","grass"],
+        ["grass","grass","grass","grass","grass","grass","grass","grass","grass","grass","grass","grass","grass","grass","grass","grass","grass","grass","grass","grass","grass","grass","grass","grass","grass","grass","grass","grass","grass","grass","grass","grass"]
+      ]
+    },
+    {
+      "name": "objects",
+      "depth": 1,
+      "solid_keys": ["tree","sign"],
+      "tiles": [
+        ["tree",null,null,"tree",null,null,null,null,"tree",null,null,null,null,null,null,"tree",null,null,null,null,null,null,"tree",null,null,null,"tree",null,null,null,null,"tree"],
+        [null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null],
+        [null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null],
+        [null,null,null,null,null,null,null,"sign",null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null],
+        [null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null],
+        [null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null],
+        [null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null],
+        [null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null],
+        [null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null],
+        ["tree","tree",null,null,"tree",null,null,null,null,"tree",null,null,null,null,"tree",null,null,null,null,"tree",null,null,null,null,"tree",null,null,null,"tree",null,"tree","tree"]
+      ]
+    }
+  ],
+  "tall_grass_keys": ["tall_grass"],
+  "encounters": [
+    { "species_id": "pipi_kon", "weight": 0.5, "min_level": 3, "max_level": 5 },
+    { "species_id": "akesi_ma", "weight": 0.3, "min_level": 5, "max_level": 7 },
+    { "species_id": "kala_lili", "weight": 0.2, "min_level": 3, "max_level": 6 }
+  ],
+  "npcs": [
+    {
+      "id": "jan_ike",
+      "name_tp": "jan Ike",
+      "name_en": "jan Ike",
+      "role": "rival",
+      "personality": "cocky rival — took a starter too; wants to prove he's stronger.",
+      "tile": { "x": 29, "y": 5 },
+      "sprite_frame": 98,
+      "greeting": {
+        "text": { "en": "Are you strong?" },
+        "mood": "excited"
+      },
+      "team": [
+        {
+          "species_id": "soweli_seli",
+          "level": 5,
+          "moves": ["utala_lili","seli_lili"]
+        }
+      ]
+    }
+  ],
+  "signs": [
+    {
+      "id": "sign_route",
+      "tile": { "x": 7, "y": 3 },
+      "text": { "en": "The path was narrow." }
+    }
+  ],
+  "warps": [
+    {
+      "id": "warp_west",
+      "tile": { "x": 0, "y": 5 },
+      "to_region": "ma_tomo_lili",
+      "to_tile": { "x": 19, "y": 7 }
+    },
+    {
+      "id": "warp_east",
+      "tile": { "x": 31, "y": 5 },
+      "to_region": "nena_sewi",
+      "to_tile": { "x": 1, "y": 5 }
+    }
+  ],
+  "dialog": [
+    {
+      "id": "jan_ike_challenge",
+      "npc_id": "jan_ike",
+      "priority": 5,
+      "beats": [
+        { "text": { "en": "Are you strong?" }, "mood": "excited", "glyph": "wawa" },
+        { "text": { "en": "Let's attack." }, "mood": "excited", "glyph": "utala" }
+      ]
+    }
+  ],
+  "spawn": { "x": 1, "y": 5 }
+}

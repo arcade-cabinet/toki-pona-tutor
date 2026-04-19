@@ -1,0 +1,9 @@
+{
+  "id": "poki_lili",
+  "name": { "en": "poki" },
+  "description": { "en": "Take this." },
+  "kind": "poki",
+  "power": 1.0,
+  "stackable": true,
+  "sprite_frame": 80
+}

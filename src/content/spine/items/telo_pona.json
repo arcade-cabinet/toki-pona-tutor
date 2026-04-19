@@ -1,0 +1,9 @@
+{
+  "id": "telo_pona",
+  "name": { "en": "telo" },
+  "description": { "en": "Water is good." },
+  "kind": "heal",
+  "power": 50,
+  "stackable": true,
+  "sprite_frame": 65
+}

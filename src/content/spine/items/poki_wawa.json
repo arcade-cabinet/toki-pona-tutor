@@ -1,0 +1,9 @@
+{
+  "id": "poki_wawa",
+  "name": { "en": "poki" },
+  "description": { "en": "Tom opened the box." },
+  "kind": "poki",
+  "power": 1.5,
+  "stackable": true,
+  "sprite_frame": 81
+}
