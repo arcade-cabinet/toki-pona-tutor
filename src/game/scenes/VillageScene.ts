@@ -49,6 +49,10 @@ export class VillageScene extends Phaser.Scene {
   private interactPrompt!: Phaser.GameObjects.Text;
   private questMarker!: Phaser.GameObjects.Text;
   private questGlow!: Phaser.GameObjects.Arc;
+  private tutorialActive = false;
+  private tutorialMoveSignalled = false;
+  private playerSpawnX = 0;
+  private playerSpawnY = 0;
 
   constructor() {
     super('VillageScene');
@@ -93,6 +97,17 @@ export class VillageScene extends Phaser.Scene {
     this.cameras.main.startFollow(this.player, true, 0.12, 0.12);
     this.resizeCamera();
     this.scale.on('resize', () => this.resizeCamera());
+
+    // Opening tutorial — fires the first time the player enters Adventure.
+    // The overlay is informational and non-blocking so the player can move
+    // during beat 2 (the "try moving" lesson).
+    if (!getQuestState().tutorialComplete) {
+      this.tutorialActive = true;
+      this.tutorialMoveSignalled = false;
+      this.playerSpawnX = this.player.x;
+      this.playerSpawnY = this.player.y;
+      this.time.delayedCall(400, () => gameBus.emit('tutorial:start', undefined));
+    }
   }
 
   private resizeCamera() {
@@ -379,6 +394,11 @@ export class VillageScene extends Phaser.Scene {
 
   private setupBus() {
     this.unsubs.push(
+      gameBus.on('tutorial:complete', () => {
+        this.tutorialActive = false;
+      })
+    );
+    this.unsubs.push(
       gameBus.on('dialog:close', () => {
         this.dialogOpen = false;
       })
@@ -479,6 +499,21 @@ export class VillageScene extends Phaser.Scene {
       this.player.setScale(1, bob);
     } else {
       this.player.setScale(1, 1);
+    }
+
+    // Tutorial beat 2 waits for the player to actually move — fire the bus
+    // signal the first time we see meaningful distance from spawn.
+    if (this.tutorialActive && !this.tutorialMoveSignalled) {
+      const d = Phaser.Math.Distance.Between(
+        this.player.x,
+        this.player.y,
+        this.playerSpawnX,
+        this.playerSpawnY,
+      );
+      if (d > 20) {
+        this.tutorialMoveSignalled = true;
+        gameBus.emit('tutorial:player-moved', undefined);
+      }
     }
 
     // Interact prompt follows nearest interactable

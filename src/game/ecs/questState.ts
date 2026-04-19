@@ -10,6 +10,8 @@ interface QuestState {
   xp: number;
   /** Set of NPC ids the player has already talked to at least once. */
   spokenTo: Record<string, boolean>;
+  /** True once jan Sewi's opening tutorial has played through. */
+  tutorialComplete: boolean;
 }
 
 const KEY = 'kama-sona.questState.v1';
@@ -31,7 +33,14 @@ function defaultState(): QuestState {
     masteredWords: [],
     xp: 0,
     spokenTo: {},
+    tutorialComplete: false,
   };
+}
+
+export function setTutorialComplete() {
+  if (state.tutorialComplete) return;
+  state = { ...state, tutorialComplete: true };
+  save();
 }
 
 export function markSpokenTo(npcId: string) {

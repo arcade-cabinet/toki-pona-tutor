@@ -23,8 +23,11 @@ export function AmbientParticles() {
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
-    const ctx = canvas.getContext('2d');
+    const ctx = canvas.getContext('2d', { alpha: true });
     if (!ctx) return;
+    // Opt-out on reduce-motion / low-power — some mobile browsers render the
+    // first clear-rect frame as solid white before the clear propagates.
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
     let raf = 0;
     let running = true;
@@ -38,6 +41,10 @@ export function AmbientParticles() {
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
     };
     resize();
+    // Ensure the first paint is a fully transparent clear — prevents a one-
+    // frame white flash on some mobile GPUs that fill a newly-resized canvas
+    // with opaque white before the first draw.
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
     const ro = new ResizeObserver(resize);
     ro.observe(canvas);
 
@@ -112,6 +119,7 @@ export function AmbientParticles() {
       ref={canvasRef}
       className="absolute inset-0 pointer-events-none z-10"
       aria-hidden="true"
+      style={{ background: 'transparent' }}
     />
   );
 }
