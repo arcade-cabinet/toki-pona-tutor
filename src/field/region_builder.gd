@@ -61,6 +61,7 @@ func _build() -> void:
 	_spawn_npcs()
 	_spawn_signs()
 	_spawn_player()
+	_spawn_encounter_watcher()
 
 
 func _build_sky() -> void:
@@ -260,6 +261,13 @@ func _spawn_signs() -> void:
 				int(tile.get("y", 0)) * cell_size.y + cell_size.y * 0.5,
 			)
 			signs_root.add_child(sprite)
+
+
+func _spawn_encounter_watcher() -> void:
+	var watcher := EncounterWatcher.new()
+	watcher.name = "EncounterWatcher"
+	add_child(watcher)
+	watcher.initialize(region)
 
 
 func _spawn_player() -> void:
