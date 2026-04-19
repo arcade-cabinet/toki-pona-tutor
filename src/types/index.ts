@@ -24,4 +24,4 @@ export interface WordToken {
 
 export type SfxType = 'tap' | 'untap' | 'correct' | 'wrong' | 'win';
 
-export type View = 'menu' | 'learn' | 'results' | 'study';
+export type View = 'menu' | 'learn' | 'results' | 'study' | 'adventure';

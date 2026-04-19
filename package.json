@@ -14,9 +14,12 @@
   "dependencies": {
     "canvas-confetti": "^1.9.4",
     "howler": "^2.2.4",
+    "koota": "^0.6.6",
     "lucide-react": "^0.468.0",
+    "phaser": "^4.0.0",
     "react": "^18.3.1",
-    "react-dom": "^18.3.1"
+    "react-dom": "^18.3.1",
+    "solid-js": "^1.9.12"
   },
   "devDependencies": {
     "@types/canvas-confetti": "^1.9.0",
@@ -28,6 +31,7 @@
     "postcss": "^8.4.49",
     "tailwindcss": "^3.4.17",
     "typescript": "^6.0.3",
-    "vite": "^6.0.5"
+    "vite": "^6.0.5",
+    "vite-plugin-solid": "^2.11.12"
   }
 }
