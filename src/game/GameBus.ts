@@ -53,9 +53,6 @@ interface GameEventMap {
   'combat:enter': { enemyId: string };
   'combat:victory': { enemyId: string };
   'combat:defeat': { enemyId: string };
-  'tutorial:start': void;
-  'tutorial:complete': void;
-  'tutorial:player-moved': void;
 }
 
 type Handler<T> = (payload: T) => void;
