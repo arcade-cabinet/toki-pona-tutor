@@ -35,6 +35,10 @@ export interface ToastEvent {
   ttlMs?: number;
 }
 
+export interface SeedOpenNewGameEvent {
+  onConfirm: (seed: { noun: string; adj1: string; adj2: string }) => void;
+}
+
 interface GameEventMap {
   'dialog:open': DialogOpenEvent;
   'dialog:close': void;
@@ -45,6 +49,7 @@ interface GameEventMap {
   'word:learned': WordLearnedEvent;
   'game:pause': boolean;
   'toast:show': ToastEvent;
+  'seed:open-new-game': SeedOpenNewGameEvent;
 }
 
 type Handler<T> = (payload: T) => void;

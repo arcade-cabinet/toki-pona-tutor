@@ -2,6 +2,7 @@
 import { render } from 'solid-js/web';
 import { DialogOverlay } from './DialogOverlay';
 import { ToastOverlay } from './ToastOverlay';
+import { NewGameModal } from './NewGameModal';
 
 export function mountDialogOverlay(container: HTMLElement): () => void {
   return render(
@@ -9,6 +10,7 @@ export function mountDialogOverlay(container: HTMLElement): () => void {
       <>
         <DialogOverlay />
         <ToastOverlay />
+        <NewGameModal />
       </>
     ),
     container
