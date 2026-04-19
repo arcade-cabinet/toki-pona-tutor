@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
   <meta name="theme-color" content="#0d1117" />
   <title>$GODOT_PROJECT_NAME</title>
   <link rel="icon" type="image/png" href="$GODOT_PROJECT_ICON_URL" />
@@ -23,7 +23,7 @@
       -webkit-font-smoothing: antialiased;
     }
     #canvas { display: block; width: 100%; height: 100%; image-rendering: pixelated; outline: none; }
-    #canvas:focus { outline: none; }
+    #canvas:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
 
     #shell {
       position: absolute; inset: 0;
@@ -113,7 +113,6 @@
 
   <div id="shell">
     <h1 class="title">$GODOT_PROJECT_NAME</h1>
-    <div class="tagline">a toki pona tutor</div>
     <div class="orbit" aria-hidden="true"></div>
     <div class="progress"><div id="progress-bar"></div></div>
     <div class="status" id="status">Loading engine…</div>

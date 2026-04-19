@@ -27,13 +27,13 @@ jobs:
           merge-method: squash
 
   release-please:
-    # Auto-merge release-please's PR once CI is green. Matched by bot actor
-    # plus the conventional title prefix release-please uses. The title is
-    # only read for routing (YAML expression, never interpolated into shell).
+    # Auto-merge release-please's PR once CI is green. release-please may
+    # run under GITHUB_TOKEN (actor=github-actions[bot]) or a PAT (actor=
+    # PAT owner), so match by the distinctive title it always uses. The
+    # title is only read for routing in this YAML expression; it's never
+    # interpolated into shell, so there's no injection surface.
     name: Auto-merge release-please PR
-    if: |
-      github.actor == 'github-actions[bot]' &&
-      startsWith(github.event.pull_request.title, 'chore(main): release')
+    if: startsWith(github.event.pull_request.title, 'chore(main): release')
     runs-on: ubuntu-latest
     steps:
       - name: Enable auto-merge (squash)

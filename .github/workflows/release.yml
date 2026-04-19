@@ -8,7 +8,7 @@ on:
     # the tag, so artifacts attach to the release. The 'release: published'
     # event is unreliable because GITHUB_TOKEN-created releases are muted
     # by GitHub's recursion guard.
-    tags: ['*-v*']
+    tags: ['poki-soweli-v*']
 
 permissions:
   contents: write
