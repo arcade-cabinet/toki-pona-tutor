@@ -41,12 +41,9 @@ func close() -> void:
 func _rebuild() -> void:
 	for child in _grid.get_children():
 		child.queue_free()
-	var world_autoload: Node = get_tree().root.get_node_or_null("World")
 	var all_species: Array = []
-	if world_autoload != null and "world" in world_autoload:
-		var w: WorldResource = world_autoload.world
-		if w != null:
-			all_species = w.species
+	if World != null and World.world != null:
+		all_species = World.world.species
 	if all_species.is_empty():
 		_counter.text = "no species loaded"
 		return

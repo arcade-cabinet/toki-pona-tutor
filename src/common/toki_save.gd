@@ -312,6 +312,23 @@ func has_badge(badge_id: String) -> bool:
 	return badge_id in badges()
 
 
+# --- Party mutations (public API — consumers should NOT touch the
+# underlying _set_array/_set_dict helpers directly) ---
+
+## Replace the entire party roster. Emits party_changed + flushes save.
+func set_party(new_party: Array) -> void:
+	_set_array("party", new_party)
+	party_changed.emit()
+	save()
+
+
+## Replace the inventory subtree. Emits inventory_changed + flushes save.
+func set_inventory(new_inventory: Dictionary) -> void:
+	_set_dict("inventory", new_inventory)
+	inventory_changed.emit()
+	save()
+
+
 # --- Region / player_tile ---
 
 var current_region_id: String:
@@ -419,7 +436,5 @@ func _set_array(sub_key: String, value: Array) -> void:
 
 
 func _find_species(id: String) -> SpeciesResource:
-	var world_autoload: Node = get_tree().root.get_node_or_null("World")
-	if world_autoload != null and world_autoload.has_method("find_species"):
-		return world_autoload.find_species(id)
-	return null
+	if id == "" or World == null: return null
+	return World.find_species(id)

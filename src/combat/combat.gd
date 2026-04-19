@@ -387,12 +387,11 @@ func _move_display_name(move_id: String) -> String:
 	return move_id
 
 
+# Shim around World autoload so the unit-test tooling (no autoload tree)
+# doesn't crash. Production code should just call World.find_species.
 func _lookup_species(species_id: String) -> SpeciesResource:
-	if species_id == "": return null
-	var world_autoload: Node = get_tree().root.get_node_or_null("World")
-	if world_autoload and world_autoload.has_method("find_species"):
-		return world_autoload.find_species(species_id)
-	return null
+	if species_id == "" or World == null: return null
+	return World.find_species(species_id)
 
 
 # Defeat message — single beat via the victory panel for visual

@@ -137,9 +137,7 @@ func _on_set_lead() -> void:
 	var picked: Dictionary = party[_selected_index]
 	party.remove_at(_selected_index)
 	party.insert(0, picked)
-	TokiSave._set_array("party", party)
-	TokiSave.party_changed.emit()
-	TokiSave.save()
+	TokiSave.set_party(party)
 	_selected_index = 0
 	_rebuild_slots()
 	_show_detail(0)
@@ -155,15 +153,12 @@ func _on_use_kili() -> void:
 	var inv: Dictionary = TokiSave.inventory()
 	var kili_count: int = int(inv.get(HEAL_ITEM_ID, 0))
 	if kili_count <= 0 or hp >= max_hp: return
-	# Heal + decrement. Write back both subtrees via TokiSave's setters.
+	# Heal + decrement via TokiSave's public mutators.
 	var new_hp: int = min(max_hp, hp + HEAL_AMOUNT)
 	member["hp"] = new_hp
 	party[_selected_index] = member
-	TokiSave._set_array("party", party)
-	TokiSave.party_changed.emit()
+	TokiSave.set_party(party)
 	inv[HEAL_ITEM_ID] = kili_count - 1
-	TokiSave._set_dict("inventory", inv)
-	TokiSave.inventory_changed.emit()
-	TokiSave.save()
+	TokiSave.set_inventory(inv)
 	_rebuild_slots()
 	_show_detail(_selected_index)
