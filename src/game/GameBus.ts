@@ -50,6 +50,9 @@ interface GameEventMap {
   'game:pause': boolean;
   'toast:show': ToastEvent;
   'seed:open-new-game': SeedOpenNewGameEvent;
+  'combat:enter': { enemyId: string };
+  'combat:victory': { enemyId: string };
+  'combat:defeat': { enemyId: string };
 }
 
 type Handler<T> = (payload: T) => void;

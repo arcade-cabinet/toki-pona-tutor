@@ -190,9 +190,9 @@
       "npc": "jan Pona",
       "npc_id": "jan_pona",
       "quest_stage": "not_started",
-      "tp": "toki! mi wile e kili. sina lukin e kili tawa mi a?",
-      "en": "Hello! I want a fruit. Will you look for a fruit for me?",
-      "mood": "happy",
+      "tp": "toki! soweli mi li pilin ike. ona li wile e kili.",
+      "en": "Hello! My animal friend feels sick. It needs fruit.",
+      "mood": "sad",
       "triggers_quest_accept": true
     },
     {
@@ -200,8 +200,8 @@
       "npc": "jan Pona",
       "npc_id": "jan_pona",
       "quest_stage": "accepted",
-      "tp": "kili li lon ma kasi. ma kasi li lon poka ma tomo.",
-      "en": "Fruit is in the garden. The garden is beside the village.",
+      "tp": "kili li lon ma kasi. taso akesi li lon ma kasi. o awen.",
+      "en": "The fruit is in the garden. But a reptile is there too. Be careful.",
       "mood": "thinking"
     },
     {
@@ -209,8 +209,8 @@
       "npc": "jan Telo",
       "npc_id": "jan_telo",
       "quest_stage": "accepted",
-      "tp": "sina pali e seme? o tawa ma kasi. kili li pona moku.",
-      "en": "What are you doing? Go to the garden. Fruit is good to eat.",
+      "tp": "sina lukin e soweli pi jan Pona? ona li lete. telo li pona tawa ona.",
+      "en": "Have you seen jan Pona's animal? It is cold. Water would help.",
       "mood": "thinking"
     },
     {
@@ -228,8 +228,8 @@
       "npc_id": null,
       "quest_stage": "accepted",
       "location_id": "ma_kasi",
-      "tp": "kili lili li lon ni. sina jo e kili.",
-      "en": "A small fruit is here. You take the fruit.",
+      "tp": "kili lili li lon ni. ona li pona tawa soweli.",
+      "en": "A small fruit is here. This will help the animal.",
       "mood": "excited",
       "triggers_item_pickup": "kili"
     },
@@ -238,8 +238,8 @@
       "npc": "jan Pona",
       "npc_id": "jan_pona",
       "quest_stage": "item_found",
-      "tp": "a! kili! sina pona a! mi moku e kili. pona!",
-      "en": "Oh! Fruit! You are so good! I will eat the fruit. Thank you!",
+      "tp": "a! kili! soweli mi li moku e ni. ona li kama pona. sina pona a!",
+      "en": "Oh, fruit! My animal will eat this. It will get better. You are so kind!",
       "mood": "excited",
       "triggers_quest_complete": true
     },

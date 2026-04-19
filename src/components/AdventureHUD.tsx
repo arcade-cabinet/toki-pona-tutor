@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
-import { Scroll, Heart } from 'lucide-react';
-import { getQuestState, subscribeQuest } from '../game/ecs/questState';
-import { loadSeed, seedPhrase } from '../game/procgen/seed';
+import { Scroll, Heart, RefreshCw } from 'lucide-react';
+import { getQuestState, subscribeQuest, resetProgress } from '../game/ecs/questState';
+import { loadSeed, clearSeed, seedPhrase } from '../game/procgen/seed';
 import { toSitelenPona } from '../lib/sitelen';
 
 const STAGE_DESCRIPTION: Record<string, string> = {
@@ -34,6 +34,20 @@ export function AdventureHUD() {
             {toSitelenPona(seedPhrase(seed))}
           </span>
           <span className="font-tile text-[10px] text-amber-900">{seedPhrase(seed)}</span>
+          <button
+            type="button"
+            onClick={() => {
+              if (confirm('Start a new adventure with a new seed? Progress will be lost.')) {
+                clearSeed();
+                resetProgress();
+                window.location.reload();
+              }
+            }}
+            aria-label="New game"
+            className="text-amber-700 hover:text-amber-900 ml-1"
+          >
+            <RefreshCw size={12} />
+          </button>
         </div>
       )}
       <div className="flex-1" />

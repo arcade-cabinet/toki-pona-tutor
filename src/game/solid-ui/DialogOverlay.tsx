@@ -11,9 +11,10 @@ import { sitelenFor, toSitelenPona } from '../../lib/sitelen';
 
 type Mode = 'dialog' | 'gate' | 'none';
 
-// The quest-gate challenge: fill `mi wile e ___` with the right word. Correct
-// = accept quest. Wrong = soft-fail, try again (no penalty; this is narrative).
-const GATE_WORDS = ['kili', 'telo', 'jan', 'moku'];
+// The quest-gate challenge: jan Pona says her animal is sick and asks the
+// player to complete `soweli mi li wile e ___` by picking the right word.
+// Correct = accept quest. Wrong = soft-fail, try again.
+const GATE_WORDS = ['kili', 'akesi', 'lete', 'ike'];
 const GATE_CORRECT = 'kili';
 
 export function DialogOverlay() {
@@ -132,8 +133,9 @@ export function DialogOverlay() {
             <Show when={mode() === 'gate'}>
               <div class="p-4 pt-5 space-y-3">
                 <div class="flex flex-col items-center gap-1">
-                  <div class="font-sitelen text-4xl text-emerald-800 leading-none flex items-center gap-2">
-                    <span>{sitelenFor('mi')}</span>
+                  <div class="font-sitelen text-4xl text-emerald-800 leading-none flex items-center gap-2 flex-wrap justify-center">
+                    <span>{sitelenFor('soweli')}</span>
+                    <span>{sitelenFor('li')}</span>
                     <span>{sitelenFor('wile')}</span>
                     <span>{sitelenFor('e')}</span>
                     <span
@@ -149,7 +151,7 @@ export function DialogOverlay() {
                     </span>
                   </div>
                   <div class="font-tile text-sm text-amber-900">
-                    mi wile e{' '}
+                    soweli li wile e{' '}
                     <span
                       class={`font-semibold px-1.5 rounded ${
                         gateFeedback() === 'right'
@@ -164,7 +166,7 @@ export function DialogOverlay() {
                   </div>
                 </div>
                 <div class="text-xs text-amber-800/70 italic text-center">
-                  jan Pona wants something. Tap the right word.
+                  jan Pona's animal is sick. What does it need?
                 </div>
                 <div class="grid grid-cols-4 gap-2">
                   <For each={GATE_WORDS}>

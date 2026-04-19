@@ -231,6 +231,42 @@ export class VillageScene extends Phaser.Scene {
     });
     this.items.push({ sprite: kili, itemId: 'kili' });
     spawnItem({ x: kx, y: ky, itemId: 'kili', spriteKey: 'kili' });
+
+    // akesi — the scared reptile guarding the garden. Blocks the path to
+    // the kili until the player 'calms it with words' via combat.
+    const ax = 19 * TILE + TILE / 2;
+    const ay = 11 * TILE + TILE / 2;
+    const akesi = this.add.sprite(ax, ay, 'dungeon', DUNGEON.GHOST);
+    akesi.setDepth(5);
+    this.tweens.add({
+      targets: akesi,
+      x: ax - 3,
+      yoyo: true,
+      repeat: -1,
+      duration: 600,
+      ease: 'Sine.easeInOut',
+    });
+    this.akesiSprite = akesi;
+  }
+
+  private akesiSprite: Phaser.GameObjects.Sprite | null = null;
+  private akesiDefeated = false;
+  private combatDistanceTriggered = false;
+
+  private checkAkesiProximity() {
+    if (this.akesiDefeated || !this.akesiSprite || this.dialogOpen) return;
+    if (this.combatDistanceTriggered) return;
+    const d = Phaser.Math.Distance.Between(
+      this.player.x,
+      this.player.y,
+      this.akesiSprite.x,
+      this.akesiSprite.y
+    );
+    if (d < 40) {
+      this.combatDistanceTriggered = true;
+      this.dialogOpen = true;
+      gameBus.emit('combat:enter', { enemyId: 'akesi' });
+    }
   }
 
   private makeNpc(tx: number, ty: number, npcId: string, name: string, spriteFrame: number, questId?: string) {
@@ -311,6 +347,29 @@ export class VillageScene extends Phaser.Scene {
     this.unsubs.push(
       gameBus.on('quiz:close', () => {
         this.dialogOpen = false;
+      })
+    );
+    this.unsubs.push(
+      gameBus.on('combat:victory', () => {
+        // Remove akesi and allow kili pickup
+        this.akesiDefeated = true;
+        this.akesiSprite?.setVisible(false);
+        this.dialogOpen = false;
+        this.combatDistanceTriggered = false;
+      })
+    );
+    this.unsubs.push(
+      gameBus.on('combat:defeat', () => {
+        // Bounce the player back away from the akesi
+        this.dialogOpen = false;
+        this.combatDistanceTriggered = false;
+        if (this.player && this.akesiSprite) {
+          const dx = this.player.x - this.akesiSprite.x;
+          const dy = this.player.y - this.akesiSprite.y;
+          const len = Math.max(1, Math.hypot(dx, dy));
+          this.player.x += (dx / len) * 60;
+          this.player.y += (dy / len) * 60;
+        }
       })
     );
     this.events.once(Phaser.Scenes.Events.SHUTDOWN, () => {
@@ -402,5 +461,8 @@ export class VillageScene extends Phaser.Scene {
     } else {
       this.questMarker.setVisible(false);
     }
+
+    // Akesi proximity check — triggers combat when player gets close
+    this.checkAkesiProximity();
   }
 }
