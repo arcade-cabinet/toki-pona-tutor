@@ -100,7 +100,7 @@ export function pickEnemyMove(c: Combatant): { move: Move; index: number } | nul
 
 /** Catch-chance formula. Returns true on success. */
 export function rollCatch(wild: Combatant, pokiPower = 1.0): boolean {
-  if (!wild.wild) return false;
+  if (!wild.wild || wild.max_hp <= 0) return false;
   const hpRatio = wild.hp / wild.max_hp;
   const base = wild.species.catch_rate;
   // The weaker the creature, the easier the catch. Squared curve so a

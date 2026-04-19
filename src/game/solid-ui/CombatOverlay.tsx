@@ -28,6 +28,19 @@ type DamagePop = { id: number; amount: number; target: 'enemy' | 'player' };
 
 type Action = 'attack' | 'poki' | 'run';
 
+/** HP ratio guarded against max_hp === 0 (which can happen from malformed
+ *  content or edge cases during combatant initialization). */
+function hpRatio(c: Combatant | null): number {
+  if (!c || c.max_hp <= 0) return 0;
+  return c.hp / c.max_hp;
+}
+function hpBarGradient(c: Combatant | null): string {
+  const r = hpRatio(c);
+  if (r > 0.5) return 'linear-gradient(90deg,#22c55e,#84cc16)';
+  if (r > 0.25) return 'linear-gradient(90deg,#facc15,#f97316)';
+  return 'linear-gradient(90deg,#ef4444,#dc2626)';
+}
+
 /**
  * Pokemon-shape combat overlay.
  *
@@ -89,6 +102,7 @@ export function CombatOverlay() {
     // Import loader lazily to avoid a circular ref at module-load time.
     const species = getSpecies('soweli_seli') ?? null;
     if (!species) return null;
+    const moves = species.learnset.filter((l) => l.level <= 5).map((l) => l.move_id).slice(-4);
     const starter: PartyMember = {
       instance_id: `starter-${Date.now()}`,
       species_id: species.id,
@@ -96,11 +110,9 @@ export function CombatOverlay() {
       xp: 0,
       hp: species.base_stats.hp + 8,
       max_hp: species.base_stats.hp + 8,
-      moves: species.learnset.filter((l) => l.level <= 5).map((l) => l.move_id).slice(-4),
-      pp: [],
+      moves,
+      pp: moves.map(() => 15),
     };
-    // Fill pp array
-    starter.pp = starter.moves.map(() => 15);
     addToParty(starter);
     // Also give the player a starter-kit of 3 nets
     addItem('poki_lili', 3);
@@ -376,13 +388,8 @@ export function CombatOverlay() {
                   <div
                     class="h-full transition-all duration-500"
                     style={{
-                      width: `${(enemy()!.hp / enemy()!.max_hp) * 100}%`,
-                      background:
-                        enemy()!.hp / enemy()!.max_hp > 0.5
-                          ? 'linear-gradient(90deg,#22c55e,#84cc16)'
-                          : enemy()!.hp / enemy()!.max_hp > 0.25
-                            ? 'linear-gradient(90deg,#facc15,#f97316)'
-                            : 'linear-gradient(90deg,#ef4444,#dc2626)',
+                      width: `${hpRatio(enemy()) * 100}%`,
+                      background: hpBarGradient(enemy()),
                     }}
                   />
                 </div>
@@ -407,13 +414,8 @@ export function CombatOverlay() {
                     <div
                       class="h-full transition-all duration-500"
                       style={{
-                        width: `${(player()!.hp / player()!.max_hp) * 100}%`,
-                        background:
-                          player()!.hp / player()!.max_hp > 0.5
-                            ? 'linear-gradient(90deg,#22c55e,#84cc16)'
-                            : player()!.hp / player()!.max_hp > 0.25
-                              ? 'linear-gradient(90deg,#facc15,#f97316)'
-                              : 'linear-gradient(90deg,#ef4444,#dc2626)',
+                        width: `${hpRatio(player()) * 100}%`,
+                        background: hpBarGradient(player()),
                       }}
                     />
                   </div>
