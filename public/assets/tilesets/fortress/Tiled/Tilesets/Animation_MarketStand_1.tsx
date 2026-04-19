@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <tileset version="1.10" tiledversion="1.10.1" name="Animation_MarketStand_1" tilewidth="16" tileheight="16" tilecount="640" columns="32">
- <image source="../../../The Fan-tasy Tileset - Castles and Fortresses/Art/Buildings/Animations/MarketStand_1.png" width="512" height="320"/>
+ <image source="../../Art/Buildings/Animations/MarketStand_1.png" width="512" height="320"/>
  <tile id="32">
   <animation>
    <frame tileid="32" duration="4000"/>

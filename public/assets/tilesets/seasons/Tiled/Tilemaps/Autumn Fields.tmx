@@ -2,7 +2,7 @@
 <map version="1.10" tiledversion="1.10.1" orientation="orthogonal" renderorder="right-down" width="56" height="50" tilewidth="16" tileheight="16" infinite="0" nextlayerid="24" nextobjectid="331">
  <tileset firstgid="1" source="../Tilesets/Tileset_Ground_Seasons.tsx"/>
  <tileset firstgid="4561" source="../Tilesets/Tileset_RockSlope_1_Brown.tsx"/>
- <tileset firstgid="8657" source="../../../The Fan-tasy Tileset (Premium)/Tiled/Tilesets/Tileset_Road.tsx"/>
+ <tileset firstgid="8657" source="../../../core/Tiled/Tilesets/Tileset_Road.tsx"/>
  <tileset firstgid="9665" source="../Tilesets/Objects_Buildings_Seasons.tsx"/>
  <tileset firstgid="9965" source="../Tilesets/Tileset_Fence_1.tsx"/>
  <tileset firstgid="10001" source="../Tilesets/Tileset_RockSlope_2_Gray.tsx"/>
@@ -12,7 +12,7 @@
  <tileset firstgid="14667" source="../Tilesets/Objects_Props_Seasons.tsx"/>
  <tileset firstgid="15804" source="../Tilesets/Objects_Trees_Seasons.tsx"/>
  <tileset firstgid="15982" source="../Tilesets/Tileset_Shadow.tsx"/>
- <tileset firstgid="16030" source="../../../The Fan-tasy Tileset (Premium)/Tiled/Tilesets/Tileset_Fence_1.tsx"/>
+ <tileset firstgid="16030" source="../../../core/Tiled/Tilesets/Tileset_Fence_1.tsx"/>
  <tileset firstgid="16066" source="../Tilesets/Animation_Banner_1.tsx"/>
  <tileset firstgid="16450" source="../Tilesets/Objects_Shadows.tsx"/>
  <layer id="1" name="Ground" width="56" height="50">
