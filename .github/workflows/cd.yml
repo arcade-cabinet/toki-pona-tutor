@@ -45,12 +45,6 @@ jobs:
       - name: Export HTML5
         run: |
           mkdir -p export/html5
-          # Vendored coi-serviceworker provides COOP/COEP headers for
-          # SharedArrayBuffer / thread_support on GitHub Pages (which
-          # doesn't ship these headers natively). Source of truth:
-          # templates/web/coi-serviceworker.js, refreshed deliberately
-          # via PR rather than pulled from the network at build time.
-          cp templates/web/coi-serviceworker.js export/html5/coi-serviceworker.js
           set +e
           godot --headless --path . --export-release "HTML5" export/html5/index.html
           set -e

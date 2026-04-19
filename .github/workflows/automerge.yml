@@ -2,7 +2,7 @@ name: Automerge
 
 on:
   pull_request:
-    types: [opened, reopened, synchronize]
+    types: [opened, reopened, synchronize, labeled, ready_for_review]
 
 permissions:
   contents: write
@@ -22,6 +22,23 @@ jobs:
         if: steps.meta.outputs.update-type == 'version-update:semver-patch' || steps.meta.outputs.update-type == 'version-update:semver-minor'
         uses: peter-evans/enable-pull-request-automerge@a660677d5469627102a1c1e11409dd063606628d # v3.0.0
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.CI_GITHUB_TOKEN }}
+          pull-request-number: ${{ github.event.pull_request.number }}
+          merge-method: squash
+
+  release-please:
+    # Auto-merge release-please's PR once CI is green. release-please may
+    # run under GITHUB_TOKEN (actor=github-actions[bot]) or a PAT (actor=
+    # PAT owner), so match by the distinctive title it always uses. The
+    # title is only read for routing in this YAML expression; it's never
+    # interpolated into shell, so there's no injection surface.
+    name: Auto-merge release-please PR
+    if: startsWith(github.event.pull_request.title, 'chore(main): release')
+    runs-on: ubuntu-latest
+    steps:
+      - name: Enable auto-merge (squash)
+        uses: peter-evans/enable-pull-request-automerge@a660677d5469627102a1c1e11409dd063606628d # v3.0.0
+        with:
+          token: ${{ secrets.CI_GITHUB_TOKEN }}
           pull-request-number: ${{ github.event.pull_request.number }}
           merge-method: squash

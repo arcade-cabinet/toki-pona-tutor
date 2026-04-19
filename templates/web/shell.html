@@ -1,0 +1,185 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <meta name="theme-color" content="#0d1117" />
+  <title>$GODOT_PROJECT_NAME</title>
+  <link rel="icon" type="image/png" href="$GODOT_PROJECT_ICON_URL" />
+  $GODOT_HEAD_INCLUDE
+  <style>
+    :root {
+      --bg: #0a0f1a;
+      --fg: #e6edf3;
+      --accent: #7ac3ff;
+      --accent-glow: rgba(122, 195, 255, 0.35);
+      --muted: #6b7a8c;
+    }
+    * { box-sizing: border-box; }
+    html, body {
+      margin: 0; padding: 0; height: 100%; width: 100%;
+      background: var(--bg); color: var(--fg); overflow: hidden;
+      font-family: ui-rounded, "SF Pro Rounded", system-ui, sans-serif;
+      -webkit-font-smoothing: antialiased;
+    }
+    #canvas { display: block; width: 100%; height: 100%; image-rendering: pixelated; outline: none; }
+    #canvas:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
+
+    #shell {
+      position: absolute; inset: 0;
+      display: flex; flex-direction: column; align-items: center; justify-content: center;
+      gap: 2rem;
+      background: radial-gradient(circle at 50% 35%, #121a2b 0%, #070a12 80%);
+      transition: opacity 0.6s ease;
+      z-index: 2;
+    }
+    #shell.gone { opacity: 0; pointer-events: none; }
+
+    .title {
+      font-size: clamp(2rem, 5vw, 3.5rem);
+      font-weight: 700;
+      letter-spacing: 0.02em;
+      text-shadow: 0 0 24px var(--accent-glow);
+      margin: 0;
+    }
+    .tagline {
+      color: var(--muted);
+      font-size: 0.95rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      margin: -0.5rem 0 0.5rem;
+    }
+
+    .orbit {
+      width: 96px; height: 96px; position: relative;
+    }
+    .orbit::before, .orbit::after {
+      content: ""; position: absolute; inset: 0;
+      border-radius: 50%; border: 2px solid transparent;
+      border-top-color: var(--accent);
+      animation: spin 1.4s linear infinite;
+    }
+    .orbit::after {
+      inset: 14px;
+      border-top-color: rgba(122, 195, 255, 0.5);
+      animation-duration: 1.8s; animation-direction: reverse;
+    }
+    @keyframes spin { to { transform: rotate(360deg); } }
+
+    .progress {
+      width: min(420px, 80vw); height: 4px;
+      background: rgba(255,255,255,0.08); border-radius: 999px; overflow: hidden;
+    }
+    .progress > div {
+      height: 100%; width: 0%;
+      background: linear-gradient(90deg, var(--accent), #b3dcff);
+      box-shadow: 0 0 12px var(--accent-glow);
+      transition: width 0.25s ease;
+    }
+
+    .status {
+      font-variant-numeric: tabular-nums;
+      font-size: 0.85rem;
+      color: var(--muted);
+      min-height: 1.2em;
+    }
+
+    .error {
+      display: none;
+      max-width: min(520px, 85vw);
+      padding: 1rem 1.2rem;
+      border: 1px solid #ff6b6b;
+      border-radius: 10px;
+      background: rgba(255, 107, 107, 0.08);
+      color: #ffb4b4;
+      font-size: 0.9rem;
+      text-align: left;
+    }
+    .error.visible { display: block; }
+    .error strong { display: block; margin-bottom: 0.4rem; }
+    .error pre {
+      margin: 0;
+      padding: 0.4rem 0.5rem;
+      background: rgba(0,0,0,0.35);
+      border-radius: 6px;
+      font-size: 0.8rem;
+      white-space: pre-wrap;
+      word-break: break-word;
+    }
+  </style>
+</head>
+<body>
+  <canvas id="canvas" tabindex="0"></canvas>
+
+  <div id="shell">
+    <h1 class="title">$GODOT_PROJECT_NAME</h1>
+    <div class="orbit" aria-hidden="true"></div>
+    <div class="progress"><div id="progress-bar"></div></div>
+    <div class="status" id="status">Loading engine…</div>
+    <div class="error" id="error" role="alert">
+      <strong id="error-summary"></strong>
+      <pre id="error-detail"></pre>
+    </div>
+  </div>
+
+  <script src="$GODOT_URL"></script>
+  <script>
+  (function () {
+    const shell = document.getElementById("shell");
+    const bar = document.getElementById("progress-bar");
+    const status = document.getElementById("status");
+    const errorBox = document.getElementById("error");
+    const errorSummary = document.getElementById("error-summary");
+    const errorDetail = document.getElementById("error-detail");
+    const canvas = document.getElementById("canvas");
+
+    function setStatus(msg) { status.textContent = msg; }
+    function setProgress(frac) {
+      const pct = Math.max(0, Math.min(1, frac)) * 100;
+      bar.style.width = pct.toFixed(1) + "%";
+    }
+    function showError(summary, detail) {
+      errorSummary.textContent = summary;
+      errorDetail.textContent = detail || "";
+      errorBox.classList.add("visible");
+      shell.classList.remove("gone");
+    }
+
+    const GODOT_CONFIG = $GODOT_CONFIG;
+    GODOT_CONFIG.canvas = canvas;
+    GODOT_CONFIG.focusCanvas = true;
+    GODOT_CONFIG.onProgress = function (current, total) {
+      if (total > 0) {
+        setProgress(current / total);
+        setStatus("Loading assets… " + Math.floor((current / total) * 100) + "%");
+      } else {
+        setStatus("Loading…");
+      }
+    };
+
+    if (typeof Engine === "undefined") {
+      showError(
+        "Couldn't load the engine.",
+        "The engine script failed to load. Check your connection and reload."
+      );
+      return;
+    }
+
+    const engine = new Engine(GODOT_CONFIG);
+    setStatus("Fetching engine…");
+
+    engine.startGame({
+      onProgress: GODOT_CONFIG.onProgress,
+    }).then(() => {
+      setStatus("Ready");
+      setProgress(1);
+      setTimeout(() => shell.classList.add("gone"), 300);
+      canvas.focus();
+    }).catch((err) => {
+      console.error("Engine start failed:", err);
+      showError("Couldn't start the game.", String(err && err.message || err));
+    });
+  })();
+  </script>
+</body>
+</html>
