@@ -44,8 +44,7 @@ jobs:
 
       - name: Install Android build tools
         run: |
-          set -o pipefail
-          yes | sdkmanager --licenses > /dev/null
+          printf 'y\n%.0s' {1..100} | sdkmanager --licenses > /dev/null
           sdkmanager "build-tools;34.0.0" "platforms;android-34" "platform-tools"
 
       - name: Setup Godot (with export templates)
