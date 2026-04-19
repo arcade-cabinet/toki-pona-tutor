@@ -18,6 +18,7 @@ import {
   markSeen,
   markCaught,
   masterWord,
+  applyCombatResult,
   type PartyMember,
 } from '../ecs/saveState';
 import { getSpecies } from '../content/loader';
@@ -56,6 +57,10 @@ export function CombatOverlay() {
   const [player, setPlayer] = createSignal<Combatant | null>(null);
   const [enemy, setEnemy] = createSignal<Combatant | null>(null);
   const [enemyIdSignal, setEnemyIdSignal] = createSignal<string>('');
+  /** Which party member is in the fight — we need the id to persist XP. */
+  const [activeMemberId, setActiveMemberId] = createSignal<string>('');
+  /** XP to award on close if the player won. */
+  const [pendingXp, setPendingXp] = createSignal<number>(0);
   const [phase, setPhase] = createSignal<Phase>('intro');
   const [log, setLog] = createSignal('');
   const [view, setView] = createSignal<'commands' | 'moves'>('commands');
@@ -144,6 +149,8 @@ export function CombatOverlay() {
         gameBus.emit('combat:defeat', { enemyId });
         return;
       }
+      setActiveMemberId(starter.instance_id);
+      setPendingXp(0);
       setPlayer(combatantFromParty(starter));
       setEnemy(wild);
       setSelectedAction('attack');
@@ -227,6 +234,7 @@ export function CombatOverlay() {
         schedule(() => {
           setPhase('victory');
           const xp = xpForVictory(e);
+          setPendingXp(xp);
           // Master the creature's single-word name.
           masterWord(e.species.name.tp ?? e.species.id);
           gameBus.emit('toast:show', {
@@ -308,11 +316,35 @@ export function CombatOverlay() {
 
   const close = () => {
     const e = enemy();
+    const p = player();
     const id = e?.species.id ?? enemyIdSignal();
+    const memberId = activeMemberId();
+    const ph = phase();
+    // Persist the fight's result back to the party member. Defeat and run
+    // still record HP/PP damage so the cost of combat is real. XP only
+    // lands on victory or catch.
+    if (memberId && p) {
+      const xpAward =
+        ph === 'victory' || ph === 'caught' ? pendingXp() || (e ? xpForVictory(e) : 0) : 0;
+      const levelsGained = applyCombatResult(memberId, {
+        xp_gained: xpAward,
+        hp: p.hp,
+        pp: p.pp,
+      });
+      if (levelsGained > 0) {
+        gameBus.emit('toast:show', {
+          kind: 'celebration',
+          title: `${p.species.name.tp ?? p.species.id} grew ${levelsGained === 1 ? 'a level' : `${levelsGained} levels`}!`,
+          ttlMs: 3400,
+        });
+      }
+    }
     setEnemy(null);
     setPlayer(null);
-    if (phase() === 'victory') gameBus.emit('combat:victory', { enemyId: id });
-    else if (phase() === 'caught') gameBus.emit('combat:caught', { enemyId: id });
+    setPendingXp(0);
+    setActiveMemberId('');
+    if (ph === 'victory') gameBus.emit('combat:victory', { enemyId: id });
+    else if (ph === 'caught') gameBus.emit('combat:caught', { enemyId: id });
     else gameBus.emit('combat:defeat', { enemyId: id });
     setCaughtToast(null);
   };
