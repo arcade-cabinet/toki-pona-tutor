@@ -30,6 +30,8 @@ Music="*res://src/common/music/music_player.tscn"
 Player="*res://src/common/player.gd"
 Transition="*res://src/common/screen_transitions/ScreenTransition.tscn"
 Dialogic="*res://addons/dialogic/Core/DialogicGameHandler.gd"
+QuestSystem="*uid://b77kvbliweux5"
+SaveSystem="*uid://cx1yhcewu54g5"
 
 [dialogic]
 
@@ -76,8 +78,35 @@ animations/join_default="Instant In"
 animations/leave_default="Instant Out"
 text/autocolor_names=true
 settings/text_speed=1.0
-directories/dch_directory={}
-directories/dtl_directory={}
+directories/dch_directory={
+"enemy_ghost": "res://overworld/maps/town/enemy_ghost.dch",
+"fan_of_four": "res://overworld/maps/town/fan_of_four.dch",
+"ghost": "res://overworld/maps/forest/ghost.dch",
+"monk": "res://overworld/maps/town/monk.dch",
+"runner": "res://overworld/maps/town/runner.dch",
+"smith": "res://overworld/maps/town/smith.dch",
+"thief": "res://overworld/maps/town/thief.dch",
+"warrior": "res://overworld/maps/town/warrior.dch",
+"wizard": "res://overworld/maps/town/wizard.dch"
+}
+directories/dtl_directory={
+"encounter_before_combat": "res://overworld/maps/town/encounter_before_combat.dtl",
+"encounter_on_loss": "res://overworld/maps/town/encounter_on_loss.dtl",
+"encounter_on_victory": "res://overworld/maps/town/encounter_on_victory.dtl",
+"fan_of_four": "res://overworld/maps/town/fan_of_four.dtl",
+"ghost": "res://overworld/maps/forest/ghost.dtl",
+"monk": "res://overworld/maps/town/monk.dtl",
+"opening_cutscene": "res://overworld/maps/opening_cutscene.dtl",
+"runner": "res://overworld/maps/town/runner.dtl",
+"sign": "res://overworld/maps/town/sign.dtl",
+"smith": "res://overworld/maps/town/smith.dtl",
+"strange_tree": "res://overworld/maps/town/strange_tree.dtl",
+"thief": "res://overworld/maps/town/thief.dtl",
+"wand_pedestal": "res://overworld/maps/house/wand_pedestal.dtl",
+"wand_pedestal_occupied": "res://overworld/maps/house/wand_pedestal_occupied.dtl",
+"warrior": "res://overworld/maps/town/warrior.dtl",
+"wizard": "res://overworld/maps/town/wizard.dtl"
+}
 text/initial_text_reveal_skippable=true
 text/text_reveal_skip_delay=0.05
 text/autoadvance_per_character_delay=0.1
@@ -101,7 +130,7 @@ window/stretch/aspect="expand"
 
 [editor_plugins]
 
-enabled=PackedStringArray("res://addons/dialogic/plugin.cfg")
+enabled=PackedStringArray("res://addons/dialogic/plugin.cfg", "res://addons/gd-plug-ui/plugin.cfg", "res://addons/gdUnit4/plugin.cfg", "res://addons/gloot/plugin.cfg", "res://addons/godot_mcp/plugin.cfg", "res://addons/quest_system/plugin.cfg", "res://addons/save_system/plugin.cfg")
 
 [filesystem]
 
@@ -110,7 +139,7 @@ import/fbx/enabled=false
 
 [gui]
 
-theme/custom="res://assets/gui/default.theme"
+theme/custom="res://theme/toki_theme.tres"
 
 [input]
 
@@ -183,7 +212,6 @@ back={
 [rendering]
 
 textures/canvas_textures/default_texture_filter=0
-renderer/rendering_method="gl_compatibility"
-renderer/rendering_method.mobile="gl_compatibility"
+renderer/rendering_method="mobile"
 textures/vram_compression/import_etc2_astc=true
 textures/default_filters/anisotropic_filtering_level=0

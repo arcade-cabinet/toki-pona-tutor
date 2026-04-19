@@ -7,9 +7,9 @@ extends Interaction
 
 func _execute() -> void:
 	if door.is_locked:
-		var inventory: = Inventory.restore()
-		if inventory.get_item_count(Inventory.ItemTypes.KEY):
-			inventory.remove(Inventory.ItemTypes.KEY, 1)
+		var inventory: = OpenRpgInventory.restore()
+		if inventory.get_item_count(OpenRpgInventory.ItemTypes.KEY):
+			inventory.remove(OpenRpgInventory.ItemTypes.KEY, 1)
 			door.is_locked = false
 			is_active = false
 			_popup.is_active = false

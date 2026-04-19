@@ -41,6 +41,6 @@ func _on_initial_conversation_finished() -> void:
 func _on_dialogic_signal_event(_argument: String) -> void:
 	_popup.is_active = false
 	
-	var inventory: = Inventory.restore()
-	inventory.remove(Inventory.ItemTypes.COIN, 4)
-	inventory.add(Inventory.ItemTypes.BLUE_WAND)
+	var inventory: = OpenRpgInventory.restore()
+	inventory.remove(OpenRpgInventory.ItemTypes.COIN, 4)
+	inventory.add(OpenRpgInventory.ItemTypes.BLUE_WAND)

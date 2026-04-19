@@ -1,6 +1,9 @@
 @tool
 ## A simple inventory implementation that includes all item types and data within the class.
-class_name Inventory extends Resource
+## Renamed from `Inventory` to `OpenRpgInventory` to avoid collision with the gloot addon's
+## `Inventory` class. This class is slated for retirement once we migrate callers to gloot
+## (week 2–3). Until then, keep the rename scope small: update class refs but leave behavior.
+class_name OpenRpgInventory extends Resource
 
 ## All item types available to add or remove from the inventory.
 enum ItemTypes { KEY, COIN, BOMB, RED_WAND, BLUE_WAND, GREEN_WAND }
@@ -34,18 +37,18 @@ func _init() -> void:
 
 ## Load the [Inventory] from file or create a new resource, if it was missing. Godot caches calls, 
 ## so this can be used every time needed.
-static func restore() -> Inventory:
+static func restore() -> OpenRpgInventory:
 	if Engine.is_editor_hint():
 		return null
-	
+
 	if FileAccess.file_exists(INVENTORY_PATH):
-		var inventory = ResourceLoader.load(INVENTORY_PATH) as Inventory
+		var inventory = ResourceLoader.load(INVENTORY_PATH) as OpenRpgInventory
 		if inventory:
 			return inventory
-	
+
 	# Either there is no inventory associated with this profile or the file itself could not be
 	# loaded. Either way, a new inventory resource must be created.
-	var new_inventory: = Inventory.new()
+	var new_inventory: = OpenRpgInventory.new()
 	new_inventory.save()
 	return new_inventory
 

@@ -1,7 +1,7 @@
 @tool
 extends Gamepiece
 
-@export var item_type: Inventory.ItemTypes
+@export var item_type: OpenRpgInventory.ItemTypes
 @export var amount: = 1
 
 @onready var interaction: = $Interaction as Interaction

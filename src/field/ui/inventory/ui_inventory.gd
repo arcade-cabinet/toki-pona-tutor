@@ -11,14 +11,14 @@ var _ITEM_SCENE: = preload("res://src/field/ui/inventory/ui_inventory_item.tscn"
 
 
 func _ready() -> void:
-	var inventory: = Inventory.restore()
+	var inventory: = OpenRpgInventory.restore()
 	
-	for item_name in Inventory.ItemTypes:
-		_update_item(Inventory.ItemTypes[item_name], inventory)
+	for item_name in OpenRpgInventory.ItemTypes:
+		_update_item(OpenRpgInventory.ItemTypes[item_name], inventory)
 	inventory.item_changed.connect(_on_inventory_item_changed.bind(inventory))
 
 
-func get_ui_item(item_id: Inventory.ItemTypes) -> UIInventoryItem:
+func get_ui_item(item_id: OpenRpgInventory.ItemTypes) -> UIInventoryItem:
 	for child in get_children():
 		var item: = child as UIInventoryItem
 		if item and item.ID == item_id:
@@ -26,7 +26,7 @@ func get_ui_item(item_id: Inventory.ItemTypes) -> UIInventoryItem:
 	return null
 
 
-func _update_item(item_id: Inventory.ItemTypes, inventory: Inventory) -> void:
+func _update_item(item_id: OpenRpgInventory.ItemTypes, inventory: OpenRpgInventory) -> void:
 	var amount: = inventory.get_item_count(item_id)
 	var item: = get_ui_item(item_id)
 	
@@ -34,7 +34,7 @@ func _update_item(item_id: Inventory.ItemTypes, inventory: Inventory) -> void:
 		if not item:
 			item = _ITEM_SCENE.instantiate() as UIInventoryItem
 			item.ID = item_id
-			item.texture = Inventory.get_item_icon(item_id)
+			item.texture = OpenRpgInventory.get_item_icon(item_id)
 			add_child(item)
 		
 		item.count = amount
@@ -44,5 +44,5 @@ func _update_item(item_id: Inventory.ItemTypes, inventory: Inventory) -> void:
 			item.queue_free()
 
 
-func _on_inventory_item_changed(item_type: Inventory.ItemTypes, inventory: Inventory) -> void:
+func _on_inventory_item_changed(item_type: OpenRpgInventory.ItemTypes, inventory: OpenRpgInventory) -> void:
 	_update_item(item_type, inventory)

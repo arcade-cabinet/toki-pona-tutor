@@ -6,7 +6,7 @@ extends Interaction
 @export var anim: AnimationPlayer
 @export var popup: InteractionPopup
 
-var item_type: Inventory.ItemTypes
+var item_type: OpenRpgInventory.ItemTypes
 var amount: = 1
 
 var _is_open: = false
@@ -30,7 +30,7 @@ func _execute() -> void:
 		await anim.animation_finished
 		
 		if not _item_received:
-			Inventory.restore().add(item_type, amount)
+			OpenRpgInventory.restore().add(item_type, amount)
 			_item_received = true
 		
 		_is_open = true

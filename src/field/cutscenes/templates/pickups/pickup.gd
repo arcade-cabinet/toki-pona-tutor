@@ -1,14 +1,14 @@
 @tool
 class_name Pickup extends Trigger
 
-@export var item_type: Inventory.ItemTypes:
+@export var item_type: OpenRpgInventory.ItemTypes:
 	set(value):
 		item_type = value
 		
 		if not is_inside_tree():
 			await ready
 		
-		_sprite.texture = Inventory.get_item_icon(item_type)
+		_sprite.texture = OpenRpgInventory.get_item_icon(item_type)
 		
 @export var amount: = 1
 
@@ -18,7 +18,7 @@ class_name Pickup extends Trigger
 
 func _execute() -> void:
 	_anim.play("PickupAnimations/obtain")
-	Inventory.restore().add(item_type, amount)
+	OpenRpgInventory.restore().add(item_type, amount)
 	
 	await _anim.animation_finished
 	queue_free()
