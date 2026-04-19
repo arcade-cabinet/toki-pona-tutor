@@ -186,4 +186,103 @@
   .bg-sunset-deep {
     background: linear-gradient(160deg, #ff6b6b 0%, #ff9966 40%, #ffd26f 100%);
   }
+
+  /* Final Fantasy-style command window: cobalt gradient + chromed bevels */
+  .ff-window {
+    background: linear-gradient(180deg, #1f3a8a 0%, #1e3a8a 55%, #0f1e57 100%);
+    border: 2px solid #e0e7ff;
+    box-shadow:
+      inset 0 0 0 2px rgba(30, 58, 138, 0.9),
+      inset 0 0 0 3px #93c5fd,
+      0 6px 0 rgba(0, 0, 0, 0.35),
+      0 12px 30px -6px rgba(0, 0, 0, 0.55);
+    border-radius: 6px;
+  }
+  .ff-window-amber {
+    background: linear-gradient(180deg, #78350f 0%, #92400e 55%, #451a03 100%);
+    border: 2px solid #fde68a;
+    box-shadow:
+      inset 0 0 0 2px rgba(120, 53, 15, 0.9),
+      inset 0 0 0 3px #fcd34d,
+      0 6px 0 rgba(0, 0, 0, 0.35),
+      0 12px 30px -6px rgba(0, 0, 0, 0.55);
+    border-radius: 6px;
+  }
+
+  /* Enemy slides in from the right on encounter */
+  @keyframes enemySlideIn {
+    0%   { transform: translate(-50%, -50%) translateX(60vw) scale(0.9); opacity: 0; }
+    60%  { transform: translate(-50%, -50%) translateX(-12px) scale(1.05); opacity: 1; }
+    100% { transform: translate(-50%, -50%) translateX(0) scale(1); opacity: 1; }
+  }
+  .animate-enemy-enter {
+    animation: enemySlideIn 0.7s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+  }
+
+  /* Gentle breathing idle for portraits */
+  @keyframes idleBreathe {
+    0%, 100% { transform: translate(-50%, -50%) scale(1); }
+    50%      { transform: translate(-50%, -50%) scale(1.03); }
+  }
+  .animate-idle-breathe {
+    animation: idleBreathe 3s ease-in-out infinite;
+  }
+
+  /* Player lunge — quick strike forward, snap back */
+  @keyframes lunge {
+    0%   { transform: translateX(0); }
+    40%  { transform: translateX(-140px) scale(1.1); }
+    55%  { transform: translateX(-140px) scale(1.1); }
+    100% { transform: translateX(0) scale(1); }
+  }
+  .animate-lunge {
+    animation: lunge 0.55s cubic-bezier(0.5, 0, 0.5, 1);
+  }
+
+  /* Damage number float-up, FF-style */
+  @keyframes damagePop {
+    0%   { transform: translate(-50%, 0) scale(0.4); opacity: 0; }
+    15%  { transform: translate(-50%, -10px) scale(1.5); opacity: 1; }
+    30%  { transform: translate(-50%, -22px) scale(1); opacity: 1; }
+    100% { transform: translate(-50%, -80px) scale(0.9); opacity: 0; }
+  }
+  .animate-damage-pop {
+    animation: damagePop 1s ease-out forwards;
+  }
+
+  /* Victory fanfare glow */
+  @keyframes victoryGlow {
+    0%   { filter: brightness(1) saturate(1); }
+    50%  { filter: brightness(1.5) saturate(1.4); }
+    100% { filter: brightness(1) saturate(1); }
+  }
+  .animate-victory-glow {
+    animation: victoryGlow 1.2s ease-in-out 2;
+  }
+
+  /* Glinting highlight sweep across the active menu item */
+  @keyframes menuGlint {
+    0%   { background-position: -200% 0; }
+    100% { background-position: 200% 0; }
+  }
+  .menu-glint {
+    background-image: linear-gradient(
+      110deg,
+      transparent 40%,
+      rgba(255, 255, 255, 0.22) 50%,
+      transparent 60%
+    );
+    background-size: 200% 100%;
+    animation: menuGlint 2.4s linear infinite;
+  }
+
+  /* Starfield backdrop for arena */
+  .combat-arena {
+    background:
+      radial-gradient(2px 2px at 20% 30%, rgba(255,255,255,0.7), transparent 50%),
+      radial-gradient(1.5px 1.5px at 80% 20%, rgba(255,255,255,0.55), transparent 50%),
+      radial-gradient(1.5px 1.5px at 55% 65%, rgba(255,255,255,0.5), transparent 50%),
+      radial-gradient(2px 2px at 35% 80%, rgba(255,255,255,0.6), transparent 50%),
+      radial-gradient(circle at 50% 85%, #2d5a3d 0%, #162c22 55%, #050a08 100%);
+  }
 }
