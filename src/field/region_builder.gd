@@ -41,6 +41,12 @@ func _ready() -> void:
 	if Engine.is_editor_hint():
 		return
 	add_to_group("region_builder")
+	# If a warp set a target, use it. Otherwise fall back to region_id
+	# (set in the scene) or World.start_region_id.
+	var warp_target = Engine.get_meta("warp_target_region", null)
+	if warp_target != null and String(warp_target) != "":
+		region_id = String(warp_target)
+		Engine.remove_meta("warp_target_region")
 	if region_id == "":
 		region_id = World.start_region_id
 	if region_id == "":
@@ -62,6 +68,7 @@ func _build() -> void:
 	_spawn_signs()
 	_spawn_player()
 	_spawn_encounter_watcher()
+	_spawn_warp_watcher()
 
 
 func _build_sky() -> void:
@@ -270,15 +277,27 @@ func _spawn_encounter_watcher() -> void:
 	watcher.initialize(region)
 
 
+func _spawn_warp_watcher() -> void:
+	var warp_watcher := WarpWatcher.new()
+	warp_watcher.name = "WarpWatcher"
+	add_child(warp_watcher)
+	warp_watcher.initialize(region)
+
+
 func _spawn_player() -> void:
-	# Instantiate a Gamepiece at region.spawn, attach the generic
-	# character gfx + player controller, hand the reference to Player.
+	# Instantiate a Gamepiece at region.spawn (or at the warp-provided
+	# destination if the region loaded via a warp).
 	var gp = player_gamepiece_scene.instantiate()
 	gp.name = "Player"
+	var spawn_cell: Vector2i = region.spawn
+	var warp_tile = Engine.get_meta("warp_target_tile", null)
+	if warp_tile != null and warp_tile is Vector2i:
+		spawn_cell = warp_tile
+		Engine.remove_meta("warp_target_tile")
 	# Gamepiece is a Path2D — positioning the root moves the gamepiece.
 	gp.position = Vector2(
-		region.spawn.x * cell_size.x + cell_size.x * 0.5,
-		region.spawn.y * cell_size.y + cell_size.y * 0.5,
+		spawn_cell.x * cell_size.x + cell_size.x * 0.5,
+		spawn_cell.y * cell_size.y + cell_size.y * 0.5,
 	)
 
 	if player_gfx_scene != null:
