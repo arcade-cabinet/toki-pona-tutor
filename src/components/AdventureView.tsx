@@ -1,7 +1,8 @@
-import { lazy, Suspense, useEffect, useRef } from 'react';
+import { lazy, Suspense, useEffect, useRef, useState } from 'react';
 import { ArrowLeft } from 'lucide-react';
 import { gameBus } from '../game/GameBus';
 import { AdventureHUD } from './AdventureHUD';
+import { loadSeed, saveSeed, type Seed } from '../game/procgen/seed';
 
 const PhaserGame = lazy(() =>
   import('../game/PhaserGame').then((m) => ({ default: m.PhaserGame }))
@@ -58,6 +59,24 @@ function DpadButton({
 }
 
 export function AdventureView({ onExit }: AdventureViewProps) {
+  const [seed, setSeed] = useState<Seed | null>(() => loadSeed());
+
+  useEffect(() => {
+    // Fire the NewGameModal when entering adventure without a saved seed.
+    // The modal's Solid mount will handle display; we just ask it to open.
+    if (!seed) {
+      const handler = (s: Seed) => {
+        saveSeed(s);
+        setSeed(s);
+      };
+      // Slight delay so the Solid mount is fully ready
+      const t = setTimeout(() => {
+        gameBus.emit('seed:open-new-game', { onConfirm: handler });
+      }, 120);
+      return () => clearTimeout(t);
+    }
+  }, [seed]);
+
   useEffect(() => {
     return () => {
       ['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown'].forEach((k) => {
