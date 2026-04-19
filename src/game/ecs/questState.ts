@@ -8,6 +8,8 @@ interface QuestState {
   inventory: Record<string, boolean>;
   masteredWords: string[];
   xp: number;
+  /** Set of NPC ids the player has already talked to at least once. */
+  spokenTo: Record<string, boolean>;
 }
 
 const KEY = 'kama-sona.questState.v1';
@@ -28,7 +30,14 @@ function defaultState(): QuestState {
     inventory: {},
     masteredWords: [],
     xp: 0,
+    spokenTo: {},
   };
+}
+
+export function markSpokenTo(npcId: string) {
+  if (state.spokenTo[npcId]) return;
+  state = { ...state, spokenTo: { ...state.spokenTo, [npcId]: true } };
+  save();
 }
 
 let state = load();

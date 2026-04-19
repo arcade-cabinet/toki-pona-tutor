@@ -1,8 +1,9 @@
 import { useEffect, useState } from 'react';
 import { Scroll, Heart, RefreshCw } from 'lucide-react';
 import { getQuestState, subscribeQuest, resetProgress } from '../game/ecs/questState';
-import { loadSeed, clearSeed, seedPhrase } from '../game/procgen/seed';
+import { loadSeed, seedPhrase } from '../game/procgen/seed';
 import { toSitelenPona } from '../lib/sitelen';
+import { gameBus } from '../game/GameBus';
 
 const STAGE_DESCRIPTION: Record<string, string> = {
   not_started: 'Find jan Pona in the village',
@@ -37,11 +38,12 @@ export function AdventureHUD() {
           <button
             type="button"
             onClick={() => {
-              if (confirm('Start a new adventure with a new seed? Progress will be lost.')) {
-                clearSeed();
-                resetProgress();
-                window.location.reload();
-              }
+              gameBus.emit('seed:open-new-game', {
+                onConfirm: () => {
+                  resetProgress();
+                  window.location.reload();
+                },
+              });
             }}
             aria-label="New game"
             className="text-amber-700 hover:text-amber-900 ml-1"
