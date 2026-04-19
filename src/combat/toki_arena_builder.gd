@@ -15,6 +15,7 @@ const AI_SCENE: PackedScene = preload("res://src/combat/CombatAI.tscn")
 const ATTACK_ACTION_SCRIPT := preload("res://src/combat/actions/battler_action_attack.gd")
 const POKI_THROW_SCRIPT := preload("res://src/combat/actions/poki_throw_action.gd")
 const FLEE_ACTION_SCRIPT := preload("res://src/combat/actions/flee_action.gd")
+const KILI_HEAL_SCRIPT := preload("res://src/combat/actions/kili_heal_action.gd")
 
 # Battler screen positions — mirroring open-rpg's layout.
 # Player on the right (x ~1370), enemy on the left (x ~465).
@@ -57,7 +58,8 @@ static func build_arena_for_rival(
 	enemy_move_ids: Array,
 	enemy_name: String,
 	player_species: SpeciesResource,
-	player_level: int
+	player_level: int,
+	badge_award: String = ""
 ) -> PackedScene:
 	var arena_node: Node = _build_rival_arena_node(
 		enemy_species, enemy_level, enemy_move_ids, enemy_name,
@@ -65,6 +67,10 @@ static func build_arena_for_rival(
 	)
 	if arena_node == null:
 		return null
+	# US-051: propagate badge_award so jan-lawa victories wire into the
+	# US-052 badge award path on the victory sequence.
+	if arena_node is CombatArena and badge_award != "":
+		(arena_node as CombatArena).badge_award = badge_award
 	_set_owner_recursive(arena_node, arena_node)
 	var packed := PackedScene.new()
 	var err: int = packed.pack(arena_node)
@@ -93,6 +99,10 @@ static func _build_rival_arena_node(
 	if arena is CombatArena:
 		(arena as CombatArena).xp_yield = int(enemy_species.xp_yield)
 		(arena as CombatArena).enemy_species_id = enemy_species.id
+		# Caller (warp_watcher) will set badge_award if this rival is a
+		# jan_lawa. The PackedScene copy has to be re-instantiated to
+		# change an exported property; see _build_rival_arena_node for
+		# the output path.
 
 	var enemy: Battler = _build_battler(enemy_species, enemy_level, false)
 	# Override move list from authored NPC team when present.
@@ -105,6 +115,8 @@ static func _build_rival_arena_node(
 
 	var player: Battler = _build_battler(player_species, player_level, true)
 	# No poki-throw action for rivals — can't catch a rival's creature.
+	# Kili heal is available for survival.
+	player.actions.append(KILI_HEAL_SCRIPT.new())
 	player.name = "Player_%s" % player_species.id
 	player.position = PLAYER_POS
 	battlers_root.add_child(player)
@@ -167,6 +179,10 @@ static func _build_arena_node(
 	poki.wild_species_id = wild_species.id
 	poki.poki_power = 1.0  # standard; UI can tune based on player inventory
 	player.actions.append(poki)
+	# US-029: Use-kili action is always available during wild battles.
+	# KiliHealAction.execute gates on inventory count so an empty kili
+	# bag is a silent no-op rather than crashing.
+	player.actions.append(KILI_HEAL_SCRIPT.new())
 	# Wild battles allow retreat — rivals do not (see _build_rival_arena_node).
 	var flee: FleeAction = FLEE_ACTION_SCRIPT.new()
 	player.actions.append(flee)

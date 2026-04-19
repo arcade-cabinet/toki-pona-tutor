@@ -857,7 +857,8 @@
           ]
         }
       ],
-      "reward_word": "telo"
+      "reward_word": "telo",
+      "badge_award": "telo"
     },
     {
       "id": "jan_moku",
@@ -1118,5 +1119,16 @@
     "x": 3,
     "y": 8
   },
-  "biome": "town"
+  "biome": "town",
+  "rival_fights": [
+    {
+      "id": "jan_lawa_fight",
+      "tile": {
+        "x": 11,
+        "y": 11
+      },
+      "npc_id": "jan_suli",
+      "flag": "defeated_jan_suli"
+    }
+  ]
 }

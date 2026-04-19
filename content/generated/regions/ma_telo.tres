@@ -179,6 +179,7 @@ team = [{
 "species_id": "kasi_pona"
 }]
 reward_word = "telo"
+badge_award = "telo"
 
 [sub_resource type="Resource" id="Resource_ugo86"]
 script = ExtResource("2_hm0ny")
@@ -284,6 +285,15 @@ warps = [{
 "to_tile": {
 "x": 1.0,
 "y": 5.0
+}
+}]
+rival_fights = [{
+"flag": "defeated_jan_suli",
+"id": "jan_lawa_fight",
+"npc_id": "jan_suli",
+"tile": {
+"x": 11.0,
+"y": 11.0
 }
 }]
 dialog = Array[ExtResource("1_he5ci")]([SubResource("Resource_sayap"), SubResource("Resource_aa8dd"), SubResource("Resource_utuba"), SubResource("Resource_b5yqd"), SubResource("Resource_gnjad"), SubResource("Resource_l3vcj")])

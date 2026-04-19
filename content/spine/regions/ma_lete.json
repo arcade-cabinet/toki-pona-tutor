@@ -801,7 +801,8 @@
           ]
         }
       ],
-      "reward_word": "lete"
+      "reward_word": "lete",
+      "badge_award": "lete"
     },
     {
       "id": "jan_anpa",
@@ -1005,5 +1006,16 @@
     "x": 3,
     "y": 15
   },
-  "biome": "ice"
+  "biome": "ice",
+  "rival_fights": [
+    {
+      "id": "jan_lawa_fight",
+      "tile": {
+        "x": 10,
+        "y": 8
+      },
+      "npc_id": "jan_lete",
+      "flag": "defeated_jan_lete"
+    }
+  ]
 }

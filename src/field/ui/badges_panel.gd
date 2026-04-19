@@ -7,8 +7,8 @@ extends CanvasLayer
 # lete, suli, sewi (matching the 7 content/spine/regions/*.json gyms).
 
 const BADGE_ORDER := [
-	"telo", "pona", "wawa", "ma",
-	"lete", "suli", "sewi",
+	"telo", "pona", "sewi",
+	"suli", "lete",
 ]
 
 @onready var _grid: HBoxContainer = $Root/Margin/Panel/V/Grid
