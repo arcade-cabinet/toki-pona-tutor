@@ -18,10 +18,19 @@ mono_crash.*.json
 .vscode/
 .idea/
 
-# Local build output
+# Local build + export output (artifacts) — configs stay tracked
 build/
 export/
 dist/
+*.apk
+*.aab
+*.ipa
+*.zip
+# Android keystores are never committed — signing key lives in $HOME or CI secrets
+*.keystore
+*.jks
+android/debug.keystore
+android/release.keystore
 
 # Save files / local test user data
 user://

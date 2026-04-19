@@ -1,0 +1,66 @@
+name: CD
+
+on:
+  push:
+    branches: [main]
+
+concurrency:
+  group: cd-main
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+jobs:
+  export-html5:
+    name: Deploy HTML5 to GitHub Pages
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deploy.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          lfs: true
+
+      - name: Setup Godot
+        uses: chickensoft-games/setup-godot@f166999204a4f2722c6fe042fbaa3b3ea0d9c789 # v2.4.1
+        with:
+          version: 4.6.2
+          use-dotnet: false
+          include-templates: true
+
+      - name: Import project resources
+        run: godot --headless --path . --import --quit-after 180
+
+      - name: Export HTML5
+        run: |
+          mkdir -p export/html5
+          # Vendored coi-serviceworker provides COOP/COEP headers for
+          # SharedArrayBuffer / thread_support on GitHub Pages (which
+          # doesn't ship these headers natively). Source of truth:
+          # templates/web/coi-serviceworker.js, refreshed deliberately
+          # via PR rather than pulled from the network at build time.
+          cp templates/web/coi-serviceworker.js export/html5/coi-serviceworker.js
+          set +e
+          godot --headless --path . --export-release "HTML5" export/html5/index.html
+          set -e
+          if [ ! -f export/html5/index.html ]; then
+            echo "::error::HTML5 export was not produced"
+            exit 1
+          fi
+          touch export/html5/.nojekyll
+
+      - name: Setup Pages
+        uses: actions/configure-pages@45bfe0192ca1faeb007ade9deae92b16b8254a0d # v6.0.0
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@fc324d3547104276b827a68afc52ff2a11cc49c9 # v5.0.0
+        with:
+          path: export/html5
+
+      - id: deploy
+        name: Deploy to GitHub Pages
+        uses: actions/deploy-pages@cd2ce8fcbc39b97be8ca5fce6e763baed58fa128 # v5.0.0
