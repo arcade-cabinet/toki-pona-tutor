@@ -158,6 +158,14 @@
       }
     };
 
+    if (typeof Engine === "undefined") {
+      showError(
+        "Couldn't load the engine.",
+        "The engine script failed to load. Check your connection and reload."
+      );
+      return;
+    }
+
     const engine = new Engine(GODOT_CONFIG);
     setStatus("Fetching engine…");
 

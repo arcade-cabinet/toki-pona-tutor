@@ -141,7 +141,6 @@ jobs:
         run: |
           mkdir -p export/html5
           # Vendored — see cd.yml for rationale.
-          cp templates/web/coi-serviceworker.js export/html5/coi-serviceworker.js
           set +e
           godot --headless --path . \
             --export-release "HTML5" \
