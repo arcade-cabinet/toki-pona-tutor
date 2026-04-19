@@ -1,0 +1,206 @@
+{
+  "id": "nasin_pi_telo",
+  "name_tp": "nasin pi telo",
+  "name_en": "The Water Path",
+  "description": { "en": "The river is wide." },
+  "width": 32,
+  "height": 12,
+  "sky_color": "#7fb3c9",
+  "layers": [
+    {
+      "name": "ground",
+      "depth": 0,
+      "solid_keys": [],
+      "tiles": [
+        ["g","g","g","g","g","g","g","g","g","g","g","g","g","g","g","g","g","g","g","g","g","g","water_shallow","water","water","water","water","water","water","water","water","water_shallow"],
+        ["g","g","tall_grass","tall_grass","g","g","tall_grass","tall_grass","g","g","tall_grass","tall_grass","g","g","tall_grass","tall_grass","g","g","tall_grass","g","g","g","water_shallow","water","water","water","water","water","water","water","water","water_shallow"],
+        ["g","g","tall_grass","tall_grass","g","g","tall_grass","tall_grass","g","g","tall_grass","tall_grass","g","g","tall_grass","tall_grass","g","g","tall_grass","g","g","g","water_shallow","water","water","water","water","water_deep","water_deep","water_deep","water","water_shallow"],
+        ["g","g","g","g","g","g","g","g","g","g","g","g","g","g","g","g","g","g","g","g","g","g","water_shallow","water","water","water","water_deep","water_deep","water_deep","water","water","water_shallow"],
+        ["g","g","tall_grass","tall_grass","tall_grass","g","g","tall_grass","tall_grass","g","g","tall_grass","tall_grass","g","g","tall_grass","tall_grass","g","g","tall_grass","g","g","water_shallow","water","water","water_deep","water_deep","water_deep","water","water","water","water_shallow"],
+        ["g","g","g","g","g","g","g","g","g","g","g","g","g","g","g","g","g","g","g","g","g","g","water_shallow","water","water","water_deep","water_deep","water","water","water","water","water_shallow"],
+        ["g","g","g","g","g","g","g","g","g","g","g","g","g","g","g","g","g","g","g","g","g","g","water_shallow","water","water","water_deep","water_deep","water","water","water","water","water_shallow"],
+        ["g","g","tall_grass","tall_grass","tall_grass","g","g","tall_grass","tall_grass","g","g","tall_grass","tall_grass","g","g","tall_grass","tall_grass","g","g","tall_grass","g","g","water_shallow","water","water","water","water_deep","water_deep","water","water","water","water_shallow"],
+        ["g","g","tall_grass","tall_grass","g","g","tall_grass","tall_grass","g","g","tall_grass","tall_grass","g","g","tall_grass","tall_grass","g","g","tall_grass","g","g","g","water_shallow","water","water","water","water","water_deep","water_deep","water","water","water_shallow"],
+        ["g","g","g","g","g","g","g","g","g","g","g","g","g","g","g","g","g","g","g","g","g","g","water_shallow","water","water","water","water","water","water","water","water","water_shallow"],
+        ["g","g","tall_grass","tall_grass","g","g","tall_grass","tall_grass","g","g","tall_grass","tall_grass","g","g","tall_grass","tall_grass","g","g","tall_grass","g","g","g","water_shallow","water","water","water","water","water","water","water","water","water_shallow"],
+        ["g","g","g","g","g","g","g","g","g","g","g","g","g","g","g","g","g","g","g","g","g","g","water_shallow","water","water","water","water","water","water","water","water","water_shallow"]
+      ]
+    },
+    {
+      "name": "objects",
+      "depth": 1,
+      "solid_keys": ["tree_g","bush","sign","water","water_deep","water_shallow"],
+      "tiles": [
+        ["tree_g",null,null,null,null,"tree_g",null,null,null,null,"tree_g",null,null,null,null,"tree_g",null,null,null,null,"tree_g",null,null,null,null,null,null,null,null,null,null,null],
+        [null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null],
+        [null,null,null,null,null,null,null,null,null,"sign",null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null],
+        [null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null],
+        [null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null],
+        [null,null,null,null,"sign",null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null],
+        [null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null],
+        [null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null],
+        [null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,"sign",null,null,null,null,null,null,null,null,null,null,null,null,null,null,null],
+        [null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null],
+        ["tree_g",null,null,null,null,"tree_g",null,null,null,null,"tree_g",null,null,null,null,"tree_g",null,null,null,null,"tree_g",null,null,null,null,null,null,null,null,null,null,null],
+        [null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null,null]
+      ]
+    }
+  ],
+  "tall_grass_keys": ["tall_grass"],
+  "encounters": [
+    { "species_id": "kala_lili",   "weight": 0.30, "min_level": 7,  "max_level": 10 },
+    { "species_id": "kala_telo",   "weight": 0.25, "min_level": 8,  "max_level": 11 },
+    { "species_id": "waso_telo",   "weight": 0.20, "min_level": 7,  "max_level": 9  },
+    { "species_id": "soweli_telo", "weight": 0.15, "min_level": 8,  "max_level": 11 },
+    { "species_id": "kala_suli",   "weight": 0.10, "min_level": 10, "max_level": 13 }
+  ],
+  "npcs": [
+    {
+      "id": "jan_kala_suli",
+      "name_tp": "jan Kala Suli",
+      "name_en": "jan Kala Suli",
+      "role": "jan_lawa",
+      "personality": "a veteran fisher who has walked this riverside path for decades. No badge to give — just offers a tough fight for experience and a chance to test your skills.",
+      "tile": { "x": 18, "y": 5 },
+      "sprite_frame": 90,
+      "greeting": {
+        "text": { "en": "I like to fish in the river." },
+        "mood": "thinking"
+      },
+      "team": [
+        {
+          "species_id": "kala_suli",
+          "level": 10,
+          "moves": ["telo_lili", "utala", "telo_wawa"]
+        },
+        {
+          "species_id": "kala_telo",
+          "level": 11,
+          "moves": ["telo_lili", "utala", "telo_pini"]
+        }
+      ]
+    },
+    {
+      "id": "jan_kala_lili",
+      "name_tp": "jan Kala Lili",
+      "name_en": "jan Kala Lili",
+      "role": "ambient",
+      "personality": "a kid with a small net, sitting by the riverbank watching the water. Not a trainer — just a cheerful bystander.",
+      "tile": { "x": 8, "y": 7 },
+      "sprite_frame": 84,
+      "greeting": {
+        "text": { "en": "Who caught this fish?" },
+        "mood": "happy"
+      }
+    },
+    {
+      "id": "jan_moku_pona",
+      "name_tp": "jan Moku Pona",
+      "name_en": "jan Moku Pona",
+      "role": "shopkeeper",
+      "personality": "a friendly merchant selling grilled river fish from a small cart. Always in a good mood, smells like smoke.",
+      "tile": { "x": 4, "y": 3 },
+      "sprite_frame": 88,
+      "greeting": {
+        "text": { "en": "Tom sells fish." },
+        "mood": "happy"
+      }
+    },
+    {
+      "id": "jan_olin_telo",
+      "name_tp": "jan Olin Telo",
+      "name_en": "jan Olin Telo",
+      "role": "ambient",
+      "personality": "a contemplative person sitting at the river's edge, watching the current drift by. Speaks quietly and loves the sound of water.",
+      "tile": { "x": 14, "y": 9 },
+      "sprite_frame": 86,
+      "greeting": {
+        "text": { "en": "The river is wide." },
+        "mood": "thinking"
+      }
+    }
+  ],
+  "signs": [
+    {
+      "id": "sign_kala",
+      "tile": { "x": 9, "y": 2 },
+      "text": { "en": "kala" }
+    },
+    {
+      "id": "sign_nasin",
+      "tile": { "x": 4, "y": 5 },
+      "text": { "en": "nasin" }
+    },
+    {
+      "id": "sign_telo",
+      "tile": { "x": 16, "y": 8 },
+      "text": { "en": "telo" }
+    }
+  ],
+  "warps": [
+    {
+      "id": "warp_west",
+      "tile": { "x": 0, "y": 5 },
+      "to_region": "ma_telo",
+      "to_tile": { "x": 10, "y": 14 }
+    },
+    {
+      "id": "warp_east",
+      "tile": { "x": 21, "y": 5 },
+      "to_region": "ma_kala",
+      "to_tile": { "x": 1, "y": 5 }
+    }
+  ],
+  "dialog": [
+    {
+      "id": "jan_kala_suli_prebattle",
+      "npc_id": "jan_kala_suli",
+      "when_flags": { "jan_kala_suli_beaten": false },
+      "priority": 10,
+      "beats": [
+        { "text": { "en": "I like to fish in the river." }, "mood": "thinking", "glyph": "kala" },
+        { "text": { "en": "Tom swam in the river." }, "mood": "thinking", "glyph": "telo" },
+        { "text": { "en": "Are you strong?" }, "mood": "excited", "glyph": "wawa" },
+        { "text": { "en": "Let's attack." }, "mood": "excited", "glyph": "utala" }
+      ],
+      "triggers": {
+        "set_flag": { "jan_kala_suli_beaten": true }
+      }
+    },
+    {
+      "id": "jan_kala_suli_postbattle",
+      "npc_id": "jan_kala_suli",
+      "when_flags": { "jan_kala_suli_beaten": true },
+      "priority": 5,
+      "beats": [
+        { "text": { "en": "You are so strong." }, "mood": "happy", "glyph": "wawa" },
+        { "text": { "en": "Water is good." }, "mood": "happy", "glyph": "telo" }
+      ]
+    },
+    {
+      "id": "jan_kala_lili_flavor",
+      "npc_id": "jan_kala_lili",
+      "priority": 0,
+      "beats": [
+        { "text": { "en": "Who caught this fish?" }, "mood": "happy", "glyph": "kala" }
+      ]
+    },
+    {
+      "id": "jan_moku_pona_flavor",
+      "npc_id": "jan_moku_pona",
+      "priority": 0,
+      "beats": [
+        { "text": { "en": "Tom sells fish." }, "mood": "happy", "glyph": "moku" }
+      ]
+    },
+    {
+      "id": "jan_olin_telo_flavor",
+      "npc_id": "jan_olin_telo",
+      "priority": 0,
+      "beats": [
+        { "text": { "en": "The river is wide." }, "mood": "thinking", "glyph": "telo" }
+      ]
+    }
+  ],
+  "spawn": { "x": 1, "y": 5 }
+}
