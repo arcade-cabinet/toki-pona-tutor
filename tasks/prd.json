@@ -407,7 +407,7 @@
         "Files: src/field/ui/party_panel.gd, src/common/toki_save.gd"
       ],
       "priority": 3,
-      "passes": false,
+      "passes": true,
       "dependsOn": [
         "US-024"
       ]
@@ -834,7 +834,7 @@
         "Files: src/field/ui/pause_menu.gd, new src/field/ui/badges_panel.tscn"
       ],
       "priority": 2,
-      "passes": false,
+      "passes": true,
       "dependsOn": [
         "US-038",
         "US-052"
@@ -866,7 +866,7 @@
         "Files: new src/field/ui/pokedex.tscn + pokedex.gd, src/common/toki_save.gd"
       ],
       "priority": 2,
-      "passes": false,
+      "passes": true,
       "dependsOn": [
         "US-038",
         "US-056"

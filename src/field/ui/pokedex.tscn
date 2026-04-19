@@ -1,0 +1,62 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://src/field/ui/pokedex.gd" id="1_script"]
+
+[node name="Pokedex" type="CanvasLayer"]
+layer = 75
+script = ExtResource("1_script")
+
+[node name="Root" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+
+[node name="Dim" type="ColorRect" parent="Root"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color(0, 0, 0, 0.7)
+
+[node name="Margin" type="MarginContainer" parent="Root"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+theme_override_constants/margin_left = 32
+theme_override_constants/margin_top = 32
+theme_override_constants/margin_right = 32
+theme_override_constants/margin_bottom = 32
+
+[node name="Panel" type="PanelContainer" parent="Root/Margin"]
+layout_mode = 2
+theme_type_variation = &"dialog"
+
+[node name="V" type="VBoxContainer" parent="Root/Margin/Panel"]
+layout_mode = 2
+theme_override_constants/separation = 8
+
+[node name="Title" type="Label" parent="Root/Margin/Panel/V"]
+layout_mode = 2
+theme_type_variation = &"display"
+text = "pokedex"
+
+[node name="Counter" type="Label" parent="Root/Margin/Panel/V"]
+layout_mode = 2
+theme_type_variation = &"mono"
+
+[node name="Scroll" type="ScrollContainer" parent="Root/Margin/Panel/V"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="Grid" type="GridContainer" parent="Root/Margin/Panel/V/Scroll"]
+layout_mode = 2
+columns = 5
+theme_override_constants/h_separation = 16
+theme_override_constants/v_separation = 16
+
+[node name="Close" type="Button" parent="Root/Margin/Panel/V"]
+layout_mode = 2
+custom_minimum_size = Vector2(0, 44)
+text = "Close"

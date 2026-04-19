@@ -11,6 +11,8 @@ const TITLE_SCENE := "res://src/title.tscn"
 @onready var _root: Control = $Root
 @onready var _resume_btn: Button = $Root/Margin/Panel/V/Resume
 @onready var _party_btn: Button = $Root/Margin/Panel/V/Party
+@onready var _pokedex_btn: Button = $Root/Margin/Panel/V/Pokedex
+@onready var _badges_btn: Button = $Root/Margin/Panel/V/Badges
 @onready var _save_btn: Button = $Root/Margin/Panel/V/Save
 @onready var _quit_btn: Button = $Root/Margin/Panel/V/Quit
 
@@ -20,8 +22,24 @@ func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_ALWAYS
 	_resume_btn.pressed.connect(close)
 	_party_btn.pressed.connect(_on_party_pressed)
+	_pokedex_btn.pressed.connect(_on_pokedex_pressed)
+	_badges_btn.pressed.connect(_on_badges_pressed)
 	_save_btn.pressed.connect(_on_save_pressed)
 	_quit_btn.pressed.connect(_on_quit_pressed)
+
+
+func _on_pokedex_pressed() -> void:
+	close()
+	var p := get_tree().root.find_child("Pokedex", true, false)
+	if p != null and p.has_method("open"):
+		p.call_deferred("open")
+
+
+func _on_badges_pressed() -> void:
+	close()
+	var p := get_tree().root.find_child("BadgesPanel", true, false)
+	if p != null and p.has_method("open"):
+		p.call_deferred("open")
 
 
 func _unhandled_input(event: InputEvent) -> void:

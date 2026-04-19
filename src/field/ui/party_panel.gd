@@ -18,6 +18,7 @@ const HEAL_AMOUNT := 20
 @onready var _detail_xp: Label = $Root/Margin/Panel/Columns/Detail/V/XP
 @onready var _detail_moves: VBoxContainer = $Root/Margin/Panel/Columns/Detail/V/Moves
 @onready var _use_kili_btn: Button = $Root/Margin/Panel/Columns/Detail/V/UseKili
+@onready var _set_lead_btn: Button = $Root/Margin/Panel/Columns/Detail/V/SetLead
 @onready var _hint: Label = $Root/Margin/Panel/Hint
 
 var _selected_index: int = -1
@@ -27,6 +28,7 @@ func _ready() -> void:
 	visible = false
 	_detail_panel.visible = false
 	_use_kili_btn.pressed.connect(_on_use_kili)
+	_set_lead_btn.pressed.connect(_on_set_lead)
 	process_mode = Node.PROCESS_MODE_ALWAYS
 
 
@@ -122,7 +124,25 @@ func _show_detail(idx: int) -> void:
 	var kili_count: int = int(inv.get(HEAL_ITEM_ID, 0))
 	_use_kili_btn.disabled = (kili_count <= 0) or (hp >= max_hp)
 	_use_kili_btn.text = "Use kili (+%d HP) × %d" % [HEAL_AMOUNT, kili_count]
+	_set_lead_btn.disabled = (idx == 0)
+	_set_lead_btn.text = "Already leading" if idx == 0 else "Set as lead"
 	_detail_panel.visible = true
+
+
+func _on_set_lead() -> void:
+	# US-026: reorder by promoting selected slot to index 0.
+	if TokiSave == null or _selected_index <= 0: return
+	var party: Array = TokiSave.party()
+	if _selected_index >= party.size(): return
+	var picked: Dictionary = party[_selected_index]
+	party.remove_at(_selected_index)
+	party.insert(0, picked)
+	TokiSave._set_array("party", party)
+	TokiSave.party_changed.emit()
+	TokiSave.save()
+	_selected_index = 0
+	_rebuild_slots()
+	_show_detail(0)
 
 
 func _on_use_kili() -> void:

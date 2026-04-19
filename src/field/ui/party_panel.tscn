@@ -71,6 +71,11 @@ layout_mode = 2
 custom_minimum_size = Vector2(0, 44)
 text = "Use kili (+20 HP) × 0"
 
+[node name="SetLead" type="Button" parent="Root/Margin/Panel/Columns/Detail/V"]
+layout_mode = 2
+custom_minimum_size = Vector2(0, 44)
+text = "Set as lead"
+
 [node name="Hint" type="Label" parent="Root/Margin/Panel"]
 layout_mode = 2
 theme_type_variation = &"mono"
