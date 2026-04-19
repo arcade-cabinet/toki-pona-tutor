@@ -122,13 +122,34 @@
       "beats": [
         { "text": { "en": "Hello, friends." }, "mood": "happy", "glyph": "toki" },
         { "text": { "en": "Take this." }, "mood": "thinking", "glyph": "poki" },
-        { "text": { "en": "Choose one." }, "mood": "thinking", "glyph": "wan" },
-        { "text": { "en": "You are so strong." }, "mood": "excited", "glyph": "wawa" }
+        { "text": { "en": "Choose one." }, "mood": "thinking", "glyph": "wan" }
+      ],
+      "choices": [
+        {
+          "label": { "tp": "soweli seli", "en": "fire-beast" },
+          "glyph": "seli",
+          "triggers": {
+            "add_party": { "species_id": "soweli_seli", "level": 5 }
+          }
+        },
+        {
+          "label": { "tp": "soweli telo", "en": "water-beast" },
+          "glyph": "telo",
+          "triggers": {
+            "add_party": { "species_id": "soweli_telo", "level": 5 }
+          }
+        },
+        {
+          "label": { "tp": "kasi pona", "en": "good-plant" },
+          "glyph": "kasi",
+          "triggers": {
+            "add_party": { "species_id": "kasi_pona", "level": 5 }
+          }
+        }
       ],
       "triggers": {
         "set_flag": { "starter_chosen": true },
-        "give_item": { "item_id": "poki_lili", "count": 3 },
-        "add_party": { "species_id": "soweli_seli", "level": 5 }
+        "give_item": { "item_id": "poki_lili", "count": 3 }
       }
     },
     {

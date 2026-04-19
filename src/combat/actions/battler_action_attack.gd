@@ -29,17 +29,21 @@ func execute() -> void:
 	# Normally we would wait for an attack animation's "triggered" signal.
 	await source.get_tree().create_timer(0.1).timeout
 	for target in cached_targets:
-		
-		
+
+
 		# Incoporate Battler attack and a random variation (10% +- potential damage) to damage.
 		var modified_damage: = base_damage + source.stats.attack
-		var damage_dealt = modified_damage + (randf()-0.5)*0.2 * modified_damage
-		
+		var damage_dealt: float = modified_damage + (randf()-0.5)*0.2 * modified_damage
+
+		# Apply elemental type-effectiveness against the target's affinity.
+		var effectiveness: = Elements.multiplier(element, target.stats.affinity)
+		damage_dealt *= effectiveness
+
 		# To hit is modified by a Battler's accuracy. That is, a Battler with 90 accuracy will have
 		# 90% of the action's base to_hit chance.
 		var to_hit: = hit_chance * (source.stats.hit_chance / 100.0)
-		
-		var hit: = BattlerHit.new(damage_dealt, to_hit)
+
+		var hit: = BattlerHit.new(int(max(1, damage_dealt)), to_hit, effectiveness)
 		target.take_hit(hit)
 		await source.get_tree().create_timer(0.1).timeout
 	

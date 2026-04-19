@@ -17,8 +17,8 @@ func setup(battler_data: BattlerRoster) -> void:
 			label.global_position = battler.anim.top.global_position
 		)
 
-		battler.hit_received.connect(func _on_battler_hit_received(amount: int) -> void:
+		battler.hit_landed.connect(func _on_battler_hit_landed(amount: int, effectiveness: float) -> void:
 			var label: = damage_label_scene.instantiate() as UIDamageLabel
 			add_child(label)
-			label.setup(battler.anim.top.global_position, amount)
+			label.setup(battler.anim.top.global_position, amount, effectiveness)
 		)

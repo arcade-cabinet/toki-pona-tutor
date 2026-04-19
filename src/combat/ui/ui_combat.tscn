@@ -1,4 +1,4 @@
-[gd_scene load_steps=14 format=3 uid="uid://ic0pyjko2i46"]
+[gd_scene load_steps=15 format=3 uid="uid://ic0pyjko2i46"]
 
 [ext_resource type="Script" uid="uid://ch0df68krwxr1" path="res://src/combat/ui/effect_labels/ui_effect_label_builder.gd" id="1_0i21q"]
 [ext_resource type="PackedScene" uid="uid://bo6hj2mg02uef" path="res://src/combat/ui/effect_labels/ui_damage_label.tscn" id="2_0cqaj"]
@@ -9,6 +9,7 @@
 [ext_resource type="Script" uid="uid://2bkem6rl5jl6" path="res://src/combat/ui/battler_entry/ui_player_battler_list.gd" id="6_nv24v"]
 [ext_resource type="PackedScene" uid="uid://b35omff3fdb2g" path="res://src/combat/ui/battler_entry/ui_battler_entry.tscn" id="9_yx5l6"]
 [ext_resource type="PackedScene" uid="uid://cf6hixtledkyy" path="res://src/combat/ui/action_menu/ui_action_description.tscn" id="10_farde"]
+[ext_resource type="Theme" path="res://theme/toki_theme.tres" id="11_toki_theme"]
 
 [sub_resource type="Animation" id="Animation_wen7t"]
 length = 0.001
@@ -121,6 +122,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+theme = ExtResource("11_toki_theme")
 script = ExtResource("5_lubpu")
 action_menu_scene = ExtResource("2_nv24v")
 target_cursor_scene = ExtResource("3_0i21q")

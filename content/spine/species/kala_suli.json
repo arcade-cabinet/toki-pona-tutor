@@ -1,7 +1,11 @@
 {
   "id": "kala_suli",
-  "name": { "en": "kala" },
-  "description": { "en": "The fish swam in the lake." },
+  "name": {
+    "en": "kala"
+  },
+  "description": {
+    "en": "The fish swam in the lake."
+  },
   "type": "telo",
   "base_stats": {
     "hp": 68,
@@ -10,13 +14,29 @@
     "speed": 44
   },
   "learnset": [
-    { "level": 1, "move_id": "telo_lili" },
-    { "level": 1, "move_id": "utala_lili" },
-    { "level": 8, "move_id": "utala" },
-    { "level": 14, "move_id": "telo_wawa" },
-    { "level": 22, "move_id": "telo_suli" }
+    {
+      "level": 1,
+      "move_id": "telo_lili"
+    },
+    {
+      "level": 1,
+      "move_id": "utala_lili"
+    },
+    {
+      "level": 8,
+      "move_id": "utala"
+    },
+    {
+      "level": 14,
+      "move_id": "telo_wawa"
+    },
+    {
+      "level": 22,
+      "move_id": "telo_suli"
+    }
   ],
   "catch_rate": 0.35,
   "xp_yield": 72,
-  "sprite_frame": 127
+  "sprite_frame": 127,
+  "sprite_src": "res://assets/creatures/monsters/wraith.png"
 }

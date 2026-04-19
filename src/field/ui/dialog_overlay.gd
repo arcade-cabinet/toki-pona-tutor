@@ -7,16 +7,22 @@ extends CanvasLayer
 # on close (set_flag / give_item / add_party / advance_quest) through
 # FieldEvents so game systems can respond.
 #
+# When the dialog node has a non-empty `choices` array, after the last
+# beat the overlay shows lettered options (A/B/C) and fires the picked
+# choice's triggers in addition to the dialog-level triggers.
+#
 # Uses the project theme's `dialog` type for panel styling and
 # `sitelen_pona` for the glyph card. No Dialogic dependency.
 
 const TYPEWRITER_CPS := 40.0  # characters per second
+const CHOICE_LETTERS := ["A", "B", "C", "D", "E"]
 
 @onready var _panel: PanelContainer = $Root/Margin/Panel
 @onready var _speaker_label: Label = $Root/Margin/Panel/VBox/Speaker
 @onready var _body_label: RichTextLabel = $Root/Margin/Panel/VBox/Body
 @onready var _glyph_label: Label = $Root/Margin/Panel/VBox/Speaker/Glyph
 @onready var _advance_hint: Label = $Root/Margin/Panel/VBox/Hint
+@onready var _choices_box: VBoxContainer = $Root/Margin/Panel/VBox/Choices
 @onready var _typewriter: Timer = $Typewriter
 
 var _current: DialogResource = null
@@ -24,6 +30,8 @@ var _beat_index: int = 0
 var _full_text: String = ""
 var _revealed_chars: int = 0
 var _open: bool = false
+var _awaiting_choice: bool = false
+var _selected_choice: int = -1
 
 
 func _ready() -> void:
@@ -38,6 +46,9 @@ func _on_dialog_requested(node: DialogResource) -> void:
 		return
 	_current = node
 	_beat_index = 0
+	_awaiting_choice = false
+	_selected_choice = -1
+	_clear_choices()
 	_show_beat()
 	visible = true
 	_open = true
@@ -81,6 +92,11 @@ func _on_typewriter_tick() -> void:
 
 func _unhandled_input(event: InputEvent) -> void:
 	if not _open: return
+
+	if _awaiting_choice:
+		_handle_choice_input(event)
+		return
+
 	if not (event.is_action_pressed("interact") or event.is_action_pressed("ui_accept")):
 		return
 	get_viewport().set_input_as_handled()
@@ -92,24 +108,81 @@ func _unhandled_input(event: InputEvent) -> void:
 		_body_label.text = _full_text
 		return
 
-	# Advance to next beat, or close if we're out.
+	# Advance to next beat, then either show choices or close.
 	_beat_index += 1
 	if _beat_index >= _current.beats.size():
-		_close()
+		if _current.choices != null and not _current.choices.is_empty():
+			_show_choices()
+		else:
+			_close()
 	else:
 		_show_beat()
 
 
+func _show_choices() -> void:
+	_awaiting_choice = true
+	_clear_choices()
+	_choices_box.visible = true
+	var count: int = min(_current.choices.size(), CHOICE_LETTERS.size())
+	for i in count:
+		var choice: Dictionary = _current.choices[i]
+		var label_dict: Dictionary = choice.get("label", {})
+		var label_text: String = String(label_dict.get("tp", label_dict.get("en", "")))
+		var glyph: String = String(choice.get("glyph", ""))
+		var row := Label.new()
+		var glyph_prefix := ("%s  " % glyph) if glyph != "" else ""
+		row.text = "[%s]  %s%s" % [CHOICE_LETTERS[i], glyph_prefix, label_text]
+		_choices_box.add_child(row)
+	# Hint mirrors the letters actually rendered, so players see D/E when present.
+	var used: Array = []
+	for i in count:
+		used.append(CHOICE_LETTERS[i])
+	_advance_hint.text = " / ".join(used)
+
+
+func _clear_choices() -> void:
+	_choices_box.visible = false
+	for child in _choices_box.get_children():
+		child.queue_free()
+
+
+func _handle_choice_input(event: InputEvent) -> void:
+	if not event is InputEventKey: return
+	var key_event: InputEventKey = event
+	if not key_event.pressed or key_event.echo: return
+	var idx := _index_for_key(key_event.keycode)
+	if idx < 0 or idx >= _current.choices.size(): return
+	get_viewport().set_input_as_handled()
+	_selected_choice = idx
+	_close()
+
+
+func _index_for_key(keycode: int) -> int:
+	match keycode:
+		KEY_A, KEY_1, KEY_KP_1: return 0
+		KEY_B, KEY_2, KEY_KP_2: return 1
+		KEY_C, KEY_3, KEY_KP_3: return 2
+		KEY_D, KEY_4, KEY_KP_4: return 3
+		KEY_E, KEY_5, KEY_KP_5: return 4
+		_: return -1
+
+
 func _close() -> void:
 	_open = false
+	_awaiting_choice = false
 	visible = false
-	_fire_triggers(_current)
+	_clear_choices()
+	# Snapshot & null `_current` before firing triggers, so a trigger
+	# handler that reopens a new dialog doesn't get clobbered when we
+	# return from _fire_triggers.
+	var to_fire: DialogResource = _current
 	_current = null
+	_fire_triggers(to_fire)
 
 
 func _fire_triggers(node: DialogResource) -> void:
 	if node == null: return
-	# Emit trigger events through FieldEvents so separate systems can act.
+	# Dialog-level triggers fire unconditionally on close.
 	for flag in node.trigger_set_flags:
 		Engine.set_meta("flag_" + flag, bool(node.trigger_set_flags[flag]))
 		if FieldEvents and FieldEvents.has_signal("flag_set"):
@@ -123,3 +196,34 @@ func _fire_triggers(node: DialogResource) -> void:
 
 	if node.trigger_advance_quest_id != "" and FieldEvents and FieldEvents.has_signal("quest_advanced"):
 		FieldEvents.emit_signal("quest_advanced", node.trigger_advance_quest_id, node.trigger_advance_quest_stage)
+
+	# Choice-level triggers fire only for the picked option. Guard against
+	# a null/absent choices list so dialogs without branches don't crash.
+	if _selected_choice >= 0 and node.choices is Array and _selected_choice < node.choices.size():
+		_fire_choice_triggers(node.choices[_selected_choice])
+
+
+func _fire_choice_triggers(choice: Dictionary) -> void:
+	var triggers: Dictionary = choice.get("triggers", {})
+	if triggers.is_empty(): return
+
+	var set_flags: Dictionary = triggers.get("set_flag", {})
+	for flag in set_flags:
+		Engine.set_meta("flag_" + flag, bool(set_flags[flag]))
+		if FieldEvents and FieldEvents.has_signal("flag_set"):
+			FieldEvents.emit_signal("flag_set", flag, set_flags[flag])
+
+	var gi: Dictionary = triggers.get("give_item", {})
+	var gi_id: String = String(gi.get("item_id", ""))
+	if gi_id != "" and FieldEvents and FieldEvents.has_signal("item_given"):
+		FieldEvents.emit_signal("item_given", gi_id, int(gi.get("count", 0)))
+
+	var ap: Dictionary = triggers.get("add_party", {})
+	var ap_id: String = String(ap.get("species_id", ""))
+	if ap_id != "" and FieldEvents and FieldEvents.has_signal("party_add"):
+		FieldEvents.emit_signal("party_add", ap_id, int(ap.get("level", 0)))
+
+	var adv: Dictionary = triggers.get("advance_quest", {})
+	var adv_id: String = String(adv.get("quest_id", ""))
+	if adv_id != "" and FieldEvents and FieldEvents.has_signal("quest_advanced"):
+		FieldEvents.emit_signal("quest_advanced", adv_id, String(adv.get("stage", "")))

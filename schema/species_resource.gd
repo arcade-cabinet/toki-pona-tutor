@@ -24,6 +24,7 @@ extends Resource
 @export var catch_rate: float = 0.25
 @export var xp_yield: int = 30
 @export var sprite_frame: int = 0
+@export var sprite_src: String = ""  # res:// path to battler sprite sheet; first 64×64 cell used as idle
 @export var portrait_src: String = ""
 
 
@@ -46,5 +47,6 @@ static func from_dict(d: Dictionary) -> SpeciesResource:
 	r.catch_rate = d.get("catch_rate", 0.25)
 	r.xp_yield = d.get("xp_yield", 30)
 	r.sprite_frame = d.get("sprite_frame", 0)
+	r.sprite_src = d.get("sprite_src", "")
 	r.portrait_src = d.get("portrait_src", "")
 	return r

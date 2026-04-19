@@ -53,5 +53,7 @@ pending/
 # Claude local config (project-scope)
 .claude/cache/
 
-# ralph-tui local session state
+# ralph-tui local session/iteration logs (keep config.toml + progress.md tracked)
 .ralph-tui/session*.json
+.ralph-tui/iterations/
+.ralph-tui/reports/

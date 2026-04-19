@@ -29,3 +29,4 @@ learnset = [{
 catch_rate = 0.42
 xp_yield = 28
 sprite_frame = 103
+sprite_src = "res://assets/creatures/monsters/goblin_slinger.png"

@@ -57,6 +57,11 @@ fit_content = true
 custom_minimum_size = Vector2(0, 60)
 text = ""
 
+[node name="Choices" type="VBoxContainer" parent="Root/Margin/Panel/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 2
+visible = false
+
 [node name="Hint" type="Label" parent="Root/Margin/Panel/VBox"]
 layout_mode = 2
 theme_type_variation = &"mono"

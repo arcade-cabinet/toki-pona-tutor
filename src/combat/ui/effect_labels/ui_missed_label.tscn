@@ -1,6 +1,4 @@
-[gd_scene load_steps=5 format=3 uid="uid://dxyw5j7wr56hl"]
-
-[ext_resource type="Theme" uid="uid://dgb8v5sh8ropf" path="res://src/combat/ui/ui_combat.theme" id="1_n0c04"]
+[gd_scene load_steps=4 format=3 uid="uid://dxyw5j7wr56hl"]
 
 [sub_resource type="Animation" id="Animation_q0l6f"]
 length = 0.001
@@ -91,9 +89,8 @@ offset_top = -62.0
 offset_right = 72.0
 grow_horizontal = 2
 grow_vertical = 2
-theme = ExtResource("1_n0c04")
 theme_override_constants/outline_size = 24
-text = "Miss!"
+text = "pakala"
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {

@@ -1,7 +1,11 @@
 {
   "id": "waso_sewi",
-  "name": { "en": "waso" },
-  "description": { "en": "The birds are red." },
+  "name": {
+    "en": "waso"
+  },
+  "description": {
+    "en": "The birds are red."
+  },
   "type": "wawa",
   "base_stats": {
     "hp": 40,
@@ -10,12 +14,25 @@
     "speed": 58
   },
   "learnset": [
-    { "level": 1, "move_id": "utala_lili" },
-    { "level": 1, "move_id": "wawa_waso" },
-    { "level": 6, "move_id": "utala" },
-    { "level": 12, "move_id": "kiwen_wawa" }
+    {
+      "level": 1,
+      "move_id": "utala_lili"
+    },
+    {
+      "level": 1,
+      "move_id": "wawa_waso"
+    },
+    {
+      "level": 6,
+      "move_id": "utala"
+    },
+    {
+      "level": 12,
+      "move_id": "kiwen_wawa"
+    }
   ],
   "catch_rate": 0.4,
   "xp_yield": 40,
-  "sprite_frame": 121
+  "sprite_frame": 121,
+  "sprite_src": "res://assets/creatures/monsters/orc_soldier_unarmoured.png"
 }

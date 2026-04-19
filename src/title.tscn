@@ -1,0 +1,155 @@
+[gd_scene load_steps=2 format=3]
+
+[ext_resource type="Script" path="res://src/title.gd" id="1_title"]
+
+[node name="Title" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+script = ExtResource("1_title")
+
+[node name="Background" type="ColorRect" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color(0.659, 0.847, 0.91, 1)
+
+[node name="TitleBlock" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -480.0
+offset_top = 120.0
+offset_right = 480.0
+offset_bottom = 360.0
+grow_horizontal = 2
+alignment = 1
+theme_override_constants/separation = 12
+
+[node name="Title" type="Label" parent="TitleBlock"]
+layout_mode = 2
+theme_type_variation = &"heading"
+horizontal_alignment = 1
+text = "poki soweli"
+
+[node name="Subtitle" type="Label" parent="TitleBlock"]
+layout_mode = 2
+horizontal_alignment = 1
+text = "a toki pona learning adventure"
+
+[node name="Menu" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -180.0
+offset_top = 40.0
+offset_right = 180.0
+offset_bottom = 280.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/separation = 14
+
+[node name="Continue" type="Button" parent="Menu"]
+layout_mode = 2
+size_flags_horizontal = 3
+custom_minimum_size = Vector2(0, 48)
+text = "o awen  (Continue)"
+visible = false
+
+[node name="Primary" type="Button" parent="Menu"]
+layout_mode = 2
+size_flags_horizontal = 3
+custom_minimum_size = Vector2(0, 48)
+text = "o open  (New Game)"
+
+[node name="Settings" type="Button" parent="Menu"]
+layout_mode = 2
+size_flags_horizontal = 3
+custom_minimum_size = Vector2(0, 48)
+text = "nasin  (Settings)"
+
+[node name="Quit" type="Button" parent="Menu"]
+layout_mode = 2
+size_flags_horizontal = 3
+custom_minimum_size = Vector2(0, 48)
+text = "o pini  (Quit)"
+
+[node name="SettingsPanel" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+visible = false
+
+[node name="Dim" type="ColorRect" parent="SettingsPanel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+color = Color(0, 0, 0, 0.45)
+
+[node name="Margin" type="MarginContainer" parent="SettingsPanel"]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -260.0
+offset_top = -120.0
+offset_right = 260.0
+offset_bottom = 120.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 16
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 16
+
+[node name="Panel" type="PanelContainer" parent="SettingsPanel/Margin"]
+layout_mode = 2
+theme_type_variation = &"dialog"
+
+[node name="VBox" type="VBoxContainer" parent="SettingsPanel/Margin/Panel"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="Heading" type="Label" parent="SettingsPanel/Margin/Panel/VBox"]
+layout_mode = 2
+horizontal_alignment = 1
+text = "nasin  (Settings)"
+
+[node name="VolumeRow" type="HBoxContainer" parent="SettingsPanel/Margin/Panel/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 12
+
+[node name="Label" type="Label" parent="SettingsPanel/Margin/Panel/VBox/VolumeRow"]
+layout_mode = 2
+custom_minimum_size = Vector2(120, 0)
+text = "kalama  (Volume)"
+
+[node name="Slider" type="HSlider" parent="SettingsPanel/Margin/Panel/VBox/VolumeRow"]
+layout_mode = 2
+size_flags_horizontal = 3
+min_value = 0.0
+max_value = 100.0
+step = 1.0
+value = 100.0
+
+[node name="Value" type="Label" parent="SettingsPanel/Margin/Panel/VBox/VolumeRow"]
+layout_mode = 2
+theme_type_variation = &"mono"
+custom_minimum_size = Vector2(48, 0)
+horizontal_alignment = 2
+text = "100%"
+
+[node name="Back" type="Button" parent="SettingsPanel/Margin/Panel/VBox"]
+layout_mode = 2
+custom_minimum_size = Vector2(0, 40)
+text = "o tawa monsi  (Back)"

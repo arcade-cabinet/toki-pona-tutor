@@ -4,32 +4,32 @@
 ## one of their Battlers.
 class_name UIBattlerLifeBar extends TextureProgressBar
 
-# Rate of the animation relative to `max_value`. A value of 1.0 means the animation fills the entire
-# bar in one second.
-@export var fill_rate := 0.5
+const TWEEN_DURATION := 0.4
 
-@export_range(0, 1.0) var danger_cutoff: = 0.2
+const COLOR_HEALTHY := Color(0.33, 0.83, 0.36)
+const COLOR_CAUTION := Color(0.96, 0.69, 0.18)
+const COLOR_DANGER := Color(0.87, 0.22, 0.22)
+
+@export_range(0, 1.0) var caution_cutoff := 0.5
+@export_range(0, 1.0) var danger_cutoff := 0.2
 
 # When this value changes, the bar smoothly animates towards it using a tween.
 # See the setter function below for the details.
 var target_value := 0.0:
 	set(new_value):
-		# If the `amount` is lower than the current `target_value`, it means the battler lost 
+		# If the `amount` is lower than the current `target_value`, it means the battler lost
 		# health.
 		if target_value > new_value:
 			_bar_anim.play("damage")
-		
+
 		target_value = new_value
 		if _tween:
 			_tween.kill()
-		
-		var duration: float = abs(target_value - value) / max_value * fill_rate
-		_tween = create_tween().set_trans(Tween.TRANS_QUAD)
-		_tween.tween_property(self, "value", target_value, duration)
-		_tween.tween_callback(
-			func():
-				if value < danger_cutoff * max_value:
-					_bar_anim.play("danger")
+
+		_tween = create_tween().set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
+		_tween.tween_property(self, "value", target_value, TWEEN_DURATION)
+		_tween.parallel().tween_property(
+			self, "tint_progress", _color_for_value(target_value), TWEEN_DURATION
 		)
 
 var is_highlighted: = false:
@@ -57,6 +57,21 @@ func _ready() -> void:
 
 func setup(battler_name: String, max_hp: int, start_hp: int) -> void:
 	_name_label.text = battler_name
-	
+
 	max_value = max_hp
 	value = start_hp
+	# Seed target_value so the first HP decrease triggers the damage
+	# animation via the setter's target_value > new_value comparison.
+	target_value = start_hp
+	tint_progress = _color_for_value(start_hp)
+
+
+func _color_for_value(v: float) -> Color:
+	if max_value <= 0.0:
+		return COLOR_HEALTHY
+	var ratio := v / max_value
+	if ratio <= danger_cutoff:
+		return COLOR_DANGER
+	if ratio <= caution_cutoff:
+		return COLOR_CAUTION
+	return COLOR_HEALTHY

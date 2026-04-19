@@ -33,21 +33,49 @@ beats = [{
 "en": "Choose one.",
 "tp": "o wile jo e ijo wan."
 }
-}, {
-"glyph": "wawa",
-"mood": "excited",
-"text": {
-"en": "You are so strong.",
-"tp": "sina wawa a."
-}
 }]
 trigger_set_flags = {
 "starter_chosen": true
 }
 trigger_give_item_id = "poki_lili"
 trigger_give_item_count = 3
-trigger_add_party_species = "soweli_seli"
-trigger_add_party_level = 5
+choices = [{
+"glyph": "seli",
+"label": {
+"en": "fire-beast",
+"tp": "soweli seli"
+},
+"triggers": {
+"add_party": {
+"level": 5.0,
+"species_id": "soweli_seli"
+}
+}
+}, {
+"glyph": "telo",
+"label": {
+"en": "water-beast",
+"tp": "soweli telo"
+},
+"triggers": {
+"add_party": {
+"level": 5.0,
+"species_id": "soweli_telo"
+}
+}
+}, {
+"glyph": "kasi",
+"label": {
+"en": "good-plant",
+"tp": "kasi pona"
+},
+"triggers": {
+"add_party": {
+"level": 5.0,
+"species_id": "kasi_pona"
+}
+}
+}]
 
 [sub_resource type="Resource" id="Resource_nqcwh"]
 script = ExtResource("1_kmyl5")

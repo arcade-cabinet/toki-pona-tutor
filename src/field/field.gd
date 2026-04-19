@@ -36,11 +36,18 @@ func _ready() -> void:
 	
 	Player.gamepiece = player_default_gamepiece
 	
-	# The field state must pause/unpause with combat accordingly.
-	# Note that pausing/unpausing input is already wrapped up in triggers, which are what will
-	# initiate combat.
-	CombatEvents.combat_initiated.connect(func(): hide())
-	CombatEvents.combat_finished.connect(func(_is_victory): show())
+	# The field state must pause/unpause with combat accordingly. Input is paused via the
+	# FieldEvents bus so PlayerController and FieldCursor disable themselves for the duration of the
+	# battle; the player's Gamepiece stays parked on its pre-combat cell, and combat_finished
+	# simply reveals the field and re-enables input — no scene reload, no teleport.
+	CombatEvents.combat_initiated.connect(func() -> void:
+		FieldEvents.input_paused.emit(true)
+		hide()
+	)
+	CombatEvents.combat_finished.connect(func(_is_victory: bool) -> void:
+		show()
+		FieldEvents.input_paused.emit(false)
+	)
 	
 	Camera.scale = scale
 	Camera.make_current()

@@ -17,7 +17,17 @@ extends Node2D
 @export var region_id: String = ""
 
 ## Tileset resource used for painting. Defaults to kenney_terrain.tres.
+## Acts as the fallback when the region's biome has no dedicated tileset in
+## BIOME_TILESETS below.
 @export var tileset: TileSet
+
+# Biome → tileset resource path. RegionBuilder consults this after resolving
+# `region.biome`, falling back to the scene-assigned `tileset` export if the
+# biome isn't listed or the path fails to load.
+const BIOME_TILESETS := {
+	"town":   "res://overworld/maps/tilesets/kenney_terrain.tres",
+	"forest": "res://content/tilesets/forest_summer.tres",
+}
 
 ## Cell size — matches the Kenney tilesheet tile size.
 @export var cell_size: Vector2i = Vector2i(16, 16)
@@ -57,6 +67,11 @@ func _ready() -> void:
 		push_error("[RegionBuilder] unknown region id '%s'" % region_id)
 		return
 	print("[RegionBuilder] building %s (%dx%d)" % [region.id, region.width, region.height])
+	# Record the active region so defeat whiteout knows where to warp the
+	# player back to. Warp transitions also land here, so this keeps the
+	# save layer in sync with the live scene.
+	if TokiSave:
+		TokiSave.current_region_id = region.id
 	_build()
 
 
@@ -69,6 +84,7 @@ func _build() -> void:
 	_spawn_player()
 	_spawn_encounter_watcher()
 	_spawn_warp_watcher()
+	_spawn_field_trigger_watcher()
 
 
 func _build_sky() -> void:
@@ -84,14 +100,32 @@ func _build_sky() -> void:
 func _build_tilemap() -> void:
 	_tilemap = GameboardLayer.new()
 	_tilemap.name = "Ground"
-	if tileset != null:
-		_tilemap.tile_set = tileset
+	var resolved := _resolve_tileset()
+	if resolved != null:
+		# Only the tilemap gets the biome TileSet. The scene-assigned
+		# `tileset` remains the NPC/sign atlas used by
+		# _find_town_texture / _find_dungeon_texture, which would
+		# otherwise lose their atlas sources in forest regions.
+		_tilemap.tile_set = resolved
 	add_child(_tilemap)
 
 	# Paint each layer. Higher-depth layers render on top via z_index.
 	for i in region.layers.size():
 		var layer: Dictionary = region.layers[i]
 		_paint_layer(layer, int(layer.get("depth", i)))
+
+
+# Pick the TileSet for this region. Biome wins over the scene-assigned default
+# so the same RegionBuilder node can host town or forest regions without the
+# scene needing to know. Unknown biomes quietly fall back to the export.
+func _resolve_tileset() -> TileSet:
+	var biome_path: String = BIOME_TILESETS.get(region.biome, "")
+	if biome_path != "" and ResourceLoader.exists(biome_path):
+		var loaded = load(biome_path)
+		if loaded is TileSet:
+			return loaded
+		push_warning("[RegionBuilder] biome '%s' tileset at %s not a TileSet" % [region.biome, biome_path])
+	return tileset
 
 
 func _paint_layer(layer: Dictionary, depth: int) -> void:
@@ -119,7 +153,7 @@ func _paint_layer(layer: Dictionary, depth: int) -> void:
 			if key_variant == null:
 				continue
 			var key := String(key_variant)
-			var resolved := TileKeys.resolve(key)
+			var resolved := TileKeys.resolve(key, region.biome)
 			var source: int = resolved.get("source", 0)
 			var coords: Vector2i = resolved.get("coords", Vector2i.ZERO)
 			tmap.set_cell(Vector2i(x, y), source, coords)
@@ -233,8 +267,14 @@ func _select_dialog_for(npc_id: String) -> DialogResource:
 		var flags_ok := true
 		for key in d.when_flags:
 			var required: bool = d.when_flags[key]
-			# Temporary: read from Engine.get_meta(); save system wiring later.
-			var current: bool = bool(Engine.get_meta("flag_" + key, false))
+			# Prefer persisted flags from TokiSave (survive Continue boots);
+			# fall back to Engine.meta for intra-session state that hasn't
+			# hit the save layer yet (rare — dialog_overlay writes both).
+			var current: bool
+			if TokiSave != null:
+				current = TokiSave.get_flag(key)
+			else:
+				current = bool(Engine.get_meta("flag_" + key, false))
 			if current != required:
 				flags_ok = false
 				break
@@ -282,6 +322,13 @@ func _spawn_warp_watcher() -> void:
 	warp_watcher.name = "WarpWatcher"
 	add_child(warp_watcher)
 	warp_watcher.initialize(region)
+
+
+func _spawn_field_trigger_watcher() -> void:
+	var trigger_watcher := FieldTriggerWatcher.new()
+	trigger_watcher.name = "FieldTriggerWatcher"
+	add_child(trigger_watcher)
+	trigger_watcher.initialize(region)
 
 
 func _spawn_player() -> void:

@@ -4,17 +4,37 @@ extends RefCounted
 # Maps authored tile keys (short strings in content/spine/regions/*.json)
 # to Godot TileMapLayer source_id + atlas_coords.
 #
-# The Kenney tilesets are loaded in overworld/maps/tilesets/kenney_terrain.tres:
-#   source 0 = town_tilemap.png (12x11 Tiny Town)
-#   source 1 = dungeon_tilemap.png (12x11 Tiny Dungeon — characters, items)
+# Two tilesets are supported, selected per-region by biome:
 #
-# Tile frame index → atlas coords: (frame % 12, frame / 12).
-# Our historical Phaser frame constants (src/game/tiles.ts from the web era)
-# told us which frame each key points at. We translate those to atlas coords
-# here, so the mapping stays source-of-truth in one place.
+#   biome "town" (default) → overworld/maps/tilesets/kenney_terrain.tres
+#     source 0 = town_tilemap.png    (12x11 Kenney Tiny Town)
+#     source 1 = dungeon_tilemap.png (12x11 Kenney Tiny Dungeon)
+#
+#   biome "forest"        → content/tilesets/forest_summer.tres
+#     source 0 = Lonesome_Forest_FLOOR.png                (7x5)
+#     source 1 = Lonesome_Forest_DETAIL_OBJECTS.png       (7x8, tall grass + foliage)
+#     source 2 = Lonesome_Forest_COBBLESTONE_PATH.png     (7x7)
+#     source 3 = Lonesome_Forest_WALLS_and_CLIFF_EDGES.png(7x10, solid)
+#     source 4 = Lonesome_Forest_RIVER_and_WATER_EDGES.png(7x7, solid)
+#     source 5 = Trees-Expanded_TEMPERATE.png             (12x25, solid)
+#
+# Tile frame index → atlas coords: (frame % cols, frame / cols).
+# The mapping stays source-of-truth here; region_builder + encounter_watcher
+# query via resolve(key, biome) / is_solid(key, biome) / is_tall_grass(key, biome).
 
 const SOURCE_TOWN := 0
 const SOURCE_DUNGEON := 1
+
+# forest_summer source ids
+const SOURCE_FOREST_FLOOR := 0
+const SOURCE_FOREST_DETAIL := 1
+const SOURCE_FOREST_PATH := 2
+const SOURCE_FOREST_WALL := 3
+const SOURCE_FOREST_WATER := 4
+const SOURCE_FOREST_TREE := 5
+
+const BIOME_TOWN := "town"
+const BIOME_FOREST := "forest"
 
 
 # frame_to_coords(25) -> Vector2i(1, 2)  (25 = 2*12 + 1)
@@ -105,20 +125,97 @@ const KEYS: Dictionary = {
 }
 
 
-static func resolve(key: String) -> Dictionary:
+# Forest-biome key overrides. Entries in this table take precedence over KEYS
+# when resolve(..., BIOME_FOREST) is called. Source ids are forest_summer-local
+# (see SOURCE_FOREST_* constants above), matching content/tilesets/forest_summer.tres.
+#
+# Only the keys that differ from the Kenney town mapping need to appear here;
+# anything not listed falls back to the town entry in KEYS and will render with
+# the town atlas' source ids — which is not what a forest region wants, so the
+# forest table should stay exhaustive for keys likely to appear in forest maps.
+const FOREST_KEYS: Dictionary = {
+	# Floor grass — plain walkable grass comes from FLOOR (7x5 grid).
+	"grass":         {"source": SOURCE_FOREST_FLOOR,  "coords": Vector2i(0, 0)},
+	"g":             {"source": SOURCE_FOREST_FLOOR,  "coords": Vector2i(0, 0)},
+	"grass_detail":  {"source": SOURCE_FOREST_FLOOR,  "coords": Vector2i(1, 0)},
+	"gd":            {"source": SOURCE_FOREST_FLOOR,  "coords": Vector2i(1, 0)},
+	"grass_flowers": {"source": SOURCE_FOREST_FLOOR,  "coords": Vector2i(2, 0)},
+	"gf":            {"source": SOURCE_FOREST_FLOOR,  "coords": Vector2i(2, 0)},
+	"dirt":          {"source": SOURCE_FOREST_FLOOR,  "coords": Vector2i(0, 4)},
+
+	# Tall grass / foliage — comes from DETAIL_OBJECTS (7x8 grid). Walkable, fires encounters.
+	"tall_grass":    {"source": SOURCE_FOREST_DETAIL, "coords": Vector2i(0, 0), "tall_grass": true},
+	"grass_tall":    {"source": SOURCE_FOREST_DETAIL, "coords": Vector2i(0, 0), "tall_grass": true},
+	"sprout":        {"source": SOURCE_FOREST_DETAIL, "coords": Vector2i(1, 0)},
+	"bush":          {"source": SOURCE_FOREST_DETAIL, "coords": Vector2i(2, 0), "solid": true},
+	"bush_o":        {"source": SOURCE_FOREST_DETAIL, "coords": Vector2i(3, 0), "solid": true},
+	"mushroom":      {"source": SOURCE_FOREST_DETAIL, "coords": Vector2i(4, 0)},
+
+	# Paths — COBBLESTONE_PATH (7x7 grid).
+	"path":    {"source": SOURCE_FOREST_PATH, "coords": Vector2i(1, 1)},
+	"path_tl": {"source": SOURCE_FOREST_PATH, "coords": Vector2i(0, 0)},
+	"path_tm": {"source": SOURCE_FOREST_PATH, "coords": Vector2i(1, 0)},
+	"path_tr": {"source": SOURCE_FOREST_PATH, "coords": Vector2i(2, 0)},
+	"path_ml": {"source": SOURCE_FOREST_PATH, "coords": Vector2i(0, 1)},
+	"path_mr": {"source": SOURCE_FOREST_PATH, "coords": Vector2i(2, 1)},
+	"path_bl": {"source": SOURCE_FOREST_PATH, "coords": Vector2i(0, 2)},
+	"path_bm": {"source": SOURCE_FOREST_PATH, "coords": Vector2i(1, 2)},
+	"path_br": {"source": SOURCE_FOREST_PATH, "coords": Vector2i(2, 2)},
+
+	# Trees — Trees-Expanded_TEMPERATE (12x25 grid). All solid.
+	"tree":   {"source": SOURCE_FOREST_TREE, "coords": Vector2i(0, 0), "solid": true},
+	"tree_g": {"source": SOURCE_FOREST_TREE, "coords": Vector2i(0, 0), "solid": true},
+	"tree_y": {"source": SOURCE_FOREST_TREE, "coords": Vector2i(1, 0), "solid": true},
+	"tree_o": {"source": SOURCE_FOREST_TREE, "coords": Vector2i(2, 0), "solid": true},
+
+	# Walls / cliffs — all solid.
+	"stone": {"source": SOURCE_FOREST_WALL, "coords": Vector2i(0, 0), "solid": true},
+	"cliff": {"source": SOURCE_FOREST_WALL, "coords": Vector2i(1, 0), "solid": true},
+	"wall":  {"source": SOURCE_FOREST_WALL, "coords": Vector2i(0, 0), "solid": true},
+
+	# Water — impassable, uses river atlas (no color_overlay needed; the sprite IS water).
+	"water":         {"source": SOURCE_FOREST_WATER, "coords": Vector2i(1, 1), "solid": true},
+	"water_deep":    {"source": SOURCE_FOREST_WATER, "coords": Vector2i(2, 1), "solid": true},
+	"water_shallow": {"source": SOURCE_FOREST_WATER, "coords": Vector2i(0, 1)},
+}
+
+
+# Look up the dict for a key in the chosen biome. Forest falls back to the town
+# table when a key isn't in FOREST_KEYS so rare town-only props still render.
+static func _lookup(key: String, biome: String) -> Variant:
+	if biome == BIOME_FOREST and FOREST_KEYS.has(key):
+		return FOREST_KEYS[key]
 	if KEYS.has(key):
 		return KEYS[key]
+	return null
+
+
+static func resolve(key: String, biome: String = BIOME_TOWN) -> Dictionary:
+	var entry: Variant = _lookup(key, biome)
+	if entry is Dictionary:
+		return entry
 	# Fallback to grass so a typo doesn't crash the scene.
-	return {"source": 0, "coords": Vector2i(0, 0)}
+	if biome == BIOME_FOREST:
+		return {"source": SOURCE_FOREST_FLOOR, "coords": Vector2i(0, 0)}
+	return {"source": SOURCE_TOWN, "coords": Vector2i(0, 0)}
 
 
-static func is_solid(key: String) -> bool:
-	return KEYS.get(key, {}).get("solid", false)
+static func is_solid(key: String, biome: String = BIOME_TOWN) -> bool:
+	var entry: Variant = _lookup(key, biome)
+	if entry is Dictionary:
+		return entry.get("solid", false)
+	return false
 
 
-static func is_tall_grass(key: String) -> bool:
-	return KEYS.get(key, {}).get("tall_grass", false)
+static func is_tall_grass(key: String, biome: String = BIOME_TOWN) -> bool:
+	var entry: Variant = _lookup(key, biome)
+	if entry is Dictionary:
+		return entry.get("tall_grass", false)
+	return false
 
 
-static func color_overlay(key: String):
-	return KEYS.get(key, {}).get("color_overlay", null)
+static func color_overlay(key: String, biome: String = BIOME_TOWN) -> Variant:
+	var entry: Variant = _lookup(key, biome)
+	if entry is Dictionary:
+		return entry.get("color_overlay", null)
+	return null

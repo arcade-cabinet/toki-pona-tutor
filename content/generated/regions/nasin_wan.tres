@@ -52,6 +52,7 @@ description_en = "The path was narrow."
 description_tp = "nasin li lili."
 width = 32
 height = 10
+biome = "forest"
 layers = [{
 "depth": 0.0,
 "name": "ground",
@@ -68,17 +69,22 @@ encounters = [{
 "max_level": 5.0,
 "min_level": 3.0,
 "species_id": "pipi_kon",
-"weight": 0.5
+"weight": 0.4
+}, {
+"max_level": 6.0,
+"min_level": 3.0,
+"species_id": "waso_lili",
+"weight": 0.25
 }, {
 "max_level": 7.0,
 "min_level": 5.0,
 "species_id": "akesi_ma",
-"weight": 0.3
+"weight": 0.2
 }, {
 "max_level": 6.0,
 "min_level": 3.0,
 "species_id": "kala_lili",
-"weight": 0.2
+"weight": 0.15
 }]
 npcs = Array[ExtResource("2_l8v5h")]([SubResource("Resource_715ff")])
 signs = [{
@@ -112,6 +118,15 @@ warps = [{
 "to_region": "nena_sewi",
 "to_tile": {
 "x": 1.0,
+"y": 5.0
+}
+}]
+rival_fights = [{
+"flag": "rival_jan_ike_defeated",
+"id": "jan_ike_rival_east",
+"npc_id": "jan_ike",
+"tile": {
+"x": 30.0,
 "y": 5.0
 }
 }]

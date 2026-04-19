@@ -1,7 +1,11 @@
 {
   "id": "waso_lili",
-  "name": { "en": "waso" },
-  "description": { "en": "The birds are red." },
+  "name": {
+    "en": "waso"
+  },
+  "description": {
+    "en": "The birds are red."
+  },
   "type": "wawa",
   "base_stats": {
     "hp": 36,
@@ -10,12 +14,25 @@
     "speed": 52
   },
   "learnset": [
-    { "level": 1, "move_id": "utala_lili" },
-    { "level": 4, "move_id": "seli_lili" },
-    { "level": 10, "move_id": "utala" },
-    { "level": 16, "move_id": "seli_wawa" }
+    {
+      "level": 1,
+      "move_id": "utala_lili"
+    },
+    {
+      "level": 4,
+      "move_id": "seli_lili"
+    },
+    {
+      "level": 10,
+      "move_id": "utala"
+    },
+    {
+      "level": 16,
+      "move_id": "seli_wawa"
+    }
   ],
   "catch_rate": 0.4,
   "xp_yield": 32,
-  "sprite_frame": 120
+  "sprite_frame": 120,
+  "sprite_src": "res://assets/creatures/monsters/skelly_archer.png"
 }

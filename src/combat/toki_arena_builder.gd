@@ -14,6 +14,7 @@ const BATTLER_ANIM_SCENE: PackedScene = preload("res://src/combat/battlers/toki_
 const AI_SCENE: PackedScene = preload("res://src/combat/CombatAI.tscn")
 const ATTACK_ACTION_SCRIPT := preload("res://src/combat/actions/battler_action_attack.gd")
 const POKI_THROW_SCRIPT := preload("res://src/combat/actions/poki_throw_action.gd")
+const FLEE_ACTION_SCRIPT := preload("res://src/combat/actions/flee_action.gd")
 
 # Battler screen positions — mirroring open-rpg's layout.
 # Player on the right (x ~1370), enemy on the left (x ~465).
@@ -39,9 +40,90 @@ static func build_arena_for_encounter(
 	if err != OK:
 		push_error("[ArenaBuilder] failed to pack arena: %s" % error_string(err))
 		return null
-	# The source node is no longer needed.
-	arena_node.queue_free()
+	# The source node is no longer needed. Use free() (sync) instead of
+	# queue_free() so the node is gone by return; the PackedScene already
+	# owns a serialized copy and we don't leave a dangling tree node.
+	arena_node.free()
 	return packed
+
+
+# Build a rival-fight arena from an NPC team entry and the player's lead.
+# The NPC's first team slot is the enemy battler (set-piece currently
+# supports 1v1 rivals per US-006). Returns a PackedScene so
+# FieldEvents.combat_triggered carries it unchanged.
+static func build_arena_for_rival(
+	enemy_species: SpeciesResource,
+	enemy_level: int,
+	enemy_move_ids: Array,
+	enemy_name: String,
+	player_species: SpeciesResource,
+	player_level: int
+) -> PackedScene:
+	var arena_node: Node = _build_rival_arena_node(
+		enemy_species, enemy_level, enemy_move_ids, enemy_name,
+		player_species, player_level,
+	)
+	if arena_node == null:
+		return null
+	_set_owner_recursive(arena_node, arena_node)
+	var packed := PackedScene.new()
+	var err: int = packed.pack(arena_node)
+	if err != OK:
+		push_error("[ArenaBuilder] failed to pack rival arena: %s" % error_string(err))
+		return null
+	arena_node.free()
+	return packed
+
+
+static func _build_rival_arena_node(
+	enemy_species: SpeciesResource,
+	enemy_level: int,
+	enemy_move_ids: Array,
+	enemy_name: String,
+	player_species: SpeciesResource,
+	player_level: int
+) -> Node:
+	if enemy_species == null or player_species == null:
+		push_error("[ArenaBuilder] missing species for rival arena")
+		return null
+	var arena: Node = BASE_ARENA.instantiate()
+	var battlers_root: Node = arena.get_node("Battlers")
+	# Rivals yield XP equal to the species' per-encounter yield — keeps
+	# rewards consistent with wild encounters of the same creature.
+	if arena is CombatArena:
+		(arena as CombatArena).xp_yield = int(enemy_species.xp_yield)
+
+	var enemy: Battler = _build_battler(enemy_species, enemy_level, false)
+	# Override move list from authored NPC team when present.
+	if enemy_move_ids is Array and not enemy_move_ids.is_empty():
+		enemy.actions = _build_actions_from_ids(enemy_move_ids)
+	var safe_name: String = enemy_name if enemy_name.length() > 0 else enemy_species.id
+	enemy.name = "Rival_%s" % safe_name.replace(" ", "_")
+	enemy.position = ENEMY_POS
+	battlers_root.add_child(enemy)
+
+	var player: Battler = _build_battler(player_species, player_level, true)
+	# No poki-throw action for rivals — can't catch a rival's creature.
+	player.name = "Player_%s" % player_species.id
+	player.position = PLAYER_POS
+	battlers_root.add_child(player)
+	return arena
+
+
+static func _build_actions_from_ids(move_ids: Array) -> Array[BattlerAction]:
+	var actions: Array[BattlerAction] = []
+	var world_autoload: Node = Engine.get_main_loop().root.get_node_or_null("World")
+	for id_variant in move_ids:
+		var id := String(id_variant)
+		if id == "": continue
+		var move: MoveResource = null
+		if world_autoload != null and world_autoload.has_method("find_move"):
+			move = world_autoload.find_move(id)
+		if move == null: continue
+		actions.append(_build_action_from_move(move))
+	if actions.is_empty():
+		actions.append(_basic_attack())
+	return actions
 
 
 static func _set_owner_recursive(node: Node, owner: Node) -> void:
@@ -64,6 +146,12 @@ static func _build_arena_node(
 	var arena: Node = BASE_ARENA.instantiate()
 	var battlers_root: Node = arena.get_node("Battlers")
 
+	# Propagate XP yield so Combat.gd can drive the victory panel without
+	# needing to reach back into the spawner on combat_finished.
+	if arena is CombatArena:
+		(arena as CombatArena).xp_yield = int(wild_species.xp_yield)
+		(arena as CombatArena).allow_flee = true
+
 	# Enemy battler (left side, AI-controlled).
 	var enemy: Battler = _build_battler(wild_species, wild_level, false)
 	enemy.name = "Wild_%s" % wild_species.id
@@ -77,6 +165,9 @@ static func _build_arena_node(
 	poki.wild_species_id = wild_species.id
 	poki.poki_power = 1.0  # standard; UI can tune based on player inventory
 	player.actions.append(poki)
+	# Wild battles allow retreat — rivals do not (see _build_rival_arena_node).
+	var flee: FleeAction = FLEE_ACTION_SCRIPT.new()
+	player.actions.append(flee)
 	player.name = "Player_%s" % player_species.id
 	player.position = PLAYER_POS
 	battlers_root.add_child(player)
@@ -98,17 +189,23 @@ static func _build_battler(sp: SpeciesResource, level: int, is_player: bool) -> 
 	# Defer sprite-frame configuration until BattlerAnim exists in-tree.
 	# Battler.gd instantiates battler_anim_scene and adds it as a child
 	# during its _ready(), so we await that.
+	var sprite_src := sp.sprite_src
+	var sprite_frame := sp.sprite_frame
 	battler.ready.connect(
-		func(): _configure_anim.call_deferred(battler, sp.sprite_frame),
+		func(): _configure_anim.call_deferred(battler, sprite_src, sprite_frame),
 		CONNECT_ONE_SHOT,
 	)
 	return battler
 
 
-static func _configure_anim(battler: Battler, sprite_frame: int) -> void:
+static func _configure_anim(battler: Battler, sprite_src: String, sprite_frame: int) -> void:
 	for child in battler.get_children():
 		if child is TokiBattlerAnim:
-			(child as TokiBattlerAnim).set_sprite_frame(sprite_frame)
+			var anim := child as TokiBattlerAnim
+			if sprite_src != "":
+				anim.set_sprite_src(sprite_src)
+			else:
+				anim.set_sprite_frame(sprite_frame)
 			return
 
 

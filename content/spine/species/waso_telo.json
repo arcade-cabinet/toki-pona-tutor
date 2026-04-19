@@ -1,7 +1,11 @@
 {
   "id": "waso_telo",
-  "name": { "en": "waso" },
-  "description": { "en": "Birds drink water." },
+  "name": {
+    "en": "waso"
+  },
+  "description": {
+    "en": "Birds drink water."
+  },
   "type": "telo",
   "base_stats": {
     "hp": 38,
@@ -10,12 +14,25 @@
     "speed": 50
   },
   "learnset": [
-    { "level": 1, "move_id": "telo_lili" },
-    { "level": 1, "move_id": "utala_lili" },
-    { "level": 6, "move_id": "wawa_waso" },
-    { "level": 12, "move_id": "telo_wawa" }
+    {
+      "level": 1,
+      "move_id": "telo_lili"
+    },
+    {
+      "level": 1,
+      "move_id": "utala_lili"
+    },
+    {
+      "level": 6,
+      "move_id": "wawa_waso"
+    },
+    {
+      "level": 12,
+      "move_id": "telo_wawa"
+    }
   ],
   "catch_rate": 0.42,
   "xp_yield": 28,
-  "sprite_frame": 103
+  "sprite_frame": 103,
+  "sprite_src": "res://assets/creatures/monsters/goblin_slinger.png"
 }
