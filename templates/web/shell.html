@@ -147,6 +147,11 @@
     const GODOT_CONFIG = $GODOT_CONFIG;
     GODOT_CONFIG.canvas = canvas;
     GODOT_CONFIG.focusCanvas = true;
+    // Adaptive: Godot resizes the drawing buffer to the canvas CSS box
+    // each frame. Without this, the engine sets canvas.width/height to
+    // the project viewport (1920x1080) and only part of it is visible
+    // through the CSS-constrained box.
+    GODOT_CONFIG.canvasResizePolicy = 2;
     GODOT_CONFIG.onProgress = function (current, total) {
       if (total > 0) {
         setProgress(current / total);

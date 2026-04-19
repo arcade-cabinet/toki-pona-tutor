@@ -46,9 +46,10 @@ func _rebuild() -> void:
 	var earned: Array = TokiSave.badges() if TokiSave else []
 	var count := 0
 	for id in BADGE_ORDER:
-		var has := id in earned
-		if has: count += 1
-		var slot := _build_slot(id, has)
+		var has_badge: bool = id in earned
+		if has_badge:
+			count += 1
+		var slot := _build_slot(id, has_badge)
 		_grid.add_child(slot)
 	_counter.text = "%d / %d badges" % [count, BADGE_ORDER.size()]
 

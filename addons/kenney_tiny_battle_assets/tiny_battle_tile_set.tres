@@ -1,6 +1,6 @@
 [gd_resource type="TileSet" load_steps=3 format=3 uid="uid://dcqsaqauus3w5"]
 
-[ext_resource type="Texture2D" uid="uid://db11mqf3kcyg5" path="res://addons/kenney_tiny_battle_assets/tilemap_packed.png" id="1_s14hs"]
+[ext_resource type="Texture2D" uid="uid://doihx4sk00goj" path="res://addons/kenney_tiny_battle_assets/tilemap_packed.png" id="1_s14hs"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_wawf7"]
 texture = ExtResource("1_s14hs")
