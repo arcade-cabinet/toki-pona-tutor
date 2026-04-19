@@ -1,22 +1,26 @@
 #!/usr/bin/env node
 /**
- * Validate every hand-authored Toki Pona line in shipped content against
- * the vendored Tatoeba corpus. Any `tp` value whose `en` counterpart does
- * not have an exact Tatoeba pair is flagged with the closest alternatives,
- * failing the build.
+ * Validate every translatable field in authored content against the vendored
+ * Tatoeba corpus. Fails with suggested replacements if any EN string has no
+ * canonical TP pair.
  *
- * This is the enforcement that keeps hallucinated TP out of the game.
- * Single-word phrases (common words in dictionary) are exempt — the whole
- * point of the corpus is to vet multi-word constructions.
+ * Sources scanned:
+ *   - src/content/spine/**.json (authored content, post-pivot source of truth)
+ *   - src/content/village.json (legacy, will be removed once spine is the only source)
+ *
+ * Single-word EN values are exempt — the dictionary is pre-vetted.
+ *
+ * This is the prebuild gate. Hand-authored Toki Pona cannot ship.
  */
-import { readFileSync, existsSync } from 'node:fs';
-import { resolve, dirname } from 'node:path';
+import { readFileSync, existsSync, readdirSync } from 'node:fs';
+import { resolve, dirname, join } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const root = resolve(__dirname, '..');
 const corpusPath = resolve(root, 'src/content/corpus/tatoeba.json');
-const villagePath = resolve(root, 'src/content/village.json');
+const spineDir = resolve(root, 'src/content/spine');
+const legacyVillagePath = resolve(root, 'src/content/village.json');
 
 if (!existsSync(corpusPath)) {
   console.error('[validate-tp] corpus missing — run scripts/fetch-tatoeba-corpus.mjs');
@@ -24,12 +28,15 @@ if (!existsSync(corpusPath)) {
 }
 
 const corpus = JSON.parse(readFileSync(corpusPath, 'utf8'));
-const village = JSON.parse(readFileSync(villagePath, 'utf8'));
 
 const norm = (s) =>
-  s.toLowerCase().trim().replace(/[.!?,"'\u2018\u2019\u201c\u201d]/g, '').replace(/\s+/g, ' ');
+  s
+    .toLowerCase()
+    .trim()
+    .replace(/[.!?,"'\u2018\u2019\u201c\u201d]/g, '')
+    .replace(/\s+/g, ' ');
 
-// Map: normalized-EN → Set of valid TP translations
+/** normalized-EN → Set of valid TP translations from the corpus */
 const enToTp = new Map();
 for (const { tp, en } of corpus) {
   const key = norm(en);
@@ -38,68 +45,110 @@ for (const { tp, en } of corpus) {
   enToTp.set(key, set);
 }
 
-// Collect every (tp, en) pair from village.json
-const pairs = [];
-const visit = (obj, path) => {
+const tokens = (s) => new Set(norm(s).split(' ').filter(Boolean));
+function closest(enText, k = 3) {
+  const t = tokens(enText);
+  const scored = [];
+  for (const entry of corpus) {
+    const u = tokens(entry.en);
+    let shared = 0;
+    for (const w of t) if (u.has(w)) shared++;
+    const score = shared / Math.max(t.size, u.size);
+    if (score > 0) scored.push({ score, entry });
+  }
+  scored.sort((a, b) => b.score - a.score);
+  return scored.slice(0, k).map((s) => s.entry);
+}
+
+/** Collect { tp, en, path } triples from a parsed JSON tree. */
+function collectPairs(obj, trail, out) {
   if (obj == null) return;
   if (Array.isArray(obj)) {
-    for (let i = 0; i < obj.length; i++) visit(obj[i], `${path}[${i}]`);
+    for (let i = 0; i < obj.length; i++) collectPairs(obj[i], `${trail}[${i}]`, out);
     return;
   }
   if (typeof obj === 'object') {
-    if (typeof obj.tp === 'string' && typeof obj.en === 'string') {
-      pairs.push({ tp: obj.tp, en: obj.en, path });
+    if (typeof obj.en === 'string') {
+      out.push({ en: obj.en, tp: typeof obj.tp === 'string' ? obj.tp : undefined, path: trail });
     }
-    for (const [k, v] of Object.entries(obj)) visit(v, `${path}.${k}`);
+    for (const [k, v] of Object.entries(obj)) collectPairs(v, `${trail}.${k}`, out);
   }
-};
-visit(village, 'village');
+}
 
-// Single-word TP (from dictionary) is exempt — it's already vetted.
-const isSingleWord = (s) => s.trim().split(/\s+/).length === 1;
+/** @returns list of absolute paths to *.json files under `dir`. */
+function walk(dir) {
+  if (!existsSync(dir)) return [];
+  const out = [];
+  const visit = (d) => {
+    for (const entry of readdirSync(d, { withFileTypes: true })) {
+      const p = join(d, entry.name);
+      if (entry.isDirectory()) visit(p);
+      else if (entry.isFile() && p.endsWith('.json')) out.push(p);
+    }
+  };
+  visit(dir);
+  return out;
+}
 
-// Tokenize a sentence into content words for fuzzy matching.
-const tokens = (s) => new Set(norm(s).split(' ').filter(Boolean));
-const overlap = (a, b) => {
-  let n = 0;
-  for (const w of a) if (b.has(w)) n++;
-  return n / Math.max(a.size, b.size);
-};
+const scanFiles = [...walk(spineDir)];
+if (existsSync(legacyVillagePath)) scanFiles.push(legacyVillagePath);
+
+if (scanFiles.length === 0) {
+  console.log('[validate-tp] no content to validate yet (spine + legacy village.json both empty)');
+  process.exit(0);
+}
 
 let errors = 0;
-for (const { tp, en, path } of pairs) {
-  if (isSingleWord(tp)) continue;
-  const candidates = enToTp.get(norm(en));
-  if (candidates && candidates.has(tp.trim())) continue;
+let checked = 0;
 
-  errors++;
-  console.error(`\n[validate-tp] ${path}`);
-  console.error(`  EN: "${en}"`);
-  console.error(`  TP authored: ${tp}`);
-  if (candidates && candidates.size > 0) {
-    console.error(`  TP accepted variants for that exact EN:`);
-    for (const c of candidates) console.error(`    - ${c}`);
-    continue;
-  }
-  // No exact EN match — suggest the 3 closest Tatoeba EN lines by token overlap
-  const enTok = tokens(en);
-  const scored = [];
-  for (const { tp: t, en: e } of corpus) {
-    const s = overlap(enTok, tokens(e));
-    if (s > 0) scored.push({ s, tp: t, en: e });
-  }
-  scored.sort((a, b) => b.s - a.s);
-  console.error(`  No exact Tatoeba EN match. Closest authoring targets:`);
-  for (const s of scored.slice(0, 3)) {
-    console.error(`    EN: "${s.en}"`);
-    console.error(`    TP:  ${s.tp}`);
+for (const file of scanFiles) {
+  const rel = file.replace(`${root}/`, '');
+  const body = JSON.parse(readFileSync(file, 'utf8'));
+  const pairs = [];
+  collectPairs(body, rel, pairs);
+  for (const { tp, en, path } of pairs) {
+    const isSingleWord = /^\S+$/.test(en);
+    if (isSingleWord) continue;
+    checked++;
+    const candidates = enToTp.get(norm(en));
+
+    if (!tp) {
+      // pre-translation pair — succeeds if any TP exists for this EN
+      if (!candidates || candidates.size === 0) {
+        errors++;
+        console.error(`\n[validate-tp] ${path}`);
+        console.error(`  EN: "${en}"`);
+        console.error(`  No canonical TP pair exists. Rewrite to one of:`);
+        for (const c of closest(en, 3)) {
+          console.error(`    EN: "${c.en}"`);
+          console.error(`    TP:  ${c.tp}`);
+        }
+      }
+      continue;
+    }
+
+    if (candidates && candidates.has(tp.trim())) continue;
+    errors++;
+    console.error(`\n[validate-tp] ${path}`);
+    console.error(`  EN: "${en}"`);
+    console.error(`  TP authored: ${tp}`);
+    if (candidates && candidates.size > 0) {
+      console.error(`  Accepted TP variants for this EN:`);
+      for (const c of candidates) console.error(`    - ${c}`);
+    } else {
+      console.error(`  No canonical TP for this EN. Closest rewrites:`);
+      for (const c of closest(en, 3)) {
+        console.error(`    EN: "${c.en}"`);
+        console.error(`    TP:  ${c.tp}`);
+      }
+    }
   }
 }
 
 if (errors > 0) {
   console.error(
-    `\n[validate-tp] ${errors} line(s) not in the canonical corpus. Either rewrite the English to match one of the suggested EN lines, or accept its TP translation. Hand-authored TP is not allowed to ship.`,
+    `\n[validate-tp] ${errors}/${checked} line(s) failed. Either (a) rewrite the English to match an accepted Tatoeba pair, or (b) accept one of the suggested TP translations verbatim. Hand-authored TP cannot ship.`,
   );
   process.exit(1);
 }
-console.log(`[validate-tp] ✓ all ${pairs.length} pairs canonical`);
+console.log(`[validate-tp] ✓ ${checked} multi-word translatable(s) canonical across ${scanFiles.length} file(s)`);

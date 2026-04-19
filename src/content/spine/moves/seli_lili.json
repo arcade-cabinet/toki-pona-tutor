@@ -1,0 +1,11 @@
+{
+  "id": "seli_lili",
+  "name": { "en": "ember" },
+  "description": { "en": "Fire burns." },
+  "type": "seli",
+  "power": 25,
+  "accuracy": 100,
+  "pp": 25,
+  "effect": "none",
+  "priority": 0
+}

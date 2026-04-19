@@ -1,0 +1,11 @@
+{
+  "id": "lete_wawa",
+  "name": { "en": "freeze" },
+  "description": { "en": "Ice is very cold." },
+  "type": "lete",
+  "power": 75,
+  "accuracy": 90,
+  "pp": 10,
+  "effect": "lower_defense",
+  "priority": 0
+}

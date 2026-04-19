@@ -5,11 +5,17 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "validate": "node scripts/validate-challenges.mjs",
-    "prebuild": "npm run validate",
+    "validate-challenges": "node scripts/validate-challenges.mjs",
+    "validate-tp": "node scripts/validate-tp.mjs",
+    "build-spine": "node scripts/build-spine.mjs",
+    "validate": "pnpm validate-challenges && pnpm validate-tp",
+    "prebuild": "pnpm validate && pnpm build-spine",
     "build": "vite build",
     "preview": "vite preview",
-    "fetch-dictionary": "node scripts/fetch-dictionary.mjs"
+    "typecheck": "tsc --noEmit",
+    "fetch-dictionary": "node scripts/fetch-dictionary.mjs",
+    "fetch-corpus": "node scripts/fetch-tatoeba-corpus.mjs",
+    "worktree-gc": "node scripts/worktree-janitor.mjs"
   },
   "dependencies": {
     "@capacitor/app": "^8.1.0",
@@ -26,7 +32,8 @@
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "seedrandom": "^3.0.5",
-    "solid-js": "^1.9.12"
+    "solid-js": "^1.9.12",
+    "zod": "^4.3.6"
   },
   "devDependencies": {
     "@types/canvas-confetti": "^1.9.0",
