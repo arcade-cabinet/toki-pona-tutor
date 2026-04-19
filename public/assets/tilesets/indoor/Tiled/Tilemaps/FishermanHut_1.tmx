@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.10" tiledversion="1.10.1" orientation="orthogonal" renderorder="right-down" width="14" height="16" tilewidth="16" tileheight="16" infinite="0" nextlayerid="8" nextobjectid="37">
+ <tileset firstgid="1" source="../Tileset/Tileset_Walls_Interiors.tsx"/>
+ <tileset firstgid="4061" source="../Tileset/Objects_Props_Interiors.tsx"/>
+ <tileset firstgid="4909" source="../Tileset/Tileset_Floor_Interiors.tsx"/>
+ <layer id="1" name="Floor" width="14" height="16">
+  <data encoding="csv">
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,6681,6682,6681,6682,6681,6682,6681,6682,0,0,0,
+0,0,0,6723,6724,6723,6724,6723,6724,6723,6724,0,0,0,
+0,0,0,6681,6682,6681,6682,6687,6688,6681,6682,0,0,0,
+0,0,0,6723,6724,6723,6724,6729,6730,6723,6724,0,0,0,
+0,0,0,6681,6682,6681,6682,6771,6772,6681,6682,0,0,0,
+0,0,0,6723,6724,6723,6724,6813,6814,6723,6724,0,0,0,
+0,0,0,0,0,0,6682,6681,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0
+</data>
+ </layer>
+ <layer id="2" name="Walls" width="14" height="16">
+  <data encoding="csv">
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,3842,3843,3844,3663,3664,3895,3896,3897,0,0,0,
+0,0,3656,3871,3872,3873,3692,3693,3924,3925,3926,3658,0,0,
+0,0,3685,3761,3672,3672,3721,3722,3672,3672,3763,3687,0,0,
+0,0,3685,3790,3672,3676,3677,3722,3672,3674,3792,3687,0,0,
+0,0,3685,3701,3701,3705,3706,3751,3701,3703,3701,3687,0,0,
+0,0,3685,0,0,0,0,0,0,0,0,3687,0,0,
+0,0,3685,0,0,0,0,0,0,0,0,3687,0,0,
+0,0,3685,0,0,0,0,0,0,0,0,3687,0,0,
+0,0,3714,0,0,0,0,0,0,0,0,3716,0,0,
+0,0,3743,0,0,0,0,0,0,0,0,3745,0,0,
+0,0,3772,0,0,0,0,0,0,0,0,3774,0,0,
+0,0,3888,3889,3889,3889,3834,3835,3889,3889,3889,3890,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0
+</data>
+ </layer>
+ <objectgroup id="4" name="Windows">
+  <object id="18" gid="4722" x="96.667" y="119.333" width="32" height="48"/>
+  <object id="23" gid="4733" x="46.943" y="91.875" width="16" height="32"/>
+  <object id="26" gid="4699" x="64" y="96" width="32" height="32"/>
+  <object id="27" gid="4699" x="128" y="96" width="32" height="32"/>
+  <object id="36" gid="4713" x="81.9649" y="191.298" width="64" height="48"/>
+ </objectgroup>
+ <objectgroup id="5" name="Objects">
+  <object id="1" gid="4382" x="135" y="161" width="48" height="64"/>
+  <object id="2" gid="4711" x="65" y="134.5" width="16" height="32"/>
+  <object id="3" gid="4370" x="43.5" y="127" width="32" height="32"/>
+  <object id="4" gid="4708" x="68" y="126.5" width="32" height="32"/>
+  <object id="5" gid="4453" x="90.5" y="123.5" width="16" height="16"/>
+  <object id="6" gid="4464" x="147.5" y="166.5" width="32" height="32"/>
+  <object id="7" gid="4509" x="48.5" y="170" width="16" height="48"/>
+  <object id="9" gid="4639" x="80" y="176" width="48" height="32"/>
+  <object id="12" gid="4650" x="154.5" y="212.5" width="16" height="32"/>
+  <object id="13" gid="4649" x="160.5" y="173.5" width="16" height="16"/>
+  <object id="14" gid="4526" x="52" y="175.5" width="16" height="32"/>
+  <object id="15" gid="4410" x="80.5" y="154" width="32" height="16"/>
+  <object id="16" gid="4411" x="116.5" y="155" width="16" height="16"/>
+  <object id="19" gid="4724" x="116" y="125.5" width="32" height="48"/>
+  <object id="20" gid="4748" x="43.5" y="208.5" width="32" height="48"/>
+  <object id="21" gid="4749" x="160.5" y="197" width="16" height="32"/>
+  <object id="25" gid="4729" x="85.023" y="78.966" width="16" height="32"/>
+  <object id="28" gid="4732" x="73.091" y="85.311" width="16" height="32"/>
+  <object id="30" gid="4718" x="157.938" y="88" width="16" height="32"/>
+  <object id="31" gid="4719" x="162.75" y="91" width="16" height="32"/>
+ </objectgroup>
+ <objectgroup id="6" name="Objects 2">
+  <object id="33" gid="4519" x="108" y="161.333" width="16" height="16"/>
+ </objectgroup>
+</map>
