@@ -1,0 +1,150 @@
+/**
+ * Tiled `.tsx` tileset parser.
+ *
+ * Reads Fan-tasy-style XML tileset files and extracts the subset of fields
+ * the toolchain needs: dimensions, image path, per-tile custom properties,
+ * and per-tile animations.
+ *
+ * See docs/build-time/MAP_AUTHORING.md § "The TMJ emitter" and "Tests".
+ */
+import { readFile } from 'node:fs/promises';
+import { existsSync, statSync } from 'node:fs';
+import { dirname, resolve } from 'node:path';
+import { XMLParser } from 'fast-xml-parser';
+import { imageSize } from 'image-size';
+import type { ParsedTileset, PropertyValue, AnimationFrame } from './types';
+
+const parser = new XMLParser({
+  ignoreAttributes: false,
+  attributeNamePrefix: '',
+  allowBooleanAttributes: true,
+  parseAttributeValue: false, // we cast ourselves for consistency
+  // fast-xml-parser collapses single children to objects; coerce to arrays
+  // for element types that can repeat.
+  isArray: (name) =>
+    ['tile', 'property', 'frame'].includes(name),
+});
+
+export async function parseTsx(path: string): Promise<ParsedTileset> {
+  if (!existsSync(path)) {
+    throw new Error(`TSX not found: ${path} (ENOENT)`);
+  }
+  const xml = await readFile(path, 'utf-8');
+  if (!xml.trimStart().startsWith('<?xml') && !xml.includes('<tileset')) {
+    throw new Error(`Not a TSX file: ${path}`);
+  }
+  const parsed = parser.parse(xml);
+  const ts = parsed.tileset;
+  if (!ts) {
+    throw new Error(`TSX has no <tileset> root: ${path}`);
+  }
+
+  const tileWidth = parseInt(ts.tilewidth, 10);
+  const tileHeight = parseInt(ts.tileheight, 10);
+  const tileCount = parseInt(ts.tilecount, 10);
+  const columns = parseInt(ts.columns, 10);
+  const spacing = ts.spacing != null ? parseInt(ts.spacing, 10) : 0;
+  const margin = ts.margin != null ? parseInt(ts.margin, 10) : 0;
+  const name = ts.name ?? '';
+
+  if (!tileWidth || !tileHeight || !tileCount) {
+    throw new Error(
+      `TSX missing required attrs (tilewidth/tileheight/tilecount): ${path}`,
+    );
+  }
+
+  const imageEl = ts.image;
+  if (!imageEl || !imageEl.source) {
+    throw new Error(`TSX has no <image source=...>: ${path}`);
+  }
+
+  const imageSrc: string = imageEl.source;
+  const imageAbs = resolve(dirname(path), imageSrc);
+  let imageWidth = imageEl.width != null ? parseInt(imageEl.width, 10) : 0;
+  let imageHeight = imageEl.height != null ? parseInt(imageEl.height, 10) : 0;
+  if ((!imageWidth || !imageHeight) && existsSync(imageAbs)) {
+    // Fall back to reading the image header when the TSX didn't encode it.
+    const buf = await readFile(imageAbs);
+    const dims = imageSize(new Uint8Array(buf));
+    imageWidth = dims.width ?? 0;
+    imageHeight = dims.height ?? 0;
+  }
+
+  const properties: Record<number, Record<string, PropertyValue>> = {};
+  const animations: Record<number, AnimationFrame[]> = {};
+
+  const tiles = Array.isArray(ts.tile) ? ts.tile : ts.tile ? [ts.tile] : [];
+  for (const tile of tiles) {
+    const id = parseInt(tile.id, 10);
+    if (Number.isNaN(id)) continue;
+
+    const propsNode = tile.properties;
+    if (propsNode) {
+      const propList = Array.isArray(propsNode.property)
+        ? propsNode.property
+        : propsNode.property
+          ? [propsNode.property]
+          : [];
+      const pbag: Record<string, PropertyValue> = {};
+      for (const p of propList) {
+        const pname: string = p.name;
+        const ptype: string = p.type ?? 'string';
+        const praw: string = p.value ?? '';
+        pbag[pname] = castPropertyValue(praw, ptype);
+      }
+      if (Object.keys(pbag).length > 0) {
+        properties[id] = pbag;
+      }
+    }
+
+    const animNode = tile.animation;
+    if (animNode) {
+      const frames = Array.isArray(animNode.frame)
+        ? animNode.frame
+        : animNode.frame
+          ? [animNode.frame]
+          : [];
+      if (frames.length > 0) {
+        animations[id] = frames.map((f: { tileid: string; duration: string }) => ({
+          tileid: parseInt(f.tileid, 10),
+          duration: parseInt(f.duration, 10),
+        }));
+      }
+    }
+  }
+
+  return {
+    source: path,
+    absolutePath: path,
+    name,
+    tileWidth,
+    tileHeight,
+    tileCount,
+    columns,
+    spacing,
+    margin,
+    image: {
+      source: imageSrc,
+      absolutePath: imageAbs,
+      width: imageWidth,
+      height: imageHeight,
+    },
+    properties,
+    animations,
+  };
+}
+
+function castPropertyValue(raw: string, type: string): PropertyValue {
+  switch (type) {
+    case 'int':
+      return parseInt(raw, 10);
+    case 'float':
+      return parseFloat(raw);
+    case 'bool':
+      return raw === 'true';
+    default:
+      return raw;
+  }
+}
+
+void statSync;
