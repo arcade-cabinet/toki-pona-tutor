@@ -276,6 +276,36 @@
     animation: menuGlint 2.4s linear infinite;
   }
 
+  /* FF-style sparkle burst — a small star that scales+fades to mark rewards */
+  @keyframes sparkleBurst {
+    0%   { transform: translate(var(--dx, 0), var(--dy, 0)) scale(0) rotate(0); opacity: 0; }
+    30%  { transform: translate(var(--dx, 0), var(--dy, 0)) scale(1.4) rotate(40deg); opacity: 1; }
+    100% { transform: translate(calc(var(--dx, 0) * 2.5), calc(var(--dy, 0) * 2.5)) scale(0.4) rotate(180deg); opacity: 0; }
+  }
+  .sparkle {
+    animation: sparkleBurst 1s ease-out forwards;
+  }
+
+  /* Victory fanfare backdrop — warm gold rays sweeping from the toast */
+  @keyframes fanfareRays {
+    0%   { transform: translate(-50%, -50%) rotate(0deg) scale(0.6); opacity: 0; }
+    25%  { opacity: 0.85; }
+    100% { transform: translate(-50%, -50%) rotate(35deg) scale(1.8); opacity: 0; }
+  }
+  .fanfare-rays {
+    background: conic-gradient(
+      from 0deg at 50% 50%,
+      transparent 0deg 10deg,
+      rgba(253, 224, 71, 0.55) 10deg 14deg,
+      transparent 14deg 20deg,
+      rgba(253, 224, 71, 0.4) 20deg 22deg,
+      transparent 22deg 40deg,
+      rgba(253, 224, 71, 0.55) 40deg 44deg,
+      transparent 44deg 60deg
+    );
+    animation: fanfareRays 1.4s ease-out forwards;
+  }
+
   /* Pokemon-style encounter wipe — flashing bands sweep over the screen */
   @keyframes encounterWipe {
     0%   { opacity: 0; transform: scale(0.8); }
