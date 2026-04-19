@@ -1,51 +1,58 @@
 import { DUNGEON } from '../tiles';
 
-export type GrammarPattern =
-  | 'mi_verb_e_obj'
-  | 'noun_adj'
-  | 'sina_verb'
-  | 'li_predicate'
-  | 'any_valid';
+export type MoveKind = 'physical' | 'spirit' | 'calm';
+
+export interface EnemyMove {
+  id: string;
+  nameTp: string; // what the enemy says/does, real TP
+  nameEn: string;
+  kind: MoveKind;
+  damage: number;
+}
 
 export interface EnemyDef {
   id: string;
   nameTp: string;
   nameEn: string;
+  /** Flavor line shown when combat starts (canonical TP from Tatoeba) */
   flavorTp: string;
   flavorEn: string;
-  /** In-world Tiny Dungeon tile frame shown on map (16px) */
+  /** In-world Tiny Dungeon tile used on overworld */
   spriteFrame: number;
-  /** High-res CC0 portrait PNG path shown in combat overlay */
+  /** High-res round portrait shown in combat */
   portraitSrc: string;
+  /** Stats */
   hp: number;
-  weakPattern: GrammarPattern;
-  hintLines: [string, string, string];
-  calmReward: string;
+  attack: number; // damage dealt when they hit the player
+  defense: number; // reduces physical damage
+  spirit: number; // reduces calm damage
+  /** Moves the enemy can use */
+  moves: EnemyMove[];
+  /** Words the player learns when defeating/calming this creature */
+  rewardWords: string[];
   xpReward: number;
 }
 
 const PORTRAIT_BASE = import.meta.env.BASE_URL + 'portraits';
 
-// Honest sprite↔name mapping. Each enemy's combat portrait visually matches
-// what its TP name means.
 export const ENEMIES: Record<string, EnemyDef> = {
-  // Green frog portrait (Animal Pack Redux) → 'akesi' (amphibian/reptile in TP).
   akesi: {
     id: 'akesi',
     nameTp: 'akesi',
-    nameEn: 'startled amphibian',
-    flavorTp: 'akesi li pilin ike. ona li weka e sina.',
-    flavorEn: "The akesi is scared. It wants you to leave.",
-    spriteFrame: DUNGEON.ORC_RED, // in-world chunky critter placeholder
-    portraitSrc: `${PORTRAIT_BASE}/portrait_pipi.png`, // frog portrait
-    hp: 3,
-    weakPattern: 'noun_adj',
-    hintLines: [
-      'Describe the akesi kindly. Noun + adjective.',
-      'Try: "akesi pona" (good amphibian) — shows it you mean well.',
-      'Say: akesi pona — this is the answer.',
+    nameEn: 'startled akesi',
+    flavorTp: 'akesi li pilin ike.',
+    flavorEn: 'The akesi is scared.',
+    spriteFrame: DUNGEON.ORC_RED,
+    portraitSrc: `${PORTRAIT_BASE}/portrait_pipi.png`,
+    hp: 10,
+    attack: 2,
+    defense: 1,
+    spirit: 0,
+    moves: [
+      { id: 'snap', nameTp: 'utala', nameEn: 'lash out', kind: 'physical', damage: 2 },
+      { id: 'hiss', nameTp: 'a a a!', nameEn: 'hiss', kind: 'physical', damage: 1 },
     ],
-    calmReward: 'akesi',
+    rewardWords: ['akesi'],
     xpReward: 30,
   },
 };
