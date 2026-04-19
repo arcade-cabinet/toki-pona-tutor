@@ -2,32 +2,44 @@ import * as Phaser from 'phaser';
 import { gameBus } from '../GameBus';
 import { spawnPlayer, spawnNpc, spawnItem } from '../ecs/world';
 import { TOWN, DUNGEON, CAST } from '../tiles';
+import { pickUpItem, getQuestState } from '../ecs/questState';
 
 const TILE = 16;
-const MAP_W = 24;
-const MAP_H = 16;
+const MAP_W = 28;
+const MAP_H = 18;
 const BASE = import.meta.env.BASE_URL;
 
-// Deterministic small-hash pick of grass variants so it doesn't look flat.
+// Simple village layout approach: one grass base, one cobbled plaza in the
+// middle (tile 43 STONE_FLOOR), a few single-tile decorations (tent=104,
+// bushes, trees) for landmarks, NPCs + items placed with clear sightlines.
+// NO multi-tile house composition — the packed Tiny Town sheet is badly
+// suited to hand-assembly at our scale. Single-icon landmarks read cleaner.
+
 function grassVariant(x: number, y: number): number {
   const h = (x * 73856093) ^ (y * 19349663);
-  const r = Math.abs(h) % 20;
+  const r = Math.abs(h) % 24;
   if (r === 0) return TOWN.GRASS_FLOWERS;
-  if (r < 3) return TOWN.GRASS_DETAIL;
+  if (r < 2) return TOWN.GRASS_DETAIL;
   return TOWN.GRASS;
 }
 
 export class VillageScene extends Phaser.Scene {
   private player!: Phaser.Physics.Arcade.Sprite;
   private cursors!: Phaser.Types.Input.Keyboard.CursorKeys;
-  private wasd!: { W: Phaser.Input.Keyboard.Key; A: Phaser.Input.Keyboard.Key; S: Phaser.Input.Keyboard.Key; D: Phaser.Input.Keyboard.Key };
+  private wasd!: {
+    W: Phaser.Input.Keyboard.Key;
+    A: Phaser.Input.Keyboard.Key;
+    S: Phaser.Input.Keyboard.Key;
+    D: Phaser.Input.Keyboard.Key;
+  };
   private interactKey!: Phaser.Input.Keyboard.Key;
-  private npcs: Array<{ sprite: Phaser.GameObjects.Sprite; npcId: string }> = [];
+  private npcs: Array<{ sprite: Phaser.GameObjects.Sprite; npcId: string; label: Phaser.GameObjects.Text }> = [];
   private items: Array<{ sprite: Phaser.GameObjects.Sprite; itemId: string }> = [];
   private colliders: Phaser.Physics.Arcade.StaticGroup | null = null;
   private dialogOpen = false;
   private unsubs: Array<() => void> = [];
   private interactPrompt!: Phaser.GameObjects.Text;
+  private questMarker!: Phaser.GameObjects.Text;
 
   constructor() {
     super('VillageScene');
@@ -37,12 +49,12 @@ export class VillageScene extends Phaser.Scene {
     this.load.spritesheet('town', `${BASE}rpg/tiles/tilemap_packed.png`, {
       frameWidth: TILE,
       frameHeight: TILE,
-      spacing: 1,
+      spacing: 0,
     });
     this.load.spritesheet('dungeon', `${BASE}rpg/tiles/dungeon_packed.png`, {
       frameWidth: TILE,
       frameHeight: TILE,
-      spacing: 1,
+      spacing: 0,
     });
   }
 
@@ -53,11 +65,9 @@ export class VillageScene extends Phaser.Scene {
     this.colliders = this.physics.add.staticGroup();
 
     this.paintGrass();
-    this.paintPath();
-    this.paintHouses();
-    this.paintGarden();
-    this.paintBorderTrees();
-    this.paintProps();
+    this.paintPlaza();
+    this.paintLandmarks();
+    this.paintEdgeTrees();
 
     this.spawnEntities();
     this.setupControls();
@@ -66,8 +76,6 @@ export class VillageScene extends Phaser.Scene {
 
     this.physics.add.collider(this.player, this.colliders);
     this.cameras.main.startFollow(this.player, true, 0.12, 0.12);
-
-    // Auto-compute zoom to fit scene on current canvas size so everything is visible
     this.resizeCamera();
     this.scale.on('resize', () => this.resizeCamera());
   }
@@ -75,12 +83,12 @@ export class VillageScene extends Phaser.Scene {
   private resizeCamera() {
     const cw = this.cameras.main.width;
     const ch = this.cameras.main.height;
-    // Target: show ~12 tiles across minimum so UI is legible on mobile.
-    const zoom = Math.max(1.5, Math.min(cw / (12 * TILE), ch / (8 * TILE)));
+    // Aim to show 14-18 tiles on the shorter axis so village feels spacious.
+    const zoom = Math.max(1.5, Math.min(cw / (18 * TILE), ch / (12 * TILE)));
     this.cameras.main.setZoom(zoom);
   }
 
-  private tileAt(x: number, y: number, frame: number, sheet: 'town' | 'dungeon' = 'town', depth = 0) {
+  private tile(x: number, y: number, frame: number, sheet: 'town' | 'dungeon' = 'town', depth = 0) {
     const img = this.add.image(x * TILE + TILE / 2, y * TILE + TILE / 2, sheet, frame);
     img.setDepth(depth);
     return img;
@@ -89,52 +97,66 @@ export class VillageScene extends Phaser.Scene {
   private paintGrass() {
     for (let y = 0; y < MAP_H; y++) {
       for (let x = 0; x < MAP_W; x++) {
-        this.tileAt(x, y, grassVariant(x, y));
+        this.tile(x, y, grassVariant(x, y));
       }
     }
   }
 
-  // Vertical path from top to bottom through column 11, plus a horizontal spur west.
-  private paintPath() {
-    const col = 11;
-    // vertical main path
-    for (let y = 1; y < MAP_H - 1; y++) {
-      this.tileAt(col, y, TOWN.PATH_TM, 'town', 1);
-    }
-    // top cap / bottom cap
-    this.tileAt(col, 0, TOWN.PATH_TM, 'town', 1);
-    this.tileAt(col, MAP_H - 1, TOWN.PATH_TM, 'town', 1);
-    // horizontal spur at y=7 going left to x=3 (to jan Pona's house)
-    const spurY = 7;
-    for (let x = 3; x <= col; x++) {
-      this.tileAt(x, spurY, TOWN.PATH_MM, 'town', 1);
-    }
-    // spur right to jan Telo's at x=18
-    for (let x = col; x <= 18; x++) {
-      this.tileAt(x, spurY, TOWN.PATH_MM, 'town', 1);
+  // Cobblestone plaza in the middle of the village, 6×4 tiles.
+  private paintPlaza() {
+    const px = 11;
+    const py = 7;
+    const pw = 6;
+    const ph = 4;
+    for (let y = py; y < py + ph; y++) {
+      for (let x = px; x < px + pw; x++) {
+        this.tile(x, y, TOWN.STONE_FLOOR, 'town', 1);
+      }
     }
   }
 
-  // A single 2×3 house at the given top-left tile coord.
-  private placeHouse(tx: number, ty: number, variant: 'blue' | 'red') {
-    const roofL = variant === 'blue' ? TOWN.H_BLUE_ROOF_L : TOWN.H_RED_ROOF_L;
-    const roofR = variant === 'blue' ? TOWN.H_BLUE_ROOF_R : TOWN.H_RED_ROOF_R;
-    const wallL = variant === 'blue' ? TOWN.H_BLUE_WALL_L : TOWN.H_RED_WALL_L;
-    const wallR = variant === 'blue' ? TOWN.H_BLUE_WALL_R : TOWN.H_RED_WALL_R;
-    const baseL = variant === 'blue' ? TOWN.H_BLUE_BASE_L : TOWN.H_RED_BASE_L;
-    const baseD = variant === 'blue' ? TOWN.H_BLUE_BASE_DOOR : TOWN.H_RED_BASE_DOOR;
+  // Landmark icons — single-tile objects that read clearly.
+  private paintLandmarks() {
+    // 3 icon-buildings around the plaza (using roof-peak tiles as 1-tile houses)
+    const houses: Array<[number, number, number]> = [
+      [9, 6, TOWN.HOUSE_ICON_BLUE],
+      [17, 6, TOWN.HOUSE_ICON_RED],
+      [13, 11, TOWN.HOUSE_ICON_BLUE],
+    ];
+    for (const [tx, ty, t] of houses) {
+      this.tile(tx, ty, t, 'town', 2);
+      this.addCollider(tx, ty);
+    }
 
-    this.tileAt(tx, ty, roofL, 'town', 2);
-    this.tileAt(tx + 1, ty, roofR, 'town', 2);
-    this.tileAt(tx, ty + 1, wallL, 'town', 2);
-    this.tileAt(tx + 1, ty + 1, wallR, 'town', 2);
-    this.tileAt(tx, ty + 2, baseL, 'town', 2);
-    this.tileAt(tx + 1, ty + 2, baseD, 'town', 2);
+    // A couple of signposts
+    this.tile(11, 11, TOWN.SIGN_POST, 'town', 2);
+    this.addCollider(11, 11);
 
-    // Make the walls solid (except the door tile so NPCs can stand near it)
-    this.addCollider(tx, ty + 1);
-    this.addCollider(tx + 1, ty + 1);
-    this.addCollider(tx, ty + 2);
+    // A garden of mushrooms south of plaza (where the kili will be)
+    const gx = 19;
+    const gy = 11;
+    for (let dx = 0; dx < 4; dx++) {
+      this.tile(gx + dx, gy, TOWN.MUSHROOMS, 'town', 2);
+      this.tile(gx + dx, gy + 1, TOWN.GRASS_FLOWERS, 'town', 1);
+    }
+
+    // Scattered bushes for texture — only verified-complete tile shapes.
+    const bushes: Array<[number, number, number]> = [
+      [5, 4, TOWN.BUSH_GREEN],
+      [5, 10, TOWN.BUSH_GREEN],
+      [22, 4, TOWN.TREE_GREEN_ROUND],
+      [22, 12, TOWN.BUSH_GREEN],
+      [6, 14, TOWN.BUSH_GREEN],
+      [16, 3, TOWN.BUSH_GREEN],
+    ];
+    for (const [tx, ty, t] of bushes) {
+      this.tile(tx, ty, t, 'town', 2);
+      this.addCollider(tx, ty);
+    }
+
+    // A single big tree as a landmark
+    this.tile(14, 3, TOWN.TREE_GREEN_ROUND, 'town', 2);
+    this.addCollider(14, 3);
   }
 
   private addCollider(tx: number, ty: number) {
@@ -142,118 +164,61 @@ export class VillageScene extends Phaser.Scene {
     r.setVisible(false).setSize(TILE, TILE).refreshBody();
   }
 
-  private paintHouses() {
-    // jan Pona's house — blue roof, west side of path, at grass y=4-6, x=2-3
-    this.placeHouse(2, 4, 'blue');
-    // jan Telo's house — red roof, east side of path, at y=4-6, x=17-18
-    this.placeHouse(17, 4, 'red');
-  }
-
-  // Fenced garden bottom-center with flowers + kili inside.
-  private paintGarden() {
-    const gx = 9; // start col
-    const gy = 12; // start row
-    const gw = 5; // cols
-    // Fence top row
-    this.tileAt(gx, gy, TOWN.FENCE_L, 'town', 2);
-    for (let i = 1; i < gw - 1; i++) this.tileAt(gx + i, gy, TOWN.FENCE_M, 'town', 2);
-    this.tileAt(gx + gw - 1, gy, TOWN.FENCE_R, 'town', 2);
-    // Interior — flowers / dirt
-    for (let i = 0; i < gw; i++) {
-      for (let j = 1; j < 3; j++) {
-        this.tileAt(gx + i, gy + j, TOWN.GRASS_FLOWERS, 'town', 1);
-      }
-    }
-    // Bottom fence
-    this.tileAt(gx, gy + 3, TOWN.FENCE_L, 'town', 2);
-    for (let i = 1; i < gw - 1; i++) this.tileAt(gx + i, gy + 3, TOWN.FENCE_M, 'town', 2);
-    this.tileAt(gx + gw - 1, gy + 3, TOWN.FENCE_R, 'town', 2);
-    // A sign next to the garden
-    this.tileAt(gx - 1, gy + 1, TOWN.SIGN_POST, 'town', 2);
-    this.addCollider(gx - 1, gy + 1);
-  }
-
-  private paintBorderTrees() {
-    for (let x = 0; x < MAP_W; x++) {
-      if (x < 1 || x > MAP_W - 2) continue;
-      this.tileAt(x, 0, TOWN.TREE_GREEN_TALL_1, 'town', 2);
-      this.addCollider(x, 0);
-    }
-    for (let y = 0; y < MAP_H; y++) {
-      this.tileAt(0, y, TOWN.TREE_GREEN_TALL_2, 'town', 2);
-      this.addCollider(0, y);
-      this.tileAt(MAP_W - 1, y, TOWN.TREE_GREEN_TALL_3, 'town', 2);
-      this.addCollider(MAP_W - 1, y);
-    }
-    // Scattered trees inside
-    const extraTrees: Array<[number, number, number]> = [
-      [5, 2, TOWN.TREE_ORANGE_1],
-      [6, 11, TOWN.TREE_GREEN_ROUND],
-      [16, 11, TOWN.TREE_ORANGE_2],
-      [20, 3, TOWN.TREE_GREEN_TALL_1],
-      [7, 14, TOWN.BUSH_GREEN],
-      [15, 14, TOWN.BUSH_ORANGE],
-    ];
-    for (const [tx, ty, tile] of extraTrees) {
-      this.tileAt(tx, ty, tile, 'town', 2);
+  private paintEdgeTrees() {
+    // Cluster trees around edges so world has a soft forest boundary
+    // rather than a brittle single-tile border.
+    const seen = new Set<string>();
+    const place = (tx: number, ty: number, frame: number) => {
+      const k = `${tx},${ty}`;
+      if (seen.has(k)) return;
+      seen.add(k);
+      this.tile(tx, ty, frame, 'town', 2);
       this.addCollider(tx, ty);
+    };
+    // Use only tiles verified to render as COMPLETE trees on the packed sheet.
+    const treeFrames = [TOWN.TREE_GREEN_ROUND, TOWN.TREE_ORANGE_1, TOWN.TREE_ORANGE_2, TOWN.BUSH_GREEN];
+    const pick = (x: number, y: number) => treeFrames[(x * 13 + y * 7) % treeFrames.length];
+    // Top edge (two rows of offset trees)
+    for (let x = 0; x < MAP_W; x++) {
+      place(x, 0, pick(x, 0));
+      if (x % 2 === 0) place(x, 1, pick(x, 1));
     }
-  }
-
-  private paintProps() {
-    // A tent near top center for atmosphere
-    this.tileAt(12, 2, TOWN.TENT, 'town', 2);
-    this.addCollider(12, 2);
-    // Mushroom cluster near tree shade
-    this.tileAt(6, 3, TOWN.MUSHROOMS, 'town', 2);
+    // Bottom edge
+    for (let x = 0; x < MAP_W; x++) {
+      place(x, MAP_H - 1, pick(x, MAP_H - 1));
+      if (x % 2 === 0) place(x, MAP_H - 2, pick(x, MAP_H - 2));
+    }
+    // Left edge
+    for (let y = 0; y < MAP_H; y++) {
+      place(0, y, pick(0, y));
+      if (y % 2 === 0) place(1, y, pick(1, y));
+    }
+    // Right edge
+    for (let y = 0; y < MAP_H; y++) {
+      place(MAP_W - 1, y, pick(MAP_W - 1, y));
+      if (y % 2 === 0) place(MAP_W - 2, y, pick(MAP_W - 2, y));
+    }
   }
 
   private spawnEntities() {
-    const spurY = 7;
-
-    // Player at far-left of spur, so they enter from the west
-    const px = 4 * TILE + TILE / 2;
-    const py = spurY * TILE + TILE / 2;
+    // Player spawns just west of plaza
+    const px = 7 * TILE + TILE / 2;
+    const py = 9 * TILE + TILE / 2;
     this.player = this.physics.add.sprite(px, py, 'dungeon', CAST.PLAYER);
     this.player.setCollideWorldBounds(true);
     this.player.setSize(10, 10).setOffset(3, 5);
     this.player.setDepth(5);
     spawnPlayer(px, py);
 
-    // jan Pona stands at their door (house 2,4 → door at 3,6 → place NPC at 3, 7 on the spur, 1 tile south of door)
-    const ponaX = 3 * TILE + TILE / 2;
-    const ponaY = (spurY - 0) * TILE + TILE / 2;
-    const pona = this.add.sprite(ponaX, ponaY, 'dungeon', CAST.JAN_PONA);
-    pona.setDepth(5);
-    this.npcs.push({ sprite: pona, npcId: 'jan_pona' });
-    spawnNpc({
-      x: ponaX,
-      y: ponaY,
-      npcId: 'jan_pona',
-      name: 'jan Pona',
-      spriteKey: 'kid',
-      dialogKey: 'jan_pona_intro',
-      questId: 'hungry_friend',
-    });
+    // jan Pona at left tent
+    this.makeNpc(9, 7, 'jan_pona', 'jan Pona', CAST.JAN_PONA, 'hungry_friend');
 
-    // jan Telo stands at their door
-    const teloX = 18 * TILE + TILE / 2;
-    const teloY = spurY * TILE + TILE / 2;
-    const telo = this.add.sprite(teloX, teloY, 'dungeon', CAST.JAN_TELO);
-    telo.setDepth(5);
-    this.npcs.push({ sprite: telo, npcId: 'jan_telo' });
-    spawnNpc({
-      x: teloX,
-      y: teloY,
-      npcId: 'jan_telo',
-      name: 'jan Telo',
-      spriteKey: 'girl',
-      dialogKey: 'jan_telo_hint',
-    });
+    // jan Telo at right tent
+    this.makeNpc(17, 7, 'jan_telo', 'jan Telo', CAST.JAN_TELO);
 
-    // kili sits in the fenced garden
-    const kx = 11 * TILE + TILE / 2;
-    const ky = 13 * TILE + TILE / 2;
+    // Kili in the mushroom garden
+    const kx = 20 * TILE + TILE / 2;
+    const ky = 11 * TILE + TILE / 2;
     const kili = this.add.sprite(kx, ky, 'dungeon', DUNGEON.POTION_RED);
     kili.setDepth(5);
     this.tweens.add({
@@ -268,9 +233,37 @@ export class VillageScene extends Phaser.Scene {
     spawnItem({ x: kx, y: ky, itemId: 'kili', spriteKey: 'kili' });
   }
 
+  private makeNpc(tx: number, ty: number, npcId: string, name: string, spriteFrame: number, questId?: string) {
+    // Place NPC just south of their building so they stand "in front of" it
+    const x = tx * TILE + TILE / 2;
+    const y = (ty + 1) * TILE + TILE / 2;
+    const sprite = this.add.sprite(x, y, 'dungeon', spriteFrame);
+    sprite.setDepth(5);
+    const label = this.add
+      .text(x, y - 14, name, {
+        fontFamily: 'monospace',
+        fontSize: '7px',
+        color: '#ffffff',
+        backgroundColor: '#222',
+        padding: { left: 2, right: 2, top: 0, bottom: 0 },
+      })
+      .setOrigin(0.5, 0.5)
+      .setDepth(50);
+    this.npcs.push({ sprite, npcId, label });
+    spawnNpc({
+      x,
+      y,
+      npcId,
+      name,
+      spriteKey: npcId,
+      dialogKey: `${npcId}_intro`,
+      questId,
+    });
+  }
+
   private setupControls() {
-    this.cursors = this.input.keyboard!.createCursorKeys();
     const kb = this.input.keyboard!;
+    this.cursors = kb.createCursorKeys();
     this.wasd = {
       W: kb.addKey(Phaser.Input.Keyboard.KeyCodes.W),
       A: kb.addKey(Phaser.Input.Keyboard.KeyCodes.A),
@@ -289,10 +282,23 @@ export class VillageScene extends Phaser.Scene {
         fontFamily: 'monospace',
         fontSize: '9px',
         color: '#ffffff',
-        backgroundColor: '#222',
+        backgroundColor: '#ea580c',
         padding: { left: 3, right: 3, top: 1, bottom: 1 },
       })
+      .setOrigin(0.5, 0.5)
       .setDepth(100)
+      .setVisible(false);
+
+    // Quest marker "!" over jan Pona while quest is pending
+    this.questMarker = this.add
+      .text(0, 0, '!', {
+        fontFamily: 'monospace',
+        fontSize: '12px',
+        color: '#fde047',
+        fontStyle: 'bold',
+      })
+      .setOrigin(0.5, 0.5)
+      .setDepth(50)
       .setVisible(false);
   }
 
@@ -313,31 +319,45 @@ export class VillageScene extends Phaser.Scene {
     });
   }
 
-  private nearestInteractable(): { kind: 'npc' | 'item'; sprite: Phaser.GameObjects.Sprite; id: string } | null {
-    const pr = 26;
+  private nearestInteractable(): {
+    kind: 'npc' | 'item';
+    sprite: Phaser.GameObjects.Sprite;
+    id: string;
+  } | null {
+    const pr = 28;
     let best: { d: number; target: any } | null = null;
-    for (const npc of this.npcs) {
-      const d = Phaser.Math.Distance.Between(this.player.x, this.player.y, npc.sprite.x, npc.sprite.y);
-      if (d <= pr && (!best || d < best.d)) best = { d, target: { kind: 'npc', sprite: npc.sprite, id: npc.npcId } };
+    for (const n of this.npcs) {
+      const d = Phaser.Math.Distance.Between(this.player.x, this.player.y, n.sprite.x, n.sprite.y);
+      if (d <= pr && (!best || d < best.d)) best = { d, target: { kind: 'npc', sprite: n.sprite, id: n.npcId } };
     }
-    for (const item of this.items) {
-      if (!item.sprite.visible) continue;
-      const d = Phaser.Math.Distance.Between(this.player.x, this.player.y, item.sprite.x, item.sprite.y);
-      if (d <= pr && (!best || d < best.d)) best = { d, target: { kind: 'item', sprite: item.sprite, id: item.itemId } };
+    for (const it of this.items) {
+      if (!it.sprite.visible) continue;
+      const d = Phaser.Math.Distance.Between(this.player.x, this.player.y, it.sprite.x, it.sprite.y);
+      if (d <= pr && (!best || d < best.d)) best = { d, target: { kind: 'item', sprite: it.sprite, id: it.itemId } };
     }
     return best?.target ?? null;
   }
 
   private tryInteract() {
     if (this.dialogOpen) return;
-    const target = this.nearestInteractable();
-    if (!target) return;
-    if (target.kind === 'npc') {
+    const t = this.nearestInteractable();
+    if (!t) return;
+    if (t.kind === 'npc') {
       this.dialogOpen = true;
-      gameBus.emit('dialog:open', { npcId: target.id });
-    } else if (target.kind === 'item') {
-      target.sprite.setVisible(false);
-      gameBus.emit('word:learned', { word: target.id });
+      gameBus.emit('dialog:open', { npcId: t.id });
+    } else if (t.kind === 'item') {
+      t.sprite.setVisible(false);
+      pickUpItem(t.id);
+      gameBus.emit('word:learned', { word: t.id });
+      gameBus.emit('toast:show', {
+        kind: 'celebration',
+        title: `+ ${t.id}`,
+        body:
+          getQuestState().hungryFriend === 'item_found'
+            ? 'Take it to jan Pona!'
+            : 'Picked up',
+        ttlMs: 2500,
+      });
     }
   }
 
@@ -345,9 +365,10 @@ export class VillageScene extends Phaser.Scene {
     if (this.dialogOpen) {
       this.player.setVelocity(0);
       this.interactPrompt.setVisible(false);
+      this.questMarker.setVisible(false);
       return;
     }
-    const speed = 90;
+    const speed = 95;
     let vx = 0;
     let vy = 0;
     if (this.cursors.left?.isDown || this.wasd.A.isDown) vx = -speed;
@@ -362,13 +383,24 @@ export class VillageScene extends Phaser.Scene {
       this.player.setScale(1, 1);
     }
 
-    // Interact prompt bobbing above nearest interactable
+    // Interact prompt follows nearest interactable
     const target = this.nearestInteractable();
     if (target) {
       this.interactPrompt.setVisible(true);
-      this.interactPrompt.setPosition(target.sprite.x - 4, target.sprite.y - 22);
+      this.interactPrompt.setPosition(target.sprite.x, target.sprite.y - 16);
     } else {
       this.interactPrompt.setVisible(false);
+    }
+
+    // Quest '!' marker bobs over jan Pona while quest is pending
+    const stage = getQuestState().hungryFriend;
+    const pona = this.npcs.find((n) => n.npcId === 'jan_pona');
+    if (pona && (stage === 'not_started' || stage === 'item_found')) {
+      this.questMarker.setVisible(true);
+      const bob = Math.sin(this.time.now * 0.005) * 2;
+      this.questMarker.setPosition(pona.sprite.x, pona.sprite.y - 24 + bob);
+    } else {
+      this.questMarker.setVisible(false);
     }
   }
 }

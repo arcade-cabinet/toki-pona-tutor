@@ -136,3 +136,8 @@ vite.config.ts.timestamp-*
 # Project-specific
 .DS_Store
 .remember
+
+# Playwright MCP artifacts
+.playwright-mcp/
+*.png
+!public/**/*.png

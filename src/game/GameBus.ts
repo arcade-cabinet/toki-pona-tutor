@@ -28,6 +28,13 @@ export interface WordLearnedEvent {
   word: string;
 }
 
+export interface ToastEvent {
+  kind: 'celebration' | 'hint' | 'danger';
+  title: string;
+  body?: string;
+  ttlMs?: number;
+}
+
 interface GameEventMap {
   'dialog:open': DialogOpenEvent;
   'dialog:close': void;
@@ -37,6 +44,7 @@ interface GameEventMap {
   'quest:update': QuestUpdateEvent;
   'word:learned': WordLearnedEvent;
   'game:pause': boolean;
+  'toast:show': ToastEvent;
 }
 
 type Handler<T> = (payload: T) => void;
