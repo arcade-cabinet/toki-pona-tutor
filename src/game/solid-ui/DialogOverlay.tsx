@@ -7,6 +7,7 @@ import {
   completeHungryFriend,
   getQuestState,
   markSpokenTo,
+  setTutorialComplete,
 } from '../ecs/questState';
 import { sitelenFor, toSitelenPona } from '../../lib/sitelen';
 
@@ -29,17 +30,35 @@ export function DialogOverlay() {
   const [gatePick, setGatePick] = createSignal<string | null>(null);
   const [gateFeedback, setGateFeedback] = createSignal<'none' | 'right' | 'wrong'>('none');
   const [typed, setTyped] = createSignal(0);
+  const [beatIndex, setBeatIndex] = createSignal(0);
   let typeTimer: number | undefined;
 
-  createEffect(() => {
+  // Each line may be either a single (tp,en) pair or a beats[] sequence.
+  // currentBeat() is what's actually displayed — tp/en/glyph fall back to
+  // the top-level line when there are no explicit beats.
+  const currentBeat = () => {
     const l = line();
+    if (!l) return null;
+    if (l.beats && l.beats.length > 0) return l.beats[beatIndex()];
+    return { tp: l.tp, en: l.en, glyph: undefined as string | undefined };
+  };
+  const hasMoreBeats = () => {
+    const l = line();
+    return !!l?.beats && beatIndex() + 1 < l.beats.length;
+  };
+
+  createEffect(() => {
+    // Re-run whenever the line OR the current beat changes so the typewriter
+    // replays the new text.
+    const l = line();
+    beatIndex();
     if (typeTimer) clearInterval(typeTimer);
     if (!l || mode() !== 'dialog') return;
+    const text = currentBeat()?.tp ?? '';
     setTyped(0);
-    const full = l.tp.length;
     typeTimer = window.setInterval(() => {
       setTyped((n) => {
-        if (n >= full) {
+        if (n >= text.length) {
           if (typeTimer) clearInterval(typeTimer);
           return n;
         }
@@ -53,32 +72,35 @@ export function DialogOverlay() {
   });
 
   const revealNow = () => {
-    const l = line();
-    if (!l) return;
+    const b = currentBeat();
+    if (!b) return;
     if (typeTimer) clearInterval(typeTimer);
-    setTyped(l.tp.length);
+    setTyped(b.tp.length);
   };
 
   const isTyping = () => {
-    const l = line();
-    return !!l && typed() < l.tp.length;
+    const b = currentBeat();
+    return !!b && typed() < b.tp.length;
   };
 
   onMount(() => {
     const unsub = gameBus.on('dialog:open', ({ npcId }) => {
-      const stage = getQuestState().hungryFriend;
-      const chosen = pickDialogLine(npcId, stage);
+      const qs = getQuestState();
+      const chosen = pickDialogLine(npcId, qs.hungryFriend, {
+        tutorialComplete: qs.tutorialComplete,
+      });
       if (!chosen) return;
       markSpokenTo(npcId);
       const npc = getNpc(npcId);
       setNpcName(npc?.name_tp ?? npcId);
       setLine(chosen);
+      setBeatIndex(0);
       setShowEn(false);
       setGatePick(null);
       setGateFeedback('none');
 
       // Gate mode activates when jan Pona offers the quest the first time.
-      if (npcId === 'jan_pona' && stage === 'not_started') {
+      if (npcId === 'jan_pona' && qs.hungryFriend === 'not_started') {
         setMode('gate');
       } else {
         setMode('dialog');
@@ -86,6 +108,14 @@ export function DialogOverlay() {
     });
     onCleanup(unsub);
   });
+
+  const advanceBeat = () => {
+    if (hasMoreBeats()) {
+      setBeatIndex(beatIndex() + 1);
+      return true;
+    }
+    return false;
+  };
 
   const closeDialog = () => {
     const l = line();
@@ -98,6 +128,9 @@ export function DialogOverlay() {
           body: 'You helped jan Pona. +50 XP',
           ttlMs: 3000,
         });
+      }
+      if (l.triggers_tutorial_complete) {
+        setTutorialComplete();
       }
     }
     setLine(null);
@@ -245,11 +278,21 @@ export function DialogOverlay() {
                   if (isTyping()) revealNow();
                 }}
               >
+                <Show when={currentBeat()?.glyph}>
+                  <div class="flex flex-col items-center gap-1 py-2 rounded-xl bg-emerald-50 border-2 border-dashed border-emerald-300">
+                    <span class="font-sitelen text-5xl text-emerald-800 leading-none">
+                      {sitelenFor(currentBeat()!.glyph!)}
+                    </span>
+                    <span class="font-tile text-xs text-emerald-900">
+                      {currentBeat()!.glyph}
+                    </span>
+                  </div>
+                </Show>
                 <div class="font-sitelen text-3xl text-emerald-800 leading-tight min-h-[1.5em]">
-                  {toSitelenPona(line()!.tp.slice(0, typed()))}
+                  {toSitelenPona((currentBeat()?.tp ?? '').slice(0, typed()))}
                 </div>
                 <div class="font-tile text-base text-amber-900 leading-snug min-h-[1.3em]">
-                  "{line()!.tp.slice(0, typed())}
+                  "{(currentBeat()?.tp ?? '').slice(0, typed())}
                   <Show when={isTyping()}>
                     <span class="inline-block w-0.5 h-[1em] bg-amber-700 ml-0.5 align-middle animate-pulse" />
                   </Show>
@@ -257,7 +300,12 @@ export function DialogOverlay() {
                 </div>
                 <Show when={showEn() && !isTyping()}>
                   <div class="text-sm text-amber-800/70 italic border-l-2 border-amber-400 pl-3 animate-in fade-in duration-200">
-                    {line()!.en}
+                    {currentBeat()?.en}
+                  </div>
+                </Show>
+                <Show when={line()?.beats && line()!.beats!.length > 1}>
+                  <div class="text-[10px] text-center text-amber-700/60 font-display uppercase tracking-widest">
+                    {beatIndex() + 1} / {line()!.beats!.length}
                   </div>
                 </Show>
                 <div class="flex gap-2 pt-1 items-center">
@@ -277,13 +325,15 @@ export function DialogOverlay() {
                       ev.stopPropagation();
                       if (isTyping()) {
                         revealNow();
+                      } else if (hasMoreBeats()) {
+                        advanceBeat();
                       } else {
                         closeDialog();
                       }
                     }}
                     class="flex-1 py-2 rounded-xl bg-gradient-to-b from-emerald-500 to-emerald-700 border-b-[4px] border-emerald-900 text-amber-50 font-display text-xs uppercase tracking-wide active:border-b-0 active:translate-y-[4px] transition-all relative"
                   >
-                    o tawa →
+                    {hasMoreBeats() ? 'next' : 'o tawa →'}
                     <Show when={!isTyping()}>
                       <span class="absolute -bottom-1 right-2 text-amber-100 text-xs advance-cursor pointer-events-none">
                         ▼

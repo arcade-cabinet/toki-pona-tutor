@@ -57,6 +57,20 @@
 
   "npcs": [
     {
+      "id": "jan_sewi",
+      "name_tp": "jan Sewi",
+      "name_en": "jan Sewi",
+      "role_en": "Wizard mentor — teaches the player their first grammar",
+      "personality_en": "Calm and wise; a wandering sky-watcher who keeps the word-tablet at the village sign.",
+      "location_id": "luka_ma",
+      "sprite": "npc_wizard",
+      "greeting": {
+        "tp": "toki, jan kama.",
+        "en": "Hello, newcomer.",
+        "mood": "thinking"
+      }
+    },
+    {
       "id": "jan_pona",
       "name_tp": "jan Pona",
       "name_en": "jan Pona",
@@ -185,6 +199,48 @@
   },
 
   "dialog": [
+    {
+      "id": "jan_sewi_tutorial",
+      "npc": "jan Sewi",
+      "npc_id": "jan_sewi",
+      "quest_stage": "tutorial",
+      "tp": "toki, jan kama. sina kama tawa ma pona.",
+      "en": "Hello, newcomer. You have come to a good place.",
+      "mood": "thinking",
+      "triggers_tutorial_complete": true,
+      "beats": [
+        {
+          "tp": "toki, jan kama. sina kama tawa ma pona.",
+          "en": "Hello, newcomer. You have come to a good place."
+        },
+        {
+          "tp": "nimi pi ma ni li ma tomo lili.",
+          "en": "The name of this place is ma tomo lili — the small village."
+        },
+        {
+          "tp": "o kepeken nena tawa. o kepeken E tawa toki tawa jan.",
+          "en": "Use arrow keys to move. Press E to talk to someone."
+        },
+        {
+          "tp": "nimi li suli. li.",
+          "en": "A small word is important: li. It links someone to what they do.",
+          "glyph": "li"
+        },
+        {
+          "tp": "jan Pona li wile e pona. o tawa ona.",
+          "en": "jan Pona needs help. Go speak with her."
+        }
+      ]
+    },
+    {
+      "id": "jan_sewi_idle",
+      "npc": "jan Sewi",
+      "npc_id": "jan_sewi",
+      "quest_stage": "tutorial_done",
+      "tp": "nimi li jo e ma. sina kama sona e nimi sin — ma li kama pona.",
+      "en": "Words hold the world together. Each word you learn makes it a little clearer.",
+      "mood": "thinking"
+    },
     {
       "id": "quest_offer",
       "npc": "jan Pona",

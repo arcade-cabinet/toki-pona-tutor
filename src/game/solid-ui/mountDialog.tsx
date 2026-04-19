@@ -4,7 +4,6 @@ import { DialogOverlay } from './DialogOverlay';
 import { ToastOverlay } from './ToastOverlay';
 import { NewGameModal } from './NewGameModal';
 import { CombatOverlay } from './CombatOverlay';
-import { TutorialOverlay } from './TutorialOverlay';
 
 export function mountDialogOverlay(container: HTMLElement): () => void {
   return render(
@@ -14,7 +13,6 @@ export function mountDialogOverlay(container: HTMLElement): () => void {
         <CombatOverlay />
         <ToastOverlay />
         <NewGameModal />
-        <TutorialOverlay />
       </>
     ),
     container

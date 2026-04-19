@@ -2,6 +2,13 @@ import villageData from '../content/village.json';
 
 export type DialogMood = 'happy' | 'sad' | 'thinking' | 'excited';
 
+export interface DialogBeat {
+  tp: string;
+  en: string;
+  /** Optional sitelen-pona glyph to foreground as a grammar lesson. */
+  glyph?: string;
+}
+
 export interface DialogLine {
   id: string;
   npc: string | null;
@@ -14,6 +21,11 @@ export interface DialogLine {
   triggers_quest_accept?: boolean;
   triggers_quest_complete?: boolean;
   triggers_item_pickup?: string;
+  triggers_tutorial_complete?: boolean;
+  /** Multi-beat sequence — if present, the dialog advances through each
+   *  beat in order before closing. The top-level tp/en is used for beat 1
+   *  so existing single-beat lines continue to work unchanged. */
+  beats?: DialogBeat[];
 }
 
 export interface NpcData {
@@ -28,10 +40,24 @@ const data = villageData as unknown as {
   npcs: NpcData[];
 };
 
-export function pickDialogLine(npcId: string, stage: string): DialogLine | null {
-  // Match preferred stage, then 'any', then greeting fallback.
+export function pickDialogLine(
+  npcId: string,
+  stage: string,
+  opts: { tutorialComplete?: boolean } = {},
+): DialogLine | null {
+  // Match preferred stage, then 'any', then greeting fallback. jan Sewi has
+  // stage-like values 'tutorial' and 'tutorial_done' that gate the diegetic
+  // onboarding sequence on the tutorialComplete quest-state flag.
+  const resolvedStage =
+    npcId === 'jan_sewi'
+      ? opts.tutorialComplete
+        ? 'tutorial_done'
+        : 'tutorial'
+      : stage;
   const matching = data.dialog.filter(
-    (d) => d.npc_id === npcId && (d.quest_stage === stage || d.quest_stage === 'any')
+    (d) =>
+      d.npc_id === npcId &&
+      (d.quest_stage === resolvedStage || d.quest_stage === 'any'),
   );
   if (matching.length > 0) return matching[0];
 
