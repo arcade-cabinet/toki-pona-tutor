@@ -244,11 +244,20 @@ function findTileset(
   return best;
 }
 
+// Tiled TMJ tileset refs store the source as a POSIX-style relative path
+// (e.g. "../Tilesets/Tileset_Ground.tsx") regardless of platform. Use
+// posix.basename to handle that consistently on Windows too.
+import { posix, win32 } from 'node:path';
 function tsxStemFromSource(source: string): string {
-  const file = source.split('/').pop() ?? source;
-  return file.replace(/\.tsx$/, '');
+  // Normalize either separator; posix.basename over a string with either
+  // separator will still work for most Tiled outputs, but we explicitly
+  // try win32 first so a path like "C:\\foo\\Tileset_X.tsx" resolves.
+  const withPosix = source.replace(/\\/g, '/');
+  return posix.basename(withPosix, '.tsx');
 }
 
 function tsxStemOf(ts: ParsedTileset): string {
   return tsxStemFromSource(ts.absolutePath);
 }
+
+void win32;

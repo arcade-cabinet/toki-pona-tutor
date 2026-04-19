@@ -12,7 +12,8 @@
     "prebuild": "pnpm validate && pnpm build-spine",
     "build": "vite build",
     "preview": "vite preview",
-    "typecheck": "tsc --noEmit",
+    "typecheck": "tsc --noEmit && tsc --noEmit -p tsconfig.build-time.json",
+    "typecheck:build-time": "tsc --noEmit -p tsconfig.build-time.json",
     "fetch-dictionary": "node scripts/fetch-dictionary.mjs",
     "fetch-corpus": "node scripts/fetch-tatoeba-corpus.mjs",
     "worktree-gc": "node scripts/worktree-janitor.mjs",
@@ -46,6 +47,7 @@
   "devDependencies": {
     "@types/canvas-confetti": "^1.9.0",
     "@types/howler": "^2.2.12",
+    "@types/node": "^25.6.0",
     "@types/pngjs": "^6.0.5",
     "@types/react": "^19.2.14",
     "@types/react-dom": "^19.2.3",

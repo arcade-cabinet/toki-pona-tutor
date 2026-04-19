@@ -128,17 +128,19 @@ describe.skipIf(!TILED_AVAILABLE)('Fan-tasy sample round-trip', () => {
       expect(png.width).toBe(tmj.width * tmj.tilewidth);
       expect(png.height).toBe(tmj.height * tmj.tileheight);
 
-      // Assert the PNG is non-trivially populated: sample pixels and
-      // confirm at least one has non-zero alpha (i.e. something got drawn).
+      // Assert the PNG is non-trivially populated: walk every pixel,
+      // count opaque ones. Deterministic — no Math.random, so flaky CI
+      // runs can't produce false positives from an unlucky sample set.
       let drawn = 0;
-      const sampleCount = Math.min(200, png.width * png.height);
-      for (let i = 0; i < sampleCount; i++) {
-        const x = Math.floor(Math.random() * png.width);
-        const y = Math.floor(Math.random() * png.height);
-        const alpha = png.data[((png.width * y + x) << 2) + 3];
+      const total = png.width * png.height;
+      for (let i = 0; i < total; i++) {
+        const alpha = png.data[(i << 2) + 3];
         if (alpha > 0) drawn++;
       }
       expect(drawn, `${pack} sample should have drawn pixels`).toBeGreaterThan(0);
+      // Also assert a non-trivial fraction is opaque — a single lit pixel
+      // would pass the above but indicate a rendering regression.
+      expect(drawn / total, `${pack} sample opaque fraction`).toBeGreaterThan(0.01);
     }, 60_000);
   }
 });

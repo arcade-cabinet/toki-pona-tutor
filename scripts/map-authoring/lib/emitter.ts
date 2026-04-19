@@ -47,9 +47,13 @@ export function emitTmj(
 
   const tilesetRefs: TmjTilesetRef[] = referenced.map((ts) => {
     const firstgid = firstGids.get(tsxStem(ts))!;
+    // Tiled's TMJ format expects POSIX-style forward slashes in source paths
+    // regardless of the authoring OS. `node:path.relative` emits whatever the
+    // host platform uses (backslashes on Windows), so normalize here.
+    const rel = relative(dirname(outputPath), ts.absolutePath).replace(/\\/g, '/');
     return {
       firstgid,
-      source: relative(dirname(outputPath), ts.absolutePath),
+      source: rel,
     };
   });
 

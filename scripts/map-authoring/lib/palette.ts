@@ -75,9 +75,9 @@ export function resolvePaletteName(
   return firstgid + entry.local_id;
 }
 
-/** Derive the `tsx` stem from a ParsedTileset. */
+/** Derive the `tsx` stem from a ParsedTileset. Platform-agnostic: uses
+ *  node:path so it works on POSIX (/) and Windows (\) path separators. */
+import { basename } from 'node:path';
 export function tsxStem(ts: ParsedTileset): string {
-  const path = ts.absolutePath;
-  const file = path.split('/').pop() ?? path;
-  return file.replace(/\.tsx$/, '');
+  return basename(ts.absolutePath, '.tsx');
 }

@@ -8,7 +8,7 @@
  * See docs/build-time/MAP_AUTHORING.md § "The TMJ emitter" and "Tests".
  */
 import { readFile } from 'node:fs/promises';
-import { existsSync, statSync } from 'node:fs';
+import { existsSync } from 'node:fs';
 import { dirname, resolve } from 'node:path';
 import { XMLParser } from 'fast-xml-parser';
 import { imageSize } from 'image-size';
@@ -198,4 +198,3 @@ function castPropertyValue(raw: string, type: string): PropertyValue {
   }
 }
 
-void statSync;

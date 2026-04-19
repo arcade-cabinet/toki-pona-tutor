@@ -11,9 +11,17 @@
  * Corresponds to Tiled 1.10's tileset schema (subset we actually use).
  */
 export interface ParsedTileset {
-  /** Relative path to the `.tsx` as authored in the map (e.g. "../Tilesets/Tileset_Ground.tsx"). */
+  /**
+   * Absolute path the parser opened to read this tileset. In Tiled's own
+   * data model tilesets can be referenced by relative path from a map —
+   * that relative path shows up elsewhere (on TMJ TmjTilesetRef.source).
+   * ParsedTileset itself is always fully resolved, so `source` and
+   * `absolutePath` carry the same value. The pair is preserved for
+   * symmetry with the on-disk XML schema and to leave room for a future
+   * lazy-loading flavor that would keep `source` as the author's path.
+   */
   source: string;
-  /** Resolved absolute path on disk. */
+  /** Resolved absolute path on disk (same as `source` today — see above). */
   absolutePath: string;
   /** The `name` attribute on the `<tileset>` element. */
   name: string;

@@ -86,21 +86,24 @@ describe('parseTsx — Animation_Waterfall (animated tileset)', () => {
 });
 
 describe('parseTsx — tiles with custom properties', () => {
-  // The Fan-tasy wang rulesets and some tilesets embed per-tile properties
-  // like `collides: true`. We don't require a specific tileset to have
-  // them, but whenever ANY tileset does, the parser extracts them.
-  it('extracts collides property when present in a tileset', async () => {
-    const t = await parseTsx(resolve(CORE, 'Tileset_Ground.tsx'));
-    // Walk the map; if any tile has a 'collides' boolean, it's parsed as boolean.
-    for (const tileProps of Object.values(t.properties) as Array<Record<string, unknown>>) {
-      if ('collides' in tileProps) {
-        expect(typeof tileProps.collides).toBe('boolean');
-        return;
-      }
+  // Atlas_Props is a reliable Fan-tasy tileset that tags tiles with
+  // `unity:sortingLayer` (a string property). If it ever drops the
+  // property the test fails loudly rather than being silently vacuous.
+  it('parses unity:sortingLayer string properties from Atlas_Props', async () => {
+    const t = await parseTsx(resolve(CORE, 'Atlas_Props.tsx'));
+    const propsEntries = Object.entries(t.properties) as Array<
+      [string, Record<string, unknown>]
+    >;
+    const withSortingLayer = propsEntries.filter(
+      ([, p]) => 'unity:sortingLayer' in p,
+    );
+    expect(
+      withSortingLayer.length,
+      'Atlas_Props should have at least one tile with unity:sortingLayer',
+    ).toBeGreaterThan(0);
+    for (const [, p] of withSortingLayer) {
+      expect(typeof p['unity:sortingLayer']).toBe('string');
     }
-    // If this tileset has zero property entries at all, the test is vacuous
-    // but not a failure — it's a property of the Fan-tasy content.
-    expect(Object.keys(t.properties).length).toBeGreaterThanOrEqual(0);
   });
 });
 
