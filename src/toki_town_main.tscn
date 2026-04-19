@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3]
+[gd_scene load_steps=10 format=3]
 
 [ext_resource type="Script" path="res://src/field/toki_map.gd" id="1_map"]
 [ext_resource type="Script" path="res://src/field/region_builder.gd" id="2_rb"]
@@ -6,6 +6,8 @@
 [ext_resource type="PackedScene" path="res://src/field/ui/dialog_overlay.tscn" id="4_dialog"]
 [ext_resource type="Script" path="res://src/combat/combat.gd" id="5_combat"]
 [ext_resource type="PackedScene" path="res://src/combat/ui/ui_combat.tscn" id="6_ui_combat"]
+[ext_resource type="PackedScene" path="res://src/field/ui/party_panel.tscn" id="7_party"]
+[ext_resource type="PackedScene" path="res://src/field/ui/pause_menu.tscn" id="8_pause"]
 
 [node name="TokiTown" type="Node2D"]
 
@@ -33,3 +35,7 @@ wait_time = 0.5
 one_shot = true
 
 [node name="DialogOverlay" parent="." instance=ExtResource("4_dialog")]
+
+[node name="PartyPanel" parent="." instance=ExtResource("7_party")]
+
+[node name="PauseMenu" parent="." instance=ExtResource("8_pause")]
