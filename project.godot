@@ -33,6 +33,7 @@ Dialogic="*res://addons/dialogic/Core/DialogicGameHandler.gd"
 QuestSystem="*uid://b77kvbliweux5"
 SaveSystem="*uid://cx1yhcewu54g5"
 World="*res://src/common/world.gd"
+TokiSave="*res://src/common/toki_save.gd"
 
 [dialogic]
 
