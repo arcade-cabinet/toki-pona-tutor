@@ -968,7 +968,8 @@
           ]
         }
       ],
-      "reward_word": "sewi"
+      "reward_word": "sewi",
+      "badge_award": "sewi"
     },
     {
       "id": "jan_kala",
@@ -1136,5 +1137,16 @@
     "x": 9,
     "y": 20
   },
-  "biome": "peak"
+  "biome": "peak",
+  "rival_fights": [
+    {
+      "id": "jan_lawa_fight",
+      "tile": {
+        "x": 9,
+        "y": 3
+      },
+      "npc_id": "jan_wawa",
+      "flag": "defeated_jan_wawa"
+    }
+  ]
 }

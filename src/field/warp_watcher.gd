@@ -133,7 +133,7 @@ func _maybe_fire_rival(rival: Dictionary) -> void:
 
 	var arena: PackedScene = TokiArenaBuilder.build_arena_for_rival(
 		enemy_species, enemy_level, enemy_moves, npc.name_tp,
-		lead_species, lead_level,
+		lead_species, lead_level, npc.badge_award,
 	)
 	if arena == null:
 		push_error("[WarpWatcher] rival arena build failed")

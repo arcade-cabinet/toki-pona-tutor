@@ -454,7 +454,7 @@
         "Files: src/combat/ui/action_menu/ui_action_menu.gd + .tscn"
       ],
       "priority": 2,
-      "passes": false,
+      "passes": true,
       "dependsOn": [
         "US-011"
       ]
@@ -637,7 +637,7 @@
         "Files: new src/title/credits.tscn + credits.gd, CREDITS.md"
       ],
       "priority": 3,
-      "passes": false,
+      "passes": true,
       "dependsOn": [
         "US-030",
         "US-051"
@@ -797,7 +797,7 @@
         "Files: content/spine/regions/*.json"
       ],
       "priority": 1,
-      "passes": false,
+      "passes": true,
       "dependsOn": [
         "US-007",
         "US-044",

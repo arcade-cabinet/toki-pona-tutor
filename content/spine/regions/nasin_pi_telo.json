@@ -919,7 +919,8 @@
             "telo_pini"
           ]
         }
-      ]
+      ],
+      "badge_award": "pona"
     },
     {
       "id": "jan_kala_lili",
@@ -1149,5 +1150,16 @@
     "x": 1,
     "y": 5
   },
-  "biome": "water"
+  "biome": "water",
+  "rival_fights": [
+    {
+      "id": "jan_lawa_fight",
+      "tile": {
+        "x": 18,
+        "y": 5
+      },
+      "npc_id": "jan_kala_suli",
+      "flag": "defeated_jan_kala_suli"
+    }
+  ]
 }

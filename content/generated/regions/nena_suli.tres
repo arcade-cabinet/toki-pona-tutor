@@ -130,6 +130,7 @@ team = [{
 "species_id": "soweli_lete_suli"
 }]
 reward_word = "suli"
+badge_award = "suli"
 
 [sub_resource type="Resource" id="Resource_ifo7s"]
 script = ExtResource("2_crld2")
@@ -234,6 +235,15 @@ warps = [{
 "to_tile": {
 "x": 1.0,
 "y": 10.0
+}
+}]
+rival_fights = [{
+"flag": "defeated_jan_suli",
+"id": "jan_lawa_fight",
+"npc_id": "jan_suli",
+"tile": {
+"x": 8.0,
+"y": 5.0
 }
 }]
 dialog = Array[ExtResource("1_np16o")]([SubResource("Resource_nhurn"), SubResource("Resource_8boqx"), SubResource("Resource_bhof5"), SubResource("Resource_m05bt")])

@@ -954,7 +954,8 @@
           ]
         }
       ],
-      "reward_word": "suli"
+      "reward_word": "suli",
+      "badge_award": "suli"
     },
     {
       "id": "jan_pi_kon",
@@ -1156,5 +1157,16 @@
     "x": 8,
     "y": 22
   },
-  "biome": "cave"
+  "biome": "cave",
+  "rival_fights": [
+    {
+      "id": "jan_lawa_fight",
+      "tile": {
+        "x": 8,
+        "y": 5
+      },
+      "npc_id": "jan_suli",
+      "flag": "defeated_jan_suli"
+    }
+  ]
 }
