@@ -36,7 +36,7 @@ const challenges = [
   { prompt: "I eat.", target: ["mi", "moku"], hint: "When 'mi' or 'sina' is the subject, you just put the verb right after.", type: "sentence" },
   { prompt: "You look.", target: ["sina", "lukin"], hint: "Simple Subject + Verb.", type: "sentence" },
   { prompt: "The person eats.", target: ["jan", "li", "moku"], hint: "CRITICAL GRAMMAR: If the subject is NOT 'mi' or 'sina', you MUST put 'li' before the verb!", type: "sentence" },
-  { prompt: "The big animal sleeps (waits).", target: ["soweli", "suli", "li", "awen"], hint: "Subject (Animal Big) + 'li' + Verb (Wait/Stay).", type: "sentence" },
+  { prompt: "The big animal waits.", target: ["soweli", "suli", "li", "awen"], hint: "Subject (Animal Big) + 'li' + Verb (Wait/Stay). 'awen' means to stay or wait, not to sleep.", type: "sentence" },
   { prompt: "I eat the fruit.", target: ["mi", "moku", "e", "kili"], hint: "CRITICAL GRAMMAR: You must put 'e' right before the thing being acted upon (the direct object).", type: "sentence" },
   { prompt: "You want water.", target: ["sina", "wile", "e", "telo"], hint: "Subject + Verb + 'e' + Object.", type: "sentence" },
   { prompt: "The good person makes a house.", target: ["jan", "pona", "li", "pali", "e", "tomo"], hint: "Putting it all together: Subject (Person Good) + 'li' + Verb (Make) + 'e' + Object (House).", type: "sentence" }
