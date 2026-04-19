@@ -53,30 +53,64 @@ export async function parseTsx(path: string): Promise<ParsedTileset> {
     );
   }
 
+  // Two flavors of tileset:
+  //   (a) Single-image atlas: <tileset><image source=... /></tileset>
+  //   (b) Image collection: <tileset columns="0">, each <tile> has its own <image>.
+  // We parse both and expose a uniform ParsedTileset. For (b), the top-level
+  // image.* fields describe the "first" tile's image for compatibility; the
+  // renderer has a separate code path that uses per-tile images.
   const imageEl = ts.image;
-  if (!imageEl || !imageEl.source) {
-    throw new Error(`TSX has no <image source=...>: ${path}`);
-  }
+  const isCollection = !imageEl || !imageEl.source;
 
-  const imageSrc: string = imageEl.source;
-  const imageAbs = resolve(dirname(path), imageSrc);
-  let imageWidth = imageEl.width != null ? parseInt(imageEl.width, 10) : 0;
-  let imageHeight = imageEl.height != null ? parseInt(imageEl.height, 10) : 0;
-  if ((!imageWidth || !imageHeight) && existsSync(imageAbs)) {
-    // Fall back to reading the image header when the TSX didn't encode it.
-    const buf = await readFile(imageAbs);
-    const dims = imageSize(new Uint8Array(buf));
-    imageWidth = dims.width ?? 0;
-    imageHeight = dims.height ?? 0;
+  let imageSrc = '';
+  let imageAbs = '';
+  let imageWidth = 0;
+  let imageHeight = 0;
+
+  if (!isCollection) {
+    imageSrc = imageEl.source;
+    imageAbs = resolve(dirname(path), imageSrc);
+    imageWidth = imageEl.width != null ? parseInt(imageEl.width, 10) : 0;
+    imageHeight = imageEl.height != null ? parseInt(imageEl.height, 10) : 0;
+    if ((!imageWidth || !imageHeight) && existsSync(imageAbs)) {
+      const buf = await readFile(imageAbs);
+      const dims = imageSize(new Uint8Array(buf));
+      imageWidth = dims.width ?? 0;
+      imageHeight = dims.height ?? 0;
+    }
   }
 
   const properties: Record<number, Record<string, PropertyValue>> = {};
   const animations: Record<number, AnimationFrame[]> = {};
+  const perTileImages: Record<number, { source: string; absolutePath: string; width: number; height: number }> = {};
 
   const tiles = Array.isArray(ts.tile) ? ts.tile : ts.tile ? [ts.tile] : [];
   for (const tile of tiles) {
     const id = parseInt(tile.id, 10);
     if (Number.isNaN(id)) continue;
+
+    // Per-tile image (collection-of-images tileset).
+    if (tile.image?.source) {
+      const src: string = tile.image.source;
+      const abs = resolve(dirname(path), src);
+      let w = tile.image.width != null ? parseInt(tile.image.width, 10) : 0;
+      let h = tile.image.height != null ? parseInt(tile.image.height, 10) : 0;
+      if ((!w || !h) && existsSync(abs)) {
+        const buf = await readFile(abs);
+        const dims = imageSize(new Uint8Array(buf));
+        w = dims.width ?? 0;
+        h = dims.height ?? 0;
+      }
+      perTileImages[id] = { source: src, absolutePath: abs, width: w, height: h };
+      // For compatibility, seed the tileset-level image fields from the
+      // first per-tile image encountered.
+      if (!imageSrc) {
+        imageSrc = src;
+        imageAbs = abs;
+        imageWidth = w;
+        imageHeight = h;
+      }
+    }
 
     const propsNode = tile.properties;
     if (propsNode) {
@@ -131,6 +165,8 @@ export async function parseTsx(path: string): Promise<ParsedTileset> {
     },
     properties,
     animations,
+    isCollection,
+    perTileImages,
   };
 }
 

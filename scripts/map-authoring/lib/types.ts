@@ -45,6 +45,21 @@ export interface ParsedTileset {
    * declare animations appear here.
    */
   animations: Record<number, AnimationFrame[]>;
+  /**
+   * True when the tileset uses Tiled's "collection of images" mode (each
+   * tile has its own <image> element). The top-level `image` field is then
+   * the first per-tile image (for backwards compat with atlas-style
+   * consumers); the renderer special-cases this mode via perTileImages.
+   */
+  isCollection: boolean;
+  /**
+   * Per-tile images for collection-of-images tilesets. Empty for atlas
+   * tilesets.
+   */
+  perTileImages: Record<
+    number,
+    { source: string; absolutePath: string; width: number; height: number }
+  >;
 }
 
 export type PropertyValue = string | number | boolean;

@@ -75,6 +75,8 @@ describe('resolvePaletteName', () => {
       },
       properties: {},
       animations: {},
+      isCollection: false,
+      perTileImages: {},
     };
   }
 

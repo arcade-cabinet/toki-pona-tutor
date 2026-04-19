@@ -45,11 +45,15 @@ export async function renderTmj(
   const ctx = canvas.getContext('2d') as Ctx2D;
 
   // Preload tileset images + index by firstgid for quick lookup.
-  const tilesetImages: Array<{
+  // Atlas tilesets get a single image; collection-of-images tilesets get
+  // a map of local_id → image so drawTile can look up per-tile.
+  type Loaded = {
     firstgid: number;
     ts: ParsedTileset;
-    image: CanvasImage;
-  }> = [];
+    atlas?: CanvasImage;
+    perTile?: Map<number, CanvasImage>;
+  };
+  const tilesetImages: Loaded[] = [];
   for (const ref of tmj.tilesets) {
     const stem = tsxStemFromSource(ref.source);
     const ts = tilesets.find((t) => tsxStemOf(t) === stem);
@@ -58,8 +62,21 @@ export async function renderTmj(
         `renderer: tileset "${stem}" referenced by TMJ but not loaded`,
       );
     }
-    const image = await loadImage(ts.image.absolutePath);
-    tilesetImages.push({ firstgid: ref.firstgid, ts, image });
+    if (ts.isCollection) {
+      const perTile = new Map<number, CanvasImage>();
+      for (const [idStr, entry] of Object.entries(ts.perTileImages)) {
+        if (!entry.absolutePath) continue;
+        try {
+          perTile.set(parseInt(idStr, 10), await loadImage(entry.absolutePath));
+        } catch {
+          // Skip unreadable per-tile images; that individual tile just won't draw.
+        }
+      }
+      tilesetImages.push({ firstgid: ref.firstgid, ts, perTile });
+    } else {
+      const atlas = await loadImage(ts.image.absolutePath);
+      tilesetImages.push({ firstgid: ref.firstgid, ts, atlas });
+    }
   }
 
   // Draw tile layers in order (Below / World / Above). The TMJ already has
@@ -73,22 +90,34 @@ export async function renderTmj(
         const found = findTileset(tilesetImages, gid);
         if (!found) continue;
         const local = gid - found.firstgid;
-        const { ts, image } = found;
-        const col = local % ts.columns;
-        const row = Math.floor(local / ts.columns);
-        const sx = ts.margin + col * (ts.tileWidth + ts.spacing);
-        const sy = ts.margin + row * (ts.tileHeight + ts.spacing);
-        ctx.drawImage(
-          image,
-          sx,
-          sy,
-          ts.tileWidth,
-          ts.tileHeight,
-          x * tmj.tilewidth,
-          y * tmj.tileheight,
-          tmj.tilewidth,
-          tmj.tileheight,
-        );
+        const { ts } = found;
+        if (found.perTile) {
+          // Collection-of-images: each local_id has its own image sized
+          // per-tile; draw at the map cell's position, anchored bottom-left
+          // (Tiled's convention for image-collection tiles).
+          const img = found.perTile.get(local);
+          if (!img) continue;
+          const dx = x * tmj.tilewidth;
+          const dy = y * tmj.tileheight + tmj.tileheight - img.height;
+          ctx.drawImage(img, dx, dy);
+        } else if (found.atlas) {
+          // Atlas: slice out the tile from the source image grid.
+          const col = local % ts.columns;
+          const row = Math.floor(local / ts.columns);
+          const sx = ts.margin + col * (ts.tileWidth + ts.spacing);
+          const sy = ts.margin + row * (ts.tileHeight + ts.spacing);
+          ctx.drawImage(
+            found.atlas,
+            sx,
+            sy,
+            ts.tileWidth,
+            ts.tileHeight,
+            x * tmj.tilewidth,
+            y * tmj.tileheight,
+            tmj.tilewidth,
+            tmj.tileheight,
+          );
+        }
       }
     }
   }
@@ -188,7 +217,12 @@ function propValue(obj: TmjObject, name: string): string | undefined {
 }
 
 function findTileset(
-  idx: Array<{ firstgid: number; ts: ParsedTileset; image: CanvasImage }>,
+  idx: Array<{
+    firstgid: number;
+    ts: ParsedTileset;
+    atlas?: CanvasImage;
+    perTile?: Map<number, CanvasImage>;
+  }>,
   gid: number,
 ) {
   let best: (typeof idx)[number] | undefined;

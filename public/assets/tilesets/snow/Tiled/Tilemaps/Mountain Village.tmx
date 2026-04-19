@@ -14,7 +14,7 @@
  <tileset firstgid="12764" source="../Tilesets/Animation_Banner_1_Snow.tsx"/>
  <tileset firstgid="13468" source="../Tilesets/Tileset_Snow.tsx"/>
  <tileset firstgid="13558" source="../Tilesets/Objects_Shadows.tsx"/>
- <tileset firstgid="13660" source="../../../The Fan-tasy Tileset (Premium)/Tiled/Tilesets/Objects_Buildings.tsx"/>
+ <tileset firstgid="13660" source="../../../core/Tiled/Tilesets/Objects_Buildings.tsx"/>
  <layer id="24" name="Ground" width="58" height="44">
   <data encoding="csv">
 2091,2073,2452,2450,2091,2079,2454,2405,2401,2079,2073,2450,2079,2079,2067,2403,2406,2085,2067,2405,2085,2453,2091,2085,2405,2085,2453,2085,2091,2091,2454,2067,2067,2079,2091,2073,2449,2404,2073,2067,2073,2079,2073,2405,2091,2091,2405,2085,2067,2079,2091,2085,2449,2085,2067,2073,2073,2073,

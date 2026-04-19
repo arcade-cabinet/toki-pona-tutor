@@ -37,6 +37,8 @@ function mkTileset(
     },
     properties: {},
     animations: {},
+    isCollection: false,
+    perTileImages: {},
     ...opts,
   };
 }
