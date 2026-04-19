@@ -21,7 +21,18 @@
       font-family: ui-rounded, "SF Pro Rounded", system-ui, sans-serif;
       -webkit-font-smoothing: antialiased;
     }
-    #canvas { display: block; width: 100%; height: 100%; image-rendering: pixelated; outline: none; }
+    /* The engine manages canvas width/height inline once Adaptive resize
+       kicks in — matches the default Godot shell. Letting CSS set 100%
+       width/height fights the engine's sizing and leaves the drawing
+       buffer in the wrong quadrant of a centered canvas. */
+    #canvas {
+      display: block;
+      position: absolute;
+      inset: 0;
+      margin: auto;
+      image-rendering: pixelated;
+      outline: none;
+    }
     #canvas:focus-visible { outline: 2px solid var(--accent); outline-offset: -2px; }
 
     #shell {

@@ -97,7 +97,11 @@ jobs:
           include-templates: true
 
       - name: Import project resources
-        run: godot --headless --path . --import --quit-after 180
+        # Two-pass import; see cd.yml for rationale (custom theme
+        # loaded before its font resources are imported in pass 1).
+        run: |
+          godot --headless --path . --import --quit-after 180 || true
+          godot --headless --path . --import --quit-after 180
 
       - name: Generate debug keystore
         run: |
