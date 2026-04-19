@@ -1,5 +1,6 @@
 import { useEffect, useRef } from 'react';
 import { gameBus } from '../game/GameBus';
+import { useDevice } from '../hooks/useDevice';
 
 /**
  * Touch-friendly virtual d-pad + action button. Dispatches synthetic keyboard
@@ -89,6 +90,8 @@ function ActionButton() {
 }
 
 export function MobileControls() {
+  const device = useDevice();
+
   // Prevent page scroll/zoom on the game area via a full-time listener —
   // some mobile browsers still drag on touch even with touch-none.
   useEffect(() => {
@@ -102,11 +105,22 @@ export function MobileControls() {
     return () => document.removeEventListener('touchmove', block);
   }, []);
 
+  // Only render on touch devices OR narrow viewports — desktop users don't
+  // need on-screen controls.
+  if (!device.touch && device.formFactor === 'desktop') return null;
+
+  // Landscape tablets + folded displays get more breathing room — push the
+  // d-pad farther from the edge and scale up the action button.
+  const landscapeTablet =
+    device.formFactor === 'tablet' && device.orientation === 'landscape';
+  const edgeInset = landscapeTablet || device.hasFold ? 'bottom-8' : 'bottom-4';
+  const rightInset = landscapeTablet || device.hasFold ? 'right-10' : 'right-6';
+  const leftInset = landscapeTablet || device.hasFold ? 'left-10' : 'left-4';
+
   return (
     <>
-      {/* Left side — d-pad */}
       <div
-        className="mobile-controls absolute bottom-4 left-4 z-20"
+        className={`mobile-controls absolute ${edgeInset} ${leftInset} z-20`}
         style={{
           gridTemplateColumns: 'repeat(3, 1fr)',
           gap: '6px',
@@ -124,9 +138,8 @@ export function MobileControls() {
         <div />
       </div>
 
-      {/* Right side — primary action */}
       <div
-        className="mobile-controls absolute bottom-6 right-6 z-20"
+        className={`mobile-controls absolute ${edgeInset} ${rightInset} z-20`}
         style={{ gridTemplateColumns: '1fr', touchAction: 'none' }}
       >
         <ActionButton />
