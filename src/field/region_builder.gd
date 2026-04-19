@@ -22,6 +22,13 @@ extends Node2D
 ## Cell size — matches the Kenney tilesheet tile size.
 @export var cell_size: Vector2i = Vector2i(16, 16)
 
+## Scene used for the player character + controller. Defaults to open-rpg's
+## gamepiece.tscn with a generic character visual + player controller added
+## at runtime.
+@export var player_gamepiece_scene: PackedScene = preload("res://src/field/gamepieces/gamepiece.tscn")
+@export var player_controller_scene: PackedScene = preload("res://src/field/gamepieces/controllers/player_controller.tscn")
+@export var player_gfx_scene: PackedScene = preload("res://overworld/characters/generic_character_gfx.tscn")
+
 var region: RegionResource = null
 
 # Children built procedurally.
@@ -52,6 +59,7 @@ func _build() -> void:
 	_configure_gameboard()
 	_spawn_npcs()
 	_spawn_signs()
+	_spawn_player()
 
 
 func _build_sky() -> void:
@@ -133,20 +141,124 @@ func _configure_gameboard() -> void:
 func _spawn_npcs() -> void:
 	_gamepieces_root = Node2D.new()
 	_gamepieces_root.name = "Gamepieces"
+	_gamepieces_root.y_sort_enabled = true
 	add_child(_gamepieces_root)
-	# Gamepiece spawning is deferred — requires wiring per-NPC Gamepiece
-	# scenes that know about dialog + interaction. Done in the NPC
-	# interaction system (follow-up).
+
+	# Dungeon tilesheet is source 1 (characters + items).
+	var dungeon_tex := _find_dungeon_texture()
 	for npc_res: NpcResource in region.npcs:
+		_spawn_npc_sprite(npc_res, dungeon_tex)
 		print("[RegionBuilder]   NPC %s @ %s (role=%s)" % [
 			npc_res.id, npc_res.tile, npc_res.role,
 		])
 
 
+func _spawn_npc_sprite(npc_res: NpcResource, dungeon_tex: Texture2D) -> void:
+	var pivot := Node2D.new()
+	pivot.name = "npc_%s" % npc_res.id
+	pivot.position = Vector2(
+		npc_res.tile.x * cell_size.x + cell_size.x * 0.5,
+		npc_res.tile.y * cell_size.y + cell_size.y * 0.5,
+	)
+	_gamepieces_root.add_child(pivot)
+
+	# Sprite — slice from the dungeon atlas. Kenney Tiny Dungeon is 12x11
+	# at 16x16 with 1px spacing.
+	if dungeon_tex != null:
+		var sprite := Sprite2D.new()
+		sprite.texture = dungeon_tex
+		sprite.region_enabled = true
+		var col := npc_res.sprite_frame % 12
+		var row := npc_res.sprite_frame / 12
+		sprite.region_rect = Rect2(col * 17, row * 17, 16, 16)
+		pivot.add_child(sprite)
+
+	# Name label above the sprite.
+	var label := Label.new()
+	label.text = npc_res.name_tp
+	label.position = Vector2(0, -14)
+	label.anchor_left = 0.5
+	label.add_theme_font_size_override("font_size", 8)
+	# Center-justify by shifting by half the measured width on layout.
+	label.set("theme_override_colors/font_color", Color("#3D2E1E"))
+	label.set("theme_override_colors/font_outline_color", Color("#FDF6E3"))
+	label.set("theme_override_constants/outline_size", 2)
+	# Quick centering: Label measures its text; put it at -half-width.
+	label.size_flags_horizontal = Control.SIZE_SHRINK_CENTER
+	label.position.x = -label.get_minimum_size().x * 0.5 - 8
+	pivot.add_child(label)
+
+
 func _spawn_signs() -> void:
+	var town_tex := _find_town_texture()
+	var signs_root := Node2D.new()
+	signs_root.name = "Signs"
+	add_child(signs_root)
 	for sign_dict in region.signs:
 		if not (sign_dict is Dictionary): continue
 		var tile: Dictionary = sign_dict.get("tile", {"x": 0, "y": 0})
 		print("[RegionBuilder]   sign %s @ %s" % [
 			sign_dict.get("id", "?"), tile,
 		])
+		# Draw the sign post sprite (frame 92 in Tiny Town → atlas (8,7)).
+		if town_tex != null:
+			var sprite := Sprite2D.new()
+			sprite.name = "sign_%s" % sign_dict.get("id", "x")
+			sprite.texture = town_tex
+			sprite.region_enabled = true
+			sprite.region_rect = Rect2(8 * 17, 7 * 17, 16, 16)
+			sprite.position = Vector2(
+				int(tile.get("x", 0)) * cell_size.x + cell_size.x * 0.5,
+				int(tile.get("y", 0)) * cell_size.y + cell_size.y * 0.5,
+			)
+			signs_root.add_child(sprite)
+
+
+func _spawn_player() -> void:
+	# Instantiate a Gamepiece at region.spawn, attach the generic
+	# character gfx + player controller, hand the reference to Player.
+	var gp = player_gamepiece_scene.instantiate()
+	gp.name = "Player"
+	# Gamepiece is a Path2D — positioning the root moves the gamepiece.
+	gp.position = Vector2(
+		region.spawn.x * cell_size.x + cell_size.x * 0.5,
+		region.spawn.y * cell_size.y + cell_size.y * 0.5,
+	)
+
+	if player_gfx_scene != null:
+		var gfx = player_gfx_scene.instantiate()
+		gp.add_child(gfx)
+
+	# Add to the scene so Gameboard can register the gamepiece.
+	_gamepieces_root.add_child(gp)
+
+	# Attach a controller so the player can move.
+	if player_controller_scene != null:
+		var ctrl = player_controller_scene.instantiate()
+		gp.add_child(ctrl)
+		if "is_active" in ctrl:
+			ctrl.is_active = true
+
+	# Wire the Player autoload — Camera tracking follows from this.
+	if Player:
+		Player.gamepiece = gp
+	if Camera:
+		Camera.gamepiece = gp
+
+
+# Best-effort texture lookup: pull the atlas texture from the assigned
+# tileset sources. Returns null if not found (sprite just won't draw).
+func _find_town_texture() -> Texture2D:
+	return _find_source_texture(TileKeys.SOURCE_TOWN)
+
+
+func _find_dungeon_texture() -> Texture2D:
+	return _find_source_texture(TileKeys.SOURCE_DUNGEON)
+
+
+func _find_source_texture(source_id: int) -> Texture2D:
+	if tileset == null: return null
+	var src := tileset.get_source(source_id)
+	if src is TileSetAtlasSource:
+		return src.texture
+	return null
