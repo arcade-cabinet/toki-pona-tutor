@@ -1,0 +1,46 @@
+appId: com.arcadecabinet.pokisoweli
+name: "Title menu navigation — every button routes somewhere valid"
+tags:
+  - regression
+  - title
+  - android
+---
+
+- launchApp:
+    appId: com.arcadecabinet.pokisoweli
+    stopApp: true
+- tapOn:
+    text: "Got it"
+    optional: true
+- extendedWaitUntil:
+    timeout: 30000
+    visible: "Maestro Helper"
+- extendedWaitUntil:
+    timeout: 15000
+    visible:
+      text: "o open"
+
+# Settings round-trip
+- tapOn:
+    text: "nasin"
+- extendedWaitUntil:
+    timeout: 5000
+    visible:
+      text: "kalama"
+- tapOn:
+    text: "o tawa monsi"
+- extendedWaitUntil:
+    timeout: 5000
+    visible:
+      text: "o open"
+
+# New game transitions to the overworld scene
+- tapOn:
+    text: "o open"
+- extendedWaitUntil:
+    timeout: 30000
+    visible: "Scene: TokiTownMain"
+- takeScreenshot: screenshots/maestro/title_menu_nav_overworld
+
+- stopApp:
+    appId: com.arcadecabinet.pokisoweli

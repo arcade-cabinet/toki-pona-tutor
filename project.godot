@@ -36,6 +36,7 @@ World="*res://src/common/world.gd"
 TokiSave="*res://src/common/toki_save.gd"
 SettingsStore="*res://src/common/settings_store.gd"
 BiomeMusic="*res://src/common/music/biome_music.gd"
+MaestroHelper="*res://scripts/debug/maestro_helper.gd"
 
 [dialogic]
 
