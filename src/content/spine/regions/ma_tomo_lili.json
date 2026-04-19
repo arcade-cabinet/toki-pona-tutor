@@ -127,7 +127,8 @@
       ],
       "triggers": {
         "set_flag": { "starter_chosen": true },
-        "give_item": { "item_id": "poki_lili", "count": 3 }
+        "give_item": { "item_id": "poki_lili", "count": 3 },
+        "add_party": { "species_id": "soweli_seli", "level": 5 }
       }
     },
     {

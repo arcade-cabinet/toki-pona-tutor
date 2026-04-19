@@ -13,7 +13,6 @@ import {
 import {
   getSave,
   addToParty,
-  addItem,
   consumeItem,
   markSeen,
   markCaught,
@@ -22,7 +21,6 @@ import {
   xpToReachLevel,
   type PartyMember,
 } from '../ecs/saveState';
-import { getSpecies } from '../content/loader';
 import type { Move } from '../../content/schema';
 
 type Phase = 'intro' | 'menu' | 'resolving' | 'victory' | 'defeat' | 'caught' | 'run';
@@ -96,41 +94,14 @@ export function CombatOverlay() {
     schedule(() => setDamagePops((prev) => prev.filter((p) => p.id !== id)), 1000);
   };
 
-  /** Auto-gift the first species at level 5 if the player has no party.
-   *  Bridge until the diegetic starter ceremony lands. */
-  function ensureStarter(): PartyMember | null {
+  /** Return the lead party member, or null if the player has no party.
+   *  The diegetic starter ceremony is jan Sewi's tutorial dialog, which
+   *  fires an `add_party` trigger — see ma_tomo_lili.json. If we reach
+   *  combat with an empty party, the player bypassed jan Sewi; we bail
+   *  rather than silently auto-gifting. */
+  function leadMember(): PartyMember | null {
     const save = getSave();
-    if (save.party.length > 0) return save.party[0];
-    // Pick the first starter-type species we can find (catch_rate === 0.45
-    // is our convention for starters) or fall back to the first species.
-    const world = save; // just to suppress lint, we use save for party check
-    void world;
-    // Import loader lazily to avoid a circular ref at module-load time.
-    const species = getSpecies('soweli_seli') ?? null;
-    if (!species) return null;
-    const moves = species.learnset.filter((l) => l.level <= 5).map((l) => l.move_id).slice(-4);
-    const starter: PartyMember = {
-      instance_id: `starter-${Date.now()}`,
-      species_id: species.id,
-      level: 5,
-      // Seed xp to match the starting level so awarding XP next fight
-      // moves the creature UP rather than dropping it to level 1.
-      xp: xpToReachLevel(5),
-      hp: species.base_stats.hp + 8,
-      max_hp: species.base_stats.hp + 8,
-      moves,
-      pp: moves.map(() => 15),
-    };
-    addToParty(starter);
-    // Also give the player a starter-kit of 3 nets
-    addItem('poki_lili', 3);
-    gameBus.emit('toast:show', {
-      kind: 'celebration',
-      title: `jan Sewi gave you ${species.name.tp ?? species.id}`,
-      body: 'And three poki to catch more with.',
-      ttlMs: 3200,
-    });
-    return starter;
+    return save.party.length > 0 ? save.party[0] : null;
   }
 
   onMount(() => {
@@ -145,16 +116,23 @@ export function CombatOverlay() {
       }
       markSeen(enemyId);
 
-      // Player's lead — ensure there's one.
-      const starter = ensureStarter();
-      if (!starter) {
-        console.error('[combat] no party and no starter available');
+      // Player's lead. Empty party = player skipped jan Sewi's ceremony —
+      // cancel the encounter and nudge them back rather than silently
+      // auto-gifting a starter.
+      const lead = leadMember();
+      if (!lead) {
+        gameBus.emit('toast:show', {
+          kind: 'hint',
+          title: 'Go speak with jan Sewi first.',
+          body: 'You need a creature to fight.',
+          ttlMs: 3200,
+        });
         gameBus.emit('combat:defeat', { enemyId });
         return;
       }
-      setActiveMemberId(starter.instance_id);
+      setActiveMemberId(lead.instance_id);
       setPendingXp(0);
-      setPlayer(combatantFromParty(starter));
+      setPlayer(combatantFromParty(lead));
       setEnemy(wild);
       setSelectedAction('attack');
       setSelectedMove(0);

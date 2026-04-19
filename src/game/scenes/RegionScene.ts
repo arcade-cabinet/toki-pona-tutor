@@ -10,6 +10,7 @@ import {
   addToParty,
   setFlag,
   advanceQuest,
+  xpToReachLevel,
   type PartyMember,
 } from '../ecs/saveState';
 import { getSpecies, getMove } from '../content/loader';
@@ -413,7 +414,9 @@ export function buildPartyMember(speciesId: string, level: number): PartyMember 
     instance_id: `${speciesId}-${Date.now()}-${Math.floor(Math.random() * 1e6)}`,
     species_id: speciesId,
     level,
-    xp: 0,
+    // Seed xp to match starting level so the first XP award moves the
+    // member UP rather than dropping it via levelFromXp.
+    xp: xpToReachLevel(level),
     hp: maxHp,
     max_hp: maxHp,
     moves,
