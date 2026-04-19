@@ -23,3 +23,4 @@ learnset = [{
 catch_rate = 0.45
 xp_yield = 28
 sprite_frame = 118
+sprite_src = "res://assets/creatures/monsters/zombie_burster.png"

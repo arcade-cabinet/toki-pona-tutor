@@ -24,21 +24,26 @@ class_name UIDamageLabel extends Marker2D
 ## Label outline color when [member amount] is < 0.
 @export var color_heal_outline := Color("#3ca370")
 
+## Color used when the hit is super-effective (effectiveness >= 2.0). Emerald.
+@export var color_super_effective := Color("#2ecc71")
+
+## Color used when the hit is resisted (effectiveness <= 0.5). Muted grey.
+@export var color_resisted := Color("#8a8a8a")
+
 ## Consistent with [BattlerHit], damage values greater than 0 incur damage whereas those less than 0
 ## are for healing.
 var amount := 0:
 	set(value):
 		amount = value
-		
+
 		if not is_inside_tree(): await ready
 		_label.text = str(amount)
-		
-		if amount >= 0:
-			_label.modulate = color_damage
-			_label.add_theme_color_override("font_outline_colour", color_damage_outline)
-		else:
-			_label.modulate = color_heal
-			_label.add_theme_color_override("font_outline_colour", color_heal_outline)
+
+		_apply_color()
+
+## Elemental effectiveness the incoming hit resolved with. 2.0 super-effective, 1.0 neutral,
+## 0.5 resisted. Written by [method setup] before [member amount] so the color setter sees it.
+var effectiveness := 1.0
 
 var _tween: Tween = null
 
@@ -49,15 +54,16 @@ func _ready() -> void:
 	assert(fade_time < move_time, "%s's fade_time must be less than its move_time!")
 
 
-func setup(origin: Vector2, damage_amount: int) -> void:
+func setup(origin: Vector2, damage_amount: int, effect: float = 1.0) -> void:
 	global_position = origin
+	effectiveness = effect
 	amount = damage_amount
-	
+
 	# Animate the label, moving it in an upwards direction.
 	# We define a range of 60 degrees for the labels movement.
 	var angle := randf_range(-PI / 6.0, PI / 6.0)
 	var target := Vector2.UP.rotated(angle) * move_distance + _label.position
-	
+
 	_tween = create_tween().set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_QUAD)
 	_tween.tween_property(
 		_label,
@@ -65,14 +71,34 @@ func setup(origin: Vector2, damage_amount: int) -> void:
 		target,
 		move_time
 	)
-	
+
 	# Fade out the label at the end of it's movement upwards.
 	_tween.parallel().tween_property(
-		self, 
-		"modulate", 
-		Color.TRANSPARENT, 
+		self,
+		"modulate",
+		Color.TRANSPARENT,
 		fade_time
 	).set_ease(Tween.EASE_IN).set_trans(Tween.TRANS_LINEAR).set_delay(move_time-fade_time)
-	
+
 	# Finally, after everything prior has finished, free the label.
 	_tween.tween_callback(queue_free)
+
+
+func _apply_color() -> void:
+	var fill: Color
+	var outline: Color
+	if amount < 0:
+		fill = color_heal
+		outline = color_heal_outline
+	elif effectiveness >= 2.0:
+		fill = color_super_effective
+		outline = color_super_effective
+	elif effectiveness <= 0.5:
+		fill = color_resisted
+		outline = color_resisted
+	else:
+		fill = color_damage
+		outline = color_damage_outline
+
+	_label.modulate = fill
+	_label.add_theme_color_override("font_outline_color", outline)

@@ -32,16 +32,30 @@ var round_count: int = 0
 # Keep track of what music track was playing previously, and return to it once combat has finished.
 var _previous_music_track: AudioStream = null
 
-# A reference to 
+const VICTORY_PANEL_SCENE: PackedScene = preload("res://src/combat/ui/victory_panel.tscn")
+
+# A reference to
 @onready var _battler_roster: BattlerRoster
 @onready var _combat_container: = $CenterContainer as CenterContainer
 @onready var _transition_delay_timer: = $UI/TransitionDelay as Timer
 @onready var _ui: = $UI as UICombat
 
+# XP yield lifted off the active CombatArena at setup time so the
+# victory panel can tally XP/level-ups/new-moves without reaching back
+# into the spawner.
+var _pending_xp_yield: int = 0
+
 
 func _ready() -> void:
 	hide()
 	FieldEvents.combat_triggered.connect(setup)
+
+
+# Tracks whether the current combat is ending because the player
+# successfully fled. Set by _play_next_action when FleeAction raises
+# the "combat_flee_requested" Engine meta; consumed by
+# _on_combat_finished to skip heal/defeat-dialog and emit combat_fled.
+var _fled: bool = false
 
 
 ## Begin a combat. Takes a PackedScene as its only parameter, expecting it to be a CombatState 
@@ -60,6 +74,9 @@ func setup(arena: PackedScene) -> void:
 	var combat_arena: CombatArena = new_arena
 	_combat_container.add_child(combat_arena)
 	_battler_roster = combat_arena.get_battler_roster()
+	_pending_xp_yield = combat_arena.xp_yield
+	_fled = false
+	Engine.set_meta("combat_flee_requested", false)
 	
 	# Wait a frame for the arena and its children (VFX, Battlers, etc.) to be ready.
 	await get_tree().process_frame
@@ -153,6 +170,15 @@ func _select_next_player_action() -> void:
 # The second phase of combat has each Battler act in order of speed. This is done by repeatedly
 # calling _next_turn until no active Battlers have a cached action waiting to be executed.
 func _play_next_action() -> void:
+	# Flee takes precedence: if the player's FleeAction raised the
+	# combat_flee_requested Engine meta during its execute(), end combat
+	# immediately without resolving defeat/victory. This short-circuits
+	# before any other battler gets another turn.
+	if Engine.get_meta("combat_flee_requested", false):
+		Engine.set_meta("combat_flee_requested", false)
+		_fled = true
+		_on_combat_finished.call_deferred(false)
+		return
 	# Check for battle end conditions, that one side has been downed.
 	if _battler_roster.are_battlers_defeated(_battler_roster.get_player_battlers()):
 		_on_combat_finished.call_deferred(false)
@@ -190,8 +216,23 @@ func _on_combat_finished(is_player_victory: bool) -> void:
 	# Fade out the combat UI elements.
 	_ui.animation.play("fade_out")
 	await _ui.animation.animation_finished
-	await _display_combat_results_dialog(is_player_victory)
-	
+
+	if is_player_victory:
+		await _run_victory_sequence()
+	elif _fled:
+		# Clean escape — no heal, no defeat dialog. A single beat panel
+		# confirms the retreat; WarpWatcher is signalled via combat_fled
+		# (fired below) to skip its faint-warp branch.
+		await _display_flee_dialog()
+	else:
+		await _display_defeat_dialog()
+		# Defeat whiteout: heal the whole party so the player resumes at
+		# the last village with fresh HP/PP. The actual teleport back to
+		# the region spawn is performed by WarpWatcher, which listens for
+		# combat_finished(false).
+		if TokiSave:
+			TokiSave.heal_party()
+
 	_battler_roster = null
 	
 	# Wait a short period of time and then fade the screen to black.
@@ -207,39 +248,103 @@ func _on_combat_finished(is_player_victory: bool) -> void:
 	Music.play(_previous_music_track)
 	_previous_music_track = null
 
+	# Autosave after every battle (win or loss) so a crash after
+	# combat doesn't cost the player the XP / heal / level-up that
+	# just resolved. Runs after _run_victory_sequence (XP granted)
+	# and _display_defeat_dialog (party healed), so the flushed
+	# state already reflects the outcome.
+	if TokiSave:
+		TokiSave.save()
+
+	# If the player fled, announce it on the dedicated signal before the
+	# generic combat_finished fires. WarpWatcher uses this to suppress its
+	# defeat-warp branch (a flee is not a faint).
+	if _fled:
+		CombatEvents.combat_fled.emit()
+
 	# Whatever object started the combat will now be responsible for flow of the game. In
-	# particular, the screen is still covered, so the combat-starting object will want to 
+	# particular, the screen is still covered, so the combat-starting object will want to
 	# decide what to do now that the outcome of the combat is known.
 	CombatEvents.combat_finished.emit(is_player_victory)
+	_fled = false
 
 
-## Displays a series of dialogue bubbles using Dialogic with information about the combat's outcome.
-func _display_combat_results_dialog(is_player_victory: bool):
-	var player_party_leader_name: = _battler_roster.get_player_battlers()[0].name
+# Snapshot the lead's pre-grant state, tally XP via TokiSave, then
+# walk a VictoryPanel sequence showing +N xp, level-up, and any
+# newly-learned moves. Replaces the previous Dialogic timeline.
+func _run_victory_sequence() -> void:
+	var amount: int = max(0, _pending_xp_yield)
+	var pre_level: int = 0
+	var pre_moves: Array = []
+	if TokiSave:
+		var party_snapshot: Array = TokiSave.party()
+		if not party_snapshot.is_empty() and party_snapshot[0] is Dictionary:
+			pre_level = int(party_snapshot[0].get("level", 1))
+			var pm: Variant = party_snapshot[0].get("moves", [])
+			pre_moves = (pm as Array).duplicate() if pm is Array else []
 
-	var timeline_events: Array[String]
-	if is_player_victory:
-		timeline_events = _get_victory_message_events(player_party_leader_name)
-	else:
-		timeline_events = _get_loss_message_events(player_party_leader_name)
+	if amount > 0 and TokiSave:
+		TokiSave.grant_xp_to_lead(amount)
 
-	var combat_rewards_timeline: DialogicTimeline = DialogicTimeline.new()
-	combat_rewards_timeline.events = timeline_events
-	Dialogic.start_timeline(combat_rewards_timeline)
-	await Dialogic.timeline_ended
+	var post_level: int = pre_level
+	var post_moves: Array = pre_moves
+	if TokiSave:
+		var after: Array = TokiSave.party()
+		if not after.is_empty() and after[0] is Dictionary:
+			post_level = int(after[0].get("level", pre_level))
+			var am: Variant = after[0].get("moves", [])
+			post_moves = am if am is Array else pre_moves
+
+	var entries: Array = _build_victory_entries(amount, pre_level, post_level, pre_moves, post_moves)
+	if entries.is_empty():
+		return
+	var panel: VictoryPanel = VICTORY_PANEL_SCENE.instantiate() as VictoryPanel
+	add_child(panel)
+	panel.show_sequence(entries)
+	await panel.finished
+	panel.queue_free()
 
 
-# These two functions are placeholders for future logic for deciding combat outcomes.
-func _get_victory_message_events(leader_name: String) -> Array[String]:
-	var events: Array[String] = [
-		"%s's party won the battle!" % leader_name
-	]
-	events.append("You wanted to find some coins, but animals have no pockets to carry them.")
-	return events
-	
+func _build_victory_entries(
+	amount: int, pre_level: int, post_level: int, pre_moves: Array, post_moves: Array
+) -> Array:
+	var entries: Array = []
+	if amount > 0:
+		entries.append("+%d xp" % amount)
+	if post_level > pre_level:
+		entries.append("L%d → L%d" % [pre_level, post_level])
+	for move_id in post_moves:
+		if move_id in pre_moves: continue
+		var move_name: String = _move_display_name(String(move_id))
+		entries.append("new move: %s" % move_name)
+	return entries
 
-func _get_loss_message_events(leader_name: String) -> Array[String]:
-	var events: Array[String] = [
-		"%s's party lost the battle!" % leader_name
-	]
-	return events
+
+func _move_display_name(move_id: String) -> String:
+	var world_autoload: Node = get_tree().root.get_node_or_null("World")
+	if world_autoload and world_autoload.has_method("find_move"):
+		var move: MoveResource = world_autoload.find_move(move_id)
+		if move != null and move.name_tp != "":
+			return move.name_tp
+	return move_id
+
+
+# Defeat message — single beat via the victory panel for visual
+# consistency. (It's still technically the end-of-combat panel; the
+# name reflects its primary role.)
+func _display_defeat_dialog() -> void:
+	var leader_name: String = _battler_roster.get_player_battlers()[0].name
+	var panel: VictoryPanel = VICTORY_PANEL_SCENE.instantiate() as VictoryPanel
+	add_child(panel)
+	panel.show_sequence(["%s's party lost the battle!" % leader_name])
+	await panel.finished
+	panel.queue_free()
+
+
+# Successful-flee message — single beat via the victory panel.
+func _display_flee_dialog() -> void:
+	var panel: VictoryPanel = VICTORY_PANEL_SCENE.instantiate() as VictoryPanel
+	add_child(panel)
+	panel.show_sequence(["Got away safely!"])
+	await panel.finished
+	panel.queue_free()

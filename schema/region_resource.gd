@@ -15,6 +15,14 @@ extends Resource
 @export var height: int = 14
 @export var sky_color: String = "#8bc260"
 
+# Biome — drives tileset selection in RegionBuilder and keyword resolution in
+# TileKeys. Supported: town | forest | water | ice | cave | peak | dungeon.
+# Defaults to "town" so pre-biome regions keep their Kenney Tiny Town look.
+@export var biome: String = "town"
+# Music track id (authored as a short name, resolved to an audio stream by the
+# music system). Empty string means "no override — keep whatever's playing".
+@export var music_track: String = ""
+
 # layers[]: Array of dicts {name, tiles: Array[Array[String/null]], solid_keys, depth}
 @export var layers: Array = []
 @export var tall_grass_keys: Array = []
@@ -26,6 +34,17 @@ extends Resource
 @export var signs: Array = []
 # warps[]: Array of dicts {id, tile, to_region, to_tile}
 @export var warps: Array = []
+# rival_fights[]: Array of dicts {id, tile: {x,y}, npc_id, flag}
+# Forced set-piece battles against a named NPC. On arrival at tile,
+# WarpWatcher builds an arena from the NPC's team[] and emits
+# combat_triggered; the `flag` guards against re-firing once the player
+# has won (written to TokiSave on victory).
+@export var rival_fights: Array = []
+# triggers[]: Array of dicts {id, tile: {x,y}, kind: "dialog"|"combat",
+#   dialog_id?: String, arena?: String, once?: bool, when_flags?: Dictionary}
+# Scripted tile triggers for dialogs and set-piece combat — NOT warps.
+# See src/field/field_trigger_watcher.gd for evaluation.
+@export var triggers: Array = []
 # dialog[]: Array of DialogResource
 @export var dialog: Array[DialogResource] = []
 
@@ -43,6 +62,8 @@ static func from_dict(d: Dictionary) -> RegionResource:
 	r.width = d.get("width", 20)
 	r.height = d.get("height", 14)
 	r.sky_color = d.get("sky_color", "#8bc260")
+	r.biome = d.get("biome", "town")
+	r.music_track = d.get("music_track", "")
 	r.layers = d.get("layers", [])
 	r.tall_grass_keys = d.get("tall_grass_keys", [])
 	r.encounters = d.get("encounters", [])
@@ -53,6 +74,8 @@ static func from_dict(d: Dictionary) -> RegionResource:
 
 	r.signs = d.get("signs", [])
 	r.warps = d.get("warps", [])
+	r.rival_fights = d.get("rival_fights", [])
+	r.triggers = d.get("triggers", [])
 
 	r.dialog.clear()
 	for dn in d.get("dialog", []):

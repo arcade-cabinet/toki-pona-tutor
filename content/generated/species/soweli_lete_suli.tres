@@ -33,3 +33,4 @@ learnset = [{
 catch_rate = 0.18
 xp_yield = 80
 sprite_frame = 112
+sprite_src = "res://assets/creatures/monsters/skelly_warrior.png"

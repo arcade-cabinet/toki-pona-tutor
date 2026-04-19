@@ -1,7 +1,11 @@
 {
   "id": "soweli_seli",
-  "name": { "en": "soweli" },
-  "description": { "en": "That animal is strong." },
+  "name": {
+    "en": "soweli"
+  },
+  "description": {
+    "en": "That animal is strong."
+  },
   "type": "seli",
   "base_stats": {
     "hp": 48,
@@ -10,12 +14,25 @@
     "speed": 42
   },
   "learnset": [
-    { "level": 1, "move_id": "utala_lili" },
-    { "level": 1, "move_id": "seli_lili" },
-    { "level": 8, "move_id": "utala" },
-    { "level": 15, "move_id": "seli_wawa" }
+    {
+      "level": 1,
+      "move_id": "utala_lili"
+    },
+    {
+      "level": 1,
+      "move_id": "seli_lili"
+    },
+    {
+      "level": 8,
+      "move_id": "utala"
+    },
+    {
+      "level": 15,
+      "move_id": "seli_wawa"
+    }
   ],
   "catch_rate": 0.45,
   "xp_yield": 60,
-  "sprite_frame": 102
+  "sprite_frame": 102,
+  "sprite_src": "res://assets/creatures/monsters/orc.png"
 }

@@ -15,3 +15,9 @@ signal combat_finished(is_player_victory: bool)
 ## Emitted whenever a player battler is selected, prompting the player to choose an action.
 @warning_ignore("unused_signal")
 signal player_battler_selected(battler: Battler)
+
+## Emitted when the player successfully flees a wild battle. Fired just before
+## combat_finished(false) so listeners that would otherwise treat a non-victory
+## as a defeat (WarpWatcher's faint-warp) can opt out.
+@warning_ignore("unused_signal")
+signal combat_fled

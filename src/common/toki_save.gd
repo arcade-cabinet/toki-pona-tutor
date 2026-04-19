@@ -19,17 +19,54 @@ signal flags_changed
 signal party_changed
 signal inventory_changed
 signal region_changed(id: String)
+signal xp_gained(instance_id: String, amount: int)
+signal level_up(instance_id: String, new_level: int)
 
 const KEY := "toki"
+# Matches SaveSystem.default_file_path so the addon auto-loads our
+# state on boot — _load() runs in SaveSystem._ready() against this
+# exact path, no manual hydration needed.
+const SAVE_PATH := "user://save_data.sav"
 
 
 func _ready() -> void:
+	# Seed the SaveSystem namespace before anything writes. SaveSystem's
+	# hierarchical set_var silently no-ops when the key doesn't already
+	# exist (addon line 175: `if not has(key_path): return`), so the
+	# "toki" subtree has to be pre-populated or nothing ever persists.
+	_ensure_namespace()
 	# Connect to FieldEvents trigger stream.
 	if FieldEvents:
 		FieldEvents.flag_set.connect(_on_flag_set)
 		FieldEvents.item_given.connect(_on_item_given)
 		FieldEvents.party_add.connect(_on_party_add)
 		FieldEvents.quest_advanced.connect(_on_quest_advanced)
+	# Autosave on every region crossing.
+	region_changed.connect(_on_region_changed)
+	# Track the player's current tile across every arrival so Continue
+	# resumes exactly where the player stopped. RegionBuilder already
+	# writes current_region_id on scene load; player_tile rides along
+	# through the Gamepiece.arrived signal.
+	if Player:
+		Player.gamepiece_changed.connect(_on_player_gamepiece_changed)
+		_on_player_gamepiece_changed()
+
+
+# Ensure the "toki" namespace + all known sub-keys exist in
+# SaveSystem.current_state_dictionary so hierarchical writes go through.
+# Preserves any already-hydrated values from the loaded save file.
+func _ensure_namespace() -> void:
+	if SaveSystem == null: return
+	var root: Dictionary = SaveSystem.current_state_dictionary
+	if not root.has(KEY) or not (root[KEY] is Dictionary):
+		root[KEY] = {}
+	var ns: Dictionary = root[KEY]
+	if not ns.has("flags"): ns["flags"] = {}
+	if not ns.has("quests"): ns["quests"] = {}
+	if not ns.has("inventory"): ns["inventory"] = {}
+	if not ns.has("party"): ns["party"] = []
+	if not ns.has("current_region_id"): ns["current_region_id"] = ""
+	if not ns.has("player_tile"): ns["player_tile"] = {"x": 0, "y": 0}
 
 
 # --- Flags ---
@@ -91,6 +128,82 @@ func add_to_party(species_id: String, level: int) -> bool:
 # raises (never lowers) the level.
 static func _xp_to_reach_level(level: int) -> int:
 	return int(pow(max(1, level), 3))
+
+
+# Grant XP to the party lead (index 0). Recomputes level by walking the
+# cubic curve upward while XP covers the next threshold. On any level
+# gain, max_hp is recomputed from the species base and new moves are
+# appended (keeping at most 4). Returns the number of levels gained.
+func grant_xp_to_lead(amount: int) -> int:
+	if amount <= 0: return 0
+	var current: Array = party()
+	if current.is_empty(): return 0
+	var member = current[0]
+	if not (member is Dictionary): return 0
+	var levels_gained: int = _grant_xp_to_member(member, amount)
+	current[0] = member
+	_set_array("party", current)
+	xp_gained.emit(String(member.get("instance_id", "")), amount)
+	if levels_gained > 0:
+		level_up.emit(String(member.get("instance_id", "")), int(member.get("level", 1)))
+	party_changed.emit()
+	return levels_gained
+
+
+# Fully restore HP and PP for every party member. Used on defeat
+# whiteout so the next encounter starts from a clean slate.
+func heal_party() -> void:
+	var current: Array = party()
+	if current.is_empty(): return
+	for i in current.size():
+		var member = current[i]
+		if not (member is Dictionary): continue
+		member["hp"] = int(member.get("max_hp", member.get("hp", 1)))
+		var moves: Array = member.get("moves", []) if member.get("moves") is Array else []
+		var pp: Array = []
+		for _m in moves:
+			pp.append(15)
+		member["pp"] = pp
+		current[i] = member
+	_set_array("party", current)
+	party_changed.emit()
+
+
+func _grant_xp_to_member(member: Dictionary, amount: int) -> int:
+	member["xp"] = int(member.get("xp", 0)) + amount
+	var level: int = int(member.get("level", 1))
+	var levels_gained: int = 0
+	while member["xp"] >= _xp_to_reach_level(level + 1):
+		level += 1
+		levels_gained += 1
+	if levels_gained == 0:
+		return 0
+	var species: SpeciesResource = _find_species(String(member.get("species_id", "")))
+	member["level"] = level
+	if species != null:
+		var new_max_hp: int = species.hp + (level - 1) * 4
+		# Preserve the fraction of HP the creature had before level-up
+		# so a heal isn't implied.
+		var old_max: int = int(member.get("max_hp", new_max_hp))
+		var old_hp: int = int(member.get("hp", old_max))
+		var frac: float = float(old_hp) / float(max(1, old_max))
+		member["max_hp"] = new_max_hp
+		member["hp"] = clamp(int(round(new_max_hp * frac)), 1, new_max_hp)
+		var new_moves: Array = _learned_moves_for(species, level)
+		var old_moves: Array = member.get("moves", []) if member.get("moves") is Array else []
+		# Preserve order of old moves; append any newly-learned moves.
+		for m_id in new_moves:
+			if not (m_id in old_moves):
+				old_moves.append(m_id)
+		if old_moves.size() > 4:
+			old_moves = old_moves.slice(old_moves.size() - 4, old_moves.size())
+		member["moves"] = old_moves
+		# Refill PP to 15 per move (keep existing refill convention).
+		var pp: Array = []
+		for _m in old_moves:
+			pp.append(15)
+		member["pp"] = pp
+	return levels_gained
 
 
 static func _learned_moves_for(species: SpeciesResource, level: int) -> Array:
@@ -165,6 +278,48 @@ func _on_party_add(species_id: String, level: int) -> void:
 
 func _on_quest_advanced(quest_id: String, stage: String) -> void:
 	advance_quest(quest_id, stage)
+
+
+func _on_region_changed(_id: String) -> void:
+	save()
+
+
+var _tracked_gamepiece: Gamepiece = null
+
+func _on_player_gamepiece_changed() -> void:
+	if _tracked_gamepiece != null and is_instance_valid(_tracked_gamepiece) \
+			and _tracked_gamepiece.arrived.is_connected(_on_player_arrived):
+		_tracked_gamepiece.arrived.disconnect(_on_player_arrived)
+	_tracked_gamepiece = Player.gamepiece if Player else null
+	if _tracked_gamepiece != null:
+		_tracked_gamepiece.arrived.connect(_on_player_arrived)
+
+
+func _on_player_arrived() -> void:
+	if _tracked_gamepiece == null or Gameboard == null: return
+	player_tile = Gameboard.get_cell_under_node(_tracked_gamepiece)
+
+
+# Flush the current save state to disk. Safe to call from any system;
+# no-ops when SaveSystem isn't available (headless tools, tests).
+func save() -> void:
+	if SaveSystem:
+		SaveSystem.save(SAVE_PATH)
+
+
+# Whether a save file exists on disk AND the save layer has hydrated
+# state from it (SaveSystem._load runs in its _ready and populates
+# current_state_dictionary from the default path, which is SAVE_PATH).
+# Uses current_region_id as the canonical "has-progress" signal: a
+# fresh install never writes it; any autosave after region load does.
+# Must gate on the raw "toki" namespace existence before touching the
+# current_region_id getter, because SaveSystem's getter logs errors
+# when walking into a missing parent Dictionary.
+func has_save() -> bool:
+	if SaveSystem == null: return false
+	if not FileAccess.file_exists(SAVE_PATH): return false
+	if not SaveSystem.has("%s:current_region_id" % KEY): return false
+	return current_region_id != ""
 
 
 # --- Internals ---

@@ -6,6 +6,7 @@
   "width": 32,
   "height": 10,
   "sky_color": "#8bc260",
+  "biome": "forest",
   "layers": [
     {
       "name": "ground",
@@ -44,9 +45,10 @@
   ],
   "tall_grass_keys": ["tall_grass"],
   "encounters": [
-    { "species_id": "pipi_kon", "weight": 0.5, "min_level": 3, "max_level": 5 },
-    { "species_id": "akesi_ma", "weight": 0.3, "min_level": 5, "max_level": 7 },
-    { "species_id": "kala_lili", "weight": 0.2, "min_level": 3, "max_level": 6 }
+    { "species_id": "pipi_kon",  "weight": 0.40, "min_level": 3, "max_level": 5 },
+    { "species_id": "waso_lili", "weight": 0.25, "min_level": 3, "max_level": 6 },
+    { "species_id": "akesi_ma",  "weight": 0.20, "min_level": 5, "max_level": 7 },
+    { "species_id": "kala_lili", "weight": 0.15, "min_level": 3, "max_level": 6 }
   ],
   "npcs": [
     {
@@ -89,6 +91,14 @@
       "tile": { "x": 31, "y": 5 },
       "to_region": "nena_sewi",
       "to_tile": { "x": 1, "y": 5 }
+    }
+  ],
+  "rival_fights": [
+    {
+      "id": "jan_ike_rival_east",
+      "tile": { "x": 30, "y": 5 },
+      "npc_id": "jan_ike",
+      "flag": "rival_jan_ike_defeated"
     }
   ],
   "dialog": [

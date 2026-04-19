@@ -12,13 +12,28 @@ extends BattlerAnim
 
 const DUNGEON_TEX_PATH := "res://overworld/maps/tilesets/dungeon_tilemap.png"
 
+const HURT_DURATION := 0.15
+const HURT_SHAKE_PIXELS := 6.0
+const HURT_FLASH_COLOR := Color(1.8, 1.8, 1.8, 1.0)
+
 var _sprite: Sprite2D = null
 var _anim_player: AnimationPlayer = null
+var _hurt_tween: Tween = null
+var _sprite_rest_position := Vector2.ZERO
 
 
 func _ready() -> void:
 	super()
 	_ensure_children()
+
+
+func setup(battler: Battler, facing: Direction) -> void:
+	super(battler, facing)
+	battler.hit_received.connect(
+		func _on_hit_received(value: int) -> void:
+			if value > 0:
+				_play_hurt_effect()
+	)
 
 
 # Configure which frame of the Kenney dungeon atlas this battler uses.
@@ -36,6 +51,24 @@ func set_sprite_frame(frame: int) -> void:
 	_sprite.region_rect = Rect2(col * 17, row * 17, 16, 16)
 	# Scale up so the battler is visible at arena resolution.
 	_sprite.scale = Vector2(8, 8)
+
+
+# Configure this battler to use a creature sprite sheet (assets/creatures/...).
+# Displays the first 64×64 cell as a static idle frame. Caller resolves the
+# sprite source from the SpeciesResource so different species render distinctly.
+func set_sprite_src(path: String) -> void:
+	_ensure_children()
+	if path == "":
+		push_warning("TokiBattlerAnim: empty sprite_src")
+		return
+	var tex := load(path) as Texture2D
+	if tex == null:
+		push_warning("TokiBattlerAnim: sprite_src missing: %s" % path)
+		return
+	_sprite.texture = tex
+	_sprite.region_enabled = true
+	_sprite.region_rect = Rect2(0, 0, 64, 64)
+	_sprite.scale = Vector2(2, 2)
 
 
 func _ensure_children() -> void:
@@ -60,6 +93,35 @@ func _ensure_children() -> void:
 		_sprite.name = "Sprite2D"
 		_sprite.centered = true
 		pivot.add_child(_sprite)
+
+
+# Intercept "hurt" so we can drive a procedural shake+flash on the sprite.
+# Everything else defers to the base AnimationPlayer-backed play().
+func play(anim_name: String) -> void:
+	if anim_name == "hurt":
+		_play_hurt_effect()
+		return
+	super(anim_name)
+
+
+func _play_hurt_effect() -> void:
+	_ensure_children()
+	if _sprite == null:
+		return
+	if _hurt_tween != null and _hurt_tween.is_valid():
+		_hurt_tween.kill()
+	_sprite.position = _sprite_rest_position
+	_sprite.modulate = HURT_FLASH_COLOR
+
+	var step := HURT_DURATION / 6.0
+	_hurt_tween = create_tween()
+	_hurt_tween.tween_property(_sprite, "position", _sprite_rest_position + Vector2(HURT_SHAKE_PIXELS, 0), step)
+	_hurt_tween.parallel().tween_property(_sprite, "modulate", Color.WHITE, HURT_DURATION)
+	_hurt_tween.tween_property(_sprite, "position", _sprite_rest_position + Vector2(-HURT_SHAKE_PIXELS, 0), step)
+	_hurt_tween.tween_property(_sprite, "position", _sprite_rest_position + Vector2(HURT_SHAKE_PIXELS * 0.6, 0), step)
+	_hurt_tween.tween_property(_sprite, "position", _sprite_rest_position + Vector2(-HURT_SHAKE_PIXELS * 0.6, 0), step)
+	_hurt_tween.tween_property(_sprite, "position", _sprite_rest_position + Vector2(HURT_SHAKE_PIXELS * 0.3, 0), step)
+	_hurt_tween.tween_property(_sprite, "position", _sprite_rest_position, step)
 
 
 # BattlerAnim expects to be able to call play("idle"), play("hurt"), etc.

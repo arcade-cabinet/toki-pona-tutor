@@ -32,3 +32,4 @@ learnset = [{
 catch_rate = 0.15
 xp_yield = 70
 sprite_frame = 107
+sprite_src = "res://assets/creatures/monsters/orc_champion.png"

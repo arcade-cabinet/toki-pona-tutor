@@ -78,18 +78,27 @@ func _on_player_arrived() -> void:
 	if wild_species == null:
 		push_warning("[EncounterWatcher] unknown species %s" % enc.species_id)
 		return
-	var lead_species: SpeciesResource = World.find_species(DEFAULT_LEAD_SPECIES)
+	var lead_species_id := DEFAULT_LEAD_SPECIES
+	var lead_level := DEFAULT_LEAD_LEVEL
+	var party: Array = TokiSave.party() if TokiSave else []
+	if not party.is_empty() and party[0] is Dictionary:
+		var lead: Dictionary = party[0]
+		lead_species_id = String(lead.get("species_id", DEFAULT_LEAD_SPECIES))
+		lead_level = int(lead.get("level", DEFAULT_LEAD_LEVEL))
+	var lead_species: SpeciesResource = World.find_species(lead_species_id)
 	if lead_species == null:
-		push_warning("[EncounterWatcher] starter species %s not in world" % DEFAULT_LEAD_SPECIES)
+		push_warning("[EncounterWatcher] lead species %s not in world" % lead_species_id)
 		return
 	# Build a dynamic arena scene from Toki Town content data.
 	var arena: PackedScene = TokiArenaBuilder.build_arena_for_encounter(
-		wild_species, enc.level, lead_species, DEFAULT_LEAD_LEVEL,
+		wild_species, enc.level, lead_species, lead_level,
 	)
 	if arena == null:
 		push_error("[EncounterWatcher] arena build failed")
 		return
-	# Trigger the combat transition. Combat.setup(arena) takes it from here.
+	# Trigger the combat transition. Combat.setup(arena) takes it from
+	# here; the arena carries the xp_yield / enemy_name_tp so combat.gd
+	# can drive the victory panel without a spawner-side reward hook.
 	if FieldEvents and FieldEvents.has_signal("combat_triggered"):
 		FieldEvents.emit_signal("combat_triggered", arena)
 

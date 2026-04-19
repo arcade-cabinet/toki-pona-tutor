@@ -19,6 +19,10 @@ signal health_depleted
 ## [br][br]Note the difference between this and [signal BattlerStats.health_changed]:
 ## 'hit_received' is always the direct result of an action, requiring graphical feedback.
 signal hit_received(value: int)
+## Emitted alongside [signal hit_received], carrying the elemental effectiveness multiplier
+## that the incoming hit resolved with. Used by the damage-label UI to color super-effective
+## and resisted hits. 1.0 neutral, 2.0 super-effective, 0.5 resisted.
+signal hit_landed(value: int, effectiveness: float)
 ## Emitted whenever a hit targeting this battler misses.
 signal hit_missed
 ## Emitted when modifying `is_selected`. The user interface will react to this for
@@ -191,6 +195,7 @@ func act() -> void:
 func take_hit(hit: BattlerHit) -> void:
 	if hit.is_successful():
 		hit_received.emit(hit.damage)
+		hit_landed.emit(hit.damage, hit.effectiveness)
 		stats.health -= hit.damage
 	else:
 		hit_missed.emit()

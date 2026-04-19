@@ -1,0 +1,1408 @@
+{
+  "name": "poki soweli — Roadmap to v0.1.0",
+  "branchName": "feature/poki-soweli-v010",
+  "userStories": [
+    {
+      "id": "US-001",
+      "title": "Wire starter-ceremony dialog triggers end-to-end",
+      "description": "As a player, I want completing the jan Sewi starter ceremony to actually grant my chosen creature and items, so that the opening tutorial has real consequences.",
+      "acceptanceCriteria": [
+        "After jan_sewi tutorial dialog closes, TokiSave.party() contains soweli_seli @ L5",
+        "Inventory contains 3 × poki_lili",
+        "Flag starter_chosen=true is set and persists across save/load",
+        "Files: src/common/toki_save.gd, src/field/ui/dialog_overlay.gd"
+      ],
+      "priority": 1,
+      "passes": true,
+      "dependsOn": [],
+      "completionNotes": "Completed by agent"
+    },
+    {
+      "id": "US-002",
+      "title": "Let player pick from 3 starters (seli/telo/kasi)",
+      "description": "As a player, I want to choose between three starter creatures during the ceremony, so that I can pick a play style.",
+      "acceptanceCriteria": [
+        "jan Sewi dialog offers 3 lettered choices (seli / telo / kasi)",
+        "Selecting a choice dispatches add_party with the picked species only",
+        "Untouched species do not appear in party",
+        "Files: schema/dialog_resource.gd, content/spine/regions/ma_tomo_lili.json, src/field/ui/dialog_overlay.gd"
+      ],
+      "priority": 1,
+      "passes": true,
+      "dependsOn": [
+        "US-001"
+      ],
+      "completionNotes": "Completed by agent"
+    },
+    {
+      "id": "US-003",
+      "title": "Read from party instead of hardcoded DEFAULT_LEAD_SPECIES",
+      "description": "As a player, I want my chosen starter to be the one that appears in encounters, not a hardcoded debug species.",
+      "acceptanceCriteria": [
+        "EncounterWatcher._on_player_arrived uses TokiSave.party()[0] when party non-empty",
+        "Falls back to DEFAULT_LEAD_SPECIES only when party is empty",
+        "Files: src/field/encounter_watcher.gd"
+      ],
+      "priority": 1,
+      "passes": true,
+      "dependsOn": [
+        "US-001"
+      ],
+      "completionNotes": "Completed by agent"
+    },
+    {
+      "id": "US-004",
+      "title": "Populate nasin_wan tall-grass encounter table",
+      "description": "As a player, I want walking through tall grass in nasin_wan to trigger varied wild encounters, so that the route feels alive.",
+      "acceptanceCriteria": [
+        "nasin_wan.json has tall_grass_keys populated",
+        "encounters[] has ≥ 4 weighted species entries",
+        "Encounters fire when player walks across tall_grass tiles",
+        "Files: content/spine/regions/nasin_wan.json"
+      ],
+      "priority": 1,
+      "passes": true,
+      "dependsOn": [],
+      "completionNotes": "Completed by agent"
+    },
+    {
+      "id": "US-005",
+      "title": "Add tall-grass tile painting to nasin_wan ground layer",
+      "description": "As a player, I want to see tall-grass tiles painted in the world so I can avoid or seek encounters.",
+      "acceptanceCriteria": [
+        "≥ 20 tiles tagged tall_grass visible in nasin_wan grid",
+        "Tiles painted with forest_summer foliage atlas",
+        "Files: content/spine/regions/nasin_wan.json"
+      ],
+      "priority": 1,
+      "passes": true,
+      "dependsOn": [
+        "US-004",
+        "US-013"
+      ],
+      "completionNotes": "Completed by agent"
+    },
+    {
+      "id": "US-006",
+      "title": "Author jan Ike rival set-piece at nasin_wan east edge",
+      "description": "As a player, I want a scripted rival fight when I reach the east edge of nasin_wan, so that the route has a story beat.",
+      "acceptanceCriteria": [
+        "Stepping on tile (30,5) triggers a forced non-random battle",
+        "jan Ike has 1-creature party",
+        "Trigger fires only once per save",
+        "Files: content/spine/regions/nasin_wan.json, src/field/warp_watcher.gd"
+      ],
+      "priority": 2,
+      "passes": true,
+      "dependsOn": [
+        "US-007"
+      ],
+      "completionNotes": "Completed by agent"
+    },
+    {
+      "id": "US-007",
+      "title": "Create FieldTriggerWatcher for non-warp scripted tile triggers",
+      "description": "As a developer, I want a clean separation between warp triggers and scripted-event triggers, so that set-pieces and dialogs are easy to author.",
+      "acceptanceCriteria": [
+        "New FieldTriggerWatcher distinct from WarpWatcher",
+        "Fires FieldEvents.combat_triggered or dialog_requested based on region.triggers[] data",
+        "Files: src/field/field_trigger_watcher.gd (new), src/field/field_events.gd, schema/region_resource.gd"
+      ],
+      "priority": 1,
+      "passes": true,
+      "dependsOn": [],
+      "completionNotes": "Completed by agent"
+    },
+    {
+      "id": "US-008",
+      "title": "Fix combat → field return so player lands on pre-combat tile",
+      "description": "As a player, I want to return to exactly where I was after a battle ends, so that combat doesn't feel disorienting.",
+      "acceptanceCriteria": [
+        "Combat.hide() emits CombatEvents.combat_finished",
+        "Field restores input handling",
+        "Player Gamepiece resumes at the pre-combat cell",
+        "No scene reload during return",
+        "Files: src/combat/combat.gd, src/field/field.gd"
+      ],
+      "priority": 1,
+      "passes": true,
+      "dependsOn": [],
+      "completionNotes": "Completed by agent"
+    },
+    {
+      "id": "US-009",
+      "title": "Apply XP + level-up on combat victory",
+      "description": "As a player, I want my creatures to gain XP and level up after winning fights, so that progression feels rewarding.",
+      "acceptanceCriteria": [
+        "After victory, TokiSave.party()[0].xp += enemy.xp_yield",
+        "Crossing a curve threshold triggers level up",
+        "Level up recomputes max HP and learns moves per species curve",
+        "Files: src/common/toki_save.gd, src/combat/combat.gd, schema/species_resource.gd"
+      ],
+      "priority": 1,
+      "passes": true,
+      "dependsOn": [
+        "US-008"
+      ],
+      "completionNotes": "Completed by agent"
+    },
+    {
+      "id": "US-010",
+      "title": "Apply faint → whiteout → restore party at last village",
+      "description": "As a player, I want a clear defeat sequence that returns me to safety, so that losing is not a softlock.",
+      "acceptanceCriteria": [
+        "Defeat clears combat flag",
+        "Player warps to TokiSave.current_region_id spawn point",
+        "All party HP fully restored",
+        "Files: src/combat/combat.gd, src/field/warp_watcher.gd, src/common/toki_save.gd"
+      ],
+      "priority": 1,
+      "passes": true,
+      "dependsOn": [
+        "US-008"
+      ],
+      "completionNotes": "Completed by agent"
+    },
+    {
+      "id": "US-011",
+      "title": "Flee action in combat UI for wild battles",
+      "description": "As a player, I want to flee from wild battles, so that I can retreat from unwanted fights.",
+      "acceptanceCriteria": [
+        "Flee button in action menu (wild battles only)",
+        "75% base success rate",
+        "On success, combat ends with is_player_victory=false and no faint whiteout",
+        "Files: src/combat/ui/action_menu/ui_action_menu.gd, src/combat/combat.gd"
+      ],
+      "priority": 2,
+      "passes": true,
+      "dependsOn": [
+        "US-008"
+      ],
+      "completionNotes": "Completed by agent"
+    },
+    {
+      "id": "US-012",
+      "title": "Swap toki_town_main.tscn to use forest_summer tileset for nasin_wan",
+      "description": "As a player, I want nasin_wan to look like a forest, not a town, so that biomes feel distinct.",
+      "acceptanceCriteria": [
+        "Visiting nasin_wan paints from assets/tilesets/forest_summer/*.png",
+        "ma_tomo_lili continues to use Kenney town atlas",
+        "Files: src/field/region_builder.gd, new content/tilesets/forest_summer.tres"
+      ],
+      "priority": 2,
+      "passes": true,
+      "dependsOn": [
+        "US-013"
+      ],
+      "completionNotes": "Completed by agent"
+    },
+    {
+      "id": "US-013",
+      "title": "Build forest_summer tileset resource with walkable + tall_grass flags",
+      "description": "As a developer, I want a complete forest_summer TileSet with collision and tag metadata, so that field systems can resolve tile types.",
+      "acceptanceCriteria": [
+        "TileKeys.resolve('tall_grass') returns valid atlas coord from forest_summer",
+        "Walkable flag honored by Gamepiece pathing",
+        "Files: tools/tile_keys.gd, new content/tilesets/forest_summer.tres"
+      ],
+      "priority": 1,
+      "passes": true,
+      "dependsOn": [],
+      "completionNotes": "Completed by agent"
+    },
+    {
+      "id": "US-014",
+      "title": "Sanity playthrough checklist for slice",
+      "description": "As a developer, I want a documented manual playthrough script, so that I can verify the slice end-to-end before merging Phase 1.",
+      "acceptanceCriteria": [
+        "docs/SLICE_CHECK.md exists with start→starter→warp→combat→warp checklist",
+        "Checklist executes cleanly with make build && make run",
+        "Files: docs/SLICE_CHECK.md (new)"
+      ],
+      "priority": 3,
+      "passes": false,
+      "dependsOn": [
+        "US-001",
+        "US-008",
+        "US-009"
+      ]
+    },
+    {
+      "id": "US-015",
+      "title": "Theme combat UI with toki_theme.tres",
+      "description": "As a player, I want combat to look like the rest of the game, so that the experience feels cohesive.",
+      "acceptanceCriteria": [
+        "ui_combat.theme overridden by toki_theme.tres",
+        "All Labels use Nunito/Fredoka",
+        "All Panels use amber/parchment palette",
+        "Files: src/combat/ui/ui_combat.tscn, theme/toki_theme.tres"
+      ],
+      "priority": 2,
+      "passes": true,
+      "dependsOn": [],
+      "completionNotes": "Completed by agent"
+    },
+    {
+      "id": "US-016",
+      "title": "Animate HP bars with tween on damage",
+      "description": "As a player, I want HP bars to animate when I take damage, so that combat feels responsive.",
+      "acceptanceCriteria": [
+        "HP changes tween over 0.4s ease-out",
+        "Bar color shifts green→amber at 50% HP",
+        "Bar color shifts amber→red at 20% HP",
+        "Files: src/combat/ui/battler_entry/ui_life_bar.gd"
+      ],
+      "priority": 2,
+      "passes": true,
+      "dependsOn": [
+        "US-015"
+      ],
+      "completionNotes": "Completed by agent"
+    },
+    {
+      "id": "US-017",
+      "title": "Damage number popups with type-matchup color",
+      "description": "As a player, I want to see floating damage numbers colored by effectiveness, so that I learn type matchups visually.",
+      "acceptanceCriteria": [
+        "Damage labels float up and fade out",
+        "Super-effective hits flash emerald",
+        "Resisted hits flash grey",
+        "Misses display 'pakala'",
+        "Files: src/combat/ui/effect_labels/ui_damage_label.gd, ui_damage_label.tscn"
+      ],
+      "priority": 2,
+      "passes": true,
+      "dependsOn": [
+        "US-015"
+      ],
+      "completionNotes": "Completed by agent"
+    },
+    {
+      "id": "US-018",
+      "title": "Swap battler sprites to creature packs per species",
+      "description": "As a player, I want each species to have a distinct battle sprite, so that creatures feel unique.",
+      "acceptanceCriteria": [
+        "Each SpeciesResource.sprite_frame maps to an asset in assets/creatures/",
+        "In-combat sprite is distinct per species (no shared placeholder)",
+        "Files: schema/species_resource.gd, src/combat/battlers/toki_battler_anim.gd, tools/build_spine.gd"
+      ],
+      "priority": 2,
+      "passes": true,
+      "dependsOn": [],
+      "completionNotes": "Completed by agent"
+    },
+    {
+      "id": "US-019",
+      "title": "Battler hit animation (shake + flash)",
+      "description": "As a player, I want creatures to react when hit, so that damage feels impactful.",
+      "acceptanceCriteria": [
+        "On taking damage, sprite shakes for 0.15s",
+        "Sprite flashes white during shake",
+        "Files: src/combat/battlers/toki_battler_anim.gd"
+      ],
+      "priority": 2,
+      "passes": true,
+      "dependsOn": [
+        "US-018"
+      ],
+      "completionNotes": "Completed by agent"
+    },
+    {
+      "id": "US-020",
+      "title": "Faint animation (fade + slide down)",
+      "description": "As a player, I want a clear faint animation when a creature reaches 0 HP.",
+      "acceptanceCriteria": [
+        "Sprite drops 40px over 0.5s",
+        "Sprite fades to 0 alpha during drop",
+        "Files: src/combat/battlers/toki_battler_anim.gd"
+      ],
+      "priority": 2,
+      "passes": false,
+      "dependsOn": [
+        "US-018"
+      ]
+    },
+    {
+      "id": "US-021",
+      "title": "Victory + level-up + XP gain popup sequence",
+      "description": "As a player, I want a satisfying end-of-battle sequence showing XP, level-ups, and new moves.",
+      "acceptanceCriteria": [
+        "Sequence shows '+N xp' first",
+        "Then 'L{old}→L{new}' if leveled",
+        "Then 'new move: X' if learned",
+        "Replaces Dialogic-based victory timeline",
+        "Files: src/combat/combat.gd, new src/combat/ui/victory_panel.tscn"
+      ],
+      "priority": 1,
+      "passes": true,
+      "dependsOn": [
+        "US-009"
+      ],
+      "completionNotes": "Completed by agent"
+    },
+    {
+      "id": "US-022",
+      "title": "Defeat screen panel",
+      "description": "As a player, I want a clear defeat message before being returned to the village.",
+      "acceptanceCriteria": [
+        "Full-screen fade with message 'pakala! sina tawa ma tomo.'",
+        "Auto-returns to field after 2s",
+        "Files: new src/combat/ui/defeat_panel.tscn"
+      ],
+      "priority": 2,
+      "passes": false,
+      "dependsOn": [
+        "US-010"
+      ]
+    },
+    {
+      "id": "US-023",
+      "title": "Catch UX with poki-throw animation + result dialog",
+      "description": "As a player, I want a tactile catch sequence with animation and clear result feedback.",
+      "acceptanceCriteria": [
+        "Throwing a poki plays a sprite-arc animation",
+        "On success, dialog shows 'you caught {name_tp}'",
+        "On fail, wild creature gets next turn",
+        "Files: src/combat/actions/poki_throw_action.gd, new src/combat/ui/catch_result_panel.tscn"
+      ],
+      "priority": 2,
+      "passes": false,
+      "dependsOn": []
+    },
+    {
+      "id": "US-024",
+      "title": "Party Panel scene with 6 slots",
+      "description": "As a player, I want to view my party from the field via a hotkey.",
+      "acceptanceCriteria": [
+        "Pressing P on field opens panel overlay",
+        "Panel shows 6 slots with sprite, name_tp (sitelen-pona), HP bar, level",
+        "Files: new src/field/ui/party_panel.tscn, party_panel.gd"
+      ],
+      "priority": 2,
+      "passes": false,
+      "dependsOn": []
+    },
+    {
+      "id": "US-025",
+      "title": "Party Panel detail view with moves/XP/type",
+      "description": "As a player, I want to inspect each creature's moves, XP progress, and type.",
+      "acceptanceCriteria": [
+        "Tapping a slot shows detail card",
+        "Card displays 4 moves, type badge, XP progress bar",
+        "Files: src/field/ui/party_panel.gd"
+      ],
+      "priority": 2,
+      "passes": false,
+      "dependsOn": [
+        "US-024"
+      ]
+    },
+    {
+      "id": "US-026",
+      "title": "Party Panel reorder via drag",
+      "description": "As a player, I want to drag a creature to slot 0 to set my new lead.",
+      "acceptanceCriteria": [
+        "Drag any slot to position 0 to reorder",
+        "New lead persists via TokiSave",
+        "Files: src/field/ui/party_panel.gd, src/common/toki_save.gd"
+      ],
+      "priority": 3,
+      "passes": false,
+      "dependsOn": [
+        "US-024"
+      ]
+    },
+    {
+      "id": "US-027",
+      "title": "Reward item + XP drop table per species",
+      "description": "As a developer, I want each species to define its XP yield and item drop chance.",
+      "acceptanceCriteria": [
+        "SpeciesResource has xp_yield and optional item_drop_chance fields",
+        "Victory grants both",
+        "Files: schema/species_resource.gd, content/spine/species/*.json, src/combat/combat.gd"
+      ],
+      "priority": 2,
+      "passes": false,
+      "dependsOn": [
+        "US-009"
+      ]
+    },
+    {
+      "id": "US-028",
+      "title": "Add kili healing item usable from party panel",
+      "description": "As a player, I want to heal injured creatures with kili from the party panel.",
+      "acceptanceCriteria": [
+        "From party panel, tapping a creature offers 'use kili'",
+        "Use grants +20 HP",
+        "Inventory decrements",
+        "Works on fainted or injured creatures",
+        "Files: src/field/ui/party_panel.gd, content/spine/items/kili.json"
+      ],
+      "priority": 2,
+      "passes": false,
+      "dependsOn": [
+        "US-024"
+      ]
+    },
+    {
+      "id": "US-029",
+      "title": "Items submenu in combat action menu",
+      "description": "As a player, I want to use items mid-fight from a clear submenu.",
+      "acceptanceCriteria": [
+        "Action menu has Fight / Poki / Item / Flee",
+        "Item opens an inventory sub-list",
+        "Files: src/combat/ui/action_menu/ui_action_menu.gd + .tscn"
+      ],
+      "priority": 2,
+      "passes": false,
+      "dependsOn": [
+        "US-011"
+      ]
+    },
+    {
+      "id": "US-030",
+      "title": "Title scene with new game / continue / settings / quit",
+      "description": "As a player, I want a real title screen instead of booting straight into gameplay.",
+      "acceptanceCriteria": [
+        "res://src/title.tscn is the new run/main_scene",
+        "Menu routes to game, settings, or quit",
+        "Files: new src/title.tscn + title.gd, project.godot"
+      ],
+      "priority": 1,
+      "passes": true,
+      "dependsOn": [],
+      "completionNotes": "Completed by agent"
+    },
+    {
+      "id": "US-031",
+      "title": "Hook SaveSystem.save() to autosave on region change",
+      "description": "As a player, I want the game to autosave when I cross between regions.",
+      "acceptanceCriteria": [
+        "Every FieldEvents.region_changed triggers SaveSystem.save()",
+        "Save file at user://save.tres",
+        "Files: src/common/toki_save.gd"
+      ],
+      "priority": 1,
+      "passes": true,
+      "dependsOn": [],
+      "completionNotes": "Completed by agent"
+    },
+    {
+      "id": "US-032",
+      "title": "Autosave on combat_finished",
+      "description": "As a player, I want progress saved after every battle so a crash doesn't lose XP.",
+      "acceptanceCriteria": [
+        "Save flushes after every combat end (win or loss)",
+        "Files: src/common/toki_save.gd, src/combat/combat.gd"
+      ],
+      "priority": 1,
+      "passes": true,
+      "dependsOn": [
+        "US-008"
+      ],
+      "completionNotes": "Completed by agent"
+    },
+    {
+      "id": "US-033",
+      "title": "Save on WM_CLOSE_REQUEST",
+      "description": "As a player, I want closing the window to persist my state.",
+      "acceptanceCriteria": [
+        "Quit-intent triggers save",
+        "Next launch + Continue restores full state",
+        "Files: new src/common/app_root.gd, project.godot notification wiring"
+      ],
+      "priority": 2,
+      "passes": false,
+      "dependsOn": [
+        "US-031"
+      ]
+    },
+    {
+      "id": "US-034",
+      "title": "Continue boots into current_region_id at player_tile",
+      "description": "As a player, I want Continue to drop me exactly where I left off.",
+      "acceptanceCriteria": [
+        "Continue loads save, builds region, places player on last tile",
+        "No starter prompt re-fires",
+        "Files: src/title.gd, src/field/region_builder.gd, src/common/toki_save.gd"
+      ],
+      "priority": 1,
+      "passes": true,
+      "dependsOn": [
+        "US-030",
+        "US-031"
+      ],
+      "completionNotes": "Completed by agent"
+    },
+    {
+      "id": "US-035",
+      "title": "Settings menu for Music / SFX volume + Text speed",
+      "description": "As a player, I want to adjust audio levels and text speed and have those settings persist.",
+      "acceptanceCriteria": [
+        "Three sliders: Music, SFX, Text speed",
+        "Values persist in user://settings.cfg",
+        "Volume applied to AudioServer buses",
+        "Text speed applied to DialogOverlay TYPEWRITER_CPS",
+        "Files: new src/title/settings.tscn + settings.gd, src/field/ui/dialog_overlay.gd"
+      ],
+      "priority": 2,
+      "passes": false,
+      "dependsOn": [
+        "US-030"
+      ]
+    },
+    {
+      "id": "US-036",
+      "title": "Loading screen between region warps",
+      "description": "As a player, I want a smooth transition with the destination region's name during warps.",
+      "acceptanceCriteria": [
+        "Transition covers, hides old region, async builds new, then clears",
+        "Shows region name_tp as label during transition",
+        "Files: src/common/screen_transitions/screen_transition.gd"
+      ],
+      "priority": 3,
+      "passes": false,
+      "dependsOn": []
+    },
+    {
+      "id": "US-037",
+      "title": "New Game flow with confirm-wipe modal",
+      "description": "As a player, I want to be warned before a New Game overwrites my existing save.",
+      "acceptanceCriteria": [
+        "New Game with existing save shows 'are you sure?' modal",
+        "Confirming deletes save, then runs starter ceremony",
+        "Files: src/title.gd"
+      ],
+      "priority": 2,
+      "passes": false,
+      "dependsOn": [
+        "US-030"
+      ]
+    },
+    {
+      "id": "US-038",
+      "title": "Pause menu with Resume / Party / Items / Save / Settings / Quit",
+      "description": "As a player, I want to pause the game and access common actions.",
+      "acceptanceCriteria": [
+        "ESC or start-button opens pause menu",
+        "Pause halts the scene tree",
+        "Save button triggers explicit save",
+        "Quit returns to title",
+        "Files: new src/field/ui/pause_menu.tscn + pause_menu.gd"
+      ],
+      "priority": 2,
+      "passes": false,
+      "dependsOn": [
+        "US-030",
+        "US-035"
+      ]
+    },
+    {
+      "id": "US-039",
+      "title": "Sync current_region_id + player_tile in field",
+      "description": "As a developer, I want save state to track player position continuously.",
+      "acceptanceCriteria": [
+        "Every Gamepiece.arrived updates TokiSave.player_tile",
+        "Region warps update TokiSave.current_region_id",
+        "Files: src/field/encounter_watcher.gd or central listener"
+      ],
+      "priority": 1,
+      "passes": true,
+      "dependsOn": [],
+      "completionNotes": "Completed by agent"
+    },
+    {
+      "id": "US-040",
+      "title": "Save format versioning + migration stub",
+      "description": "As a developer, I want save files to carry a version so future migrations are possible.",
+      "acceptanceCriteria": [
+        "Save tres has schema_version:int field",
+        "Load checks version and warns on mismatch",
+        "Files: src/common/toki_save.gd"
+      ],
+      "priority": 2,
+      "passes": false,
+      "dependsOn": [
+        "US-031"
+      ]
+    },
+    {
+      "id": "US-041",
+      "title": "Credits scene rolls on game clear",
+      "description": "As a player, I want a credits sequence after beating the final jan lawa.",
+      "acceptanceCriteria": [
+        "Credits roll for 25s after final victory",
+        "Music fades during roll",
+        "Returns to title when complete",
+        "Files: new src/title/credits.tscn + credits.gd, CREDITS.md"
+      ],
+      "priority": 3,
+      "passes": false,
+      "dependsOn": [
+        "US-030",
+        "US-051"
+      ]
+    },
+    {
+      "id": "US-042",
+      "title": "Mastered words screen",
+      "description": "As a player, I want to review the toki pona sentences I've encountered.",
+      "acceptanceCriteria": [
+        "Pause → Mastered Words shows scrollable list",
+        "Each entry shows EN + TP + first-heard region",
+        "Files: new src/field/ui/mastered_words.tscn, src/common/toki_save.gd"
+      ],
+      "priority": 3,
+      "passes": false,
+      "dependsOn": [
+        "US-038"
+      ]
+    },
+    {
+      "id": "US-043",
+      "title": "Extend RegionResource with biome + music_track",
+      "description": "As a developer, I want regions to declare their biome and music so builders can pick the right tileset and track.",
+      "acceptanceCriteria": [
+        "RegionResource adds biome:String (town/forest/water/ice/cave/peak/dungeon) and music_track:String",
+        "Builder reads biome to pick tileset",
+        "Files: schema/region_resource.gd, tools/build_spine.gd"
+      ],
+      "priority": 1,
+      "passes": true,
+      "dependsOn": [],
+      "completionNotes": "Completed by agent"
+    },
+    {
+      "id": "US-044",
+      "title": "Author nasin_wan biome=forest using forest_summer tileset",
+      "description": "As a player, I want nasin_wan to fully use the forest biome.",
+      "acceptanceCriteria": [
+        "nasin_wan.json declares biome=forest",
+        "Painted entirely from forest_summer atlas",
+        "Files: content/spine/regions/nasin_wan.json, tools/tile_keys.gd"
+      ],
+      "priority": 2,
+      "passes": false,
+      "dependsOn": [
+        "US-043",
+        "US-013"
+      ]
+    },
+    {
+      "id": "US-045",
+      "title": "Author nasin_pi_telo biome=water with custom water atlas",
+      "description": "As a player, I want a river-route region with proper water tiles.",
+      "acceptanceCriteria": [
+        "River route playable",
+        "Tall-grass on banks",
+        "Water tiles impassable",
+        "Files: content/spine/regions/nasin_pi_telo.json, new content/tilesets/water.tres"
+      ],
+      "priority": 2,
+      "passes": false,
+      "dependsOn": [
+        "US-043"
+      ]
+    },
+    {
+      "id": "US-046",
+      "title": "Author ma_telo biome=town as second village",
+      "description": "As a player, I want a second village hub with NPCs and the first gym.",
+      "acceptanceCriteria": [
+        "Village hub contains jan Telo (gym 1), 3 NPCs, 1 shop-sign NPC, 2 warps",
+        "Files: content/spine/regions/ma_telo.json"
+      ],
+      "priority": 2,
+      "passes": false,
+      "dependsOn": [
+        "US-043"
+      ]
+    },
+    {
+      "id": "US-047",
+      "title": "Author ma_lete biome=ice using forest_winter tileset",
+      "description": "As a player, I want an ice region painted with frozen-forest tiles.",
+      "acceptanceCriteria": [
+        "Region uses forest_winter atlas",
+        "Slippery-tile stub (optional)",
+        "Files: content/spine/regions/ma_lete.json, tools/tile_keys.gd"
+      ],
+      "priority": 2,
+      "passes": false,
+      "dependsOn": [
+        "US-043"
+      ]
+    },
+    {
+      "id": "US-048",
+      "title": "Author nena_sewi biome=peak (upper mountain)",
+      "description": "As a player, I want a peak region housing the final gym.",
+      "acceptanceCriteria": [
+        "Region playable end-to-end",
+        "Cliff tiles block traversal",
+        "Final gym placed",
+        "Files: content/spine/regions/nena_sewi.json"
+      ],
+      "priority": 2,
+      "passes": false,
+      "dependsOn": [
+        "US-043"
+      ]
+    },
+    {
+      "id": "US-049",
+      "title": "Author nena_suli biome=cave using cave tileset",
+      "description": "As a player, I want a cave-interior region with appropriate visuals.",
+      "acceptanceCriteria": [
+        "Cave interior painted with cave tileset",
+        "Reduced-visibility shader (optional)",
+        "Files: content/spine/regions/nena_suli.json"
+      ],
+      "priority": 2,
+      "passes": false,
+      "dependsOn": [
+        "US-043"
+      ]
+    },
+    {
+      "id": "US-050",
+      "title": "Verify all 7 region warp graph is connected",
+      "description": "As a developer, I want a test that catches any orphaned region in the warp graph.",
+      "acceptanceCriteria": [
+        "gdUnit4 test walks warps from start",
+        "Every region reachable",
+        "No orphans",
+        "Files: new test/integration/test_warp_graph.gd"
+      ],
+      "priority": 2,
+      "passes": false,
+      "dependsOn": [
+        "US-044",
+        "US-045",
+        "US-046",
+        "US-047",
+        "US-048",
+        "US-049",
+        "US-074"
+      ]
+    },
+    {
+      "id": "US-051",
+      "title": "Author 7 jan lawa set-piece fights",
+      "description": "As a player, I want one gym leader fight per region with a real multi-creature party.",
+      "acceptanceCriteria": [
+        "Each jan lawa is scripted via FieldTriggerWatcher",
+        "First fight at ma_telo, last at nena_sewi",
+        "Each has a multi-creature party scaled to region",
+        "Files: content/spine/regions/*.json"
+      ],
+      "priority": 1,
+      "passes": false,
+      "dependsOn": [
+        "US-007",
+        "US-044",
+        "US-045",
+        "US-046",
+        "US-047",
+        "US-048",
+        "US-049"
+      ]
+    },
+    {
+      "id": "US-052",
+      "title": "Badge award dialog + persist badges[]",
+      "description": "As a player, I want a ceremony when I beat a gym leader and a badge that persists.",
+      "acceptanceCriteria": [
+        "On jan lawa win, ceremony dialog plays",
+        "Badge added to TokiSave.badges",
+        "Files: src/common/toki_save.gd, src/combat/combat.gd"
+      ],
+      "priority": 1,
+      "passes": false,
+      "dependsOn": [
+        "US-051"
+      ]
+    },
+    {
+      "id": "US-053",
+      "title": "Badge display in pause menu (7 slots)",
+      "description": "As a player, I want to see my badge collection.",
+      "acceptanceCriteria": [
+        "Pause → Badges tab shows 7 slots",
+        "Earned badges shown with sitelen-pona titles",
+        "Unearned badges greyed out",
+        "Files: src/field/ui/pause_menu.gd, new src/field/ui/badges_panel.tscn"
+      ],
+      "priority": 2,
+      "passes": false,
+      "dependsOn": [
+        "US-038",
+        "US-052"
+      ]
+    },
+    {
+      "id": "US-054",
+      "title": "Gate next-region warps until matching badge earned",
+      "description": "As a player, I want gym progression to gate region access for clear pacing.",
+      "acceptanceCriteria": [
+        "RegionResource.warp.required_badge field added",
+        "Stepping on a gated warp without badge shows 'you need X badge' dialog",
+        "Files: src/field/warp_watcher.gd, schema/region_resource.gd"
+      ],
+      "priority": 2,
+      "passes": false,
+      "dependsOn": [
+        "US-052"
+      ]
+    },
+    {
+      "id": "US-055",
+      "title": "Pokedex screen — 17 species grid",
+      "description": "As a player, I want a Pokedex showing my discovery and catch progress.",
+      "acceptanceCriteria": [
+        "17-species grid accessible from pause",
+        "Silhouette → revealed on seen → full art on caught",
+        "Each entry shows name_tp + type + flavor text",
+        "Files: new src/field/ui/pokedex.tscn + pokedex.gd, src/common/toki_save.gd"
+      ],
+      "priority": 2,
+      "passes": false,
+      "dependsOn": [
+        "US-038",
+        "US-056"
+      ]
+    },
+    {
+      "id": "US-056",
+      "title": "Track bestiary entries (seen/caught) on encounter + catch",
+      "description": "As a developer, I want seen/caught flags written when encounters open and catches succeed.",
+      "acceptanceCriteria": [
+        "Seen flag set on encounter open",
+        "Caught flag set on poki success",
+        "Files: src/combat/combat.gd, src/combat/actions/poki_throw_action.gd"
+      ],
+      "priority": 2,
+      "passes": false,
+      "dependsOn": []
+    },
+    {
+      "id": "US-057",
+      "title": "Author multi-beat dialog for all regions (≥ 5 NPCs each)",
+      "description": "As a player, I want every region to have NPCs with flavor and story dialog.",
+      "acceptanceCriteria": [
+        "≥ 35 region-NPC dialog nodes total across regions",
+        "≥ 2 story beats per region",
+        "All dialog passes make validate",
+        "Files: content/spine/regions/*.json"
+      ],
+      "priority": 2,
+      "passes": false,
+      "dependsOn": [
+        "US-044",
+        "US-045",
+        "US-046",
+        "US-047",
+        "US-048",
+        "US-049"
+      ]
+    },
+    {
+      "id": "US-058",
+      "title": "Shop NPC in ma_telo sells poki + kili",
+      "description": "As a player, I want to buy items from a shop NPC.",
+      "acceptanceCriteria": [
+        "Interacting with shop NPC opens menu of items + price in ma",
+        "Buying decrements ma and increments inventory",
+        "Files: new src/field/ui/shop_panel.tscn + shop_panel.gd, schema/npc_resource.gd (role=shop)"
+      ],
+      "priority": 2,
+      "passes": false,
+      "dependsOn": [
+        "US-046",
+        "US-059"
+      ]
+    },
+    {
+      "id": "US-059",
+      "title": "Add ma (coin) inventory + win-reward currency",
+      "description": "As a player, I want to earn coins from battles to spend at shops.",
+      "acceptanceCriteria": [
+        "TokiSave.inventory['ma'] tracked",
+        "Each battle grants small coin reward",
+        "Files: src/common/toki_save.gd, src/combat/combat.gd"
+      ],
+      "priority": 2,
+      "passes": false,
+      "dependsOn": []
+    },
+    {
+      "id": "US-060",
+      "title": "Wire Music autoload to region biome → track map",
+      "description": "As a player, I want each biome to play its own music.",
+      "acceptanceCriteria": [
+        "Forest plays Apple Cider.mp3",
+        "Town plays Insect Factory.mp3",
+        "All 4 tracks mapped to 7 biomes",
+        "Files: src/common/music/music_player.gd, new content/audio/biome_music.tres"
+      ],
+      "priority": 2,
+      "passes": false,
+      "dependsOn": [
+        "US-043"
+      ]
+    },
+    {
+      "id": "US-061",
+      "title": "Cross-fade music on region change",
+      "description": "As a player, I want music to transition smoothly between biomes.",
+      "acceptanceCriteria": [
+        "0.8s cross-fade between tracks on biome change",
+        "Files: src/common/music/music_player.gd"
+      ],
+      "priority": 3,
+      "passes": false,
+      "dependsOn": [
+        "US-060"
+      ]
+    },
+    {
+      "id": "US-062",
+      "title": "Combat music override",
+      "description": "As a player, I want a distinct combat track that returns to field music after.",
+      "acceptanceCriteria": [
+        "Combat.setup() fades out field music + plays combat.mp3",
+        "Field music restores on combat finish",
+        "Files: src/combat/combat.gd"
+      ],
+      "priority": 2,
+      "passes": false,
+      "dependsOn": [
+        "US-060"
+      ]
+    },
+    {
+      "id": "US-063",
+      "title": "Wire 12 SFX events via AdaptiSound",
+      "description": "As a player, I want sound effects on every key action so the game feels reactive.",
+      "acceptanceCriteria": [
+        "12 events wired: footstep, encounter sting, hit, miss, faint, catch-success, catch-fail, menu move, menu select, dialog beep, warp whoosh, gym-victory + badge",
+        "All play correct .ogg at SFX bus",
+        "Volumes balanced",
+        "Files: new src/common/sfx_player.gd, assets/sfx/*"
+      ],
+      "priority": 2,
+      "passes": false,
+      "dependsOn": []
+    },
+    {
+      "id": "US-064",
+      "title": "Apply Settings volume sliders to Music + SFX buses",
+      "description": "As a player, I want volume sliders to control audio in real time.",
+      "acceptanceCriteria": [
+        "Slider movement live-adjusts bus volume in dB",
+        "Files: src/title/settings.gd, default_bus_layout.tres"
+      ],
+      "priority": 2,
+      "passes": false,
+      "dependsOn": [
+        "US-035",
+        "US-063"
+      ]
+    },
+    {
+      "id": "US-065",
+      "title": "Virtual d-pad UI for mobile",
+      "description": "As a mobile player, I want an on-screen d-pad to move my character.",
+      "acceptanceCriteria": [
+        "4-button on-screen d-pad",
+        "Detects touch",
+        "Hidden on desktop (DisplayServer.touch_screen)",
+        "Files: new src/field/ui/virtual_dpad.tscn + virtual_dpad.gd"
+      ],
+      "priority": 2,
+      "passes": false,
+      "dependsOn": []
+    },
+    {
+      "id": "US-066",
+      "title": "Virtual A/B action buttons for mobile",
+      "description": "As a mobile player, I want on-screen interact and back buttons.",
+      "acceptanceCriteria": [
+        "Two round buttons bottom-right",
+        "Route to interact and back actions",
+        "Files: src/field/ui/virtual_dpad.tscn"
+      ],
+      "priority": 2,
+      "passes": false,
+      "dependsOn": [
+        "US-065"
+      ]
+    },
+    {
+      "id": "US-067",
+      "title": "Enforce ≥ 44dp touch targets in all UI",
+      "description": "As a mobile player, I want comfortably tappable buttons everywhere.",
+      "acceptanceCriteria": [
+        "All Button/TextureButton nodes have min_size ≥ 44dp",
+        "gdUnit4 test scans scenes and asserts compliance",
+        "Files: src/field/ui/*, src/combat/ui/*, theme/toki_theme.tres"
+      ],
+      "priority": 2,
+      "passes": false,
+      "dependsOn": [
+        "US-074"
+      ]
+    },
+    {
+      "id": "US-068",
+      "title": "Lock screen rotation to portrait for Android",
+      "description": "As a mobile player, I want the game to stay in portrait orientation.",
+      "acceptanceCriteria": [
+        "project.godot sets display/window/handheld/orientation='portrait'",
+        "Files: project.godot"
+      ],
+      "priority": 2,
+      "passes": false,
+      "dependsOn": []
+    },
+    {
+      "id": "US-069",
+      "title": "Apply text-speed slider to typewriter + combat log",
+      "description": "As a player, I want my text-speed setting to affect all text rendering.",
+      "acceptanceCriteria": [
+        "Setting affects DialogOverlay CPS",
+        "Setting affects combat message delay",
+        "Files: src/field/ui/dialog_overlay.gd, src/combat/ui/ui_combat.gd"
+      ],
+      "priority": 3,
+      "passes": false,
+      "dependsOn": [
+        "US-035"
+      ]
+    },
+    {
+      "id": "US-070",
+      "title": "Color-contrast AA audit on theme",
+      "description": "As a player with low vision, I want text and UI chrome to meet WCAG AA contrast.",
+      "acceptanceCriteria": [
+        "All body text + UI chrome passes 4.5:1 contrast on measured samples",
+        "Files: theme/toki_theme.tres"
+      ],
+      "priority": 2,
+      "passes": false,
+      "dependsOn": []
+    },
+    {
+      "id": "US-071",
+      "title": "Accessible mode toggle",
+      "description": "As a player who needs accessibility accommodations, I want a single toggle for larger fonts and reduced motion.",
+      "acceptanceCriteria": [
+        "Setting increases body font to 20pt",
+        "Disables screen shake + damage-pop animation",
+        "Files: src/title/settings.gd, theme/toki_theme.tres, src/combat/ui/effect_labels/ui_damage_label.gd"
+      ],
+      "priority": 3,
+      "passes": false,
+      "dependsOn": [
+        "US-035"
+      ]
+    },
+    {
+      "id": "US-072",
+      "title": "Web export ARIA landmarks + HTML title + meta description",
+      "description": "As a web player, I want the page to be accessible and discoverable.",
+      "acceptanceCriteria": [
+        "HTML5 preset uses custom shell with semantic landmarks",
+        "Title and meta description set",
+        "Files: export_presets.cfg, new templates/web_shell.html"
+      ],
+      "priority": 3,
+      "passes": false,
+      "dependsOn": []
+    },
+    {
+      "id": "US-073",
+      "title": "Tutorial overlay on first boot",
+      "description": "As a new player, I want movement, interact, and pause hints on first boot.",
+      "acceptanceCriteria": [
+        "First 30s of fresh save show hint arrows + 'WASD / [E] / [ESC]'",
+        "Suppressed after dismissal",
+        "Files: new src/field/ui/tutorial_overlay.tscn + tutorial_overlay.gd, src/common/toki_save.gd"
+      ],
+      "priority": 3,
+      "passes": false,
+      "dependsOn": []
+    },
+    {
+      "id": "US-074",
+      "title": "Create test/ dir with gdUnit4 manifest",
+      "description": "As a developer, I want a working gdUnit4 setup before writing tests.",
+      "acceptanceCriteria": [
+        "test/gdunit4.cfg exists",
+        "Empty suite runs green",
+        "Files: new test/gdunit4.cfg, test/unit/.gdkeep"
+      ],
+      "priority": 1,
+      "passes": true,
+      "dependsOn": [],
+      "completionNotes": "Completed by agent"
+    },
+    {
+      "id": "US-075",
+      "title": "Unit test — schemas load all spine JSONs without error",
+      "description": "As a developer, I want CI to catch any malformed spine JSON.",
+      "acceptanceCriteria": [
+        "test/unit/test_schema_load.gd passes for every .json",
+        "Files: new test/unit/test_schema_load.gd"
+      ],
+      "priority": 2,
+      "passes": false,
+      "dependsOn": [
+        "US-074"
+      ]
+    },
+    {
+      "id": "US-076",
+      "title": "Unit test — build_spine emits .tres for all content",
+      "description": "As a developer, I want CI to verify the builder produces every expected artifact.",
+      "acceptanceCriteria": [
+        "test/unit/test_build_spine.gd runs builder",
+        "Verifies every expected .tres exists",
+        "Files: new test/unit/test_build_spine.gd"
+      ],
+      "priority": 2,
+      "passes": false,
+      "dependsOn": [
+        "US-074"
+      ]
+    },
+    {
+      "id": "US-077",
+      "title": "Unit test — encounter-roll weighted distribution",
+      "description": "As a developer, I want statistical confidence in the encounter table.",
+      "acceptanceCriteria": [
+        "10,000 rolls across 4-species table within 3% of weights",
+        "Files: new test/unit/test_encounter_roll.gd"
+      ],
+      "priority": 2,
+      "passes": false,
+      "dependsOn": [
+        "US-074"
+      ]
+    },
+    {
+      "id": "US-078",
+      "title": "Unit test — type-matchup matrix",
+      "description": "As a developer, I want every type pairing verified.",
+      "acceptanceCriteria": [
+        "25 cases (seli/telo/kasi/lete/wawa pairings) each return expected multiplier",
+        "Files: new test/unit/test_type_matchups.gd, src/combat/elements.gd"
+      ],
+      "priority": 2,
+      "passes": false,
+      "dependsOn": [
+        "US-074"
+      ]
+    },
+    {
+      "id": "US-079",
+      "title": "Unit test — catch math at full, half, and 1HP",
+      "description": "As a developer, I want catch probabilities verified at edge cases.",
+      "acceptanceCriteria": [
+        "Full HP catches fail",
+        "≤ 5% HP succeeds ≥ 90% with poki_wawa",
+        "Files: new test/unit/test_catch_math.gd"
+      ],
+      "priority": 2,
+      "passes": false,
+      "dependsOn": [
+        "US-074"
+      ]
+    },
+    {
+      "id": "US-080",
+      "title": "Unit test — XP curve + level-up at boundaries",
+      "description": "As a developer, I want level-up math verified at curve thresholds.",
+      "acceptanceCriteria": [
+        "At L3 floor + 1 XP → L4",
+        "Moves learned at correct levels",
+        "Files: new test/unit/test_xp_curve.gd"
+      ],
+      "priority": 2,
+      "passes": false,
+      "dependsOn": [
+        "US-074",
+        "US-009"
+      ]
+    },
+    {
+      "id": "US-081",
+      "title": "Integration test — warp graph connectivity",
+      "description": "As a developer, I want CI to catch orphaned regions or self-loops.",
+      "acceptanceCriteria": [
+        "Walks warps start → every region",
+        "No orphans, no self-loops",
+        "Files: test/integration/test_warp_graph.gd"
+      ],
+      "priority": 2,
+      "passes": false,
+      "dependsOn": [
+        "US-050"
+      ]
+    },
+    {
+      "id": "US-082",
+      "title": "Integration test — save round-trip",
+      "description": "As a developer, I want CI to verify save/load preserves all state.",
+      "acceptanceCriteria": [
+        "Save current state → clear memory → load",
+        "All fields match original",
+        "Files: new test/integration/test_save_round_trip.gd"
+      ],
+      "priority": 2,
+      "passes": false,
+      "dependsOn": [
+        "US-074",
+        "US-031",
+        "US-040"
+      ]
+    },
+    {
+      "id": "US-083",
+      "title": "Integration test — full scripted playthrough (headless)",
+      "description": "As a developer, I want CI to run a scripted full playthrough.",
+      "acceptanceCriteria": [
+        "Injects key events: walk → starter → warp → encounter → win → gym1 win",
+        "Passes in < 90s",
+        "Files: new test/integration/test_full_playthrough.gd"
+      ],
+      "priority": 1,
+      "passes": false,
+      "dependsOn": [
+        "US-074",
+        "US-051"
+      ]
+    },
+    {
+      "id": "US-084",
+      "title": "Android gradle_build preset enabled + signed",
+      "description": "As a release engineer, I want signed AABs produced from CI.",
+      "acceptanceCriteria": [
+        "export_presets.cfg Android preset has use_gradle_build=true, export_format=1 (AAB)",
+        "Signing cert paths under $HOME/.android/release.keystore",
+        "Keystore password from GH secret",
+        "Files: export_presets.cfg, .github/workflows/release.yml"
+      ],
+      "priority": 1,
+      "passes": false,
+      "dependsOn": [
+        "US-068"
+      ]
+    },
+    {
+      "id": "US-085",
+      "title": "release-please + CD uploads AAB + APK + web zip",
+      "description": "As a release engineer, I want every tag to publish all platform artifacts.",
+      "acceptanceCriteria": [
+        "release.yml exports all platforms on tag push",
+        "Attaches AAB, APK, web zip to GH release",
+        "Files: .github/workflows/release.yml, release-please-config.json"
+      ],
+      "priority": 1,
+      "passes": false,
+      "dependsOn": [
+        "US-084"
+      ]
+    },
+    {
+      "id": "US-086",
+      "title": "Web HTML5 export size audit + compression",
+      "description": "As a web player, I want the build to load fast (≤ 30MB compressed).",
+      "acceptanceCriteria": [
+        "Final .wasm + pck + assets ≤ 30 MB gzip",
+        "Audit script in tools/web_size_audit.gd",
+        "Files: export_presets.cfg, new tools/web_size_audit.gd"
+      ],
+      "priority": 2,
+      "passes": false,
+      "dependsOn": []
+    },
+    {
+      "id": "US-087",
+      "title": "Asset compression pass (ETC2/ASTC + WebP)",
+      "description": "As a release engineer, I want texture sizes reduced for mobile + web.",
+      "acceptanceCriteria": [
+        "Textures imported with platform-appropriate compression",
+        "Total size dropped ≥ 30%",
+        "Files: *.png.import across assets/"
+      ],
+      "priority": 2,
+      "passes": false,
+      "dependsOn": []
+    },
+    {
+      "id": "US-088",
+      "title": "Expand CI matrix — unit + integration + schema + web-size gate",
+      "description": "As a developer, I want CI to run all jobs in parallel and gate the merge.",
+      "acceptanceCriteria": [
+        ".github/workflows/ci.yml runs 4 jobs in parallel",
+        "All jobs green for merge",
+        "Files: .github/workflows/ci.yml"
+      ],
+      "priority": 1,
+      "passes": false,
+      "dependsOn": [
+        "US-074",
+        "US-086"
+      ]
+    },
+    {
+      "id": "US-089",
+      "title": "Enforce Conventional Commits via commitlint",
+      "description": "As a release engineer, I want non-conformant PR titles to fail CI.",
+      "acceptanceCriteria": [
+        "commitlint workflow rejects non-conformant titles",
+        "Files: new .github/workflows/commitlint.yml"
+      ],
+      "priority": 3,
+      "passes": false,
+      "dependsOn": []
+    },
+    {
+      "id": "US-090",
+      "title": "Write CHANGELOG.md prelude + tag v0.1.0 via release-please",
+      "description": "As a release engineer, I want a clean changelog and tagged v0.1.0 release.",
+      "acceptanceCriteria": [
+        "release-please PR opens",
+        "Merge cuts v0.1.0 tag",
+        "Release notes rendered",
+        "Files: CHANGELOG.md, release-please-config.json"
+      ],
+      "priority": 1,
+      "passes": false,
+      "dependsOn": [
+        "US-085",
+        "US-088"
+      ]
+    },
+    {
+      "id": "US-091",
+      "title": "Smoke-test signed APK on physical Pixel + iOS web browser",
+      "description": "As a release engineer, I want manual QA sign-off before promoting v0.1.0.",
+      "acceptanceCriteria": [
+        "Manual QA checklist in docs/RELEASE_QA.md",
+        "Sign-off recorded before release promotion",
+        "Files: docs/RELEASE_QA.md (new)"
+      ],
+      "priority": 1,
+      "passes": false,
+      "dependsOn": [
+        "US-084",
+        "US-085"
+      ]
+    }
+  ],
+  "metadata": {
+    "updatedAt": "2026-04-19T15:17:42.388Z"
+  }
+}

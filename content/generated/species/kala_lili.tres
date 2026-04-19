@@ -29,3 +29,4 @@ learnset = [{
 catch_rate = 0.4
 xp_yield = 36
 sprite_frame = 126
+sprite_src = "res://assets/creatures/monsters/fire_skull_fireball.png"

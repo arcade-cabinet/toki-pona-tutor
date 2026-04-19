@@ -31,6 +31,12 @@ extends Resource
 @export var trigger_add_party_species: String = ""
 @export var trigger_add_party_level: int = 0
 
+# Optional branching choices presented after beats complete. When
+# non-empty, the overlay shows lettered options (A/B/C…) and fires
+# the selected choice's triggers instead of the dialog-level triggers.
+# Each entry is a Dictionary: {label: {tp,en}, glyph, triggers: {...}}
+@export var choices: Array = []
+
 
 static func from_dict(d: Dictionary) -> DialogResource:
 	var r := DialogResource.new()
@@ -40,6 +46,7 @@ static func from_dict(d: Dictionary) -> DialogResource:
 	r.when_flags = d.get("when_flags", {})
 	r.priority = d.get("priority", 0)
 	r.beats = d.get("beats", [])
+	r.choices = d.get("choices", [])
 
 	var triggers: Dictionary = d.get("triggers", {})
 	r.trigger_set_flags = triggers.get("set_flag", {})
