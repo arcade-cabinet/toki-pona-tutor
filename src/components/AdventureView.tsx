@@ -3,6 +3,7 @@ import { ArrowLeft } from 'lucide-react';
 import { gameBus } from '../game/GameBus';
 import { AdventureHUD } from './AdventureHUD';
 import { AmbientParticles } from './AmbientParticles';
+import { AdventureAudio } from './AdventureAudio';
 import { MobileControls } from './MobileControls';
 import { loadSeed, saveSeed, type Seed } from '../game/procgen/seed';
 
@@ -77,6 +78,7 @@ export function AdventureView({ onExit }: AdventureViewProps) {
         <AdventureHUD />
 
         <MobileControls />
+        <AdventureAudio />
       </div>
     </div>
   );
