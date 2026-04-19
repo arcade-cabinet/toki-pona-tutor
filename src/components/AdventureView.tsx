@@ -2,6 +2,7 @@ import { lazy, Suspense, useEffect, useRef, useState } from 'react';
 import { ArrowLeft } from 'lucide-react';
 import { gameBus } from '../game/GameBus';
 import { AdventureHUD } from './AdventureHUD';
+import { AmbientParticles } from './AmbientParticles';
 import { loadSeed, saveSeed, type Seed } from '../game/procgen/seed';
 
 const PhaserGame = lazy(() =>
@@ -103,6 +104,7 @@ export function AdventureView({ onExit }: AdventureViewProps) {
           }
         >
           <PhaserGame />
+          <AmbientParticles />
           <SolidDialogMount />
         </Suspense>
 
