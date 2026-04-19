@@ -1,5 +1,5 @@
 /** @jsxImportSource solid-js */
-import { createSignal, For, onCleanup, onMount, Show } from 'solid-js';
+import { createEffect, createSignal, For, onCleanup, onMount, Show } from 'solid-js';
 import { gameBus } from '../GameBus';
 import { getNpc, pickDialogLine, type DialogLine } from '../villageContent';
 import {
@@ -8,6 +8,9 @@ import {
   getQuestState,
 } from '../ecs/questState';
 import { sitelenFor, toSitelenPona } from '../../lib/sitelen';
+
+// ms per character during the typewriter reveal. Skipped by tapping anywhere.
+const TYPE_MS = 22;
 
 type Mode = 'dialog' | 'gate' | 'none';
 
@@ -24,6 +27,41 @@ export function DialogOverlay() {
   const [npcName, setNpcName] = createSignal('');
   const [gatePick, setGatePick] = createSignal<string | null>(null);
   const [gateFeedback, setGateFeedback] = createSignal<'none' | 'right' | 'wrong'>('none');
+  const [typed, setTyped] = createSignal(0);
+  let typeTimer: number | undefined;
+
+  createEffect(() => {
+    const l = line();
+    if (typeTimer) clearInterval(typeTimer);
+    if (!l || mode() !== 'dialog') return;
+    setTyped(0);
+    const full = l.tp.length;
+    typeTimer = window.setInterval(() => {
+      setTyped((n) => {
+        if (n >= full) {
+          if (typeTimer) clearInterval(typeTimer);
+          return n;
+        }
+        return n + 1;
+      });
+    }, TYPE_MS);
+  });
+
+  onCleanup(() => {
+    if (typeTimer) clearInterval(typeTimer);
+  });
+
+  const revealNow = () => {
+    const l = line();
+    if (!l) return;
+    if (typeTimer) clearInterval(typeTimer);
+    setTyped(l.tp.length);
+  };
+
+  const isTyping = () => {
+    const l = line();
+    return !!l && typed() < l.tp.length;
+  };
 
   onMount(() => {
     const unsub = gameBus.on('dialog:open', ({ npcId }) => {
@@ -199,32 +237,56 @@ export function DialogOverlay() {
             </Show>
 
             <Show when={mode() === 'dialog'}>
-              <div class="p-4 pt-5 space-y-2.5">
-                <div class="font-sitelen text-3xl text-emerald-800 leading-tight">
-                  {toSitelenPona(line()!.tp)}
+              <div
+                class="p-4 pt-5 space-y-2.5 cursor-pointer"
+                onClick={() => {
+                  if (isTyping()) revealNow();
+                }}
+              >
+                <div class="font-sitelen text-3xl text-emerald-800 leading-tight min-h-[1.5em]">
+                  {toSitelenPona(line()!.tp.slice(0, typed()))}
                 </div>
-                <div class="font-tile text-base text-amber-900 leading-snug">
-                  "{line()!.tp}"
+                <div class="font-tile text-base text-amber-900 leading-snug min-h-[1.3em]">
+                  "{line()!.tp.slice(0, typed())}
+                  <Show when={isTyping()}>
+                    <span class="inline-block w-0.5 h-[1em] bg-amber-700 ml-0.5 align-middle animate-pulse" />
+                  </Show>
+                  <Show when={!isTyping()}>"</Show>
                 </div>
-                <Show when={showEn()}>
-                  <div class="text-sm text-amber-800/70 italic border-l-2 border-amber-400 pl-3">
+                <Show when={showEn() && !isTyping()}>
+                  <div class="text-sm text-amber-800/70 italic border-l-2 border-amber-400 pl-3 animate-in fade-in duration-200">
                     {line()!.en}
                   </div>
                 </Show>
-                <div class="flex gap-2 pt-1">
+                <div class="flex gap-2 pt-1 items-center">
                   <button
                     type="button"
-                    onClick={() => setShowEn(!showEn())}
+                    onClick={(ev) => {
+                      ev.stopPropagation();
+                      setShowEn(!showEn());
+                    }}
                     class="flex-1 py-2 rounded-xl bg-amber-50 border-b-[4px] border-amber-300 text-amber-800 font-display text-xs uppercase tracking-wide active:border-b-0 active:translate-y-[4px] transition-all"
                   >
                     {showEn() ? 'hide English' : 'show English'}
                   </button>
                   <button
                     type="button"
-                    onClick={closeDialog}
-                    class="flex-1 py-2 rounded-xl bg-gradient-to-b from-emerald-500 to-emerald-700 border-b-[4px] border-emerald-900 text-amber-50 font-display text-xs uppercase tracking-wide active:border-b-0 active:translate-y-[4px] transition-all"
+                    onClick={(ev) => {
+                      ev.stopPropagation();
+                      if (isTyping()) {
+                        revealNow();
+                      } else {
+                        closeDialog();
+                      }
+                    }}
+                    class="flex-1 py-2 rounded-xl bg-gradient-to-b from-emerald-500 to-emerald-700 border-b-[4px] border-emerald-900 text-amber-50 font-display text-xs uppercase tracking-wide active:border-b-0 active:translate-y-[4px] transition-all relative"
                   >
                     o tawa →
+                    <Show when={!isTyping()}>
+                      <span class="absolute -bottom-1 right-2 text-amber-100 text-xs advance-cursor pointer-events-none">
+                        ▼
+                      </span>
+                    </Show>
                   </button>
                 </div>
               </div>

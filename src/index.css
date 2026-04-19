@@ -276,6 +276,34 @@
     animation: menuGlint 2.4s linear infinite;
   }
 
+  /* Pokemon-style encounter wipe — flashing bands sweep over the screen */
+  @keyframes encounterWipe {
+    0%   { opacity: 0; transform: scale(0.8); }
+    20%  { opacity: 1; transform: scale(1.05); }
+    50%  { opacity: 1; }
+    100% { opacity: 0; transform: scale(1.2); }
+  }
+  .animate-encounter {
+    animation: encounterWipe 0.7s ease-out forwards;
+    background:
+      repeating-conic-gradient(
+        from 0deg at 50% 50%,
+        rgba(255, 255, 255, 0.95) 0deg 15deg,
+        rgba(30, 58, 138, 0.85) 15deg 30deg
+      );
+  }
+
+  /* FF-style "next" prompt — the little downward triangle that blinks at the
+     end of a dialog box, signalling the player can press to advance */
+  @keyframes advanceBlink {
+    0%, 60% { opacity: 1; transform: translateY(0); }
+    70%     { opacity: 0.2; transform: translateY(2px); }
+    100%    { opacity: 1; transform: translateY(0); }
+  }
+  .advance-cursor {
+    animation: advanceBlink 0.9s ease-in-out infinite;
+  }
+
   /* Starfield backdrop for arena */
   .combat-arena {
     background:

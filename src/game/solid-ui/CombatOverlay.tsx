@@ -39,6 +39,7 @@ export function CombatOverlay() {
   const [playerLunge, setPlayerLunge] = createSignal(false);
   const [flashScreen, setFlashScreen] = createSignal(false);
   const [damagePops, setDamagePops] = createSignal<DamagePop[]>([]);
+  const [wipe, setWipe] = createSignal(false);
 
   let popId = 0;
   const spawnDamage = (amount: number, target: 'enemy' | 'player', kind: DamagePop['kind'] = 'normal') => {
@@ -61,6 +62,8 @@ export function CombatOverlay() {
       setSelectedMove(0);
       setPhase('intro');
       setLog(`A wild ${def.nameTp} appeared!`);
+      setWipe(true);
+      setTimeout(() => setWipe(false), 700);
       setTimeout(() => {
         setPhase('menu');
         setLog(def.flavorEn);
@@ -146,6 +149,9 @@ export function CombatOverlay() {
     <Show when={enemy()}>
       {(_) => (
         <div class="absolute inset-0 z-40 flex flex-col pointer-events-auto">
+          <Show when={wipe()}>
+            <div class="absolute inset-0 z-50 animate-encounter pointer-events-none" />
+          </Show>
           {/* TOP — the arena */}
           <div class={`flex-1 relative overflow-hidden combat-arena ${flashScreen() ? 'animate-flash' : ''}`}>
             {/* Enemy nameplate — top-left FF-style window */}
