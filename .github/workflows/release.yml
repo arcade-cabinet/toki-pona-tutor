@@ -3,8 +3,12 @@ name: Release
 on:
   push:
     branches: [main]
-  release:
-    types: [published]
+    # release-please tags land here (poki-soweli-vX.Y.Z). Triggering on
+    # the tag push lets the asset jobs run under the same PAT that pushed
+    # the tag, so artifacts attach to the release. The 'release: published'
+    # event is unreliable because GITHUB_TOKEN-created releases are muted
+    # by GitHub's recursion guard.
+    tags: ['*-v*']
 
 permissions:
   contents: write
@@ -13,18 +17,20 @@ permissions:
 jobs:
   release-please:
     name: Release Please
-    if: github.event_name == 'push'
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     steps:
       - uses: googleapis/release-please-action@5c625bfb5d1ff62eadeeb3772007f7f66fdcf071 # v4.4.1
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
+          # PAT (not GITHUB_TOKEN) so release-please's tag push fires the
+          # downstream tag-triggered jobs in this same workflow.
+          token: ${{ secrets.CI_GITHUB_TOKEN }}
           config-file: release-please-config.json
           manifest-file: .release-please-manifest.json
 
   build-android-release:
     name: Build Android Release APK
-    if: github.event_name == 'release'
+    if: startsWith(github.ref, 'refs/tags/')
     runs-on: ubuntu-latest
     env:
       RELEASE_TAG: ${{ github.ref_name }}
@@ -68,9 +74,11 @@ jobs:
 
       - name: Sync APK version from release tag
         run: |
-          # Strip leading v from tag (v0.1.0 → 0.1.0); bump version/code
-          # monotonically so Android treats each release as an upgrade.
-          VERSION_NAME="${RELEASE_TAG#v}"
+          # Tag format is 'poki-soweli-vX.Y.Z' (release-please's component
+          # + prefix). Strip the full 'poki-soweli-v' to get a plain semver.
+          # version/code bumps monotonically so Android treats each release
+          # as an upgrade regardless of source order.
+          VERSION_NAME="${RELEASE_TAG#poki-soweli-v}"
           VERSION_CODE=$(date -u +%s)
           echo "Setting APK version_name=${VERSION_NAME} version_code=${VERSION_CODE}"
           sed -i -E "s|^version/name=.*|version/name=\"${VERSION_NAME}\"|" export_presets.cfg
@@ -102,12 +110,15 @@ jobs:
 
       - name: Upload APK to release
         uses: softprops/action-gh-release@b4309332981a82ec1c5618f44dd2e27cc8bfbfda # v3.0.0
+        env:
+          GITHUB_TOKEN: ${{ secrets.CI_GITHUB_TOKEN }}
         with:
+          tag_name: ${{ env.RELEASE_TAG }}
           files: ${{ env.APK_PATH }}
 
   build-html5-release:
     name: Build HTML5 Release Export
-    if: github.event_name == 'release'
+    if: startsWith(github.ref, 'refs/tags/')
     runs-on: ubuntu-latest
     env:
       RELEASE_TAG: ${{ github.ref_name }}
@@ -146,5 +157,8 @@ jobs:
 
       - name: Upload web export to release
         uses: softprops/action-gh-release@b4309332981a82ec1c5618f44dd2e27cc8bfbfda # v3.0.0
+        env:
+          GITHUB_TOKEN: ${{ secrets.CI_GITHUB_TOKEN }}
         with:
+          tag_name: ${{ env.RELEASE_TAG }}
           files: ${{ env.ZIP_PATH }}
