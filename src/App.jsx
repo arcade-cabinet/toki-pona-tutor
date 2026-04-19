@@ -368,7 +368,7 @@ export default function App() {
           ))}
         </div>
 
-        <div className={`absolute bottom-0 left-0 w-full p-6 -mx-6 sm:-mx-8 rounded-t-[2.5rem] transition-transform duration-300 transform ${isChecked ? 'translate-y-0' : 'translate-y-[120%]'} ${isCorrect ? 'bg-emerald-100' : 'bg-red-100'}`}>
+        <div className={`absolute bottom-0 left-0 w-full p-6 -mx-6 sm:-mx-8 rounded-t-[2.5rem] transition-transform duration-300 transform ${isChecked ? 'translate-y-0' : 'translate-y-[120%] pointer-events-none'} ${isCorrect ? 'bg-emerald-100' : 'bg-red-100'}`}>
            <div className="flex flex-col space-y-4">
              <div className="flex items-start space-x-4">
                <div className={`p-3 rounded-full ${isCorrect ? 'bg-emerald-200 text-emerald-700' : 'bg-red-200 text-red-700'}`}>
