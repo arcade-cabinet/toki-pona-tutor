@@ -26,9 +26,30 @@ if (!existsSync(corpusPath)) {
   console.error('[build-spine] corpus missing — run scripts/fetch-tatoeba-corpus.mjs');
   process.exit(1);
 }
+// Empty / missing spine is fine during the pivot — emit a minimal world
+// so the rest of the build proceeds. First real spine content lands in
+// the follow-up content PR.
 if (!existsSync(spineDir)) {
-  console.error('[build-spine] spine directory missing — create src/content/spine/ and author content first');
-  process.exit(1);
+  console.log('[build-spine] spine directory missing — emitting empty world');
+  mkdirSync(dirname(outPath), { recursive: true });
+  writeFileSync(
+    outPath,
+    JSON.stringify(
+      {
+        schema_version: 1,
+        title: { en: 'Toki Town', tp: 'ma tomo' },
+        start_region_id: '',
+        species: [],
+        moves: [],
+        items: [],
+        regions: [],
+        main_spine: [],
+      },
+      null,
+      2,
+    ) + '\n',
+  );
+  process.exit(0);
 }
 
 const corpus = JSON.parse(readFileSync(corpusPath, 'utf8'));
