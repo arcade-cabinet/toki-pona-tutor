@@ -19,6 +19,7 @@ import {
   markCaught,
   masterWord,
   applyCombatResult,
+  xpToReachLevel,
   type PartyMember,
 } from '../ecs/saveState';
 import { getSpecies } from '../content/loader';
@@ -112,7 +113,9 @@ export function CombatOverlay() {
       instance_id: `starter-${Date.now()}`,
       species_id: species.id,
       level: 5,
-      xp: 0,
+      // Seed xp to match the starting level so awarding XP next fight
+      // moves the creature UP rather than dropping it to level 1.
+      xp: xpToReachLevel(5),
       hp: species.base_stats.hp + 8,
       max_hp: species.base_stats.hp + 8,
       moves,
@@ -276,7 +279,7 @@ export function CombatOverlay() {
           instance_id: `caught-${Date.now()}`,
           species_id: e.species.id,
           level: e.level,
-          xp: 0,
+          xp: xpToReachLevel(e.level),
           hp: e.hp,
           max_hp: e.max_hp,
           moves: e.moves.map((m) => m.id),

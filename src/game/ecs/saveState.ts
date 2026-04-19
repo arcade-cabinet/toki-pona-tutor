@@ -242,9 +242,14 @@ export function applyCombatResult(
   const idx = state.party.findIndex((m) => m.instance_id === instanceId);
   if (idx < 0) return 0;
   const prev = state.party[idx];
-  const newXp = prev.xp + Math.max(0, result.xp_gained);
-  const newLevel = levelFromXp(newXp);
-  const levelsGained = Math.max(0, newLevel - prev.level);
+  // If the member was seeded with less XP than its level requires (e.g.
+  // starter gift at level 5 with xp: 0), floor to the XP that matches its
+  // level so awarding XP never drops the level.
+  const flooredXp = Math.max(prev.xp, xpToReachLevel(prev.level));
+  const newXp = flooredXp + Math.max(0, result.xp_gained);
+  // Defense in depth: even with the floor, clamp so level can only rise.
+  const newLevel = Math.max(prev.level, levelFromXp(newXp));
+  const levelsGained = newLevel - prev.level;
   // Each level adds a flat +4 max_hp so the curve is visible but gentle.
   const newMaxHp = prev.max_hp + levelsGained * 4;
   // On level up, top off the surviving hp by the gain — reward the player
