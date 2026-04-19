@@ -59,9 +59,9 @@ export function AdventureView({ onExit }: AdventureViewProps) {
             </div>
           }
         >
-          <PhaserGame />
-          <AmbientParticles />
           <SolidDialogMount />
+          {seed && <PhaserGame />}
+          {seed && <AmbientParticles />}
         </Suspense>
 
         {/* Subtle back button, parchment disc */}
