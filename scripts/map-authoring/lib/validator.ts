@@ -46,14 +46,21 @@ export async function validateSpec(
     }
   }
 
-  // Check palette references: every palette entry must point at a declared
-  // tileset, and local_id must be in range.
-  for (const [name, entry] of Object.entries(spec.palette)) {
+  // Collect palette names actually USED by any layer. Unused palette entries
+  // can legitimately reference tilesets the map doesn't declare (a shared
+  // palette file covers many maps); only used entries need to be checked.
+  const usedPaletteNames = collectUsedPaletteNames(spec);
+
+  // Check palette references: each USED entry must point at a declared tileset
+  // with an in-range local_id.
+  for (const name of usedPaletteNames) {
+    const entry = spec.palette[name];
+    if (!entry) continue; // palette_unknown already reported per cell
     if (!spec.tilesets.includes(entry.tsx)) {
       issues.push({
         severity: 'error',
         code: 'palette_tileset_not_declared',
-        message: `palette entry "${name}" references tileset "${entry.tsx}" but it is not in spec.tilesets`,
+        message: `palette entry "${name}" (used by map) references tileset "${entry.tsx}" but it is not in spec.tilesets`,
       });
       continue;
     }
@@ -145,6 +152,24 @@ export async function validateSpec(
 function isTileGrid(x: TileGrid | PlacedTile[] | undefined): x is TileGrid {
   if (!Array.isArray(x) || x.length === 0) return false;
   return Array.isArray(x[0]);
+}
+
+function collectUsedPaletteNames(spec: MapSpec): Set<string> {
+  const used = new Set<string>();
+  for (const layerName of ['Below Player', 'World', 'Above Player'] as const) {
+    const content = spec.layers[layerName];
+    if (!content) continue;
+    if (isTileGrid(content)) {
+      for (const row of content) {
+        for (const name of row) {
+          if (name && name !== '.') used.add(name);
+        }
+      }
+    } else {
+      for (const p of content) used.add(p.tile);
+    }
+  }
+  return used;
 }
 
 function checkGridDims(

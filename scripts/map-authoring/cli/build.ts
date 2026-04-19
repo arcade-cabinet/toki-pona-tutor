@@ -1,0 +1,45 @@
+/**
+ * pnpm author:build <map-id> — spec → .tmj
+ *
+ * Reads scripts/map-authoring/specs/<map-id>.ts (default export: MapSpec),
+ * loads every tileset it references, emits public/assets/maps/<map-id>.tmj.
+ */
+import { dirname, resolve, join } from 'node:path';
+import { fileURLToPath } from 'node:url';
+import { mkdir, writeFile } from 'node:fs/promises';
+import { emitTmj, loadTilesetsForSpec } from '../lib/index';
+import type { MapSpec } from '../lib/index';
+
+const __dirname = dirname(fileURLToPath(import.meta.url));
+
+async function main(): Promise<void> {
+  const [, , mapId] = process.argv;
+  if (!mapId) {
+    console.error('usage: pnpm author:build <map-id>');
+    process.exit(1);
+  }
+
+  const worktreeRoot = resolve(__dirname, '..', '..', '..');
+  const specPath = join(worktreeRoot, 'scripts', 'map-authoring', 'specs', `${mapId}.ts`);
+  const mod = (await import(specPath)) as { default?: MapSpec };
+  const spec = mod.default;
+  if (!spec) {
+    console.error(`spec "${specPath}" has no default export`);
+    process.exit(1);
+  }
+
+  const tilesets = await loadTilesetsForSpec(spec, worktreeRoot);
+  const outDir = join(worktreeRoot, 'public', 'assets', 'maps');
+  await mkdir(outDir, { recursive: true });
+  const outPath = join(outDir, `${spec.id}.tmj`);
+
+  const tmj = emitTmj(spec, tilesets, outPath);
+  await writeFile(outPath, JSON.stringify(tmj, null, 2) + '\n', 'utf-8');
+
+  console.log(`✓ built ${outPath}`);
+}
+
+main().catch((err) => {
+  console.error(err);
+  process.exit(1);
+});
