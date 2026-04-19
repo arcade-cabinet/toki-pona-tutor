@@ -6,7 +6,7 @@ export function createGame(parent: HTMLDivElement): Phaser.Game {
     type: Phaser.AUTO,
     parent,
     pixelArt: true,
-    backgroundColor: '#7bb65a',
+    backgroundColor: '#8bc260',
     scale: {
       mode: Phaser.Scale.RESIZE,
       autoCenter: Phaser.Scale.CENTER_BOTH,

@@ -6,6 +6,10 @@ export interface DictionaryEntry {
   book: string;
   usage_category: UsageCategory;
   source_language: string;
+  /** UCSUR codepoint string like 'U+F1908' — maps to nasin-nanpa glyph */
+  ucsur?: string;
+  /** Emoji representation — e.g. ⚓ for 'awen' */
+  sitelen_emosi?: string;
 }
 
 export type ChallengeType = 'concept' | 'sentence';

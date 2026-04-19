@@ -26,6 +26,14 @@
   font-display: swap;
 }
 
+@font-face {
+  font-family: 'nasin-nanpa';
+  src: url('../public/fonts/nasin-nanpa.otf') format('opentype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
 @layer base {
   html,
   body,
@@ -46,6 +54,11 @@
   }
   .font-pixel {
     font-family: 'Kenney Pixel', monospace;
+    letter-spacing: 0.05em;
+  }
+  .font-sitelen {
+    font-family: 'nasin-nanpa', sans-serif;
+    /* UCSUR glyphs occupy more horizontal space — tune for readability */
     letter-spacing: 0.05em;
   }
 }
