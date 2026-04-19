@@ -18,6 +18,11 @@ export interface TileResolution {
   solid?: boolean;
   /** True if this key counts as tall grass (encounter roll fires on step). */
   tall_grass?: boolean;
+  /** Optional solid-color overlay (hex) painted on top of the frame —
+   *  used for tiles the Kenney sheet doesn't have a sprite for (e.g.
+   *  water). When set, the frame acts as a base (usually grass) and the
+   *  color is drawn as a rectangle filling the tile. */
+  color_overlay?: string;
 }
 
 /**
@@ -42,6 +47,27 @@ export const TILE_KEYS: Record<string, TileResolution> = {
   path_bm: { sheet: 'town', frame: TOWN.PATH_BM },
 
   stone: { sheet: 'town', frame: TOWN.STONE_FLOOR },
+
+  // Water — the town sheet has no water tile, so paint a blue overlay
+  // on top of a stone base. Solid by default; ma_telo-style regions can
+  // override via solid_keys if they want bridges or shallow crossings.
+  water: {
+    sheet: 'town',
+    frame: TOWN.STONE_FLOOR,
+    solid: true,
+    color_overlay: '#3b82f6',
+  },
+  water_deep: {
+    sheet: 'town',
+    frame: TOWN.STONE_FLOOR,
+    solid: true,
+    color_overlay: '#1d4ed8',
+  },
+  water_shallow: {
+    sheet: 'town',
+    frame: TOWN.STONE_FLOOR,
+    color_overlay: '#60a5fa',
+  },
 
   // Flora
   tree: { sheet: 'town', frame: TOWN.TREE_GREEN_ROUND, solid: true },

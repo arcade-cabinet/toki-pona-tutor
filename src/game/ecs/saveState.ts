@@ -212,3 +212,56 @@ export function earnBadge(badgeWord: string): void {
   state = { ...state, badges: [...state.badges, badgeWord] };
   commit();
 }
+
+// ----- party member progression -----
+
+/** XP required to reach `level` from level 1. Classic Pokemon-ish cubic
+ *  curve, tuned so level 5 starters need ~125 XP to hit 6 and feels
+ *  brisk through the early regions. */
+export function xpToReachLevel(level: number): number {
+  const l = Math.max(1, level);
+  return Math.round(Math.pow(l, 3));
+}
+
+/** Given cumulative xp, what level is the member? */
+export function levelFromXp(xp: number): number {
+  let level = 1;
+  while (xp >= xpToReachLevel(level + 1) && level < 100) level++;
+  return level;
+}
+
+/**
+ * Persist combat results back to a party member. Awards XP, levels up if
+ * thresholds are crossed (growing max_hp), and writes the surviving hp /
+ * pp from the fight. Returns the number of levels gained (0 if none).
+ */
+export function applyCombatResult(
+  instanceId: string,
+  result: { xp_gained: number; hp: number; pp: number[] },
+): number {
+  const idx = state.party.findIndex((m) => m.instance_id === instanceId);
+  if (idx < 0) return 0;
+  const prev = state.party[idx];
+  const newXp = prev.xp + Math.max(0, result.xp_gained);
+  const newLevel = levelFromXp(newXp);
+  const levelsGained = Math.max(0, newLevel - prev.level);
+  // Each level adds a flat +4 max_hp so the curve is visible but gentle.
+  const newMaxHp = prev.max_hp + levelsGained * 4;
+  // On level up, top off the surviving hp by the gain — reward the player
+  // a bit but don't full-heal.
+  const carriedHp = Math.max(0, Math.min(result.hp, prev.max_hp));
+  const newHp = Math.min(newMaxHp, carriedHp + levelsGained * 4);
+  const newMember: PartyMember = {
+    ...prev,
+    xp: newXp,
+    level: newLevel,
+    hp: newHp,
+    max_hp: newMaxHp,
+    pp: result.pp.length === prev.pp.length ? [...result.pp] : prev.pp,
+  };
+  const party = [...state.party];
+  party[idx] = newMember;
+  state = { ...state, party };
+  commit();
+  return levelsGained;
+}
