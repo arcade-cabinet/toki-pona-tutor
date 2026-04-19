@@ -82,6 +82,48 @@
       "sprite_frame": 126
     },
     {
+      "id": "kala_suli",
+      "name": {
+        "en": "kala"
+      },
+      "description": {
+        "en": "The fish swam in the lake.",
+        "tp": "kala li tawa lon telo suli."
+      },
+      "type": "telo",
+      "base_stats": {
+        "hp": 68,
+        "attack": 58,
+        "defense": 54,
+        "speed": 44
+      },
+      "learnset": [
+        {
+          "level": 1,
+          "move_id": "telo_lili"
+        },
+        {
+          "level": 1,
+          "move_id": "utala_lili"
+        },
+        {
+          "level": 8,
+          "move_id": "utala"
+        },
+        {
+          "level": 14,
+          "move_id": "telo_wawa"
+        },
+        {
+          "level": 22,
+          "move_id": "telo_suli"
+        }
+      ],
+      "catch_rate": 0.35,
+      "xp_yield": 72,
+      "sprite_frame": 104
+    },
+    {
       "id": "kala_telo",
       "name": {
         "en": "kala"
@@ -268,6 +310,48 @@
       "sprite_frame": 110
     },
     {
+      "id": "soweli_telo",
+      "name": {
+        "en": "soweli"
+      },
+      "description": {
+        "en": "We live near the lake.",
+        "tp": "mi awen lon poka pi telo suli."
+      },
+      "type": "telo",
+      "base_stats": {
+        "hp": 56,
+        "attack": 48,
+        "defense": 46,
+        "speed": 58
+      },
+      "learnset": [
+        {
+          "level": 1,
+          "move_id": "utala_lili"
+        },
+        {
+          "level": 1,
+          "move_id": "telo_lili"
+        },
+        {
+          "level": 6,
+          "move_id": "utala"
+        },
+        {
+          "level": 12,
+          "move_id": "telo_wawa"
+        },
+        {
+          "level": 20,
+          "move_id": "lete_wawa"
+        }
+      ],
+      "catch_rate": 0.4,
+      "xp_yield": 60,
+      "sprite_frame": 110
+    },
+    {
       "id": "waso_lili",
       "name": {
         "en": "waso"
@@ -420,6 +504,22 @@
       "priority": 0
     },
     {
+      "id": "telo_suli",
+      "name": {
+        "en": "torrent"
+      },
+      "description": {
+        "en": "The fish swam in the lake.",
+        "tp": "kala li tawa lon telo suli."
+      },
+      "type": "telo",
+      "power": 80,
+      "accuracy": 90,
+      "pp": 8,
+      "effect": "none",
+      "priority": 0
+    },
+    {
       "id": "telo_wawa",
       "name": {
         "en": "wave"
@@ -527,6 +627,1115 @@
     }
   ],
   "regions": [
+    {
+      "id": "ma_telo",
+      "name_tp": "ma telo",
+      "name_en": "The Lake Village",
+      "description": {
+        "en": "We live near the lake.",
+        "tp": "mi awen lon poka pi telo suli."
+      },
+      "width": 22,
+      "height": 16,
+      "sky_color": "#5ba7d8",
+      "layers": [
+        {
+          "name": "ground",
+          "depth": 0,
+          "solid_keys": [],
+          "tiles": [
+            [
+              "grass",
+              "grass",
+              "grass",
+              "grass",
+              "grass",
+              "grass",
+              "grass",
+              "grass",
+              "grass",
+              "grass",
+              "path",
+              "path",
+              "grass",
+              "grass",
+              "grass",
+              "grass",
+              "grass",
+              "grass",
+              "grass",
+              "grass",
+              "grass",
+              "grass"
+            ],
+            [
+              "grass",
+              "grass",
+              "grass",
+              "grass",
+              "grass",
+              "grass",
+              "grass",
+              "stone",
+              "stone",
+              "stone",
+              "path",
+              "path",
+              "stone",
+              "stone",
+              "stone",
+              "grass",
+              "grass",
+              "grass",
+              "grass",
+              "grass",
+              "grass",
+              "grass"
+            ],
+            [
+              "grass",
+              "grass",
+              "grass",
+              "grass",
+              "grass",
+              "grass",
+              "stone",
+              "stone",
+              "stone",
+              "stone",
+              "stone",
+              "stone",
+              "stone",
+              "stone",
+              "stone",
+              "stone",
+              "grass",
+              "grass",
+              "grass",
+              "grass",
+              "grass",
+              "grass"
+            ],
+            [
+              "grass",
+              "grass",
+              "grass",
+              "grass",
+              "grass",
+              "stone",
+              "stone",
+              "stone",
+              "stone",
+              "stone",
+              "stone",
+              "stone",
+              "stone",
+              "stone",
+              "stone",
+              "stone",
+              "stone",
+              "grass",
+              "grass",
+              "grass",
+              "grass",
+              "grass"
+            ],
+            [
+              "grass",
+              "grass",
+              "grass",
+              "stone",
+              "stone",
+              "stone",
+              "stone",
+              "stone",
+              "stone",
+              "stone",
+              "stone",
+              "stone",
+              "stone",
+              "stone",
+              "stone",
+              "stone",
+              "stone",
+              "stone",
+              "grass",
+              "grass",
+              "grass",
+              "grass"
+            ],
+            [
+              "grass",
+              "grass",
+              "grass",
+              "stone",
+              "stone",
+              "stone",
+              "stone",
+              "stone",
+              "stone",
+              "stone",
+              "stone",
+              "stone",
+              "stone",
+              "stone",
+              "stone",
+              "stone",
+              "stone",
+              "stone",
+              "stone",
+              "grass",
+              "grass",
+              "grass"
+            ],
+            [
+              "grass",
+              "grass",
+              "grass",
+              "stone",
+              "stone",
+              "stone",
+              "stone",
+              "stone",
+              "stone",
+              "stone",
+              "stone",
+              "stone",
+              "stone",
+              "stone",
+              "stone",
+              "stone",
+              "stone",
+              "stone",
+              "stone",
+              "grass",
+              "grass",
+              "grass"
+            ],
+            [
+              "path",
+              "path",
+              "path",
+              "stone",
+              "stone",
+              "stone",
+              "stone",
+              "stone",
+              "stone",
+              "stone",
+              "stone",
+              "stone",
+              "stone",
+              "stone",
+              "stone",
+              "stone",
+              "stone",
+              "stone",
+              "stone",
+              "grass",
+              "grass",
+              "grass"
+            ],
+            [
+              "path",
+              "path",
+              "path",
+              "stone",
+              "stone",
+              "stone",
+              "stone",
+              "stone",
+              "stone",
+              "stone",
+              "stone",
+              "stone",
+              "stone",
+              "stone",
+              "stone",
+              "stone",
+              "stone",
+              "stone",
+              "stone",
+              "grass",
+              "grass",
+              "grass"
+            ],
+            [
+              "grass",
+              "grass",
+              "grass",
+              "stone",
+              "stone",
+              "stone",
+              "stone",
+              "stone",
+              "stone",
+              "stone",
+              "stone",
+              "stone",
+              "stone",
+              "stone",
+              "stone",
+              "stone",
+              "stone",
+              "stone",
+              "stone",
+              "grass",
+              "grass",
+              "grass"
+            ],
+            [
+              "grass",
+              "grass",
+              "grass",
+              "stone",
+              "stone",
+              "stone",
+              "stone",
+              "stone",
+              "stone",
+              "stone",
+              "stone",
+              "stone",
+              "stone",
+              "stone",
+              "stone",
+              "stone",
+              "stone",
+              "stone",
+              "stone",
+              "grass",
+              "grass",
+              "grass"
+            ],
+            [
+              "grass",
+              "grass",
+              "grass",
+              "grass",
+              "stone",
+              "stone",
+              "stone",
+              "stone",
+              "stone",
+              "stone",
+              "stone",
+              "stone",
+              "stone",
+              "stone",
+              "stone",
+              "stone",
+              "stone",
+              "stone",
+              "grass",
+              "grass",
+              "grass",
+              "grass"
+            ],
+            [
+              "grass",
+              "grass",
+              "grass",
+              "grass",
+              "grass",
+              "stone",
+              "stone",
+              "stone",
+              "stone",
+              "stone",
+              "stone",
+              "stone",
+              "stone",
+              "stone",
+              "stone",
+              "stone",
+              "stone",
+              "grass",
+              "grass",
+              "grass",
+              "grass",
+              "grass"
+            ],
+            [
+              "grass",
+              "grass",
+              "grass",
+              "grass",
+              "grass",
+              "grass",
+              "stone",
+              "stone",
+              "stone",
+              "stone",
+              "stone",
+              "stone",
+              "stone",
+              "stone",
+              "stone",
+              "stone",
+              "grass",
+              "grass",
+              "grass",
+              "grass",
+              "grass",
+              "grass"
+            ],
+            [
+              "grass",
+              "grass",
+              "grass",
+              "grass",
+              "grass",
+              "grass",
+              "grass",
+              "stone",
+              "stone",
+              "stone",
+              "path",
+              "path",
+              "stone",
+              "stone",
+              "stone",
+              "grass",
+              "grass",
+              "grass",
+              "grass",
+              "grass",
+              "grass",
+              "grass"
+            ],
+            [
+              "grass",
+              "grass",
+              "grass",
+              "grass",
+              "grass",
+              "grass",
+              "grass",
+              "grass",
+              "grass",
+              "grass",
+              "path",
+              "path",
+              "grass",
+              "grass",
+              "grass",
+              "grass",
+              "grass",
+              "grass",
+              "grass",
+              "grass",
+              "grass",
+              "grass"
+            ]
+          ]
+        },
+        {
+          "name": "objects",
+          "depth": 1,
+          "solid_keys": [
+            "tree_g",
+            "tree_y",
+            "bush",
+            "house_b",
+            "house_r",
+            "sign"
+          ],
+          "tiles": [
+            [
+              "tree_g",
+              "tree_g",
+              "tree_g",
+              "tree_g",
+              "tree_g",
+              "tree_g",
+              "tree_g",
+              "tree_g",
+              "tree_g",
+              "tree_g",
+              null,
+              null,
+              "tree_g",
+              "tree_g",
+              "tree_g",
+              "tree_g",
+              "tree_g",
+              "tree_g",
+              "tree_g",
+              "tree_g",
+              "tree_g",
+              "tree_g"
+            ],
+            [
+              "tree_g",
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              "tree_g"
+            ],
+            [
+              "tree_g",
+              null,
+              "house_b",
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              "house_r",
+              null,
+              null,
+              "tree_g"
+            ],
+            [
+              "tree_g",
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              "tree_g"
+            ],
+            [
+              "tree_g",
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              "tree_g"
+            ],
+            [
+              "tree_g",
+              null,
+              "bush",
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              "bush",
+              null,
+              "tree_g"
+            ],
+            [
+              "tree_g",
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              "tree_g"
+            ],
+            [
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              "tree_g"
+            ],
+            [
+              null,
+              null,
+              null,
+              "sign",
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              "tree_g"
+            ],
+            [
+              "tree_g",
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              "tree_g"
+            ],
+            [
+              "tree_g",
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              "sign",
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              "house_b",
+              null,
+              "tree_g"
+            ],
+            [
+              "tree_g",
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              "tree_g"
+            ],
+            [
+              "tree_g",
+              null,
+              "house_r",
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              "sign",
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              "tree_g"
+            ],
+            [
+              "tree_g",
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              "tree_g"
+            ],
+            [
+              "tree_g",
+              null,
+              null,
+              null,
+              null,
+              null,
+              "bush",
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              null,
+              "bush",
+              null,
+              null,
+              null,
+              null,
+              null,
+              "tree_g"
+            ],
+            [
+              "tree_g",
+              "tree_g",
+              "tree_g",
+              "tree_g",
+              "tree_g",
+              "tree_g",
+              "tree_g",
+              "tree_g",
+              "tree_g",
+              "tree_g",
+              null,
+              null,
+              "tree_g",
+              "tree_g",
+              "tree_g",
+              "tree_g",
+              "tree_g",
+              "tree_g",
+              "tree_g",
+              "tree_g",
+              "tree_g",
+              "tree_g"
+            ]
+          ]
+        }
+      ],
+      "tall_grass_keys": [],
+      "encounters": [],
+      "npcs": [
+        {
+          "id": "jan_kala",
+          "name_tp": "jan Kala",
+          "name_en": "jan Kala",
+          "role": "quest_giver",
+          "personality": "a fisher sitting at the lake's edge, quietly distressed; lost something precious in the water and hopes the player will hear him out.",
+          "tile": {
+            "x": 6,
+            "y": 6
+          },
+          "sprite_frame": 86,
+          "greeting": {
+            "text": {
+              "en": "I'm sad like you.",
+              "tp": "mi pilin ike sama sina."
+            },
+            "mood": "sad"
+          }
+        },
+        {
+          "id": "jan_suli",
+          "name_tp": "jan Suli",
+          "name_en": "jan Suli",
+          "role": "jan_lawa",
+          "personality": "the lake village's master; imposing but fair. Stands at the south plaza blocking the path to the deeper route until her trial is cleared.",
+          "tile": {
+            "x": 11,
+            "y": 11
+          },
+          "sprite_frame": 96,
+          "greeting": {
+            "text": {
+              "en": "Are you strong?",
+              "tp": "sina wawa ala wawa?"
+            },
+            "mood": "thinking"
+          },
+          "team": [
+            {
+              "species_id": "kala_suli",
+              "level": 10,
+              "moves": [
+                "telo_lili",
+                "utala",
+                "telo_wawa"
+              ]
+            },
+            {
+              "species_id": "kasi_pona",
+              "level": 12,
+              "moves": [
+                "kasi_lili",
+                "utala",
+                "kasi_wawa"
+              ]
+            }
+          ],
+          "reward_word": "telo"
+        },
+        {
+          "id": "jan_moku",
+          "name_tp": "jan Moku",
+          "name_en": "jan Moku",
+          "role": "shopkeeper",
+          "personality": "runs a lakeside stall selling dried fish. Unhurried, content, fond of repeating herself.",
+          "tile": {
+            "x": 17,
+            "y": 5
+          },
+          "sprite_frame": 88,
+          "greeting": {
+            "text": {
+              "en": "Tom buys fish.",
+              "tp": "jan Ton li esun e kala."
+            },
+            "mood": "happy"
+          }
+        }
+      ],
+      "signs": [
+        {
+          "id": "sign_lake",
+          "tile": {
+            "x": 9,
+            "y": 10
+          },
+          "text": {
+            "en": "telo"
+          }
+        },
+        {
+          "id": "sign_gym",
+          "tile": {
+            "x": 12,
+            "y": 12
+          },
+          "text": {
+            "en": "suli"
+          }
+        },
+        {
+          "id": "sign_entrance",
+          "tile": {
+            "x": 3,
+            "y": 8
+          },
+          "text": {
+            "en": "ma"
+          }
+        }
+      ],
+      "warps": [
+        {
+          "id": "warp_north",
+          "tile": {
+            "x": 10,
+            "y": 0
+          },
+          "to_region": "nena_sewi",
+          "to_tile": {
+            "x": 8,
+            "y": 18
+          }
+        },
+        {
+          "id": "warp_south",
+          "tile": {
+            "x": 10,
+            "y": 15
+          },
+          "to_region": "nasin_pi_telo",
+          "to_tile": {
+            "x": 1,
+            "y": 5
+          }
+        }
+      ],
+      "dialog": [
+        {
+          "id": "jan_kala_intro",
+          "npc_id": "jan_kala",
+          "when_flags": {
+            "jan_kala_helped": false
+          },
+          "priority": 10,
+          "beats": [
+            {
+              "text": {
+                "en": "I'm sad like you.",
+                "tp": "mi pilin ike sama sina."
+              },
+              "mood": "sad",
+              "glyph": "pilin"
+            },
+            {
+              "text": {
+                "en": "I have lost my key.",
+                "tp": "ilo open mi li weka."
+              },
+              "mood": "sad",
+              "glyph": "weka"
+            },
+            {
+              "text": {
+                "en": "I dove into the lake.",
+                "tp": "mi tawa insa telo."
+              },
+              "mood": "thinking",
+              "glyph": "telo"
+            },
+            {
+              "text": {
+                "en": "Who caught this fish?",
+                "tp": "jan seme li alasa e kala ni?"
+              },
+              "mood": "thinking",
+              "glyph": "kala"
+            }
+          ],
+          "triggers": {
+            "set_flag": {
+              "jan_kala_helped": true
+            }
+          }
+        },
+        {
+          "id": "jan_kala_idle",
+          "npc_id": "jan_kala",
+          "when_flags": {
+            "jan_kala_helped": true
+          },
+          "priority": 1,
+          "beats": [
+            {
+              "text": {
+                "en": "The fish swam in the lake.",
+                "tp": "kala li tawa lon telo suli."
+              },
+              "mood": "thinking",
+              "glyph": "kala"
+            }
+          ]
+        },
+        {
+          "id": "jan_suli_prebattle",
+          "npc_id": "jan_suli",
+          "when_flags": {
+            "badge_telo": false
+          },
+          "priority": 10,
+          "beats": [
+            {
+              "text": {
+                "en": "Are you strong?",
+                "tp": "sina wawa ala wawa?"
+              },
+              "mood": "thinking",
+              "glyph": "wawa"
+            },
+            {
+              "text": {
+                "en": "We live near the lake.",
+                "tp": "mi awen lon poka pi telo suli."
+              },
+              "mood": "thinking",
+              "glyph": "telo"
+            },
+            {
+              "text": {
+                "en": "Let's attack.",
+                "tp": "mi mute o utala."
+              },
+              "mood": "excited",
+              "glyph": "utala"
+            }
+          ]
+        },
+        {
+          "id": "jan_suli_victory",
+          "npc_id": "jan_suli",
+          "when_flags": {
+            "badge_telo": true
+          },
+          "priority": 5,
+          "beats": [
+            {
+              "text": {
+                "en": "You are so strong.",
+                "tp": "sina wawa a."
+              },
+              "mood": "happy",
+              "glyph": "wawa"
+            },
+            {
+              "text": {
+                "en": "Water is good.",
+                "tp": "telo li pona."
+              },
+              "mood": "happy",
+              "glyph": "telo"
+            }
+          ],
+          "triggers": {
+            "set_flag": {
+              "badge_telo": true
+            }
+          }
+        },
+        {
+          "id": "jan_moku_flavor",
+          "npc_id": "jan_moku",
+          "priority": 0,
+          "beats": [
+            {
+              "text": {
+                "en": "Tom buys fish.",
+                "tp": "jan Ton li esun e kala."
+              },
+              "mood": "happy",
+              "glyph": "kala"
+            }
+          ]
+        },
+        {
+          "id": "plaza_narration",
+          "npc_id": null,
+          "priority": 0,
+          "beats": [
+            {
+              "text": {
+                "en": "We live near the lake.",
+                "tp": "mi awen lon poka pi telo suli."
+              },
+              "mood": "thinking",
+              "glyph": "telo"
+            }
+          ]
+        }
+      ],
+      "spawn": {
+        "x": 3,
+        "y": 8
+      }
+    },
     {
       "id": "ma_tomo_lili",
       "name_tp": "ma tomo lili",
