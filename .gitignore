@@ -144,3 +144,5 @@ vite.config.ts.timestamp-*
 
 # Tatoeba corpus cache (regenerate via scripts/fetch-tatoeba-corpus.mjs)
 .tatoeba-cache/
+
+.claude/

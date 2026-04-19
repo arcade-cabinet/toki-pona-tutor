@@ -42,13 +42,50 @@ export function CombatOverlay() {
   const [wipe, setWipe] = createSignal(false);
 
   let popId = 0;
+  // Track every setTimeout so we can cancel them on unmount — otherwise a fast
+  // scene-swap can land mutations after the overlay is gone.
+  const timers = new Set<number>();
+  const schedule = (fn: () => void, ms: number) => {
+    const id = window.setTimeout(() => {
+      timers.delete(id);
+      fn();
+    }, ms);
+    timers.add(id);
+    return id;
+  };
+  onCleanup(() => {
+    for (const id of timers) window.clearTimeout(id);
+    timers.clear();
+  });
+
   const spawnDamage = (amount: number, target: 'enemy' | 'player', kind: DamagePop['kind'] = 'normal') => {
     const id = ++popId;
     setDamagePops((prev) => [...prev, { id, amount, target, kind }]);
-    setTimeout(() => setDamagePops((prev) => prev.filter((p) => p.id !== id)), 1000);
+    schedule(() => setDamagePops((prev) => prev.filter((p) => p.id !== id)), 1000);
+  };
+
+  // Keyboard nav for the command menu — ↑/↓ to move selection, Enter/Space
+  // to confirm. Keeps the RPG menu usable without a mouse.
+  const onKeyDown = (ev: KeyboardEvent) => {
+    if (!enemy() || phase() !== 'menu') return;
+    const total = PLAYER_MOVES.length + 1; // +1 for Run
+    if (ev.key === 'ArrowDown' || ev.key === 'ArrowRight') {
+      ev.preventDefault();
+      setSelectedMove((i) => (i + 1) % total);
+    } else if (ev.key === 'ArrowUp' || ev.key === 'ArrowLeft') {
+      ev.preventDefault();
+      setSelectedMove((i) => (i - 1 + total) % total);
+    } else if (ev.key === 'Enter' || ev.key === ' ') {
+      ev.preventDefault();
+      const sel = selectedMove();
+      if (sel < PLAYER_MOVES.length) usePlayerMove(PLAYER_MOVES[sel]);
+      else run();
+    }
   };
 
   onMount(() => {
+    window.addEventListener('keydown', onKeyDown);
+    onCleanup(() => window.removeEventListener('keydown', onKeyDown));
     const unsub = gameBus.on('combat:enter', ({ enemyId }) => {
       const def = ENEMIES[enemyId];
       if (!def) {
@@ -63,8 +100,8 @@ export function CombatOverlay() {
       setPhase('intro');
       setLog(`A wild ${def.nameTp} appeared!`);
       setWipe(true);
-      setTimeout(() => setWipe(false), 700);
-      setTimeout(() => {
+      schedule(() => setWipe(false), 700);
+      schedule(() => {
         setPhase('menu');
         setLog(def.flavorEn);
       }, 900);
@@ -77,20 +114,20 @@ export function CombatOverlay() {
     if (!e) return;
     const move = e.moves[Math.floor(Math.random() * e.moves.length)];
     setLog(`${e.nameTp} uses ${move.nameEn}!`);
-    setTimeout(() => {
+    schedule(() => {
       const dmg = computeDamage(move, { defense: PLAYER_DEFENSE, spirit: PLAYER_SPIRIT });
       setPlayerShake(true);
       setFlashScreen(true);
       spawnDamage(dmg, 'player');
-      setTimeout(() => setPlayerShake(false), 350);
-      setTimeout(() => setFlashScreen(false), 200);
+      schedule(() => setPlayerShake(false), 350);
+      schedule(() => setFlashScreen(false), 200);
       const newHp = Math.max(0, playerHp() - dmg);
       setPlayerHp(newHp);
       setLog(`${e.nameTp} uses ${move.nameEn} — ${dmg} dmg.`);
       if (newHp === 0) {
-        setTimeout(() => setPhase('defeat'), 500);
+        schedule(() => setPhase('defeat'), 500);
       } else {
-        setTimeout(() => setPhase('menu'), 500);
+        schedule(() => setPhase('menu'), 500);
       }
     }, 400);
   };
@@ -101,19 +138,19 @@ export function CombatOverlay() {
     setPhase('resolving');
     setLog(`You use ${move.nameEn}!`);
     setPlayerLunge(true);
-    setTimeout(() => setPlayerLunge(false), 550);
-    setTimeout(() => {
+    schedule(() => setPlayerLunge(false), 550);
+    schedule(() => {
       const dmg = computeDamage(move, { defense: e.defense, spirit: e.spirit });
       setEnemyShake(true);
       setFlashScreen(true);
       spawnDamage(dmg, 'enemy');
-      setTimeout(() => setEnemyShake(false), 350);
-      setTimeout(() => setFlashScreen(false), 200);
+      schedule(() => setEnemyShake(false), 350);
+      schedule(() => setFlashScreen(false), 200);
       const newHp = Math.max(0, enemyHp() - dmg);
       setEnemyHp(newHp);
       setLog(`${move.nameEn} hits for ${dmg}!`);
       if (newHp === 0) {
-        setTimeout(() => {
+        schedule(() => {
           setPhase('victory');
           for (const w of e.rewardWords) masterWord(w);
           addXp(e.xpReward);
@@ -125,7 +162,7 @@ export function CombatOverlay() {
           });
         }, 700);
       } else {
-        setTimeout(enemyTurn, 700);
+        schedule(enemyTurn, 700);
       }
     }, 380);
   };
@@ -301,6 +338,7 @@ export function CombatOverlay() {
                         <button
                           type="button"
                           onMouseEnter={() => setSelectedMove(i())}
+                          onFocus={() => setSelectedMove(i())}
                           onClick={() => usePlayerMove(m)}
                           class={`relative text-left px-3 py-1.5 rounded-sm transition-colors ${
                             selectedMove() === i()
@@ -327,6 +365,7 @@ export function CombatOverlay() {
                     <button
                       type="button"
                       onMouseEnter={() => setSelectedMove(PLAYER_MOVES.length)}
+                      onFocus={() => setSelectedMove(PLAYER_MOVES.length)}
                       onClick={run}
                       class={`relative text-left px-3 py-1.5 rounded-sm transition-colors ${
                         selectedMove() === PLAYER_MOVES.length

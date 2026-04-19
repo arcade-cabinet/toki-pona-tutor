@@ -23,7 +23,6 @@ export interface EnemyDef {
   portraitSrc: string;
   /** Stats */
   hp: number;
-  attack: number; // damage dealt when they hit the player
   defense: number; // reduces physical damage
   spirit: number; // reduces calm damage
   /** Moves the enemy can use */
@@ -45,7 +44,6 @@ export const ENEMIES: Record<string, EnemyDef> = {
     spriteFrame: DUNGEON.ORC_RED,
     portraitSrc: `${PORTRAIT_BASE}/portrait_pipi.png`,
     hp: 10,
-    attack: 2,
     defense: 1,
     spirit: 0,
     moves: [
