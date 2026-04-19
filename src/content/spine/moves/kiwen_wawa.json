@@ -1,0 +1,11 @@
+{
+  "id": "kiwen_wawa",
+  "name": { "en": "stoneblow" },
+  "description": { "en": "That animal is strong." },
+  "type": "wawa",
+  "power": 40,
+  "accuracy": 100,
+  "pp": 20,
+  "effect": "none",
+  "priority": 0
+}
