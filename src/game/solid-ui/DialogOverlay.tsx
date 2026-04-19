@@ -6,6 +6,7 @@ import {
   acceptQuest,
   completeHungryFriend,
   getQuestState,
+  markSpokenTo,
 } from '../ecs/questState';
 import { sitelenFor, toSitelenPona } from '../../lib/sitelen';
 
@@ -68,6 +69,7 @@ export function DialogOverlay() {
       const stage = getQuestState().hungryFriend;
       const chosen = pickDialogLine(npcId, stage);
       if (!chosen) return;
+      markSpokenTo(npcId);
       const npc = getNpc(npcId);
       setNpcName(npc?.name_tp ?? npcId);
       setLine(chosen);

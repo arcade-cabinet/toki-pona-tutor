@@ -35,13 +35,20 @@ export class VillageScene extends Phaser.Scene {
     D: Phaser.Input.Keyboard.Key;
   };
   private interactKey!: Phaser.Input.Keyboard.Key;
-  private npcs: Array<{ sprite: Phaser.GameObjects.Sprite; npcId: string; label: Phaser.GameObjects.Text }> = [];
+  private npcs: Array<{
+    sprite: Phaser.GameObjects.Sprite;
+    npcId: string;
+    label: Phaser.GameObjects.Text;
+    marker: Phaser.GameObjects.Text;
+    markerGlow: Phaser.GameObjects.Arc;
+  }> = [];
   private items: Array<{ sprite: Phaser.GameObjects.Sprite; itemId: string }> = [];
   private colliders: Phaser.Physics.Arcade.StaticGroup | null = null;
   private dialogOpen = false;
   private unsubs: Array<() => void> = [];
   private interactPrompt!: Phaser.GameObjects.Text;
   private questMarker!: Phaser.GameObjects.Text;
+  private questGlow!: Phaser.GameObjects.Arc;
 
   constructor() {
     super('VillageScene');
@@ -293,7 +300,24 @@ export class VillageScene extends Phaser.Scene {
       })
       .setOrigin(0.5, 0.5)
       .setDepth(50);
-    this.npcs.push({ sprite, npcId, label });
+    const markerGlow = this.add
+      .circle(x, y - 24, 8, 0xfde047, 0.3)
+      .setStrokeStyle(1, 0xfbbf24, 0.8)
+      .setDepth(49)
+      .setVisible(false);
+    const marker = this.add
+      .text(x, y - 24, '?', {
+        fontFamily: 'Kenney Bold, monospace',
+        fontSize: '13px',
+        color: '#fef3c7',
+        fontStyle: 'bold',
+        stroke: '#7c2d12',
+        strokeThickness: 3,
+      })
+      .setOrigin(0.5, 0.5)
+      .setDepth(50)
+      .setVisible(false);
+    this.npcs.push({ sprite, npcId, label, marker, markerGlow });
     spawnNpc({
       x,
       y,
@@ -333,13 +357,20 @@ export class VillageScene extends Phaser.Scene {
       .setDepth(100)
       .setVisible(false);
 
-    // Quest marker "!" over jan Pona while quest is pending
+    // Quest marker — an FF-style gold '!' with a pulsing glow ring.
+    this.questGlow = this.add
+      .circle(0, 0, 9, 0xfde047, 0.35)
+      .setStrokeStyle(1, 0xfbbf24, 0.9)
+      .setDepth(49)
+      .setVisible(false);
     this.questMarker = this.add
       .text(0, 0, '!', {
-        fontFamily: 'monospace',
-        fontSize: '12px',
-        color: '#fde047',
+        fontFamily: 'Kenney Bold, monospace',
+        fontSize: '14px',
+        color: '#fef3c7',
         fontStyle: 'bold',
+        stroke: '#7c2d12',
+        strokeThickness: 3,
       })
       .setOrigin(0.5, 0.5)
       .setDepth(50)
@@ -459,15 +490,53 @@ export class VillageScene extends Phaser.Scene {
       this.interactPrompt.setVisible(false);
     }
 
-    // Quest '!' marker bobs over jan Pona while quest is pending
-    const stage = getQuestState().hungryFriend;
-    const pona = this.npcs.find((n) => n.npcId === 'jan_pona');
-    if (pona && (stage === 'not_started' || stage === 'item_found')) {
-      this.questMarker.setVisible(true);
-      const bob = Math.sin(this.time.now * 0.005) * 2;
-      this.questMarker.setPosition(pona.sprite.x, pona.sprite.y - 24 + bob);
-    } else {
-      this.questMarker.setVisible(false);
+    // Hide legacy singleton quest markers (per-NPC markers handled below)
+    this.questMarker.setVisible(false);
+    this.questGlow.setVisible(false);
+
+    // Per-NPC '!' / '?' markers
+    const qs = getQuestState();
+    const stage = qs.hungryFriend;
+    const bob = Math.sin(this.time.now * 0.005) * 2;
+    const pulse = 1 + Math.sin(this.time.now * 0.006) * 0.18;
+    const alpha = 0.35 + Math.sin(this.time.now * 0.006) * 0.2;
+    for (const n of this.npcs) {
+      const activeQuest =
+        n.npcId === 'jan_pona' && (stage === 'not_started' || stage === 'item_found');
+      const spoken = !!qs.spokenTo[n.npcId];
+
+      let show: 'quest' | 'new' | 'none' = 'none';
+      if (activeQuest) show = 'quest';
+      else if (!spoken) show = 'new';
+
+      if (show === 'none') {
+        n.marker.setVisible(false);
+        n.markerGlow.setVisible(false);
+        continue;
+      }
+
+      const my = n.sprite.y - 24 + bob;
+      n.marker.setVisible(true);
+      n.marker.setPosition(n.sprite.x, my);
+      n.marker.setScale(1, 1 + Math.sin(this.time.now * 0.012) * 0.08);
+      n.markerGlow.setVisible(true);
+      n.markerGlow.setPosition(n.sprite.x, my);
+
+      if (show === 'quest') {
+        n.marker.setText('!');
+        n.marker.setColor('#fef3c7');
+        n.markerGlow.setFillStyle(0xfde047, 0.3);
+        n.markerGlow.setStrokeStyle(1, 0xfbbf24, 0.85);
+        n.markerGlow.setScale(pulse);
+        n.markerGlow.setAlpha(alpha);
+      } else {
+        n.marker.setText('?');
+        n.marker.setColor('#dbeafe');
+        n.markerGlow.setFillStyle(0x60a5fa, 0.25);
+        n.markerGlow.setStrokeStyle(1, 0x93c5fd, 0.8);
+        n.markerGlow.setScale(1);
+        n.markerGlow.setAlpha(0.3);
+      }
     }
 
     // Akesi proximity check — triggers combat when player gets close
