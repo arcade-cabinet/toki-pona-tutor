@@ -252,6 +252,66 @@ func give_item(item_id: String, count: int = 1) -> void:
 	inventory_changed.emit()
 
 
+# --- Coins (ma), US-059 ---
+
+func coins() -> int:
+	return int(inventory().get("ma", 0))
+
+
+func give_coins(amount: int) -> void:
+	if amount == 0: return
+	var inv: Dictionary = inventory()
+	inv["ma"] = max(0, int(inv.get("ma", 0)) + amount)
+	_set_dict("inventory", inv)
+	inventory_changed.emit()
+
+
+# --- Bestiary, US-056 ---
+
+func bestiary() -> Dictionary:
+	return _get_dict("bestiary")
+
+
+func mark_seen(species_id: String) -> void:
+	if species_id == "": return
+	var b: Dictionary = bestiary()
+	var entry: Dictionary = b.get(species_id, {})
+	entry["seen"] = true
+	entry["first_seen_at"] = entry.get("first_seen_at", Time.get_datetime_string_from_system())
+	b[species_id] = entry
+	_set_dict("bestiary", b)
+
+
+func mark_caught(species_id: String) -> void:
+	if species_id == "": return
+	var b: Dictionary = bestiary()
+	var entry: Dictionary = b.get(species_id, {})
+	entry["seen"] = true
+	entry["caught"] = true
+	entry["first_caught_at"] = entry.get("first_caught_at", Time.get_datetime_string_from_system())
+	b[species_id] = entry
+	_set_dict("bestiary", b)
+
+
+# --- Badges, US-052 ---
+
+func badges() -> Array:
+	return _get_array("badges")
+
+
+func award_badge(badge_id: String) -> bool:
+	if badge_id == "": return false
+	var current: Array = badges()
+	if badge_id in current: return false
+	current.append(badge_id)
+	_set_array("badges", current)
+	return true
+
+
+func has_badge(badge_id: String) -> bool:
+	return badge_id in badges()
+
+
 # --- Region / player_tile ---
 
 var current_region_id: String:

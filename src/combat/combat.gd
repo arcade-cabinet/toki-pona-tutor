@@ -43,6 +43,8 @@ const VICTORY_PANEL_SCENE: PackedScene = preload("res://src/combat/ui/victory_pa
 # victory panel can tally XP/level-ups/new-moves without reaching back
 # into the spawner.
 var _pending_xp_yield: int = 0
+var _pending_enemy_species_id: String = ""
+var _pending_badge_award: String = ""
 
 
 func _ready() -> void:
@@ -59,6 +61,8 @@ var _pending_catch_message: PackedStringArray = PackedStringArray()
 
 func _on_poki_thrown(species_id: String, caught: bool, _chance: float) -> void:
 	if caught:
+		if TokiSave != null:
+			TokiSave.mark_caught(species_id)
 		_pending_catch_message = PackedStringArray([
 			"[b]poki li awen![/b]\nYou caught %s!" % species_id,
 		])
@@ -92,7 +96,12 @@ func setup(arena: PackedScene) -> void:
 	_combat_container.add_child(combat_arena)
 	_battler_roster = combat_arena.get_battler_roster()
 	_pending_xp_yield = combat_arena.xp_yield
+	_pending_enemy_species_id = combat_arena.enemy_species_id
+	_pending_badge_award = combat_arena.badge_award
 	_fled = false
+	# US-056: flag the enemy species as "seen" as soon as combat opens.
+	if TokiSave != null and _pending_enemy_species_id != "":
+		TokiSave.mark_seen(_pending_enemy_species_id)
 
 	# Wait a frame for the arena and its children (VFX, Battlers, etc.) to be ready.
 	await get_tree().process_frame
@@ -318,6 +327,23 @@ func _run_victory_sequence() -> void:
 			post_moves = am if am is Array else pre_moves
 
 	var entries: Array = _build_victory_entries(amount, pre_level, post_level, pre_moves, post_moves)
+
+	# US-027 + US-059: roll item drop + coin reward based on enemy species.
+	if TokiSave != null and _pending_enemy_species_id != "":
+		var species := _lookup_species(_pending_enemy_species_id)
+		if species != null:
+			if species.coin_yield > 0:
+				TokiSave.give_coins(species.coin_yield)
+				entries.append("+%d ma" % species.coin_yield)
+			if species.item_drop_id != "" and randf() < species.item_drop_chance:
+				TokiSave.give_item(species.item_drop_id, 1)
+				entries.append("found: %s" % species.item_drop_id)
+
+	# US-052: award the arena-configured badge. First-time award only.
+	if TokiSave != null and _pending_badge_award != "":
+		if TokiSave.award_badge(_pending_badge_award):
+			entries.append("[b]sina kama jo e poki sewi![/b]\nYou earned the %s badge!" % _pending_badge_award)
+
 	# Prepend any pending catch-result lines so a successful/failed
 	# poki throw shows BEFORE the xp/level-up tally.
 	if _pending_catch_message.size() > 0:
@@ -359,6 +385,14 @@ func _move_display_name(move_id: String) -> String:
 		if move != null and move.name_tp != "":
 			return move.name_tp
 	return move_id
+
+
+func _lookup_species(species_id: String) -> SpeciesResource:
+	if species_id == "": return null
+	var world_autoload: Node = get_tree().root.get_node_or_null("World")
+	if world_autoload and world_autoload.has_method("find_species"):
+		return world_autoload.find_species(species_id)
+	return null
 
 
 # Defeat message — single beat via the victory panel for visual
