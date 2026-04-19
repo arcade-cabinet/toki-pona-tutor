@@ -165,6 +165,7 @@ description_en = "The night is dark and cold."
 description_tp = "tenpo pimeja li pimeja li lete."
 height = 16
 sky_color = "#c4d8e8"
+biome = "ice"
 layers = [{
 "depth": 0.0,
 "name": "ground",

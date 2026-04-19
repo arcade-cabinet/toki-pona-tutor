@@ -175,6 +175,7 @@ description_tp = "nasin telo li suli."
 width = 32
 height = 12
 sky_color = "#7fb3c9"
+biome = "water"
 layers = [{
 "depth": 0.0,
 "name": "ground",

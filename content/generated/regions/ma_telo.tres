@@ -193,6 +193,26 @@ greeting_text_en = "Tom buys fish."
 greeting_text_tp = "jan Ton li esun e kala."
 greeting_mood = "happy"
 
+[sub_resource type="Resource" id="Resource_1mg7v"]
+script = ExtResource("2_hm0ny")
+id = "jan_esun"
+name_tp = "jan Esun"
+name_en = "jan Esun"
+role = "shopkeeper"
+personality = "a cheerful shopkeeper who sells catching nets and healing fruit from a small market stall."
+tile = Vector2i(14, 7)
+sprite_frame = 90
+greeting_text_en = "Here, look here!"
+greeting_text_tp = "ni. o lukin lon ni."
+greeting_mood = "happy"
+stock = [{
+"item_id": "poki_lili",
+"price": 50.0
+}, {
+"item_id": "kili",
+"price": 20.0
+}]
+
 [resource]
 script = ExtResource("3_8y2w3")
 id = "ma_telo"
@@ -214,7 +234,7 @@ layers = [{
 "solid_keys": ["tree_g", "tree_y", "bush", "house_b", "house_r", "sign"],
 "tiles": [["tree_g", "tree_g", "tree_g", "tree_g", "tree_g", "tree_g", "tree_g", "tree_g", "tree_g", "tree_g", null, null, "tree_g", "tree_g", "tree_g", "tree_g", "tree_g", "tree_g", "tree_g", "tree_g", "tree_g", "tree_g"], ["tree_g", null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, "tree_g"], ["tree_g", null, "house_b", null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, "house_r", null, null, "tree_g"], ["tree_g", null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, "tree_g"], ["tree_g", null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, "tree_g"], ["tree_g", null, "bush", null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, "bush", null, "tree_g"], ["tree_g", null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, "tree_g"], [null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, "tree_g"], [null, null, null, "sign", null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, "tree_g"], ["tree_g", null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, "tree_g"], ["tree_g", null, null, null, null, null, null, null, null, "sign", null, null, null, null, null, null, null, null, null, "house_b", null, "tree_g"], ["tree_g", null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, "tree_g"], ["tree_g", null, "house_r", null, null, null, null, null, null, null, null, null, "sign", null, null, null, null, null, null, null, null, "tree_g"], ["tree_g", null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, null, "tree_g"], ["tree_g", null, null, null, null, null, "bush", null, null, null, null, null, null, null, null, "bush", null, null, null, null, null, "tree_g"], ["tree_g", "tree_g", "tree_g", "tree_g", "tree_g", "tree_g", "tree_g", "tree_g", "tree_g", "tree_g", null, null, "tree_g", "tree_g", "tree_g", "tree_g", "tree_g", "tree_g", "tree_g", "tree_g", "tree_g", "tree_g"]]
 }]
-npcs = Array[ExtResource("2_hm0ny")]([SubResource("Resource_wwcrn"), SubResource("Resource_083kj"), SubResource("Resource_ugo86")])
+npcs = Array[ExtResource("2_hm0ny")]([SubResource("Resource_wwcrn"), SubResource("Resource_083kj"), SubResource("Resource_ugo86"), SubResource("Resource_1mg7v")])
 signs = [{
 "id": "sign_lake",
 "text": {

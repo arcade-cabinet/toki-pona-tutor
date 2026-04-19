@@ -164,6 +164,7 @@ description_tp = "ko lete li lon nena."
 width = 16
 height = 24
 sky_color = "#4a5d70"
+biome = "cave"
 layers = [{
 "depth": 0.0,
 "name": "ground",

@@ -28,6 +28,13 @@ const VALID_ROLES: Array[String] = [
 # Array of dicts {species_id, level, moves}
 @export var team: Array = []
 @export var reward_word: String = ""
+# Badge id awarded on defeating this jan_lawa (US-052). Combat arena
+# reads it via CombatArena.badge_award after the rival builder wires.
+@export var badge_award: String = ""
+
+@export_group("Shopkeeper (shopkeeper only)")
+# Array of dicts {item_id, price}. Read by RegionBuilder._open_shop_for.
+@export var stock: Array = []
 
 
 static func from_dict(d: Dictionary) -> NpcResource:
@@ -48,4 +55,6 @@ static func from_dict(d: Dictionary) -> NpcResource:
 	r.greeting_mood = g.get("mood", "thinking")
 	r.team = d.get("team", [])
 	r.reward_word = d.get("reward_word", "")
+	r.badge_award = String(d.get("badge_award", ""))
+	r.stock = d.get("stock", []) if d.get("stock") is Array else []
 	return r
