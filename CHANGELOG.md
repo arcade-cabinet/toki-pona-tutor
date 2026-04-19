@@ -1,5 +1,24 @@
 # Changelog
 
+## [0.1.2](https://github.com/arcade-cabinet/poki-soweli/compare/poki-soweli-v0.1.1...poki-soweli-v0.1.2) (2026-04-19)
+
+
+### Features
+
+* batch phase 3 — rewards + pokedex + badges (7 user stories) ([#49](https://github.com/arcade-cabinet/poki-soweli/issues/49)) ([a79128a](https://github.com/arcade-cabinet/poki-soweli/commit/a79128a6f84e4fd4a634889a470139e18c6fc056))
+* batch phase 4 — settings + save versioning + mastered words (4 stories) ([#53](https://github.com/arcade-cabinet/poki-soweli/issues/53)) ([2624ea2](https://github.com/arcade-cabinet/poki-soweli/commit/2624ea2c1c21c5e23a625adb1d4f9ebff13f2126))
+
+
+### Bug Fixes
+
+* **web,ci:** unblock GH Pages, attach release assets, auto-merge release PRs, custom loader ([#51](https://github.com/arcade-cabinet/poki-soweli/issues/51)) ([00bf93b](https://github.com/arcade-cabinet/poki-soweli/commit/00bf93ba11165cc11de446bc565175a3c45310f5))
+* **web:** drop non-existent \$GODOT_PROJECT_ICON_URL placeholder ([#54](https://github.com/arcade-cabinet/poki-soweli/issues/54)) ([169a7e0](https://github.com/arcade-cabinet/poki-soweli/commit/169a7e031736512602e20963ae2c099cab0bbe78))
+
+
+### Maintenance
+
+* orthogonal cleanup — parse error, stale addon, UID, dependabot, canvas sizing ([#55](https://github.com/arcade-cabinet/poki-soweli/issues/55)) ([8cd66f0](https://github.com/arcade-cabinet/poki-soweli/commit/8cd66f041577131b9ab84e429ab67b3a57bb86c6))
+
 ## [0.1.1](https://github.com/arcade-cabinet/poki-soweli/compare/poki-soweli-v0.1.0...poki-soweli-v0.1.1) (2026-04-19)
 
 
