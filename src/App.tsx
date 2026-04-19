@@ -3,6 +3,7 @@ import { MenuScreen } from './components/MenuScreen';
 import { LearnScreen } from './components/LearnScreen';
 import { ResultsScreen } from './components/ResultsScreen';
 import { DictionaryScreen } from './components/DictionaryScreen';
+import { AdventureView } from './components/AdventureView';
 import { useAudio } from './hooks/useAudio';
 import { challenges } from './lib/challenges';
 import type { View } from './types';
@@ -97,9 +98,11 @@ export default function App() {
               audioEnabled={audioEnabled}
               toneLoaded={toneLoaded}
               onStart={startGame}
+              onAdventure={() => setView('adventure')}
               onStudy={() => setView('study')}
             />
           )}
+          {view === 'adventure' && <AdventureView onExit={() => setView('menu')} />}
           {view === 'learn' && (
             <LearnScreen
               challenge={challenges[challengeIndex]}
