@@ -1016,30 +1016,8 @@
     }
   ],
   "warps": [
-    {
-      "id": "warp_south",
-      "tile": {
-        "x": 10,
-        "y": 19
-      },
-      "to_region": "ma_lete",
-      "to_tile": {
-        "x": 1,
-        "y": 10
-      }
-    },
-    {
-      "id": "warp_east",
-      "tile": {
-        "x": 19,
-        "y": 10
-      },
-      "to_region": "nena_sewi",
-      "to_tile": {
-        "x": 1,
-        "y": 10
-      }
-    }
+    null,
+    null
   ],
   "dialog": [
     {

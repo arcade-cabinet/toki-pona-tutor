@@ -1,5 +1,7 @@
-class_name BiomeMusic
 extends Node
+
+# Note: no `class_name` — this script is the BiomeMusic autoload and
+# `class_name BiomeMusic` would collide with the autoload singleton.
 
 # Routes region biomes → AudioStream tracks. Reads RegionResource.biome
 # off the current region (via RegionBuilder.region_changed), cross-fades

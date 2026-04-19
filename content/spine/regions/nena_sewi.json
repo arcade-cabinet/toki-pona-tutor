@@ -1035,6 +1035,18 @@
         "x": 1,
         "y": 18
       }
+    },
+    {
+      "id": "warp_east_to_ma_telo",
+      "tile": {
+        "x": 18,
+        "y": 10
+      },
+      "to_region": "ma_telo",
+      "to_tile": {
+        "x": 1,
+        "y": 8
+      }
     }
   ],
   "dialog": [

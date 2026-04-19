@@ -260,10 +260,10 @@ warps = [{
 "x": 21.0,
 "y": 5.0
 },
-"to_region": "ma_kala",
+"to_region": "nena_suli",
 "to_tile": {
 "x": 1.0,
-"y": 5.0
+"y": 10.0
 }
 }]
 dialog = Array[ExtResource("1_ik0r5")]([SubResource("Resource_wks3f"), SubResource("Resource_8omgd"), SubResource("Resource_4vsmu"), SubResource("Resource_sn1s8"), SubResource("Resource_noxvh")])

@@ -1027,10 +1027,10 @@
         "x": 21,
         "y": 5
       },
-      "to_region": "ma_kala",
+      "to_region": "nena_suli",
       "to_tile": {
         "x": 1,
-        "y": 5
+        "y": 10
       }
     }
   ],
