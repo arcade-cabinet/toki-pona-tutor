@@ -149,3 +149,16 @@ vite.config.ts.timestamp-*
 
 # Agent worktrees — per-agent isolated checkouts at .worktrees/<branch-name>
 .worktrees/
+
+# Godot-era leftovers (archived in bundle at /Volumes/home/src/backups/arcade-cabinet/
+# and in tag archive/godot-era; no longer tracked on main)
+.godot/
+.ralph-tui/
+android/
+build/
+reports/
+server/
+
+# Purchased asset archives — unpacked into public/assets/; originals preserved
+# but not tracked (large). Re-unpack from originals if ever needed.
+pending/
