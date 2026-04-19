@@ -1,5 +1,5 @@
 import * as Phaser from 'phaser';
-import { VillageScene } from './scenes/VillageScene';
+import { RegionScene } from './scenes/RegionScene';
 
 export function createGame(parent: HTMLDivElement): Phaser.Game {
   // FIT mode scales a fixed internal resolution to the parent div instead of
@@ -29,6 +29,6 @@ export function createGame(parent: HTMLDivElement): Phaser.Game {
     input: {
       activePointers: 2,
     },
-    scene: [VillageScene],
+    scene: [RegionScene],
   });
 }

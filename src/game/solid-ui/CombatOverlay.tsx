@@ -2,7 +2,7 @@
 import { createSignal, For, onCleanup, onMount, Show } from 'solid-js';
 import { gameBus } from '../GameBus';
 import { ENEMIES, type EnemyDef, type EnemyMove } from '../combat/enemies';
-import { masterWord, addXp } from '../ecs/questState';
+import { masterWord } from '../ecs/saveState';
 
 type Phase = 'intro' | 'menu' | 'resolving' | 'victory' | 'defeat';
 type DamagePop = { id: number; amount: number; target: 'enemy' | 'player'; kind: 'normal' | 'crit' | 'heal' };
@@ -153,11 +153,12 @@ export function CombatOverlay() {
         schedule(() => {
           setPhase('victory');
           for (const w of e.rewardWords) masterWord(w);
-          addXp(e.xpReward);
+          // XP accrues to the creature in the player's party — wired up
+          // once the Pokemon-shape party combat lands in a follow-up PR.
           gameBus.emit('toast:show', {
             kind: 'celebration',
             title: `pona! ${e.nameTp} li lape.`,
-            body: `+${e.xpReward} XP · learned ${e.rewardWords.join(', ')}`,
+            body: `learned ${e.rewardWords.join(', ')}`,
             ttlMs: 3500,
           });
         }, 700);
