@@ -28,6 +28,7 @@ dist/
 *.zip
 # Android keystores are never committed — signing key lives in $HOME or CI secrets
 *.keystore
+*.jks
 android/debug.keystore
 android/release.keystore
 
