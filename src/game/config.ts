@@ -5,13 +5,13 @@ export function createGame(parent: HTMLDivElement): Phaser.Game {
   return new Phaser.Game({
     type: Phaser.AUTO,
     parent,
-    width: 480,
-    height: 320,
     pixelArt: true,
-    backgroundColor: '#6ab04c',
+    backgroundColor: '#7bb65a',
     scale: {
-      mode: Phaser.Scale.FIT,
+      mode: Phaser.Scale.RESIZE,
       autoCenter: Phaser.Scale.CENTER_BOTH,
+      width: parent.clientWidth || 480,
+      height: parent.clientHeight || 320,
     },
     physics: {
       default: 'arcade',
