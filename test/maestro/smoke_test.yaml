@@ -1,0 +1,64 @@
+appId: com.arcadecabinet.pokisoweli
+name: "Smoke Test - App launches, helper is live, title menu is reachable"
+tags:
+  - smoke
+  - ci
+---
+
+# Cold-start the app so we're always in a known state.
+- launchApp:
+    appId: com.arcadecabinet.pokisoweli
+    stopApp: true
+
+# Android sometimes shows an immersive-mode confirmation. Dismiss if present.
+- tapOn:
+    text: "Got it"
+    optional: true
+
+# Gate on the Maestro helper status label so we fail fast if the test
+# accidentally points at a release build (helper is compiled in only for
+# debug + cmdline flag --maestro-helper).
+- extendedWaitUntil:
+    timeout: 30000
+    visible: "Maestro Helper"
+
+# Title scene must reach the idle menu state within 30s.
+- extendedWaitUntil:
+    timeout: 30000
+    visible: "Scene: Title"
+- extendedWaitUntil:
+    timeout: 15000
+    visible:
+      text: "o open"
+
+- takeScreenshot: screenshots/maestro/smoke_01_title
+
+# Exercise the settings flow — confirms touch input hits the button stack.
+- tapOn:
+    text: "nasin"
+- extendedWaitUntil:
+    timeout: 5000
+    visible:
+      text: "kalama"
+- takeScreenshot: screenshots/maestro/smoke_02_settings
+- tapOn:
+    text: "o tawa monsi"
+- extendedWaitUntil:
+    timeout: 5000
+    visible:
+      text: "o open"
+
+# Prove new-game transition fires. We don't try to play the game; the
+# smoke test's job is to confirm the binary boots, input works, and
+# scene transitions are wired.
+- tapOn:
+    text: "o open"
+- extendedWaitUntil:
+    timeout: 30000
+    visible: "Scene: TokiTownMain"
+
+- takeScreenshot: screenshots/maestro/smoke_03_overworld
+
+# Leave the emulator on a quiet screen (title) for the next flow.
+- stopApp:
+    appId: com.arcadecabinet.pokisoweli
