@@ -3461,7 +3461,12 @@
               "mood": "thinking",
               "glyph": "utala"
             }
-          ]
+          ],
+          "triggers": {
+            "set_flag": {
+              "badge_sewi": true
+            }
+          }
         },
         {
           "id": "jan_wawa_victory",
@@ -3487,12 +3492,7 @@
               "mood": "thinking",
               "glyph": "sewi"
             }
-          ],
-          "triggers": {
-            "set_flag": {
-              "badge_sewi": true
-            }
-          }
+          ]
         },
         {
           "id": "jan_kala_flavor",

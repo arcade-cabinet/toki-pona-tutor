@@ -149,7 +149,10 @@
         { "text": { "en": "Are you strong?" }, "mood": "excited", "glyph": "wawa" },
         { "text": { "en": "I want to fight." }, "mood": "excited", "glyph": "utala" },
         { "text": { "en": "Attack them." }, "mood": "thinking", "glyph": "utala" }
-      ]
+      ],
+      "triggers": {
+        "set_flag": { "badge_sewi": true }
+      }
     },
     {
       "id": "jan_wawa_victory",
@@ -159,10 +162,7 @@
       "beats": [
         { "text": { "en": "I lost." }, "mood": "sad", "glyph": "anpa" },
         { "text": { "en": "Tom has the high ground." }, "mood": "thinking", "glyph": "sewi" }
-      ],
-      "triggers": {
-        "set_flag": { "badge_sewi": true }
-      }
+      ]
     },
     {
       "id": "jan_kala_flavor",
