@@ -70,6 +70,14 @@ async function processOne(id: string): Promise<void> {
     throw new Error(`spec "${specPath}" has no default export`);
   }
   const spec = mod.default;
+  // Require the spec's id to match the requested id (which was already
+  // validated by assertSafeMapId). This prevents an author from setting
+  // spec.id = "../escape" and having the emitted TMJ land outside mapsDir.
+  if (spec.id !== id) {
+    throw new Error(
+      `spec.id "${spec.id}" does not match requested id "${id}"; they must match`,
+    );
+  }
   const tilesets = await loadTilesetsForSpec(spec, worktreeRoot);
 
   // Validate

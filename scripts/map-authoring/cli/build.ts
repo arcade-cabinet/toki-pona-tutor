@@ -34,6 +34,12 @@ async function main(): Promise<void> {
   // ESM dynamic import requires a file:// URL on Windows (filesystem paths
   // with backslashes fail with ERR_UNSUPPORTED_ESM_URL_SCHEME).
   const mod = (await import(pathToFileURL(specPath).href)) as { default?: MapSpec };
+  if (mod.default && mod.default.id !== mapId) {
+    console.error(
+      `spec.id "${mod.default.id}" does not match requested id "${mapId}" — they must match so artifacts write to the right filename`,
+    );
+    process.exit(1);
+  }
   const spec = mod.default;
   if (!spec) {
     console.error(`spec "${specPath}" has no default export`);

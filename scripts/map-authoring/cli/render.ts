@@ -40,6 +40,12 @@ async function main(): Promise<void> {
   const specPath = join(worktreeRoot, 'scripts', 'map-authoring', 'specs', `${mapId}.ts`);
   // ESM dynamic import requires a file:// URL on Windows.
   const mod = (await import(pathToFileURL(specPath).href)) as { default?: MapSpec };
+  if (mod.default && mod.default.id !== mapId) {
+    console.error(
+      `spec.id "${mod.default.id}" does not match requested id "${mapId}"`,
+    );
+    process.exit(1);
+  }
   if (!mod.default) {
     console.error(`spec "${specPath}" has no default export`);
     process.exit(1);

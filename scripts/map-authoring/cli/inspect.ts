@@ -9,7 +9,7 @@
 import { dirname, resolve, join, basename } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { existsSync, mkdtempSync, rmSync } from 'node:fs';
-import { readFile } from 'node:fs/promises';
+import { readFile, readdir } from 'node:fs/promises';
 import { spawnSync } from 'node:child_process';
 import { tmpdir } from 'node:os';
 import type { TmjMap } from '../lib/index';
@@ -26,9 +26,13 @@ async function main(): Promise<void> {
 
   const worktreeRoot = resolve(__dirname, '..', '..', '..');
   const tilemapsRoot = join(worktreeRoot, 'public', 'assets', 'tilesets');
-  // Find the .tmx
+  // Find the .tmx — walk every pack dir under tilemapsRoot so we don't
+  // drift as packs are added/removed. Same strategy as loader.ts.
+  const packs = existsSync(tilemapsRoot)
+    ? (await readdir(tilemapsRoot)).filter((d) => !d.startsWith('.')).sort()
+    : [];
   let tmxPath: string | undefined;
-  for (const pack of ['core', 'seasons', 'snow', 'desert', 'fortress', 'indoor']) {
+  for (const pack of packs) {
     const candidate = join(tilemapsRoot, pack, 'Tiled', 'Tilemaps', `${sampleMap}.tmx`);
     if (existsSync(candidate)) {
       tmxPath = candidate;
