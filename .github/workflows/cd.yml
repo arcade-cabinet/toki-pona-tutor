@@ -8,33 +8,11 @@ permissions:
   contents: read
 
 jobs:
-  build:
-    name: Build and Validate on Push
+  deploy:
+    name: Deploy
     runs-on: ubuntu-latest
-    container:
-      image: barichello/godot-ci:4.6.2
-
     steps:
-      - uses: actions/checkout@v4
-        with:
-          lfs: true
-
-      - name: Import assets
-        run: godot --headless --import 2>&1 || true
-
-      - name: Parse check (GDScript compilation)
+      - name: Placeholder
         run: |
-          godot --headless --quit 2>&1 | tee /tmp/godot_output.txt
-          if grep -qi "parser error\|compile error" /tmp/godot_output.txt; then
-            echo "::error::GDScript compilation errors on main"
-            grep -i "parser error\|compile error" /tmp/godot_output.txt
-            exit 1
-          fi
-
-      - name: Run gdUnit4 tests
-        run: |
-          if [ -d test ]; then
-            timeout 300 godot --headless --path . -s addons/gdUnit4/bin/GdUnitCmdTool.gd --ignoreHeadlessMode -a test/
-          else
-            echo "test/ not yet present — skipping"
-          fi
+          echo "CD placeholder — validation already gated in ci.yml."
+          echo "Real deploy steps (Pages, APK upload, etc.) land with T6-11/T6-12."
