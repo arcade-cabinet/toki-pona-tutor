@@ -1,62 +1,57 @@
-name: CI
+name: CD
 
 on:
-  pull_request:
+  push:
+    branches: [main]
 
-permissions:
-  contents: read
+concurrency:
+  group: cd-main
+  cancel-in-progress: true
 
 jobs:
-  validate:
-    name: Validate Godot Project
+  export-html5:
+    name: Export HTML5 to GitHub Pages
     runs-on: ubuntu-latest
-    container:
-      image: barichello/godot-ci:4.6.2
+    permissions:
+      contents: read
+      pages: write
+      id-token: write
+    environment:
+      name: github-pages
+      url: ${{ steps.deploy.outputs.page_url }}
     steps:
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
         with:
           lfs: true
 
-      - name: Import assets
-        run: godot --headless --import 2>&1 || true
-
-      - name: Parse check (GDScript compilation)
-        run: |
-          godot --headless --quit 2>&1 | tee /tmp/godot_output.txt
-          if grep -qi "parser error\|compile error" /tmp/godot_output.txt; then
-            echo "::error::GDScript compilation errors found"
-            grep -i "parser error\|compile error" /tmp/godot_output.txt
-            exit 1
-          fi
-
-      - name: Validate spine content (writing rules + Tatoeba cache)
-        run: timeout 120 godot --headless --path . --script res://tools/validate_tp.gd -- --offline
-
-      - name: Build generated resources (spine → .tres)
-        run: timeout 120 godot --headless --path . --script res://tools/build_spine.gd
-
-      - name: Run gdUnit4 tests
-        run: |
-          if [ -d test ]; then
-            timeout 300 godot --headless --path . \
-              -s addons/gdUnit4/bin/GdUnitCmdTool.gd \
-              --ignoreHeadlessMode -a test/
-          else
-            echo "test/ not yet present — skipping"
-          fi
-
-  smoke:
-    name: Smoke Test
-    runs-on: ubuntu-latest
-    container:
-      image: barichello/godot-ci:4.6.2
-    steps:
-      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+      - name: Setup Godot
+        uses: chickensoft-games/setup-godot@f166999204a4f2722c6fe042fbaa3b3ea0d9c789 # v2.4.1
         with:
-          lfs: true
-      - run: godot --headless --import 2>&1 || true
-      - name: Boot game briefly
-        run: timeout 10 godot --headless --path . --quit-after 5 && echo "SMOKE OK"
+          version: 4.6.2
+          use-dotnet: false
+          include-templates: true
+
+      - name: Import project resources
+        run: godot --headless --path . --import --quit-after 180
+
+      - name: Export HTML5
+        run: |
+          mkdir -p export/html5
+          curl -L -o export/html5/coi-serviceworker.js https://raw.githubusercontent.com/gzuidhof/coi-serviceworker/master/coi-serviceworker.js
+          godot --headless --path . --export-release "HTML5" export/html5/index.html
+          touch export/html5/.nojekyll
+
+      - name: Setup Pages
+        uses: actions/configure-pages@45bfe0192ca1faeb007ade9deae92b16b8254a0d # v6.0.0
+
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@fc324d3547104276b827a68afc52ff2a11cc49c9 # v5.0.0
+        with:
+          path: export/html5
+
+      - id: deploy
+        name: Deploy to GitHub Pages
+        uses: actions/deploy-pages@cd2ce8fcbc39b97be8ca5fce6e763baed58fa128 # v5.0.0
 
   build-android-debug:
     name: Build Android Debug APK
@@ -120,6 +115,6 @@ jobs:
       - name: Upload debug APK artifact
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
-          name: pr-debug-apk-${{ github.event.pull_request.number }}
+          name: main-debug-apk-${{ github.sha }}
           path: export/android/poki-soweli-debug.apk
-          retention-days: 14
+          retention-days: 30

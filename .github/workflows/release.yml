@@ -3,6 +3,8 @@ name: Release
 on:
   push:
     branches: [main]
+  release:
+    types: [published]
 
 permissions:
   contents: write
@@ -11,75 +13,115 @@ permissions:
 jobs:
   release-please:
     name: Release Please
+    if: github.event_name == 'push'
     runs-on: ubuntu-latest
-    outputs:
-      release_created: ${{ steps.release.outputs.release_created }}
-      tag_name: ${{ steps.release.outputs.tag_name }}
-
     steps:
-      - uses: googleapis/release-please-action@v4
-        id: release
+      - uses: googleapis/release-please-action@5c625bfb5d1ff62eadeeb3772007f7f66fdcf071 # v4.4.1
         with:
-          token: ${{ secrets.CI_GITHUB_TOKEN }}
-          release-type: simple
-          package-name: poki-soweli
+          token: ${{ secrets.GITHUB_TOKEN }}
+          config-file: release-please-config.json
+          manifest-file: .release-please-manifest.json
 
-  export:
-    name: Export Game Builds
-    needs: release-please
-    if: ${{ needs.release-please.outputs.release_created }}
+  build-android-release:
+    name: Build Android Release APK
+    if: github.event_name == 'release'
     runs-on: ubuntu-latest
-    container:
-      image: barichello/godot-ci:4.6.2
-
+    env:
+      RELEASE_TAG: ${{ github.ref_name }}
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
         with:
           lfs: true
 
-      - name: Import assets
-        run: godot --headless --import 2>&1 || true
+      - name: Setup Java 17
+        uses: actions/setup-java@be666c2fcd27ec809703dec50e508c2fdc7f6654 # v5.2.0
+        with:
+          distribution: temurin
+          java-version: 17
 
-      - name: Build main scene
-        run: |
-          # Optional pre-export build step — runs only if the project defines
-          # one (week 2+). Open-rpg / week-1 bootstrap doesn't need it.
-          if [ -f tools/build_main.gd ]; then
-            timeout 60 godot --headless --script res://tools/build_main.gd
-          else
-            echo "tools/build_main.gd not present — skipping (not required for open-rpg base)"
-          fi
+      - name: Setup Android SDK
+        uses: android-actions/setup-android@40fd30fb8d7440372e1316f5d1809ec01dcd3699 # v4.0.1
 
-      - name: Export Linux
+      - name: Install Android build tools
         run: |
-          mkdir -p build/linux
-          godot --headless --export-release "Linux" build/linux/poki-soweli.x86_64 || echo "Linux export not configured yet"
+          sdkmanager "build-tools;34.0.0" "platforms;android-34" "platform-tools"
+          sdkmanager --licenses <<< "y" || true
 
-      - name: Export Windows
-        run: |
-          mkdir -p build/windows
-          godot --headless --export-release "Windows Desktop" build/windows/poki-soweli.exe || echo "Windows export not configured yet"
+      - name: Setup Godot (with export templates)
+        uses: chickensoft-games/setup-godot@f166999204a4f2722c6fe042fbaa3b3ea0d9c789 # v2.4.1
+        with:
+          version: 4.6.2
+          use-dotnet: false
+          include-templates: true
 
-      - name: Export Web
-        run: |
-          mkdir -p build/web
-          godot --headless --export-release "HTML5" build/web/index.html || echo "Web export not configured yet"
+      - name: Import project resources
+        run: godot --headless --path . --import --quit-after 180
 
-      - name: Export Android
+      - name: Generate debug keystore (fallback — no production keystore yet)
         run: |
-          mkdir -p build/android
-          godot --headless --export-release "Android" build/android/poki-soweli.apk || echo "Android export not configured yet"
+          mkdir -p android
+          keytool -genkeypair \
+            -keystore android/debug.keystore \
+            -storepass android -alias androiddebugkey -keypass android \
+            -keyalg RSA -keysize 2048 -validity 10000 \
+            -dname "CN=Android Debug,O=Android,C=US"
 
-      - name: Upload release artifacts
-        if: ${{ needs.release-please.outputs.release_created }}
-        env:
-          TAG_NAME: ${{ needs.release-please.outputs.tag_name }}
-          GH_TOKEN: ${{ secrets.CI_GITHUB_TOKEN }}
+      - name: Configure Godot Android SDK path
         run: |
-          for dir in build/*/; do
-            platform=$(basename "$dir")
-            if [ -n "$(ls -A "$dir" 2>/dev/null)" ]; then
-              tar czf "poki-soweli-${platform}.tar.gz" -C "$dir" .
-              gh release upload "$TAG_NAME" "poki-soweli-${platform}.tar.gz" || true
-            fi
-          done
+          mkdir -p ~/.config/godot
+          cat >> ~/.config/godot/editor_settings-4.tres << 'EOF'
+          [gd_resource type="EditorSettings"]
+          [resource]
+          export/android/android_sdk_path = "$ANDROID_SDK_ROOT"
+          EOF
+
+      - name: Export Android APK
+        run: |
+          mkdir -p export/android
+          APK_NAME="poki-soweli-${RELEASE_TAG}.apk"
+          godot --headless --path . \
+            --export-release "Android Release" \
+            "export/android/${APK_NAME}"
+          echo "APK_PATH=export/android/${APK_NAME}" >> "$GITHUB_ENV"
+
+      - name: Upload APK to release
+        uses: softprops/action-gh-release@b4309332981a82ec1c5618f44dd2e27cc8bfbfda # v3.0.0
+        with:
+          files: ${{ env.APK_PATH }}
+
+  build-html5-release:
+    name: Build HTML5 Release Export
+    if: github.event_name == 'release'
+    runs-on: ubuntu-latest
+    env:
+      RELEASE_TAG: ${{ github.ref_name }}
+    steps:
+      - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        with:
+          lfs: true
+
+      - name: Setup Godot (with export templates)
+        uses: chickensoft-games/setup-godot@f166999204a4f2722c6fe042fbaa3b3ea0d9c789 # v2.4.1
+        with:
+          version: 4.6.2
+          use-dotnet: false
+          include-templates: true
+
+      - name: Import project resources
+        run: godot --headless --path . --import --quit-after 180
+
+      - name: Export HTML5
+        run: |
+          mkdir -p export/html5
+          curl -L -o export/html5/coi-serviceworker.js https://raw.githubusercontent.com/gzuidhof/coi-serviceworker/master/coi-serviceworker.js
+          godot --headless --path . \
+            --export-release "HTML5" \
+            export/html5/index.html
+          ZIP_NAME="poki-soweli-${RELEASE_TAG}-web.zip"
+          cd export && zip -r "../${ZIP_NAME}" html5/
+          echo "ZIP_PATH=${ZIP_NAME}" >> "$GITHUB_ENV"
+
+      - name: Upload web export to release
+        uses: softprops/action-gh-release@b4309332981a82ec1c5618f44dd2e27cc8bfbfda # v3.0.0
+        with:
+          files: ${{ env.ZIP_PATH }}
