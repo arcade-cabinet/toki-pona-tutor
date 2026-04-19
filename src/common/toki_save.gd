@@ -7,7 +7,7 @@ extends Node
 #   current_region_id: String — where the player is
 #   player_tile: Vector2i — last known cell (for resume)
 #   party: Array[Dictionary] — creature instances {instance_id, species_id, level, xp, hp, max_hp, moves, pp}
-#   bestiary: Dictionary[String, Dictionary] — speciesId → {seen, caught, first_encountered_at}
+#   bestiary: Dictionary[String, Dictionary] — speciesId → {seen, caught, first_seen_at, first_caught_at}
 #   inventory: Dictionary[String, int] — itemId → count
 #   mastered_words: Array[String]
 #   badges: Array[String]
@@ -77,6 +77,8 @@ func _ensure_namespace() -> void:
 	if not ns.has("quests"): ns["quests"] = {}
 	if not ns.has("inventory"): ns["inventory"] = {}
 	if not ns.has("party"): ns["party"] = []
+	if not ns.has("bestiary"): ns["bestiary"] = {}
+	if not ns.has("badges"): ns["badges"] = []
 	if not ns.has("current_region_id"): ns["current_region_id"] = ""
 	if not ns.has("player_tile"): ns["player_tile"] = {"x": 0, "y": 0}
 
