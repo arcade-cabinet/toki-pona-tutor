@@ -1237,15 +1237,14 @@
     },
     {
       "id": "US-081",
-      "title": "Integration test — warp graph connectivity",
-      "description": "As a developer, I want CI to catch orphaned regions or self-loops.",
+      "title": "Integration test — warp graph connectivity (merged into US-050)",
+      "description": "Folded into US-050 to avoid duplicate accounting on the same test/integration/test_warp_graph.gd. Kept as a no-op placeholder so numbering stays stable.",
       "acceptanceCriteria": [
-        "Walks warps start → every region",
-        "No orphans, no self-loops",
-        "Files: test/integration/test_warp_graph.gd"
+        "US-050 is the authoritative story for warp-graph test coverage",
+        "This entry auto-passes when US-050 passes"
       ],
       "priority": 2,
-      "passes": false,
+      "passes": true,
       "dependsOn": [
         "US-050"
       ]

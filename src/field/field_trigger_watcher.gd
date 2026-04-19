@@ -67,18 +67,22 @@ func _on_player_arrived() -> void:
 		return
 	_firing = true
 	var kind := String(trigger.get("kind", ""))
+	var fired := false
 	match kind:
 		"dialog":
-			_fire_dialog(trigger)
+			fired = _fire_dialog(trigger)
 		"combat":
-			_fire_combat(trigger)
+			fired = _fire_combat(trigger)
 		_:
 			push_warning("[FieldTriggerWatcher] unknown kind '%s' on trigger %s" % [
 				kind, trigger.get("id", "?"),
 			])
 			_firing = false
 			return
-	if once:
+	# Only persist the one-shot flag when the dialog/combat actually
+	# dispatched. Failed lookups or load errors must not permanently
+	# burn the trigger.
+	if once and fired:
 		_mark_once_fired(fired_key)
 	_firing = false
 
@@ -118,35 +122,39 @@ func _flags_satisfied(trigger: Dictionary) -> bool:
 	return true
 
 
-func _fire_dialog(trigger: Dictionary) -> void:
+func _fire_dialog(trigger: Dictionary) -> bool:
 	var dialog_id := String(trigger.get("dialog_id", ""))
 	if dialog_id == "":
 		push_warning("[FieldTriggerWatcher] dialog trigger missing dialog_id")
-		return
+		return false
 	var node := _find_dialog(dialog_id)
 	if node == null:
 		push_warning("[FieldTriggerWatcher] no dialog with id '%s' in region %s" % [
 			dialog_id, _region.id,
 		])
-		return
+		return false
 	if FieldEvents and FieldEvents.has_signal("dialog_requested"):
 		FieldEvents.emit_signal("dialog_requested", node)
+		return true
+	return false
 
 
-func _fire_combat(trigger: Dictionary) -> void:
+func _fire_combat(trigger: Dictionary) -> bool:
 	var arena_path := String(trigger.get("arena", ""))
 	if arena_path == "":
 		push_warning("[FieldTriggerWatcher] combat trigger missing arena path")
-		return
+		return false
 	if not ResourceLoader.exists(arena_path):
 		push_warning("[FieldTriggerWatcher] arena scene not found: %s" % arena_path)
-		return
+		return false
 	var arena: PackedScene = load(arena_path)
 	if arena == null:
 		push_warning("[FieldTriggerWatcher] arena failed to load: %s" % arena_path)
-		return
+		return false
 	if FieldEvents and FieldEvents.has_signal("combat_triggered"):
 		FieldEvents.emit_signal("combat_triggered", arena)
+		return true
+	return false
 
 
 func _find_dialog(dialog_id: String) -> DialogResource:

@@ -51,9 +51,9 @@ func _ready() -> void:
 
 
 # Tracks whether the current combat is ending because the player
-# successfully fled. Set by _play_next_action when FleeAction raises
-# the "combat_flee_requested" Engine meta; consumed by
-# _on_combat_finished to skip heal/defeat-dialog and emit combat_fled.
+# successfully fled. Set by _play_next_action after inspecting the
+# player's cached FleeAction; consumed by _on_combat_finished to skip
+# heal/defeat-dialog and emit combat_fled.
 var _fled: bool = false
 
 
@@ -75,8 +75,7 @@ func setup(arena: PackedScene) -> void:
 	_battler_roster = combat_arena.get_battler_roster()
 	_pending_xp_yield = combat_arena.xp_yield
 	_fled = false
-	Engine.set_meta("combat_flee_requested", false)
-	
+
 	# Wait a frame for the arena and its children (VFX, Battlers, etc.) to be ready.
 	await get_tree().process_frame
 	
@@ -169,15 +168,18 @@ func _select_next_player_action() -> void:
 # The second phase of combat has each Battler act in order of speed. This is done by repeatedly
 # calling _next_turn until no active Battlers have a cached action waiting to be executed.
 func _play_next_action() -> void:
-	# Flee takes precedence: if the player's FleeAction raised the
-	# combat_flee_requested Engine meta during its execute(), end combat
+	# Flee takes precedence: if a player battler's cached_action is a
+	# FleeAction whose execute() just set fled = true, end combat
 	# immediately without resolving defeat/victory. This short-circuits
-	# before any other battler gets another turn.
-	if Engine.get_meta("combat_flee_requested", false):
-		Engine.set_meta("combat_flee_requested", false)
-		_fled = true
-		_on_combat_finished.call_deferred(false)
-		return
+	# before any other battler gets another turn. Reading the flag off
+	# the action instance (instead of Engine meta) keeps flee state
+	# per-combat, not process-global.
+	for battler in _battler_roster.get_player_battlers():
+		var action := battler.cached_action
+		if action is FleeAction and (action as FleeAction).fled:
+			_fled = true
+			_on_combat_finished.call_deferred(false)
+			return
 	# Check for battle end conditions, that one side has been downed.
 	if _battler_roster.are_battlers_defeated(_battler_roster.get_player_battlers()):
 		_on_combat_finished.call_deferred(false)

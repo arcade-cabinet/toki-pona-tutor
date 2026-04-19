@@ -40,6 +40,7 @@ For UI-touching stories, also include:
 ## User Stories
 
 ### US-001: Wire starter-ceremony dialog triggers end-to-end
+
 As a player, I want completing the jan Sewi starter ceremony to actually grant my chosen creature and items, so that the opening tutorial has real consequences.
 
 **Acceptance Criteria:**
@@ -49,6 +50,7 @@ As a player, I want completing the jan Sewi starter ceremony to actually grant m
 - [ ] Files: `src/common/toki_save.gd`, `src/field/ui/dialog_overlay.gd`
 
 ### US-002: Let player pick from 3 starters (seli/telo/kasi)
+
 As a player, I want to choose between three starter creatures during the ceremony, so that I can pick a play style.
 
 **Acceptance Criteria:**
@@ -58,6 +60,7 @@ As a player, I want to choose between three starter creatures during the ceremon
 - [ ] Files: `schema/dialog_resource.gd`, `content/spine/regions/ma_tomo_lili.json`, `src/field/ui/dialog_overlay.gd`
 
 ### US-003: Read from party instead of hardcoded DEFAULT_LEAD_SPECIES
+
 As a player, I want my chosen starter to be the one that appears in encounters, not a hardcoded debug species.
 
 **Acceptance Criteria:**
@@ -66,6 +69,7 @@ As a player, I want my chosen starter to be the one that appears in encounters, 
 - [ ] Files: `src/field/encounter_watcher.gd`
 
 ### US-004: Populate nasin_wan tall-grass encounter table
+
 As a player, I want walking through tall grass in nasin_wan to trigger varied wild encounters, so that the route feels alive.
 
 **Acceptance Criteria:**
@@ -75,6 +79,7 @@ As a player, I want walking through tall grass in nasin_wan to trigger varied wi
 - [ ] Files: `content/spine/regions/nasin_wan.json`
 
 ### US-005: Add tall-grass tile painting to nasin_wan ground layer
+
 As a player, I want to see tall-grass tiles painted in the world so I can avoid or seek encounters.
 
 **Acceptance Criteria:**
@@ -83,6 +88,7 @@ As a player, I want to see tall-grass tiles painted in the world so I can avoid 
 - [ ] Files: `content/spine/regions/nasin_wan.json`
 
 ### US-006: Author jan Ike rival set-piece at nasin_wan east edge
+
 As a player, I want a scripted rival fight when I reach the east edge of nasin_wan, so that the route has a story beat.
 
 **Acceptance Criteria:**
@@ -92,6 +98,7 @@ As a player, I want a scripted rival fight when I reach the east edge of nasin_w
 - [ ] Files: `content/spine/regions/nasin_wan.json`, `src/field/warp_watcher.gd`
 
 ### US-007: Create FieldTriggerWatcher for non-warp scripted tile triggers
+
 As a developer, I want a clean separation between warp triggers and scripted-event triggers, so that set-pieces and dialogs are easy to author.
 
 **Acceptance Criteria:**
@@ -100,6 +107,7 @@ As a developer, I want a clean separation between warp triggers and scripted-eve
 - [ ] Files: `src/field/field_trigger_watcher.gd` (new), `src/field/field_events.gd`, `schema/region_resource.gd`
 
 ### US-008: Fix combat → field return so player lands on pre-combat tile
+
 As a player, I want to return to exactly where I was after a battle ends, so that combat doesn't feel disorienting.
 
 **Acceptance Criteria:**
@@ -110,6 +118,7 @@ As a player, I want to return to exactly where I was after a battle ends, so tha
 - [ ] Files: `src/combat/combat.gd`, `src/field/field.gd`
 
 ### US-009: Apply XP + level-up on combat victory
+
 As a player, I want my creatures to gain XP and level up after winning fights, so that progression feels rewarding.
 
 **Acceptance Criteria:**
@@ -119,6 +128,7 @@ As a player, I want my creatures to gain XP and level up after winning fights, s
 - [ ] Files: `src/common/toki_save.gd`, `src/combat/combat.gd`, `schema/species_resource.gd`
 
 ### US-010: Apply faint → whiteout → restore party at last village
+
 As a player, I want a clear defeat sequence that returns me to safety, so that losing is not a softlock.
 
 **Acceptance Criteria:**
@@ -128,6 +138,7 @@ As a player, I want a clear defeat sequence that returns me to safety, so that l
 - [ ] Files: `src/combat/combat.gd`, `src/field/warp_watcher.gd`, `src/common/toki_save.gd`
 
 ### US-011: Flee action in combat UI for wild battles
+
 As a player, I want to flee from wild battles, so that I can retreat from unwanted fights.
 
 **Acceptance Criteria:**
@@ -137,6 +148,7 @@ As a player, I want to flee from wild battles, so that I can retreat from unwant
 - [ ] Files: `src/combat/ui/action_menu/ui_action_menu.gd`, `src/combat/combat.gd`
 
 ### US-012: Swap toki_town_main.tscn to use forest_summer tileset for nasin_wan
+
 As a player, I want nasin_wan to look like a forest, not a town, so that biomes feel distinct.
 
 **Acceptance Criteria:**
@@ -145,6 +157,7 @@ As a player, I want nasin_wan to look like a forest, not a town, so that biomes 
 - [ ] Files: `src/field/region_builder.gd`, new `content/tilesets/forest_summer.tres`
 
 ### US-013: Build forest_summer tileset resource with walkable + tall_grass flags
+
 As a developer, I want a complete forest_summer TileSet with collision and tag metadata, so that field systems can resolve tile types.
 
 **Acceptance Criteria:**
@@ -153,6 +166,7 @@ As a developer, I want a complete forest_summer TileSet with collision and tag m
 - [ ] Files: `tools/tile_keys.gd`, new `content/tilesets/forest_summer.tres`
 
 ### US-014: Sanity playthrough checklist for slice
+
 As a developer, I want a documented manual playthrough script, so that I can verify the slice end-to-end before merging Phase 1.
 
 **Acceptance Criteria:**
@@ -161,6 +175,7 @@ As a developer, I want a documented manual playthrough script, so that I can ver
 - [ ] Files: `docs/SLICE_CHECK.md` (new)
 
 ### US-015: Theme combat UI with toki_theme.tres
+
 As a player, I want combat to look like the rest of the game, so that the experience feels cohesive.
 
 **Acceptance Criteria:**
@@ -170,6 +185,7 @@ As a player, I want combat to look like the rest of the game, so that the experi
 - [ ] Files: `src/combat/ui/ui_combat.tscn`, `theme/toki_theme.tres`
 
 ### US-016: Animate HP bars with tween on damage
+
 As a player, I want HP bars to animate when I take damage, so that combat feels responsive.
 
 **Acceptance Criteria:**
@@ -179,6 +195,7 @@ As a player, I want HP bars to animate when I take damage, so that combat feels 
 - [ ] Files: `src/combat/ui/battler_entry/ui_life_bar.gd`
 
 ### US-017: Damage number popups with type-matchup color
+
 As a player, I want to see floating damage numbers colored by effectiveness, so that I learn type matchups visually.
 
 **Acceptance Criteria:**
@@ -189,6 +206,7 @@ As a player, I want to see floating damage numbers colored by effectiveness, so 
 - [ ] Files: `src/combat/ui/effect_labels/ui_damage_label.gd`, `ui_damage_label.tscn`
 
 ### US-018: Swap battler sprites to creature packs per species
+
 As a player, I want each species to have a distinct battle sprite, so that creatures feel unique.
 
 **Acceptance Criteria:**
@@ -197,6 +215,7 @@ As a player, I want each species to have a distinct battle sprite, so that creat
 - [ ] Files: `schema/species_resource.gd`, `src/combat/battlers/toki_battler_anim.gd`, `tools/build_spine.gd`
 
 ### US-019: Battler hit animation (shake + flash)
+
 As a player, I want creatures to react when hit, so that damage feels impactful.
 
 **Acceptance Criteria:**
@@ -205,6 +224,7 @@ As a player, I want creatures to react when hit, so that damage feels impactful.
 - [ ] Files: `src/combat/battlers/toki_battler_anim.gd`
 
 ### US-020: Faint animation (fade + slide down)
+
 As a player, I want a clear faint animation when a creature reaches 0 HP.
 
 **Acceptance Criteria:**
@@ -213,6 +233,7 @@ As a player, I want a clear faint animation when a creature reaches 0 HP.
 - [ ] Files: `src/combat/battlers/toki_battler_anim.gd`
 
 ### US-021: Replace Dialogic victory timeline with native VictoryPanel + fully remove Dialogic addon
+
 As a player, I want a satisfying end-of-battle sequence showing XP, level-ups, and new moves, using the project's native dialog style.
 
 **Acceptance Criteria:**
@@ -222,11 +243,12 @@ As a player, I want a satisfying end-of-battle sequence showing XP, level-ups, a
 - [ ] `dialogic`, `dialogic_additions` removed from `[editor_plugins]` enabled[] array
 - [ ] `[dialogic]` config section removed from `project.godot`
 - [ ] `addons/dialogic/` and `addons/dialogic_additions/` directories deleted
-- [ ] `grep -r "Dialogic" src/ addons/ project.godot` returns zero hits
+- [ ] `grep -r "Dialogic" src/ project.godot addons/ 2>/dev/null` returns zero hits
 - [ ] Game boots and wins a fight without error
 - [ ] Files: `src/combat/combat.gd`, new `src/combat/ui/victory_panel.tscn` + `victory_panel.gd`, `project.godot`, `addons/dialogic*` (deleted)
 
 ### US-022: Defeat screen panel
+
 As a player, I want a clear defeat message before being returned to the village.
 
 **Acceptance Criteria:**
@@ -235,6 +257,7 @@ As a player, I want a clear defeat message before being returned to the village.
 - [ ] Files: new `src/combat/ui/defeat_panel.tscn`
 
 ### US-023: Catch UX with poki-throw animation + result dialog
+
 As a player, I want a tactile catch sequence with animation and clear result feedback.
 
 **Acceptance Criteria:**
@@ -244,6 +267,7 @@ As a player, I want a tactile catch sequence with animation and clear result fee
 - [ ] Files: `src/combat/actions/poki_throw_action.gd`, new `src/combat/ui/catch_result_panel.tscn`
 
 ### US-024: Party Panel scene with 6 slots
+
 As a player, I want to view my party from the field via a hotkey.
 
 **Acceptance Criteria:**
@@ -252,6 +276,7 @@ As a player, I want to view my party from the field via a hotkey.
 - [ ] Files: new `src/field/ui/party_panel.tscn`, `party_panel.gd`
 
 ### US-025: Party Panel detail view with moves/XP/type
+
 As a player, I want to inspect each creature's moves, XP progress, and type.
 
 **Acceptance Criteria:**
@@ -260,6 +285,7 @@ As a player, I want to inspect each creature's moves, XP progress, and type.
 - [ ] Files: `src/field/ui/party_panel.gd`
 
 ### US-026: Party Panel reorder via drag
+
 As a player, I want to drag a creature to slot 0 to set my new lead.
 
 **Acceptance Criteria:**
@@ -268,6 +294,7 @@ As a player, I want to drag a creature to slot 0 to set my new lead.
 - [ ] Files: `src/field/ui/party_panel.gd`, `src/common/toki_save.gd`
 
 ### US-027: Reward item + XP drop table per species
+
 As a developer, I want each species to define its XP yield and item drop chance.
 
 **Acceptance Criteria:**
@@ -276,6 +303,7 @@ As a developer, I want each species to define its XP yield and item drop chance.
 - [ ] Files: `schema/species_resource.gd`, `content/spine/species/*.json`, `src/combat/combat.gd`
 
 ### US-028: Add kili healing item usable from party panel
+
 As a player, I want to heal injured creatures with kili from the party panel.
 
 **Acceptance Criteria:**
@@ -286,6 +314,7 @@ As a player, I want to heal injured creatures with kili from the party panel.
 - [ ] Files: `src/field/ui/party_panel.gd`, `content/spine/items/kili.json`
 
 ### US-029: Items submenu in combat action menu
+
 As a player, I want to use items mid-fight from a clear submenu.
 
 **Acceptance Criteria:**
@@ -294,6 +323,7 @@ As a player, I want to use items mid-fight from a clear submenu.
 - [ ] Files: `src/combat/ui/action_menu/ui_action_menu.gd` + `.tscn`
 
 ### US-030: Title scene with new game / continue / settings / quit
+
 As a player, I want a real title screen instead of booting straight into gameplay.
 
 **Acceptance Criteria:**
@@ -302,6 +332,7 @@ As a player, I want a real title screen instead of booting straight into gamepla
 - [ ] Files: new `src/title.tscn` + `title.gd`, `project.godot`
 
 ### US-031: Hook SaveSystem.save() to autosave on region change
+
 As a player, I want the game to autosave when I cross between regions.
 
 **Acceptance Criteria:**
@@ -310,6 +341,7 @@ As a player, I want the game to autosave when I cross between regions.
 - [ ] Files: `src/common/toki_save.gd`
 
 ### US-032: Autosave on combat_finished
+
 As a player, I want progress saved after every battle so a crash doesn't lose XP.
 
 **Acceptance Criteria:**
@@ -317,6 +349,7 @@ As a player, I want progress saved after every battle so a crash doesn't lose XP
 - [ ] Files: `src/common/toki_save.gd`, `src/combat/combat.gd`
 
 ### US-033: Save on WM_CLOSE_REQUEST
+
 As a player, I want closing the window to persist my state.
 
 **Acceptance Criteria:**
@@ -325,6 +358,7 @@ As a player, I want closing the window to persist my state.
 - [ ] Files: new `src/common/app_root.gd`, `project.godot` notification wiring
 
 ### US-034: Continue boots into current_region_id at player_tile
+
 As a player, I want Continue to drop me exactly where I left off.
 
 **Acceptance Criteria:**
@@ -333,6 +367,7 @@ As a player, I want Continue to drop me exactly where I left off.
 - [ ] Files: `src/title.gd`, `src/field/region_builder.gd`, `src/common/toki_save.gd`
 
 ### US-035: Settings menu for Music / SFX volume + Text speed
+
 As a player, I want to adjust audio levels and text speed and have those settings persist.
 
 **Acceptance Criteria:**
@@ -343,6 +378,7 @@ As a player, I want to adjust audio levels and text speed and have those setting
 - [ ] Files: new `src/title/settings.tscn` + `settings.gd`, `src/field/ui/dialog_overlay.gd`
 
 ### US-036: Loading screen between region warps
+
 As a player, I want a smooth transition with the destination region's name during warps.
 
 **Acceptance Criteria:**
@@ -351,6 +387,7 @@ As a player, I want a smooth transition with the destination region's name durin
 - [ ] Files: `src/common/screen_transitions/screen_transition.gd`
 
 ### US-037: New Game flow with confirm-wipe modal
+
 As a player, I want to be warned before a New Game overwrites my existing save.
 
 **Acceptance Criteria:**
@@ -359,6 +396,7 @@ As a player, I want to be warned before a New Game overwrites my existing save.
 - [ ] Files: `src/title.gd`
 
 ### US-038: Pause menu with Resume / Party / Items / Save / Settings / Quit
+
 As a player, I want to pause the game and access common actions.
 
 **Acceptance Criteria:**
@@ -369,6 +407,7 @@ As a player, I want to pause the game and access common actions.
 - [ ] Files: new `src/field/ui/pause_menu.tscn` + `pause_menu.gd`
 
 ### US-039: Sync current_region_id + player_tile in field
+
 As a developer, I want save state to track player position continuously.
 
 **Acceptance Criteria:**
@@ -377,6 +416,7 @@ As a developer, I want save state to track player position continuously.
 - [ ] Files: `src/field/encounter_watcher.gd` or central listener
 
 ### US-040: Save format versioning + migration stub
+
 As a developer, I want save files to carry a version so future migrations are possible.
 
 **Acceptance Criteria:**
@@ -385,6 +425,7 @@ As a developer, I want save files to carry a version so future migrations are po
 - [ ] Files: `src/common/toki_save.gd`
 
 ### US-041: Credits scene rolls on game clear
+
 As a player, I want a credits sequence after beating the final jan lawa.
 
 **Acceptance Criteria:**
@@ -394,6 +435,7 @@ As a player, I want a credits sequence after beating the final jan lawa.
 - [ ] Files: new `src/title/credits.tscn` + `credits.gd`, `CREDITS.md`
 
 ### US-042: Mastered words screen
+
 As a player, I want to review the toki pona sentences I've encountered.
 
 **Acceptance Criteria:**
@@ -402,6 +444,7 @@ As a player, I want to review the toki pona sentences I've encountered.
 - [ ] Files: new `src/field/ui/mastered_words.tscn`, `src/common/toki_save.gd`
 
 ### US-043: Extend RegionResource with biome + music_track
+
 As a developer, I want regions to declare their biome and music so builders can pick the right tileset and track.
 
 **Acceptance Criteria:**
@@ -410,6 +453,7 @@ As a developer, I want regions to declare their biome and music so builders can 
 - [ ] Files: `schema/region_resource.gd`, `tools/build_spine.gd`
 
 ### US-044: Author nasin_wan biome=forest using forest_summer tileset
+
 As a player, I want nasin_wan to fully use the forest biome.
 
 **Acceptance Criteria:**
@@ -418,6 +462,7 @@ As a player, I want nasin_wan to fully use the forest biome.
 - [ ] Files: `content/spine/regions/nasin_wan.json`, `tools/tile_keys.gd`
 
 ### US-045: Author nasin_pi_telo biome=water with custom water atlas
+
 As a player, I want a river-route region with proper water tiles.
 
 **Acceptance Criteria:**
@@ -427,6 +472,7 @@ As a player, I want a river-route region with proper water tiles.
 - [ ] Files: `content/spine/regions/nasin_pi_telo.json`, new `content/tilesets/water.tres`
 
 ### US-046: Author ma_telo biome=town as second village
+
 As a player, I want a second village hub with NPCs and the first gym.
 
 **Acceptance Criteria:**
@@ -434,6 +480,7 @@ As a player, I want a second village hub with NPCs and the first gym.
 - [ ] Files: `content/spine/regions/ma_telo.json`
 
 ### US-047: Author ma_lete biome=ice using forest_winter tileset
+
 As a player, I want an ice region painted with frozen-forest tiles.
 
 **Acceptance Criteria:**
@@ -442,6 +489,7 @@ As a player, I want an ice region painted with frozen-forest tiles.
 - [ ] Files: `content/spine/regions/ma_lete.json`, `tools/tile_keys.gd`
 
 ### US-048: Author nena_sewi biome=peak (upper mountain)
+
 As a player, I want a peak region housing the final gym.
 
 **Acceptance Criteria:**
@@ -451,6 +499,7 @@ As a player, I want a peak region housing the final gym.
 - [ ] Files: `content/spine/regions/nena_sewi.json`
 
 ### US-049: Author nena_suli biome=cave using cave tileset
+
 As a player, I want a cave-interior region with appropriate visuals.
 
 **Acceptance Criteria:**
@@ -459,6 +508,7 @@ As a player, I want a cave-interior region with appropriate visuals.
 - [ ] Files: `content/spine/regions/nena_suli.json`
 
 ### US-050: Verify all 7 region warp graph is connected
+
 As a developer, I want a test that catches any orphaned region in the warp graph.
 
 **Acceptance Criteria:**
@@ -468,6 +518,7 @@ As a developer, I want a test that catches any orphaned region in the warp graph
 - [ ] Files: new `test/integration/test_warp_graph.gd`
 
 ### US-051: Author 7 jan lawa set-piece fights
+
 As a player, I want one gym leader fight per region with a real multi-creature party.
 
 **Acceptance Criteria:**
@@ -477,6 +528,7 @@ As a player, I want one gym leader fight per region with a real multi-creature p
 - [ ] Files: `content/spine/regions/*.json`
 
 ### US-052: Badge award dialog + persist badges[]
+
 As a player, I want a ceremony when I beat a gym leader and a badge that persists.
 
 **Acceptance Criteria:**
@@ -485,6 +537,7 @@ As a player, I want a ceremony when I beat a gym leader and a badge that persist
 - [ ] Files: `src/common/toki_save.gd`, `src/combat/combat.gd`
 
 ### US-053: Badge display in pause menu (7 slots)
+
 As a player, I want to see my badge collection.
 
 **Acceptance Criteria:**
@@ -494,6 +547,7 @@ As a player, I want to see my badge collection.
 - [ ] Files: `src/field/ui/pause_menu.gd`, new `src/field/ui/badges_panel.tscn`
 
 ### US-054: Gate next-region warps until matching badge earned
+
 As a player, I want gym progression to gate region access for clear pacing.
 
 **Acceptance Criteria:**
@@ -502,6 +556,7 @@ As a player, I want gym progression to gate region access for clear pacing.
 - [ ] Files: `src/field/warp_watcher.gd`, `schema/region_resource.gd`
 
 ### US-055: Pokedex screen — 17 species grid
+
 As a player, I want a Pokedex showing my discovery and catch progress.
 
 **Acceptance Criteria:**
@@ -511,6 +566,7 @@ As a player, I want a Pokedex showing my discovery and catch progress.
 - [ ] Files: new `src/field/ui/pokedex.tscn` + `pokedex.gd`, `src/common/toki_save.gd`
 
 ### US-056: Track bestiary entries (seen/caught) on encounter + catch
+
 As a developer, I want seen/caught flags written when encounters open and catches succeed.
 
 **Acceptance Criteria:**
@@ -519,6 +575,7 @@ As a developer, I want seen/caught flags written when encounters open and catche
 - [ ] Files: `src/combat/combat.gd`, `src/combat/actions/poki_throw_action.gd`
 
 ### US-057: Author multi-beat dialog for all regions (≥ 5 NPCs each)
+
 As a player, I want every region to have NPCs with flavor and story dialog.
 
 **Acceptance Criteria:**
@@ -528,6 +585,7 @@ As a player, I want every region to have NPCs with flavor and story dialog.
 - [ ] Files: `content/spine/regions/*.json`
 
 ### US-058: Shop NPC in ma_telo sells poki + kili
+
 As a player, I want to buy items from a shop NPC.
 
 **Acceptance Criteria:**
@@ -536,6 +594,7 @@ As a player, I want to buy items from a shop NPC.
 - [ ] Files: new `src/field/ui/shop_panel.tscn` + `shop_panel.gd`, `schema/npc_resource.gd` (role=shop)
 
 ### US-059: Add ma (coin) inventory + win-reward currency
+
 As a player, I want to earn coins from battles to spend at shops.
 
 **Acceptance Criteria:**
@@ -544,6 +603,7 @@ As a player, I want to earn coins from battles to spend at shops.
 - [ ] Files: `src/common/toki_save.gd`, `src/combat/combat.gd`
 
 ### US-060: Wire Music autoload to region biome → track map
+
 As a player, I want each biome to play its own music.
 
 **Acceptance Criteria:**
@@ -553,6 +613,7 @@ As a player, I want each biome to play its own music.
 - [ ] Files: `src/common/music/music_player.gd`, new `content/audio/biome_music.tres`
 
 ### US-061: Cross-fade music on region change
+
 As a player, I want music to transition smoothly between biomes.
 
 **Acceptance Criteria:**
@@ -560,6 +621,7 @@ As a player, I want music to transition smoothly between biomes.
 - [ ] Files: `src/common/music/music_player.gd`
 
 ### US-062: Combat music override
+
 As a player, I want a distinct combat track that returns to field music after.
 
 **Acceptance Criteria:**
@@ -568,6 +630,7 @@ As a player, I want a distinct combat track that returns to field music after.
 - [ ] Files: `src/combat/combat.gd`
 
 ### US-063: Wire 12 SFX events via AdaptiSound
+
 As a player, I want sound effects on every key action so the game feels reactive.
 
 **Acceptance Criteria:**
@@ -577,6 +640,7 @@ As a player, I want sound effects on every key action so the game feels reactive
 - [ ] Files: new `src/common/sfx_player.gd`, `assets/sfx/*`
 
 ### US-064: Apply Settings volume sliders to Music + SFX buses
+
 As a player, I want volume sliders to control audio in real time.
 
 **Acceptance Criteria:**
@@ -584,6 +648,7 @@ As a player, I want volume sliders to control audio in real time.
 - [ ] Files: `src/title/settings.gd`, `default_bus_layout.tres`
 
 ### US-065: Virtual d-pad UI for mobile
+
 As a mobile player, I want an on-screen d-pad to move my character.
 
 **Acceptance Criteria:**
@@ -593,6 +658,7 @@ As a mobile player, I want an on-screen d-pad to move my character.
 - [ ] Files: new `src/field/ui/virtual_dpad.tscn` + `virtual_dpad.gd`
 
 ### US-066: Virtual A/B action buttons for mobile
+
 As a mobile player, I want on-screen interact and back buttons.
 
 **Acceptance Criteria:**
@@ -601,6 +667,7 @@ As a mobile player, I want on-screen interact and back buttons.
 - [ ] Files: `src/field/ui/virtual_dpad.tscn`
 
 ### US-067: Enforce ≥ 44dp touch targets in all UI
+
 As a mobile player, I want comfortably tappable buttons everywhere.
 
 **Acceptance Criteria:**
@@ -609,6 +676,7 @@ As a mobile player, I want comfortably tappable buttons everywhere.
 - [ ] Files: `src/field/ui/*`, `src/combat/ui/*`, `theme/toki_theme.tres`
 
 ### US-068: Lock screen rotation to portrait for Android
+
 As a mobile player, I want the game to stay in portrait orientation.
 
 **Acceptance Criteria:**
@@ -616,6 +684,7 @@ As a mobile player, I want the game to stay in portrait orientation.
 - [ ] Files: `project.godot`
 
 ### US-069: Apply text-speed slider to typewriter + combat log
+
 As a player, I want my text-speed setting to affect all text rendering.
 
 **Acceptance Criteria:**
@@ -624,6 +693,7 @@ As a player, I want my text-speed setting to affect all text rendering.
 - [ ] Files: `src/field/ui/dialog_overlay.gd`, `src/combat/ui/ui_combat.gd`
 
 ### US-070: Color-contrast AA audit on theme
+
 As a player with low vision, I want text and UI chrome to meet WCAG AA contrast.
 
 **Acceptance Criteria:**
@@ -631,6 +701,7 @@ As a player with low vision, I want text and UI chrome to meet WCAG AA contrast.
 - [ ] Files: `theme/toki_theme.tres`
 
 ### US-071: Accessible mode toggle
+
 As a player who needs accessibility accommodations, I want a single toggle for larger fonts and reduced motion.
 
 **Acceptance Criteria:**
@@ -639,6 +710,7 @@ As a player who needs accessibility accommodations, I want a single toggle for l
 - [ ] Files: `src/title/settings.gd`, `theme/toki_theme.tres`, `src/combat/ui/effect_labels/ui_damage_label.gd`
 
 ### US-072: Web export ARIA landmarks + HTML title + meta description
+
 As a web player, I want the page to be accessible and discoverable.
 
 **Acceptance Criteria:**
@@ -647,6 +719,7 @@ As a web player, I want the page to be accessible and discoverable.
 - [ ] Files: `export_presets.cfg`, new `templates/web_shell.html`
 
 ### US-073: Tutorial overlay on first boot
+
 As a new player, I want movement, interact, and pause hints on first boot.
 
 **Acceptance Criteria:**
@@ -655,6 +728,7 @@ As a new player, I want movement, interact, and pause hints on first boot.
 - [ ] Files: new `src/field/ui/tutorial_overlay.tscn` + `tutorial_overlay.gd`, `src/common/toki_save.gd`
 
 ### US-074: Create test/ dir with gdUnit4 manifest
+
 As a developer, I want a working gdUnit4 setup before writing tests.
 
 **Acceptance Criteria:**
@@ -663,6 +737,7 @@ As a developer, I want a working gdUnit4 setup before writing tests.
 - [ ] Files: new `test/gdunit4.cfg`, `test/unit/.gdkeep`
 
 ### US-075: Unit test — schemas load all spine JSONs without error
+
 As a developer, I want CI to catch any malformed spine JSON.
 
 **Acceptance Criteria:**
@@ -670,6 +745,7 @@ As a developer, I want CI to catch any malformed spine JSON.
 - [ ] Files: new `test/unit/test_schema_load.gd`
 
 ### US-076: Unit test — build_spine emits .tres for all content
+
 As a developer, I want CI to verify the builder produces every expected artifact.
 
 **Acceptance Criteria:**
@@ -678,6 +754,7 @@ As a developer, I want CI to verify the builder produces every expected artifact
 - [ ] Files: new `test/unit/test_build_spine.gd`
 
 ### US-077: Unit test — encounter-roll weighted distribution
+
 As a developer, I want statistical confidence in the encounter table.
 
 **Acceptance Criteria:**
@@ -685,6 +762,7 @@ As a developer, I want statistical confidence in the encounter table.
 - [ ] Files: new `test/unit/test_encounter_roll.gd`
 
 ### US-078: Unit test — type-matchup matrix
+
 As a developer, I want every type pairing verified.
 
 **Acceptance Criteria:**
@@ -692,6 +770,7 @@ As a developer, I want every type pairing verified.
 - [ ] Files: new `test/unit/test_type_matchups.gd`, `src/combat/elements.gd`
 
 ### US-079: Unit test — catch math at full, half, and 1HP
+
 As a developer, I want catch probabilities verified at edge cases.
 
 **Acceptance Criteria:**
@@ -700,6 +779,7 @@ As a developer, I want catch probabilities verified at edge cases.
 - [ ] Files: new `test/unit/test_catch_math.gd`
 
 ### US-080: Unit test — XP curve + level-up at boundaries
+
 As a developer, I want level-up math verified at curve thresholds.
 
 **Acceptance Criteria:**
@@ -707,15 +787,14 @@ As a developer, I want level-up math verified at curve thresholds.
 - [ ] Moves learned at correct levels
 - [ ] Files: new `test/unit/test_xp_curve.gd`
 
-### US-081: Integration test — warp graph connectivity
-As a developer, I want CI to catch orphaned regions or self-loops.
+### US-081: Integration test — warp graph connectivity (merged into US-050)
 
-**Acceptance Criteria:**
-- [ ] Walks warps start → every region
-- [ ] No orphans, no self-loops
-- [ ] Files: `test/integration/test_warp_graph.gd`
+This story was folded into **US-050** (Phase 4: Content Breadth) to
+avoid duplicate accounting on the same `test/integration/test_warp_graph.gd`
+file. Keep the US-050 acceptance criteria authoritative.
 
 ### US-082: Integration test — save round-trip
+
 As a developer, I want CI to verify save/load preserves all state.
 
 **Acceptance Criteria:**
@@ -724,6 +803,7 @@ As a developer, I want CI to verify save/load preserves all state.
 - [ ] Files: new `test/integration/test_save_round_trip.gd`
 
 ### US-083: Integration test — full scripted 7-gym playthrough (headless)
+
 As a developer, I want CI to run a scripted full playthrough end-to-end.
 
 **Acceptance Criteria:**
@@ -735,6 +815,7 @@ As a developer, I want CI to run a scripted full playthrough end-to-end.
 - [ ] Files: new `test/integration/test_full_playthrough.gd`
 
 ### US-084: Android gradle_build preset enabled + signed
+
 As a release engineer, I want signed AABs produced from CI.
 
 **Acceptance Criteria:**
@@ -744,6 +825,7 @@ As a release engineer, I want signed AABs produced from CI.
 - [ ] Files: `export_presets.cfg`, `.github/workflows/release.yml`
 
 ### US-085: release-please + CD uploads AAB + APK + web zip
+
 As a release engineer, I want every tag to publish all platform artifacts.
 
 **Acceptance Criteria:**
@@ -752,6 +834,7 @@ As a release engineer, I want every tag to publish all platform artifacts.
 - [ ] Files: `.github/workflows/release.yml`, `release-please-config.json`
 
 ### US-086: Web HTML5 export size audit + compression
+
 As a web player, I want the build to load fast (≤ 30MB compressed).
 
 **Acceptance Criteria:**
@@ -760,6 +843,7 @@ As a web player, I want the build to load fast (≤ 30MB compressed).
 - [ ] Files: `export_presets.cfg`, new `tools/web_size_audit.gd`
 
 ### US-087: Asset compression pass (ETC2/ASTC + WebP)
+
 As a release engineer, I want texture sizes reduced for mobile + web.
 
 **Acceptance Criteria:**
@@ -768,6 +852,7 @@ As a release engineer, I want texture sizes reduced for mobile + web.
 - [ ] Files: `*.png.import` across `assets/`
 
 ### US-088: Expand CI matrix — unit + integration + schema + web-size gate
+
 As a developer, I want CI to run all jobs in parallel and gate the merge.
 
 **Acceptance Criteria:**
@@ -776,6 +861,7 @@ As a developer, I want CI to run all jobs in parallel and gate the merge.
 - [ ] Files: `.github/workflows/ci.yml`
 
 ### US-089: Enforce Conventional Commits via commitlint
+
 As a release engineer, I want non-conformant PR titles to fail CI.
 
 **Acceptance Criteria:**
@@ -783,6 +869,7 @@ As a release engineer, I want non-conformant PR titles to fail CI.
 - [ ] Files: new `.github/workflows/commitlint.yml`
 
 ### US-090: Write CHANGELOG.md prelude + tag v0.1.0 via release-please
+
 As a release engineer, I want a clean changelog and tagged v0.1.0 release.
 
 **Acceptance Criteria:**
@@ -792,6 +879,7 @@ As a release engineer, I want a clean changelog and tagged v0.1.0 release.
 - [ ] Files: `CHANGELOG.md`, `release-please-config.json`
 
 ### US-091: Smoke-test signed APK on Pixel + iOS Safari web build
+
 As a release engineer, I want manual QA sign-off on both Android AAB and iOS-via-web before promoting v0.1.0.
 
 **Acceptance Criteria:**

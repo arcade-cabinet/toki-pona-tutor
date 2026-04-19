@@ -1,7 +1,8 @@
 # Flee action for wild battles. On execute, rolls BASE_SUCCESS_RATE; on
-# success, sets `fled` on the source battler's combat (discovered via the
-# roster) so combat.gd can short-circuit the round into a clean escape
-# (emits combat_fled then combat_finished(false); no heal, no warp).
+# success, sets `fled = true` on this action instance. Combat.gd reads
+# the flag off the player battler's cached_action just after act()
+# completes and short-circuits into the clean-escape path (emits
+# combat_fled then combat_finished(false); no heal, no warp).
 # On failure, the turn ends normally and enemies get to act.
 class_name FleeAction extends BattlerAction
 
@@ -25,9 +26,5 @@ func execute() -> void:
 	# Use the global RNG (seeded once by Godot at startup). Per-execute
 	# randomize() was non-deterministic and diverged from other combat rolls.
 	fled = randf() < BASE_SUCCESS_RATE
-	if fled:
-		# Signal the active Combat instance via Engine meta. Combat.gd reads
-		# this in _play_next_action and short-circuits into the flee-end path.
-		Engine.set_meta("combat_flee_requested", true)
 	# Brief beat so the UI can reflect the action before the turn ends.
 	await source.get_tree().create_timer(0.2).timeout
