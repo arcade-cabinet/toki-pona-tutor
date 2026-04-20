@@ -110,8 +110,9 @@ export const journeyBeat = z.object({
   gate: journeyGate.optional(),
   /** How the cut to the next beat fires. The last beat in the arc has a
    *  `cutscene` transition that hands off to the endgame; non-final beats
-   *  use `warp` for the typical region-to-region edge. */
-  transition: journeyTransition.optional(),
+   *  use `warp` for the typical region-to-region edge. Required — a beat
+   *  without a transition would soft-lock progression. */
+  transition: journeyTransition,
 });
 export type JourneyBeat = z.infer<typeof journeyBeat>;
 

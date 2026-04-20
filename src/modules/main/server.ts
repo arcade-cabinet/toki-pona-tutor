@@ -35,7 +35,7 @@ export default defineModule<RpgServer>({
                 {
                     id: 'warp_east',
                     x: 496,
-                    y: 88,
+                    y: 80, // matches nasin_wan.tmj object layer (was 88 — CR #3107839130)
                     event: Warp({
                         targetMap: 'nena_sewi',
                         position: { x: 32, y: 96 },

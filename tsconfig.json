@@ -7,6 +7,11 @@
     "resolveJsonModule": true,
     "strict": true,
     "strictNullChecks": true,
+    // TODO: re-enable these flags once @rpgjs/common + @rpgjs/server ship
+    // stable type declarations. They are disabled here only because the
+    // upstream RPG.js v5 beta types produce hundreds of false-positive errors
+    // that we cannot fix (they live in node_modules). Track at:
+    // https://github.com/RPG-JS/RPG-JS/issues — re-enable as upstream lands.
     "strictPropertyInitialization": false,
     "noUnusedLocals": false,
     "noUnusedParameters": false,

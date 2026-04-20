@@ -1,27 +1,19 @@
 import worldRaw from '../../content/generated/world.json';
+import type { DialogNode } from '../../content/schema/dialog';
+import type { Journey } from '../../content/schema/journey';
 
-type DialogBeat = {
-    text: { en: string; tp?: string };
-    glyph?: string;
-    mood?: 'happy' | 'sad' | 'thinking' | 'excited';
-};
-
-type DialogNode = {
-    id: string;
-    npc_id: string | null;
-    when_flags?: Record<string, boolean>;
-    priority: number;
-    beats: DialogBeat[];
-    triggers?: unknown;
-};
-
-type World = {
+/**
+ * Narrow runtime type for the fields content.ts actually reads from world.json.
+ * The full World shape lives in src/content/schema/world.ts — we import only
+ * what we need here to keep the dependency surface tight.
+ */
+type ContentWorld = {
     dialog: DialogNode[];
-    journey: { beats: Array<{ id: string; map_id: string }> };
+    journey: Journey;
     start_region_id: string;
 };
 
-const world = worldRaw as unknown as World;
+const world = worldRaw as unknown as ContentWorld;
 
 export function getDialogById(id: string): DialogNode | undefined {
     return world.dialog.find((d) => d.id === id);
