@@ -1,13 +1,13 @@
 ---
 title: Current State
-updated: 2026-04-19
+updated: 2026-04-20
 status: current
 domain: context
 ---
 
-# Where we are — 2026-04-19
+# Where we are — 2026-04-20
 
-**RPG.js v5 pivot.** PRs #64 (L1 Phaser foundation) and #65 (L3 Journey schema) were closed. The engine is now **RPG.js v5 beta** on branch `feat/rpgjs-v5-pivot`.
+**RPG.js v5 pivot, V1–V7 landed.** PR #66 on branch `feat/rpgjs-v5-pivot` is ~13 commits ahead of `main`: the full starter scaffold plus content spine, gated map warps, wild-encounter capture, mastered-words tracking, pause-menu vocab, and the first action-battle set-piece (jan Ike rival).
 
 ## Rationale for the pivot
 
@@ -66,34 +66,52 @@ What we keep from the Phaser era:
 - `docs/STATE.md` — this file.
 - `CLAUDE.md` — Commands section updated for new stack.
 
-## In flight (next layers)
+## Landed since pivot scaffold (PR #66 commit trail)
 
-### V1 — Player walks around (done with this PR)
-The dev server boots, `ma_tomo_lili.tmx` loads, the Fan-tasy character walks.
+### V1 — Journey schema port (`d466c90`)
+Cherry-picked `src/content/schema/journey.ts`, `spine/journey.json`, `build-spine.mjs` changes from the closed `feat/l3-journey` branch. Deleted obsolete region schema + spine JSONs. `world.journey.beats` is now the ordered arc.
 
-### V2 — Warps + second map
-- Author `nasin_wan.tmx` (route 1 from journey.json beat 2).
-- Warp object from `ma_tomo_lili` → `nasin_wan` and back.
-- Warp object uses `target_map` + `target_spawn` custom props (RPG.js v5 handles teleport).
+### V2 — jan Sewi starter ceremony (`72568a5`)
+`src/modules/main/starter-ceremony.ts` fires on `jan-sewi.onAction`. Reads Tatoeba-gated dialog from `spine/dialog/jan_sewi_starter.json` + `jan_sewi_after_pick.json`. Choice (soweli seli / soweli telo / kasi pona) writes `KEYS.starterChosen` preference + SQLite `flags.starter_chosen`, seeds mastered_words with the starter's root words. `scripts/build-spine.mjs` now emits collected dialog nodes into `world.json` (previously dropped).
 
-### V3 — NPC dialog + starter ceremony
-- Jan Sewi event: show text greeting, offer 3 starters (seli/telo/kasi), set `starter_chosen` flag.
-- Dialog content wired through `src/content/spine/dialog/jan_sewi.json`.
-- `pnpm validate-tp` gate: all TP strings in dialog must have Tatoeba pairs.
+### V3a — Map pipeline enforcement (`684b458`)
+`scripts/map-authoring/lib/tmx-emitter.ts` serialises TmjMap→.tmx. `author:build` emits both `.tmj` (public/) and `.tmx` (src/tiled/) from one spec. New `scripts/map-authoring/cli/verify.ts` runs in `pnpm validate` → `pnpm prebuild` → CI and fails on any hand-edited, orphaned, or drifted `.tmx`. CLAUDE.md + STANDARDS.md + AGENTS.md document the "maps are build artifacts" rule; memory entry added.
 
-### V4 — Encounters + action-battle wiring
-- `Encounters` object layer in `ma_tomo_lili.tmx`.
-- `@rpgjs/action-battle` module wired to the main module.
-- Wild encounter roll on tall-grass step.
+### V3 — Gated multi-map warps (`6b888a3`)
+`src/modules/main/warp.ts` factory reads Tiled object coords, checks a SQLite flag, optionally replays a gated dialog node, and on pass calls `player.changeMap` + persists `KEYS.currentMapId` for quick-resume. Wired on both maps: `ma_tomo_lili.warp_east → nasin_wan` (gated `starter_chosen`) and `nasin_wan.warp_east → nena_sewi` (gated `jan_ike_defeated`).
 
-### V5 — Capacitor Android build + CI
+### V4 — Wild encounter + poki capture (`657ec52`)
+`src/modules/main/encounter.ts` hooks `onInShape` for shapes named `encounter_*`. 12% trigger, weighted species roll from the shape's `species` JSON property, level band from `level_min`/`level_max`, `player.showChoices('?', ['poki', 'tawa'])`. Catch success = `Math.random() < species.catch_rate` → `addToParty` + log. `party_roster` + `encounter_log` SQLite tables. Three Tatoeba-gated encounter dialogs. Action-battle deferred to V7.
+
+### V5 — Mastered-words tokenizer + pause vocab (`bad5a16`)
+`src/modules/main/vocabulary.ts` tokenises every TP dialog line against `src/content/dictionary.json` (131 words). `src/modules/main/dialog.ts` is now the single `playDialog` chokepoint that calls `observeTpLine` for every beat. Pause key (`escape`) opens `src/modules/main/vocabulary-screen.ts` which pages through mastered words (sightings ≥ 3) with definitions via `showText` — no Vue GUI needed.
+
+### V6 — PR #66 review fixes (6 commits, `850da57`..`af32aca`)
+37 CodeRabbit + Copilot comments resolved. Highlights: `copyWasmPlugin` for sql.js wasm → `public/assets/`, CSS imports routed through TS so Vite bundles them, typecheck script preserves tsc exit code via pipefail, `CapacitorSaveStorageStrategy` gains index-validation + corrupted-payload detection, `webReadyPromise` resets on failure, `localStorage.clear` scoped to poki-soweli keys, Windows path normalisation in build-spine, start_region_id cross-validated against first journey beat, green-dragon enforcement guard, tmx-emitter round-trips visible/opacity/rotation, nasin_wan warp y-coord corrected, explicit `image-size` devDep. Orphan `koota-gen.ts` removed.
+
+### V7 — jan Ike rival action-battle (`9e09d77`)
+`src/modules/main/jan-ike.ts` creates an aggressive `BattleAi` event (HP 60, ATK 14, PDEF 8, vision 140, no flee). `onDefeated` sets SQLite `jan_ike_defeated` flag + plays victory dialog + advances `KEYS.journeyBeat`. `provideActionBattle()` wired server-side (`src/server.ts` from `/server` subpath) and client-side (`config.client.ts` from `/client` subpath) — the package's root export resolves to the client bundle which pulls canvasengine (top-level `window` access) and crashes vite config loading; subpath imports are load-bearing. Type shim declared in `src/types/rpgjs-tiledmap.d.ts`. `docs/COMBAT.md` documents the full pattern for future gym leaders.
+
+### CI hygiene (`7573304`)
+Added missing devDeps `canvas` + `pngjs` + `@types/pngjs`, added `canvas` to `pnpm.onlyBuiltDependencies` for its native build, and split `verify.ts` imports to dodge the renderer module graph so CI's `author:verify` stays off the canvas dep path.
+
+## Next layers (queued for V8+)
+
+### V8 — first gym leader (jan Wawa, beat 3)
+- Author `nena_sewi.tmx` spec + wire encounter zones.
+- `jan_wawa` event: two-creature fight (`waso_sewi` L8 → `soweli_lete` L10). First gym-leader pattern using `BattleAi` phase-transitions.
+- `onDefeated` sets `badge_sewi` flag + advances journey beat + grants the reward word `sewi` (mastery bump).
+
+### V9 — loss/retry path
+When the player's HP hits 0 in an action-battle, RPG.js default is undefined. Hook a game-over callback that restores the player at the last village's spawn + preserves party state. This needs to land before the first fight the player might realistically lose (jan_wawa).
+
+### V10 — Capacitor Android shell
 - `capacitor.config.ts` with `appId: com.pokisoweli.game`.
-- GitHub Actions CI: pnpm install → validate → typecheck → build.
-- Android APK as PR artifact.
+- CI job to build + upload the debug APK as a PR artifact on every push.
 
-### V6 — Full journey arc (7 regions)
-- All 7 maps from `src/content/spine/journey.json`.
-- All jan-lawa set-piece events.
+### V11–V15 — remaining journey beats (ma_telo, ma_lete, nena_suli, nasin_pi_telo, endgame)
+- Each follows the V8 pattern: spec → dialog → gym-leader event → badge flag.
+- Final beat: green-dragon cutscene + unique death animation.
 
 ## Locked design decisions
 
@@ -108,8 +126,10 @@ The dev server boots, `ma_tomo_lili.tmx` loads, the Fan-tasy character walks.
 
 ## Context for the next session
 
-1. Branch: `feat/rpgjs-v5-pivot`
-2. Run `pnpm install && pnpm dev` to verify the dev server boots.
-3. Next task: V2 — author `nasin_wan.tmx`, wire warp.
-4. The Fan-tasy tileset TSX files live at `public/assets/tilesets/core/Tiled/Tilesets/`.
+1. Branch: `feat/rpgjs-v5-pivot` → PR #66. CI run on `7573304` in progress.
+2. Run `pnpm install && pnpm dev` to verify the dev server boots (vite+rpgjs ready at `http://localhost:5173/toki-pona-tutor/`).
+3. Before touching any `.tmx`: edit `scripts/map-authoring/specs/<id>.ts` and run `pnpm author:build <id>`. `pnpm author:verify` is the enforcement gate.
+4. Before touching any dialog: author EN in `src/content/spine/dialog/<id>.json` and run `pnpm validate-tp` — every line must match a Tatoeba pair.
+5. Next task: V8 — jan Wawa gym (beat 3). First gym-leader pattern.
+6. Fan-tasy tileset TSX files live at `public/assets/tilesets/core/Tiled/Tilesets/`.
 5. Non-obvious assistant memory rules are documented in `docs/ASSISTANT_MEMORY.md` rather than referencing machine-local paths.
