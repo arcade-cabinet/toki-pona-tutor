@@ -73,11 +73,18 @@ export default defineModule<RpgServer>({
                         badgeFlag: 'badge_sewi',
                         rewardWord: 'sewi',
                         nextBeatId: 'beat_04_ma_telo',
-                        hp: 110,
-                        atk: 18,
-                        pdef: 12,
+                        hp: 60,  // phase 1: waso_sewi L8 — lighter
+                        atk: 16,
+                        pdef: 10,
                         dialogBase: 'jan_wawa',
                         enemyType: EnemyType.Aggressive,
+                        phase2: {
+                            triggerAtHpFraction: 0.0, // when phase 1 drops, swap
+                            hp: 80,  // phase 2: soweli_lete L10 — bulkier
+                            atk: 20,
+                            pdef: 14,
+                            enemyType: EnemyType.Tank,
+                        },
                     }),
                 },
                 {
@@ -116,11 +123,18 @@ export default defineModule<RpgServer>({
                         badgeFlag: 'badge_telo',
                         rewardWord: 'telo',
                         nextBeatId: 'beat_05_ma_lete',
-                        hp: 140,
-                        atk: 22,
-                        pdef: 14,
+                        hp: 80,  // phase 1: kala_suli L10 — slippery
+                        atk: 20,
+                        pdef: 12,
                         dialogBase: 'jan_telo',
                         enemyType: EnemyType.Defensive,
+                        phase2: {
+                            triggerAtHpFraction: 0.0,
+                            hp: 100,  // phase 2: kasi_pona L12 — type wrinkle
+                            atk: 24,
+                            pdef: 16,
+                            enemyType: EnemyType.Defensive,
+                        },
                     }),
                 },
                 {
@@ -159,11 +173,18 @@ export default defineModule<RpgServer>({
                         badgeFlag: 'badge_lete',
                         rewardWord: 'lete',
                         nextBeatId: 'beat_06_nena_suli',
-                        hp: 170,
-                        atk: 26,
-                        pdef: 16,
+                        hp: 90,  // phase 1: waso_lete L10 — quick
+                        atk: 22,
+                        pdef: 14,
                         dialogBase: 'jan_lete',
-                        enemyType: EnemyType.Tank,
+                        enemyType: EnemyType.Ranged,
+                        phase2: {
+                            triggerAtHpFraction: 0.0,
+                            hp: 120,  // phase 2: soweli_lete_suli L13 — bear
+                            atk: 30,
+                            pdef: 20,
+                            enemyType: EnemyType.Tank,
+                        },
                     }),
                 },
                 {
@@ -202,11 +223,18 @@ export default defineModule<RpgServer>({
                         badgeFlag: 'badge_suli',
                         rewardWord: 'suli',
                         nextBeatId: 'beat_07_nasin_pi_telo',
-                        hp: 210,
-                        atk: 32,
-                        pdef: 20,
+                        hp: 110,  // phase 1: waso_sewi L12 — eagle skills
+                        atk: 28,
+                        pdef: 18,
                         dialogBase: 'jan_suli',
-                        enemyType: EnemyType.Berserker,
+                        enemyType: EnemyType.Aggressive,
+                        phase2: {
+                            triggerAtHpFraction: 0.0,
+                            hp: 140,  // phase 2: soweli_lete_suli L14 — the bear
+                            atk: 36,
+                            pdef: 22,
+                            enemyType: EnemyType.Berserker,
+                        },
                     }),
                 },
                 {
