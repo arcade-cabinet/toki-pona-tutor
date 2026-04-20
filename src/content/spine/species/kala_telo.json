@@ -1,0 +1,27 @@
+{
+  "id": "kala_telo",
+  "name": { "en": "telo" },
+  "description": { "en": "The water became shallow." },
+  "type": "telo",
+  "base_stats": { "hp": 38, "attack": 52, "defense": 20, "speed": 40 },
+  "learnset": [
+    { "level": 1, "move_id": "utala_lili" },
+    { "level": 1, "move_id": "telo_lili" },
+    { "level": 8, "move_id": "lete_lili" }
+  ],
+  "catch_rate": 0.46,
+  "xp_yield": 42,
+  "sprite": {
+    "src": "/assets/animals/jellyfish.png",
+    "frame_width": 32,
+    "frame_height": 32,
+    "animations": {
+      "idle":   { "row": 0, "col_start": 0, "cols": 5, "fps": 4,  "loop": true  },
+      "hover":  { "row": 1, "col_start": 0, "cols": 5, "fps": 6,  "loop": true  },
+      "attack": { "row": 2, "col_start": 0, "cols": 5, "fps": 10, "loop": false },
+      "death":  { "row": 3, "col_start": 0, "cols": 7, "fps": 6,  "loop": false },
+      "hurt":   { "row": 4, "col_start": 0, "cols": 3, "fps": 8,  "loop": false }
+    },
+    "tier": "common"
+  }
+}
