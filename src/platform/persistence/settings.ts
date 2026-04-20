@@ -66,6 +66,13 @@ export async function getHighContrast(): Promise<boolean> {
 
 export async function setHighContrast(on: boolean): Promise<void> {
     await preferences.set(KEYS.highContrast, on ? '1' : '0');
+    // Re-apply brand classes so the toggle takes effect without reload.
+    // Dynamic import keeps the persistence module DOM-free and server-
+    // bundle-safe; brand-preferences only gets pulled in on the client.
+    if (typeof document !== 'undefined' && document.body) {
+        const { applyBrandClasses } = await import('../../styles/brand-preferences');
+        applyBrandClasses(document.body, { highContrast: on });
+    }
 }
 
 // ─── volumes (T5-01) ────────────────────────────────────────────────
