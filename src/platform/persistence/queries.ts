@@ -1,4 +1,5 @@
 import { getDatabase, saveWebStore } from './database';
+import { PARTY_SIZE_MAX } from './constants';
 
 export async function recordMasteredWord(tpWord: string): Promise<void> {
     const db = await getDatabase();
@@ -55,12 +56,12 @@ export async function addToParty(speciesId: string, level: number): Promise<numb
     const db = await getDatabase();
     const now = new Date().toISOString();
     // Atomic check-and-insert: the WHERE clause prevents the insert when the
-    // roster already has 6 members, eliminating the TOCTOU race between a
-    // separate COUNT query and the INSERT.
+    // roster is already full, eliminating the TOCTOU race between a separate
+    // COUNT query and the INSERT. Party size cap comes from PARTY_SIZE_MAX.
     const result = await db.run(
         `INSERT INTO party_roster (slot, species_id, level, caught_at)
          SELECT (SELECT COUNT(*) FROM party_roster), ?, ?, ?
-         WHERE (SELECT COUNT(*) FROM party_roster) < 6`,
+         WHERE (SELECT COUNT(*) FROM party_roster) < ${PARTY_SIZE_MAX}`,
         [speciesId, level, now],
     );
     if (!result.changes || (result.changes.changes ?? 0) === 0) return null;

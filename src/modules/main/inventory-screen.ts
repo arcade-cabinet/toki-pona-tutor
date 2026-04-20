@@ -1,6 +1,7 @@
 import type { RpgPlayer } from '@rpgjs/server';
 import { getFlag, getParty } from '../../platform/persistence/queries';
 import { preferences, KEYS } from '../../platform/persistence/preferences';
+import { PARTY_SIZE_MAX } from '../../platform/persistence/constants';
 
 const BADGE_DEFINITIONS = [
     { flag: 'badge_sewi', label: 'sewi', region: 'nena sewi' },
@@ -43,7 +44,7 @@ export async function showInventory(player: RpgPlayer): Promise<void> {
         return;
     }
 
-    const partyHeader = `poki: ${party.length} / 6`;
+    const partyHeader = `poki: ${party.length} / ${PARTY_SIZE_MAX}`;
     const partyLines = party
         .map((p) => `  ${p.slot + 1}.  ${p.species_id.replace(/_/g, ' ')}  L${p.level}`)
         .join('\n');
