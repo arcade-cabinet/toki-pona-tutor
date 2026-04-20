@@ -35,6 +35,7 @@ export default defineConfig({
         'src/modules/main/audio.ts',
         'src/modules/main/virtual-dpad.ts',
         'src/modules/main/rematch.ts',
+        'src/modules/main/victory-sequence.ts',
         'src/styles/brand-preferences.ts',
         'src/platform/persistence/settings.ts',
       ],
