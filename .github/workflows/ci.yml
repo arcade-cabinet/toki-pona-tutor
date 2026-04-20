@@ -53,7 +53,7 @@ jobs:
         run: pnpm test:coverage
 
       - name: Upload coverage report
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: coverage-lcov
           path: coverage
@@ -88,7 +88,7 @@ jobs:
         run: node tools/web-size-audit.mjs
 
       - name: Upload web bundle artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: web-bundle
           path: dist
@@ -169,7 +169,7 @@ jobs:
         run: ./gradlew assembleDebug
 
       - name: Upload APK artifact
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@v7
         with:
           name: poki-soweli-debug-apk-${{ github.event.pull_request.number }}
           path: android/app/build/outputs/apk/debug/app-debug.apk
