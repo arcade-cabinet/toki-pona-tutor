@@ -3,6 +3,7 @@ import { handleEncounterShapeEntered } from './encounter';
 import { showVocabulary } from './vocabulary-screen';
 import { showInventory } from './inventory-screen';
 import { showSaveMenu } from './save-menu';
+import { showSettings } from './settings-screen';
 import { markSafeMapIfVillage, respawnAtLastSafeMap } from './respawn';
 import { handleFinalBossTrigger } from './green-dragon';
 import { AUTOSAVE_SLOT } from '../../platform/persistence/constants';
@@ -113,6 +114,10 @@ export const player: RpgPlayerHooks = {
         }
         if (action === 'save') {
             await showSaveMenu(player);
+            return;
+        }
+        if (action === 'settings') {
+            await showSettings(player);
         }
     },
     async onInShape(player: RpgPlayer, shape: RpgShape) {
