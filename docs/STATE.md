@@ -112,4 +112,4 @@ The dev server boots, `ma_tomo_lili.tmx` loads, the Fan-tasy character walks.
 2. Run `pnpm install && pnpm dev` to verify the dev server boots.
 3. Next task: V2 — author `nasin_wan.tmx`, wire warp.
 4. The Fan-tasy tileset TSX files live at `public/assets/tilesets/core/Tiled/Tilesets/`.
-5. Memory at `~/.claude/projects/-Users-jbogaty-src-arcade-cabinet-toki-pona-tutor/memory/` has non-obvious rules.
+5. Non-obvious assistant memory rules are documented in `docs/ASSISTANT_MEMORY.md` rather than referencing machine-local paths.

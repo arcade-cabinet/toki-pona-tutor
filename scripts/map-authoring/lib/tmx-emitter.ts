@@ -45,8 +45,10 @@ function emitTileLayer(layer: TmjTileLayer): string {
         rows.push(row.join(','));
     }
     const csv = rows.join(',\n');
+    // Emit visible (0/1) and opacity so round-trips preserve hidden/translucent
+    // layers rather than silently exposing them (CR #3107839123).
     return [
-        ` <layer id="${layer.id}" name="${escapeXml(layer.name)}" width="${layer.width}" height="${layer.height}">`,
+        ` <layer id="${layer.id}" name="${escapeXml(layer.name)}" width="${layer.width}" height="${layer.height}" visible="${layer.visible ? 1 : 0}" opacity="${layer.opacity}">`,
         `  <data encoding="csv">`,
         csv,
         `  </data>`,
@@ -57,9 +59,13 @@ function emitTileLayer(layer: TmjTileLayer): string {
 function emitObjectLayer(layer: TmjObjectLayer): string {
     if (layer.objects.length === 0) return '';
     const lines: string[] = [];
-    lines.push(` <objectgroup id="${layer.id}" name="${escapeXml(layer.name)}">`);
+    // Emit visible + opacity so object groups round-trip correctly.
+    lines.push(
+        ` <objectgroup id="${layer.id}" name="${escapeXml(layer.name)}" visible="${layer.visible ? 1 : 0}" opacity="${layer.opacity}">`,
+    );
     for (const o of layer.objects) {
-        const opener = `  <object id="${o.id}" name="${escapeXml(o.name)}" type="${escapeXml(o.type)}" x="${o.x}" y="${o.y}" width="${o.width}" height="${o.height}"`;
+        // Emit visible + rotation so object metadata round-trips correctly.
+        const opener = `  <object id="${o.id}" name="${escapeXml(o.name)}" type="${escapeXml(o.type)}" x="${o.x}" y="${o.y}" width="${o.width}" height="${o.height}" visible="${o.visible ? 1 : 0}" rotation="${o.rotation}"`;
         if (!o.properties || o.properties.length === 0) {
             lines.push(`${opener}/>`);
         } else {
