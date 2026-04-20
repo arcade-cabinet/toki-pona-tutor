@@ -31,32 +31,44 @@ jobs:
         with:
           node-version: 22
 
-      - name: Install commitlint
+      - name: Install commitlint (isolated — skip repo peer-deps)
         run: |
-          npm install --no-save \
+          # Install into a side directory so npm doesn't try to resolve the
+          # repo's full dep graph (which has legit peer-dep mismatches on
+          # @capacitor-community/sqlite that pnpm tolerates but npm rejects).
+          mkdir -p /tmp/commitlint-runner
+          cd /tmp/commitlint-runner
+          npm init -y > /dev/null
+          npm install \
             @commitlint/cli@19 \
-            @commitlint/config-conventional@19
+            @commitlint/config-conventional@19 > /dev/null
+          echo "/tmp/commitlint-runner/node_modules/.bin" >> "$GITHUB_PATH"
 
-      - name: Write config
+      - name: Write config in the runner dir so extends[] resolves
         run: |
-          cat > .commitlintrc.json <<'EOF'
-          {
-            "extends": ["@commitlint/config-conventional"],
-            "rules": {
-              "subject-case": [0],
-              "body-max-line-length": [0],
-              "footer-max-line-length": [0]
+          cat > /tmp/commitlint-runner/commitlint.config.cjs <<'EOF'
+          module.exports = {
+            extends: ['@commitlint/config-conventional'],
+            rules: {
+              'subject-case': [0],
+              'body-max-line-length': [0],
+              'footer-max-line-length': [0]
             }
-          }
+          };
           EOF
 
       - name: Lint PR title
         env:
           PR_TITLE: ${{ github.event.pull_request.title }}
-        run: echo "$PR_TITLE" | npx commitlint
+        run: |
+          echo "$PR_TITLE" | commitlint \
+            --config /tmp/commitlint-runner/commitlint.config.cjs
 
       - name: Lint PR commits
         env:
           PR_BASE_SHA: ${{ github.event.pull_request.base.sha }}
           PR_HEAD_SHA: ${{ github.event.pull_request.head.sha }}
-        run: npx commitlint --from "$PR_BASE_SHA" --to "$PR_HEAD_SHA" --verbose
+        run: |
+          commitlint \
+            --config /tmp/commitlint-runner/commitlint.config.cjs \
+            --from "$PR_BASE_SHA" --to "$PR_HEAD_SHA" --verbose
