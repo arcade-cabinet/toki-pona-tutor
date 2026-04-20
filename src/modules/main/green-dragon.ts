@@ -30,7 +30,11 @@ export async function allBadgesEarned(): Promise<boolean> {
 export function GreenDragon(): EventDefinition {
     return {
         onInit() {
-            this.setGraphic('female'); // placeholder — swap to dragon spritesheet in V15
+            // Idle-animation spritesheet by default. The onDefeated
+            // handler swaps to the dedicated death animation — this is
+            // the only creature in the game with one (STANDARDS.md §
+            // creature tiering, memory entry green-dragon-final-boss).
+            this.setGraphic('green_dragon_idle');
             this.hp = 320;
             this.param[ATK] = 42;
             this.param[PDEF] = 28;
@@ -41,9 +45,20 @@ export function GreenDragon(): EventDefinition {
                 visionRange: 200,
                 attackRange: 40,
                 fleeThreshold: 0,
-                onDefeated: async (_event, attacker) => {
+                onDefeated: async (event, attacker) => {
+                    // Swap to death animation BEFORE any flag/persistence
+                    // work so the visual is in-flight while the state
+                    // writes happen. The client-side spritesheet is a
+                    // 9-frame single-play strip at 1200ms; the dialog
+                    // that follows gives it time to finish.
+                    try {
+                        (event as { setGraphic?: (id: string) => void })?.setGraphic?.('green_dragon_death');
+                    } catch {
+                        // Best-effort; if the event is already gone the
+                        // flag/dialog work below still runs.
+                    }
                     await setFlag('green_dragon_defeated', '1');
-                    await recordMasteredWord('kala'); // green dragon = final kala
+                    await recordMasteredWord('kala');
                     await preferences.set(KEYS.journeyBeat, 'ending');
                     if (attacker) {
                         await playDialog(attacker, 'green_dragon_victory');
