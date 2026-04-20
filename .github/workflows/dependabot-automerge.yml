@@ -1,0 +1,37 @@
+name: dependabot-automerge
+
+# Auto-merges Dependabot PRs once CI has passed. Only runs for PRs
+# whose author is dependabot[bot] — the if: predicate gates the whole
+# job. Major bumps are explicitly excluded; those need human review.
+#
+# Uses `gh pr merge --auto --squash` so the merge waits for CI green
+# AND required reviews AND branch-protection rules before actually
+# merging. If any of those fail, the PR sits for a human.
+on:
+  pull_request_target:
+    types:
+      - opened
+      - synchronize
+      - reopened
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  automerge:
+    if: github.actor == 'dependabot[bot]'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Fetch Dependabot metadata
+        id: meta
+        uses: dependabot/fetch-metadata@v2
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Auto-merge minor / patch updates
+        if: steps.meta.outputs.update-type != 'version-update:semver-major'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          PR_URL: ${{ github.event.pull_request.html_url }}
+        run: gh pr merge --auto --squash "$PR_URL"

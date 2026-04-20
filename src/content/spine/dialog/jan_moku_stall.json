@@ -1,0 +1,9 @@
+{
+  "id": "jan_moku_stall",
+  "npc_id": "jan_moku",
+  "priority": 0,
+  "beats": [
+    { "text": { "en": "Fresh fruit is good for the health." }, "mood": "happy", "glyph": "moku" }
+  ],
+  "triggers": {}
+}

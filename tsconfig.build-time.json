@@ -19,6 +19,7 @@
   "include": [
     "scripts/map-authoring/**/*.ts",
     "tests/build-time/**/*.ts",
-    "vitest.config.build-time.ts"
+    "tests/integration/**/*.ts",
+    "vitest.config.ts"
   ]
 }

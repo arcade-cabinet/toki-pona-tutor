@@ -1,0 +1,177 @@
+name: ci
+
+# PR gate. Runs on every pull request (no branch filter per global
+# standards). Validates content pipeline, types, and the full build.
+# Produces a debug APK as PR artifact for reviewer sideload testing.
+#
+# Security: this workflow does not interpolate user-supplied text
+# into run: blocks. The only dynamic value is the PR number, a
+# GitHub-controlled integer.
+on:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  unit:
+    name: unit (pure-logic + validate + typecheck)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          lfs: true
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10
+
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - name: Install JS deps
+        run: pnpm install --ignore-workspace --frozen-lockfile
+
+      - name: Validate challenges
+        run: pnpm validate-challenges
+
+      - name: Validate canonical Toki Pona
+        run: pnpm validate-tp
+
+      - name: Verify map-authoring contract
+        run: pnpm author:verify
+
+      - name: Compile spine
+        run: pnpm build-spine
+
+      - name: Typecheck
+        run: pnpm typecheck
+
+      - name: Unit suite + coverage gate (pure-logic only)
+        run: pnpm test:coverage
+
+      - name: Upload coverage report
+        uses: actions/upload-artifact@v4
+        with:
+          name: coverage-lcov
+          path: coverage
+          retention-days: 7
+          if-no-files-found: warn
+
+  build:
+    name: build web bundle + size audit
+    runs-on: ubuntu-latest
+    needs: unit
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          lfs: true
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10
+
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - name: Install JS deps
+        run: pnpm install --ignore-workspace --frozen-lockfile
+
+      - name: Build web bundle
+        run: pnpm build
+
+      - name: Web bundle size audit (T6-13)
+        run: node tools/web-size-audit.mjs
+
+      - name: Upload web bundle artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: web-bundle
+          path: dist
+          retention-days: 7
+          if-no-files-found: error
+
+  integration:
+    name: integration (real RPG.js engine)
+    runs-on: ubuntu-latest
+    needs: unit
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          lfs: true
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10
+
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - name: Install JS deps
+        run: pnpm install --ignore-workspace --frozen-lockfile
+
+      - name: Compile spine
+        run: pnpm build-spine
+
+      - name: Run integration suite (@rpgjs/testing)
+        run: pnpm test:integration
+
+  android-debug-apk:
+    name: build debug APK
+    runs-on: ubuntu-latest
+    needs: build
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          lfs: true
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10
+
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 21
+
+      - name: Install JS deps
+        run: pnpm install --ignore-workspace --frozen-lockfile
+
+      - name: Build web bundle
+        run: pnpm build
+
+      - name: Initialize Android platform (idempotent)
+        run: |
+          if [ ! -d android ]; then
+            pnpm exec cap add android
+          fi
+
+      - name: Sync Capacitor
+        run: pnpm exec cap sync android
+
+      - name: Grant gradlew execute permission
+        working-directory: android
+        run: chmod +x gradlew
+
+      - name: Assemble debug APK
+        working-directory: android
+        run: ./gradlew assembleDebug
+
+      - name: Upload APK artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: poki-soweli-debug-apk-${{ github.event.pull_request.number }}
+          path: android/app/build/outputs/apk/debug/app-debug.apk
+          retention-days: 14
+          if-no-files-found: error

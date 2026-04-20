@@ -1,0 +1,12 @@
+{
+  "id": "jan_sewi_starter_intro",
+  "npc_id": "jan_sewi",
+  "when_flags": { "starter_chosen": false },
+  "priority": 10,
+  "beats": [
+    { "text": { "en": "hello" }, "mood": "happy", "glyph": "toki" },
+    { "text": { "en": "Fresh fruit is good for the health." }, "mood": "thinking", "glyph": "pona" },
+    { "text": { "en": "Which color do you prefer?" }, "mood": "excited", "glyph": "seme" }
+  ],
+  "triggers": {}
+}

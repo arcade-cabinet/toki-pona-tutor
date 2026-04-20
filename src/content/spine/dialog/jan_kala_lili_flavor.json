@@ -1,0 +1,9 @@
+{
+  "id": "jan_kala_lili_flavor",
+  "npc_id": "jan_kala_lili",
+  "priority": 0,
+  "beats": [
+    { "text": { "en": "Ah. Good." }, "mood": "happy", "glyph": "pona" }
+  ],
+  "triggers": {}
+}

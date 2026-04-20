@@ -13,7 +13,9 @@ All names in toki pona. TP meanings provided for reference but not used in-game 
 
 ## The world
 
-A small world of seven regions, connected by footpaths and waterways. No one place is far from the next. Weather shifts visibly: the south grows warm and flowering, the north grows cold and white. The culture is village-scale, pre-industrial, built around care for animals and respect for elders.
+A small world of seven regions, connected by footpaths and waterways. No one place is far from the next. Weather shifts visibly: the south grows warm and flowering, the north grows cold and white. The culture is village-scale, pre-industrial, organized around a generations-old uneasy coexistence with the **ijo utala** — "fighting-things" — monsters that rise at twilight from ruins, graveyards, old forts, and dungeons dotting the regions. A child coming of age is given a **poki** by their village elder and sent to meet, catch, and train these creatures — ijo utala become *jan pona* (friend-things) once caught. The seven **jan lawa** hold the old knowledge of taming the strongest kinds; each guards one region and one type.
+
+Aesthetic blend: **Final Fantasy** dark-fantasy encounter art (goblins in the grass, skellies in the crypts, a dragon at the top of the sky) with **catch-and-train** mechanics. Every creature the player fights, the player can also befriend.
 
 ### The seven regions (in order of first visit)
 
@@ -29,35 +31,39 @@ A small world of seven regions, connected by footpaths and waterways. No one pla
 
 Each region's specific tile layout, encounter table, and trigger points live in its spine JSON (`src/content/spine/regions/<id>.json`) and its Tiled map (`<id>.tmx` — new this PR).
 
-## The species (17 canonical)
+## The species (18 canonical — all catchable)
 
-Species IDs are stable; renames break save files. All are catchable except where noted. Each species has a type, a base stat block, a learnset, and a one-sentence corpus-verified description.
+Every monster in the world is a catchable species. Species IDs are stable; renames break save files. Each has a type, a base stat block, a learnset, a sprite in `public/assets/creatures/` or `public/assets/bosses/`, and a one-sentence corpus-verified description.
 
-| Species | Type | Notes |
-|---|---|---|
-| `soweli_seli` | seli | The fire mammal. Starter option 1. |
-| `soweli_telo` | telo | The water mammal. Starter option 2. |
-| `kasi_pona` | kasi | The plant creature. Starter option 3. |
-| `soweli_suwi` | wawa | The cute mammal (cat-shaped). Bruiser. |
-| `soweli_lete` | lete | The cold-land mammal. |
-| `soweli_lete_suli` | lete | The big bear. Late-game. |
-| `akesi_ma` | lete | The lizard. Cold-blooded; odd type pairing. |
-| `kala_lili` | telo | Small fish. Schooling encounter. |
-| `kala_telo` | telo | Water fish. |
-| `kala_suli` | telo | Big fish. |
-| `pipi_kiwen` | wawa | Stone bug. Hard-shelled. |
-| `pipi_kon` | wawa | Air bug. |
-| `waso_lete` | lete | Snow bird. |
-| `waso_telo` | telo | Water bird. |
-| `waso_lili` | wawa | Small bird. |
-| `waso_suli` | wawa | Eagle — "king of birds" per its description. |
-| `waso_sewi` | wawa | Sky bird. High-altitude. |
+**Tier structure is about encounter rarity + catch difficulty + animation depth, not about catchability.** Tier-2 bosses are harder catches but poki works on them just the same — the green dragon is simply the hardest, rarest, final catch.
 
-## The creatures that are NOT catchable
+### Tier 1 — common creatures (static sprite; tall-grass random encounter)
 
-The **green dragon** (`public/assets/bosses/green-dragon/`) is the designated **final boss**. It is NOT a catchable species — it is a unique narrative entity. It has the only dedicated death animation in the asset library, and that animation is reserved for its defeat at the endgame.
+| Species ID | `name.en` | Type | Sprite | Role |
+|---|---|---|---|---|
+| `jan_ike_lili` | ike | kasi | `creatures/goblin/goblin.png` | **Starter option 3 (kasi).** Grass-zone common. |
+| `jan_utala_lili` | utala | kasi | `creatures/goblin/slinger.png` | Grass-zone ranged variant. |
+| `jan_pi_sewi_pimeja` | pimeja | lete | `creatures/mummy/mummy.png` | Crypt / tomb encounter. |
+| `jan_wawa` | wawa | wawa | `creatures/orc/orc.png` | Rocky-path bruiser. |
+| `jan_wawa_linja` | linja | wawa | `creatures/orc/archer.png` | Ranged orc. |
+| `jan_wawa_suli` | suli | wawa | `creatures/orc/champion.png` | Late-game heavy orc. |
+| `jan_wawa_utala` | utala | wawa | `creatures/orc/soldier.png` | Armed orc soldier. |
+| `jan_wawa_jaki` | jaki | wawa | `creatures/orc/soldier-unarmoured.png` | Raw orc soldier. |
+| `sijelo_kiwen` | kiwen | lete | `creatures/skelly/skelly.png` | Bone creature. Cold-type. |
+| `sijelo_linja` | linja | lete | `creatures/skelly/archer.png` | Skeletal archer. |
+| `sijelo_utala` | utala | lete | `creatures/skelly/warrior.png` | Skeletal warrior. |
+| `kon_moli` | kon | seli | `creatures/wraith/wraith.png` | **Starter option 1 (seli).** Spirit-flame. |
+| `jan_moli` | moli | kasi | `creatures/zombie/zombie.png` | Shambling grass-plague. |
 
-Other boss sprites (`dread-knight`, `slime`, `fire-skull`, `zombie-burster`) are also non-standard — they're used for gym jan-lawa set-piece fights, rivals, or specific-scene encounters, not wild tall-grass rolls.
+### Tier 2 — boss creatures (animated sprite; set-piece encounter + rare wild roll)
+
+| Species ID | `name.en` | Type | Sprite | Role |
+|---|---|---|---|---|
+| `telo_jaki` | jaki | telo | `bosses/slime/` | **Starter option 2 (telo).** Only telo creature in the roster. |
+| `seli_moli` | seli | seli | `bosses/fire-skull/` | Fire spirit boss. |
+| `jan_utala_suli` | utala | wawa | `bosses/dread-knight/` | Regional champion. |
+| `jan_moli_wawa` | wawa | kasi | `bosses/zombie-burster/` | Exploding death creature. |
+| `akesi_sewi` | akesi | seli | `bosses/green-dragon/` | **Final boss. Legendary catch.** Only creature with dedicated death animation — used when caught AND when defeated without capture. |
 
 ## The people (jan = person; named jan have canonical TP names)
 

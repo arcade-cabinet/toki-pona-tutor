@@ -5,6 +5,12 @@ status: current
 domain: technical
 ---
 
+<!--
+  This doc reflects the v5 pivot through V19 (CR sweep + CI trifecta +
+  comprehensive ROADMAP port). See CHANGELOG.md [Unreleased] for the
+  running delta and docs/STATE.md for what's queued next.
+-->
+
 # poki soweli — Architecture
 
 poki soweli is a creature-catching RPG whose world is named in toki pona. The player walks between regions, catches creatures in tall grass with a **poki** (net), builds a party of up to six, and beats a **jan lawa** (master) in each region to progress.
@@ -13,15 +19,35 @@ Language is diegetic flavor, not mechanic. The player never translates — toki 
 
 ## Tech stack
 
-- **Vite 6** — build + dev server.
-- **React 18** — app shell (title screen, menus, settings, dictionary view).
-- **Solid-JS 1.9** — in-game UI overlays (dialog, combat, toasts, typewriter). Lower overhead than React for high-frequency updates over a Phaser canvas.
-- **Phaser 4** — overworld scenes, physics, input, Tiled tilemap rendering, spritesheet animation.
-- **Koota 0.6** — ECS for in-world entities (creatures, NPCs, triggers, save state).
+- **Vite 8** — build + dev server.
+- **RPG.js v5 beta** (`@rpgjs/client`, `@rpgjs/server`, `@rpgjs/tiledmap`, `@rpgjs/vite`) — game engine, overworld scenes, Tiled tilemap rendering, event/NPC system, dialog, save hooks.
+- **CanvasEngine 2.0 beta** (`canvasengine`, `@canvasengine/presets`, `@canvasengine/compiler`) — underlying renderer used by RPG.js v5 (Pixi 8-backed).
+- **Pixi.js 8** — low-level sprite/tilemap rendering (via CanvasEngine).
+- **@rpgjs/action-battle** — wired for rival + gym-leader fights. Gym leaders use `gym-leader.ts` factory with optional multi-phase BattleAi (HP-threshold poller triggers `runPhaseTransition`).
+- **@signe/di** — dependency injection / module composition used by RPG.js v5.
 - **TypeScript strict** throughout.
-- **Tailwind** for shell styling.
-- **Web Audio + Howler** for SFX/BGM.
 - **Capacitor 8** for Android native wrapper; web deploys to GitHub Pages.
+
+### What we removed in the pivot
+
+- Phaser 4 — replaced by RPG.js v5 + CanvasEngine.
+- Solid-JS / React / Tailwind — replaced by RPG.js v5's built-in Vue-compat GUI system (`@rpgjs/ui-css`).
+- Koota ECS — entity management is now RPG.js v5's player/event model.
+- `vite-plugin-solid`, `@vitejs/plugin-react` — removed; `rpgjs()` Vite plugin replaces both.
+
+## Persistence
+
+Two storage tiers via Capacitor — never `localStorage` or `IndexedDB` directly in feature code.
+
+### Small KV (`@capacitor/preferences`)
+
+Used for: current map id, party slot pointer, settings flags, journey beat pointer, mastered-word count bookmark. Pattern: typed wrapper at `src/platform/persistence/preferences.ts` with a `KEYS` constant; localStorage shim only inside the wrapper as web fallback (Capacitor's own fallback on web).
+
+### Structured / multi-row (`@capacitor-community/sqlite`)
+
+Used for: full save snapshots (complete world state), mastered-words log (per-word timestamps), party rosters with full stats, encounter history, journal entries. Web fallback via `jeep-sqlite` / `sql.js`. Pattern at `src/platform/persistence/database.ts` — follows the mean-streets `prepareWebStore()` / `initWebStore` / `saveToStore` pattern exactly.
+
+RPG.js v5's save hook is wired to write through the sqlite adapter; on the client side the preferences wrapper is used for ephemeral small state.
 
 ## Two pipelines, two sources of truth
 
@@ -34,9 +60,18 @@ public/assets/tilesets/{core,seasons,snow,desert,fortress,indoor}/
   Art/                        — PNG tileset images
   Tiled/
     Tilesets/*.tsx            — Tiled tileset definitions (frame grids, collisions, custom props)
-    Tilemaps/*.tmx            — Tiled sample maps (reference; real maps live under public/assets/maps/)
+    Tilemaps/*.tmx            — Tiled sample maps (reference; real maps live under src/tiled/)
 
-public/assets/maps/<map_id>.tmj
+src/tiled/
+  <map_id>.tmx                — authored maps consumed by tiledMapFolderPlugin at build time
+  *.tsx                       — tileset references local to authored maps (symlink or copy)
+
+Built/served at: /map/<map_id>  (via tiledMapFolderPlugin publicPath)
+```
+
+Map files use the following layer/object conventions (unchanged from the Phaser era):
+
+```
   ├─ Tile layers: "Below Player" / "World" / "Above Player"
   ├─ Object layer: "Objects"
   │     ├─ Spawn Point (where player lands)
@@ -49,9 +84,9 @@ public/assets/maps/<map_id>.tmj
            (with `species` weight-map custom property)
 ```
 
-Authors edit `.tmx` files in the Tiled editor. Phaser's built-in tilemap loader (`load.tilemapTiledJSON` + `make.tilemap` + `addTilesetImage`) reads them at runtime. **There is no region schema** — the Tiled map file IS the region. Collision is per-tile via the `collides: true` custom property set in Tiled.
+**Maps are build artifacts, not hand-authored.** The only way a map enters the repo is via a TypeScript spec in `scripts/map-authoring/specs/<id>.ts` built by `pnpm author:build <id>` (or `pnpm author:all --all`). Both `src/tiled/<id>.tmx` (runtime, consumed by `tiledMapFolderPlugin` from `@rpgjs/vite`) and `public/assets/maps/<id>.tmj` (archive + preview render) regenerate from the same source. `pnpm author:verify` runs in `validate` + `prebuild` + CI and fails on any hand-edited or drifted `.tmx`. If you need to change a map: edit the spec, rebuild, commit both.
 
-This is adopted wholesale from the [`remarkablegames/phaser-rpg`](https://github.com/remarkablegames/phaser-rpg) pattern (modernized from Phaser 3 → 4, phaser-jsx → Solid).
+RPG.js v5's `@rpgjs/tiledmap` package handles runtime rendering through CanvasEngine.
 
 ### The content pipeline (narrative + mechanical)
 
@@ -66,8 +101,7 @@ src/content/
     item.ts
     npc.ts
     dialog.ts
-    journey.ts                — NEW: ordered list of map-beats defining the 7-region arc
-    koota-gen.ts              — zodToKootaTrait()
+    journey.ts                — ordered list of map-beats defining the 7-region arc
     index.ts
   spine/                      — hand-authored content (authors edit ONLY here)
     species/<id>.json
@@ -82,16 +116,11 @@ src/content/
 **Authoring contract**: authors edit only `src/content/spine/`. Every Zod schema tags translatable string fields with a `.describe('tp')` marker. Those fields carry an `en` value at authoring time; `tp` is resolved at build time by matching against the Tatoeba corpus.
 
 **Build steps**:
-- `pnpm validate-tp` — walks every `en`-tagged string in spine, confirms an exact Tatoeba pair exists. Exit 1 on any miss. Prints closest matches on failure.
+- `pnpm validate-tp` — walks every `en`-tagged string in spine, confirms an exact Tatoeba pair exists. Exit 1 on any miss.
 - `pnpm build-spine` — validates spine files against Zod, resolves every `en` → canonical TP, emits `src/content/generated/world.json`.
 - `pnpm prebuild` — runs validate + build-spine + typecheck before `vite build`.
-- CI (`.github/workflows/content-validate.yml`) runs validate-tp + build-spine on every PR. A failing validation cannot merge.
 
 Single-word dictionary TP values (`kili`, `soweli`, `moku`) are exempt — the validator only gates multi-word constructions.
-
-### Zod → Koota bridge
-
-`zodToKootaTrait(schema)` returns a Koota trait whose shape is the schema's inferred TypeScript type. At scene-boot the engine loads `generated/world.json`, iterates entities, and instantiates Koota entities tagged with the relevant traits. One source of truth for both content and runtime state.
 
 ## The journey model
 
@@ -100,7 +129,7 @@ Regions are **not authored** as a schema — they're Tiled map files. What IS au
 ```typescript
 // src/content/schema/journey.ts
 type JourneyBeat = {
-  map_id: string;           // matches public/assets/maps/<map_id>.tmj
+  map_id: string;           // matches src/tiled/<map_id>.tmx
   narrative: string;        // prose describing what happens here (dev-facing only)
   gate?: {                  // optional: what unlocks progression out of this beat
     kind: 'starter_chosen' | 'catch_count' | 'flag' | 'defeated';
@@ -114,13 +143,65 @@ type JourneyBeat = {
 type Journey = { beats: JourneyBeat[] };
 ```
 
-The journey file is the spine of the game. You read it top-to-bottom and understand the whole arc. Maps are atomic. Transitions between maps are named triggers. See `docs/JOURNEY.md` for the prose creative-writing pass and `src/content/spine/journey.json` for the machine-readable version.
+The first beat's `map_id` is the start map, used in `src/modules/main/player.ts` to place the player on connect.
+
+## RPG.js v5 module structure
+
+```
+src/
+  standalone.ts             — entry point: provideRpg() for development (client+server in one process)
+  server.ts                 — createServer() with providers (save, tiledmap, main module)
+  client.ts                 — startGame() with provideMmorpg (production MMORPG mode)
+  config/
+    config.client.ts        — provideTiledMap, provideClientGlobalConfig, spritesheets
+    config.server.ts        — (placeholder; server config if needed)
+  modules/
+    main/
+      player.ts             — RpgPlayerHooks: onConnected → changeMap + onDead respawn
+      dialog.ts             — TP-resolved dialog playback from spine
+      vocabulary.ts         — TP tokenizer against the 131-word dictionary
+      vocabulary-screen.ts  — pause-menu vocabulary screen (mastered words)
+      inventory-screen.ts   — pause-menu badges + journey beat + party roster
+      starter-ceremony.ts   — jan Sewi starter pick (seli/telo/kasi triangle)
+      encounter.ts          — tall-grass wild encounter + poki capture
+      warp.ts               — gated map-to-map transitions
+      gym-leader.ts         — rival/gym factory with optional multi-phase BattleAi
+      green-dragon.ts       — final boss; gated on all four region badges
+      ambient-npc.ts        — villager/sign NPC factory
+      server.ts             — defineModule: player hooks + per-map event registrations
+      index.ts              — createModule('main', [{ server }]) export
+  scripts/
+    map-authoring/
+      specs/<id>.ts         — map source of truth (spec-driven .tmx + .tmj emit)
+      emitTmx.ts            — runtime .tmx emitter
+      emitTmj.ts            — archive .tmj emitter
+      render.ts             — PNG preview renderer
+      verify.ts             — CI gate: reject hand-edited or drifted .tmx
+  platform/
+    persistence/
+      preferences.ts        — Capacitor Preferences typed wrapper (KEYS const)
+      database.ts           — Capacitor SQLite + jeep-sqlite web fallback
+      save-strategy.ts      — RPG.js v5 ISaveStorageStrategy implementation using sqlite
+  tiled/                    — authored .tmx maps + tileset refs (consumed by tiledMapFolderPlugin)
+    ma_tomo_lili.tmx        — starter village map (beat 0)
+    Tileset_Ground.tsx      — symlinked from public/assets/tilesets/core/Tiled/Tilesets/
+```
 
 ## Game shape
 
 ### The party (player's character sheet)
 
 The player has no stats. Their `party[]` is up to 6 creatures. Each creature has HP, types, moves, XP, and a level. When the lead faints, the next comes out automatically; when the whole party faints, the player wakes in the last visited village with party restored (no permadeath).
+
+### XP + level-up curve
+
+Every creature has a level 1–50 and an XP total. The threshold to reach level `n` from level 1 is:
+
+    xpForLevel(n) = n^3        (level 1 = 1 xp, level 5 = 125, level 10 = 1000, level 50 = 125000)
+
+This is the classic genre "medium-fast" growth — fast early levels, gentle ramp mid-game, meaningful grind toward the endgame. Level 1 → 2 costs 7 XP, level 5 → 6 costs 91 XP, level 10 → 11 costs 331 XP, level 20 → 21 costs 1261 XP.
+
+On a victorious battle the lead creature gains `defeated.xp_yield` XP (typically 40–300 depending on species tier: common 40–70, uncommon 70–120, legendary 200–300). The `gainXp()` helper crosses as many level boundaries as the gained amount covers in one call — if a level-1 creature gets hit with 200 XP it levels to 6 in one step, emitting one toast per level. The learnset is consulted at each boundary; any move whose `level` ≤ current level is learned if not already known.
 
 ### Types (rock-paper-scissors-extended)
 
@@ -138,7 +219,7 @@ Starters are the seli/telo/kasi triangle. `lete` and `wawa` species are catchabl
 
 **Tall-grass random:** on each overworld step while inside an `Encounters` object-layer rectangle tagged tall-grass, roll the region's species weight table. On hit, transition to combat.
 
-**Set-piece:** hand-placed fights — rivals (jan Ike), gym masters (jan Telo / jan Wawa / jan Lete / jan Suli), the final boss (green dragon at endgame). These are Tiled object-layer triggers with a `scripted_combat` custom property; not random.
+**Set-piece:** hand-placed fights — rivals (jan Ike), gym masters (jan Telo / jan Wawa / jan Lete / jan Suli), the final boss (green dragon at endgame).
 
 ### Catch mechanic
 
@@ -146,72 +227,59 @@ Every starter kit contains three **poki** (nets). During a wild fight the player
 
 ### Progression gates
 
-Each journey beat may declare a gate. `catch_count >= N` (must catch N distinct species in this region before the next beat's warp is active), `starter_chosen` (must pick a starter before leaving ma_tomo_lili), `defeated:<npc_id>` (must beat a specific NPC), `flag:<flag_id>` (arbitrary gate flag).
+Each journey beat may declare a gate. `catch_count >= N`, `starter_chosen`, `defeated:<npc_id>`, `flag:<flag_id>`.
 
-## Engine sketch
+## Engine entry points
 
 ```
-index.html  →  main.tsx (React root)
-                  └─  App.tsx (title screen, menu routing)
-                          └─  PhaserGame.tsx (lazy-loaded)
-                                  └─  Phaser.Game
-                                          ├─  Boot scene (preload every map + tileset + atlas)
-                                          ├─  Menu scene (pause, settings, party)
-                                          └─  Main scene (the overworld loop)
-                                                  ├─  reads current beat from journey.json
-                                                  ├─  loads map_id from public/assets/maps/
-                                                  ├─  spawns Player at Spawn Point
-                                                  ├─  wires Objects (signs, NPCs, warps, triggers)
-                                                  ├─  arms Encounters roller
-                                                  └─  emits events on gameBus for Solid overlays
-
-Solid overlays (mounted on top of the Phaser canvas):
-  ├─  DialogOverlay     — typewriter text + choice menus; reads dialog from spine/dialog/
-  ├─  CombatOverlay     — HP bars, move buttons, poki-throw button; reads combat/engine.ts
-  ├─  ToastOverlay      — quick text notifications
-  └─  AdventureHUD      — region name, party summary, badge count
+index.html  →  src/standalone.ts (development: client + server in same Vite process)
+                  └─  provideRpg(startServer)
+                          └─  RPG.js v5 client boots
+                                  └─  tiledmap plugin loads /map/<id>
+                                  └─  player.onConnected → changeMap('ma_tomo_lili')
+                                  └─  NPC events registered from server module
 ```
-
-The engine is small on purpose. The content pipeline + Tiled maps are where the richness lives.
 
 ## What lives where (quick reference)
 
 | Concern | Home |
 |---|---|
-| Tile layout + layer structure | `.tmx` files (authored in Tiled) |
-| Tile collision | Tiled tileset custom property `collides: true` |
+| Tile layout + layer structure | `.tmx` files in `src/tiled/` (authored in Tiled) |
 | Player spawn location | `Spawn Point` object in the map's Objects layer |
-| Sign text | `text` custom property on a Sign object |
-| NPC placement | NPC object in Objects layer with `id` + `dialog_id` custom properties |
+| NPC placement | NPC object in Objects layer; event factory in `src/modules/main/event.ts` |
 | NPC dialog content | `src/content/spine/dialog/<npc_id>.json` (Tatoeba-validated) |
-| Warps | Warp object with `target_map` + `target_spawn` custom properties |
-| Encounter zones | Rectangles in `Encounters` object layer with `species` weight property |
-| Set-piece triggers | Trigger object with `scripted_combat` / `scripted_dialog` custom property |
+| Warps | Warp object with `target_map` + `target_spawn` |
+| Encounter zones | Rectangles in `Encounters` object layer |
 | Species data | `src/content/spine/species/<id>.json` |
 | Move data | `src/content/spine/moves/<id>.json` |
 | Item data | `src/content/spine/items/<id>.json` |
 | Game arc | `src/content/spine/journey.json` + `docs/JOURNEY.md` |
-| Save state | `src/game/ecs/saveState.ts` → `localStorage` |
-| Combat logic | `src/game/combat/engine.ts` (pure functions, no UI) |
-| Type matchup math | `src/content/schema/types.ts` |
+| Save state (small KV) | `src/platform/persistence/preferences.ts` (Capacitor Preferences) |
+| Save state (full snapshots) | `src/platform/persistence/database.ts` (Capacitor SQLite) |
+| RPG.js save hook | `src/platform/persistence/save-strategy.ts` |
+| Combat logic | `@rpgjs/action-battle/server` BattleAi via `src/modules/main/gym-leader.ts` |
+| Multi-phase bosses | `gym-leader.ts` `phase2` descriptor + HP-threshold poller |
+| Badge tracking | `db_flag` rows keyed `badge_<region>`; `inventory-screen.ts` reads |
+| Map emission | `scripts/map-authoring/` specs + emitters (runs in `pnpm validate`) |
 
 ## Test infrastructure
 
-The game is exercised end-to-end via a **Vitest browser harness** (Playwright-backed, chromium). A `window.__toki_harness__` inspector (dev-only, gated by `import.meta.env.DEV`) lets tests read live scene state — player tile, current map id, dialog open, party contents — without DOM-scraping.
-
-Tests replay a **deterministic playbook** generated by a factory from `world.json`. The playbook visits every region, exercises every NPC, triggers every encounter class, wins required fights, captures screenshots at every step. See `docs/TESTING.md`.
+Vitest browser harness (Playwright-backed, chromium) in `tests/e2e/`. RPG.js v5 exposes a `window.__rpg_harness__` shim (dev-only) for reading live scene state without DOM-scraping. See `docs/TESTING.md`.
 
 ## What we explicitly DO NOT have
 
+- **No Phaser, Koota, React, Solid, Tailwind.** Removed in the RPG.js v5 pivot.
 - **No region schema.** Maps are Tiled files, not JSON.
 - **No procgen.** The world is authored end-to-end.
 - **No translation UI.** No EN glosses shown to the player.
 - **No mixed tileset families.** Fan-tasy is the sole tileset source.
-- **No copyrighted-property references.** Not in code, comments, docs, or asset names. See `STANDARDS.md`.
+- **No copyrighted-property references.** Not in code, comments, docs, or asset names.
+- **No direct `localStorage` / `IndexedDB`** in feature code. Capacitor abstractions only.
 
 ## Decision log
 
+- **RPG.js v5 beta pivot** (2026-04-19) — the Phaser 4 + Solid + Koota stack (L1 PR #64) was closed in favor of RPG.js v5 which provides: Tiled tilemaps out of the box (`@rpgjs/tiledmap`), built-in event/NPC model, a save abstraction (`ISaveStorageStrategy`), Vue-compat GUI screens, and a standalone dev mode (no external server needed). The content pipeline (`src/content/`), Fan-tasy tilesets (`public/assets/tilesets/`), and journey model are preserved unchanged.
 - **Pre-Godot spike base** (`0a582e0`) — this branch resurrects the pre-Godot Phaser+Koota tip; the Godot branch on `main` proved more fighting than it was worth.
-- **Fan-tasy tilesets unified** — a single coherent art family (6 biome packs) replaces the prior Kenney + Lonesome Forest + Old Town patchwork that sank the previous playthrough's tonal consistency.
-- **Boss vs creature tiering by animation depth** — animated sprites (green-dragon, dread-knight, slime, fire-skull, zombie-burster) live under `bosses/`; static sprites under `creatures/`. Green dragon is the designated final boss (only creature with a death animation).
-- **Scaffolding from remarkablegames/phaser-rpg** — adopted wholesale; Tiled IS the schema for regions. Rejected: custom region JSON schema + tile-key resolver (the previous attempt and primary source of asset-layer drift).
+- **Fan-tasy tilesets unified** — a single coherent art family (6 biome packs) replaces the prior Kenney + Lonesome Forest + Old Town patchwork.
+- **Boss vs creature tiering by animation depth** — animated sprites (`bosses/`); static sprites (`creatures/`). Green dragon is the designated final boss.
+- **Capacitor persistence** — `@capacitor/preferences` for small KV, `@capacitor-community/sqlite` for structured data. No `localStorage` in feature code.

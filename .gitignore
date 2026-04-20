@@ -150,7 +150,20 @@ tests/e2e/__screenshots__/
 # Tatoeba corpus cache (regenerate via scripts/fetch-tatoeba-corpus.mjs)
 .tatoeba-cache/
 
-.claude/
+# .claude/ project config — commit settings.json + hooks/ so the agentic
+# env is shared with teammates. Ignore only transient/per-user/per-run data.
+.claude/state/task-batch/*.json
+.claude/state/task-batch/.last-compaction
+.claude/logs/
+.claude/tasks/
+.claude/metadata/
+.claude/shell-snapshots/
+.claude/ide/
+.claude/todos/
+.claude/projects/
+.claude/sessions/
+.claude/scheduled_tasks.lock
+.claude/settings.local.json
 
 # Agent worktrees — per-agent isolated checkouts at .worktrees/<branch-name>
 .worktrees/
@@ -167,3 +180,9 @@ server/
 # Purchased asset archives — unpacked into public/assets/; originals preserved
 # but not tracked (large). Re-unpack from originals if ever needed.
 pending/
+
+# sql.js wasm runtime — copied into public/assets/ by the copyWasmPlugin
+# in vite.config.ts on every dev/build. Not hand-authored; regenerates.
+public/assets/sql-wasm.js
+public/assets/sql-wasm.wasm
+.claude/state/

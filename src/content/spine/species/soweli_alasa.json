@@ -1,0 +1,29 @@
+{
+  "id": "soweli_alasa",
+  "name": { "en": "alasa" },
+  "description": { "en": "The hunter shot a fox." },
+  "type": "kasi",
+  "base_stats": { "hp": 52, "attack": 62, "defense": 36, "speed": 74 },
+  "learnset": [
+    { "level": 1, "move_id": "utala_lili" },
+    { "level": 1, "move_id": "kasi_lili" },
+    { "level": 10, "move_id": "kon_wawa" }
+  ],
+  "catch_rate": 0.28,
+  "xp_yield": 82,
+  "sprite": {
+    "src": "/assets/animals/fox.png",
+    "frame_width": 64,
+    "frame_height": 32,
+    "animations": {
+      "idle":   { "row": 0, "col_start": 0, "cols": 4, "fps": 4,  "loop": true  },
+      "walk":   { "row": 1, "col_start": 0, "cols": 7, "fps": 10, "loop": true  },
+      "flee":   { "row": 2, "col_start": 0, "cols": 7, "fps": 12, "loop": true  },
+      "attack": { "row": 3, "col_start": 0, "cols": 5, "fps": 12, "loop": false },
+      "taunt":  { "row": 4, "col_start": 0, "cols": 3, "fps": 8,  "loop": false },
+      "sneak":  { "row": 5, "col_start": 0, "cols": 5, "fps": 6,  "loop": true  },
+      "death":  { "row": 6, "col_start": 0, "cols": 5, "fps": 6,  "loop": false }
+    },
+    "tier": "uncommon"
+  }
+}

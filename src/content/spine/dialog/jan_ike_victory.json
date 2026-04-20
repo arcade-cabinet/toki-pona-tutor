@@ -1,0 +1,11 @@
+{
+  "id": "jan_ike_victory",
+  "npc_id": "jan_ike",
+  "when_flags": { "jan_ike_defeated": true },
+  "priority": 5,
+  "beats": [
+    { "text": { "en": "You won." }, "mood": "sad", "glyph": "sina" },
+    { "text": { "en": "Let's go!" }, "mood": "thinking", "glyph": "tawa" }
+  ],
+  "triggers": {}
+}

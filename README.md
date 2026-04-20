@@ -6,16 +6,22 @@ status: current
 
 # poki soweli
 
-A creature-catching RPG whose world is named in toki pona — a small constructed language with ~120 words. Players walk between villages, catch creatures in tall grass with a **poki** (net), build a party of six, and beat seven **jan lawa** (region masters) to progress. Vocabulary lands diegetically — the player never translates; the language just saturates the world.
+![43 species](https://img.shields.io/badge/species-43-86a856)
+![7 regions](https://img.shields.io/badge/regions-7-a7c472)
+![7 gyms](https://img.shields.io/badge/jan%20lawa-7-e5a42c)
+![TP corpus-gated](https://img.shields.io/badge/toki%20pona-corpus--gated-5b94a6)
+![RPG.js v5](https://img.shields.io/badge/engine-RPG.js%20v5-c23b22)
 
-> 🧪 This branch (`spike/phaser-koota-revive`) is a revival of the pre-Godot Phaser+Koota stack. The main branch is on a Godot engine that proved more fighting than it was worth. See `docs/STATE.md` for context.
+A monster-catching RPG whose world is named in toki pona — a blend of Final Fantasy dark-fantasy aesthetic with Pokémon-style catch-and-train mechanics. Players walk between villages, catch monsters with a **poki** (net), build a party of six, and beat seven **jan lawa** (region masters) to progress. Vocabulary lands diegetically — the player never translates; the language just saturates the world.
+
+> 🏗️ Current branch: `feat/rpgjs-v5-pivot` — the RPG.js v5 beta pivot. See `docs/STATE.md` for what just landed.
 
 ## Run it
 
 ```sh
 pnpm install
 pnpm build-spine      # compile content JSON → generated/world.json
-pnpm dev              # vite dev server at http://localhost:5173/toki-pona-tutor/
+pnpm dev              # vite dev server at http://localhost:5173/poki-soweli/
 ```
 
 For the build pipeline, validation, and other commands, see `CLAUDE.md`.

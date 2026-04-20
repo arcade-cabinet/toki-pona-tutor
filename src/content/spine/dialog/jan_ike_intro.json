@@ -1,0 +1,11 @@
+{
+  "id": "jan_ike_intro",
+  "npc_id": "jan_ike",
+  "when_flags": { "jan_ike_defeated": false },
+  "priority": 10,
+  "beats": [
+    { "text": { "en": "Let's see!" }, "mood": "excited", "glyph": "lukin" },
+    { "text": { "en": "I'm not." }, "mood": "excited", "glyph": "ala" }
+  ],
+  "triggers": {}
+}

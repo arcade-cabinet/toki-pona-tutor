@@ -1,0 +1,11 @@
+{
+  "id": "jan_wawa_intro",
+  "npc_id": "jan_wawa",
+  "when_flags": { "badge_sewi": false },
+  "priority": 10,
+  "beats": [
+    { "text": { "en": "I'm plenty strong!" }, "mood": "excited", "glyph": "wawa" },
+    { "text": { "en": "Let's see!" }, "mood": "excited", "glyph": "lukin" }
+  ],
+  "triggers": {}
+}

@@ -1,0 +1,30 @@
+{
+  "id": "seli_moli",
+  "name": { "en": "seli" },
+  "description": { "en": "The floor is lava!" },
+  "type": "seli",
+  "base_stats": { "hp": 62, "attack": 72, "defense": 50, "speed": 54 },
+  "learnset": [
+    { "level": 1, "move_id": "seli_lili" },
+    { "level": 1, "move_id": "utala" },
+    { "level": 10, "move_id": "seli_wawa" },
+    { "level": 16, "move_id": "kon_wawa" }
+  ],
+  "catch_rate": 0.18,
+  "xp_yield": 130,
+  "portrait_src": "/assets/bosses/fire-skull/fire-skull.png",
+  "sprite": {
+    "src": "/assets/bosses/fire-skull/fire-skull.png",
+    "frame_width": 32,
+    "frame_height": 32,
+    "animations": {
+      "idle":    { "row": 0, "col_start": 0, "cols": 2, "fps": 4,  "loop": true  },
+      "walk":    { "row": 1, "col_start": 0, "cols": 2, "fps": 8,  "loop": true  },
+      "attack":  { "row": 2, "col_start": 0, "cols": 2, "fps": 10, "loop": false },
+      "hurt":    { "row": 3, "col_start": 0, "cols": 2, "fps": 8,  "loop": false },
+      "death":   { "row": 4, "col_start": 0, "cols": 2, "fps": 6,  "loop": false },
+      "special": { "src": "/assets/bosses/fire-skull/fireball.png", "row": 0, "col_start": 0, "cols": 12, "fps": 16, "loop": false }
+    },
+    "tier": "legendary"
+  }
+}

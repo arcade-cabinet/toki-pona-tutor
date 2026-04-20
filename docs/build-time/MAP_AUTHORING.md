@@ -219,7 +219,7 @@ This is how I actually use this toolchain to author a map:
 5. Edit the spec (palette entry or layer content).
 6. Re-run `pnpm author:all <map_id>`.
 7. Repeat until the preview looks like the intended scene.
-8. Run `pnpm test:build-time` to confirm toolchain-level correctness.
+8. Run `pnpm test:unit` to confirm toolchain-level correctness.
 9. Commit spec + `.tmj` + preview PNG together.
 
 The preview PNG is checked into git alongside the spec + `.tmj`. Reviewers can eyeball the PNG without running the toolchain. If a spec change doesn't change the preview, something's wrong — the preview is the visual regression guard.

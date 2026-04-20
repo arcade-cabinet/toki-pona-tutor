@@ -1,0 +1,11 @@
+{
+  "id": "jan_telo_victory",
+  "npc_id": "jan_telo",
+  "when_flags": { "badge_telo": true },
+  "priority": 5,
+  "beats": [
+    { "text": { "en": "You won." }, "mood": "sad", "glyph": "sina" },
+    { "text": { "en": "Let's go!" }, "mood": "thinking", "glyph": "tawa" }
+  ],
+  "triggers": {}
+}

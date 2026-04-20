@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-down"
+     width="16" height="20" tilewidth="16" tileheight="16" infinite="0"
+     nextlayerid="4" nextobjectid="8">
+ <tileset firstgid="1" source="../../public/assets/tilesets/core/Tiled/Tilesets/Tileset_Ground.tsx"/>
+ <layer id="1" name="Below Player" width="16" height="20" visible="1" opacity="1">
+  <data encoding="csv">
+1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
+1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
+1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
+1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
+1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
+1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
+1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
+1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
+1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
+1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
+1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
+1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
+1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
+1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
+1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
+1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
+1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
+1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
+1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
+1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1
+  </data>
+ </layer>
+ <objectgroup id="2" name="Objects" visible="1" opacity="1">
+  <object id="1" name="from_ma_lete" type="SpawnPoint" x="32" y="192" width="0" height="0" visible="1" rotation="0"/>
+  <object id="2" name="jan-pi-kon" type="NPC" x="80" y="160" width="0" height="0" visible="1" rotation="0">
+   <properties>
+     <property name="id" value="jan_pi_kon"/>
+     <property name="dialog_id" value="jan_pi_kon_meditate"/>
+   </properties>
+  </object>
+  <object id="3" name="jan-pi-nasin" type="NPC" x="160" y="112" width="0" height="0" visible="1" rotation="0">
+   <properties>
+     <property name="id" value="jan_pi_nasin"/>
+     <property name="dialog_id" value="jan_pi_nasin_ask"/>
+   </properties>
+  </object>
+  <object id="4" name="jan-suli" type="NPC" x="128" y="32" width="0" height="0" visible="1" rotation="0">
+   <properties>
+     <property name="id" value="jan_suli"/>
+     <property name="dialog_id" value="jan_suli_intro"/>
+   </properties>
+  </object>
+  <object id="5" name="warp_north" type="Warp" x="128" y="0" width="16" height="16" visible="1" rotation="0">
+   <properties>
+     <property name="target_map" value="nasin_pi_telo"/>
+     <property name="target_spawn" value="from_nena_suli"/>
+     <property name="required_flag" value="badge_suli"/>
+   </properties>
+  </object>
+ </objectgroup>
+ <objectgroup id="3" name="Encounters" visible="1" opacity="1">
+  <object id="6" name="encounter_0" type="Encounter" x="48" y="240" width="64" height="48" visible="1" rotation="0">
+   <properties>
+     <property name="species" value="{&quot;jan_wawa_suli&quot;:25,&quot;jan_wawa_utala&quot;:20,&quot;sijelo_utala&quot;:20,&quot;waso_moku&quot;:15,&quot;waso_moli&quot;:15,&quot;soweli_sewi&quot;:5}"/>
+     <property name="level_min" type="int" value="10"/>
+     <property name="level_max" type="int" value="13"/>
+   </properties>
+  </object>
+  <object id="7" name="encounter_1" type="Encounter" x="160" y="192" width="64" height="48" visible="1" rotation="0">
+   <properties>
+     <property name="species" value="{&quot;jan_wawa_suli&quot;:20,&quot;jan_wawa_utala&quot;:20,&quot;sijelo_utala&quot;:25,&quot;waso_moku&quot;:15,&quot;soweli_alasa&quot;:15,&quot;soweli_wawa&quot;:5}"/>
+     <property name="level_min" type="int" value="12"/>
+     <property name="level_max" type="int" value="15"/>
+   </properties>
+  </object>
+ </objectgroup>
+</map>

@@ -1,0 +1,10 @@
+{
+  "id": "green_dragon_victory",
+  "npc_id": "green_dragon",
+  "when_flags": { "green_dragon_defeated": true },
+  "priority": 5,
+  "beats": [
+    { "text": { "en": "Ah. Good." }, "mood": "happy", "glyph": "pona" }
+  ],
+  "triggers": {}
+}

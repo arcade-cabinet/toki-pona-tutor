@@ -1,0 +1,30 @@
+{
+  "id": "soweli_jaki",
+  "name": { "en": "jaki" },
+  "description": { "en": "The bug is thirsty." },
+  "type": "kasi",
+  "base_stats": { "hp": 38, "attack": 40, "defense": 28, "speed": 56 },
+  "learnset": [
+    { "level": 1, "move_id": "utala_lili" },
+    { "level": 1, "move_id": "kasi_lili" },
+    { "level": 8, "move_id": "utala" }
+  ],
+  "catch_rate": 0.48,
+  "xp_yield": 48,
+  "sprite": {
+    "src": "/assets/animals/rat.png",
+    "frame_width": 32,
+    "frame_height": 32,
+    "animations": {
+      "idle": { "row": 0, "col_start": 0, "cols": 5, "fps": 4, "loop": true },
+      "walk": { "row": 1, "col_start": 0, "cols": 5, "fps": 10, "loop": true },
+      "sneak": { "row": 2, "col_start": 0, "cols": 5, "fps": 6, "loop": true },
+      "attack": { "row": 3, "col_start": 0, "cols": 5, "fps": 12, "loop": false },
+      "flee": { "row": 4, "col_start": 0, "cols": 5, "fps": 12, "loop": true },
+      "taunt": { "row": 5, "col_start": 0, "cols": 5, "fps": 8, "loop": false },
+      "hurt": { "row": 6, "col_start": 0, "cols": 4, "fps": 8, "loop": false },
+      "death": { "row": 7, "col_start": 0, "cols": 5, "fps": 6, "loop": false }
+    },
+    "tier": "common"
+  }
+}

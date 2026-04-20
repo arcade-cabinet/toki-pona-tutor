@@ -1,0 +1,9 @@
+{
+  "id": "wild_encounter_escaped",
+  "npc_id": null,
+  "priority": 10,
+  "beats": [
+    { "text": { "en": "That's it." }, "mood": "sad", "glyph": "ni" }
+  ],
+  "triggers": {}
+}

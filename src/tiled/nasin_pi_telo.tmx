@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-down"
+     width="28" height="14" tilewidth="16" tileheight="16" infinite="0"
+     nextlayerid="4" nextobjectid="9">
+ <tileset firstgid="1" source="../../public/assets/tilesets/core/Tiled/Tilesets/Tileset_Ground.tsx"/>
+ <layer id="1" name="Below Player" width="28" height="14" visible="1" opacity="1">
+  <data encoding="csv">
+1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
+1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
+1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
+1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
+1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
+1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
+1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
+1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
+1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
+1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
+1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
+1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
+1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
+1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1
+  </data>
+ </layer>
+ <objectgroup id="2" name="Objects" visible="1" opacity="1">
+  <object id="1" name="from_nena_suli" type="SpawnPoint" x="32" y="96" width="0" height="0" visible="1" rotation="0"/>
+  <object id="2" name="jan-kala-lili" type="NPC" x="112" y="144" width="0" height="0" visible="1" rotation="0">
+   <properties>
+     <property name="id" value="jan_kala_lili"/>
+     <property name="dialog_id" value="jan_kala_lili_flavor"/>
+   </properties>
+  </object>
+  <object id="3" name="jan-moku-pona" type="NPC" x="192" y="80" width="0" height="0" visible="1" rotation="0">
+   <properties>
+     <property name="id" value="jan_moku_pona"/>
+     <property name="dialog_id" value="jan_moku_pona_grill"/>
+   </properties>
+  </object>
+  <object id="4" name="jan-kala-suli" type="NPC" x="272" y="144" width="0" height="0" visible="1" rotation="0">
+   <properties>
+     <property name="id" value="jan_kala_suli"/>
+     <property name="dialog_id" value="jan_kala_suli_tuneup"/>
+   </properties>
+  </object>
+  <object id="5" name="jan-olin-telo" type="NPC" x="352" y="80" width="0" height="0" visible="1" rotation="0">
+   <properties>
+     <property name="id" value="jan_olin_telo"/>
+     <property name="dialog_id" value="jan_olin_telo_quiet"/>
+   </properties>
+  </object>
+  <object id="6" name="final_boss_trigger" type="Trigger" x="416" y="80" width="32" height="48" visible="1" rotation="0">
+   <properties>
+     <property name="target_event" value="green_dragon"/>
+     <property name="required_flag" value="badges_all_four"/>
+   </properties>
+  </object>
+ </objectgroup>
+ <objectgroup id="3" name="Encounters" visible="1" opacity="1">
+  <object id="7" name="encounter_0" type="Encounter" x="64" y="160" width="80" height="48" visible="1" rotation="0">
+   <properties>
+     <property name="species" value="{&quot;jan_moli&quot;:20,&quot;kon_moli&quot;:15,&quot;telo_jaki&quot;:15,&quot;kala_telo&quot;:15,&quot;kala_uta&quot;:15,&quot;kala_tomo&quot;:15,&quot;jan_moli_wawa&quot;:5}"/>
+     <property name="level_min" type="int" value="7"/>
+     <property name="level_max" type="int" value="10"/>
+   </properties>
+  </object>
+  <object id="8" name="encounter_1" type="Encounter" x="224" y="160" width="96" height="48" visible="1" rotation="0">
+   <properties>
+     <property name="species" value="{&quot;jan_moli&quot;:15,&quot;kon_moli&quot;:15,&quot;telo_jaki&quot;:15,&quot;kala_telo&quot;:15,&quot;kala_luka&quot;:15,&quot;kala_uta&quot;:15,&quot;seli_moli&quot;:5,&quot;akesi_suli&quot;:5}"/>
+     <property name="level_min" type="int" value="9"/>
+     <property name="level_max" type="int" value="13"/>
+   </properties>
+  </object>
+ </objectgroup>
+</map>

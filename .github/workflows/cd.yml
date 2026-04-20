@@ -1,0 +1,82 @@
+name: cd
+
+# Deploys what release.yml already built. Triggered on push to main
+# AFTER release.yml has run (release-please PR merge → tag → release
+# artifact attach → this). Downloads the versioned web bundle from
+# the latest GitHub Release and deploys to GitHub Pages.
+#
+# Falls back to a fresh `pnpm build` when there's no release yet
+# (initial state before the first release-please tag) so Pages
+# doesn't 404 during pre-release.
+on:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: true
+
+jobs:
+  deploy-pages:
+    name: deploy to GitHub Pages
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          lfs: true
+
+      - name: Check for latest release
+        id: latest
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          if gh release view --json tagName --jq .tagName > /tmp/tag 2>/dev/null; then
+            echo "tag=$(cat /tmp/tag)" >> "$GITHUB_OUTPUT"
+            echo "has_release=true" >> "$GITHUB_OUTPUT"
+          else
+            echo "has_release=false" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Download web bundle from release
+        if: steps.latest.outputs.has_release == 'true'
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          TAG_NAME: ${{ steps.latest.outputs.tag }}
+        run: |
+          mkdir -p dist
+          gh release download "$TAG_NAME" --pattern "poki-soweli-web-*.tar.gz" --output web-bundle.tar.gz
+          tar -xzf web-bundle.tar.gz -C dist
+
+      - uses: pnpm/action-setup@v4
+        if: steps.latest.outputs.has_release == 'false'
+        with:
+          version: 10
+
+      - uses: actions/setup-node@v5
+        if: steps.latest.outputs.has_release == 'false'
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - name: Install + build (fallback)
+        if: steps.latest.outputs.has_release == 'false'
+        run: |
+          pnpm install --ignore-workspace --frozen-lockfile
+          pnpm build
+
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
+        with:
+          path: ./dist
+
+      - id: deployment
+        uses: actions/deploy-pages@v4
