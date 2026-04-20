@@ -11,16 +11,18 @@ What poki soweli **is**, what it **is not**, and the UX principles that settle t
 
 ## What it is
 
-**A creature-catching RPG where the world is named in toki pona.** Players walk between villages, catch creatures in tall grass with a **poki** (net), build a party of up to six, and beat seven **jan lawa** (region masters) to progress. Vocabulary accumulates diegetically — by the end of a playthrough, the player reads a dialog line in TP and understands it the way they'd understand a song lyric they've sung a hundred times: not translated, *known*.
+**A monster-catching RPG where the world is named in toki pona — a blend of Final Fantasy aesthetic and Pokémon-style catch-and-train mechanics.** Players walk between villages, catch monsters (goblins, orcs, skellies, wraiths, slimes, dread-knights, the green dragon) with a **poki** (net), build a party of up to six, and beat seven **jan lawa** (region masters) to progress. Vocabulary accumulates diegetically — by the end of a playthrough, the player reads a dialog line in TP and understands it the way they'd understand a song lyric they've sung a hundred times: not translated, *known*.
 
-**It is for kids** learning language — roughly 7-to-12 — with a fierce-but-friendly tone. Dread-knight, not death-knight. Bright palette. Quick resolution on every interaction (no filibuster tutorials, no walls of English).
+**It is for kids** learning language — roughly 7-to-12 — with a fierce-but-friendly tone. Dread-knight, not death-knight. The monsters are scary-cool like old JRPG encounters, not gory. Clear palette, quick resolution on every interaction (no filibuster tutorials, no walls of English).
 
-**It is a single-player offline web + Android game** built on Phaser 4 + Koota ECS + Solid-JS UI overlays, authored with Fan-tasy tileset art, shipped via GitHub Pages (web) and Capacitor (Android).
+**Every monster is catchable.** There is no "boss" / "wild creature" separation — the green dragon is simply the hardest, rarest catch. Bosses differ from common creatures by animation depth and catch difficulty, not by whether the poki works on them.
+
+**It is a single-player offline web + Android game** built on RPG.js v5 beta (Pixi 8 + CanvasEngine), authored with Fan-tasy tilesets + the organized creature/boss asset packs, shipped via GitHub Pages (web) and Capacitor (Android).
 
 ## What it is NOT
 
 - **Not a translation exercise.** The UI never shows EN glosses for TP words. No flashcards, no quizzes mid-play.
-- **Not Pokemon, not Pokémon, not a clone of any trademarked property.** The genre conventions (parties, types, catch nets, gym-like region masters) are conventions, not copies.
+- **Not a clone of any trademarked property.** The genre conventions (parties, types, catch nets, gym-like region masters, JRPG monster encounters) are conventions, not copies. The toki pona language frame and the FF+catch-and-train blend are what make this its own thing.
 - **Not grindy.** Every encounter moves the story forward by either vocabulary, item, or region-gate progress. If a player is killing time for XP, something's wrong with the spec.
 - **Not combat-optimization-first.** The fun is exploration + language + catching, not min-maxing movesets. Combat needs to be *legible* and *fair*, not deep.
 - **Not an authoring platform.** Tile layouts are committed `.tmx` files; there's no in-game editor.
