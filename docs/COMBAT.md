@@ -182,10 +182,31 @@ Same event-factory shape as `JanIke`, but:
 - Call `setFlag('badge_<region>')` and `preferences.set(KEYS.journeyBeat, ...)`
 - Author `<npc>_intro` + `<npc>_victory` dialog JSON, Tatoeba-gated
 
-### Loss / retry behavior (TODO)
+### Loss / retry behavior
 
-When the player's HP hits 0 in an action-battle, the current behavior
-is undefined (RPG.js default). We need a game-over hook that restores
-the player at the last village's spawn point and preserves party
-state. Will land with jan_wawa (beat 3) when the first gym fight
-exercises the loss path.
+When the player's HP hits 0 RPG.js fires `onDead(player)`, which we
+hook in `src/modules/main/player.ts`. The handler delegates to
+`respawnAtLastSafeMap` in `src/modules/main/respawn.ts`:
+
+1. Read `KEYS.lastSafeMapId` + `lastSafeSpawnX/Y` from Capacitor
+   Preferences. If unset (first run, fresh boot), fall back to
+   `ma_tomo_lili` at [128, 128].
+2. Play the `game_over_revive` dialog node. Kid-friendly tone —
+   "You seem well..." rather than a dramatic death screen.
+3. Restore `player.hp = player.param.maxhp` so the player wakes at
+   full HP.
+4. `changeMap` to the safe location.
+
+The respawn anchor is updated whenever the player warps into a
+village (`markSafeMapIfVillage` called from `Warp.onPlayerTouch`).
+The current safe-village roster is `ma_tomo_lili`, `ma_telo`,
+`ma_lete` — plus whatever else ships in V11+. Routes and gyms are
+NOT safe maps, so a loss rolls the player back to the last town
+they rested in, which also encodes the save-progress metaphor.
+
+**What we deliberately don't do:**
+- No permadeath, ever. Party roster is preserved across a loss
+  (kid audience — losing a caught creature would feel terrible).
+- No XP penalty / gold loss. Loss is a setback, not a punishment.
+- No game-over screen. The transition is dialog → map-change and
+  play resumes.

@@ -2,6 +2,7 @@ import { type EventDefinition, RpgPlayer } from '@rpgjs/server';
 import { preferences, KEYS } from '../../platform/persistence/preferences';
 import { getFlag } from '../../platform/persistence/queries';
 import { playDialog } from './dialog';
+import { markSafeMapIfVillage } from './respawn';
 
 export interface WarpOptions {
     targetMap: string;
@@ -24,6 +25,7 @@ export function Warp(opts: WarpOptions): EventDefinition {
             try {
                 await player.changeMap(opts.targetMap, position);
                 await preferences.set(KEYS.currentMapId, opts.targetMap);
+                await markSafeMapIfVillage(opts.targetMap);
             } catch (err) {
                 console.error(`[warp] Failed to change map to ${opts.targetMap}:`, err);
                 // Re-throw so the RPG.js event system can surface the failure.
