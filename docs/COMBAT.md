@@ -98,21 +98,94 @@ If a new line is needed, author EN in a new dialog JSON file and run
 - Running XP, evolutions, status effects. Those belong in a later
   slice once the action-battle path is live.
 
-## Action-battle set-pieces (stub)
+## Action-battle set-pieces
 
 Designated fights, one per journey beat 2+:
 
-| Beat | NPC | Role | Party |
-|------|-----|------|-------|
-| 2 | jan_ike | rival | soweli_seli L5 + two starter moves |
-| 3 | jan_wawa | first jan lawa | waso_sewi L8 → soweli_lete L10 |
-| 4 | jan_telo | jan lawa | kala_suli L10 + kasi_pona L12 |
-| 5 | jan_lete | jan lawa | waso_lete L10 + soweli_lete_suli L13 |
-| 6 | jan_suli | jan lawa | waso_sewi L12 + soweli_lete_suli L14 |
-| 7 | green dragon | final boss | — (cutscene + unique death animation) |
+| Beat | NPC | Role | Stats (current) | Flag on defeat |
+|------|-----|------|-----------------|----------------|
+| 2 | `jan_ike` | rival | HP 60, ATK 14, PDEF 8, `EnemyType.Aggressive` | `jan_ike_defeated` |
+| 3 | `jan_wawa` | first jan lawa | TBD — gym leader | `badge_sewi` |
+| 4 | `jan_telo` | jan lawa | TBD | `badge_telo` |
+| 5 | `jan_lete` | jan lawa | TBD | `badge_lete` |
+| 6 | `jan_suli` | jan lawa | TBD | `badge_suli` |
+| 7 | green dragon | final boss | cutscene + unique death animation | end |
 
-The action-battle module (`@rpgjs/action-battle`) provides a
-`provideActionBattle()` + `createActionBattleServer()` pair plus
-`DEFAULT_PLAYER_ATTACK_HITBOXES` for direction-aware melee. Wiring
-one fight end-to-end will land with the jan_ike rival beat; the
-gym-leader beats follow the same pattern.
+### Wiring (implemented for jan_ike, pattern for the rest)
+
+1. **Provider** — `provideActionBattle()` is registered in both
+   `src/server.ts` (after `provideTiledMap`) and
+   `src/config/config.client.ts` (after `provideTiledMap`). Registering
+   on both sides is required: the server runs AI + hit resolution, the
+   client renders the action bar + attack hitboxes.
+
+2. **Event factory** — `src/modules/main/jan-ike.ts` exports `JanIke()`:
+   ```ts
+   onInit() {
+     this.setGraphic('female');
+     this.hp = 60;
+     this.param[ATK] = 14;
+     this.param[PDEF] = 8;
+     new BattleAi(this, {
+       enemyType: EnemyType.Aggressive,
+       attackCooldown: 900,
+       visionRange: 140,
+       attackRange: 28,
+       fleeThreshold: 0,       // rivals don't flee; gym leaders may
+       onDefeated: async (_, attacker) => {
+         await setFlag('jan_ike_defeated', '1');
+         if (attacker) {
+           await playDialog(attacker, 'jan_ike_victory');
+           await preferences.set(KEYS.journeyBeat, 'beat_03_nena_sewi');
+         }
+       },
+     });
+   }
+   ```
+
+3. **Registration** — the event is attached to the `nasin_wan` map in
+   `src/modules/main/server.ts` with coords matching the NPC object in
+   `scripts/map-authoring/specs/nasin_wan.ts` (jan-ike at tile [28,5] =
+   px [448, 88]).
+
+4. **Dialog** — two Tatoeba-gated dialog nodes:
+   - `jan_ike_intro` (fires on `onAction` while flag unset)
+   - `jan_ike_victory` (fires from the `onDefeated` callback and on
+     `onAction` after defeat)
+
+5. **Flag propagation** — `setFlag('jan_ike_defeated', '1')` writes to
+   the `flags` SQLite table. The east warp on nasin_wan reads it via
+   `getFlag` and opens the route to `nena_sewi`.
+
+6. **Journey pointer** — `preferences.set(KEYS.journeyBeat, ...)`
+   advances the stored beat so load/resume boots into the correct
+   state.
+
+### What the action-battle module provides
+
+- `provideActionBattle(options?)` — wires the module on client + server
+- `BattleAi(event, { enemyType, onDefeated, ... })` — AI controller
+  attached in `onInit`. Handles vision, chase, attack cadence.
+- `EnemyType` enum: `Aggressive | Defensive | Ranged | Tank | Berserker`
+- `DEFAULT_PLAYER_ATTACK_HITBOXES` — direction-aware melee hitboxes;
+  the player attacks with these by default when the action-battle
+  provider is active.
+
+### Pattern for the four gym leaders (V8+)
+
+Same event-factory shape as `JanIke`, but:
+- `enemyType: EnemyType.Defensive` or `Tank` for tougher fights
+- `fleeThreshold: 0.25` optional — they never flee
+- Multi-phase: swap AI with a second `BattleAi` when HP drops below
+  threshold (the module supports phase transitions via `phases` —
+  TODO when the first gym leader lands)
+- Call `setFlag('badge_<region>')` and `preferences.set(KEYS.journeyBeat, ...)`
+- Author `<npc>_intro` + `<npc>_victory` dialog JSON, Tatoeba-gated
+
+### Loss / retry behavior (TODO)
+
+When the player's HP hits 0 in an action-battle, the current behavior
+is undefined (RPG.js default). We need a game-over hook that restores
+the player at the last village's spawn point and preserves party
+state. Will land with jan_wawa (beat 3) when the first gym fight
+exercises the loss path.

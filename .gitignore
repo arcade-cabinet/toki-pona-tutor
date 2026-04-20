@@ -167,3 +167,8 @@ server/
 # Purchased asset archives — unpacked into public/assets/; originals preserved
 # but not tracked (large). Re-unpack from originals if ever needed.
 pending/
+
+# sql.js wasm runtime — copied into public/assets/ by the copyWasmPlugin
+# in vite.config.ts on every dev/build. Not hand-authored; regenerates.
+public/assets/sql-wasm.js
+public/assets/sql-wasm.wasm

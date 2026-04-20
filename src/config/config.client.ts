@@ -1,12 +1,14 @@
 import { provideClientGlobalConfig, provideClientModules, Presets } from '@rpgjs/client';
 import { provideMain } from '../modules/main';
 import { provideTiledMap } from '@rpgjs/tiledmap/client';
+import { provideActionBattle } from '@rpgjs/action-battle/client';
 
 export default {
     providers: [
         provideTiledMap({
             basePath: 'map',
         }),
+        provideActionBattle(),
         provideClientGlobalConfig(),
         provideMain(),
         provideClientModules([

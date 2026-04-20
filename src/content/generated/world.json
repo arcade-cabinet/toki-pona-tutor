@@ -994,6 +994,60 @@
   ],
   "dialog": [
     {
+      "id": "jan_ike_intro",
+      "npc_id": "jan_ike",
+      "when_flags": {
+        "jan_ike_defeated": false
+      },
+      "priority": 10,
+      "beats": [
+        {
+          "text": {
+            "en": "Let's see!",
+            "tp": "mi mute o lukin!"
+          },
+          "mood": "excited",
+          "glyph": "lukin"
+        },
+        {
+          "text": {
+            "en": "I'm not.",
+            "tp": "mi ala."
+          },
+          "mood": "excited",
+          "glyph": "ala"
+        }
+      ],
+      "triggers": {}
+    },
+    {
+      "id": "jan_ike_victory",
+      "npc_id": "jan_ike",
+      "when_flags": {
+        "jan_ike_defeated": true
+      },
+      "priority": 5,
+      "beats": [
+        {
+          "text": {
+            "en": "You won.",
+            "tp": "sina pini pona."
+          },
+          "mood": "sad",
+          "glyph": "sina"
+        },
+        {
+          "text": {
+            "en": "Let's go!",
+            "tp": "mi mute o tawa!"
+          },
+          "mood": "thinking",
+          "glyph": "tawa"
+        }
+      ],
+      "triggers": {}
+    },
+    {
       "id": "jan_sewi_after_pick",
       "npc_id": "jan_sewi",
       "when_flags": {

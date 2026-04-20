@@ -2,6 +2,7 @@ import { defineModule } from '@rpgjs/common';
 import { RpgServer } from '@rpgjs/server';
 import { player } from './player';
 import { JanSewi } from './event';
+import { JanIke } from './jan-ike';
 import { Warp } from './warp';
 
 export default defineModule<RpgServer>({
@@ -32,6 +33,12 @@ export default defineModule<RpgServer>({
         {
             id: 'nasin_wan',
             events: [
+                {
+                    id: 'jan-ike',
+                    x: 448,
+                    y: 88,
+                    event: JanIke(),
+                },
                 {
                     id: 'warp_east',
                     x: 496,
