@@ -1,17 +1,26 @@
 name: cd
 
-# Deploys what release.yml already built. Triggered on push to main
-# AFTER release.yml has run (release-please PR merge → tag → release
-# artifact attach → this). Downloads the versioned web bundle from
-# the latest GitHub Release and deploys to GitHub Pages.
+# Deploys to GitHub Pages. Triggered by the `release: published` event
+# that release.yml fires after release-please cuts a tag + its
+# `attach-web-bundle` job uploads the `poki-soweli-web-*.tar.gz`
+# asset. CD strictly downloads + deploys that asset — it never
+# builds from source.
 #
-# Falls back to a fresh `pnpm build` when there's no release yet
-# (initial state before the first release-please tag) so Pages
-# doesn't 404 during pre-release.
+# Flow:
+#   push → main  →  release.yml (release-please + attach web bundle)
+#                   ↓ release: published
+#   cd.yml (this file) — download web-bundle asset, deploy to Pages
+#
+# `workflow_dispatch` is retained for manual redeploy of a known-good
+# release if Pages hosting needs a kick.
 on:
-  push:
-    branches:
-      - main
+  release:
+    types: [published]
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: 'Release tag to redeploy (e.g. poki-soweli-v0.2.0). Defaults to latest release.'
+        required: false
 
 permissions:
   contents: read
@@ -31,49 +40,37 @@ jobs:
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
-        with:
-          lfs: true
 
-      - name: Check for latest release
-        id: latest
+      - name: Resolve release tag
+        id: tag
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          EVENT_TAG: ${{ github.event.release.tag_name }}
+          INPUT_TAG: ${{ inputs.tag }}
         run: |
-          if gh release view --json tagName --jq .tagName > /tmp/tag 2>/dev/null; then
-            echo "tag=$(cat /tmp/tag)" >> "$GITHUB_OUTPUT"
-            echo "has_release=true" >> "$GITHUB_OUTPUT"
+          # Release event → use the tag that triggered us.
+          # Manual dispatch with input → use that tag.
+          # Manual dispatch without input → latest release.
+          if [ -n "$EVENT_TAG" ]; then
+            tag="$EVENT_TAG"
+          elif [ -n "$INPUT_TAG" ]; then
+            tag="$INPUT_TAG"
           else
-            echo "has_release=false" >> "$GITHUB_OUTPUT"
+            tag=$(gh release view --json tagName --jq .tagName)
           fi
+          echo "tag=$tag" >> "$GITHUB_OUTPUT"
+          echo "Deploying release $tag"
 
       - name: Download web bundle from release
-        if: steps.latest.outputs.has_release == 'true'
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          TAG_NAME: ${{ steps.latest.outputs.tag }}
+          TAG_NAME: ${{ steps.tag.outputs.tag }}
         run: |
           mkdir -p dist
-          gh release download "$TAG_NAME" --pattern "poki-soweli-web-*.tar.gz" --output web-bundle.tar.gz
+          gh release download "$TAG_NAME" \
+            --pattern "poki-soweli-web-*.tar.gz" \
+            --output web-bundle.tar.gz
           tar -xzf web-bundle.tar.gz -C dist
-
-      - uses: pnpm/action-setup@fc06bc1257f339d1d5d8b3a19a8cae5388b55320 # v5.0.0
-        if: steps.latest.outputs.has_release == 'false'
-        with:
-          version: 10
-
-      - uses: actions/setup-node@48b55a011bda9f5d6aeb4c2d9c7362e8dae4041e # v6.4.0
-        if: steps.latest.outputs.has_release == 'false'
-        with:
-          node-version: 22
-          cache: pnpm
-
-      - name: Install + build (fallback — GITHUB_PAGES base)
-        if: steps.latest.outputs.has_release == 'false'
-        env:
-          GITHUB_PAGES: 'true'
-        run: |
-          pnpm install --ignore-workspace --frozen-lockfile
-          pnpm build
 
       - uses: actions/configure-pages@45bfe0192ca1faeb007ade9deae92b16b8254a0d # v6.0.0
       - uses: actions/upload-pages-artifact@fc324d3547104276b827a68afc52ff2a11cc49c9 # v5.0.0
