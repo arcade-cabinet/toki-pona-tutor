@@ -186,3 +186,8 @@ pending/
 public/assets/sql-wasm.js
 public/assets/sql-wasm.wasm
 .claude/state/
+
+# Playwright run artifacts
+/playwright-report
+/test-results
+/tests/e2e/__screenshots__

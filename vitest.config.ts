@@ -1,17 +1,25 @@
 import { defineConfig } from 'vitest/config';
 
 /**
- * One config, two projects — vitest's native separation.
+ * One vitest config, two projects:
  *
- *   unit         — pure-logic modules under tests/build-time/ (node env)
- *   integration  — real RPG.js engine via @rpgjs/testing in standalone
- *                  mode (happy-dom env, singletons so no file parallelism)
+ *   unit         — pure-logic modules under tests/build-time/ (node env).
+ *                  Fast, no engine, no DOM.
+ *   integration  — @rpgjs/testing fixture — real RPG.js server + client
+ *                  in one Node process (happy-dom). Drives `onConnected`,
+ *                  `onAction`, `onInShape`, maps, flags, party state.
+ *                  Fast (~1s per test), no browser.
  *
- * Run with:
- *   pnpm test                    — both projects
- *   pnpm test --project=unit     — just the fast suite
- *   pnpm test --project=integration
- *   pnpm test --coverage         — coverage on the unit project only
+ * Real-browser coverage lives separately under tests/e2e/ driven by
+ * Playwright with a webServer running `pnpm dev`. That's where
+ * jeep-sqlite, Pixi canvas, brand.css, and player input actually run.
+ *
+ * Scripts:
+ *   pnpm test                    — both vitest projects
+ *   pnpm test:unit               — fast pure-logic suite
+ *   pnpm test:integration        — engine-level wiring
+ *   pnpm test:e2e                — real browser (separate runner)
+ *   pnpm test:coverage           — coverage gate on unit project
  */
 export default defineConfig({
     test: {
@@ -35,7 +43,8 @@ export default defineConfig({
                     setupFiles: ['@rpgjs/testing/dist/setup.js'],
                     testTimeout: 30_000,
                     hookTimeout: 30_000,
-                    // RPG.js singletons don't like parallel test files.
+                    // RPG.js engine uses module-level singletons that
+                    // don't like parallel test files stomping each other.
                     fileParallelism: false,
                 },
             },
@@ -43,9 +52,9 @@ export default defineConfig({
         coverage: {
             provider: 'v8',
             reporter: ['text-summary', 'json-summary', 'lcov'],
-            // Scope coverage to pure-logic modules — platform adapters
-            // and RPG.js boot wiring are exercised by the integration
-            // project, not coverage-measured here.
+            // Coverage is measured on pure-logic modules only. Runtime
+            // wiring, platform adapters, and RPG.js boot code are
+            // exercised by integration + E2E, not by the coverage gate.
             include: [
                 'src/modules/main/catch-math.ts',
                 'src/modules/main/type-matchup.ts',
@@ -61,7 +70,6 @@ export default defineConfig({
                 'src/modules/main/treasure-chest.ts',
                 'src/modules/main/audio.ts',
                 'src/modules/main/sfx.ts',
-                'src/modules/main/virtual-dpad.ts',
                 'src/modules/main/rematch.ts',
                 'src/modules/main/victory-sequence.ts',
                 'src/modules/main/bestiary.ts',

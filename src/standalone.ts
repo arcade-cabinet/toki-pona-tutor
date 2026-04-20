@@ -9,7 +9,7 @@ import '@rpgjs/ui-css/theme-default.css';
 import './styles/brand.css';
 
 import { mergeConfig } from '@signe/di';
-import { provideRpg, startGame } from '@rpgjs/client';
+import { provideRpg, startGame, inject, RpgClientEngine } from '@rpgjs/client';
 import serverConfig from './server';
 import configClient from './config/config.client';
 import { applyBrandBoot } from './styles/boot';
@@ -24,3 +24,45 @@ startGame(
         providers: [provideRpg(serverConfig)],
     })
 );
+
+// Dev/test debug surface. Mirrors the stellar-descent pattern:
+// E2E tests probe `window.__POKI__` via `page.evaluate` to read
+// player state, current map, dialog state, etc. Gated on import.meta.env
+// so the production bundle doesn't leak the hook. Tree-shaken out at
+// build time when MODE === 'production'.
+if (import.meta.env.DEV || import.meta.env.MODE === 'test') {
+    // Defer until the client engine has been wired — startGame() kicks
+    // off DI resolution; the engine becomes injectable a tick later.
+    queueMicrotask(() => {
+        try {
+            const engine = inject(RpgClientEngine);
+            (window as unknown as { __POKI__: unknown }).__POKI__ = {
+                engine,
+                get player() {
+                    return engine.getCurrentPlayer?.() ?? null;
+                },
+                get playerId() {
+                    return engine.playerIdSignal?.() ?? null;
+                },
+                get canvas() {
+                    return document.querySelector('#rpg canvas') as HTMLCanvasElement | null;
+                },
+                /**
+                 * Ready = canvas mounted AND current player exists.
+                 * Playwright polls this in a `page.waitForFunction`.
+                 */
+                get ready(): boolean {
+                    const player = engine.getCurrentPlayer?.();
+                    const canvas = document.querySelector('#rpg canvas');
+                    return !!player && !!canvas;
+                },
+            };
+        } catch (e) {
+            // Non-fatal — if the debug surface can't be established
+            // (e.g. engine DI not ready), E2E will time out with a
+            // clearer "window.__POKI__ missing" error than a silent
+            // hang.
+            console.warn('[poki] debug surface setup deferred:', e);
+        }
+    });
+}
