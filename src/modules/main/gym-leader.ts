@@ -117,6 +117,22 @@ export function GymLeader(opts: GymLeaderOptions): EventDefinition {
                         if (attacker) {
                             await playDialog(attacker, `${opts.dialogBase}_victory`);
                         }
+
+                        // T3-03: autosave after combat end so badge + xp
+                        // gains survive if the player quits before the
+                        // next map change fires onJoinMap autosave.
+                        if (attacker) {
+                            const save = (attacker as unknown as {
+                                save?: (slot: number) => Promise<void>;
+                            }).save;
+                            if (typeof save === 'function') {
+                                try {
+                                    await save.call(attacker, 0);
+                                } catch {
+                                    /* best-effort */
+                                }
+                            }
+                        }
                     },
                 });
             };
