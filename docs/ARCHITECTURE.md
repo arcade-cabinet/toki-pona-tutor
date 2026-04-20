@@ -193,6 +193,16 @@ src/
 
 The player has no stats. Their `party[]` is up to 6 creatures. Each creature has HP, types, moves, XP, and a level. When the lead faints, the next comes out automatically; when the whole party faints, the player wakes in the last visited village with party restored (no permadeath).
 
+### XP + level-up curve
+
+Every creature has a level 1–50 and an XP total. The threshold to reach level `n` from level 1 is:
+
+    xpForLevel(n) = n^3        (level 1 = 1 xp, level 5 = 125, level 10 = 1000, level 50 = 125000)
+
+This is the classic genre "medium-fast" growth — fast early levels, gentle ramp mid-game, meaningful grind toward the endgame. Level 1 → 2 costs 7 XP, level 5 → 6 costs 91 XP, level 10 → 11 costs 331 XP, level 20 → 21 costs 1261 XP.
+
+On a victorious battle the lead creature gains `defeated.xp_yield` XP (typically 40–300 depending on species tier: common 40–70, uncommon 70–120, legendary 200–300). The `gainXp()` helper crosses as many level boundaries as the gained amount covers in one call — if a level-1 creature gets hit with 200 XP it levels to 6 in one step, emitting one toast per level. The learnset is consulted at each boundary; any move whose `level` ≤ current level is learned if not already known.
+
 ### Types (rock-paper-scissors-extended)
 
 Five types:
