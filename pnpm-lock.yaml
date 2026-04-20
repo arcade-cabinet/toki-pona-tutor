@@ -12,8 +12,8 @@ importers:
         specifier: 2.0.0-beta.56
         version: 2.0.0-beta.56(canvasengine@2.0.0-beta.56(@types/react@19.2.14)(pixi.js@8.18.1)(react@18.3.1))(pixi.js@8.18.1)
       '@capacitor-community/sqlite':
-        specifier: ^6.0.2
-        version: 6.0.2(@capacitor/core@8.3.1)
+        specifier: ^8.1.0
+        version: 8.1.0(@capacitor/core@8.3.1)
       '@capacitor/app':
         specifier: ^8.1.0
         version: 8.1.0(@capacitor/core@8.3.1)
@@ -27,8 +27,8 @@ importers:
         specifier: ^8.0.2
         version: 8.0.2(@capacitor/core@8.3.1)
       '@capacitor/preferences':
-        specifier: ^6.0.3
-        version: 6.0.4(@capacitor/core@8.3.1)
+        specifier: ^8.0.1
+        version: 8.0.1(@capacitor/core@8.3.1)
       '@capacitor/screen-orientation':
         specifier: ^8.0.1
         version: 8.0.1(@capacitor/core@8.3.1)
@@ -199,11 +199,11 @@ packages:
     peerDependencies:
       pixi.js: '>=8.5.0'
 
-  '@capacitor-community/sqlite@6.0.2':
-    resolution: {integrity: sha512-sj+2SPLu7E/3dM3xxcWwfNomG+aQHuN96/EFGrOtp4Dv30/2y5oIPyi6hZGjQGjPc5GDNoTQwW7vxWNzybjuMg==}
+  '@capacitor-community/sqlite@8.1.0':
+    resolution: {integrity: sha512-yhKZDAVPDPcM3QE6UGB3LXyV25a6Rve1SjZ1aUpTE0E2isnYTVM0PG9+JOI241f+NdsHzPTE7ESJiYSqKsKnuA==}
     engines: {node: '>=16.0.0'}
     peerDependencies:
-      '@capacitor/core': ^6.0.0
+      '@capacitor/core': '>=8.0.0'
 
   '@capacitor/android@8.3.1':
     resolution: {integrity: sha512-hjskIG8YcBEh3X4yaTXvE9gcqpdcxunTgFruSKnuPxtMxAUzEK4Oq25x0Z1g3cz+MQPc+lRG09R7Ovc+ydKsNw==}
@@ -228,10 +228,10 @@ packages:
     peerDependencies:
       '@capacitor/core': '>=8.0.0'
 
-  '@capacitor/preferences@6.0.4':
-    resolution: {integrity: sha512-ziauSI1pgdyl+gduvvf8lInvzF3Wdyu/ok+u7NlnhKp8XOj9plJgtnXZWFiR8CiCK5wMvo+gFaNh3zhMyEUwpA==}
+  '@capacitor/preferences@8.0.1':
+    resolution: {integrity: sha512-T6no3ebi79XJCk91U3Jp/liJUwgBdvHR+s6vhvPkPxSuch7z3zx5Rv1bdWM6sWruNx+pViuEGqZvbfCdyBvcHQ==}
     peerDependencies:
-      '@capacitor/core': ^6.0.0
+      '@capacitor/core': '>=8.0.0'
 
   '@capacitor/screen-orientation@8.0.1':
     resolution: {integrity: sha512-DPz/1YGmlAUDMg2ON+AGJp1eFn9IfVNP9VKI5zIU+jD5xAZ4JGxUDlY9MDCvEPQs7UCD53NduJpqvqhcnb32Kw==}
@@ -2609,7 +2609,7 @@ snapshots:
     dependencies:
       pixi.js: 8.18.1
 
-  '@capacitor-community/sqlite@6.0.2(@capacitor/core@8.3.1)':
+  '@capacitor-community/sqlite@8.1.0(@capacitor/core@8.3.1)':
     dependencies:
       '@capacitor/core': 8.3.1
       jeep-sqlite: 2.8.0
@@ -2652,7 +2652,7 @@ snapshots:
     dependencies:
       '@capacitor/core': 8.3.1
 
-  '@capacitor/preferences@6.0.4(@capacitor/core@8.3.1)':
+  '@capacitor/preferences@8.0.1(@capacitor/core@8.3.1)':
     dependencies:
       '@capacitor/core': 8.3.1
 
