@@ -2,6 +2,7 @@ import { defineModule } from '@rpgjs/common';
 import { RpgServer } from '@rpgjs/server';
 import { player } from './player';
 import { JanSewi } from './event';
+import { Warp } from './warp';
 
 export default defineModule<RpgServer>({
     player,
@@ -14,6 +15,32 @@ export default defineModule<RpgServer>({
                     x: 160,
                     y: 96,
                     event: JanSewi(),
+                },
+                {
+                    id: 'warp_east',
+                    x: 240,
+                    y: 80,
+                    event: Warp({
+                        targetMap: 'nasin_wan',
+                        position: { x: 32, y: 96 },
+                        requiredFlag: 'starter_chosen',
+                        gatedDialogId: 'jan_sewi_starter_intro',
+                    }),
+                },
+            ],
+        },
+        {
+            id: 'nasin_wan',
+            events: [
+                {
+                    id: 'warp_east',
+                    x: 496,
+                    y: 88,
+                    event: Warp({
+                        targetMap: 'nena_sewi',
+                        position: { x: 32, y: 96 },
+                        requiredFlag: 'jan_ike_defeated',
+                    }),
                 },
             ],
         },
