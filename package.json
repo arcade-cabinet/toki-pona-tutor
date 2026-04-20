@@ -36,7 +36,7 @@
     "@capacitor/cli": "^8.3.1",
     "@capacitor/core": "^8.3.1",
     "@capacitor/device": "^8.0.2",
-    "@capacitor/preferences": "^6.0.3",
+    "@capacitor/preferences": "^8.0.1",
     "@capacitor/screen-orientation": "^8.0.1",
     "@capacitor/status-bar": "^8.0.2",
     "@rpgjs/action-battle": "5.0.0-beta.1",
