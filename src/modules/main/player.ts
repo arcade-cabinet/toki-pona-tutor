@@ -5,8 +5,7 @@ import { showInventory } from './inventory-screen';
 import { showSaveMenu } from './save-menu';
 import { markSafeMapIfVillage, respawnAtLastSafeMap } from './respawn';
 import { handleFinalBossTrigger } from './green-dragon';
-
-const AUTOSAVE_SLOT = 0;
+import { AUTOSAVE_SLOT } from '../../platform/persistence/constants';
 
 async function autosave(player: RpgPlayer): Promise<void> {
     // T3-02: autosave every map transition. Uses slot 0 as the single

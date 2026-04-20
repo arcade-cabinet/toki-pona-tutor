@@ -1,4 +1,5 @@
 import type { RpgPlayer } from '@rpgjs/server';
+import { MANUAL_SAVE_SLOTS } from '../../platform/persistence/constants';
 
 /**
  * Save-slot pause menu (ROADMAP T3-05 manual save slots).
@@ -19,8 +20,6 @@ import type { RpgPlayer } from '@rpgjs/server';
  * validate-tp Tatoeba gate does not apply here.
  */
 
-const MANUAL_SLOTS = [1, 2, 3] as const;
-
 type SaveSlotMeta = {
     savedAt?: string;
     beatId?: string;
@@ -32,7 +31,7 @@ export async function showSaveMenu(player: RpgPlayer): Promise<void> {
 
     const choice = await player.showChoices('poki awen', [
         { text: autoLabel, value: 'auto' },
-        ...MANUAL_SLOTS.map((i) => ({
+        ...MANUAL_SAVE_SLOTS.map((i) => ({
             text: formatSlotLabel(`${i}`, list[i] ?? null),
             value: `slot_${i}`,
         })),
@@ -46,7 +45,7 @@ export async function showSaveMenu(player: RpgPlayer): Promise<void> {
     }
 
     const slotIndex = Number(String(choice.value).split('_')[1]);
-    if (!Number.isInteger(slotIndex) || !MANUAL_SLOTS.includes(slotIndex as (typeof MANUAL_SLOTS)[number])) {
+    if (!Number.isInteger(slotIndex) || !MANUAL_SAVE_SLOTS.includes(slotIndex as (typeof MANUAL_SAVE_SLOTS)[number])) {
         return;
     }
     const existing = list[slotIndex] ?? null;
