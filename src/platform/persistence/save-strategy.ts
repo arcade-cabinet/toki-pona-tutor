@@ -13,23 +13,32 @@ export class CapacitorSaveStorageStrategy implements SaveStorageStrategy {
         this.namespace = options.namespace ?? 'default';
     }
 
+    private assertValidIndex(index: number): void {
+        if (!Number.isInteger(index) || index < 0) {
+            throw new RangeError(`Invalid save slot index: ${index}`);
+        }
+    }
+
     async list(player: RpgPlayer): Promise<SaveSlotList> {
         const slots = await this.readSlots(player);
         return this.stripSnapshots(slots);
     }
 
     async get(player: RpgPlayer, index: number): Promise<SaveSlot | null> {
+        this.assertValidIndex(index);
         const slots = await this.readSlots(player);
         return slots[index] ?? null;
     }
 
     async save(player: RpgPlayer, index: number, snapshot: string, meta: SaveSlotMeta): Promise<void> {
+        this.assertValidIndex(index);
         const slots = await this.readSlots(player);
         slots[index] = { ...(slots[index] ?? {}), ...meta, snapshot };
         await this.writeSlots(player, slots);
     }
 
     async delete(player: RpgPlayer, index: number): Promise<void> {
+        this.assertValidIndex(index);
         const slots = await this.readSlots(player);
         slots[index] = null;
         await this.writeSlots(player, slots);
@@ -49,9 +58,19 @@ export class CapacitorSaveStorageStrategy implements SaveStorageStrategy {
         if (!row) return [];
         try {
             const parsed = JSON.parse(row.data as string);
-            return Array.isArray(parsed) ? parsed : [];
-        } catch {
-            return [];
+            if (!Array.isArray(parsed)) {
+                throw new Error(
+                    `Corrupted save payload for key ${this.playerKey(player)}: root is not an array`,
+                );
+            }
+            return parsed;
+        } catch (error) {
+            // Surface parse failures so callers can handle them explicitly —
+            // silently returning [] would cause the next write to overwrite
+            // potentially valid persisted data with an empty baseline.
+            throw new Error(
+                `Corrupted save payload for key ${this.playerKey(player)}: ${String(error)}`,
+            );
         }
     }
 

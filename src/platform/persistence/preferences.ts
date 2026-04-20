@@ -6,8 +6,8 @@
  * - Web fallback: localStorage shim lives only inside this wrapper. Feature
  *   code must never use localStorage directly.
  *
- * The `createPreferences()` factory detects Capacitor at boot and swaps
- * to the real plugin. Until `@capacitor/preferences` is initialised the
+ * Boot wiring: call `setPreferencesImpl(new CapacitorPreferencesAdapter())`
+ * from the Capacitor device-ready handler on native builds. Until then the
  * localStorage shim is active (safe for dev/web builds).
  */
 
@@ -43,7 +43,14 @@ class LocalStoragePreferences implements IPreferences {
         if (typeof localStorage !== 'undefined') localStorage.removeItem(key);
     }
     async clear(): Promise<void> {
-        if (typeof localStorage !== 'undefined') localStorage.clear();
+        if (typeof localStorage !== 'undefined') {
+            // Only remove keys owned by this app — other libraries on the same
+            // origin must not be affected.
+            const keysToRemove = Object.keys(localStorage).filter(k =>
+                k.startsWith('poki-soweli.'),
+            );
+            keysToRemove.forEach(k => localStorage.removeItem(k));
+        }
     }
     async keys(): Promise<string[]> {
         return typeof localStorage !== 'undefined' ? Object.keys(localStorage) : [];

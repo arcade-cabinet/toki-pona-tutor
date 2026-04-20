@@ -12,7 +12,7 @@
     "prebuild": "pnpm validate && pnpm build-spine && pnpm typecheck",
     "build": "vite build",
     "preview": "vite preview",
-    "typecheck": "tsc --noEmit 2>&1 | grep -v 'node_modules/.*@rpgjs/common/src/rooms/WorldMaps.ts' | (! grep -E '^(.+): error')",
+    "typecheck": "tsc --noEmit 2>&1 | grep -v 'node_modules/.*@rpgjs/common/src/rooms/WorldMaps.ts' | tee /dev/stderr | (! grep -qE '^(.+): error')",
     "fetch-dictionary": "node scripts/fetch-dictionary.mjs",
     "fetch-corpus": "node scripts/fetch-tatoeba-corpus.mjs",
     "worktree-gc": "node scripts/worktree-janitor.mjs",

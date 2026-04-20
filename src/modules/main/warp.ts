@@ -21,8 +21,14 @@ export function Warp(opts: WarpOptions): EventDefinition {
                 }
             }
             const position = opts.position ?? { x: 32, y: 96 };
-            await player.changeMap(opts.targetMap, position);
-            await preferences.set(KEYS.currentMapId, opts.targetMap);
+            try {
+                await player.changeMap(opts.targetMap, position);
+                await preferences.set(KEYS.currentMapId, opts.targetMap);
+            } catch (err) {
+                console.error(`[warp] Failed to change map to ${opts.targetMap}:`, err);
+                // Re-throw so the RPG.js event system can surface the failure.
+                throw err;
+            }
         },
     };
 }

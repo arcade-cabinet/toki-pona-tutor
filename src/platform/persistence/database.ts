@@ -86,6 +86,9 @@ async function prepareWebStore(): Promise<void> {
     if (webReadyPromise) return webReadyPromise;
 
     webReadyPromise = (async () => {
+        // sql.js / jeep-sqlite wasm files are copied into the build output by
+        // the `copy-wasm` vite plugin (see vite.config.ts). At runtime they
+        // are served from <base>assets/, matching the Vite `base` setting.
         const basePath = `${import.meta.env.BASE_URL}assets`;
         defineJeepSqlite(window);
 
@@ -99,7 +102,12 @@ async function prepareWebStore(): Promise<void> {
         }
 
         await sqlite.initWebStore();
-    })();
+    })().catch((error) => {
+        // Reset so subsequent calls can retry initialization rather than
+        // returning the permanently-rejected promise.
+        webReadyPromise = null;
+        throw error;
+    });
 
     return webReadyPromise;
 }
