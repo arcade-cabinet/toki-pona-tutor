@@ -263,3 +263,102 @@ Aggressive estimate with 1 engineer + 2 parallel content/UI agents:
 A box is checked (✓) only when the behavior is **observable in a playtest**, not when a code review approves the wiring. "Partial" means the contract is met but polish / animation / dialog sophistication is below Phase-1 DoD. "DONE" without qualifier means all acceptance criteria pass.
 
 When adding a new task, append it to its phase's table with the next sequential ID. Don't rewrite historical IDs — they're referenced from git history and PRs.
+
+---
+
+## Phase 7 — Post-v0.2 Depth + Replay Value
+
+**Goal:** after v0.2.0 ships a playable 15-min slice, Phase 7 turns it into a **4-hour game**. Content depth, secret areas, replay hooks.
+
+| ID | Title | Status | Deps | Acceptance | Files |
+|----|-------|--------|------|------------|-------|
+| T7-01 | Expand journey: beats 8-10 (post-dragon endgame loop) | | v0.2.0 | 3 new maps, Hall of Masters rematch system, endless-dungeon hook | `scripts/map-authoring/specs/*.ts`, `src/content/spine/journey.json` |
+| T7-02 | 20 new species (43 → 63), one per biome | | T4-07 | Each biome has ≥ 3 unique species; types balanced | `src/content/spine/species/*.json` |
+| T7-03 | 15 new moves (17 → 32) covering type × tier matrix | | T7-02 | Every type has lili/wawa/suli + 1 signature; learnset reshuffled | `src/content/spine/moves/*.json` |
+| T7-04 | Status effects: `seli` burn, `telo` wet, `lete` frozen | | T2-03 | Burn ticks damage; wet boosts `lete`; frozen skips turn | `src/modules/main/status-effect.ts` (new) |
+| T7-05 | Breeding / nurturing: two captured creatures at village daycare | | T7-02 | Egg produces baby creature with mixed-type learnset | `src/modules/main/daycare.ts` (new) |
+| T7-06 | Treasure chests scattered across all 7 maps | | T4-07 | Each map has 1-3 chests; TP dialog gate on some | spec updates |
+| T7-07 | Ambient world events (weather, day/night cycle, festivals) | | — | Cosmetic tint + occasional dialog variant | `src/modules/main/ambient-events.ts` |
+| T7-08 | Side quest framework: 3-step fetch / defeat / deliver | | T3-09 | One quest per village; `lipu utala` tracks; reward xp+item | `src/modules/main/quest.ts` (new) |
+| T7-09 | Secret area: underwater route after badge_telo | | T7-06 | Accessible via `kala_luka` in party; 5 rare species within | spec + species |
+| T7-10 | Post-game: New Game Plus with party carryover | | T3-08 | Clear-save flag unlocks NG+; levels capped but boosted rates | `src/modules/main/save-menu.ts` |
+
+## Phase 8 — Language Learning Layer
+
+**Goal:** beyond diegetic vocab, explicit learning affordances the player can OPT INTO without breaking the no-translation rule.
+
+| ID | Title | Status | Deps | Acceptance | Files |
+|----|-------|--------|------|------------|-------|
+| T8-01 | lipu nasin — personal sentence log | | T3-13 | Every dialog line the player heard logged with `first-seen` timestamp | `src/modules/main/sentence-log.ts`, sqlite table |
+| T8-02 | Per-species description re-read from lipu soweli | | T8-01 | Tap a species in inventory → re-read its description bubble | `inventory-screen.ts` extend |
+| T8-03 | Word-card hover: sitelen-pona glyph + sightings count | | T3-13 | Pause-menu vocab screen shows sitelen glyph per word | `vocabulary-screen.ts` extend |
+| T8-04 | Optional "show me the TP" toggle during dialog | | T8-01 | Settings flag: overlay sitelen-pona above dialog TP — still no EN | `src/platform/persistence/preferences.ts` key |
+| T8-05 | Tatoeba-backed "wan sitelen" micro-game in starter village | | T8-01 | Pick-the-image-matching-the-TP-sentence; 10 rounds, no EN | `src/modules/main/micro-game.ts` |
+| T8-06 | Export personal dictionary to sharable card | | T8-03 | End-of-playthrough PNG showing mastered words list | new build script |
+
+## Phase 9 — Engine, Perf, Infrastructure
+
+**Goal:** the game runs smoothly on a 3-year-old phone and is pleasant to develop.
+
+| ID | Title | Status | Deps | Acceptance | Files |
+|----|-------|--------|------|------------|-------|
+| T9-01 | Asset WebP conversion pipeline | | T6-14 | All `public/assets/**.png` have `.webp` sibling; vite plugin serves WebP to capable clients | `vite.config.ts`, `scripts/convert-webp.mjs` |
+| T9-02 | Sprite-sheet atlas packing (reduce HTTP requests) | | T9-01 | 70+ individual PNG sheets → ≤ 10 atlases; config.client.ts updated | build script |
+| T9-03 | Audio dynamic-import (don't ship all bgm in initial bundle) | | T5-01 | Only active-biome BGM loaded; others fetched on warp | `src/modules/main/audio.ts` |
+| T9-04 | Vitest coverage reporting + 80%-threshold CI gate | | T6-02 | `pnpm test --coverage` runs; CI fails < 80% line coverage on pure modules | ci.yml, vitest config |
+| T9-05 | Benchmark suite for hot paths (encounter roll, type-matchup) | | T6-05 | `pnpm bench` prints ns/op; CI alerts on regressions > 20% | `tests/bench/*` |
+| T9-06 | Storybook-equivalent for RPG.js scenes (visual regression) | | — | Every map rendered to PNG in CI; pixel-diff against baselines | new CI job |
+| T9-07 | E2E playthrough runner script (not gated on V5-01 inspector) | | V5-01 | tests/e2e/playbook-full.test.ts; seeds pRNG + replays inputs | `tests/e2e/` |
+| T9-08 | Release-please auto-rebase of pending PRs on main | | — | Stale branches auto-rebase on release cuts | new workflow |
+| T9-09 | Sentry / error tracking integration (web + Android) | | — | Runtime errors surface to dashboard; respects kid-audience PII | `src/platform/telemetry.ts` |
+| T9-10 | Bundle analyzer integration (report treemap per build) | | T6-13 | CI comments PR with top-10-largest modules delta vs main | ci.yml + script |
+
+## Phase 10 — Platform Expansion
+
+**Goal:** ship beyond web + Android debug.
+
+| ID | Title | Status | Deps | Acceptance | Files |
+|----|-------|--------|------|------------|-------|
+| T10-01 | iOS Capacitor shell + signing | | T6-11 | `cap add ios` + Xcode project + TestFlight build | `ios/`, release.yml ios job |
+| T10-02 | Play Store production listing (screenshots, description, pricing free) | | T6-11 | Store page live, internal-testing track accepts APK | marketing docs |
+| T10-03 | Localized name/description for Spanish + French markets | | — | TP name universal; EN store copy translated | store-listings/*.md |
+| T10-04 | Windows / macOS desktop via Electron or Tauri | | — | One-click installer; same save-state portability | new shell |
+| T10-05 | WebXR stub for Quest browser | | — | Game renders in Quest browser; no controller rebind | vite plugin |
+
+## Macro Vision Backlog
+
+Aspirational arcs that inform direction but aren't scheduled:
+
+- **Seasons of the Seven Regions** — live content drops, new boss per quarter
+- **Community-authored journey packs** — user-submitted .json spine overlays
+- **AI dialogue companion** — local LLM refines jan Sewi's hints per player vocab stats (opt-in, no network)
+- **Classroom mode** — multi-student teacher dashboard tracking TP word mastery across a class of tablets
+- **Soweli trading** — offline P2P QR-code creature trades at the village square
+- **Anthropic showcase build** — `claude.ai/code` demo of Claude-assisted game dev end-to-end
+
+## Micro Backlog — <1hr polish tasks
+
+Low-risk, non-blocking. Pick when blocked / rate-limited on larger work.
+
+- [ ] Add `poki soweli` favicon (16/32/48/192/512 PNGs + manifest.json)
+- [ ] Fix the 7 pre-existing `_event`/`attacker` implicit-any hints in gym-leader.ts
+- [ ] Wire copy-wasm vite plugin to emit `.br` + `.gz` precompressed sidecars
+- [ ] Add `pnpm test:watch` script
+- [ ] Screenshot each of the 7 maps via `author:all --render` into docs/screenshots/
+- [ ] Add a `--dry-run` flag to `scripts/map-authoring/cli/all.ts`
+- [ ] Rename `src/modules/main/index.ts` → `main.ts` (keep the module named, not anonymous "main")
+- [ ] Dedupe `catch_rate: 0.18` magic numbers between species JSONs → a tier-defaults helper
+- [ ] Move hardcoded autosave slot index (`AUTOSAVE_SLOT = 0`) into `src/platform/persistence/constants.ts`
+- [ ] Add README badge: "43 species · 7 regions · 7 gyms"
+- [ ] Write docs/SETUP.md for fresh contributor onboarding
+- [ ] Add `dialog_not_found` fallback that renders the dialog_id so authoring misses are visible
+- [ ] Make vocabulary-screen pagination configurable (PAGE_SIZE const → preference)
+- [ ] Add `--verbose` to `pnpm build-spine` for per-file stats
+- [ ] Audit CLAUDE.md / AGENTS.md / STANDARDS.md for drift after V5 pivot
+- [ ] Verify inventory-screen handles party size 0 gracefully (currently assumes ≥ 1)
+- [ ] Add JSDoc `@example` to every export in xp-curve.ts, catch-math.ts, type-matchup.ts
+- [ ] Run `prettier --write` on src/ and commit as single chore: formatting pass
+- [ ] Add `.editorconfig` so non-VSCode editors respect repo indent/eol rules
+- [ ] Convert `gym-leader.ts` xpYield magic (120/150/180/220) into a `REGION_XP_CURVE` table
+- [ ] Write `docs/GLOSSARY.md` mapping every TP word used in-game → role + frequency
+
