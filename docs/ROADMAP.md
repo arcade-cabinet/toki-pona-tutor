@@ -333,6 +333,8 @@ Aggressive estimate with 1 engineer + opportunistic parallel agents (content / U
 
 Low-risk polish. Pick when blocked on larger work.
 
+- [ ] Drive NPC + warp coordinates in `src/modules/main/server.ts` from the compiled `world.json` (map-object layer) instead of hand-copying pixel coords. Two sources of truth today; fix is a `lookupNpcByName(mapId, name)` helper and a server-side import of `generated/world.json`. Called out in CR #3107811085 (justified-open for v0.2.0).
+- [ ] Tighten `IPreferences` in `src/platform/persistence/preferences.ts` to `PreferenceKey` for callers that control the key; keep a `string` overload at the Capacitor-adapter boundary only. CR #3107811092.
 - [ ] Add `poki soweli` favicon (16/32/48/192/512 PNGs + manifest.json).
 - [ ] Screenshot each of the 7 maps via `author:all --render` into `docs/screenshots/`.
 - [ ] Add a `--dry-run` flag to `scripts/map-authoring/cli/all.ts`.
