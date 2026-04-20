@@ -5,136 +5,82 @@ status: current
 domain: context
 ---
 
-# Where we are — 2026-04-20
+# Where we are
 
-**RPG.js v5 pivot, V1–V7 landed.** PR #66 on branch `feat/rpgjs-v5-pivot` is ~13 commits ahead of `main`: the full starter scaffold plus content spine, gated map warps, wild-encounter capture, mastered-words tracking, pause-menu vocab, and the first action-battle set-piece (jan Ike rival).
+**Branch:** `feat/rpgjs-v5-pivot` → PR #66 (149 commits ahead of `main`, about to squash-merge into `v0.2.0` release train).
 
-## Rationale for the pivot
+**Stack:** RPG.js v5 beta + CanvasEngine/Pixi 8 + Capacitor 8 persistence + Tiled (`.tmx` built from TS specs) + vendored Tatoeba corpus. See `docs/ARCHITECTURE.md`.
 
-RPG.js v5 gives us for free:
-- Tiled tilemap loading (`@rpgjs/tiledmap`, `tiledMapFolderPlugin`) — the primary map-pipeline requirement.
-- Built-in event/NPC model — replaces the Tiled Object-layer wiring we were porting from `remarkablegames/phaser-rpg`.
-- `ISaveStorageStrategy` — a clean hook for our Capacitor persistence adapters.
-- Standalone dev mode (`provideRpg`) — no external server needed during development.
-- Vue-compat GUI screens — replaces the React + Solid shell.
-- `@rpgjs/action-battle` — combat module we can wire in a later layer.
+**Base URL:** `/poki-soweli/` on web (GitHub Pages), `/` under Capacitor (see `vite.config.ts`). Dev server boots at `http://localhost:5173/poki-soweli/` — watch the vite output if 5173 is taken, the port auto-increments.
 
-What we keep from the Phaser era:
-- `src/content/` — corpus, spine, schema, generated world.json (unchanged).
-- `public/assets/` — Fan-tasy tilesets, player, bosses, creatures, npcs, combatants, effects (unchanged).
-- `scripts/` — validate-tp, validate-challenges, build-spine, map-authoring toolchain (unchanged).
-- `docs/` — all docs updated, none deleted.
-- `tests/e2e/` — Vitest browser harness scaffolding (to be rewired to RPG.js v5 hooks).
+## Orient yourself
 
-## Just landed
+Read these in order before touching code:
 
-### RPG.js v5 application shell
+1. **`docs/ROADMAP.md`** — single source of truth for what's done, what's next, and the Definition of Done for `v0.2.0`.
+2. **`docs/ARCHITECTURE.md`** — stack layout + the three layers (content pipeline → pure game modules → runtime wiring).
+3. **`docs/TESTING.md`** — the E2E-first testing rule: every feature ships with an integration test that exercises the real engine before any unit test.
+4. **`docs/DESIGN.md`** — product vision (what the game IS and IS NOT).
+5. **`docs/BRAND.md`** — palette, typography, chrome patterns. All UI surfaces draw from these tokens.
 
-- `package.json` — replaced Phaser/React/Solid/Koota deps with `@rpgjs/*`, `canvasengine`, `@canvasengine/*`, `pixi.js`, `@signe/di`.
-- `vite.config.ts` — uses `rpgjs()` plugin + `tiledMapFolderPlugin` pointing at `src/tiled/`.
-- `tsconfig.json` — updated for RPG.js v5 (experimentalDecorators, emitDecoratorMetadata, bundler resolution).
-- `index.html` — RPG.js v5 shell (div#rpg, ui-css links, Fredoka font).
-- `src/standalone.ts` — `provideRpg(startServer)` entry for development.
-- `src/server.ts` — `createServer()` with CapacitorSaveStorageStrategy + tiledmap + main module.
-- `src/client.ts` — `startGame()` with `provideMmorpg` for production.
-- `src/config/config.client.ts` — tilemap basePath, Fan-tasy character spritesheets.
-- `src/modules/main/player.ts` — `onConnected` places player at `ma_tomo_lili` (first journey beat).
-- `src/modules/main/event.ts` — jan Sewi NPC event factory (starter ceremony placeholder).
-- `src/modules/main/server.ts` — `defineModule` with player hooks + map event registrations.
-- `src/modules/main/index.ts` — `createModule('main', ...)` export.
+Then: `git status && git log --oneline -10 && gh pr view 66`.
 
-### Capacitor persistence layer
+## Running the game
 
-- `src/platform/persistence/preferences.ts` — typed Capacitor Preferences wrapper, `KEYS` const.
-- `src/platform/persistence/database.ts` — Capacitor SQLite + jeep-sqlite web fallback, `prepareWebStore()` pattern.
-- `src/platform/persistence/save-strategy.ts` — `ISaveStorageStrategy` implementation wired to sqlite.
+```sh
+pnpm install
+pnpm dev                 # http://localhost:5173/poki-soweli/
+pnpm test                # both projects (unit + integration)
+pnpm test:unit           # pure-logic only (~5 s)
+pnpm test:integration    # real RPG.js engine in Node via @rpgjs/testing
+pnpm test:coverage       # unit coverage gate, 95% lines/95% functions/90% branches
+pnpm build               # prebuild (validate + build-spine + typecheck) → vite build
+pnpm preview             # serve the built bundle
+```
 
-### Starter map
+## Playtest the real game, not just the tests
 
-- `src/tiled/ma_tomo_lili.tmx` — starter village map using Fan-tasy core tileset (16×12 tiles, Tileset_Ground.tsx).
-- Tileset TSX symlinked into `src/tiled/` so Tiled editor can resolve it.
+Tests catch regressions in behavior the tests already asserted. Whether the game is **fun** only reveals itself in a browser. Before merging any feature that touches player-visible behavior, run `pnpm dev` and walk it yourself. Screenshots and a sentence in the PR description are better than a ticked checkbox.
 
-### Deleted Phaser-era code
+## Hard rules (override defaults)
 
-- `src/game/` — all Phaser scenes, Solid overlays, Koota ECS, combat engine.
-- `src/components/` — React shell.
-- `src/App.tsx`, `src/main.tsx`, `src/hooks/`, `src/lib/` — removed.
+- **Fan-tasy is the only tileset family.** `public/assets/tilesets/{core,seasons,snow,desert,fortress,indoor}/` is the source of truth.
+- **Maps are build artifacts.** Edit `scripts/map-authoring/specs/<id>.ts`, run `pnpm author:build <id>`. Never edit `src/tiled/*.tmx` or `public/assets/maps/*.tmj` directly. `pnpm author:verify` enforces this in `validate` + `prebuild` + CI.
+- **Every monster is catchable.** Tiering is rarity + catch difficulty, not whether `poki` works. Green dragon (`akesi_sewi`) is the final boss, the only creature with a death animation.
+- **No hand-authored toki pona.** Every user-facing TP string round-trips through the Tatoeba corpus. `pnpm validate-tp` is the gate. If it rejects, rewrite the EN.
+- **No direct `localStorage` / `IndexedDB`** in feature code — `src/platform/persistence/preferences.ts` (KV) or `src/platform/persistence/database.ts` (structured) only.
+- **Docs > tests > code.** Docs describe the game; tests describe the code; code satisfies both. Tests never chase code.
+- **E2E > unit.** Integration tests with the real engine carry the weight. Pure-logic unit tests are for algorithms, nothing else. See `docs/TESTING.md`.
+- **Always use pull requests.** Never push to `main` directly.
 
-### Docs updated
+## What landed in this branch
 
-- `docs/ARCHITECTURE.md` — rewritten for RPG.js v5 stack.
-- `docs/STATE.md` — this file.
-- `CLAUDE.md` — Commands section updated for new stack.
+PR #66 is the RPG.js v5 pivot plus roughly half of the `v0.2.0` backlog. For a precise accounting of done / partial / open tasks, read `docs/ROADMAP.md`. For commit-level history, `git log main..HEAD --oneline`.
 
-## Landed since pivot scaffold (PR #66 commit trail)
+Short version:
 
-### V1 — Journey schema port (`d466c90`)
-Cherry-picked `src/content/schema/journey.ts`, `spine/journey.json`, `build-spine.mjs` changes from the closed `feat/l3-journey` branch. Deleted obsolete region schema + spine JSONs. `world.journey.beats` is now the ordered arc.
+- **Phase 1 (playable vertical slice)** — done.
+- **Phase 2 (combat polish + party)** — pure-logic modules + pure helpers done (victory sequence, HP thresholds, party order, type matchup, xp curve, catch math, status effects). Runtime wiring of animated combat UI is open.
+- **Phase 3 (save, menus, transitions)** — autosave, continue, settings screen, pause menu, save-schema migrations done. Title scene + credits open.
+- **Phase 4 (content breadth)** — 7 maps walkable, 4 gym set-pieces wired, bestiary state machine done, 17-species roster content still partial on per-biome paint.
+- **Phase 5 (audio / mobile / a11y)** — BGM selection, SFX catalog, virtual d-pad math, settings sliders done. Actual Howler runtime + portrait-lock + mobile overlay open.
+- **Phase 6 (release hardening)** — CI/CD trifecta wired, commitlint, bundle-size audit, unit coverage gate, save round-trip, warp-graph topology, dialog content cross-check done. E2E playthrough open (now that the hand-rolled harness is replaced by `@rpgjs/testing`, this is the next big push).
+- **Phase 7 (post-v0.2 depth)** — pure-logic scaffolding for NG+, daycare, ambient events, side quests, status effects, treasure chests, rematches done.
+- **Phase 8 (language layer)** — sentence log, sitelen-glyph helper, micro-game seed logic, dictionary-export done. Settings flag wired for the "show sitelen overlay" toggle.
+- **Phase 9 (engine perf / infra)** — unit coverage gate live at 95%/95%/90%/95%.
+- **BRAND** — `docs/BRAND.md` + `src/styles/brand.css` + boot wiring + reactive high-contrast toggle live. Settings pause menu is the first surface rendering the theme.
 
-### V2 — jan Sewi starter ceremony (`72568a5`)
-`src/modules/main/starter-ceremony.ts` fires on `jan-sewi.onAction`. Reads Tatoeba-gated dialog from `spine/dialog/jan_sewi_starter.json` + `jan_sewi_after_pick.json`. Choice (soweli seli / soweli telo / kasi pona) writes `KEYS.starterChosen` preference + SQLite `flags.starter_chosen`, seeds mastered_words with the starter's root words. `scripts/build-spine.mjs` now emits collected dialog nodes into `world.json` (previously dropped).
+## Testing posture
 
-### V3a — Map pipeline enforcement (`684b458`)
-`scripts/map-authoring/lib/tmx-emitter.ts` serialises TmjMap→.tmx. `author:build` emits both `.tmj` (public/) and `.tmx` (src/tiled/) from one spec. New `scripts/map-authoring/cli/verify.ts` runs in `pnpm validate` → `pnpm prebuild` → CI and fails on any hand-edited, orphaned, or drifted `.tmx`. CLAUDE.md + STANDARDS.md + AGENTS.md document the "maps are build artifacts" rule; memory entry added.
+Two vitest projects share one config:
 
-### V3 — Gated multi-map warps (`6b888a3`)
-`src/modules/main/warp.ts` factory reads Tiled object coords, checks a SQLite flag, optionally replays a gated dialog node, and on pass calls `player.changeMap` + persists `KEYS.currentMapId` for quick-resume. Wired on both maps: `ma_tomo_lili.warp_east → nasin_wan` (gated `starter_chosen`) and `nasin_wan.warp_east → nena_sewi` (gated `jan_ike_defeated`).
+- **unit** (`tests/build-time/`, 522 tests) — Node env, pure logic only, coverage-gated at 95% lines.
+- **integration** (`tests/integration/`, 1 test so far) — happy-dom + `@rpgjs/testing/dist/setup.js`, boots the real `@rpgjs/server` + client in-process, exercises the same module graph as `src/standalone.ts`. This is where all new feature tests land.
 
-### V4 — Wild encounter + poki capture (`657ec52`)
-`src/modules/main/encounter.ts` hooks `onInShape` for shapes named `encounter_*`. 12% trigger, weighted species roll from the shape's `species` JSON property, level band from `level_min`/`level_max`, `player.showChoices('?', ['poki', 'tawa'])`. Catch success = `Math.random() < species.catch_rate` → `addToParty` + log. `party_roster` + `encounter_log` SQLite tables. Three Tatoeba-gated encounter dialogs. Action-battle deferred to V7.
+The old `tests/e2e/` hand-rolled vitest-browser + Playwright harness was replaced in commit `6992c10` because `@rpgjs/testing` does the same job without a browser runtime — same engine, same wiring, no socket, no chromium, faster CI.
 
-### V5 — Mastered-words tokenizer + pause vocab (`bad5a16`)
-`src/modules/main/vocabulary.ts` tokenises every TP dialog line against `src/content/dictionary.json` (131 words). `src/modules/main/dialog.ts` is now the single `playDialog` chokepoint that calls `observeTpLine` for every beat. Pause key (`escape`) opens `src/modules/main/vocabulary-screen.ts` which pages through mastered words (sightings ≥ 3) with definitions via `showText` — no Vue GUI needed.
+## Known limits
 
-### V6 — PR #66 review fixes (6 commits, `850da57`..`af32aca`)
-37 CodeRabbit + Copilot comments resolved. Highlights: `copyWasmPlugin` for sql.js wasm → `public/assets/`, CSS imports routed through TS so Vite bundles them, typecheck script preserves tsc exit code via pipefail, `CapacitorSaveStorageStrategy` gains index-validation + corrupted-payload detection, `webReadyPromise` resets on failure, `localStorage.clear` scoped to poki-soweli keys, Windows path normalisation in build-spine, start_region_id cross-validated against first journey beat, green-dragon enforcement guard, tmx-emitter round-trips visible/opacity/rotation, nasin_wan warp y-coord corrected, explicit `image-size` devDep. Orphan `koota-gen.ts` removed.
-
-### V7 — jan Ike rival action-battle (`9e09d77`)
-`src/modules/main/jan-ike.ts` creates an aggressive `BattleAi` event (HP 60, ATK 14, PDEF 8, vision 140, no flee). `onDefeated` sets SQLite `jan_ike_defeated` flag + plays victory dialog + advances `KEYS.journeyBeat`. `provideActionBattle()` wired server-side (`src/server.ts` from `/server` subpath) and client-side (`config.client.ts` from `/client` subpath) — the package's root export resolves to the client bundle which pulls canvasengine (top-level `window` access) and crashes vite config loading; subpath imports are load-bearing. Type shim declared in `src/types/rpgjs-tiledmap.d.ts`. `docs/COMBAT.md` documents the full pattern for future gym leaders.
-
-### CI hygiene (`7573304`)
-Added missing devDeps `canvas` + `pngjs` + `@types/pngjs`, added `canvas` to `pnpm.onlyBuiltDependencies` for its native build, and split `verify.ts` imports to dodge the renderer module graph so CI's `author:verify` stays off the canvas dep path.
-
-## Next layers (queued for V8+)
-
-### V8 — first gym leader (jan Wawa, beat 3)
-- Edit `scripts/map-authoring/specs/nena_sewi.ts` to add encounter zones,
-  then run `pnpm author:build nena_sewi` to regenerate `src/tiled/nena_sewi.tmx`
-  and `public/assets/maps/nena_sewi.tmj`. Commit both the spec and the
-  regenerated files. (`src/tiled/*.tmx` are build artifacts — never edit them directly.)
-- `jan_wawa` event: two-creature fight (`waso_sewi` L8 → `soweli_lete` L10). First gym-leader pattern using `BattleAi` phase-transitions.
-- `onDefeated` sets `badge_sewi` flag + advances journey beat + grants the reward word `sewi` (mastery bump).
-
-### V9 — loss/retry path
-When the player's HP hits 0 in an action-battle, RPG.js default is undefined. Hook a game-over callback that restores the player at the last village's spawn + preserves party state. This needs to land before the first fight the player might realistically lose (jan_wawa).
-
-### V10 — Capacitor Android shell
-- `capacitor.config.ts` with `appId: com.pokisoweli.game`.
-- CI job to build + upload the debug APK as a PR artifact on every push.
-
-### V11–V15 — remaining journey beats (ma_telo, ma_lete, nena_suli, nasin_pi_telo, endgame)
-- Each follows the V8 pattern: edit `scripts/map-authoring/specs/<id>.ts`,
-  run `pnpm author:build <id>`, commit spec + regenerated `.tmx`/`.tmj`.
-  Never edit `.tmx` files directly — they are build artifacts.
-- Final beat: green-dragon cutscene + unique death animation.
-
-## Locked design decisions
-
-- **Creature-catching RPG.** Party of up to 6. Catch wild with **poki** (net). Five types: seli/telo/kasi/lete/wawa. Seven regions. Set-piece jan-lawa fights gate region boundaries. No player stats.
-- **Green dragon is the final boss.** Only creature with a dedicated death animation. Never appears mid-game.
-- **Fan-tasy is the only tileset family.** No mixing.
-- **Tiled is the map authoring format.** `.tmx` → `tiledMapFolderPlugin` → `/map/<id>` at runtime.
-- **Docs > tests > code.** Strict dependency chain.
-- **No copyrighted references.** "lipu soweli" for catalog, "poki" for net, "jan lawa" for region masters.
-- **No direct `localStorage` / `IndexedDB`** in feature code. Capacitor abstractions only.
-- **Kid audience.** Dread knight not death knight. No permadeath.
-
-## Context for the next session
-
-1. Branch: `feat/rpgjs-v5-pivot` → PR #66. CI run on `7573304` in progress.
-2. Run `pnpm install && pnpm dev` to verify the dev server boots (vite+rpgjs ready at `http://localhost:5173/poki-soweli/`).
-3. Before touching any `.tmx`: edit `scripts/map-authoring/specs/<id>.ts` and run `pnpm author:build <id>`. `pnpm author:verify` is the enforcement gate.
-4. Before touching any dialog: author EN in `src/content/spine/dialog/<id>.json` and run `pnpm validate-tp` — every line must match a Tatoeba pair.
-5. Next task: V8 — jan Wawa gym (beat 3). First gym-leader pattern.
-6. Fan-tasy tileset TSX files live at `public/assets/tilesets/core/Tiled/Tilesets/`.
-5. Non-obvious assistant memory rules are documented in `docs/ASSISTANT_MEMORY.md` rather than referencing machine-local paths.
+- **Integration suite is thin.** `boot.test.ts` proves the player connects and lands on `ma_tomo_lili`. Starter ceremony, warp flow, encounter, catch, respawn all still need integration tests. This is the next priority.
+- **RPG.js v5 is beta.** `5.0.0-beta.1` across all `@rpgjs/*` packages. API churn is still possible; see `docs/ROADMAP.md` risk list.
+- **`@rpgjs/common/src/rooms/WorldMaps.ts`** ships with a known type error; `pnpm typecheck` filters it via pipefail grep. Revisit when v5 goes stable.

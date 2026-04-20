@@ -31,13 +31,17 @@ Repo path: `/Users/jbogaty/src/arcade-cabinet/toki-pona-tutor`. Game + repo was 
 ## Commands
 
 ```sh
-pnpm install          # bootstrap
-pnpm dev              # vite dev server at http://localhost:5173/ (RPG.js v5 standalone mode)
-pnpm build-spine      # compile src/content/spine/ → generated/world.json
-pnpm validate-tp      # gate: every EN string must exist in Tatoeba corpus
-pnpm validate         # validate-challenges + validate-tp
-pnpm typecheck        # tsc --noEmit
-pnpm build            # prebuild (validate + build-spine + typecheck) then vite build
+pnpm install              # bootstrap
+pnpm dev                  # vite dev server at http://localhost:5173/poki-soweli/
+pnpm build-spine          # compile src/content/spine/ → generated/world.json
+pnpm validate-tp          # gate: every EN string must exist in Tatoeba corpus
+pnpm validate             # validate-challenges + validate-tp + author:verify
+pnpm typecheck            # tsc --noEmit
+pnpm test                 # both vitest projects (unit + integration)
+pnpm test:unit            # pure-logic suite only (~5 s)
+pnpm test:integration     # real RPG.js engine in-process via @rpgjs/testing
+pnpm test:coverage        # unit coverage gate — 95% lines / 95% functions / 90% branches
+pnpm build                # prebuild (validate + build-spine + typecheck) then vite build
 ```
 
 ## Structure

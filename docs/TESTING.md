@@ -7,132 +7,172 @@ domain: quality
 
 # Testing Strategy
 
-poki soweli has **four test layers**, ordered by scope. Each serves a
-distinct failure class; none is a substitute for another.
+## The rule: integration > unit
+
+**Unit tests catch regressions in algorithms. Integration tests catch regressions in the game.** Unit tests alone don't prove anything you can't already verify by reading pure functions. Every feature that touches player-visible behavior ships with an integration test that boots the real engine first. Unit tests are reserved for what they're actually good at: pure-logic + math + formulas.
+
+Concretely:
+
+- Authoring a new NPC? Integration test: create client, walk next to the NPC, call `onAction`, assert the dialog fires.
+- Authoring a new pure helper (HP threshold, move damage formula)? Unit test the math, then wire it into a component and add an integration test for the component.
+- Changing a map warp? Integration test: walk across the warp, assert `getCurrentMap()` changed.
+
+When a bug is reported, it goes in the integration suite first and the fix has to make the new test pass. If the bug can be expressed without the engine, it also gets a unit test — but the integration test is the one that proves the user-facing behavior is fixed.
+
+## Four layers, one rule each
 
 | Layer | Lives in | Gate | Runtime |
 |-------|----------|------|---------|
 | **1. Content pipeline** | `scripts/validate-*.mjs`, `author:verify` | `pnpm validate` in CI | Node |
 | **2. Type surface** | `tsc --noEmit` across `src/`, `scripts/`, `tests/` | `pnpm typecheck` in CI | Node |
-| **3. Build-time unit tests** | `tests/build-time/` | `pnpm test:build-time` (local; CI pending) | Vitest (Node) |
-| **4. End-to-end browser smoke** | `tests/e2e/` | `pnpm test:e2e` (local; CI pending) | Vitest + Playwright |
+| **3. Unit (pure logic)** | `tests/build-time/`, vitest `unit` project | `pnpm test:unit` + coverage in CI | Node |
+| **4. Integration (real engine)** | `tests/integration/`, vitest `integration` project | `pnpm test:integration` in CI | happy-dom + `@rpgjs/testing` |
 
 ## Layer 1 — Content pipeline
 
 The cheapest catch. Runs in under a second.
 
-- **`pnpm validate-challenges`** — static challenge data against the 131-word dictionary.
-- **`pnpm validate-tp`** — every multi-word translatable string in `src/content/spine/**` must round-trip through the vendored Tatoeba corpus. Hand-authored TP cannot ship.
-- **`pnpm author:verify`** — the map-authoring contract gate. Fails when any `src/tiled/*.tmx` is orphaned, missing, or drifts from its `scripts/map-authoring/specs/<id>.ts`.
-- **`pnpm build-spine`** — compiles `spine/*.json` into `generated/world.json` with Zod schema checks + green-dragon-only-in-final-beat enforcement.
+- `pnpm validate-challenges` — static challenge data against the 131-word dictionary.
+- `pnpm validate-tp` — every multi-word translatable string in `src/content/spine/**` must round-trip through the vendored Tatoeba corpus. Hand-authored TP cannot ship.
+- `pnpm author:verify` — the map-authoring contract gate. Fails when any `src/tiled/*.tmx` is orphaned, missing, or drifts from its spec.
+- `pnpm build-spine` — compiles `spine/*.json` into `generated/world.json` with Zod schema checks + green-dragon-only-in-final-beat enforcement.
 
-This layer is the `pnpm validate` composite and runs on every PR via `ci.yml`.
+Runs on every PR via `ci.yml` under the `unit` job before the vitest suite.
 
 ## Layer 2 — Type surface
 
-`tsc --noEmit` with a filter that strips one known-upstream error
-(`@rpgjs/common/src/rooms/WorldMaps.ts`, a beta package bug we can't
-fix). Runs on every PR.
+`tsc --noEmit` with a pipefail-based grep that strips one known upstream bug (`@rpgjs/common/src/rooms/WorldMaps.ts`). Runs on every PR.
 
-What it catches:
-- Missing exports / renamed APIs as `@rpgjs/*` packages move.
-- Shape mismatches between content JSON and the Zod-derived types.
-- Capacitor persistence method signatures — the sqlite plugin's `Changes` shape etc.
-- The `event.setGraphic?.(...)` discipline — runtime-optional methods must be called behind optional-chaining, not cast-away.
+Catches: missing exports as `@rpgjs/*` packages churn, content-JSON shape drift, Capacitor plugin signature shifts, `event.setGraphic?.(...)` discipline.
 
-What it doesn't catch:
-- Logic errors (unit tests own this).
-- Anything that runs only in a real browser (E2E owns this).
+Does **not** catch: logic errors (unit tests own this), in-engine state (integration owns this).
 
-## Layer 3 — Build-time unit tests
+## Layer 3 — Unit (pure logic)
 
-`tests/build-time/` — Vitest-in-Node. Currently covers the
-map-authoring toolchain (`parser`, `palette`, `emitter`, `renderer`)
-and the content-pipeline validators.
+`tests/build-time/` — Vitest in Node, pure functions only. Covered by the `unit` project in `vitest.config.ts`.
 
-Run: `pnpm test:build-time`
+```sh
+pnpm test:unit          # run once
+pnpm test:watch         # watch both projects
+pnpm test:coverage      # unit + v8 coverage + ratchet check
+```
 
-Coverage goals (current):
-- ✅ Map authoring: parser, emitter, renderer, validator all have per-shape assertions.
-- ✅ Palette name resolution + tsx-qualified-key disambiguation.
-- ⚠️  Content-pipeline scripts (`validate-tp`, `build-spine`, `validate-challenges`) are tested implicitly via CI but have no explicit Node-level specs. Adding snapshot-style specs is a follow-up.
-- ❌ No tests for the Capacitor persistence adapters yet. `CapacitorSaveStorageStrategy`'s sparse-array handling, `addToParty`'s 6-slot cap, migration-script idempotency — these all need specs before shipping a release.
+**Coverage gate:** 95% lines / 95% functions / 90% branches / 95% statements on the scoped include list (pure-logic modules only — platform adapters and runtime wiring are integration-tested, not coverage-measured). See `vitest.config.ts` → `coverage.include`.
 
-Not yet wired in CI. Will be when we cut v0.2.0.
+**What belongs in unit:** XP curves, catch math, type matchup, status effects, RNG seeds, ordering/serialization helpers, color-tier thresholds, the bestiary state machine, party-slot reordering, sentence-log querying, sfx event→volume maps. Anything a pure function can express.
 
-## Layer 4 — End-to-end browser smoke
+**What does NOT belong in unit:** anything that needs the engine to observe (player position after an input, dialog firing, map change, save round-trip). Those go in integration.
 
-`tests/e2e/` — Vitest browser mode + Playwright-driven Chromium.
-The harness dynamically imports `src/standalone.ts` inside a real
-browser context and polls for CanvasEngine's canvas to mount.
+## Layer 4 — Integration (real engine)
 
-What it asserts today (V18):
-- The RPG.js v5 build boots without throwing.
-- The canvas element appears in the DOM within 15 seconds.
+`tests/integration/` — Vitest in happy-dom with `@rpgjs/testing/dist/setup.js` loaded. Uses `@rpgjs/testing`'s `testing(modules)` fixture, which instantiates both server and client in-process (standalone mode, same wiring as `src/standalone.ts`), wires a mock `LoadMap` provider so no vite dev server is needed, and returns a `createClient()` factory that gives you a real `RpgPlayer` + `RpgClientEngine`.
 
-What's `it.todo` pending RPG.js v5 exposing a stable inspector (the
-client engine doesn't currently attach a `window.__rpgjs__` we can
-introspect):
-- Player walks one tile east.
-- Interacting with jan Sewi opens the starter-ceremony dialog.
-- Selecting a starter sets the flag + opens the east warp.
-- Capture success writes to `party_roster`.
-- Defeat at HP 0 respawns at the last village.
+```sh
+pnpm test:integration
+```
 
-Run: `pnpm test:e2e`
+Config (excerpt from `vitest.config.ts`):
 
-Not yet wired in CI. The smoke assertion is enough to catch
-module-resolution / Vite-config / dep-graph regressions; gameplay
-coverage depends on the inspector shape.
+```ts
+{
+    name: 'integration',
+    include: ['tests/integration/**/*.test.ts'],
+    environment: 'happy-dom',
+    setupFiles: ['@rpgjs/testing/dist/setup.js'],
+    // RPG.js singletons — one file at a time.
+    fileParallelism: false,
+}
+```
 
-## Manual + playtest
+### Template
 
-Some bugs only surface under a human hand:
+```ts
+import { describe, it, expect, afterEach } from 'vitest';
+import { testing, clear } from '@rpgjs/testing';
+import server from '../../src/modules/main/server';
 
-- **Dialog pacing.** Does the starter-ceremony timing feel ceremonial, or rushed?
-- **Encounter density.** Is 12% per tall-grass tile too chatty? Too sparse?
-- **Gym fight difficulty.** Phase-1/phase-2 HP ratios need real play to tune.
-- **Respawn loop warmth.** "You seem well..." plus map change — is it welcoming or jarring?
+afterEach(async () => {
+    await clear();
+});
 
-Trackable via session notes. No automation substitutes here.
+describe('<feature>', () => {
+    it('<behavior>', async () => {
+        const fixture = await testing([{ server }]);
+        const client = await fixture.createClient();
+
+        // Wait for onConnected → starter map.
+        const player = await client.waitForMapChange('ma_tomo_lili');
+
+        // Drive the game...
+        // Assert observable state.
+        expect(player.x()).toBe(128);
+    });
+});
+```
+
+### The fixture API
+
+From `@rpgjs/testing` beta-1:
+
+- `testing(modules, clientConfig?, serverConfig?)` — boot the in-process server + client and return a fixture.
+- `fixture.createClient()` → `{ socket, client, playerId, player, waitForMapChange(mapId, timeout?) }`.
+- `fixture.nextTick(timestamp?)` — advance physics + sync by one tick.
+- `fixture.nextTickTimes(n, timestamp?)` — loop of the above.
+- `fixture.wait(ms)` / `fixture.waitUntil(promise)` — time-based waiting.
+- `fixture.clear()` — reset state (call in `afterEach`).
+
+Prefer `waitForMapChange` over raw tick loops when the behavior is "something moved us to a new map." Prefer `nextTick` when you need to let physics/collision/encounter rolls evaluate.
+
+### What's covered today
+
+One test:
+
+- `tests/integration/boot.test.ts` — the floor. Player connects, `onConnected` runs, lands on `ma_tomo_lili` at (128, 128).
+
+### What's coming next (priority order)
+
+1. Starter ceremony: interact with `jan-sewi`, pick one of three starters, assert flag + mastered-words seeded + warp opens.
+2. Warp flow: walk to `warp_east` on `ma_tomo_lili`, assert map change to `nasin_wan` + player at expected spawn.
+3. Wild encounter: step onto an `encounter_*` shape, assert choice prompt opens, pick `poki`, assert capture roll + `party_roster` update.
+4. jan Ike rival: trigger action-battle, assert AI engages, simulate victory, assert `jan_ike_defeated` flag + journey beat advance.
+5. Respawn: simulate player faint, assert return to last village at full HP.
+6. Save round-trip: save state mid-session, `clear()`, reload, assert every field is restored.
+
+Everything above ships **before** we tag `v0.2.0`.
+
+## Visual verification
+
+Tests prove behavior didn't regress. They don't prove the game looks right. Before marking any UI-touching PR ready for review:
+
+1. `pnpm dev` locally.
+2. Click through the feature you just changed.
+3. Screenshot the result.
+4. Paste in the PR description with a one-sentence description of what changed visually.
+
+The unit tests and the integration suite have no opinion on whether the HP bar color gradient pleases the eye. You do.
 
 ## Testing the map-authoring toolchain
 
-The toolchain has its own mini-harness under `tests/build-time/` —
-parser round-trips, emitter golden-file diffs, renderer PNG pixel
-checks. Because maps are build artifacts (per STANDARDS.md), these
-tests are the primary regression signal for the pipeline. Adding
-a new palette entry or changing the emitter's XML output should
-start by updating or adding a test in this directory.
+The toolchain has its own mini-harness under `tests/build-time/` — parser round-trips, emitter golden-file diffs, renderer PNG pixel checks. Because maps are build artifacts (per STANDARDS.md), these tests are the primary regression signal for the pipeline. Adding a new palette entry or changing the emitter's XML output starts by updating or adding a test in this directory.
 
 ## When something fails
 
 - **`validate-tp` rejects a line** — rewrite the EN to match a canonical Tatoeba pair. Never hand-author TP.
 - **`author:verify` flags drift** — `pnpm author:build <id>` regenerates the artifact from the spec. Never edit the `.tmx` directly.
 - **`tsc` fails on a `@rpgjs/*` type** — check if the package ships named exports as `default` only (common beta pattern). Add a shim in `src/types/rpgjs-*.d.ts` mirroring the runtime surface.
-- **E2E boot fails** — check `pnpm dev` locally first. The e2e harness loads the same module graph Vite loads.
+- **Integration test hangs** — likely waiting for a map change or tick that never fires. Lower the timeout on `waitForMapChange` to get a fast error, then call `fixture.nextTick()` explicitly to advance the engine. The engine won't tick on its own in tests.
+- **Integration test passes but the feature is broken in `pnpm dev`** — the test is incomplete. Integration tests don't substitute for a playtest; they just make sure the thing you already verified still works tomorrow.
 
 ## Adding tests
 
-**Build-time (Node):** drop `tests/build-time/<subject>.test.ts`.
-Import the pure functions directly; no browser context. Fast.
+**Unit (pure logic):** drop `tests/build-time/<subject>.test.ts`. Import pure functions directly; no engine context. Aim for < 100 ms per file.
 
-**E2E (browser):** drop `tests/e2e/<feature>.test.ts` + a matching
-harness in `tests/e2e/harness/`. Expect to hit the inspector
-limitation until RPG.js v5 matures; use `it.todo` with a clear
-unblock pointer rather than fragile DOM-polling workarounds.
+**Integration (real engine):** drop `tests/integration/<feature>.test.ts`. Always `afterEach(clear)`. One feature per file (singletons don't parallelize).
 
-## Docs → Tests → Code dependency chain
+Add new pure-logic modules to the coverage `include` list in `vitest.config.ts` so the ratchet keeps rising.
 
-This repo's rule: **docs describe the game, tests describe the
-code, code satisfies both**. If a test asserts behavior that no
-doc motivates, the doc is wrong and must land first. If a doc
-specifies behavior that no test covers, write the test before
-implementing. Never write code that doesn't trace back through a
-test to a doc.
+## Docs → Tests → Code
 
-`pnpm validate-tp` embodies this: it reads `src/content/spine/`
-against the corpus. If the corpus can't satisfy an EN line, the
-rule (per `docs/WRITING_RULES.md`) is to rewrite the EN — you're
-not allowed to satisfy the test by hand-crafting TP. The docs
-always win.
+This repo's rule: **docs describe the game, tests describe the code, code satisfies both**. If a test asserts behavior that no doc motivates, the doc is wrong and must land first. If a doc specifies behavior that no test covers, write the test before implementing. Never write code that doesn't trace back through a test to a doc.
+
+`pnpm validate-tp` embodies this: it reads `src/content/spine/` against the corpus. If the corpus can't satisfy an EN line, the rule (per `docs/WRITING_RULES.md`) is to rewrite the EN — you're not allowed to satisfy the test by hand-crafting TP. Docs always win.
