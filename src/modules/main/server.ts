@@ -6,6 +6,7 @@ import { JanSewi } from './event';
 import { JanIke } from './jan-ike';
 import { GymLeader } from './gym-leader';
 import { AmbientNpc } from './ambient-npc';
+import { GreenDragon } from './green-dragon';
 import { Warp } from './warp';
 
 export default defineModule<RpgServer>({
@@ -214,9 +215,44 @@ export default defineModule<RpgServer>({
                     y: 0,
                     event: Warp({
                         targetMap: 'nasin_pi_telo',
-                        position: { x: 32, y: 96 },
+                        position: { x: 40, y: 104 }, // from_nena_suli spawn on nasin_pi_telo
                         requiredFlag: 'badge_suli',
                     }),
+                },
+            ],
+        },
+        {
+            id: 'nasin_pi_telo',
+            events: [
+                {
+                    id: 'jan-kala-lili',
+                    x: 120,
+                    y: 152,
+                    event: AmbientNpc('female', 'jan_kala_lili_flavor'),
+                },
+                {
+                    id: 'jan-moku-pona',
+                    x: 200,
+                    y: 88,
+                    event: AmbientNpc('female', 'jan_moku_pona_grill'),
+                },
+                {
+                    id: 'jan-kala-suli',
+                    x: 280,
+                    y: 152,
+                    event: AmbientNpc('female', 'jan_kala_suli_tuneup'),
+                },
+                {
+                    id: 'jan-olin-telo',
+                    x: 360,
+                    y: 88,
+                    event: AmbientNpc('female', 'jan_olin_telo_quiet'),
+                },
+                {
+                    id: 'green-dragon',
+                    x: 432,
+                    y: 104,
+                    event: GreenDragon(),
                 },
             ],
         },

@@ -1010,6 +1010,44 @@
       "triggers": {}
     },
     {
+      "id": "green_dragon_intro",
+      "npc_id": "green_dragon",
+      "when_flags": {
+        "green_dragon_defeated": false
+      },
+      "priority": 10,
+      "beats": [
+        {
+          "text": {
+            "en": "I'm plenty strong!",
+            "tp": "mi wawa mute!"
+          },
+          "mood": "excited",
+          "glyph": "wawa"
+        }
+      ],
+      "triggers": {}
+    },
+    {
+      "id": "green_dragon_victory",
+      "npc_id": "green_dragon",
+      "when_flags": {
+        "green_dragon_defeated": true
+      },
+      "priority": 5,
+      "beats": [
+        {
+          "text": {
+            "en": "Ah. Good.",
+            "tp": "a. pona."
+          },
+          "mood": "happy",
+          "glyph": "pona"
+        }
+      ],
+      "triggers": {}
+    },
+    {
       "id": "jan_anpa_watch",
       "npc_id": "jan_anpa",
       "priority": 0,
@@ -1096,6 +1134,22 @@
       "triggers": {}
     },
     {
+      "id": "jan_kala_lili_flavor",
+      "npc_id": "jan_kala_lili",
+      "priority": 0,
+      "beats": [
+        {
+          "text": {
+            "en": "Ah. Good.",
+            "tp": "a. pona."
+          },
+          "mood": "happy",
+          "glyph": "pona"
+        }
+      ],
+      "triggers": {}
+    },
+    {
       "id": "jan_kala_rest",
       "npc_id": "jan_kala",
       "priority": 0,
@@ -1107,6 +1161,22 @@
           },
           "mood": "thinking",
           "glyph": "lape"
+        }
+      ],
+      "triggers": {}
+    },
+    {
+      "id": "jan_kala_suli_tuneup",
+      "npc_id": "jan_kala_suli",
+      "priority": 0,
+      "beats": [
+        {
+          "text": {
+            "en": "Let's see!",
+            "tp": "mi mute o lukin!"
+          },
+          "mood": "excited",
+          "glyph": "kala"
         }
       ],
       "triggers": {}
@@ -1182,6 +1252,22 @@
       "triggers": {}
     },
     {
+      "id": "jan_moku_pona_grill",
+      "npc_id": "jan_moku_pona",
+      "priority": 0,
+      "beats": [
+        {
+          "text": {
+            "en": "Fresh fruit is good for the health.",
+            "tp": "kili sin li pona tawa sijelo."
+          },
+          "mood": "happy",
+          "glyph": "moku"
+        }
+      ],
+      "triggers": {}
+    },
+    {
       "id": "jan_moku_stall",
       "npc_id": "jan_moku",
       "priority": 0,
@@ -1193,6 +1279,22 @@
           },
           "mood": "happy",
           "glyph": "moku"
+        }
+      ],
+      "triggers": {}
+    },
+    {
+      "id": "jan_olin_telo_quiet",
+      "npc_id": "jan_olin_telo",
+      "priority": 0,
+      "beats": [
+        {
+          "text": {
+            "en": "You seem well...",
+            "tp": "lukin la sina pilin pona..."
+          },
+          "mood": "thinking",
+          "glyph": "olin"
         }
       ],
       "triggers": {}
