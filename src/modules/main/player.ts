@@ -85,6 +85,14 @@ export const player: RpgPlayerHooks = {
         }
         await autosave(player);
     },
+    async onDisconnected(player: RpgPlayer) {
+        // T3-04: flush a final autosave when the player disconnects
+        // (browser unload, Capacitor app backgrounded, tab close). The
+        // engine drives this via its own disconnect signal so we don't
+        // need a client-side beforeunload listener. Best-effort — if the
+        // runtime is already tearing down we can't help.
+        await autosave(player);
+    },
     async onDead(player: RpgPlayer) {
         await respawnAtLastSafeMap(player);
     },
