@@ -56,7 +56,8 @@ class LocalStoragePreferences implements IPreferences {
         }
     }
     async keys(): Promise<string[]> {
-        return typeof localStorage !== 'undefined' ? Object.keys(localStorage) : [];
+        if (typeof localStorage === 'undefined') return [];
+        return Object.keys(localStorage).filter(k => k.startsWith('poki-soweli.'));
     }
 }
 

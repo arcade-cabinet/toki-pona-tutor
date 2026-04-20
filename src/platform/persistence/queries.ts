@@ -53,16 +53,34 @@ export async function getFlag(flagId: string): Promise<string | null> {
 
 export async function addToParty(speciesId: string, level: number): Promise<number | null> {
     const db = await getDatabase();
-    const count = await db.query(`SELECT COUNT(*) AS n FROM party_roster`);
-    const current = Number(count.values?.[0]?.n ?? 0);
-    if (current >= 6) return null;
-    const slot = current;
+    const now = new Date().toISOString();
+    // Atomic check-and-insert: the WHERE clause prevents the insert when the
+    // roster already has 6 members, eliminating the TOCTOU race between a
+    // separate COUNT query and the INSERT.
+    const result = await db.run(
+        `INSERT INTO party_roster (slot, species_id, level, caught_at)
+         SELECT (SELECT COUNT(*) FROM party_roster), ?, ?, ?
+         WHERE (SELECT COUNT(*) FROM party_roster) < 6`,
+        [speciesId, level, now],
+    );
+    if (!result.changes || (result.changes.changes ?? 0) === 0) return null;
+    await saveWebStore();
+    const slotResult = await db.query(
+        `SELECT slot FROM party_roster WHERE species_id = ? AND caught_at = ? ORDER BY slot DESC LIMIT 1`,
+        [speciesId, now],
+    );
+    return Number(slotResult.values?.[0]?.slot ?? 0);
+}
+
+export async function addToInventory(itemId: string, count: number): Promise<void> {
+    const db = await getDatabase();
     await db.run(
-        `INSERT INTO party_roster (slot, species_id, level, caught_at) VALUES (?, ?, ?, ?)`,
-        [slot, speciesId, level, new Date().toISOString()],
+        `INSERT INTO inventory_items (item_id, count, added_at)
+         VALUES (?, ?, ?)
+         ON CONFLICT(item_id) DO UPDATE SET count = count + excluded.count`,
+        [itemId, count, new Date().toISOString()],
     );
     await saveWebStore();
-    return slot;
 }
 
 export async function getParty(): Promise<Array<{ slot: number; species_id: string; level: number }>> {

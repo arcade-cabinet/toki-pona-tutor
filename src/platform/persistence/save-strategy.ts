@@ -33,6 +33,10 @@ export class CapacitorSaveStorageStrategy implements SaveStorageStrategy {
     async save(player: RpgPlayer, index: number, snapshot: string, meta: SaveSlotMeta): Promise<void> {
         this.assertValidIndex(index);
         const slots = await this.readSlots(player);
+        // Pad with explicit nulls to avoid sparse-array holes when index > length.
+        while (slots.length < index) {
+            slots.push(null);
+        }
         slots[index] = { ...(slots[index] ?? {}), ...meta, snapshot };
         await this.writeSlots(player, slots);
     }

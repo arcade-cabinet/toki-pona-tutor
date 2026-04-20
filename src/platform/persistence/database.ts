@@ -18,7 +18,10 @@ import {
 import { defineCustomElements as defineJeepSqlite } from 'jeep-sqlite/loader';
 
 const DB_NAME = 'poki_soweli';
-const DB_VERSION = 1;
+// Increment DB_VERSION when the SCHEMA changes and add a migration step
+// in migrateSchema() below. The current version is tracked in SQLite's
+// PRAGMA user_version so future builds can apply incremental upgrades.
+const DB_VERSION = 2;
 
 const sqlite = new SQLiteConnection(CapacitorSQLite);
 let connectionPromise: Promise<SQLiteDBConnection> | null = null;
@@ -57,6 +60,12 @@ CREATE TABLE IF NOT EXISTS party_roster (
   level      INTEGER NOT NULL,
   caught_at  TEXT NOT NULL
 );
+
+CREATE TABLE IF NOT EXISTS inventory_items (
+  item_id  TEXT PRIMARY KEY,
+  count    INTEGER NOT NULL DEFAULT 0,
+  added_at TEXT NOT NULL
+);
 `;
 
 export async function getDatabase(): Promise<SQLiteDBConnection> {
@@ -78,7 +87,28 @@ async function initDatabase(): Promise<SQLiteDBConnection> {
         : await sqlite.createConnection(DB_NAME, false, 'no-encryption', DB_VERSION, false);
     await db.open();
     await db.execute(SCHEMA);
+    await migrateSchema(db);
     return db;
+}
+
+/**
+ * Applies incremental schema migrations tracked by PRAGMA user_version.
+ *
+ * Each case corresponds to a DB_VERSION bump. Add new cases here when
+ * the SCHEMA constant gains new tables or columns, then increment DB_VERSION.
+ *
+ * Current migrations:
+ *   v1 → v2: adds inventory_items table (already applied via SCHEMA above
+ *             because CREATE TABLE IF NOT EXISTS is idempotent; the PRAGMA
+ *             write here lets us detect future migrations correctly).
+ */
+async function migrateSchema(db: SQLiteDBConnection): Promise<void> {
+    const versionResult = await db.query('PRAGMA user_version');
+    const oldVersion = Number(versionResult.values?.[0]?.user_version ?? 0);
+    if (oldVersion >= DB_VERSION) return;
+    // No destructive migrations needed for v1→v2: the inventory_items table
+    // was added with CREATE TABLE IF NOT EXISTS which is safe to re-run.
+    await db.execute(`PRAGMA user_version = ${DB_VERSION}`);
 }
 
 async function prepareWebStore(): Promise<void> {
