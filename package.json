@@ -53,14 +53,17 @@
   "devDependencies": {
     "@canvasengine/compiler": "2.0.0-beta.56",
     "@types/node": "^25.6.0",
+    "@types/pngjs": "^6.0.5",
     "@types/sql.js": "^1.4.9",
     "@vitejs/plugin-vue": "^6.0.5",
     "@vitest/browser": "^4.1.4",
     "@vitest/browser-playwright": "^4.1.4",
+    "canvas": "^3.2.3",
     "fast-xml-parser": "^5.7.1",
     "image-size": "^2.0.2",
     "path-browserify": "^1.0.1",
     "playwright": "^1.59.1",
+    "pngjs": "^7.0.0",
     "tsx": "^4.21.0",
     "typescript": "^6.0.3",
     "vite": "^8.0.3",
@@ -70,7 +73,8 @@
     "onlyBuiltDependencies": [
       "esbuild",
       "@parcel/watcher",
-      "sql.js"
+      "sql.js",
+      "canvas"
     ]
   }
 }

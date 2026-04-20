@@ -195,7 +195,8 @@ if (misses.length > 0) {
 // direct species_id strings) as well as any species whose id is green_dragon
 // appearing in a non-final beat's encounter list.
 const GREEN_DRAGON_ID = 'green_dragon';
-const finalBeat = collected.journey.beats[collected.journey.beats.length - 1];
+// Walk all non-final beats (indices 0..len-2). The final beat is the only
+// one allowed to feature green_dragon, so we skip it by iterating to len-1.
 for (let i = 0; i < collected.journey.beats.length - 1; i++) {
   const beat = collected.journey.beats[i];
   // Check encounter tables if the beat spec includes inline ones (future).

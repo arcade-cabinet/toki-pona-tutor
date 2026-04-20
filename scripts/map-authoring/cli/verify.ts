@@ -16,8 +16,13 @@ import { dirname, resolve, join, basename } from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 import { readdir, readFile } from 'node:fs/promises';
 import { existsSync } from 'node:fs';
-import { emitTmj, emitTmx, loadTilesetsForSpec } from '../lib/index';
-import type { MapSpec } from '../lib/index';
+// Import from specific modules (not the barrel) so verify does not pull in
+// the renderer — which depends on `canvas` (native bindings). CI runs this
+// script during `pnpm validate` without building canvas.
+import { emitTmj } from '../lib/emitter';
+import { emitTmx } from '../lib/tmx-emitter';
+import { loadTilesetsForSpec } from '../lib/loader';
+import type { MapSpec } from '../lib/types';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const worktreeRoot = resolve(__dirname, '..', '..', '..');
