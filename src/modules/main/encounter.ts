@@ -1,6 +1,6 @@
 import type { RpgPlayer } from '@rpgjs/server';
 import { addToParty, logEncounter, recordMasteredWord } from '../../platform/persistence/queries';
-import { getDialogById } from './content';
+import { playDialog } from './dialog';
 import worldRaw from '../../content/generated/world.json';
 
 type Species = {
@@ -82,12 +82,7 @@ async function runCaptureDialog(
     level: number,
     mapId: string,
 ): Promise<void> {
-    const appearNode = getDialogById('wild_encounter_appear');
-    if (appearNode) {
-        for (const beat of appearNode.beats) {
-            await player.showText(beat.text.tp ?? beat.text.en);
-        }
-    }
+    await playDialog(player, 'wild_encounter_appear');
     await recordMasteredWord(meta.id.split('_')[0]);
 
     const choice = await player.showChoices('?', [
@@ -102,21 +97,11 @@ async function runCaptureDialog(
 
     const caught = Math.random() < meta.catch_rate;
     if (caught) {
-        const wonNode = getDialogById('wild_encounter_caught');
-        if (wonNode) {
-            for (const beat of wonNode.beats) {
-                await player.showText(beat.text.tp ?? beat.text.en);
-            }
-        }
+        await playDialog(player, 'wild_encounter_caught');
         await addToParty(meta.id, level);
         await logEncounter(meta.id, mapId, 'caught');
     } else {
-        const lostNode = getDialogById('wild_encounter_escaped');
-        if (lostNode) {
-            for (const beat of lostNode.beats) {
-                await player.showText(beat.text.tp ?? beat.text.en);
-            }
-        }
+        await playDialog(player, 'wild_encounter_escaped');
         await logEncounter(meta.id, mapId, 'escaped');
     }
 }

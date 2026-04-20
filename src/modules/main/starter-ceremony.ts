@@ -1,23 +1,13 @@
 import type { RpgPlayer } from '@rpgjs/server';
 import { preferences, KEYS } from '../../platform/persistence/preferences';
 import { recordMasteredWord, setFlag } from '../../platform/persistence/queries';
-import { getDialogById } from './content';
+import { playDialog } from './dialog';
 
 const STARTERS = [
     { id: 'soweli_seli', label: 'soweli seli' },
     { id: 'soweli_telo', label: 'soweli telo' },
     { id: 'kasi_pona', label: 'kasi pona' },
 ] as const;
-
-async function playDialog(player: RpgPlayer, dialogId: string): Promise<void> {
-    const node = getDialogById(dialogId);
-    if (!node) return;
-    for (const beat of node.beats) {
-        const line = beat.text.tp ?? beat.text.en;
-        await player.showText(line);
-        if (beat.glyph) await recordMasteredWord(beat.glyph);
-    }
-}
 
 export async function runStarterCeremony(player: RpgPlayer): Promise<void> {
     const already = await preferences.get(KEYS.starterChosen);

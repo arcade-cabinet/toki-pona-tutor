@@ -1,14 +1,15 @@
 import { RpgPlayer, RpgShape, type RpgPlayerHooks } from '@rpgjs/server';
 import { handleEncounterShapeEntered } from './encounter';
+import { showVocabulary } from './vocabulary-screen';
 
 export const player: RpgPlayerHooks = {
     onConnected(player: RpgPlayer) {
         player.changeMap('ma_tomo_lili', { x: 128, y: 128 });
         player.setGraphic('hero');
     },
-    onInput(player: RpgPlayer, { action }) {
-        if (action == 'escape') {
-            player.callMainMenu();
+    async onInput(player: RpgPlayer, { action }) {
+        if (action === 'escape') {
+            await showVocabulary(player);
         }
     },
     async onInShape(player: RpgPlayer, shape: RpgShape) {

@@ -1,7 +1,7 @@
 import { type EventDefinition, RpgPlayer } from '@rpgjs/server';
 import { preferences, KEYS } from '../../platform/persistence/preferences';
 import { getFlag } from '../../platform/persistence/queries';
-import { getDialogById } from './content';
+import { playDialog } from './dialog';
 
 export interface WarpOptions {
     targetMap: string;
@@ -16,14 +16,7 @@ export function Warp(opts: WarpOptions): EventDefinition {
             if (opts.requiredFlag) {
                 const flag = await getFlag(opts.requiredFlag);
                 if (!flag) {
-                    if (opts.gatedDialogId) {
-                        const node = getDialogById(opts.gatedDialogId);
-                        if (node) {
-                            for (const beat of node.beats) {
-                                await player.showText(beat.text.tp ?? beat.text.en);
-                            }
-                        }
-                    }
+                    if (opts.gatedDialogId) await playDialog(player, opts.gatedDialogId);
                     return;
                 }
             }
