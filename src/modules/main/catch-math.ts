@@ -11,6 +11,17 @@
  * Pure function. No Math.random here — callers roll separately so this is
  * deterministic and testable.
  */
+/**
+ * @example
+ * catchProbability({ hp: 50, hpMax: 50, catchRate: 0.45, pokiPower: 1.0 })
+ * // → 0 (full HP, can't catch)
+ * catchProbability({ hp: 25, hpMax: 50, catchRate: 0.5, pokiPower: 1.0 })
+ * // → 0.25 (half HP × 50% catch rate × 1.0 power)
+ * catchProbability({ hp: 2, hpMax: 50, catchRate: 0.65, pokiPower: 1.5 })
+ * // → 0.936 (near-dead target, poki_wawa)
+ * catchProbability({ hp: 0, hpMax: 50, catchRate: 0.9, pokiPower: 1.5 })
+ * // → 1 (clamped — can't exceed 1.0)
+ */
 export function catchProbability(params: {
     hp: number;
     hpMax: number;

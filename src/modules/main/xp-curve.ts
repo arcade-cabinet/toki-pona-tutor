@@ -13,7 +13,16 @@
 export const MIN_LEVEL = 1;
 export const MAX_LEVEL = 50;
 
-/** Total XP required to reach level `n` from level 0 (i.e. the threshold). */
+/**
+ * Total XP required to reach level `n` from level 0 (i.e. the threshold).
+ *
+ * @example
+ * xpForLevel(1)   // → 1
+ * xpForLevel(5)   // → 125
+ * xpForLevel(10)  // → 1000
+ * xpForLevel(50)  // → 125000
+ * xpForLevel(99)  // → 125000 (clamped to MAX_LEVEL=50)
+ */
 export function xpForLevel(n: number): number {
     if (n < MIN_LEVEL) return 0;
     const clamped = Math.min(n, MAX_LEVEL);
@@ -50,6 +59,18 @@ export type LevelUpEvent = {
  * XP total plus an array of level-up events (one per boundary crossed —
  * a 200-XP hit on a level-1 creature emits 5 events, one for each of
  * levels 2, 3, 4, 5, 6).
+ *
+ * @example
+ * gainXp(1, 7)
+ * // → { xp: 8, levelUps: [{ from: 1, to: 2, xpAtLevelUp: 8 }] }
+ *
+ * gainXp(1, 199)
+ * // → { xp: 200, levelUps: [
+ * //     { from: 1, to: 2, xpAtLevelUp: 8 },
+ * //     { from: 2, to: 3, xpAtLevelUp: 27 },
+ * //     { from: 3, to: 4, xpAtLevelUp: 64 },
+ * //     { from: 4, to: 5, xpAtLevelUp: 125 },
+ * //   ]}
  */
 export function gainXp(xp: number, gained: number): {
     xp: number;

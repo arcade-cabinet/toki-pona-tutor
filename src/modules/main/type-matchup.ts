@@ -26,6 +26,15 @@ export const TP_TYPES: readonly TpType[] = ['seli', 'telo', 'kasi', 'lete', 'waw
  * defender's primary type — some waso-tagged species are primarily wawa or
  * kasi but still take extra damage from ice.
  */
+/**
+ * @example
+ * typeMultiplier('seli', 'kasi')  // → 2   (super-effective)
+ * typeMultiplier('kasi', 'seli')  // → 0.5 (resisted)
+ * typeMultiplier('seli', 'seli')  // → 1   (neutral same-type)
+ * typeMultiplier('wawa', 'seli')  // → 1   (bruiser — flat)
+ * typeMultiplier('lete', 'kasi', true)  // → 2 (ice vs waso-tagged)
+ * typeMultiplier('lete', 'kasi', false) // → 0.5 (weak offensive)
+ */
 export function typeMultiplier(
     attacker: TpType,
     defender: TpType,
