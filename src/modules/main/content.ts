@@ -19,7 +19,30 @@ type ContentWorld = {
     species: Species[];
 };
 
-const world = worldRaw as unknown as ContentWorld;
+/**
+ * Guard the minimum required fields so build-output divergence surfaces as
+ * a loud startup error rather than a silent undefined at call sites (CR #3107839129).
+ * The cast itself is safe — world.json is produced by build-spine.mjs which
+ * validates the full schema before writing — but we verify the critical fields
+ * are present so a stale or hand-edited artifact doesn't silently break runtime.
+ */
+function assertContentWorld(raw: unknown): ContentWorld {
+    if (
+        raw == null ||
+        typeof raw !== 'object' ||
+        !Array.isArray((raw as Record<string, unknown>).dialog) ||
+        !Array.isArray((raw as Record<string, unknown>).species) ||
+        typeof (raw as Record<string, unknown>).start_region_id !== 'string' ||
+        (raw as Record<string, unknown>).journey == null
+    ) {
+        throw new Error(
+            '[content] world.json is missing required fields — run `pnpm build-spine` to regenerate',
+        );
+    }
+    return raw as unknown as ContentWorld;
+}
+
+const world = assertContentWorld(worldRaw);
 
 export function getDialogById(id: string): DialogNode | undefined {
     return world.dialog.find((d) => d.id === id);
