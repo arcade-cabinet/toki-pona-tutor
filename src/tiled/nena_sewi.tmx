@@ -46,14 +46,14 @@
  <objectgroup id="3" name="Encounters" visible="1" opacity="1">
   <object id="5" name="encounter_0" type="Encounter" x="64" y="64" width="64" height="32" visible="1" rotation="0">
    <properties>
-     <property name="species" value="{&quot;jan_wawa&quot;:45,&quot;jan_wawa_linja&quot;:30,&quot;sijelo_kiwen&quot;:25}"/>
+     <property name="species" value="{&quot;jan_wawa&quot;:25,&quot;jan_wawa_linja&quot;:20,&quot;sijelo_kiwen&quot;:15,&quot;soweli_palisa&quot;:15,&quot;waso_lape&quot;:15,&quot;akesi_seli&quot;:10}"/>
      <property name="level_min" type="int" value="6"/>
      <property name="level_max" type="int" value="8"/>
    </properties>
   </object>
   <object id="6" name="encounter_1" type="Encounter" x="224" y="160" width="96" height="48" visible="1" rotation="0">
    <properties>
-     <property name="species" value="{&quot;jan_wawa&quot;:35,&quot;jan_wawa_linja&quot;:35,&quot;sijelo_kiwen&quot;:30}"/>
+     <property name="species" value="{&quot;jan_wawa&quot;:20,&quot;jan_wawa_linja&quot;:20,&quot;sijelo_kiwen&quot;:20,&quot;soweli_sewi&quot;:15,&quot;waso_lape&quot;:15,&quot;soweli_palisa&quot;:10}"/>
      <property name="level_min" type="int" value="7"/>
      <property name="level_max" type="int" value="9"/>
    </properties>

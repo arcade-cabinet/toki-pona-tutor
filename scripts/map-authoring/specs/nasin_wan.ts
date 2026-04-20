@@ -44,9 +44,9 @@ export default defineMap({
       },
     ],
     Encounters: [
-      { rect: [6, 3, 4, 2], species: { jan_ike_lili: 40, jan_utala_lili: 35, jan_moli: 25 }, levelRange: [3, 5] },
-      { rect: [14, 6, 5, 2], species: { jan_ike_lili: 30, jan_utala_lili: 40, jan_moli: 30 }, levelRange: [4, 6] },
-      { rect: [22, 3, 4, 2], species: { jan_ike_lili: 25, jan_utala_lili: 30, jan_moli: 45 }, levelRange: [5, 7] },
+      { rect: [6, 3, 4, 2], species: { jan_ike_lili: 25, jan_utala_lili: 20, soweli_musi: 20, soweli_kili: 15, soweli_jaki: 10, waso_pimeja: 10 }, levelRange: [3, 5] },
+      { rect: [14, 6, 5, 2], species: { jan_ike_lili: 20, jan_utala_lili: 25, jan_moli: 15, soweli_musi: 15, soweli_kili: 15, waso_toki: 10 }, levelRange: [4, 6] },
+      { rect: [22, 3, 4, 2], species: { jan_ike_lili: 15, jan_moli: 25, soweli_kili: 20, soweli_jaki: 20, akesi_linja: 10, soweli_nena: 10 }, levelRange: [5, 7] },
     ],
   },
 });

@@ -51,8 +51,8 @@ export default defineMap({
       },
     ],
     Encounters: [
-      { rect: [4, 4, 4, 2], species: { jan_wawa: 45, jan_wawa_linja: 30, sijelo_kiwen: 25 }, levelRange: [6, 8] },
-      { rect: [14, 10, 6, 3], species: { jan_wawa: 35, jan_wawa_linja: 35, sijelo_kiwen: 30 }, levelRange: [7, 9] },
+      { rect: [4, 4, 4, 2], species: { jan_wawa: 25, jan_wawa_linja: 20, sijelo_kiwen: 15, soweli_palisa: 15, waso_lape: 15, akesi_seli: 10 }, levelRange: [6, 8] },
+      { rect: [14, 10, 6, 3], species: { jan_wawa: 20, jan_wawa_linja: 20, sijelo_kiwen: 20, soweli_sewi: 15, waso_lape: 15, soweli_palisa: 10 }, levelRange: [7, 9] },
     ],
   },
 });

@@ -55,8 +55,8 @@ export default defineMap({
       },
     ],
     Encounters: [
-      { rect: [4, 12, 5, 3], species: { sijelo_linja: 35, sijelo_kiwen: 25, jan_pi_sewi_pimeja: 20, sijelo_utala: 20 }, levelRange: [7, 10] },
-      { rect: [12, 12, 6, 3], species: { sijelo_linja: 30, sijelo_kiwen: 35, jan_pi_sewi_pimeja: 15, sijelo_utala: 20 }, levelRange: [9, 12] },
+      { rect: [4, 12, 5, 3], species: { sijelo_linja: 20, sijelo_kiwen: 15, jan_pi_sewi_pimeja: 15, waso_lete: 20, soweli_nena: 15, soweli_kiwen: 15 }, levelRange: [7, 10] },
+      { rect: [12, 12, 6, 3], species: { sijelo_linja: 15, sijelo_kiwen: 20, jan_pi_sewi_pimeja: 15, sijelo_utala: 15, waso_lete: 15, soweli_kiwen: 20 }, levelRange: [9, 12] },
     ],
   },
 });

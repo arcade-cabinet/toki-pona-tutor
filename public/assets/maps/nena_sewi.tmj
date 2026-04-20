@@ -599,7 +599,7 @@
             {
               "name": "species",
               "type": "string",
-              "value": "{\"jan_wawa\":45,\"jan_wawa_linja\":30,\"sijelo_kiwen\":25}"
+              "value": "{\"jan_wawa\":25,\"jan_wawa_linja\":20,\"sijelo_kiwen\":15,\"soweli_palisa\":15,\"waso_lape\":15,\"akesi_seli\":10}"
             },
             {
               "name": "level_min",
@@ -627,7 +627,7 @@
             {
               "name": "species",
               "type": "string",
-              "value": "{\"jan_wawa\":35,\"jan_wawa_linja\":35,\"sijelo_kiwen\":30}"
+              "value": "{\"jan_wawa\":20,\"jan_wawa_linja\":20,\"sijelo_kiwen\":20,\"soweli_sewi\":15,\"waso_lape\":15,\"soweli_palisa\":10}"
             },
             {
               "name": "level_min",

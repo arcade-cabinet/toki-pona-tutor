@@ -38,21 +38,21 @@
  <objectgroup id="3" name="Encounters" visible="1" opacity="1">
   <object id="4" name="encounter_0" type="Encounter" x="96" y="48" width="64" height="32" visible="1" rotation="0">
    <properties>
-     <property name="species" value="{&quot;jan_ike_lili&quot;:40,&quot;jan_utala_lili&quot;:35,&quot;jan_moli&quot;:25}"/>
+     <property name="species" value="{&quot;jan_ike_lili&quot;:25,&quot;jan_utala_lili&quot;:20,&quot;soweli_musi&quot;:20,&quot;soweli_kili&quot;:15,&quot;soweli_jaki&quot;:10,&quot;waso_pimeja&quot;:10}"/>
      <property name="level_min" type="int" value="3"/>
      <property name="level_max" type="int" value="5"/>
    </properties>
   </object>
   <object id="5" name="encounter_1" type="Encounter" x="224" y="96" width="80" height="32" visible="1" rotation="0">
    <properties>
-     <property name="species" value="{&quot;jan_ike_lili&quot;:30,&quot;jan_utala_lili&quot;:40,&quot;jan_moli&quot;:30}"/>
+     <property name="species" value="{&quot;jan_ike_lili&quot;:20,&quot;jan_utala_lili&quot;:25,&quot;jan_moli&quot;:15,&quot;soweli_musi&quot;:15,&quot;soweli_kili&quot;:15,&quot;waso_toki&quot;:10}"/>
      <property name="level_min" type="int" value="4"/>
      <property name="level_max" type="int" value="6"/>
    </properties>
   </object>
   <object id="6" name="encounter_2" type="Encounter" x="352" y="48" width="64" height="32" visible="1" rotation="0">
    <properties>
-     <property name="species" value="{&quot;jan_ike_lili&quot;:25,&quot;jan_utala_lili&quot;:30,&quot;jan_moli&quot;:45}"/>
+     <property name="species" value="{&quot;jan_ike_lili&quot;:15,&quot;jan_moli&quot;:25,&quot;soweli_kili&quot;:20,&quot;soweli_jaki&quot;:20,&quot;akesi_linja&quot;:10,&quot;soweli_nena&quot;:10}"/>
      <property name="level_min" type="int" value="5"/>
      <property name="level_max" type="int" value="7"/>
    </properties>

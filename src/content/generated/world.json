@@ -531,7 +531,64 @@
       "catch_rate": 0.4,
       "xp_yield": 64,
       "sprite_frame": 0,
-      "portrait_src": "/assets/creatures/zombie/zombie.png"
+      "portrait_src": "/assets/creatures/zombie/zombie.png",
+      "sprite": {
+        "src": "/assets/creatures/zombie/zombie.png",
+        "frame_width": 16,
+        "frame_height": 32,
+        "animations": {
+          "idle": {
+            "row": 0,
+            "col_start": 0,
+            "cols": 4,
+            "fps": 3,
+            "loop": true
+          },
+          "walk": {
+            "row": 1,
+            "col_start": 0,
+            "cols": 4,
+            "fps": 6,
+            "loop": true
+          },
+          "taunt": {
+            "row": 2,
+            "col_start": 0,
+            "cols": 4,
+            "fps": 5,
+            "loop": false
+          },
+          "defend": {
+            "row": 3,
+            "col_start": 0,
+            "cols": 4,
+            "fps": 5,
+            "loop": false
+          },
+          "attack": {
+            "row": 4,
+            "col_start": 0,
+            "cols": 4,
+            "fps": 10,
+            "loop": false
+          },
+          "hurt": {
+            "row": 5,
+            "col_start": 0,
+            "cols": 4,
+            "fps": 8,
+            "loop": false
+          },
+          "death": {
+            "row": 6,
+            "col_start": 0,
+            "cols": 4,
+            "fps": 6,
+            "loop": false
+          }
+        },
+        "tier": "common"
+      }
     },
     {
       "id": "jan_moli_wawa",
@@ -1746,7 +1803,64 @@
       "catch_rate": 0.45,
       "xp_yield": 60,
       "sprite_frame": 0,
-      "portrait_src": "/assets/creatures/wraith/wraith.png"
+      "portrait_src": "/assets/creatures/wraith/wraith.png",
+      "sprite": {
+        "src": "/assets/creatures/wraith/wraith.png",
+        "frame_width": 16,
+        "frame_height": 32,
+        "animations": {
+          "idle": {
+            "row": 0,
+            "col_start": 0,
+            "cols": 4,
+            "fps": 4,
+            "loop": true
+          },
+          "taunt": {
+            "row": 1,
+            "col_start": 0,
+            "cols": 4,
+            "fps": 6,
+            "loop": false
+          },
+          "walk": {
+            "row": 2,
+            "col_start": 0,
+            "cols": 4,
+            "fps": 6,
+            "loop": true
+          },
+          "defend": {
+            "row": 3,
+            "col_start": 0,
+            "cols": 4,
+            "fps": 5,
+            "loop": false
+          },
+          "attack": {
+            "row": 4,
+            "col_start": 0,
+            "cols": 4,
+            "fps": 10,
+            "loop": false
+          },
+          "hurt": {
+            "row": 5,
+            "col_start": 0,
+            "cols": 4,
+            "fps": 8,
+            "loop": false
+          },
+          "death": {
+            "row": 6,
+            "col_start": 0,
+            "cols": 4,
+            "fps": 6,
+            "loop": false
+          }
+        },
+        "tier": "common"
+      }
     },
     {
       "id": "seli_moli",
