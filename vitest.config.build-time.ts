@@ -33,6 +33,7 @@ export default defineConfig({
         'src/modules/main/dictionary-export.ts',
         'src/modules/main/treasure-chest.ts',
         'src/modules/main/audio.ts',
+        'src/modules/main/sfx.ts',
         'src/modules/main/virtual-dpad.ts',
         'src/modules/main/rematch.ts',
         'src/modules/main/victory-sequence.ts',
