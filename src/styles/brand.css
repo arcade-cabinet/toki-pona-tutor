@@ -1,0 +1,228 @@
+/*
+ * poki soweli brand theme — implements docs/BRAND.md
+ *
+ * This sheet owns:
+ *   1. CSS custom properties for the canonical palette + aliases
+ *   2. Typography stack + size scale
+ *   3. Spacing rhythm
+ *   4. Motion timing tokens
+ *   5. @rpgjs/ui-css token overrides (parchment-on-dark + kasi-green
+ *      accent in place of the library's dusk-blue default)
+ *
+ * Imported after @rpgjs/ui-css stylesheets in standalone.ts so
+ * overrides take precedence without !important.
+ *
+ * When BRAND.md changes, this file changes FIRST, then any component
+ * CSS that references these tokens. BRAND.md → brand.css → components.
+ */
+
+:root {
+    /* ─── Canonical palette ─── */
+    --poki-ink:              #1b1510;
+    --poki-bark:             #2d2318;
+    --poki-wood:             #4e3e2a;
+    --poki-parchment:        #f5e6c8;
+    --poki-parchment-mute:   #c9a268;
+
+    /* Type colors */
+    --poki-kasi:             #86a856;
+    --poki-kasi-glow:        #a7c472;
+    --poki-seli:             #c23b22;
+    --poki-telo:             #5b94a6;
+    --poki-lete:             #9cc9d6;
+    --poki-wawa:             #b38a3e;
+    --poki-moli:             #6b3d6d;
+
+    /* ─── Semantic aliases ─── */
+    --surface:       var(--poki-bark);
+    --surface-high:  var(--poki-wood);
+    --border:        var(--poki-parchment-mute);
+    --text:          var(--poki-parchment);
+    --text-mute:     var(--poki-parchment-mute);
+    --success:       var(--poki-kasi);
+    --danger:        var(--poki-seli);
+    --info:          var(--poki-telo);
+    --accent:        var(--poki-wawa);
+
+    /* ─── Typography ─── */
+    --font-body: 'Inter', system-ui, -apple-system, sans-serif;
+    --font-heading: 'Cinzel', 'Cormorant Garamond', serif;
+    --font-mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    --font-glyph: 'Fairfax HD', 'sitelen-seli-kiwen-asuki', monospace;
+
+    --text-body-desktop: 18px;
+    --text-body-mobile:  16px;
+    --text-hud:          16px;
+    --text-label:        14px;
+    --text-heading:      24px;
+    --text-heading-mobile: 20px;
+
+    --line-body: 1.45;
+    --line-hud:  1.15;
+
+    /* ─── 8-point spacing grid ─── */
+    --space-0: 0;
+    --space-1: 8px;
+    --space-2: 16px;
+    --space-3: 24px;
+    --space-4: 32px;
+    --space-5: 40px;
+    --space-6: 48px;
+    --space-7: 56px;
+    --space-8: 64px;
+
+    /* ─── Radii ─── */
+    --radius-sm: 8px;
+    --radius-md: 12px;
+    --radius-lg: 16px;
+
+    /* ─── Borders ─── */
+    --border-width: 1px;
+    --border-width-modal: 2px;
+
+    /* ─── Shadows ─── */
+    --shadow-panel:  0 4px 10px rgba(0, 0, 0, 0.25);
+    --shadow-modal:  0 12px 28px rgba(0, 0, 0, 0.4);
+    --shadow-hover:  0 0 0 2px rgba(134, 168, 86, 0.3);
+
+    /* ─── Motion tokens ─── */
+    --duration-press:   120ms;
+    --duration-menu:    200ms;
+    --duration-tween:   400ms;
+    --duration-victory: 300ms;
+    --ease-out:         ease-out;
+    --ease-in-out:      ease-in-out;
+
+    /* ─── Touch target minimums (WCAG 2.1 AA) ─── */
+    --touch-min:        44px;
+    --touch-combat:     56px;
+
+    /* ─── @rpgjs/ui-css token overrides ─── */
+    /* The library exposes --rpg-ui-* tokens which we remap to our
+       canonical palette so every default component inherits the brand
+       without per-component overrides. */
+    --rpg-ui-bg:                var(--poki-ink);
+    --rpg-ui-body-bg:           var(--poki-ink);
+    --rpg-ui-surface:           var(--surface);
+    --rpg-ui-surface-light:     var(--surface-high);
+    --rpg-ui-surface-overlay:       rgba(27, 21, 16, 0.78);
+    --rpg-ui-surface-overlay-strong: rgba(27, 21, 16, 0.94);
+    --rpg-ui-border:            rgba(201, 162, 104, 0.42);
+    --rpg-ui-border-light:      rgba(245, 213, 160, 0.30);
+    --rpg-ui-border-dark:       rgba(18, 14, 10, 0.82);
+    --rpg-ui-text:              var(--text);
+    --rpg-ui-text-muted:        var(--text-mute);
+    --rpg-ui-accent:            var(--success);
+    --rpg-ui-accent-hover:      var(--poki-kasi-glow);
+    --rpg-ui-accent-active:     #6b8a42;
+    --rpg-ui-success:           var(--success);
+    --rpg-ui-warning:           var(--accent);
+    --rpg-ui-danger:            var(--danger);
+    --rpg-ui-info:              var(--info);
+    --rpg-ui-mana:              var(--info);
+    --rpg-ui-xp:                var(--accent);
+
+    --rpg-ui-health-gradient:   linear-gradient(90deg, #c23b22 0%, #7a1f10 100%);
+    --rpg-ui-mana-gradient:     linear-gradient(90deg, #5b94a6 0%, #2f5a68 100%);
+    --rpg-ui-xp-gradient:       linear-gradient(90deg, #e5a42c 0%, #a97215 100%);
+
+    --rpg-ui-font:              var(--font-body);
+    --rpg-ui-font-size:         1rem;
+    --rpg-ui-font-weight:       500;
+    --rpg-ui-font-weight-bold:  700;
+
+    --rpg-ui-radius-sm:         var(--radius-sm);
+    --rpg-ui-radius-md:         var(--radius-md);
+    --rpg-ui-radius-lg:         var(--radius-lg);
+
+    --rpg-ui-shadow-sm:         var(--shadow-panel);
+    --rpg-ui-shadow-md:         var(--shadow-modal);
+    --rpg-ui-shadow:            var(--shadow-modal);
+}
+
+/* ─── High-contrast mode (T5-11) ───
+   Activated by adding `.poki-high-contrast` to <body> via the
+   settings accessor. Doubles border weights and flattens gradients
+   to solid fills for accessibility. */
+body.poki-high-contrast {
+    --border-width: 2px;
+    --border-width-modal: 3px;
+    --rpg-ui-border: rgba(201, 162, 104, 0.85);
+    --rpg-ui-health-gradient: var(--poki-seli);
+    --rpg-ui-mana-gradient: var(--poki-telo);
+    --rpg-ui-xp-gradient: var(--poki-wawa);
+}
+
+/* ─── Reduced-motion ─── */
+@media (prefers-reduced-motion: reduce) {
+    :root {
+        --duration-press: 0ms;
+        --duration-menu: 0ms;
+        --duration-tween: 0ms;
+        --duration-victory: 0ms;
+    }
+}
+
+/* ─── HP-bar threshold coloring (brand §HP) ───
+   Components set one of .hp-healthy / .hp-wounded / .hp-critical on
+   their bar wrapper; the fill gets the threshold color. `.hp-critical`
+   pulses via the brand motion token. */
+.hp-healthy > .hp-fill  { background: var(--poki-kasi); }
+.hp-wounded > .hp-fill  { background: var(--poki-wawa); }
+.hp-critical > .hp-fill {
+    background: var(--poki-seli);
+    animation: poki-hp-critical-pulse 1000ms ease-in-out infinite;
+}
+
+@keyframes poki-hp-critical-pulse {
+    0%, 100% { opacity: 1; }
+    50%      { opacity: 0.65; }
+}
+
+/* ─── Victory toast (brand §Chrome patterns) ───
+   Components add class poki-toast; stack with flex column-reverse on
+   the toast container. */
+.poki-toast {
+    background: var(--poki-wawa);
+    color: var(--poki-ink);
+    padding: var(--space-1) var(--space-2);
+    border-radius: var(--radius-md);
+    border: var(--border-width) solid rgba(0, 0, 0, 0.3);
+    font-family: var(--font-body);
+    font-weight: 700;
+    box-shadow: var(--shadow-panel);
+    animation: poki-toast-in var(--duration-victory) var(--ease-out);
+}
+
+@keyframes poki-toast-in {
+    from { opacity: 0; transform: translateY(12px); }
+    to   { opacity: 1; transform: translateY(0); }
+}
+
+/* ─── Dialog bubble chrome (brand §Chrome patterns) ───
+   Optional override when RPG.js's default dialog box is shown;
+   keeps speaker label + body structure per BRAND.md. */
+.poki-dialog {
+    background: var(--rpg-ui-surface-overlay-strong);
+    border: var(--border-width-modal) solid var(--border);
+    border-radius: var(--radius-lg);
+    color: var(--text);
+    padding: var(--space-2) var(--space-3);
+    font-family: var(--font-body);
+    font-size: var(--text-body-desktop);
+    line-height: var(--line-body);
+    box-shadow: var(--shadow-modal);
+}
+
+.poki-dialog > .speaker {
+    color: var(--text-mute);
+    font-size: var(--text-label);
+    font-weight: 600;
+    margin-bottom: var(--space-1);
+    padding-bottom: var(--space-1);
+    border-bottom: 1px solid var(--border);
+}
+
+@media (max-width: 768px) {
+    .poki-dialog { font-size: var(--text-body-mobile); }
+}
