@@ -41,8 +41,78 @@
       ],
       "catch_rate": 0.05,
       "xp_yield": 300,
-      "sprite_frame": 5,
-      "portrait_src": "/assets/bosses/green-dragon/idle-green.png"
+      "portrait_src": "/assets/bosses/green-dragon/idle-green.png",
+      "sprite": {
+        "src": "/assets/bosses/green-dragon/idle-green.png",
+        "frame_width": 96,
+        "frame_height": 96,
+        "animations": {
+          "idle": {
+            "row": 0,
+            "col_start": 0,
+            "cols": 32,
+            "fps": 6,
+            "loop": true
+          },
+          "walk": {
+            "src": "/assets/bosses/green-dragon/walk-green.png",
+            "row": 0,
+            "col_start": 0,
+            "cols": 24,
+            "fps": 10,
+            "loop": true
+          },
+          "fly": {
+            "src": "/assets/bosses/green-dragon/fly-green.png",
+            "row": 0,
+            "col_start": 0,
+            "cols": 24,
+            "fps": 10,
+            "loop": true
+          },
+          "hover": {
+            "src": "/assets/bosses/green-dragon/hover-green.png",
+            "row": 0,
+            "col_start": 0,
+            "cols": 24,
+            "fps": 6,
+            "loop": true
+          },
+          "launch": {
+            "src": "/assets/bosses/green-dragon/launch-green.png",
+            "row": 0,
+            "col_start": 0,
+            "cols": 32,
+            "fps": 10,
+            "loop": false
+          },
+          "attack": {
+            "src": "/assets/bosses/green-dragon/melee-green.png",
+            "row": 0,
+            "col_start": 0,
+            "cols": 24,
+            "fps": 12,
+            "loop": false
+          },
+          "special": {
+            "src": "/assets/bosses/green-dragon/firebreath-green.png",
+            "row": 0,
+            "col_start": 0,
+            "cols": 64,
+            "fps": 12,
+            "loop": false
+          },
+          "death": {
+            "src": "/assets/bosses/green-dragon/death-animation.png",
+            "row": 0,
+            "col_start": 0,
+            "cols": 9,
+            "fps": 5,
+            "loop": false
+          }
+        },
+        "tier": "legendary"
+      }
     },
     {
       "id": "jan_ike_lili",
@@ -984,6 +1054,117 @@
             "col_start": 0,
             "cols": 3,
             "fps": 6,
+            "loop": false
+          }
+        },
+        "tier": "common"
+      }
+    },
+    {
+      "id": "soweli_musi",
+      "name": {
+        "en": "musi"
+      },
+      "description": {
+        "en": "Cats meow.",
+        "tp": "kisa li mu."
+      },
+      "type": "kasi",
+      "base_stats": {
+        "hp": 42,
+        "attack": 48,
+        "defense": 32,
+        "speed": 58
+      },
+      "learnset": [
+        {
+          "level": 1,
+          "move_id": "utala_lili"
+        },
+        {
+          "level": 1,
+          "move_id": "kasi_lili"
+        },
+        {
+          "level": 9,
+          "move_id": "kon_wawa"
+        }
+      ],
+      "catch_rate": 0.4,
+      "xp_yield": 52,
+      "sprite": {
+        "src": "/assets/animals/cat.png",
+        "frame_width": 32,
+        "frame_height": 32,
+        "animations": {
+          "idle_up": {
+            "row": 0,
+            "col_start": 0,
+            "cols": 4,
+            "fps": 4,
+            "loop": true
+          },
+          "idle_left": {
+            "row": 1,
+            "col_start": 0,
+            "cols": 4,
+            "fps": 4,
+            "loop": true
+          },
+          "idle_down": {
+            "row": 2,
+            "col_start": 0,
+            "cols": 4,
+            "fps": 4,
+            "loop": true
+          },
+          "idle_right": {
+            "row": 3,
+            "col_start": 0,
+            "cols": 4,
+            "fps": 4,
+            "loop": true
+          },
+          "walk_up": {
+            "row": 4,
+            "col_start": 0,
+            "cols": 8,
+            "fps": 10,
+            "loop": true
+          },
+          "walk_left": {
+            "row": 5,
+            "col_start": 0,
+            "cols": 8,
+            "fps": 10,
+            "loop": true
+          },
+          "walk_down": {
+            "row": 6,
+            "col_start": 0,
+            "cols": 8,
+            "fps": 10,
+            "loop": true
+          },
+          "walk_right": {
+            "row": 7,
+            "col_start": 0,
+            "cols": 8,
+            "fps": 10,
+            "loop": true
+          },
+          "attack": {
+            "row": 8,
+            "col_start": 0,
+            "cols": 4,
+            "fps": 12,
+            "loop": false
+          },
+          "hurt": {
+            "row": 9,
+            "col_start": 0,
+            "cols": 4,
+            "fps": 8,
             "loop": false
           }
         },
