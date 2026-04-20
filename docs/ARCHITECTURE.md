@@ -5,6 +5,12 @@ status: current
 domain: technical
 ---
 
+<!--
+  This doc reflects the v5 pivot through V19 (CR sweep + CI trifecta +
+  comprehensive ROADMAP port). See CHANGELOG.md [Unreleased] for the
+  running delta and docs/STATE.md for what's queued next.
+-->
+
 # poki soweli — Architecture
 
 poki soweli is a creature-catching RPG whose world is named in toki pona. The player walks between regions, catches creatures in tall grass with a **poki** (net), builds a party of up to six, and beats a **jan lawa** (master) in each region to progress.
@@ -17,7 +23,7 @@ Language is diegetic flavor, not mechanic. The player never translates — toki 
 - **RPG.js v5 beta** (`@rpgjs/client`, `@rpgjs/server`, `@rpgjs/tiledmap`, `@rpgjs/vite`) — game engine, overworld scenes, Tiled tilemap rendering, event/NPC system, dialog, save hooks.
 - **CanvasEngine 2.0 beta** (`canvasengine`, `@canvasengine/presets`, `@canvasengine/compiler`) — underlying renderer used by RPG.js v5 (Pixi 8-backed).
 - **Pixi.js 8** — low-level sprite/tilemap rendering (via CanvasEngine).
-- **@rpgjs/action-battle** — built-in action-battle module (wired later; placeholder in v5 module structure for now).
+- **@rpgjs/action-battle** — wired for rival + gym-leader fights. Gym leaders use `gym-leader.ts` factory with optional multi-phase BattleAi (HP-threshold poller triggers `runPhaseTransition`).
 - **@signe/di** — dependency injection / module composition used by RPG.js v5.
 - **TypeScript strict** throughout.
 - **Capacitor 8** for Android native wrapper; web deploys to GitHub Pages.
@@ -78,7 +84,9 @@ Map files use the following layer/object conventions (unchanged from the Phaser 
            (with `species` weight-map custom property)
 ```
 
-Authors edit `.tmx` files in the Tiled editor. `tiledMapFolderPlugin` from `@rpgjs/vite` copies + processes them at build time. RPG.js v5's `@rpgjs/tiledmap` package handles runtime rendering through CanvasEngine.
+**Maps are build artifacts, not hand-authored.** The only way a map enters the repo is via a TypeScript spec in `scripts/map-authoring/specs/<id>.ts` built by `pnpm author:build <id>` (or `pnpm author:all --all`). Both `src/tiled/<id>.tmx` (runtime, consumed by `tiledMapFolderPlugin` from `@rpgjs/vite`) and `public/assets/maps/<id>.tmj` (archive + preview render) regenerate from the same source. `pnpm author:verify` runs in `validate` + `prebuild` + CI and fails on any hand-edited or drifted `.tmx`. If you need to change a map: edit the spec, rebuild, commit both.
+
+RPG.js v5's `@rpgjs/tiledmap` package handles runtime rendering through CanvasEngine.
 
 ### The content pipeline (narrative + mechanical)
 
@@ -149,10 +157,26 @@ src/
     config.server.ts        — (placeholder; server config if needed)
   modules/
     main/
-      player.ts             — RpgPlayerHooks: onConnected → changeMap to first journey beat
-      event.ts              — NPC event factory (jan Sewi starter ceremony, etc.)
-      server.ts             — defineModule: player hooks + map event registrations
+      player.ts             — RpgPlayerHooks: onConnected → changeMap + onDead respawn
+      dialog.ts             — TP-resolved dialog playback from spine
+      vocabulary.ts         — TP tokenizer against the 131-word dictionary
+      vocabulary-screen.ts  — pause-menu vocabulary screen (mastered words)
+      inventory-screen.ts   — pause-menu badges + journey beat + party roster
+      starter-ceremony.ts   — jan Sewi starter pick (seli/telo/kasi triangle)
+      encounter.ts          — tall-grass wild encounter + poki capture
+      warp.ts               — gated map-to-map transitions
+      gym-leader.ts         — rival/gym factory with optional multi-phase BattleAi
+      green-dragon.ts       — final boss; gated on all four region badges
+      ambient-npc.ts        — villager/sign NPC factory
+      server.ts             — defineModule: player hooks + per-map event registrations
       index.ts              — createModule('main', [{ server }]) export
+  scripts/
+    map-authoring/
+      specs/<id>.ts         — map source of truth (spec-driven .tmx + .tmj emit)
+      emitTmx.ts            — runtime .tmx emitter
+      emitTmj.ts            — archive .tmj emitter
+      render.ts             — PNG preview renderer
+      verify.ts             — CI gate: reject hand-edited or drifted .tmx
   platform/
     persistence/
       preferences.ts        — Capacitor Preferences typed wrapper (KEYS const)
@@ -223,7 +247,10 @@ index.html  →  src/standalone.ts (development: client + server in same Vite pr
 | Save state (small KV) | `src/platform/persistence/preferences.ts` (Capacitor Preferences) |
 | Save state (full snapshots) | `src/platform/persistence/database.ts` (Capacitor SQLite) |
 | RPG.js save hook | `src/platform/persistence/save-strategy.ts` |
-| Combat logic | `@rpgjs/action-battle` module (wired in later layer) |
+| Combat logic | `@rpgjs/action-battle/server` BattleAi via `src/modules/main/gym-leader.ts` |
+| Multi-phase bosses | `gym-leader.ts` `phase2` descriptor + HP-threshold poller |
+| Badge tracking | `db_flag` rows keyed `badge_<region>`; `inventory-screen.ts` reads |
+| Map emission | `scripts/map-authoring/` specs + emitters (runs in `pnpm validate`) |
 
 ## Test infrastructure
 
