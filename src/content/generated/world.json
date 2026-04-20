@@ -6,6 +6,82 @@
   "start_region_id": "ma_tomo_lili",
   "species": [
     {
+      "id": "akesi_seli",
+      "name": {
+        "en": "seli"
+      },
+      "description": {
+        "en": "The snake is big.",
+        "tp": "akesi linja li suli."
+      },
+      "type": "seli",
+      "base_stats": {
+        "hp": 58,
+        "attack": 72,
+        "defense": 44,
+        "speed": 62
+      },
+      "learnset": [
+        {
+          "level": 1,
+          "move_id": "utala_lili"
+        },
+        {
+          "level": 1,
+          "move_id": "seli_lili"
+        },
+        {
+          "level": 11,
+          "move_id": "seli_wawa"
+        }
+      ],
+      "catch_rate": 0.26,
+      "xp_yield": 95,
+      "sprite": {
+        "src": "/assets/animals/cobra.png",
+        "frame_width": 32,
+        "frame_height": 32,
+        "animations": {
+          "idle": {
+            "row": 0,
+            "col_start": 0,
+            "cols": 8,
+            "fps": 4,
+            "loop": true
+          },
+          "walk": {
+            "row": 1,
+            "col_start": 0,
+            "cols": 8,
+            "fps": 8,
+            "loop": true
+          },
+          "attack": {
+            "row": 2,
+            "col_start": 0,
+            "cols": 8,
+            "fps": 12,
+            "loop": false
+          },
+          "hurt": {
+            "row": 3,
+            "col_start": 0,
+            "cols": 3,
+            "fps": 8,
+            "loop": false
+          },
+          "death": {
+            "row": 4,
+            "col_start": 0,
+            "cols": 4,
+            "fps": 6,
+            "loop": false
+          }
+        },
+        "tier": "uncommon"
+      }
+    },
+    {
       "id": "akesi_sewi",
       "name": {
         "en": "akesi"
