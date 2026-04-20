@@ -11,6 +11,13 @@ name: android-apk
 on:
   pull_request:
 
+# Explicit least-privilege permissions. The job only needs to read
+# the PR's code (contents) and upload the artifact — no write access
+# to anything. CodeQL flagged the implicit default ('read/write for
+# most scopes') as a finding; this closes it.
+permissions:
+  contents: read
+
 jobs:
   build-apk:
     runs-on: ubuntu-latest
