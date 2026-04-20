@@ -1591,6 +1591,114 @@
       }
     },
     {
+      "id": "soweli_wawa",
+      "name": {
+        "en": "wawa"
+      },
+      "description": {
+        "en": "That animal is strong.",
+        "tp": "soweli ni li wawa."
+      },
+      "type": "wawa",
+      "base_stats": {
+        "hp": 138,
+        "attack": 118,
+        "defense": 94,
+        "speed": 28
+      },
+      "learnset": [
+        {
+          "level": 1,
+          "move_id": "utala"
+        },
+        {
+          "level": 1,
+          "move_id": "kiwen_wawa"
+        },
+        {
+          "level": 15,
+          "move_id": "kon_wawa"
+        },
+        {
+          "level": 22,
+          "move_id": "utala_lili"
+        }
+      ],
+      "catch_rate": 0.05,
+      "xp_yield": 288,
+      "sprite": {
+        "src": "/assets/animals/giant-gorilla.png",
+        "frame_width": 64,
+        "frame_height": 64,
+        "animations": {
+          "idle": {
+            "row": 0,
+            "col_start": 0,
+            "cols": 4,
+            "fps": 4,
+            "loop": true
+          },
+          "walk": {
+            "row": 1,
+            "col_start": 0,
+            "cols": 6,
+            "fps": 8,
+            "loop": true
+          },
+          "sneak": {
+            "row": 2,
+            "col_start": 0,
+            "cols": 3,
+            "fps": 5,
+            "loop": true
+          },
+          "taunt": {
+            "row": 3,
+            "col_start": 0,
+            "cols": 6,
+            "fps": 8,
+            "loop": false
+          },
+          "attack": {
+            "row": 4,
+            "col_start": 0,
+            "cols": 7,
+            "fps": 12,
+            "loop": false
+          },
+          "special": {
+            "row": 5,
+            "col_start": 0,
+            "cols": 4,
+            "fps": 12,
+            "loop": false
+          },
+          "flee": {
+            "row": 6,
+            "col_start": 0,
+            "cols": 4,
+            "fps": 10,
+            "loop": true
+          },
+          "death": {
+            "row": 7,
+            "col_start": 0,
+            "cols": 5,
+            "fps": 6,
+            "loop": false
+          },
+          "hurt": {
+            "row": 9,
+            "col_start": 0,
+            "cols": 5,
+            "fps": 8,
+            "loop": false
+          }
+        },
+        "tier": "legendary"
+      }
+    },
+    {
       "id": "telo_jaki",
       "name": {
         "en": "jaki"
