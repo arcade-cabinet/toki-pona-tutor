@@ -19,4 +19,3 @@ export * from './npc';
 export * from './dialog';
 export * from './journey';
 export * from './world';
-export * from './koota-gen';
