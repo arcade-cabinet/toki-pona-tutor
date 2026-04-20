@@ -196,4 +196,22 @@ export class Player extends Phaser.Physics.Arcade.Sprite {
       }
     }
   }
+
+  /**
+   * Tear down the selector probe alongside the Player. Without this,
+   * destroying the Player (scene shutdown, restart, etc.) leaves the
+   * static-image selector orphaned in the scene — its body stays in
+   * the world's static spatial tree and continues firing overlap hits
+   * (ghost collisions), and the GameObject leaks its texture refcount.
+   *
+   * Idempotent: Phaser sets internal refs to null on destroy, and a
+   * second call is a no-op. The `fromScene` flag is passed through so
+   * the selector follows the Player's own teardown semantics.
+   */
+  override destroy(fromScene?: boolean): void {
+    if (this.selector && this.selector.scene) {
+      this.selector.destroy(fromScene);
+    }
+    super.destroy(fromScene);
+  }
 }
