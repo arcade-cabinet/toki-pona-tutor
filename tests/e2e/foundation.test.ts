@@ -1,31 +1,35 @@
 import { describe, it, expect } from 'vitest';
-import { startGame } from './harness/phaser-harness';
+import { startGame } from './harness/rpgjs-harness';
 
 /**
- * Harness foundation test — proves the Vitest browser harness can boot
- * the real Phaser game inside a Playwright-driven chromium and read live
- * state through `window.__toki_harness__`.
+ * Smoke harness for the RPG.js v5 game. The assertion target is
+ * intentionally narrow: the build boots + the CanvasEngine canvas
+ * mounts inside the Vitest browser page. This catches regressions
+ * like broken Vite config, missing deps, or runtime errors during
+ * module init without depending on gameplay state.
  *
- * Asserts only what L2 (this layer) owns. Higher-level assertions
- * (player movement, dialog flow, screenshot diffing) depend on L1 wiring
- * the per-scene harness methods (`harnessPlayer`, `harnessMapId`,
- * `harnessDialogOpen`, plus the action methods `walkTo` / `interact` /
- * `dialogChoose`). Those are `it.todo` here with a clear pointer to L1.
+ * Playbook-driven end-to-end (walk, interact, dialog flow, screenshot
+ * diffing) is V19+ work — it needs a stable `window.__rpgjs__`
+ * inspector surface that RPG.js v5 beta doesn't expose yet. Each
+ * gameplay assertion below is `it.todo` with a pointer to what
+ * would unblock it.
  */
-describe('e2e harness foundation', () => {
-  it('boots the game and reports ready via window.__toki_harness__', async () => {
-    const harness = await startGame({ testName: 'harness-foundation-boot' });
-    try {
-      expect(harness.ready).toBe(true);
-      await harness.snapshot('after-boot');
-    } finally {
-      await harness.destroy();
-    }
-  });
+describe('e2e harness foundation (RPG.js v5)', () => {
+    it('boots the game and mounts the canvas', async () => {
+        const harness = await startGame({ testName: 'harness-foundation-boot' });
+        try {
+            expect(harness.ready).toBe(true);
+        } finally {
+            await harness.destroy();
+        }
+    });
 
-  // L1 (foundation) wires per-scene harness methods. Until that lands the
-  // following assertions cannot be implemented end-to-end. Keeping them
-  // as it.todo documents the intended contract for L3-L8.
-  it.todo('player walks N tiles east — pending L1 (RegionScene.harnessPlayer + walkTo)');
-  it.todo('screenshot captures rendered map — pending L1 (deterministic spawn + map paint)');
+    // Requires RPG.js v5 to expose a stable inspector surface
+    // (window.__rpgjs__ or similar) so the harness can read player
+    // position, active map id, dialog state, etc. deterministically.
+    it.todo('player can walk one tile east');
+    it.todo('interacting with jan Sewi opens the starter-ceremony dialog');
+    it.todo('selecting a starter sets the starter_chosen flag + opens warp_east');
+    it.todo('capture success writes to party_roster');
+    it.todo('defeat at HP 0 respawns the player at the last village');
 });
