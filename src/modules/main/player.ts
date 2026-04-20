@@ -23,8 +23,57 @@ async function autosave(player: RpgPlayer): Promise<void> {
     }
 }
 
+/**
+ * Offer a Continue prompt on boot if any saved game is present. T3-01.
+ * Returns true if the player chose to load and the load succeeded (in
+ * which case the engine has already restored the map + position and
+ * onConnected should skip its default starter-map placement).
+ */
+async function offerContinueOnBoot(player: RpgPlayer): Promise<boolean> {
+    const list = (player as unknown as { saveList?: () => Promise<unknown> }).saveList;
+    if (typeof list !== 'function') return false;
+
+    let slots: Array<{ savedAt?: string } | null> = [];
+    try {
+        const raw = await list.call(player);
+        slots = Array.isArray(raw) ? (raw as typeof slots) : [];
+    } catch {
+        return false;
+    }
+
+    const filled = slots
+        .map((meta, index) => (meta ? { index, savedAt: meta.savedAt ?? '' } : null))
+        .filter((s): s is { index: number; savedAt: string } => s !== null)
+        .sort((a, b) => b.savedAt.localeCompare(a.savedAt));
+
+    if (filled.length === 0) return false;
+
+    const choice = await player.showChoices('poki awen', [
+        { text: `kama — ${filled[0].index}`, value: 'continue' },
+        { text: 'open sin', value: 'new' },
+    ]);
+    if (!choice || choice.value !== 'continue') return false;
+
+    const load = (player as unknown as { load?: (slot: number) => Promise<void> }).load;
+    if (typeof load !== 'function') return false;
+    try {
+        await load.call(player, filled[0].index);
+        return true;
+    } catch {
+        return false;
+    }
+}
+
 export const player: RpgPlayerHooks = {
     async onConnected(player: RpgPlayer) {
+        const resumed = await offerContinueOnBoot(player);
+        if (resumed) {
+            // The loaded save already set map + position; just make sure the
+            // hero graphic is applied (in case the save predates a sprite
+            // refresh) and skip the starter placement.
+            player.setGraphic('hero');
+            return;
+        }
         await player.changeMap('ma_tomo_lili', { x: 128, y: 128 });
         player.setGraphic('hero');
         await markSafeMapIfVillage('ma_tomo_lili');
