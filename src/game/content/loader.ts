@@ -6,9 +6,16 @@
  * Scenes, dialog, combat, and UI layers all pull from the accessors below
  * rather than touching the raw JSON so the shape stays one-way-coupled to
  * the schema.
+ *
+ * Region accessors (`getRegion`, `getRegions`, `getNpc`, `selectDialog`)
+ * intentionally do not exist here. The new architecture (post region-schema
+ * removal) treats Tiled `.tmx` files as the per-region authoring format and
+ * the journey manifest as the arc through them. The L4 interaction layer
+ * loads maps directly from `public/assets/maps/<map_id>.tmj`; per-NPC
+ * dialog will load from `src/content/spine/dialog/<npc_id>.json` (L5).
  */
 import worldJson from '../../content/generated/world.json';
-import type { World, Region, Species, Move, Item, Npc, DialogNode } from '../../content/schema';
+import type { World, Species, Move, Item, Journey, JourneyBeat } from '../../content/schema';
 
 const world = worldJson as unknown as World;
 
@@ -16,16 +23,24 @@ export function getWorld(): World {
   return world;
 }
 
-export function getRegion(id: string): Region | null {
-  return world.regions.find((r) => r.id === id) ?? null;
+export function getJourney(): Journey {
+  return world.journey;
 }
 
-export function getRegions(): Region[] {
-  return world.regions;
+export function getJourneyBeats(): JourneyBeat[] {
+  return world.journey.beats;
 }
 
-export function getStartRegionId(): string {
-  return world.start_region_id || world.regions[0]?.id || '';
+export function getJourneyBeat(id: string): JourneyBeat | null {
+  return world.journey.beats.find((b) => b.id === id) ?? null;
+}
+
+export function getJourneyBeatByMapId(mapId: string): JourneyBeat | null {
+  return world.journey.beats.find((b) => b.map_id === mapId) ?? null;
+}
+
+export function getStartMapId(): string {
+  return world.start_region_id || world.journey.beats[0]?.map_id || '';
 }
 
 export function getSpecies(id: string): Species | null {
@@ -46,47 +61,4 @@ export function getAllMoves(): Move[] {
 
 export function getItem(id: string): Item | null {
   return world.items.find((i) => i.id === id) ?? null;
-}
-
-export function getNpc(regionId: string, npcId: string): Npc | null {
-  const region = getRegion(regionId);
-  if (!region) return null;
-  return region.npcs.find((n) => n.id === npcId) ?? null;
-}
-
-/**
- * Select the best-matching dialog node for an NPC given the current flag
- * and quest state. Higher priority wins when multiple nodes match. Returns
- * null if nothing matches.
- */
-export function selectDialog(
-  regionId: string,
-  npcId: string,
-  flags: Record<string, boolean>,
-  quests: Record<string, string>,
-): DialogNode | null {
-  const region = getRegion(regionId);
-  if (!region) return null;
-
-  const matches = region.dialog.filter((d) => {
-    if (d.npc_id !== npcId) return false;
-    if (d.when_flags) {
-      for (const [key, expected] of Object.entries(d.when_flags)) {
-        const actual = flags[key] ?? false;
-        if (actual !== expected) return false;
-      }
-    }
-    if (d.when_quest) {
-      for (const [questId, expectedStage] of Object.entries(d.when_quest)) {
-        if ((quests[questId] ?? '') !== expectedStage) return false;
-      }
-    }
-    return true;
-  });
-
-  if (matches.length === 0) return null;
-  // priority is defaulted to 0 by the Zod schema, but guard here too in case
-  // generated/world.json was produced by an older build.
-  matches.sort((a, b) => (b.priority ?? 0) - (a.priority ?? 0));
-  return matches[0];
 }

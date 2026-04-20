@@ -17,6 +17,6 @@ export * from './species';
 export * from './item';
 export * from './npc';
 export * from './dialog';
-export * from './region';
+export * from './journey';
 export * from './world';
 export * from './koota-gen';
