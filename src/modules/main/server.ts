@@ -171,8 +171,51 @@ export default defineModule<RpgServer>({
                     y: 0,
                     event: Warp({
                         targetMap: 'nena_suli',
-                        position: { x: 32, y: 200 },
+                        position: { x: 40, y: 200 }, // from_ma_lete spawn on nena_suli
                         requiredFlag: 'badge_lete',
+                    }),
+                },
+            ],
+        },
+        {
+            id: 'nena_suli',
+            events: [
+                {
+                    id: 'jan-pi-kon',
+                    x: 88,
+                    y: 168,
+                    event: AmbientNpc('female', 'jan_pi_kon_meditate'),
+                },
+                {
+                    id: 'jan-pi-nasin',
+                    x: 168,
+                    y: 120,
+                    event: AmbientNpc('female', 'jan_pi_nasin_ask'),
+                },
+                {
+                    id: 'jan-suli',
+                    x: 136,
+                    y: 40,
+                    event: GymLeader({
+                        npcId: 'jan_suli',
+                        badgeFlag: 'badge_suli',
+                        rewardWord: 'suli',
+                        nextBeatId: 'beat_07_nasin_pi_telo',
+                        hp: 210,
+                        atk: 32,
+                        pdef: 20,
+                        dialogBase: 'jan_suli',
+                        enemyType: EnemyType.Berserker,
+                    }),
+                },
+                {
+                    id: 'warp_north',
+                    x: 136,
+                    y: 0,
+                    event: Warp({
+                        targetMap: 'nasin_pi_telo',
+                        position: { x: 32, y: 96 },
+                        requiredFlag: 'badge_suli',
                     }),
                 },
             ],
