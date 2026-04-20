@@ -16,7 +16,9 @@ import { preferences, KEYS } from '../../platform/persistence/preferences';
 export function JanIke(): EventDefinition {
     return {
         onInit() {
-            this.setGraphic('female');
+            // Hooded rogue with daggers — sneaky rival archetype.
+            // Sprite registered in src/config/combatant-sprites.ts.
+            this.setGraphic('combatant_rogue_hooded');
             // Equivalent of a level-5 creature with a starter move.
             this.hp = 60;
             this.param[ATK] = 14;
