@@ -78,6 +78,9 @@ importers:
       '@canvasengine/compiler':
         specifier: 2.0.0-beta.56
         version: 2.0.0-beta.56(@types/node@25.6.0)(jiti@1.21.7)(lightningcss@1.32.0)(tsx@4.21.0)
+      '@capacitor/android':
+        specifier: ^8.3.1
+        version: 8.3.1(@capacitor/core@8.3.1)
       '@types/node':
         specifier: ^25.6.0
         version: 25.6.0
@@ -188,6 +191,11 @@ packages:
     engines: {node: '>=16.0.0'}
     peerDependencies:
       '@capacitor/core': ^6.0.0
+
+  '@capacitor/android@8.3.1':
+    resolution: {integrity: sha512-hjskIG8YcBEh3X4yaTXvE9gcqpdcxunTgFruSKnuPxtMxAUzEK4Oq25x0Z1g3cz+MQPc+lRG09R7Ovc+ydKsNw==}
+    peerDependencies:
+      '@capacitor/core': ^8.3.0
 
   '@capacitor/app@8.1.0':
     resolution: {integrity: sha512-MlmttTOWHDedr/G4SrhNRxsXMqY+R75S4MM4eIgzsgCzOYhb/MpCkA5Q3nuOCfL1oHm26xjUzqZ5aupbOwdfYg==}
@@ -2522,6 +2530,10 @@ snapshots:
     dependencies:
       '@capacitor/core': 8.3.1
       jeep-sqlite: 2.8.0
+
+  '@capacitor/android@8.3.1(@capacitor/core@8.3.1)':
+    dependencies:
+      '@capacitor/core': 8.3.1
 
   '@capacitor/app@8.1.0(@capacitor/core@8.3.1)':
     dependencies:
