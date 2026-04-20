@@ -11,6 +11,22 @@
   ],
   "catch_rate": 0.20,
   "xp_yield": 140,
-  "sprite_frame": 4,
-  "portrait_src": "/assets/bosses/zombie-burster/burster.png"
+  "portrait_src": "/assets/bosses/zombie-burster/burster.png",
+  "sprite": {
+    "src": "/assets/bosses/zombie-burster/burster.png",
+    "frame_width": 32,
+    "frame_height": 32,
+    "animations": {
+      "idle":    { "row": 0, "col_start": 0, "cols": 2, "fps": 4,  "loop": true  },
+      "walk":    { "row": 1, "col_start": 0, "cols": 2, "fps": 8,  "loop": true  },
+      "taunt":   { "row": 2, "col_start": 0, "cols": 2, "fps": 6,  "loop": false },
+      "hurt":    { "row": 3, "col_start": 0, "cols": 2, "fps": 8,  "loop": false },
+      "flee":    { "row": 4, "col_start": 0, "cols": 2, "fps": 10, "loop": false },
+      "cast":    { "row": 5, "col_start": 0, "cols": 2, "fps": 8,  "loop": false },
+      "defend":  { "row": 6, "col_start": 0, "cols": 2, "fps": 4,  "loop": false },
+      "attack":  { "src": "/assets/bosses/zombie-burster/burster-explosion-attack.png", "row": 0, "col_start": 0, "cols": 9, "fps": 12, "loop": false },
+      "death":   { "src": "/assets/bosses/zombie-burster/burster-death-explosion.png",  "row": 0, "col_start": 0, "cols": 9, "fps": 8,  "loop": false }
+    },
+    "tier": "legendary"
+  }
 }
