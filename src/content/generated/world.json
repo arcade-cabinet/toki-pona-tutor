@@ -191,6 +191,107 @@
       }
     },
     {
+      "id": "akesi_suli",
+      "name": {
+        "en": "suli"
+      },
+      "description": {
+        "en": "The alligator ate the dog.",
+        "tp": "akesi wawa li moku e soweli tomo."
+      },
+      "type": "telo",
+      "base_stats": {
+        "hp": 128,
+        "attack": 105,
+        "defense": 88,
+        "speed": 36
+      },
+      "learnset": [
+        {
+          "level": 1,
+          "move_id": "utala"
+        },
+        {
+          "level": 1,
+          "move_id": "telo_wawa"
+        },
+        {
+          "level": 15,
+          "move_id": "kiwen_wawa"
+        },
+        {
+          "level": 20,
+          "move_id": "telo_lili"
+        }
+      ],
+      "catch_rate": 0.07,
+      "xp_yield": 265,
+      "sprite": {
+        "src": "/assets/animals/crocodile.png",
+        "frame_width": 96,
+        "frame_height": 96,
+        "animations": {
+          "walk": {
+            "row": 0,
+            "col_start": 0,
+            "cols": 6,
+            "fps": 8,
+            "loop": true
+          },
+          "idle": {
+            "row": 1,
+            "col_start": 0,
+            "cols": 6,
+            "fps": 3,
+            "loop": true
+          },
+          "attack": {
+            "row": 2,
+            "col_start": 0,
+            "cols": 8,
+            "fps": 12,
+            "loop": false
+          },
+          "sneak": {
+            "row": 3,
+            "col_start": 0,
+            "cols": 8,
+            "fps": 6,
+            "loop": true
+          },
+          "special": {
+            "row": 4,
+            "col_start": 0,
+            "cols": 8,
+            "fps": 12,
+            "loop": false
+          },
+          "taunt": {
+            "row": 5,
+            "col_start": 0,
+            "cols": 8,
+            "fps": 8,
+            "loop": false
+          },
+          "hurt": {
+            "row": 6,
+            "col_start": 0,
+            "cols": 4,
+            "fps": 8,
+            "loop": false
+          },
+          "death": {
+            "row": 7,
+            "col_start": 0,
+            "cols": 8,
+            "fps": 6,
+            "loop": false
+          }
+        },
+        "tier": "legendary"
+      }
+    },
+    {
       "id": "jan_ike_lili",
       "name": {
         "en": "ike"
