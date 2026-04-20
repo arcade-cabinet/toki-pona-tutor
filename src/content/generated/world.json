@@ -328,7 +328,64 @@
       "catch_rate": 0.45,
       "xp_yield": 55,
       "sprite_frame": 0,
-      "portrait_src": "/assets/creatures/goblin/goblin.png"
+      "portrait_src": "/assets/creatures/goblin/goblin.png",
+      "sprite": {
+        "src": "/assets/creatures/goblin/goblin.png",
+        "frame_width": 16,
+        "frame_height": 32,
+        "animations": {
+          "taunt": {
+            "row": 0,
+            "col_start": 0,
+            "cols": 4,
+            "fps": 6,
+            "loop": false
+          },
+          "idle": {
+            "row": 1,
+            "col_start": 0,
+            "cols": 4,
+            "fps": 4,
+            "loop": true
+          },
+          "walk": {
+            "row": 2,
+            "col_start": 0,
+            "cols": 4,
+            "fps": 10,
+            "loop": true
+          },
+          "defend": {
+            "row": 3,
+            "col_start": 0,
+            "cols": 4,
+            "fps": 6,
+            "loop": false
+          },
+          "attack": {
+            "row": 4,
+            "col_start": 0,
+            "cols": 4,
+            "fps": 12,
+            "loop": false
+          },
+          "hurt": {
+            "row": 5,
+            "col_start": 0,
+            "cols": 4,
+            "fps": 8,
+            "loop": false
+          },
+          "death": {
+            "row": 6,
+            "col_start": 0,
+            "cols": 4,
+            "fps": 6,
+            "loop": false
+          }
+        },
+        "tier": "common"
+      }
     },
     {
       "id": "jan_moli",
@@ -1373,6 +1430,96 @@
           }
         },
         "tier": "uncommon"
+      }
+    },
+    {
+      "id": "soweli_anpa",
+      "name": {
+        "en": "anpa"
+      },
+      "description": {
+        "en": "Somebody is eating.",
+        "tp": "jan li moku."
+      },
+      "type": "kasi",
+      "base_stats": {
+        "hp": 40,
+        "attack": 44,
+        "defense": 30,
+        "speed": 52
+      },
+      "learnset": [
+        {
+          "level": 1,
+          "move_id": "utala_lili"
+        },
+        {
+          "level": 1,
+          "move_id": "kasi_lili"
+        },
+        {
+          "level": 9,
+          "move_id": "kiwen_wawa"
+        }
+      ],
+      "catch_rate": 0.44,
+      "xp_yield": 46,
+      "sprite": {
+        "src": "/assets/animals/naked-mole-rat.png",
+        "frame_width": 32,
+        "frame_height": 32,
+        "animations": {
+          "walk": {
+            "row": 0,
+            "col_start": 0,
+            "cols": 7,
+            "fps": 10,
+            "loop": true
+          },
+          "flee": {
+            "row": 1,
+            "col_start": 0,
+            "cols": 7,
+            "fps": 12,
+            "loop": true
+          },
+          "sneak": {
+            "row": 2,
+            "col_start": 0,
+            "cols": 4,
+            "fps": 5,
+            "loop": true
+          },
+          "attack": {
+            "row": 3,
+            "col_start": 0,
+            "cols": 5,
+            "fps": 12,
+            "loop": false
+          },
+          "idle": {
+            "row": 6,
+            "col_start": 0,
+            "cols": 3,
+            "fps": 4,
+            "loop": true
+          },
+          "hurt": {
+            "row": 5,
+            "col_start": 0,
+            "cols": 5,
+            "fps": 8,
+            "loop": false
+          },
+          "death": {
+            "row": 7,
+            "col_start": 0,
+            "cols": 3,
+            "fps": 6,
+            "loop": false
+          }
+        },
+        "tier": "common"
       }
     },
     {
