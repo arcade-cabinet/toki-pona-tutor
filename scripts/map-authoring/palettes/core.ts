@@ -7,6 +7,16 @@
  * Local IDs were harvested via `pnpm author:inspect <tileset> <sample-map>`
  * against Fan-tasy's bundled samples (Village Bridge, Farm Shore,
  * Mage Tower) and by sampling the source PNGs directly.
+ *
+ * MIGRATION (PR #64, L1 foundation):
+ *   - `G` was previously the tall-grass encounter tile (PR #62 / Stage 0).
+ *     L1 needed visual texture variants for plain grass, and tall grass
+ *     wanted a more readable lowercase symbol, so:
+ *       `G` → grass variant (was tall grass)
+ *       `t` → tall grass interior (new — was previously unmapped)
+ *     Only `hello_map.ts` existed at the time of the rename, and it does
+ *     not reference `G` or `t`, so the migration is a no-op for current
+ *     specs. New specs (ma_tomo_lili.ts) use the new mapping directly.
  */
 import type { Palette } from '../lib/types';
 

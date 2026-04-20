@@ -32,7 +32,9 @@ export class Menu extends Phaser.Scene {
       .setScrollFactor(0)
       .setDepth(Depth.AboveWorld + 1);
 
-    this.input.keyboard?.on('keydown-ESC', this.exit, this);
+    // `once` (vs `on`) auto-removes the handler after firing, so
+    // re-launching the Menu scene doesn't accumulate listeners.
+    this.input.keyboard?.once('keydown-ESC', this.exit, this);
   }
 
   private exit(): void {

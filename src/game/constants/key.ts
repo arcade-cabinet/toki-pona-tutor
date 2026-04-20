@@ -21,8 +21,15 @@ const spritesheet = {
   playerSlash: 'player-slash',
 } as const;
 
+const texture = {
+  /** 1×1 transparent texture, generated in Boot. Used as the visual
+   *  for invisible static-body probes (Player.selector). */
+  pixel: '__pixel',
+} as const;
+
 export const key = {
   scene,
   tilemap,
   spritesheet,
+  texture,
 } as const;

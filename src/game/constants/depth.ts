@@ -7,6 +7,10 @@
  * walks under them.
  */
 export enum Depth {
+  /** The player sprite — sits above ground tile layers, below
+   *  Above-Player tiles. Picking 5 leaves headroom for NPCs / item
+   *  drops between the floor and the player without re-numbering. */
+  Player = 5,
   /** Anything above the player (roofs, awnings, tree canopies). */
   AbovePlayer = 10,
   /** UI / debug overlays drawn above all gameplay content. */

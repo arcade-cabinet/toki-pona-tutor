@@ -1,6 +1,6 @@
 import { useEffect, useRef } from 'react';
 import type * as Phaser from 'phaser';
-import { createGame } from './config';
+import { createGame, GAME_BACKGROUND } from './config';
 import { installHarness, setHarnessReady, uninstallHarness } from './harness';
 
 export function PhaserGame() {
@@ -84,7 +84,7 @@ export function PhaserGame() {
     <div
       ref={containerRef}
       className="w-full h-full"
-      style={{ touchAction: 'none', backgroundColor: '#8bc260' }}
+      style={{ touchAction: 'none', backgroundColor: GAME_BACKGROUND }}
     />
   );
 }

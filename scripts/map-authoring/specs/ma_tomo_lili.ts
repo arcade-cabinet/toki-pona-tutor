@@ -11,6 +11,7 @@
  * any Fan-tasy sample. See docs/LORE.md for the lore brief.
  */
 import { defineMap } from '../lib/spec-helpers';
+import { TilemapLayer, TilemapObject } from '../lib/runtime-contract';
 import { corePalette } from '../palettes/core';
 
 export default defineMap({
@@ -31,7 +32,12 @@ export default defineMap({
     // (north + east + west borders) so the player can feel the world
     // wrapping around them; a south-edge water line marks the southern
     // boundary; a sand path runs south-to-north through the middle.
-    'Below Player': [
+    //
+    // The layer key is the literal `'Below Player'` because MapSpec's
+    // `layers` is typed with concrete string keys (matching what Phaser
+    // looks up at runtime). `TilemapLayer.BelowPlayer` resolves to that
+    // same literal — the assertion proves the two haven't drifted.
+    [TilemapLayer.BelowPlayer as 'Below Player']: [
       // y=0: north border of tall grass with one path opening
       ['t','t','t','t','t','t','t','t','t','t','t','t','t','t','s','s','t','t','t','t','t','t','t','t','t','t','t','t','t','t'],
       ['t','t','t','t','t','t','t','t','t','t','t','t','t','t','s','s','t','t','t','t','t','t','t','t','t','t','t','t','t','t'],
@@ -59,9 +65,9 @@ export default defineMap({
     ],
     // No World / Above Player layers in the foundation slice — those
     // come with multi-tile buildings + tree props in the next iteration.
-    Objects: [
+    [TilemapLayer.Objects as 'Objects']: [
       // Player spawns in the village square, on the path.
-      { type: 'SpawnPoint', name: 'default', at: [15, 10] },
+      { type: TilemapObject.SpawnPoint, name: 'default', at: [15, 10] },
     ],
   },
 });

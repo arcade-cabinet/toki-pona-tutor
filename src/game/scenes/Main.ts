@@ -23,6 +23,10 @@ export class Main extends Phaser.Scene {
   private player!: Player;
   private tilemap!: Phaser.Tilemaps.Tilemap;
   private worldLayer: Phaser.Tilemaps.TilemapLayer | null = null;
+  /** Bound ESC handler — kept on the instance so we can remove it on
+   *  scene shutdown. Without this, every restart of Main would stack
+   *  another keydown listener and pause/launch Menu N times per press. */
+  private escHandler: (() => void) | null = null;
 
   constructor() {
     super(key.scene.main);
@@ -69,27 +73,44 @@ export class Main extends Phaser.Scene {
     this.spawnPlayer();
     if (this.worldLayer) this.physics.add.collider(this.player, this.worldLayer);
 
-    this.input.keyboard?.on('keydown-ESC', () => {
+    // Register ESC → pause + launch Menu. Stored on the instance so
+    // the SHUTDOWN handler below can remove it; otherwise restarts of
+    // Main (e.g. after a warp) would stack additional listeners.
+    this.escHandler = () => {
       this.scene.pause(key.scene.main);
       this.scene.launch(key.scene.menu);
+    };
+    this.input.keyboard?.on('keydown-ESC', this.escHandler);
+
+    this.events.once(Phaser.Scenes.Events.SHUTDOWN, () => {
+      if (this.escHandler) {
+        this.input.keyboard?.off('keydown-ESC', this.escHandler);
+        this.escHandler = null;
+      }
     });
   }
 
   private spawnPlayer(): void {
+    // Match by Tiled object `type` — the spec emits "SpawnPoint" as the
+    // type via TilemapObject.SpawnPoint, so this can't collide with an
+    // unrelated object that happens to be named "default".
     const spawn = this.tilemap.findObject(
       TilemapLayer.Objects,
-      ({ name, type }) =>
-        name === 'default' || type === TilemapObject.SpawnPoint,
+      ({ type }) => type === TilemapObject.SpawnPoint,
     );
-    // Fall back to map center if the SpawnPoint object is missing — the
-    // validator should already have rejected such a map, but the engine
-    // shouldn't crash if it slips through.
-    const spawnX = spawn?.x ?? this.tilemap.widthInPixels / 2;
-    const spawnY = spawn?.y ?? this.tilemap.heightInPixels / 2;
+    // Tiled object `x` / `y` are the top-left corner of the tile (in
+    // pixels), but `Phaser.GameObjects.Sprite` is centered on its
+    // position — without a half-tile offset, the player spawns half
+    // a tile up-and-left of where the spec asked. Falls back to map
+    // center if the SpawnPoint is missing (validator should have
+    // caught it, but the engine survives if not).
+    const halfTile = { x: this.tilemap.tileWidth / 2, y: this.tilemap.tileHeight / 2 };
+    const spawnX = spawn ? (spawn.x ?? 0) + halfTile.x : this.tilemap.widthInPixels / 2;
+    const spawnY = spawn ? (spawn.y ?? 0) + halfTile.y : this.tilemap.heightInPixels / 2;
     this.player = new Player(this, spawnX, spawnY);
   }
 
   update(): void {
-    this.player?.update();
+    this.player.update();
   }
 }

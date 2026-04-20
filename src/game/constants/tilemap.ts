@@ -3,8 +3,13 @@
  *
  * The map-authoring toolchain (scripts/map-authoring/) emits exactly
  * these layer names; runtime scenes look them up by name to wire
- * collisions, depths, and object handlers. If a spec adds a new layer
- * or object type, declare it here so it can't be referenced by typo.
+ * collisions, depths, and object handlers.
+ *
+ * IMPORTANT — keep this file in lockstep with
+ * `scripts/map-authoring/lib/runtime-contract.ts`. The two trees can't
+ * directly cross-import (separate tsconfigs scope src/ vs scripts/), so
+ * the strings are duplicated and the build-time tests verify the
+ * runtime + spec sides agree (see `tests/build-time/runtime-contract.test.ts`).
  */
 
 export enum TilemapLayer {

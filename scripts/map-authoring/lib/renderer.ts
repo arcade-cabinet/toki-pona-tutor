@@ -62,6 +62,15 @@ export async function renderTmj(
     // the .tsx filename stem.
     const refLoose = ref as { name?: string; source?: string };
     const lookupKey = refLoose.name ?? (refLoose.source ? tsxStemFromSource(refLoose.source) : '');
+    if (!lookupKey) {
+      // Defensive: a TMJ tileset ref must carry either `name` (embedded)
+      // or `source` (external). Falling through with an empty key would
+      // produce a confusing `tileset ""` error downstream — surface the
+      // malformed ref instead so the offending TMJ is obvious.
+      throw new Error(
+        `renderer: malformed TMJ tileset ref (missing both "name" and "source"): ${JSON.stringify(ref)}`,
+      );
+    }
     const ts = tilesets.find(
       (t) => t.name === lookupKey || tsxStemOf(t) === lookupKey,
     );

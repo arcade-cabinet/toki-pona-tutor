@@ -75,6 +75,16 @@ export class Boot extends Phaser.Scene {
   }
 
   create(): void {
+    // 1×1 transparent texture used by Player's selector body and any
+    // future invisible static probes. Generated programmatically so
+    // there's no PNG to ship.
+    if (!this.textures.exists(key.texture.pixel)) {
+      const g = this.add.graphics({ x: 0, y: 0 });
+      g.fillStyle(0xffffff, 0);
+      g.fillRect(0, 0, 1, 1);
+      g.generateTexture(key.texture.pixel, 1, 1);
+      g.destroy();
+    }
     this.scene.start(key.scene.main);
   }
 }

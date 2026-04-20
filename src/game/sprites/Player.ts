@@ -17,13 +17,17 @@
  * Idle frames live at the same positions in `player-idle`; we use
  * frame 0 of each direction-row as the standing pose.
  *
- * The selector body is a 16×16 invisible static rectangle sitting one
- * tile in front of the player — it's what `physics.add.overlap` checks
- * against signs / NPCs / triggers. Reference repo proven pattern.
+ * The selector body is a 16×16 invisible static image sitting one tile
+ * in front of the player — it's what `physics.add.overlap` checks
+ * against signs / NPCs / triggers. We use a `staticImage` (not a raw
+ * `staticBody`) so `refreshBody()` re-inserts the body into the world's
+ * static spatial tree after each `moveSelector()` reposition; raw
+ * StaticBody mutation does not auto-sync the spatial tree, which would
+ * leave overlap checks looking at stale bounds.
  */
 import * as Phaser from 'phaser';
 
-import { key } from '../constants';
+import { Depth, key } from '../constants';
 
 export const PLAYER_FRAME_SIZE = 32;
 const COLS = 5;
@@ -49,7 +53,8 @@ const VELOCITY = 110;
 export class Player extends Phaser.Physics.Arcade.Sprite {
   declare body: Phaser.Physics.Arcade.Body;
   cursors: Cursors;
-  selector: Phaser.Physics.Arcade.StaticBody;
+  /** Invisible static image used as the interaction probe — see class comment. */
+  selector: Phaser.Physics.Arcade.Image;
 
   constructor(scene: Phaser.Scene, x: number, y: number) {
     super(scene, x, y, key.spritesheet.playerIdle, FRAME_DOWN);
@@ -59,23 +64,45 @@ export class Player extends Phaser.Physics.Arcade.Sprite {
 
     // Trim the physics body to the lower half of the sprite so the player's
     // "feet" determine collision — matches Tiled's bottom-anchored object
-    // convention and keeps headroom under "Above Player" canopies.
-    this.setSize(16, 16).setOffset(8, 16);
+    // convention and keeps headroom under "Above Player" canopies. Phaser 4
+    // marked Arcade `setSize` as deprecated in favor of `setBodySize`.
+    this.setBodySize(16, 16).setOffset(8, 16);
     this.setCollideWorldBounds(true);
-    this.setDepth(5);
+    this.setDepth(Depth.Player);
 
     scene.cameras.main.startFollow(this, true);
     scene.cameras.main.setZoom(2);
 
-    this.cursors = scene.input.keyboard!.addKeys(
-      'w,a,s,d,up,left,down,right,space',
-    ) as Cursors;
+    // Guard against headless / no-keyboard contexts (e.g. test harness,
+    // mobile-without-bluetooth-kbd). When there's no keyboard plugin,
+    // synthesize a Cursors record of disabled stub Keys so update() can
+    // still read .isDown without crashing — the player simply won't
+    // move from keyboard input (touch input is wired separately).
+    const kb = scene.input.keyboard;
+    this.cursors = kb
+      ? (kb.addKeys('w,a,s,d,up,left,down,right,space') as Cursors)
+      : (Object.fromEntries(
+          ['w', 'a', 's', 'd', 'up', 'left', 'down', 'right', 'space'].map((k) => [
+            k,
+            { isDown: false } as Phaser.Input.Keyboard.Key,
+          ]),
+        ) as Cursors);
 
     this.createAnimations();
 
-    // Selector: an invisible 16×16 static body one tile in front of the
+    // Selector: an invisible 16×16 static probe one tile in front of the
     // player. Used for sign / NPC overlap checks (wired by Main scene).
-    this.selector = scene.physics.add.staticBody(x - 8, y + 8, 16, 16);
+    // staticImage (vs raw staticBody) gives us a GameObject we can move
+    // via setPosition + updateFromGameObject to keep the world's static
+    // spatial tree in sync after every reposition. The texture is the
+    // 1×1 transparent pixel created in Boot — never visually drawn.
+    this.selector = scene.physics.add
+      .staticImage(x, y + 16, key.texture.pixel)
+      .setVisible(false)
+      .setSize(16, 16)
+      .setDisplaySize(16, 16);
+    (this.selector.body as Phaser.Physics.Arcade.StaticBody).setSize(16, 16);
+    (this.selector.body as Phaser.Physics.Arcade.StaticBody).updateFromGameObject();
   }
 
   private createAnimations(): void {
@@ -96,27 +123,30 @@ export class Player extends Phaser.Physics.Arcade.Sprite {
     def(Animation.Right, FRAME_RIGHT);
   }
 
-  /** Reposition the selector to face the direction the player just moved. */
+  /**
+   * Reposition the selector to face the direction the player just moved.
+   * Mutates the GameObject position then calls `body.updateFromGameObject()`
+   * to keep the world's static spatial tree in sync — direct StaticBody.x/y
+   * mutation does not trigger that re-insertion, which would leave overlap
+   * checks looking at stale collision bounds.
+   */
   private moveSelector(animation: Animation): void {
     const { body, selector } = this;
     switch (animation) {
       case Animation.Left:
-        selector.x = body.x - 8;
-        selector.y = body.y + 8;
+        selector.setPosition(body.x - 8, body.y + 8);
         break;
       case Animation.Right:
-        selector.x = body.x + 16;
-        selector.y = body.y + 8;
+        selector.setPosition(body.x + 24, body.y + 8);
         break;
       case Animation.Up:
-        selector.x = body.x;
-        selector.y = body.y - 8;
+        selector.setPosition(body.x + 8, body.y - 8);
         break;
       case Animation.Down:
-        selector.x = body.x;
-        selector.y = body.y + 16;
+        selector.setPosition(body.x + 8, body.y + 24);
         break;
     }
+    (selector.body as Phaser.Physics.Arcade.StaticBody).updateFromGameObject();
   }
 
   update(): void {
