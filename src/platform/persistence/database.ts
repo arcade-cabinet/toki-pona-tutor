@@ -21,7 +21,7 @@ const DB_NAME = 'poki_soweli';
 // Increment DB_VERSION when the SCHEMA changes and add a migration step
 // in migrateSchema() below. The current version is tracked in SQLite's
 // PRAGMA user_version so future builds can apply incremental upgrades.
-const DB_VERSION = 2;
+const DB_VERSION = 3;
 
 const sqlite = new SQLiteConnection(CapacitorSQLite);
 let connectionPromise: Promise<SQLiteDBConnection> | null = null;
@@ -58,6 +58,7 @@ CREATE TABLE IF NOT EXISTS party_roster (
   slot       INTEGER PRIMARY KEY,
   species_id TEXT NOT NULL,
   level      INTEGER NOT NULL,
+  xp         INTEGER NOT NULL DEFAULT 0,
   caught_at  TEXT NOT NULL
 );
 
@@ -98,16 +99,24 @@ async function initDatabase(): Promise<SQLiteDBConnection> {
  * the SCHEMA constant gains new tables or columns, then increment DB_VERSION.
  *
  * Current migrations:
- *   v1 → v2: adds inventory_items table (already applied via SCHEMA above
- *             because CREATE TABLE IF NOT EXISTS is idempotent; the PRAGMA
- *             write here lets us detect future migrations correctly).
+ *   v1 → v2: adds inventory_items table (idempotent via CREATE TABLE IF NOT EXISTS).
+ *   v2 → v3: adds xp column to party_roster. ALTER TABLE guarded by a
+ *            PRAGMA table_info check so re-running this migration on an
+ *            already-migrated v3 DB is a no-op.
  */
 async function migrateSchema(db: SQLiteDBConnection): Promise<void> {
     const versionResult = await db.query('PRAGMA user_version');
     const oldVersion = Number(versionResult.values?.[0]?.user_version ?? 0);
     if (oldVersion >= DB_VERSION) return;
-    // No destructive migrations needed for v1→v2: the inventory_items table
-    // was added with CREATE TABLE IF NOT EXISTS which is safe to re-run.
+
+    if (oldVersion < 3) {
+        const cols = await db.query('PRAGMA table_info(party_roster)');
+        const hasXp = (cols.values ?? []).some((c: { name?: string }) => c.name === 'xp');
+        if (!hasXp) {
+            await db.execute('ALTER TABLE party_roster ADD COLUMN xp INTEGER NOT NULL DEFAULT 0');
+        }
+    }
+
     await db.execute(`PRAGMA user_version = ${DB_VERSION}`);
 }
 

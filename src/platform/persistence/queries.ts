@@ -83,16 +83,43 @@ export async function addToInventory(itemId: string, count: number): Promise<voi
     await saveWebStore();
 }
 
-export async function getParty(): Promise<Array<{ slot: number; species_id: string; level: number }>> {
+export async function getParty(): Promise<Array<{ slot: number; species_id: string; level: number; xp: number }>> {
     const db = await getDatabase();
     const result = await db.query(
-        `SELECT slot, species_id, level FROM party_roster ORDER BY slot`,
+        `SELECT slot, species_id, level, xp FROM party_roster ORDER BY slot`,
     );
     return (result.values ?? []).map((row) => ({
         slot: Number(row.slot),
         species_id: String(row.species_id),
         level: Number(row.level),
+        xp: Number(row.xp ?? 0),
     }));
+}
+
+/**
+ * Atomically add XP to the lead party creature (slot 0) and persist the
+ * new level that the updated total corresponds to. Callers compute the
+ * level via xp-curve.gainXp before calling; this is the DB write step.
+ *
+ * Returns the fresh row or null if the party is empty.
+ */
+export async function awardXpToLead(newXp: number, newLevel: number): Promise<{ species_id: string; level: number; xp: number } | null> {
+    const db = await getDatabase();
+    await db.run(
+        `UPDATE party_roster SET xp = ?, level = ? WHERE slot = 0`,
+        [newXp, newLevel],
+    );
+    const result = await db.query(
+        `SELECT species_id, level, xp FROM party_roster WHERE slot = 0`,
+    );
+    const row = result.values?.[0];
+    if (!row) return null;
+    await saveWebStore();
+    return {
+        species_id: String(row.species_id),
+        level: Number(row.level),
+        xp: Number(row.xp ?? 0),
+    };
 }
 
 export async function logEncounter(

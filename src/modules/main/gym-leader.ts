@@ -1,8 +1,9 @@
 import { type EventDefinition, RpgPlayer, ATK, PDEF } from '@rpgjs/server';
 import { BattleAi, EnemyType } from '@rpgjs/action-battle/server';
 import { playDialog } from './dialog';
-import { getFlag, setFlag, recordMasteredWord } from '../../platform/persistence/queries';
+import { getFlag, setFlag, recordMasteredWord, getParty, awardXpToLead } from '../../platform/persistence/queries';
 import { preferences, KEYS } from '../../platform/persistence/preferences';
+import { gainXp } from './xp-curve';
 
 /**
  * Shared factory for the seven jan lawa (region masters).
@@ -40,6 +41,9 @@ export interface GymLeaderOptions {
     pdef: number;
     /** Base dialog id — `<base>_intro` pre-fight, `<base>_victory` post. */
     dialogBase: string;
+    /** XP awarded to the lead party creature on defeat. Typical gym
+     *  range is 120–220 depending on region difficulty. */
+    xpYield: number;
     /** AI archetype for phase 1; defaults to Aggressive. */
     enemyType?: EnemyType;
     /** Graphic id (from config.client.ts spritesheets). */
@@ -85,6 +89,27 @@ export function GymLeader(opts: GymLeaderOptions): EventDefinition {
                         await setFlag(opts.badgeFlag, '1');
                         await recordMasteredWord(opts.rewardWord);
                         await preferences.set(KEYS.journeyBeat, opts.nextBeatId);
+
+                        // Award XP to the lead party creature. If the party is
+                        // empty (edge case — shouldn't happen post-starter) we
+                        // still advance the beat; XP just has nowhere to go.
+                        const party = await getParty();
+                        const lead = party[0];
+                        if (lead && attacker) {
+                            const { xp, levelUps } = gainXp(lead.xp, opts.xpYield);
+                            const newLevel = levelUps.length
+                                ? levelUps[levelUps.length - 1].to
+                                : lead.level;
+                            await awardXpToLead(xp, newLevel);
+
+                            await (attacker as RpgPlayer).showText(`+${opts.xpYield} xp`);
+                            for (const lvl of levelUps) {
+                                await (attacker as RpgPlayer).showText(
+                                    `${lead.species_id} L${lvl.from} → L${lvl.to}`,
+                                );
+                            }
+                        }
+
                         if (attacker) {
                             await playDialog(attacker, `${opts.dialogBase}_victory`);
                         }
