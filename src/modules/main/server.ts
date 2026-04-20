@@ -128,8 +128,51 @@ export default defineModule<RpgServer>({
                     y: 0,
                     event: Warp({
                         targetMap: 'ma_lete',
-                        position: { x: 32, y: 96 },
+                        position: { x: 40, y: 104 }, // from_ma_telo spawn on ma_lete
                         requiredFlag: 'badge_telo',
+                    }),
+                },
+            ],
+        },
+        {
+            id: 'ma_lete',
+            events: [
+                {
+                    id: 'jan-anpa',
+                    x: 104,
+                    y: 72,
+                    event: AmbientNpc('female', 'jan_anpa_watch'),
+                },
+                {
+                    id: 'jan-kasi',
+                    x: 248,
+                    y: 168,
+                    event: AmbientNpc('female', 'jan_kasi_garden'),
+                },
+                {
+                    id: 'jan-lete',
+                    x: 280,
+                    y: 72,
+                    event: GymLeader({
+                        npcId: 'jan_lete',
+                        badgeFlag: 'badge_lete',
+                        rewardWord: 'lete',
+                        nextBeatId: 'beat_06_nena_suli',
+                        hp: 170,
+                        atk: 26,
+                        pdef: 16,
+                        dialogBase: 'jan_lete',
+                        enemyType: EnemyType.Tank,
+                    }),
+                },
+                {
+                    id: 'warp_north',
+                    x: 280,
+                    y: 0,
+                    event: Warp({
+                        targetMap: 'nena_suli',
+                        position: { x: 32, y: 200 },
+                        requiredFlag: 'badge_lete',
                     }),
                 },
             ],

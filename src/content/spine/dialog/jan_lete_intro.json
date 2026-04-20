@@ -1,0 +1,11 @@
+{
+  "id": "jan_lete_intro",
+  "npc_id": "jan_lete",
+  "when_flags": { "badge_lete": false },
+  "priority": 10,
+  "beats": [
+    { "text": { "en": "Let's see!" }, "mood": "excited", "glyph": "lukin" },
+    { "text": { "en": "I'm plenty strong!" }, "mood": "excited", "glyph": "wawa" }
+  ],
+  "triggers": {}
+}

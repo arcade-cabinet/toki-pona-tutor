@@ -1010,6 +1010,22 @@
       "triggers": {}
     },
     {
+      "id": "jan_anpa_watch",
+      "npc_id": "jan_anpa",
+      "priority": 0,
+      "beats": [
+        {
+          "text": {
+            "en": "I'm getting tired.",
+            "tp": "mi kama wile lape."
+          },
+          "mood": "thinking",
+          "glyph": "anpa"
+        }
+      ],
+      "triggers": {}
+    },
+    {
       "id": "jan_ike_intro",
       "npc_id": "jan_ike",
       "when_flags": {
@@ -1091,6 +1107,76 @@
           },
           "mood": "thinking",
           "glyph": "lape"
+        }
+      ],
+      "triggers": {}
+    },
+    {
+      "id": "jan_kasi_garden",
+      "npc_id": "jan_kasi",
+      "priority": 0,
+      "beats": [
+        {
+          "text": {
+            "en": "Fresh fruit is good for the health.",
+            "tp": "kili sin li pona tawa sijelo."
+          },
+          "mood": "happy",
+          "glyph": "kasi"
+        }
+      ],
+      "triggers": {}
+    },
+    {
+      "id": "jan_lete_intro",
+      "npc_id": "jan_lete",
+      "when_flags": {
+        "badge_lete": false
+      },
+      "priority": 10,
+      "beats": [
+        {
+          "text": {
+            "en": "Let's see!",
+            "tp": "mi mute o lukin!"
+          },
+          "mood": "excited",
+          "glyph": "lukin"
+        },
+        {
+          "text": {
+            "en": "I'm plenty strong!",
+            "tp": "mi wawa mute!"
+          },
+          "mood": "excited",
+          "glyph": "wawa"
+        }
+      ],
+      "triggers": {}
+    },
+    {
+      "id": "jan_lete_victory",
+      "npc_id": "jan_lete",
+      "when_flags": {
+        "badge_lete": true
+      },
+      "priority": 5,
+      "beats": [
+        {
+          "text": {
+            "en": "You won.",
+            "tp": "sina pini pona."
+          },
+          "mood": "sad",
+          "glyph": "sina"
+        },
+        {
+          "text": {
+            "en": "Let's go!",
+            "tp": "mi mute o tawa!"
+          },
+          "mood": "thinking",
+          "glyph": "tawa"
         }
       ],
       "triggers": {}
