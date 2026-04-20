@@ -1,46 +1,51 @@
 import { test, expect } from '@playwright/test';
 
 /**
- * E2E floor: the real web build boots in a real browser.
+ * Smoke: the real web build boots in a real browser on the starter map.
  *
- * Loads the live Vite dev server, waits for the RPG.js canvas to
- * mount + the player to be assigned + Capacitor SQLite to be ready.
- * Captures a screenshot of the opening scene as a visual regression
- * anchor. If this fails every downstream E2E is meaningless.
+ * Loads the live Vite dev server, waits for the RPG.js engine + canvas
+ * + current player to all be live (the `__POKI__.ready` sentinel),
+ * then asserts the player actually landed on the starter map — the
+ * one non-negotiable invariant of boot.
+ *
+ * Also checks the brand token resolves (`--poki-ink`), which proves
+ * the self-hosted font + palette CSS made it through vite's rewrite
+ * pipeline with the correct base path. If the CI build used the wrong
+ * base, the font + token would 404 and this assertion would fail.
+ *
+ * `toHaveScreenshot` captures a visual-regression anchor of the
+ * opening scene — committed under
+ * `tests/e2e/smoke/boot.spec.ts-snapshots/` on first run, compared on
+ * every subsequent run. Small pixel deltas are tolerated via the
+ * project-level `maxDiffPixels` config in playwright.config.ts.
  */
 
-test('boots and mounts the player on ma_tomo_lili', async ({ page }) => {
+test('boots on the starter map with brand chrome applied', async ({ page }) => {
     await page.goto('/poki-soweli/');
 
-    // Wait for the debug surface to become ready — engine alive,
-    // canvas mounted, current player assigned.
-    await page.waitForFunction(
-        () => Boolean((window as unknown as { __POKI__?: { ready: boolean } }).__POKI__?.ready),
-        { timeout: 30_000 },
-    );
+    // Wait for engine + canvas + current player to all resolve.
+    await page.waitForFunction(() => window.__POKI__?.ready === true, {
+        timeout: 30_000,
+    });
 
-    // Canvas element is live in the DOM.
-    const canvas = page.locator('#rpg canvas');
-    await expect(canvas).toBeVisible();
+    // Player was actually assigned an id.
+    const playerId = await page.evaluate(() => window.__POKI__?.playerId ?? null);
+    expect(playerId).toMatch(/^[a-z0-9_-]+$/i);
 
-    // Player exists and has an id.
-    const playerId = await page.evaluate(
-        () => (window as unknown as { __POKI__?: { playerId: string | null } }).__POKI__?.playerId ?? null,
-    );
-    expect(playerId).not.toBeNull();
-    expect(typeof playerId).toBe('string');
+    // Canvas element is visible in the DOM.
+    await expect(page.locator('#rpg canvas')).toBeVisible();
 
-    // Brand CSS loaded: --poki-ink resolves on :root.
+    // Brand CSS resolved — --poki-ink is the token every panel derives
+    // its text color from. If fonts.css / brand.css didn't load at the
+    // right base path, this token would be empty.
     const inkColor = await page.evaluate(() =>
         getComputedStyle(document.documentElement).getPropertyValue('--poki-ink').trim(),
     );
     expect(inkColor).not.toBe('');
 
-    // Opening-scene screenshot so the test run persists a visual
-    // record and future regressions in scene composition show up
-    // in diff review.
-    await page.screenshot({
-        path: 'tests/e2e/__screenshots__/boot-opening-scene.png',
+    // Visual-regression anchor (committed under *-snapshots/ by Playwright
+    // on first run; compared thereafter).
+    await expect(page).toHaveScreenshot('boot-opening-scene.png', {
         fullPage: false,
     });
 });

@@ -48,7 +48,7 @@ Everything beyond this is `v0.3.0` material.
 | 2 | Combat Polish + Party | Combat UI themed, HP bars animate, party panel, catch UX, XP/level | 4 | 2 | 9 |
 | 3 | Save, Menus, Transitions | Title, pause, settings, continue, autosave, loading screens | 10 | 2 | 1 |
 | 4 | Content Breadth | 7 regions biome-correct, 7 set-pieces, 7 gyms, badges, bestiary | 9 | 1 | 7 |
-| 5 | Audio, Mobile, Accessibility | Music per region, SFX wired, mobile HUD + tap-to-walk, AA contrast, text speed | 7 | 0 | 9 |
+| 5 | Audio, Mobile, Accessibility | Music per region, SFX wired, mobile HUD + tap-to-walk, AA contrast, text speed | 5 | 2 | 9 |
 | 6 | Release Hardening | Signed release APK, web ≤ 10 MB, CI matrix, meaningful tests, v0.2.0 | 11 | 1 | 6 |
 | 7 | Post-v0.2 Depth + Replay | Journey beats 8-10, status effects, breeding, NG+, secret areas | 8 | 0 | 2 |
 | 8 | Language Learning Layer | Sentence log, sitelen glyphs, micro-game, dictionary export | 5 | 0 | 1 |

@@ -52,7 +52,7 @@ No diagonals. Grid-stepped. The old `src/modules/main/virtual-dpad.ts` with its 
 
 The HUD is DOM overlaid on the RPG.js canvas via CanvasEngine's `DOMContainer`. It has four responsive regions:
 
-```
+```text
 ┌───────────────────────────────────────────────────┐
 │ ┌─[Status]──────────────┐          [≡ Menu]      │  ← top bar
 │ │ [portrait] name       │                         │
@@ -158,13 +158,13 @@ Naming convention:
 ## What this retires
 
 - **`src/modules/main/virtual-dpad.ts`** — tap-to-walk replaces virtual-stick input. Module + its 20 unit tests removed in the HUD-landing PR.
-- **Any mental model carrying over from v4's `@rpgjs/mobile-gui` plugin** — that plugin doesn't exist in v5, and our HUD doesn't mimic a gameboy. No persistent A/B buttons. No bottom-centre d-pad. Interactions come to the player (contextual hint glyph), not the player to buttons.
+- **Any mental model carrying over from v4's `@rpgjs/mobile-gui` plugin** — that plugin doesn't exist in v5, and our HUD doesn't mimic a Game Boy. No persistent A/B buttons. No bottom-centre d-pad. Interactions come to the player (contextual hint glyph), not the player to buttons.
 
 ## Non-goals
 
 - No custom framework (Solid/React/Vue). CanvasEngine + RPG.js GUI is the framework.
 - No `@rpgjs/mobile-gui` dependency (doesn't exist in v5; v4 version ties to nipplejs and DOM-only assumptions).
-- No "gameboy" HUD with fixed directional + action buttons. Mobile games don't look like that anymore.
+- No Game-Boy-style HUD with fixed directional + action buttons. Mobile games don't look like that anymore.
 - No diagonals.
 - No orientation lock.
 - No fixed-pixel breakpoints.

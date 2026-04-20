@@ -161,9 +161,8 @@ jobs:
       # Smoke only — full feature-level E2E runs locally or on a
       # scheduled `e2e-full` workflow. Keeps CI per-push fast as the
       # suite grows.
+      # (GitHub Actions sets CI=true automatically — no explicit env needed.)
       - name: Run Playwright smoke suite under xvfb
-        env:
-          CI: 'true'
         run: xvfb-run --auto-servernum --server-args="-screen 0 1280x720x24" pnpm test:e2e:smoke
 
       - name: Upload Playwright report on failure

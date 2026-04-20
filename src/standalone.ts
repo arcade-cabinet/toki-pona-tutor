@@ -28,42 +28,59 @@ startGame(
 
 // Dev/test debug surface. Mirrors the stellar-descent pattern:
 // E2E tests probe `window.__POKI__` via `page.evaluate` to read
-// player state, current map, dialog state, etc. Gated on import.meta.env
-// so the production bundle doesn't leak the hook. Tree-shaken out at
-// build time when MODE === 'production'.
+// player + canvas state. Gated on import.meta.env so the production
+// bundle tree-shakes the hook out. Typed in src/types/poki-debug.d.ts.
+//
+// Install the object IMMEDIATELY with ready:false so E2E tests can
+// always observe the shape (and get a clear "ready=false" signal if
+// boot never completes) rather than timing out waiting for
+// `window.__POKI__` to exist at all. Engine injection happens
+// asynchronously via a retry loop that backs off until DI is ready;
+// once the engine resolves we swap the placeholder for the live
+// accessors.
 if (import.meta.env.DEV || import.meta.env.MODE === 'test') {
-    // Defer until the client engine has been wired — startGame() kicks
-    // off DI resolution; the engine becomes injectable a tick later.
-    queueMicrotask(() => {
+    type CanvasOrNull = HTMLCanvasElement | null;
+    const canvasEl = (): CanvasOrNull =>
+        document.querySelector<HTMLCanvasElement>('#rpg canvas');
+
+    // Placeholder — exists the instant the module evaluates so tests
+    // can always see a consistent shape, even pre-engine-boot.
+    window.__POKI__ = {
+        engine: null,
+        get player() { return null; },
+        get playerId() { return null; },
+        get canvas() { return canvasEl(); },
+        get ready() { return false; },
+    };
+
+    const MAX_ATTEMPTS = 200; // 200 × 50ms = 10s hard ceiling
+    let attempts = 0;
+    const tryInstall = (): void => {
+        attempts++;
         try {
             const engine = inject(RpgClientEngine);
-            (window as unknown as { __POKI__: unknown }).__POKI__ = {
+            if (!engine) {
+                if (attempts < MAX_ATTEMPTS) setTimeout(tryInstall, 50);
+                return;
+            }
+            window.__POKI__ = {
                 engine,
-                get player() {
-                    return engine.getCurrentPlayer?.() ?? null;
-                },
-                get playerId() {
-                    return engine.playerIdSignal?.() ?? null;
-                },
-                get canvas() {
-                    return document.querySelector('#rpg canvas') as HTMLCanvasElement | null;
-                },
+                get player() { return engine.getCurrentPlayer?.() ?? null; },
+                get playerId() { return engine.playerIdSignal?.() ?? null; },
+                get canvas() { return canvasEl(); },
                 /**
-                 * Ready = canvas mounted AND current player exists.
-                 * Playwright polls this in a `page.waitForFunction`.
+                 * Ready = engine + canvas + current player all live.
+                 * Playwright polls this via `page.waitForFunction`.
                  */
-                get ready(): boolean {
-                    const player = engine.getCurrentPlayer?.();
-                    const canvas = document.querySelector('#rpg canvas');
-                    return !!player && !!canvas;
+                get ready() {
+                    return !!engine.getCurrentPlayer?.() && !!canvasEl();
                 },
             };
-        } catch (e) {
-            // Non-fatal — if the debug surface can't be established
-            // (e.g. engine DI not ready), E2E will time out with a
-            // clearer "window.__POKI__ missing" error than a silent
-            // hang.
-            console.warn('[poki] debug surface setup deferred:', e);
+        } catch {
+            if (attempts < MAX_ATTEMPTS) setTimeout(tryInstall, 50);
         }
-    });
+    };
+    // First attempt happens on the next microtask — startGame()'s DI
+    // setup needs at least one macrotask to finish wiring.
+    queueMicrotask(tryInstall);
 }

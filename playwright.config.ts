@@ -92,8 +92,11 @@ const config: PlaywrightTestConfig = {
             testDir: './tests/e2e/smoke',
             use: {
                 ...devices['Desktop Chrome'],
+                // Use Playwright's bundled Chromium (installed via
+                // `playwright install chromium` in CI). `channel: 'chrome'`
+                // would require a system-installed Google Chrome and
+                // silently fail on minimal CI runners.
                 browserName: 'chromium',
-                channel: 'chrome',
                 headless: true,
                 launchOptions: {
                     args: GPU_ARGS,
@@ -107,8 +110,11 @@ const config: PlaywrightTestConfig = {
             testIgnore: '**/smoke/**',
             use: {
                 ...devices['Desktop Chrome'],
+                // Use Playwright's bundled Chromium (installed via
+                // `playwright install chromium` in CI). `channel: 'chrome'`
+                // would require a system-installed Google Chrome and
+                // silently fail on minimal CI runners.
                 browserName: 'chromium',
-                channel: 'chrome',
                 headless: true,
                 launchOptions: {
                     args: GPU_ARGS,
