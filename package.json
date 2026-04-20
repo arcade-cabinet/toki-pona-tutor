@@ -8,7 +8,7 @@
     "validate-challenges": "node scripts/validate-challenges.mjs",
     "validate-tp": "node scripts/validate-tp.mjs",
     "build-spine": "node scripts/build-spine.mjs",
-    "validate": "pnpm validate-challenges && pnpm validate-tp",
+    "validate": "pnpm validate-challenges && pnpm validate-tp && pnpm author:verify",
     "prebuild": "pnpm validate && pnpm build-spine && pnpm typecheck",
     "build": "vite build",
     "preview": "vite preview",
@@ -23,7 +23,8 @@
     "author:validate": "tsx scripts/map-authoring/cli/validate.ts",
     "author:convert-tmx": "tsx scripts/map-authoring/cli/convert-tmx.ts",
     "author:inspect": "tsx scripts/map-authoring/cli/inspect.ts",
-    "author:all": "tsx scripts/map-authoring/cli/all.ts"
+    "author:all": "tsx scripts/map-authoring/cli/all.ts",
+    "author:verify": "tsx scripts/map-authoring/cli/verify.ts"
   },
   "dependencies": {
     "@canvasengine/presets": "2.0.0-beta.56",

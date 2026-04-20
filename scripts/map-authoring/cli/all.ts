@@ -9,6 +9,7 @@ import { existsSync } from 'node:fs';
 import { PNG } from 'pngjs';
 import {
   emitTmj,
+  emitTmx,
   loadTilesetsForSpec,
   renderTmj,
   validateSpec,
@@ -28,6 +29,7 @@ function assertSafeMapId(id: string): void {
 }
 const specsDir = join(worktreeRoot, 'scripts', 'map-authoring', 'specs');
 const mapsDir = join(worktreeRoot, 'public', 'assets', 'maps');
+const tiledDir = join(worktreeRoot, 'src', 'tiled');
 const speciesDir = join(worktreeRoot, 'src', 'content', 'spine', 'species');
 
 async function main(): Promise<void> {
@@ -45,6 +47,7 @@ async function main(): Promise<void> {
   for (const id of specs) assertSafeMapId(id);
 
   await mkdir(mapsDir, { recursive: true });
+  await mkdir(tiledDir, { recursive: true });
   let hadError = false;
 
   for (const id of specs) {
@@ -90,11 +93,17 @@ async function processOne(id: string): Promise<void> {
   }
   console.log(`  ✓ validated`);
 
-  // Build
+  // Build .tmj (human-editable archive under public/assets/maps/)
   const tmjPath = join(mapsDir, `${spec.id}.tmj`);
   const tmj = emitTmj(spec, tilesets, tmjPath);
   await writeFile(tmjPath, JSON.stringify(tmj, null, 2) + '\n', 'utf-8');
   console.log(`  ✓ built ${basename(tmjPath)}`);
+
+  // Build .tmx (consumed by RPG.js v5 tiledMapFolderPlugin)
+  const tmxPath = join(tiledDir, `${spec.id}.tmx`);
+  const tmjForTmx = emitTmj(spec, tilesets, tmxPath);
+  await writeFile(tmxPath, emitTmx(tmjForTmx), 'utf-8');
+  console.log(`  ✓ built src/tiled/${basename(tmxPath)}`);
 
   // Render
   const png = await renderTmj(tmjPath, tilesets, { overlay: true });

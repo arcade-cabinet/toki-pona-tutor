@@ -77,7 +77,7 @@ See `docs/TESTING.md` for the harness spec.
 - **TypeScript strict** for all game code.
 - **GDScript** is Godot-specific and **not used** in this branch. If you see a `.gd` file in git history, it's from the Godot-era `main` — ignore it. This spike descends from the pre-Godot tip.
 - **JSON** for content (schema-validated).
-- **Tiled `.tmx`/`.tsx`** for tilemaps and tilesets.
+- **Tiled `.tmx`/`.tsx`** for tilemaps and tilesets — but `.tmx` under `src/tiled/` and `.tmj` under `public/assets/maps/` are **emitted artifacts**, never hand-edited. Source-of-truth specs live in `scripts/map-authoring/specs/<id>.ts`.
 
 ## Running agent teams (content fanout)
 
@@ -91,6 +91,7 @@ See `docs/TESTING.md` for the harness spec.
 ## When something fights you
 
 - **Tiled path refs break after a move** — `.tsx` uses `../../Art/...`, `.tmx` uses `../Tilesets/...`. Preserve the pack's internal `Art/` + `Tiled/` layout when reorganizing.
+- **`pnpm author:verify` fails** — the .tmx on disk drifted from the spec (or is orphaned, or missing). DO NOT edit the `.tmx` to fix it; edit the spec under `scripts/map-authoring/specs/` and re-run `pnpm author:build <id>`. The drift message tells you which spec to touch. Hand-edited `.tmx` is the error; regenerating is the fix.
 - **`pnpm validate-tp` rejects a line** — rewrite the EN, never hand-author TP. See `docs/WRITING_RULES.md`.
 - **Phaser spritesheet frames look wrong** — check the filename. Grid sizes are encoded: `axe_warrior_16x16.png` = `frameWidth: 16, frameHeight: 16`.
 - **Dev server shows blank canvas** — WebGL context may have dropped; see `src/game/PhaserGame.tsx` for the recovery path (already wired).

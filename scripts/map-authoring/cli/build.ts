@@ -7,7 +7,7 @@
 import { dirname, resolve, join } from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
 import { mkdir, writeFile } from 'node:fs/promises';
-import { emitTmj, loadTilesetsForSpec } from '../lib/index';
+import { emitTmj, emitTmx, loadTilesetsForSpec } from '../lib/index';
 import type { MapSpec } from '../lib/index';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
@@ -47,14 +47,25 @@ async function main(): Promise<void> {
   }
 
   const tilesets = await loadTilesetsForSpec(spec, worktreeRoot);
-  const outDir = join(worktreeRoot, 'public', 'assets', 'maps');
-  await mkdir(outDir, { recursive: true });
-  const outPath = join(outDir, `${spec.id}.tmj`);
 
-  const tmj = emitTmj(spec, tilesets, outPath);
-  await writeFile(outPath, JSON.stringify(tmj, null, 2) + '\n', 'utf-8');
+  // .tmj — human-readable JSON archive under public/assets/maps/
+  const tmjDir = join(worktreeRoot, 'public', 'assets', 'maps');
+  await mkdir(tmjDir, { recursive: true });
+  const tmjPath = join(tmjDir, `${spec.id}.tmj`);
+  const tmj = emitTmj(spec, tilesets, tmjPath);
+  await writeFile(tmjPath, JSON.stringify(tmj, null, 2) + '\n', 'utf-8');
 
-  console.log(`✓ built ${outPath}`);
+  // .tmx — consumed by RPG.js v5 tiledMapFolderPlugin at runtime.
+  // We re-emit with the tmx path so tileset <source> refs resolve
+  // relative to src/tiled/ instead of public/assets/maps/.
+  const tmxDir = join(worktreeRoot, 'src', 'tiled');
+  await mkdir(tmxDir, { recursive: true });
+  const tmxPath = join(tmxDir, `${spec.id}.tmx`);
+  const tmjForTmx = emitTmj(spec, tilesets, tmxPath);
+  await writeFile(tmxPath, emitTmx(tmjForTmx), 'utf-8');
+
+  console.log(`✓ built ${tmjPath}`);
+  console.log(`✓ built ${tmxPath}`);
 }
 
 main().catch((err) => {

@@ -7,6 +7,7 @@
 export { parseTsx } from './parser';
 export { assignFirstGids, resolvePaletteName, tsxQualifiedKey, tsxStem } from './palette';
 export { emitTmj } from './emitter';
+export { emitTmx } from './tmx-emitter';
 export { renderTmj, type RenderOptions } from './renderer';
 export { validateSpec, type SpeciesLookup } from './validator';
 export type {

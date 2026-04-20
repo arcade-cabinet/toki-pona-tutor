@@ -68,11 +68,31 @@ If `pnpm validate-tp` rejects a line:
 - **Never edit** `src/content/corpus/tatoeba.json` — it's vendored upstream data.
 - **Schema changes** require a schema update (`src/content/schema/`) and a build-spine re-run.
 
-### Region authoring (new this PR)
+### Map authoring — specs, not hand-edited XML
 
-Regions are authored in **Tiled** (the `.tmx` map editor), not as JSON tile arrays. Tile layout lives in `<region>.tmx`; region logic (NPCs, warps, encounter tables) lives either in Tiled object layers or in `<id>.logic.json` alongside.
+Maps are **build artifacts**. The only source of truth is a spec file under `scripts/map-authoring/specs/<id>.ts` (default-exporting a `MapSpec`). From that spec the toolchain emits:
 
-Tiled `.tsx`/`.tmx` files use relative paths (`../../Art/...`, `../Tilesets/...`). When reorganizing assets, preserve each tileset pack's internal `Art/` + `Tiled/` layout.
+- `src/tiled/<id>.tmx` — the runtime artifact consumed by RPG.js v5's `tiledMapFolderPlugin`
+- `public/assets/maps/<id>.tmj` — the JSON archive (human-readable, diffable, used by the image renderer)
+- `public/assets/maps/<id>.preview.png` — a composited PNG for visual review
+
+Workflow:
+
+```sh
+pnpm author:build <id>      # spec → .tmj + .tmx for one map
+pnpm author:all --all       # validate + build + render every spec
+pnpm author:verify          # enforcement gate (runs in validate + CI)
+```
+
+**Hand-edited `.tmx`/`.tmj` is forbidden.** `pnpm author:verify` runs as part of `pnpm validate` (and therefore `pnpm prebuild`) and fails if:
+
+- any `src/tiled/<id>.tmx` has no corresponding spec
+- any spec has no emitted `.tmx`
+- any emitted `.tmx` drifts from what its spec would produce now (i.e. someone hand-edited the artifact, or forgot to rebuild after editing the spec)
+
+If a contributor needs to change map geometry, NPC placement, encounter tables, warps, etc., they edit the spec and rebuild. The spec is source; `.tmx`/`.tmj` are compiled output. Tileset `.tsx` files remain hand-authored (they belong to the Fan-tasy asset pack, not to our codebase).
+
+Tileset `.tsx`/`.tmx` paths are POSIX-normalized at emit time so CI and macOS/Linux/Windows authors all produce byte-identical output.
 
 ## Code
 
