@@ -52,6 +52,9 @@ jobs:
       - name: Build web bundle
         run: pnpm build
 
+      - name: Web bundle size audit (T6-13)
+        run: node tools/web-size-audit.mjs
+
       - name: Upload web bundle artifact
         uses: actions/upload-artifact@v4
         with:
