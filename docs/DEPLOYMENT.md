@@ -13,8 +13,8 @@ poki soweli ships to three surfaces, all from the same Vite bundle:
 
 | Target | How | Where |
 |--------|-----|-------|
-| Web (prod) | GitHub Pages | `https://arcade-cabinet.github.io/toki-pona-tutor/` |
-| Web (dev) | `pnpm dev` | `http://localhost:5173/toki-pona-tutor/` |
+| Web (prod) | GitHub Pages | `https://arcade-cabinet.github.io/poki-soweli/` |
+| Web (dev) | `pnpm dev` | `http://localhost:5173/poki-soweli/` |
 | Android (debug) | CI APK artifact on each PR | GitHub Actions artifacts, 14d retention |
 | Android (release) | _not yet wired_ | will use signed APK via `release.yml` once Phase-1 slice ships |
 | iOS | _not yet wired_ | Capacitor iOS platform; blocked on macOS CI runner |
@@ -76,7 +76,7 @@ adb install app-debug.apk
 ### `deploy.yml` — Pages deploy on main
 
 Runs on `push: main`. Builds the web bundle and deploys to
-GitHub Pages at the `toki-pona-tutor/` base path.
+GitHub Pages at the `poki-soweli/` base path.
 
 ## What's still missing
 
@@ -101,7 +101,7 @@ the Vitest browser harness:
 pnpm install
 pnpm prebuild   # validate + build-spine + typecheck
 pnpm build      # vite build → dist/
-pnpm preview    # preview the built bundle at http://localhost:4173/toki-pona-tutor/
+pnpm preview    # preview the built bundle at http://localhost:4173/poki-soweli/
 ```
 
 For native preview on an Android emulator:

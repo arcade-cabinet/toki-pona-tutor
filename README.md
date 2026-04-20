@@ -21,7 +21,7 @@ A monster-catching RPG whose world is named in toki pona — a blend of Final Fa
 ```sh
 pnpm install
 pnpm build-spine      # compile content JSON → generated/world.json
-pnpm dev              # vite dev server at http://localhost:5173/toki-pona-tutor/
+pnpm dev              # vite dev server at http://localhost:5173/poki-soweli/
 ```
 
 For the build pipeline, validation, and other commands, see `CLAUDE.md`.

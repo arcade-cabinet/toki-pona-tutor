@@ -185,3 +185,4 @@ pending/
 # in vite.config.ts on every dev/build. Not hand-authored; regenerates.
 public/assets/sql-wasm.js
 public/assets/sql-wasm.wasm
+.claude/state/

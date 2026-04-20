@@ -132,7 +132,7 @@ When the player's HP hits 0 in an action-battle, RPG.js default is undefined. Ho
 ## Context for the next session
 
 1. Branch: `feat/rpgjs-v5-pivot` → PR #66. CI run on `7573304` in progress.
-2. Run `pnpm install && pnpm dev` to verify the dev server boots (vite+rpgjs ready at `http://localhost:5173/toki-pona-tutor/`).
+2. Run `pnpm install && pnpm dev` to verify the dev server boots (vite+rpgjs ready at `http://localhost:5173/poki-soweli/`).
 3. Before touching any `.tmx`: edit `scripts/map-authoring/specs/<id>.ts` and run `pnpm author:build <id>`. `pnpm author:verify` is the enforcement gate.
 4. Before touching any dialog: author EN in `src/content/spine/dialog/<id>.json` and run `pnpm validate-tp` — every line must match a Tatoeba pair.
 5. Next task: V8 — jan Wawa gym (beat 3). First gym-leader pattern.

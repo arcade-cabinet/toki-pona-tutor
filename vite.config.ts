@@ -7,7 +7,9 @@ import serverConfig from './src/server';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
-const base = '/toki-pona-tutor/';
+// GitHub Pages deploys under /poki-soweli/; Capacitor (Android/iOS)
+// serves from the app root. Match the grailguard pattern.
+const base = process.env.CAPACITOR === 'true' ? '/' : '/poki-soweli/';
 
 /**
  * Copy sql.js WASM (and its loader JS) into public/assets/ so jeep-sqlite
@@ -35,7 +37,7 @@ export default defineConfig({
       sourceFolder: './src/tiled',
       // Prefix with base so map requests resolve correctly when deployed under
       // a subpath (e.g. GitHub Pages). Without this, requests go to /map
-      // instead of /toki-pona-tutor/map.
+      // instead of /poki-soweli/map.
       publicPath: `${base}map`,
       buildOutputPath: 'assets/data',
     }),
