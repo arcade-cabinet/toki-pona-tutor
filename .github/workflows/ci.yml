@@ -122,8 +122,8 @@ jobs:
       - name: Run integration suite (@rpgjs/testing)
         run: pnpm test:integration
 
-  e2e:
-    name: e2e (real browser via Playwright + xvfb)
+  e2e-smoke:
+    name: e2e smoke (real browser, boot + golden-path sanity)
     runs-on: ubuntu-latest
     needs: unit
     steps:
@@ -151,16 +151,19 @@ jobs:
 
       # xvfb-run gives the headless --use-angle=gl launch a virtual
       # display so Pixi/CanvasEngine renders with real WebGL in CI.
-      - name: Run Playwright suite under xvfb
+      # Smoke only — full feature-level E2E runs locally or on a
+      # scheduled `e2e-full` workflow. Keeps CI per-push fast as the
+      # suite grows.
+      - name: Run Playwright smoke suite under xvfb
         env:
           CI: 'true'
-        run: xvfb-run --auto-servernum --server-args="-screen 0 1280x720x24" pnpm test:e2e
+        run: xvfb-run --auto-servernum --server-args="-screen 0 1280x720x24" pnpm test:e2e:smoke
 
       - name: Upload Playwright report on failure
         if: failure()
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
-          name: playwright-report
+          name: playwright-smoke-report
           path: playwright-report
           retention-days: 7
           if-no-files-found: ignore
@@ -169,7 +172,7 @@ jobs:
         if: failure()
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
-          name: playwright-traces
+          name: playwright-smoke-traces
           path: test-results
           retention-days: 7
           if-no-files-found: ignore

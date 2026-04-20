@@ -39,7 +39,8 @@ const GPU_ARGS = [
 ];
 
 const config: PlaywrightTestConfig = {
-    testDir: './tests/e2e',
+    // `testDir` is set per-project below (smoke vs full) so each
+    // suite declares its own scope.
     fullyParallel: false, // shared save state in IndexedDB — serialize
     forbidOnly: isCI,
     retries: isCI ? 2 : 0,
@@ -71,9 +72,39 @@ const config: PlaywrightTestConfig = {
         ignoreHTTPSErrors: true,
     },
 
+    // Two projects, disjoint by directory:
+    //
+    //   smoke — runs on every CI push. Tiny, stable, under a minute.
+    //           Boots the build + asserts the golden-path sanity
+    //           invariants (canvas mounts, player assigned, brand
+    //           tokens resolve). Does NOT accumulate coverage.
+    //
+    //   full  — runs locally on `pnpm test:e2e`. Opt-in in CI via a
+    //           label / scheduled workflow once that's wired. This is
+    //           where feature-level E2E lives (starter ceremony flow,
+    //           encounter + catch, gym defeat, save round-trip).
+    //
+    // New tests default to `full`. Only promote a test to `smoke` if
+    // it's a boot/sanity invariant — smoke must stay fast.
     projects: [
         {
-            name: 'desktop-chrome',
+            name: 'smoke',
+            testDir: './tests/e2e/smoke',
+            use: {
+                ...devices['Desktop Chrome'],
+                browserName: 'chromium',
+                channel: 'chrome',
+                headless: true,
+                launchOptions: {
+                    args: GPU_ARGS,
+                    slowMo: isCI ? 0 : 50,
+                },
+            },
+        },
+        {
+            name: 'full',
+            testDir: './tests/e2e',
+            testIgnore: '**/smoke/**',
             use: {
                 ...devices['Desktop Chrome'],
                 browserName: 'chromium',
