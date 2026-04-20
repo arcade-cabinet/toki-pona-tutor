@@ -31,6 +31,17 @@ export const KEYS = {
     sfxVolume: 'poki-soweli.settings.sfx_volume',
     bgmVolume: 'poki-soweli.settings.bgm_volume',
     theme: 'poki-soweli.settings.theme',
+    // T8-04: optional sitelen-pona glyph overlay toggle during dialog.
+    // Off by default (the game is diegetic TP). When on, each TP line
+    // during dialog shows its sitelen-pona glyph row above the text.
+    // Still never shows EN — this is a reading aid, not a translator.
+    sitelenOverlay: 'poki-soweli.settings.sitelen_overlay',
+    // T3-06: text speed — characters per second for showText. Lower
+    // = slower reveal. 0 disables animation (instant text).
+    textSpeed: 'poki-soweli.settings.text_speed',
+    // T5-11 / accessibility: high-contrast UI mode for players with
+    // low vision. Doubles border weights, flattens gradients.
+    highContrast: 'poki-soweli.settings.high_contrast',
 } as const;
 
 export type PreferenceKey = (typeof KEYS)[keyof typeof KEYS];
