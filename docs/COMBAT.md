@@ -89,9 +89,9 @@ If a new line is needed, author EN in a new dialog JSON file and run
 
 ### What loop (1) intentionally does NOT do
 
-- HP reduction before capture (Pokeball-style "weaken first"). The
-  mechanic is deliberately simpler: flat `catch_rate` roll. This
-  matches the kid-friendly target audience.
+- HP reduction before capture ("weaken first" in other catch-based
+  RPGs). Our mechanic is deliberately simpler: flat `catch_rate` roll.
+  This matches the kid-friendly target audience.
 - Creature-vs-creature fights. Captured creatures live in
   `party_roster` but have no active combat role yet; their combat
   behavior lands with loop (2).

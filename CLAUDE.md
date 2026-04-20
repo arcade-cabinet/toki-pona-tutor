@@ -12,11 +12,17 @@ Repo path: `/Users/jbogaty/src/arcade-cabinet/toki-pona-tutor`. Game + repo was 
 
 ## Orient yourself
 
-1. Read `docs/STATE.md` for what's just landed and what's queued.
-2. Read `docs/ARCHITECTURE.md` for the tech stack and content pipeline.
-3. Read `docs/DESIGN.md` for the product vision (what the game IS and IS NOT).
-4. Read `docs/ROADMAP.md` for the Phase-1 slice acceptance criteria.
-5. Run `git status && git log --oneline -5 && gh pr list` before touching code.
+Before touching code, read these in order:
+
+1. `docs/STATE.md` — branch state, running commands, hard rules, known limits.
+2. `docs/ROADMAP.md` — single source of truth for what's done (✅), partial (🟡), open (⬜). Every task has a stable `T<phase>-<n>` ID.
+3. `docs/ARCHITECTURE.md` — stack layout + the three layers (content pipeline → pure game modules → runtime wiring).
+4. `docs/DESIGN.md` — product vision (what the game IS and IS NOT).
+5. `docs/BRAND.md` — palette, typography, chrome patterns. Every UI surface draws from these tokens.
+6. `docs/UX.md` — HUD architecture, tap-to-walk input model, `.ce` component registration, data-testid naming.
+7. `docs/TESTING.md` — four-layer testing strategy + E2E-first policy.
+
+Then: `git status && git log --oneline -10 && gh pr list`.
 
 ## Critical rules (override defaults)
 
@@ -25,7 +31,12 @@ Repo path: `/Users/jbogaty/src/arcade-cabinet/toki-pona-tutor`. Game + repo was 
 - **Maps are build artifacts, never hand-authored.** The only way a map enters the repo is via a spec in `scripts/map-authoring/specs/<id>.ts` built by `pnpm author:build <id>` (or `pnpm author:all --all`). Both `src/tiled/<id>.tmx` (runtime) and `public/assets/maps/<id>.tmj` (archive) are regenerated from the spec. `pnpm author:verify` runs in `validate` + `prebuild` + CI and fails on any hand-edited or drifted `.tmx`. If you need to change a map: edit the spec, rebuild, commit both.
 - **Every monster is catchable.** Tiering is about rarity + catch difficulty + animation depth — not whether the poki works. Animated sprites live in `public/assets/bosses/` (tier-2: rare spawns + set-piece fights, harder catch); static sprites in `public/assets/creatures/` (tier-1: common random encounters). Green dragon (`akesi_sewi`) is the final boss — legendary catch, only creature with a dedicated death animation (plays on defeat OR capture).
 - **No hand-authored toki pona.** Every user-facing TP string round-trips through the Tatoeba corpus. See `docs/WRITING_RULES.md`. If `pnpm validate-tp` rejects a line, rewrite the EN, not the TP.
-- **Always use pull requests.** Work on branches; don't push to main. Current branch: `feat/rpgjs-v5-pivot`.
+- **Always use pull requests.** Work on branches; don't push to `main`. Never merge with `--admin` / bypass checks. Branch names are ephemeral; check `git branch --show-current` rather than assuming.
+- **E2E > unit.** Integration + E2E tests (real engine, real browser) are what prove the game works. Unit tests are reserved for pure-logic/math/formulas. See `docs/TESTING.md`.
+- **Mobile-first, no fixed layout.** Tap-to-walk is primary input; keyboard is a desktop shortcut. No persistent A/B/d-pad cluster. Full HUD spec in `docs/UX.md`.
+- **GitHub Actions pinned to exact SHAs** (latest stable). Never use `@vN` tags.
+- **No CDN at runtime.** Fonts, wasm, assets — all self-hosted under `public/assets/`.
+- **No copyrighted / trademarked references** in docs, code, comments, or assets. The game is "poki soweli — a creature-catching RPG." Never reference Pokemon/Pokedex/Pokeball/Final Fantasy/etc. Catalog is `lipu soweli`; net is `poki`; region masters are `jan lawa`.
 - **No direct `localStorage` or `IndexedDB`** in feature code. Use `src/platform/persistence/preferences.ts` (small KV) or `src/platform/persistence/database.ts` (structured) — Capacitor-backed with web shims inside the wrapper only.
 
 ## Commands
@@ -41,7 +52,17 @@ pnpm test                 # both vitest projects (unit + integration)
 pnpm test:unit            # pure-logic suite only (~5 s)
 pnpm test:integration     # real RPG.js engine in-process via @rpgjs/testing
 pnpm test:coverage        # unit coverage gate — 95% lines / 95% functions / 90% branches
+pnpm test:e2e:smoke       # real browser via Playwright — boot + golden-path sanity
+pnpm test:e2e:full        # full Playwright suite (local only, not CI per-push)
 pnpm build                # prebuild (validate + build-spine + typecheck) then vite build
+```
+
+Build env for deploy targets (CI sets these; rarely needed locally):
+
+```sh
+GITHUB_PAGES=true pnpm build   # base='/poki-soweli/' for Pages
+CAPACITOR=true    pnpm build   # base='./' for native WebView
+# No env set → base='/' for dev/preview
 ```
 
 ## Structure
@@ -74,7 +95,12 @@ public/assets/
 └── effects/                      # weapon + magical FX
 
 docs/                      # specs — see list in docs/STATE.md
-tests/                     # Vitest browser E2E harness
+tests/
+├── build-time/            # unit — pure-logic, vitest node env
+├── integration/           # real engine in-process via @rpgjs/testing
+└── e2e/
+    ├── smoke/             # runs in CI — boot + golden-path sanity only
+    └── *.spec.ts          # full Playwright suite, local default
 ```
 
 ## What NOT to do

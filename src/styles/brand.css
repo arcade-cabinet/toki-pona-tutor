@@ -17,38 +17,81 @@
  */
 
 :root {
-    /* ─── Canonical palette ─── */
-    --poki-ink:              #1b1510;
-    --poki-bark:             #2d2318;
-    --poki-wood:             #4e3e2a;
-    --poki-parchment:        #f5e6c8;
-    --poki-parchment-mute:   #c9a268;
+    /*
+     * ─── Canonical palette ─── (warm cream + parchment, see BRAND.md)
+     *
+     * Animal-Crossing / Stardew energy, not RPG-manual-in-a-cave energy.
+     * Ported from the Godot-era `theme/palette.gd` decision; the prior
+     * dark-parchment palette (`#1b1510` ink etc.) is gone. When the
+     * palette changes, it changes HERE and in docs/BRAND.md together.
+     *
+     * Warm neutrals — foundation
+     */
+    --poki-cream:            #fdf6e3;  /* panel wash / parchment field */
+    --poki-parchment:        #f5e6c5;  /* dialog boxes, HUD backdrops, cards */
+    --poki-parchment-deep:   #e8d5a8;  /* hover / pressed parchment */
+    --poki-border:           #c8a96b;  /* panel + dialog-frame amber border */
+    --poki-ink:              #3d2e1e;  /* primary text — not pure black */
+    --poki-ink-soft:         #6b5940;  /* secondary text, labels */
 
-    /* Type colors */
-    --poki-kasi:             #86a856;
-    --poki-kasi-glow:        #a7c472;
-    --poki-seli:             #c23b22;
-    --poki-telo:             #5b94a6;
-    --poki-lete:             #9cc9d6;
-    --poki-wawa:             #b38a3e;
-    --poki-moli:             #6b3d6d;
+    /* Brand accents — ma pona (the good land) */
+    --poki-emerald:          #4a9d5a;  /* primary action, kasi, health */
+    --poki-emerald-deep:     #327144;  /* pressed emerald, dialog glyph fill */
+    --poki-amber:            #e8a04a;  /* secondary action, highlights */
+    --poki-amber-deep:       #c87a26;  /* pressed amber */
+    --poki-peach:            #f4b995;  /* affection / cute highlight */
+
+    /* Type accents — five elements */
+    --poki-seli:             #e8553e;  /* fire — warm red-orange */
+    --poki-telo:             #4da3d4;  /* water — soft blue */
+    --poki-kasi:             #6fb35c;  /* plant — soft green */
+    --poki-lete:             #b8d4dc;  /* cold — pale icy cream-blue */
+    --poki-wawa:             #d4a84e;  /* lightning/strong — warm gold */
+
+    /* Status */
+    --poki-joy:              #f2c158;  /* celebration (catch success, level up) */
+    --poki-caution:          #d98a3f;  /* hint toasts, warnings */
+    --poki-danger:           #c85a4a;  /* low HP, defeat — muted red */
+
+    /* Sky tints — biome backdrops */
+    --poki-sky-day:          #a8d8e8;  /* grass biomes */
+    --poki-sky-peak:         #6b7a83;  /* mountain biomes */
+    --poki-sky-cold:         #c4d8e8;  /* ice biomes */
 
     /* ─── Semantic aliases ─── */
-    --surface:       var(--poki-bark);
-    --surface-high:  var(--poki-wood);
-    --border:        var(--poki-parchment-mute);
-    --text:          var(--poki-parchment);
-    --text-mute:     var(--poki-parchment-mute);
-    --success:       var(--poki-kasi);
-    --danger:        var(--poki-seli);
+    --background:    var(--poki-cream);
+    --surface:       var(--poki-parchment);       /* panels, dialog */
+    --surface-high:  var(--poki-parchment-deep);  /* hovered / pressed */
+    --border:        var(--poki-border);
+    --text:          var(--poki-ink);
+    --text-mute:     var(--poki-ink-soft);
+    --primary:       var(--poki-emerald);
+    --primary-deep:  var(--poki-emerald-deep);
+    --secondary:     var(--poki-amber);
+    --secondary-deep:var(--poki-amber-deep);
+    --success:       var(--poki-emerald);
+    --danger:        var(--poki-danger);
     --info:          var(--poki-telo);
-    --accent:        var(--poki-wawa);
+    --accent:        var(--poki-amber);
 
-    /* ─── Typography ─── */
-    --font-body: 'Inter', system-ui, -apple-system, sans-serif;
-    --font-heading: 'Cinzel', 'Cormorant Garamond', serif;
-    --font-mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-    --font-glyph: 'Fairfax HD', 'sitelen-seli-kiwen-asuki', monospace;
+    /* Back-compat: several components still reference `--poki-kasi-glow`
+       and `--poki-moli` from the prior palette. Map them to the new
+       tokens to avoid a flag day; remove once every consumer migrates. */
+    --poki-kasi-glow:        var(--poki-emerald);
+    --poki-moli:             var(--poki-amber-deep);
+    --poki-bark:             var(--poki-parchment);
+    --poki-wood:             var(--poki-parchment-deep);
+    --poki-parchment-mute:   var(--poki-ink-soft);
+
+    /* ─── Typography ─── (self-hosted via src/styles/fonts.css) */
+    --font-body:    'Nunito', system-ui, -apple-system, sans-serif;
+    --font-display: 'Fredoka', 'Nunito', system-ui, sans-serif;
+    --font-mono:    'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    --font-glyph:   'nasin-nanpa', 'Nunito', system-ui, sans-serif;
+
+    /* Back-compat alias — old name `--font-heading` still referenced in a
+       few places. Remove once every consumer has migrated to --font-display. */
+    --font-heading: var(--font-display);
 
     --text-body-desktop: 18px;
     --text-body-mobile:  16px;
@@ -80,10 +123,10 @@
     --border-width: 1px;
     --border-width-modal: 2px;
 
-    /* ─── Shadows ─── */
-    --shadow-panel:  0 4px 10px rgba(0, 0, 0, 0.25);
-    --shadow-modal:  0 12px 28px rgba(0, 0, 0, 0.4);
-    --shadow-hover:  0 0 0 2px rgba(134, 168, 86, 0.3);
+    /* ─── Shadows ─── (warm ink shadow, not pure black — BRAND.md §UI shape) */
+    --shadow-panel:  0 2px 8px rgba(61, 46, 30, 0.15);
+    --shadow-modal:  0 4px 12px rgba(61, 46, 30, 0.22);
+    --shadow-hover:  0 0 0 2px rgba(74, 157, 90, 0.30);
 
     /* ─── Motion tokens ─── */
     --duration-press:   120ms;
@@ -99,32 +142,32 @@
 
     /* ─── @rpgjs/ui-css token overrides ─── */
     /* The library exposes --rpg-ui-* tokens which we remap to our
-       canonical palette so every default component inherits the brand
-       without per-component overrides. */
-    --rpg-ui-bg:                var(--poki-ink);
-    --rpg-ui-body-bg:           var(--poki-ink);
+       canonical palette so every default component inherits the
+       warm-cream brand without per-component overrides. */
+    --rpg-ui-bg:                var(--poki-cream);
+    --rpg-ui-body-bg:           var(--poki-cream);
     --rpg-ui-surface:           var(--surface);
     --rpg-ui-surface-light:     var(--surface-high);
-    --rpg-ui-surface-overlay:       rgba(27, 21, 16, 0.78);
-    --rpg-ui-surface-overlay-strong: rgba(27, 21, 16, 0.94);
-    --rpg-ui-border:            rgba(201, 162, 104, 0.42);
-    --rpg-ui-border-light:      rgba(245, 213, 160, 0.30);
-    --rpg-ui-border-dark:       rgba(18, 14, 10, 0.82);
+    --rpg-ui-surface-overlay:        rgba(61, 46, 30, 0.42);
+    --rpg-ui-surface-overlay-strong: rgba(61, 46, 30, 0.62);
+    --rpg-ui-border:            rgba(200, 169, 107, 0.55);
+    --rpg-ui-border-light:      rgba(244, 185, 149, 0.45);
+    --rpg-ui-border-dark:       rgba(61, 46, 30, 0.30);
     --rpg-ui-text:              var(--text);
     --rpg-ui-text-muted:        var(--text-mute);
-    --rpg-ui-accent:            var(--success);
-    --rpg-ui-accent-hover:      var(--poki-kasi-glow);
-    --rpg-ui-accent-active:     #6b8a42;
+    --rpg-ui-accent:            var(--primary);
+    --rpg-ui-accent-hover:      var(--primary-deep);
+    --rpg-ui-accent-active:     var(--primary-deep);
     --rpg-ui-success:           var(--success);
-    --rpg-ui-warning:           var(--accent);
+    --rpg-ui-warning:           var(--poki-caution);
     --rpg-ui-danger:            var(--danger);
     --rpg-ui-info:              var(--info);
     --rpg-ui-mana:              var(--info);
-    --rpg-ui-xp:                var(--accent);
+    --rpg-ui-xp:                var(--poki-joy);
 
-    --rpg-ui-health-gradient:   linear-gradient(90deg, #c23b22 0%, #7a1f10 100%);
-    --rpg-ui-mana-gradient:     linear-gradient(90deg, #5b94a6 0%, #2f5a68 100%);
-    --rpg-ui-xp-gradient:       linear-gradient(90deg, #e5a42c 0%, #a97215 100%);
+    --rpg-ui-health-gradient:   linear-gradient(90deg, var(--poki-emerald) 0%, var(--poki-emerald-deep) 100%);
+    --rpg-ui-mana-gradient:     linear-gradient(90deg, var(--poki-telo) 0%, #2f5a68 100%);
+    --rpg-ui-xp-gradient:       linear-gradient(90deg, var(--poki-joy) 0%, var(--poki-amber-deep) 100%);
 
     --rpg-ui-font:              var(--font-body);
     --rpg-ui-font-size:         1rem;
@@ -147,10 +190,10 @@
 body.poki-high-contrast {
     --border-width: 2px;
     --border-width-modal: 3px;
-    --rpg-ui-border: rgba(201, 162, 104, 0.85);
-    --rpg-ui-health-gradient: var(--poki-seli);
+    --rpg-ui-border: rgba(200, 169, 107, 0.95);
+    --rpg-ui-health-gradient: var(--poki-emerald);
     --rpg-ui-mana-gradient: var(--poki-telo);
-    --rpg-ui-xp-gradient: var(--poki-wawa);
+    --rpg-ui-xp-gradient: var(--poki-joy);
 }
 
 /* ─── Reduced-motion ─── */
@@ -167,10 +210,10 @@ body.poki-high-contrast {
    Components set one of .hp-healthy / .hp-wounded / .hp-critical on
    their bar wrapper; the fill gets the threshold color. `.hp-critical`
    pulses via the brand motion token. */
-.hp-healthy > .hp-fill  { background: var(--poki-kasi); }
-.hp-wounded > .hp-fill  { background: var(--poki-wawa); }
+.hp-healthy > .hp-fill  { background: var(--poki-emerald); }
+.hp-wounded > .hp-fill  { background: var(--poki-caution); }
 .hp-critical > .hp-fill {
-    background: var(--poki-seli);
+    background: var(--poki-danger);
     animation: poki-hp-critical-pulse 1000ms ease-in-out infinite;
 }
 
@@ -183,13 +226,13 @@ body.poki-high-contrast {
    Components add class poki-toast; stack with flex column-reverse on
    the toast container. */
 .poki-toast {
-    background: var(--poki-wawa);
+    background: var(--poki-joy);
     color: var(--poki-ink);
     padding: var(--space-1) var(--space-2);
     border-radius: var(--radius-md);
-    border: var(--border-width) solid rgba(0, 0, 0, 0.3);
-    font-family: var(--font-body);
-    font-weight: 700;
+    border: var(--border-width) solid var(--poki-border);
+    font-family: var(--font-display);
+    font-weight: 600;
     box-shadow: var(--shadow-panel);
     animation: poki-toast-in var(--duration-victory) var(--ease-out);
 }

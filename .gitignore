@@ -141,6 +141,10 @@ vite.config.ts.timestamp-*
 .playwright-mcp/
 *.png
 !public/**/*.png
+# Playwright writes visual-regression baselines under
+# tests/e2e/*/*-snapshots/*.png on first run and compares them
+# thereafter. Commit them so CI has a deterministic baseline.
+!tests/e2e/**/*-snapshots/**/*.png
 
 # Vitest browser harness screenshots — captured per-run; commit only when
 # a screenshot is intentionally being added as a regression baseline (then
@@ -185,4 +189,10 @@ pending/
 # in vite.config.ts on every dev/build. Not hand-authored; regenerates.
 public/assets/sql-wasm.js
 public/assets/sql-wasm.wasm
-.claude/state/
+
+# Playwright run artifacts (HTML report + trace/screenshot/video output).
+# Snapshot files under tests/e2e/*/*-snapshots/ ARE committed — Playwright
+# writes them there on first run and uses them as visual-regression
+# baselines. Those are distinct from the per-run `test-results/` tree.
+playwright-report/
+test-results/

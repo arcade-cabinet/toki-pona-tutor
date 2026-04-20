@@ -7,9 +7,19 @@ import serverConfig from './src/server';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
-// GitHub Pages deploys under /poki-soweli/; Capacitor (Android/iOS)
-// serves from the app root. Match the grailguard pattern.
-const base = process.env.CAPACITOR === 'true' ? '/' : '/poki-soweli/';
+// Three deploy targets, three base paths. Same pattern kings-road
+// uses — Capacitor bundles want relative URLs (`./assets/...`) so
+// the WebView finds them regardless of how it resolves the shell;
+// GitHub Pages serves under `/<repo>/` per-project; local dev is
+// `/`. vite rewrites every public-tree `/assets/...` URL in CSS /
+// HTML to `${base}/assets/...` at build time, so fonts + tilemap
+// data resolve correctly in all three environments.
+const resolveBase = () => {
+    if (process.env.CAPACITOR === 'true') return './';
+    if (process.env.GITHUB_PAGES === 'true') return '/poki-soweli/';
+    return '/';
+};
+const base = resolveBase();
 
 /**
  * Copy sql.js WASM (and its loader JS) into public/assets/ so jeep-sqlite

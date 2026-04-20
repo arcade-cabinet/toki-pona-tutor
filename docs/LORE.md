@@ -15,7 +15,7 @@ All names in toki pona. TP meanings provided for reference but not used in-game 
 
 A small world of seven regions, connected by footpaths and waterways. No one place is far from the next. Weather shifts visibly: the south grows warm and flowering, the north grows cold and white. The culture is village-scale, pre-industrial, organized around a generations-old uneasy coexistence with the **ijo utala** — "fighting-things" — monsters that rise at twilight from ruins, graveyards, old forts, and dungeons dotting the regions. A child coming of age is given a **poki** by their village elder and sent to meet, catch, and train these creatures — ijo utala become *jan pona* (friend-things) once caught. The seven **jan lawa** hold the old knowledge of taming the strongest kinds; each guards one region and one type.
 
-Aesthetic blend: **Final Fantasy** dark-fantasy encounter art (goblins in the grass, skellies in the crypts, a dragon at the top of the sky) with **catch-and-train** mechanics. Every creature the player fights, the player can also befriend.
+Aesthetic: **cozy dark-fantasy** — goblins in the grass, skellies in the crypts, a dragon at the top of the sky — paired with catch-and-befriend mechanics. Warm cream + parchment chrome (see `docs/BRAND.md`), never edgy. Every creature the player fights, the player can also befriend.
 
 ### The seven regions (in order of first visit)
 

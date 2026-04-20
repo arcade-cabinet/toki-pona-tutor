@@ -32,65 +32,114 @@ then fix the code.
 
 ## Color palette
 
-Parchment-on-dark with kasi-green highlights. Evokes old RPG manuals
-and weathered scrolls; warm enough to feel welcoming, dark enough that
-the Fan-tasy sprite palette reads clearly on top.
+**Warm cream + parchment foundation** with emerald + amber accents. Animal-Crossing / Stardew / Spiritfarer energy — cozy Sunday morning, not edgy, not gamer, not neon. The Fan-tasy sprite palette reads clearly on cream backdrops without fighting the chrome.
 
-### Canonical colors
+Authoritative tokens live as CSS custom properties in `src/styles/brand.css`. Anywhere in the codebase referring to color, reference these names — never raw hex.
 
-| Token              | Hex       | Role |
-|--------------------|-----------|------|
-| `--poki-ink`       | `#1b1510` | Body background — deep coffee-brown, near-black |
-| `--poki-bark`      | `#2d2318` | Surface (panels, modals) |
-| `--poki-wood`      | `#4e3e2a` | Surface-raised (buttons, hover) |
-| `--poki-parchment` | `#f5e6c8` | Primary text — warm off-white |
-| `--poki-parchment-mute` | `#c9a268` | Secondary text, borders, icon outlines |
-| `--poki-kasi`      | `#86a856` | Kasi-green accent (type `kasi` + general success) |
-| `--poki-kasi-glow` | `#a7c472` | Hover/active for kasi-green |
-| `--poki-seli`      | `#c23b22` | Seli-red (fire / HP danger / error) |
-| `--poki-telo`      | `#5b94a6` | Telo-blue (water / info / cooldown) |
-| `--poki-lete`      | `#9cc9d6` | Lete-ice (accent for cold biomes + frozen status) |
-| `--poki-wawa`      | `#b38a3e` | Wawa-amber (strong type + warnings + XP glow) |
-| `--poki-moli`      | `#6b3d6d` | Moli-violet (undead / special-move flash) |
+### Warm neutrals — foundation
+
+| Token                      | Hex       | Role |
+|----------------------------|-----------|------|
+| `--poki-cream`             | `#fdf6e3` | Body background wash, parchment fields |
+| `--poki-parchment`         | `#f5e6c5` | Dialog boxes, HUD backdrops, cards |
+| `--poki-parchment-deep`    | `#e8d5a8` | Hover / pressed parchment |
+| `--poki-border`            | `#c8a96b` | Panel + dialog-frame amber border (warm, not cold gray) |
+| `--poki-ink`               | `#3d2e1e` | Primary text — not pure black, too harsh |
+| `--poki-ink-soft`          | `#6b5940` | Secondary text, labels |
+
+### Brand accents — from `ma pona` (the good land)
+
+| Token                  | Hex       | Role |
+|------------------------|-----------|------|
+| `--poki-emerald`       | `#4a9d5a` | Primary action; `kasi`/plants; health |
+| `--poki-emerald-deep`  | `#327144` | Pressed emerald, dialog-glyph fill |
+| `--poki-amber`         | `#e8a04a` | Secondary action, highlights |
+| `--poki-amber-deep`    | `#c87a26` | Pressed amber |
+| `--poki-peach`         | `#f4b995` | Affection / cute highlight, jan Sewi vibe |
+
+### Type accents — five elements
+
+| Token          | Hex       | Meaning |
+|----------------|-----------|---------|
+| `--poki-seli`  | `#e8553e` | Fire — warm red-orange, never harsh |
+| `--poki-telo`  | `#4da3d4` | Water — soft blue, not neon |
+| `--poki-kasi`  | `#6fb35c` | Plant — soft green |
+| `--poki-lete`  | `#b8d4dc` | Cold — pale icy cream-blue |
+| `--poki-wawa`  | `#d4a84e` | Lightning/strong — warm gold |
+
+### Status
+
+| Token            | Hex       | Role |
+|------------------|-----------|------|
+| `--poki-joy`     | `#f2c158` | Catch success, level-up, celebration toasts |
+| `--poki-caution` | `#d98a3f` | Hint toasts, warnings (not errors) |
+| `--poki-danger`  | `#c85a4a` | Low HP, defeat — muted red, never bright |
+
+### Sky tints — biome backdrops
+
+| Token               | Hex       | Biome |
+|---------------------|-----------|-------|
+| `--poki-sky-day`    | `#a8d8e8` | Grass, forest |
+| `--poki-sky-peak`   | `#6b7a83` | Mountain |
+| `--poki-sky-cold`   | `#c4d8e8` | Ice |
 
 ### Semantic aliases
 
-| Alias          | Maps to             | When to use |
-|----------------|---------------------|-------------|
-| `surface`      | `--poki-bark`       | Panel backgrounds |
-| `surface-high` | `--poki-wood`       | Raised surfaces, hovered buttons |
-| `border`       | `--poki-parchment-mute` | All borders, default |
-| `text`         | `--poki-parchment`  | Body text, headings |
-| `text-mute`    | `--poki-parchment-mute` | Secondary labels, hints |
-| `success`      | `--poki-kasi`       | Positive feedback (pona, catch success) |
-| `danger`       | `--poki-seli`       | HP-low warning, errors (ike) |
-| `info`         | `--poki-telo`       | Neutral info, cooldown timers |
-| `accent`       | `--poki-wawa`       | XP gain, highlights, "new" badges |
+| Alias             | Maps to                   | When to use |
+|-------------------|---------------------------|-------------|
+| `--background`    | `--poki-cream`            | Body / app-shell backdrop |
+| `--surface`       | `--poki-parchment`        | Panel + dialog backgrounds |
+| `--surface-high`  | `--poki-parchment-deep`   | Hovered / pressed surfaces |
+| `--border`        | `--poki-border`           | All borders, default |
+| `--text`          | `--poki-ink`              | Body text, headings |
+| `--text-mute`     | `--poki-ink-soft`         | Secondary labels, hints |
+| `--primary`       | `--poki-emerald`          | Primary buttons, CTA |
+| `--primary-deep`  | `--poki-emerald-deep`     | Pressed primary |
+| `--secondary`     | `--poki-amber`            | Secondary buttons, highlights |
+| `--secondary-deep`| `--poki-amber-deep`       | Pressed secondary |
+| `--success`       | `--poki-emerald`          | Positive feedback (pona, catch success) |
+| `--danger`        | `--poki-danger`           | Low-HP warning, error state |
+| `--info`          | `--poki-telo`             | Neutral info, cooldown timers |
+| `--accent`        | `--poki-amber`            | XP gain, "new" badges |
 
-### HP bar gradient
+### Anti-patterns
 
-Three-stop by percentage:
+- **No pure black or white.** Ink is `#3d2e1e`, parchment is `#f5e6c5`. Pure black screams at kids; pure white flickers on OLED.
+- **No neon.** Saturation cap around the five type accents. Brighter = bad.
+- **No gray borders.** Always a warm amber line (`--poki-border`), never cold gray.
+- **No cold shadows.** All shadows use `rgba(61, 46, 30, α)` (warm ink), never `rgba(0,0,0,α)`.
+- **No glass-morphism / backdrop-blur** on mobile. Kills perf, looks like a web app, not a game world.
+- **No CRT scanlines / pixel-perfect postprocessing.** The game world has pixel art; the chrome is clean.
 
-- **> 50% HP**: `--poki-kasi` (green) solid
-- **20–50% HP**: `--poki-wawa` (amber) solid
-- **< 20% HP**: `--poki-seli` (red) solid, with a slow 2Hz pulse via CSS
-  `animation` on opacity 0.7 ↔ 1.0.
+### HP bar threshold
 
-Never transition through intermediate hues mid-animation — the color
-jump is the feedback signal, not a continuous fade.
+Three-stop by percentage, each a solid color (no gradient interpolation — the color jump IS the feedback signal):
+
+- **> 50% HP**: `--poki-emerald`
+- **20–50% HP**: `--poki-caution`
+- **< 20% HP**: `--poki-danger`, pulses via `animation` on opacity 0.65 ↔ 1.0 at 1Hz
 
 ## Typography
 
-| Role                   | Face                      | Size (desktop / mobile) |
-|------------------------|---------------------------|-------------------------|
-| Body / dialog          | Inter (fallback: system)  | 18px / 16px             |
-| Dialog speaker label   | Inter SemiBold            | 14px / 12px             |
-| HUD numbers (HP, XP, level) | Inter tabular-nums   | 16px / 14px             |
-| Section headers        | Cinzel (fallback: serif)  | 24px / 20px             |
-| sitelen-pona glyph row | Fairfax (reserve font)    | glyph-dependent         |
+Self-hosted via `src/styles/fonts.css`. No CDN, no Google-Fonts runtime fetch. All four families ship under SIL Open Font License 1.1 with `OFL.txt` alongside each `.woff2` in `public/assets/fonts/`. Variable fonts for body/display/mono; one static OTF for sitelen-pona.
 
-Ligatures **off** by default. Tabular-nums **on** for any counter or
-timer. Line-height 1.45 for prose; 1.15 for HUD.
+| Role                      | Face            | Token             | Size (desktop / mobile) |
+|---------------------------|-----------------|-------------------|-------------------------|
+| Body / dialog / descriptions | Nunito       | `--font-body`     | 18px / 16px             |
+| Display / headings / toasts | Fredoka       | `--font-display`  | 24px / 20px             |
+| Numbers (HP, XP, level, tabular) | JetBrains Mono | `--font-mono`  | 16px / 14px             |
+| sitelen-pona glyphs (UCSUR) | nasin-nanpa 4.0.2 UCSUR | `--font-glyph` | glyph-dependent |
+
+- **Nunito** — rounded, warm, highly readable on small screens. Variable weight 200-900.
+- **Fredoka** — rounded, friendly, playful without being childish. Variable weight 300-700 + width 75-125%.
+- **JetBrains Mono** — clean fixed-width digits, not a "code" feel. Variable weight 100-800.
+- **nasin-nanpa** — ETBCOR's standard UCSUR sitelen-pona hieroglyph font; renders codepoints U+F1900 and up.
+
+Ligatures **off** by default. Tabular-nums **on** for any counter or timer. Line-height 1.45 for prose; 1.15 for HUD.
+
+No all-caps outside small labels. Kids read lowercase faster; all-caps screams at them.
+
+**Never used**: Kenney Pixel, Kenney Mini Square, Inter, Cinzel, Fairfax, or any pixel/retro display font. Pixel fonts fight readability on phone screens and communicate "video game" instead of "cozy book." The sitelen-pona glyphs are all the "this is a different world" we need.
 
 No all-caps outside section headers. Kids read lowercase faster;
 all-caps screams at them.
@@ -153,8 +202,12 @@ Listed in order of precedence — earlier rules win.
 6. **Persistence is quiet.** Autosaves flash a tiny indicator — never a
    modal. Manual save asks once with a TP verb, never confirms twice.
 7. **Mobile is a first-class surface, not an afterthought.** 44×44dp
-   minimum on every touchable. Virtual d-pad in the bottom-left with
-   thumb reach in mind.
+   minimum on every touchable. **Tap-to-walk** is the primary movement
+   input — tap a tile, the lead walks there (4-way grid, no diagonals).
+   No persistent virtual d-pad or A/B button cluster; this game is not
+   a handheld emulator. Interactions come to the player as a contextual
+   hint glyph that follows the sprite. The full HUD + input spec lives
+   in `docs/UX.md`.
 8. **Accessibility is default-on.** `prefers-reduced-motion`,
    `prefers-color-scheme: dark` (we only do dark; light mode is out
    of scope), high-contrast setting toggles doubled border weights +
@@ -183,12 +236,26 @@ Listed in order of precedence — earlier rules win.
 - Sitelen-pona overlay (T8-04) replaces the speaker label row with a
   glyph row when the pref is on.
 
-### Pause menu
+### Overworld HUD
 
-Four-item vertical list: `nimi` (vocabulary / T3-13), `poki` (inventory
-+ badges / T3-09), `awen` (save / T3-05), `tawa` (back to field).
-Highlighted row uses `--poki-kasi` border + `--poki-kasi-glow` fill at
-20% alpha. Action labels are single TP words in 20px Inter.
+Top bar: **status strip** pinned top-left (lead portrait + name + HP
+bar + level + mastered-words tally) + **hamburger** pinned top-right.
+A **contextual hint glyph** (`toki` / `tawa` / `alasa` / `poki` /
+`kama` / `utala`) follows the player sprite in world-space whenever
+an interactable is adjacent. No persistent action buttons. Full spec
+in `docs/UX.md`.
+
+### Pause overlay
+
+Slide-in from right, summoned by the top-right hamburger. Full-width
+sheet on phones; ~420px side panel on tablets + desktop with the world
+canvas visible behind at reduced opacity. Four routes tabbed:
+**Party** (sitelen `soweli`), **Vocab** (sitelen `nasin` / T3-13),
+**Inventory** (sitelen `ijo` — badges, beat progress, items),
+**Settings** (sitelen `awen` / T3-06). Plus a Save row + Quit row at
+the bottom. Back-button / swipe-right / Escape / tap-outside all
+dismiss. Highlighted tab uses `--poki-emerald` border + `--poki-emerald-deep`
+fill at 20% alpha. Action labels are single TP words in 20px Inter.
 
 ### Combat HUD (top-of-screen)
 

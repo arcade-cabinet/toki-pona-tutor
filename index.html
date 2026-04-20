@@ -1,26 +1,51 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
-    <meta charset="utf-8" />
-    <title>poki soweli</title>
+    <meta charset="UTF-8" />
     <meta
       name="viewport"
-      content="width=device-width, initial-scale=1"
+      content="width=device-width, initial-scale=1.0, viewport-fit=cover"
     />
+    <meta name="theme-color" content="#fdf6e3" />
+    <title>poki soweli</title>
+
+    <!--
+      Preload the body + display fonts so first paint has typography.
+      Glyph (nasin-nanpa), mono, and italic variants load on demand when
+      a surface needs them. %BASE_URL% is vite's placeholder; resolves
+      to '/' in dev, '/poki-soweli/' on GitHub Pages, './' in Capacitor.
+    -->
+    <link
+      rel="preload"
+      href="%BASE_URL%assets/fonts/nunito/Nunito-VariableFont.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
+    <link
+      rel="preload"
+      href="%BASE_URL%assets/fonts/fredoka/Fredoka-VariableFont.woff2"
+      as="font"
+      type="font/woff2"
+      crossorigin
+    />
+
     <style>
-      /* Fredoka is imported via standalone.ts / client.ts CSS bundle.
-         Offline-safe system fallback stack below ensures Capacitor builds
-         render correctly before the font asset loads — no runtime Google
-         Fonts request. */
-      body, #rpg {
+      /*
+       * Nunito is the body default once src/styles/fonts.css resolves;
+       * the fallback stack stays rounded + warm so the pre-font-load
+       * paint doesn't look like a different game.
+       */
+      body,
+      #rpg {
         margin: 0;
         padding: 0;
         height: 100vh;
         width: 100vw;
         overflow: hidden;
-        font-family: 'Fredoka', ui-rounded, 'Hiragino Maru Gothic ProN',
-                     Quicksand, Comfortaa, Manjari, 'Arial Rounded MT Bold',
-                     Calibri, system-ui, sans-serif;
+        font-family: 'Nunito', ui-rounded, 'Hiragino Maru Gothic ProN',
+          Quicksand, Comfortaa, Manjari, system-ui, sans-serif;
+        background: #fdf6e3; /* matches BRAND.md palette `cream` */
       }
     </style>
   </head>
