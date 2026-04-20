@@ -562,7 +562,64 @@
       "catch_rate": 0.35,
       "xp_yield": 70,
       "sprite_frame": 0,
-      "portrait_src": "/assets/creatures/mummy/mummy.png"
+      "portrait_src": "/assets/creatures/mummy/mummy.png",
+      "sprite": {
+        "src": "/assets/creatures/mummy/mummy.png",
+        "frame_width": 16,
+        "frame_height": 32,
+        "animations": {
+          "idle": {
+            "row": 0,
+            "col_start": 0,
+            "cols": 4,
+            "fps": 4,
+            "loop": true
+          },
+          "taunt": {
+            "row": 1,
+            "col_start": 0,
+            "cols": 4,
+            "fps": 6,
+            "loop": false
+          },
+          "walk": {
+            "row": 2,
+            "col_start": 0,
+            "cols": 4,
+            "fps": 8,
+            "loop": true
+          },
+          "defend": {
+            "row": 3,
+            "col_start": 0,
+            "cols": 4,
+            "fps": 6,
+            "loop": false
+          },
+          "attack": {
+            "row": 4,
+            "col_start": 0,
+            "cols": 4,
+            "fps": 10,
+            "loop": false
+          },
+          "hurt": {
+            "row": 5,
+            "col_start": 0,
+            "cols": 4,
+            "fps": 8,
+            "loop": false
+          },
+          "death": {
+            "row": 6,
+            "col_start": 0,
+            "cols": 4,
+            "fps": 6,
+            "loop": false
+          }
+        },
+        "tier": "common"
+      }
     },
     {
       "id": "jan_utala_lili",
@@ -2430,6 +2487,103 @@
             "cols": 1,
             "fps": 3,
             "loop": true
+          }
+        },
+        "tier": "common"
+      }
+    },
+    {
+      "id": "waso_toki",
+      "name": {
+        "en": "toki"
+      },
+      "description": {
+        "en": "The child loves the birds.",
+        "tp": "jan lili li olin e waso."
+      },
+      "type": "kasi",
+      "base_stats": {
+        "hp": 44,
+        "attack": 50,
+        "defense": 30,
+        "speed": 60
+      },
+      "learnset": [
+        {
+          "level": 1,
+          "move_id": "utala_lili"
+        },
+        {
+          "level": 1,
+          "move_id": "wawa_waso"
+        },
+        {
+          "level": 9,
+          "move_id": "kasi_lili"
+        }
+      ],
+      "catch_rate": 0.38,
+      "xp_yield": 54,
+      "sprite": {
+        "src": "/assets/animals/parrot.png",
+        "frame_width": 32,
+        "frame_height": 32,
+        "animations": {
+          "idle": {
+            "row": 0,
+            "col_start": 0,
+            "cols": 3,
+            "fps": 4,
+            "loop": true
+          },
+          "idle_alt": {
+            "row": 1,
+            "col_start": 0,
+            "cols": 3,
+            "fps": 4,
+            "loop": true
+          },
+          "walk": {
+            "row": 2,
+            "col_start": 0,
+            "cols": 6,
+            "fps": 8,
+            "loop": true
+          },
+          "fly": {
+            "row": 3,
+            "col_start": 0,
+            "cols": 7,
+            "fps": 10,
+            "loop": true
+          },
+          "attack": {
+            "row": 4,
+            "col_start": 0,
+            "cols": 5,
+            "fps": 12,
+            "loop": false
+          },
+          "cast": {
+            "row": 5,
+            "col_start": 0,
+            "cols": 3,
+            "fps": 10,
+            "loop": false
+          },
+          "hurt": {
+            "row": 6,
+            "col_start": 0,
+            "cols": 2,
+            "fps": 8,
+            "loop": false
+          },
+          "death": {
+            "row": 7,
+            "col_start": 0,
+            "cols": 3,
+            "fps": 6,
+            "loop": false
           }
         },
         "tier": "common"
