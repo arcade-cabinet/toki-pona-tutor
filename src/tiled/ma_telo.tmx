@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-down"
+     width="20" height="16" tilewidth="16" tileheight="16" infinite="0"
+     nextlayerid="3" nextobjectid="6">
+ <tileset firstgid="1" source="../../public/assets/tilesets/core/Tiled/Tilesets/Tileset_Ground.tsx"/>
+ <layer id="1" name="Below Player" width="20" height="16" visible="1" opacity="1">
+  <data encoding="csv">
+1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
+1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
+1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
+1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
+1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
+1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
+1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
+1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
+1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
+1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
+1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
+1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
+1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
+1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
+1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
+1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1
+  </data>
+ </layer>
+ <objectgroup id="2" name="Objects" visible="1" opacity="1">
+  <object id="1" name="from_nena_sewi" type="SpawnPoint" x="32" y="96" width="0" height="0" visible="1" rotation="0"/>
+  <object id="2" name="jan-kala-lake" type="NPC" x="80" y="208" width="0" height="0" visible="1" rotation="0">
+   <properties>
+     <property name="id" value="jan_kala_lake"/>
+     <property name="dialog_id" value="jan_kala_lake_quest"/>
+   </properties>
+  </object>
+  <object id="3" name="jan-moku" type="NPC" x="128" y="64" width="0" height="0" visible="1" rotation="0">
+   <properties>
+     <property name="id" value="jan_moku"/>
+     <property name="dialog_id" value="jan_moku_stall"/>
+   </properties>
+  </object>
+  <object id="4" name="jan-telo" type="NPC" x="240" y="128" width="0" height="0" visible="1" rotation="0">
+   <properties>
+     <property name="id" value="jan_telo"/>
+     <property name="dialog_id" value="jan_telo_intro"/>
+   </properties>
+  </object>
+  <object id="5" name="warp_north" type="Warp" x="240" y="0" width="16" height="16" visible="1" rotation="0">
+   <properties>
+     <property name="target_map" value="ma_lete"/>
+     <property name="target_spawn" value="from_ma_telo"/>
+     <property name="required_flag" value="badge_telo"/>
+   </properties>
+  </object>
+ </objectgroup>
+</map>

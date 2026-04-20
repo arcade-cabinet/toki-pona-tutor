@@ -994,6 +994,22 @@
   ],
   "dialog": [
     {
+      "id": "game_over_revive",
+      "npc_id": null,
+      "priority": 10,
+      "beats": [
+        {
+          "text": {
+            "en": "You seem well...",
+            "tp": "lukin la sina pilin pona..."
+          },
+          "mood": "sad",
+          "glyph": "pona"
+        }
+      ],
+      "triggers": {}
+    },
+    {
       "id": "jan_ike_intro",
       "npc_id": "jan_ike",
       "when_flags": {
@@ -1048,6 +1064,22 @@
       "triggers": {}
     },
     {
+      "id": "jan_kala_lake_quest",
+      "npc_id": "jan_kala_lake",
+      "priority": 0,
+      "beats": [
+        {
+          "text": {
+            "en": "I'm getting tired.",
+            "tp": "mi kama wile lape."
+          },
+          "mood": "thinking",
+          "glyph": "lape"
+        }
+      ],
+      "triggers": {}
+    },
+    {
       "id": "jan_kala_rest",
       "npc_id": "jan_kala",
       "priority": 0,
@@ -1059,6 +1091,22 @@
           },
           "mood": "thinking",
           "glyph": "lape"
+        }
+      ],
+      "triggers": {}
+    },
+    {
+      "id": "jan_moku_stall",
+      "npc_id": "jan_moku",
+      "priority": 0,
+      "beats": [
+        {
+          "text": {
+            "en": "Fresh fruit is good for the health.",
+            "tp": "kili sin li pona tawa sijelo."
+          },
+          "mood": "happy",
+          "glyph": "moku"
         }
       ],
       "triggers": {}
@@ -1120,6 +1168,60 @@
           },
           "mood": "excited",
           "glyph": "seme"
+        }
+      ],
+      "triggers": {}
+    },
+    {
+      "id": "jan_telo_intro",
+      "npc_id": "jan_telo",
+      "when_flags": {
+        "badge_telo": false
+      },
+      "priority": 10,
+      "beats": [
+        {
+          "text": {
+            "en": "Let's see!",
+            "tp": "mi mute o lukin!"
+          },
+          "mood": "excited",
+          "glyph": "lukin"
+        },
+        {
+          "text": {
+            "en": "I'm plenty strong!",
+            "tp": "mi wawa mute!"
+          },
+          "mood": "excited",
+          "glyph": "wawa"
+        }
+      ],
+      "triggers": {}
+    },
+    {
+      "id": "jan_telo_victory",
+      "npc_id": "jan_telo",
+      "when_flags": {
+        "badge_telo": true
+      },
+      "priority": 5,
+      "beats": [
+        {
+          "text": {
+            "en": "You won.",
+            "tp": "sina pini pona."
+          },
+          "mood": "sad",
+          "glyph": "sina"
+        },
+        {
+          "text": {
+            "en": "Let's go!",
+            "tp": "mi mute o tawa!"
+          },
+          "mood": "thinking",
+          "glyph": "tawa"
         }
       ],
       "triggers": {}

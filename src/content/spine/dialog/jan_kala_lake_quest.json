@@ -1,0 +1,9 @@
+{
+  "id": "jan_kala_lake_quest",
+  "npc_id": "jan_kala_lake",
+  "priority": 0,
+  "beats": [
+    { "text": { "en": "I'm getting tired." }, "mood": "thinking", "glyph": "lape" }
+  ],
+  "triggers": {}
+}

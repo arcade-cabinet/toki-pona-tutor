@@ -85,8 +85,51 @@ export default defineModule<RpgServer>({
                     y: 0,
                     event: Warp({
                         targetMap: 'ma_telo',
-                        position: { x: 32, y: 96 },
+                        position: { x: 40, y: 104 }, // from_nena_sewi spawn on ma_telo
                         requiredFlag: 'badge_sewi',
+                    }),
+                },
+            ],
+        },
+        {
+            id: 'ma_telo',
+            events: [
+                {
+                    id: 'jan-kala-lake',
+                    x: 88,
+                    y: 216,
+                    event: AmbientNpc('female', 'jan_kala_lake_quest'),
+                },
+                {
+                    id: 'jan-moku',
+                    x: 136,
+                    y: 72,
+                    event: AmbientNpc('female', 'jan_moku_stall'),
+                },
+                {
+                    id: 'jan-telo',
+                    x: 248,
+                    y: 136,
+                    event: GymLeader({
+                        npcId: 'jan_telo',
+                        badgeFlag: 'badge_telo',
+                        rewardWord: 'telo',
+                        nextBeatId: 'beat_05_ma_lete',
+                        hp: 140,
+                        atk: 22,
+                        pdef: 14,
+                        dialogBase: 'jan_telo',
+                        enemyType: EnemyType.Defensive,
+                    }),
+                },
+                {
+                    id: 'warp_north',
+                    x: 248,
+                    y: 0,
+                    event: Warp({
+                        targetMap: 'ma_lete',
+                        position: { x: 32, y: 96 },
+                        requiredFlag: 'badge_telo',
                     }),
                 },
             ],
