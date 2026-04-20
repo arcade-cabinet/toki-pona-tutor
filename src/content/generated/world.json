@@ -2431,6 +2431,96 @@
       }
     },
     {
+      "id": "waso_lete",
+      "name": {
+        "en": "lete"
+      },
+      "description": {
+        "en": "Tom is cold.",
+        "tp": "jan Ton li lete."
+      },
+      "type": "lete",
+      "base_stats": {
+        "hp": 56,
+        "attack": 46,
+        "defense": 52,
+        "speed": 34
+      },
+      "learnset": [
+        {
+          "level": 1,
+          "move_id": "utala_lili"
+        },
+        {
+          "level": 1,
+          "move_id": "lete_lili"
+        },
+        {
+          "level": 10,
+          "move_id": "telo_lili"
+        }
+      ],
+      "catch_rate": 0.4,
+      "xp_yield": 56,
+      "sprite": {
+        "src": "/assets/animals/penguin.png",
+        "frame_width": 32,
+        "frame_height": 32,
+        "animations": {
+          "walk": {
+            "row": 0,
+            "col_start": 0,
+            "cols": 12,
+            "fps": 10,
+            "loop": true
+          },
+          "idle": {
+            "row": 1,
+            "col_start": 0,
+            "cols": 5,
+            "fps": 4,
+            "loop": true
+          },
+          "idle_alt": {
+            "row": 2,
+            "col_start": 0,
+            "cols": 3,
+            "fps": 4,
+            "loop": true
+          },
+          "attack": {
+            "row": 3,
+            "col_start": 0,
+            "cols": 4,
+            "fps": 12,
+            "loop": false
+          },
+          "flee": {
+            "row": 4,
+            "col_start": 0,
+            "cols": 2,
+            "fps": 10,
+            "loop": true
+          },
+          "hurt": {
+            "row": 5,
+            "col_start": 0,
+            "cols": 3,
+            "fps": 8,
+            "loop": false
+          },
+          "death": {
+            "row": 6,
+            "col_start": 0,
+            "cols": 3,
+            "fps": 6,
+            "loop": false
+          }
+        },
+        "tier": "common"
+      }
+    },
+    {
       "id": "waso_pimeja",
       "name": {
         "en": "pimeja"
