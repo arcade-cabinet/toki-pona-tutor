@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-down"
+     width="16" height="12" tilewidth="16" tileheight="16" infinite="0"
+     nextlayerid="4" nextobjectid="4">
+ <tileset firstgid="1" source="../../public/assets/tilesets/core/Tiled/Tilesets/Tileset_Ground.tsx"/>
+ <layer id="1" name="Below Player" width="16" height="12">
+  <data encoding="csv">
+1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
+1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
+1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
+1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
+1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
+1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
+1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
+1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
+1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
+1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
+1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
+1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1
+  </data>
+ </layer>
+ <objectgroup id="2" name="Objects">
+  <object id="1" name="Spawn Point" type="spawn_point" x="120" y="88" width="16" height="16"/>
+  <object id="2" name="jan-sewi" type="npc" x="160" y="96" width="16" height="16">
+   <properties>
+    <property name="id" value="jan_sewi"/>
+    <property name="dialog_id" value="jan_sewi_intro"/>
+   </properties>
+  </object>
+  <object id="3" name="nasin-warp" type="warp" x="240" y="88" width="16" height="16">
+   <properties>
+    <property name="target_map" value="nasin_wan"/>
+    <property name="target_spawn" value="from_tomo"/>
+   </properties>
+  </object>
+ </objectgroup>
+</map>

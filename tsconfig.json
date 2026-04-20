@@ -1,20 +1,38 @@
 {
   "compilerOptions": {
-    "target": "ES2022",
-    "lib": ["ES2022", "DOM", "DOM.Iterable"],
-    "module": "ESNext",
+    "target": "ES2020",
+    "lib": ["dom", "esnext"],
+    "module": "ES2020",
     "moduleResolution": "bundler",
     "resolveJsonModule": true,
-    "jsx": "react-jsx",
     "strict": true,
-    "noUnusedLocals": true,
-    "noUnusedParameters": true,
+    "strictNullChecks": true,
+    "strictPropertyInitialization": false,
+    "noUnusedLocals": false,
+    "noUnusedParameters": false,
+    "noImplicitAny": false,
+    "noImplicitThis": false,
+    "noImplicitReturns": false,
     "noFallthroughCasesInSwitch": true,
     "isolatedModules": true,
     "skipLibCheck": true,
-    "allowImportingTsExtensions": false,
     "esModuleInterop": true,
-    "allowSyntheticDefaultImports": true
+    "allowSyntheticDefaultImports": true,
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    "declaration": true,
+    "sourceMap": true,
+    "stripInternal": true
   },
-  "include": ["src", "vite.config.ts"]
+  "include": [
+    "src",
+    "vite.config.ts"
+  ],
+  "exclude": [
+    "node_modules"
+  ],
+  "typeRoots": [
+    "node_modules/@types",
+    "src/types"
+  ]
 }

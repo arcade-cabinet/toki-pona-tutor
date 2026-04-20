@@ -25,13 +25,14 @@ Repo path: `/Users/jbogaty/src/arcade-cabinet/toki-pona-tutor`. Game + repo was 
 - **Tiled `.tmx/.tsx` is the map authoring format.** Regions are authored in Tiled, not as JSON tile arrays. Region logic (NPCs, warps, encounters) lives either in the `.tmx` object layers or in `<id>.logic.json` alongside.
 - **Creatures vs bosses are tiered by animation depth.** Animated sprites go in `public/assets/bosses/`; static sprites in `public/assets/creatures/`. Green dragon is the designated final boss (only creature with a death animation).
 - **No hand-authored toki pona.** Every user-facing TP string round-trips through the Tatoeba corpus. See `docs/WRITING_RULES.md`. If `pnpm validate-tp` rejects a line, rewrite the EN, not the TP.
-- **Always use pull requests.** Work on branches; don't push to main. Current branch: `spike/phaser-koota-revive`.
+- **Always use pull requests.** Work on branches; don't push to main. Current branch: `feat/rpgjs-v5-pivot`.
+- **No direct `localStorage` or `IndexedDB`** in feature code. Use `src/platform/persistence/preferences.ts` (small KV) or `src/platform/persistence/database.ts` (structured) — Capacitor-backed with web shims inside the wrapper only.
 
 ## Commands
 
 ```sh
 pnpm install          # bootstrap
-pnpm dev              # vite dev server at http://localhost:5173/toki-pona-tutor/
+pnpm dev              # vite dev server at http://localhost:5173/ (RPG.js v5 standalone mode)
 pnpm build-spine      # compile src/content/spine/ → generated/world.json
 pnpm validate-tp      # gate: every EN string must exist in Tatoeba corpus
 pnpm validate         # validate-challenges + validate-tp
@@ -43,14 +44,21 @@ pnpm build            # prebuild (validate + build-spine + typecheck) then vite 
 
 ```
 src/
-├── game/                   # Phaser scenes, Solid overlays, Koota ECS, combat engine
-├── content/
-│   ├── spine/              # hand-authored content JSON (species, moves, regions, items, dialog)
-│   ├── generated/          # compiled world.json (committed for reproducibility)
-│   ├── corpus/             # vendored Tatoeba TP↔EN corpus (immutable)
-│   └── schema/             # Zod schemas — source of truth for content shape
-├── components/             # React shell (menus, HUD, non-game UI)
-└── types/
+├── standalone.ts           # dev entry: provideRpg(startServer) — client+server in one process
+├── server.ts               # createServer with CapacitorSaveStrategy + tiledmap + main module
+├── client.ts               # startGame with provideMmorpg (production)
+├── config/
+│   └── config.client.ts    # tilemap basePath, spritesheets
+├── modules/
+│   └── main/               # player hooks, NPC events, map registrations
+├── platform/
+│   └── persistence/        # Capacitor preferences + sqlite adapters + RPG.js save hook
+├── tiled/                  # authored .tmx maps consumed by tiledMapFolderPlugin
+└── content/
+    ├── spine/              # hand-authored content JSON (species, moves, items, dialog)
+    ├── generated/          # compiled world.json (committed for reproducibility)
+    ├── corpus/             # vendored Tatoeba TP↔EN corpus (immutable)
+    └── schema/             # Zod schemas — source of truth for content shape
 
 public/assets/
 ├── tilesets/{core,…,indoor}/    # Fan-tasy 6-biome family, .tsx/.tmx intact
@@ -62,7 +70,7 @@ public/assets/
 └── effects/                      # weapon + magical FX
 
 docs/                      # specs — see list in docs/STATE.md
-tests/                     # Vitest browser E2E harness + playbook factory (Phase S work)
+tests/                     # Vitest browser E2E harness
 ```
 
 ## What NOT to do

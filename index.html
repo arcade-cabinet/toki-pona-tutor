@@ -1,12 +1,28 @@
-<!doctype html>
-<html lang="en">
+<!DOCTYPE html>
+<html>
   <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>kama sona — Toki Pona Tutor</title>
+    <meta charset="utf-8" />
+    <title>poki soweli</title>
+    <meta
+      name="viewport"
+      content="initial-scale=1, maximum-scale=1, user-scalable=no, minimum-scale=1, width=device-width, height=device-height"
+    />
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="./node_modules/@rpgjs/ui-css/src/reset.css">
+    <link rel="stylesheet" href="./node_modules/@rpgjs/ui-css/src/index.css">
+    <link rel="stylesheet" href="./node_modules/@rpgjs/ui-css/src/theme-default/theme.css">
+    <style>
+      body, #rpg {
+        margin: 0;
+        padding: 0;
+        height: 100vh;
+        width: 100vw;
+        overflow: hidden;
+      }
+    </style>
   </head>
   <body>
-    <div id="root"></div>
-    <script type="module" src="/src/main.tsx"></script>
+    <div id="rpg"></div>
+    <script type="module" src="/src/standalone.ts"></script>
   </body>
 </html>

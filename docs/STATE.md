@@ -7,105 +7,109 @@ domain: context
 
 # Where we are — 2026-04-19
 
-**Mid-revive.** The Godot engine experiment on `main` created more problems than it solved; this branch (`spike/phaser-koota-revive`) is a clean revive of the pre-Godot Phaser + Koota stack from commit `0a582e0`, modernized with:
+**RPG.js v5 pivot.** PRs #64 (L1 Phaser foundation) and #65 (L3 Journey schema) were closed. The engine is now **RPG.js v5 beta** on branch `feat/rpgjs-v5-pivot`.
 
-- A unified **Fan-tasy tileset family** (6 biome packs with Tiled `.tmx`/`.tsx` support) replacing the old Kenney/Lonesome-Forest/Old-Town patchwork that drove tonal inconsistency.
-- **Tiled adopted as the map authoring format** (no more JSON tile arrays, no more region schema).
-- **Scaffolding ported from `remarkablegames/phaser-rpg`** (Phaser 3 template modernized to Phaser 4 + Solid + TS strict).
-- **Boss vs. creature tiering** by animation depth — green dragon reserved as final boss.
+## Rationale for the pivot
 
-## Just landed in this PR
+RPG.js v5 gives us for free:
+- Tiled tilemap loading (`@rpgjs/tiledmap`, `tiledMapFolderPlugin`) — the primary map-pipeline requirement.
+- Built-in event/NPC model — replaces the Tiled Object-layer wiring we were porting from `remarkablegames/phaser-rpg`.
+- `ISaveStorageStrategy` — a clean hook for our Capacitor persistence adapters.
+- Standalone dev mode (`provideRpg`) — no external server needed during development.
+- Vue-compat GUI screens — replaces the React + Solid shell.
+- `@rpgjs/action-battle` — combat module we can wire in a later layer.
 
-### Doc standard compliance (complete)
+What we keep from the Phaser era:
+- `src/content/` — corpus, spine, schema, generated world.json (unchanged).
+- `public/assets/` — Fan-tasy tilesets, player, bosses, creatures, npcs, combatants, effects (unchanged).
+- `scripts/` — validate-tp, validate-challenges, build-spine, map-authoring toolchain (unchanged).
+- `docs/` — all docs updated, none deleted.
+- `tests/e2e/` — Vitest browser harness scaffolding (to be rewired to RPG.js v5 hooks).
 
-- `CLAUDE.md`, `AGENTS.md` — agent entry points
-- `STANDARDS.md` — code/content/asset/process non-negotiables
-- `CHANGELOG.md` — Keep-a-Changelog, rooted at `0a582e0`
-- `README.md` — frontmatter + rewrite
-- `docs/DESIGN.md` — product vision
-- `docs/LORE.md` — 7 regions + 17 species + named NPCs, canonical
-- `docs/DEPLOYMENT.md` — honest stub
-- `docs/ARCHITECTURE.md` — rewritten for Fan-tasy + Tiled + journey
+## Just landed
 
-### Asset unification (complete)
+### RPG.js v5 application shell
 
-- 6 Fan-tasy biome packs unpacked under `public/assets/tilesets/{core,seasons,snow,desert,fortress,indoor}/`
-- Per-pack PDFs moved to `docs/tilesets/`
-- Character/boss/creature/NPC tiering under `public/assets/{player,bosses,creatures,npcs,combatants,effects}/`
-- `public/assets/CREDITS.md` consolidated licenses
-- Original archives preserved in `pending/`
+- `package.json` — replaced Phaser/React/Solid/Koota deps with `@rpgjs/*`, `canvasengine`, `@canvasengine/*`, `pixi.js`, `@signe/di`.
+- `vite.config.ts` — uses `rpgjs()` plugin + `tiledMapFolderPlugin` pointing at `src/tiled/`.
+- `tsconfig.json` — updated for RPG.js v5 (experimentalDecorators, emitDecoratorMetadata, bundler resolution).
+- `index.html` — RPG.js v5 shell (div#rpg, ui-css links, Fredoka font).
+- `src/standalone.ts` — `provideRpg(startServer)` entry for development.
+- `src/server.ts` — `createServer()` with CapacitorSaveStorageStrategy + tiledmap + main module.
+- `src/client.ts` — `startGame()` with `provideMmorpg` for production.
+- `src/config/config.client.ts` — tilemap basePath, Fan-tasy character spritesheets.
+- `src/modules/main/player.ts` — `onConnected` places player at `ma_tomo_lili` (first journey beat).
+- `src/modules/main/event.ts` — jan Sewi NPC event factory (starter ceremony placeholder).
+- `src/modules/main/server.ts` — `defineModule` with player hooks + map event registrations.
+- `src/modules/main/index.ts` — `createModule('main', ...)` export.
 
-### Copyrighted-reference scrub (complete)
+### Capacitor persistence layer
 
-- 7 source files + 4 docs scrubbed of trademark references
-- Corpus data files (upstream CC BY 2.0) intentionally untouched
+- `src/platform/persistence/preferences.ts` — typed Capacitor Preferences wrapper, `KEYS` const.
+- `src/platform/persistence/database.ts` — Capacitor SQLite + jeep-sqlite web fallback, `prepareWebStore()` pattern.
+- `src/platform/persistence/save-strategy.ts` — `ISaveStorageStrategy` implementation wired to sqlite.
 
-## In flight (this PR continues)
+### Starter map
 
-### L0 — Architecture + state docs ✅ (this commit)
+- `src/tiled/ma_tomo_lili.tmx` — starter village map using Fan-tasy core tileset (16×12 tiles, Tileset_Ground.tsx).
+- Tileset TSX symlinked into `src/tiled/` so Tiled editor can resolve it.
 
-Rewrite `docs/ARCHITECTURE.md` and `docs/STATE.md` for the post-leapfrog architecture.
+### Deleted Phaser-era code
 
-### L1 — Foundation
+- `src/game/` — all Phaser scenes, Solid overlays, Koota ECS, combat engine.
+- `src/components/` — React shell.
+- `src/App.tsx`, `src/main.tsx`, `src/hooks/`, `src/lib/` — removed.
 
-Port `Boot.ts` / `Main.ts` / `Menu.ts` / `Player.ts` / `constants/*` from `remarkablegames/phaser-rpg` to Phaser 4 + Solid + pnpm. Build one test map (`public/assets/maps/ma_tomo_lili.tmj`) from Fan-tasy's Village Bridge sample. Delete `src/game/tiles.ts`, `src/game/content/tile-keys.ts`, `src/game/scenes/RegionScene.ts`. Player walks around.
+### Docs updated
 
-### L2 — Test harness
+- `docs/ARCHITECTURE.md` — rewritten for RPG.js v5 stack.
+- `docs/STATE.md` — this file.
+- `CLAUDE.md` — Commands section updated for new stack.
 
-Vitest browser mode + Playwright (chromium). `tests/harness/` primitives + `window.__toki_harness__` inspector. First test: foundation — boot, map renders, player walks.
+## In flight (next layers)
 
-### L3 — Journey manifest
+### V1 — Player walks around (done with this PR)
+The dev server boots, `ma_tomo_lili.tmx` loads, the Fan-tasy character walks.
 
-Zod schema for `journey.ts`. Write `src/content/spine/journey.json` materializing the 7-region arc from `docs/LORE.md`. Write `docs/JOURNEY.md` as the prose/creative-writing pass. Delete `src/content/schema/region.ts` + tile arrays from `src/content/spine/regions/*.json`.
+### V2 — Warps + second map
+- Author `nasin_wan.tmx` (route 1 from journey.json beat 2).
+- Warp object from `ma_tomo_lili` → `nasin_wan` and back.
+- Warp object uses `target_map` + `target_spawn` custom props (RPG.js v5 handles teleport).
 
-### L4 — Interaction layer
+### V3 — NPC dialog + starter ceremony
+- Jan Sewi event: show text greeting, offer 3 starters (seli/telo/kasi), set `starter_chosen` flag.
+- Dialog content wired through `src/content/spine/dialog/jan_sewi.json`.
+- `pnpm validate-tp` gate: all TP strings in dialog must have Tatoeba pairs.
 
-Tiled `Objects` layer — spawn point + signs + NPCs as markers. Port selector-body pattern from reference. Port Typewriter from `phaser-jsx` to Solid.
+### V4 — Encounters + action-battle wiring
+- `Encounters` object layer in `ma_tomo_lili.tmx`.
+- `@rpgjs/action-battle` module wired to the main module.
+- Wild encounter roll on tall-grass step.
 
-### L5 — Dialog + NPCs + starter ceremony
+### V5 — Capacitor Android build + CI
+- `capacitor.config.ts` with `appId: com.pokisoweli.game`.
+- GitHub Actions CI: pnpm install → validate → typecheck → build.
+- Android APK as PR artifact.
 
-Per-NPC dialog JSON under `src/content/spine/dialog/`. jan Sewi starter ceremony: three-choice starter, party populated at L5, 3×`poki_lili` granted, `starter_chosen` flag set.
-
-### L6 — Warps + multi-map
-
-Second map (`nasin_wan`). Warp object-layer markers.
-
-### L7 — Encounters + combat
-
-`Encounters` object layer with weighted species tables. Combat engine + overlay wired to new scene.
-
-### L8 — Rival + gym
-
-jan Ike set-piece at `nasin_wan`. jan Telo gym at `ma_telo` unlocked by catch count.
-
-### L9 — Final docs
-
-`docs/ROADMAP.md` / `SLICE_CHECK.md` / `TESTING.md` / `ASSET_PIPELINE.md` — all describing what's actually built.
-
-### L10 — Polish + PR
-
-Full test suite green. CHANGELOG update. PR against `main`.
+### V6 — Full journey arc (7 regions)
+- All 7 maps from `src/content/spine/journey.json`.
+- All jan-lawa set-piece events.
 
 ## Locked design decisions
 
 - **Creature-catching RPG.** Party of up to 6. Catch wild with **poki** (net). Five types: seli/telo/kasi/lete/wawa. Seven regions. Set-piece jan-lawa fights gate region boundaries. No player stats.
 - **Green dragon is the final boss.** Only creature with a dedicated death animation. Never appears mid-game.
-- **Fan-tasy is the only tileset family.** No mixing. Tonal consistency is the headline feature.
-- **Tiled is the map authoring format.** Region layout + triggers + NPCs + warps live in `.tmx` object layers. JSON is for content (species, moves, dialog), not layout.
-- **Docs > tests > code.** Strict dependency chain; tests never chase code.
-- **No copyrighted references.** Never Pokemon/Pokedex/Pokeball. "lipu soweli" for the catalog, "poki" for the net, "jan lawa" for region masters. See `STANDARDS.md`.
-- **Kid audience.** Dread knight, not death knight. Fierce but friendly. No permadeath.
+- **Fan-tasy is the only tileset family.** No mixing.
+- **Tiled is the map authoring format.** `.tmx` → `tiledMapFolderPlugin` → `/map/<id>` at runtime.
+- **Docs > tests > code.** Strict dependency chain.
+- **No copyrighted references.** "lipu soweli" for catalog, "poki" for net, "jan lawa" for region masters.
+- **No direct `localStorage` / `IndexedDB`** in feature code. Capacitor abstractions only.
+- **Kid audience.** Dread knight not death knight. No permadeath.
 
 ## Context for the next session
 
-If you land here mid-batch:
-
-1. Read the task-batch state: `cat .claude/state/task-batch/batch-phaser-revive.json`
-2. Read the PR-in-progress: `git log --oneline -10` on `spike/phaser-koota-revive`
-3. The reference repo lives at `~/src/reference-codebases/phaser-rpg` — do not modify it.
-4. Current tasks tracked via TaskList with IDs #15-#25.
-5. The memory at `~/.claude/projects/-Users-jbogaty-src-arcade-cabinet-toki-pona-tutor/memory/` has the non-obvious rules.
-
-## Godot-era context (off-branch reference)
-
-Not on this branch. On `main` between commits `1d924fe`..`0edfe61` there's a parallel Godot 4 implementation. It has working CI/release-please/dependabot/Maestro E2E infrastructure that may be worth porting later but is out of scope for this PR. The Godot port's assets + tilemap work is archived under `pending/extracted/` (pre-extracted by the Godot attempt).
+1. Branch: `feat/rpgjs-v5-pivot`
+2. Run `pnpm install && pnpm dev` to verify the dev server boots.
+3. Next task: V2 — author `nasin_wan.tmx`, wire warp.
+4. The Fan-tasy tileset TSX files live at `public/assets/tilesets/core/Tiled/Tilesets/`.
+5. Memory at `~/.claude/projects/-Users-jbogaty-src-arcade-cabinet-toki-pona-tutor/memory/` has non-obvious rules.
