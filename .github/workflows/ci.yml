@@ -14,8 +14,8 @@ permissions:
   contents: read
 
 jobs:
-  validate:
-    name: validate + typecheck + build
+  unit:
+    name: unit (validate + typecheck + coverage)
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v6
@@ -60,6 +60,27 @@ jobs:
           retention-days: 7
           if-no-files-found: warn
 
+  build:
+    name: build web bundle + size audit
+    runs-on: ubuntu-latest
+    needs: unit
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          lfs: true
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10
+
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - name: Install JS deps
+        run: pnpm install --ignore-workspace --frozen-lockfile
+
       - name: Build web bundle
         run: pnpm build
 
@@ -74,10 +95,49 @@ jobs:
           retention-days: 7
           if-no-files-found: error
 
+  e2e:
+    name: e2e browser harness
+    runs-on: ubuntu-latest
+    needs: unit
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          lfs: true
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 10
+
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - name: Install JS deps
+        run: pnpm install --ignore-workspace --frozen-lockfile
+
+      - name: Install Playwright browser (Chromium only)
+        run: pnpm exec playwright install --with-deps chromium
+
+      - name: Compile spine
+        run: pnpm build-spine
+
+      - name: Run e2e browser smoke suite
+        run: pnpm test:e2e
+
+      - name: Upload e2e screenshots on failure
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: e2e-screenshots
+          path: tests/e2e/__screenshots__
+          retention-days: 7
+          if-no-files-found: ignore
+
   android-debug-apk:
     name: build debug APK
     runs-on: ubuntu-latest
-    needs: validate
+    needs: build
     steps:
       - uses: actions/checkout@v6
         with:
