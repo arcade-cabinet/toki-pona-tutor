@@ -1,0 +1,11 @@
+{
+  "id": "jan_wawa_victory",
+  "npc_id": "jan_wawa",
+  "when_flags": { "badge_sewi": true },
+  "priority": 5,
+  "beats": [
+    { "text": { "en": "You won." }, "mood": "sad", "glyph": "sina" },
+    { "text": { "en": "You seem well..." }, "mood": "thinking", "glyph": "pona" }
+  ],
+  "triggers": {}
+}

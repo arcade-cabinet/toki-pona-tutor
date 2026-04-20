@@ -1048,6 +1048,22 @@
       "triggers": {}
     },
     {
+      "id": "jan_kala_rest",
+      "npc_id": "jan_kala",
+      "priority": 0,
+      "beats": [
+        {
+          "text": {
+            "en": "I'm getting tired.",
+            "tp": "mi kama wile lape."
+          },
+          "mood": "thinking",
+          "glyph": "lape"
+        }
+      ],
+      "triggers": {}
+    },
+    {
       "id": "jan_sewi_after_pick",
       "npc_id": "jan_sewi",
       "when_flags": {
@@ -1104,6 +1120,60 @@
           },
           "mood": "excited",
           "glyph": "seme"
+        }
+      ],
+      "triggers": {}
+    },
+    {
+      "id": "jan_wawa_intro",
+      "npc_id": "jan_wawa",
+      "when_flags": {
+        "badge_sewi": false
+      },
+      "priority": 10,
+      "beats": [
+        {
+          "text": {
+            "en": "I'm plenty strong!",
+            "tp": "mi wawa mute!"
+          },
+          "mood": "excited",
+          "glyph": "wawa"
+        },
+        {
+          "text": {
+            "en": "Let's see!",
+            "tp": "mi mute o lukin!"
+          },
+          "mood": "excited",
+          "glyph": "lukin"
+        }
+      ],
+      "triggers": {}
+    },
+    {
+      "id": "jan_wawa_victory",
+      "npc_id": "jan_wawa",
+      "when_flags": {
+        "badge_sewi": true
+      },
+      "priority": 5,
+      "beats": [
+        {
+          "text": {
+            "en": "You won.",
+            "tp": "sina pini pona."
+          },
+          "mood": "sad",
+          "glyph": "sina"
+        },
+        {
+          "text": {
+            "en": "You seem well...",
+            "tp": "lukin la sina pilin pona..."
+          },
+          "mood": "thinking",
+          "glyph": "pona"
         }
       ],
       "triggers": {}

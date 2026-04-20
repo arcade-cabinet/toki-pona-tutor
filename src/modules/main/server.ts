@@ -1,8 +1,11 @@
 import { defineModule } from '@rpgjs/common';
 import { RpgServer } from '@rpgjs/server';
+import { EnemyType } from '@rpgjs/action-battle/server';
 import { player } from './player';
 import { JanSewi } from './event';
 import { JanIke } from './jan-ike';
+import { GymLeader } from './gym-leader';
+import { AmbientNpc } from './ambient-npc';
 import { Warp } from './warp';
 
 export default defineModule<RpgServer>({
@@ -45,8 +48,45 @@ export default defineModule<RpgServer>({
                     y: 80, // matches nasin_wan.tmj object layer (was 88 — CR #3107839130)
                     event: Warp({
                         targetMap: 'nena_sewi',
-                        position: { x: 32, y: 96 },
+                        position: { x: 24, y: 120 }, // from_nasin_wan spawn on nena_sewi
                         requiredFlag: 'jan_ike_defeated',
+                    }),
+                },
+            ],
+        },
+        {
+            id: 'nena_sewi',
+            events: [
+                {
+                    id: 'jan-kala',
+                    x: 168,
+                    y: 136,
+                    event: AmbientNpc('female', 'jan_kala_rest'),
+                },
+                {
+                    id: 'jan-wawa',
+                    x: 392,
+                    y: 56,
+                    event: GymLeader({
+                        npcId: 'jan_wawa',
+                        badgeFlag: 'badge_sewi',
+                        rewardWord: 'sewi',
+                        nextBeatId: 'beat_04_ma_telo',
+                        hp: 110,
+                        atk: 18,
+                        pdef: 12,
+                        dialogBase: 'jan_wawa',
+                        enemyType: EnemyType.Aggressive,
+                    }),
+                },
+                {
+                    id: 'warp_north',
+                    x: 392,
+                    y: 0,
+                    event: Warp({
+                        targetMap: 'ma_telo',
+                        position: { x: 32, y: 96 },
+                        requiredFlag: 'badge_sewi',
                     }),
                 },
             ],
