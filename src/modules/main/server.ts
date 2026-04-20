@@ -62,7 +62,8 @@ export default defineModule<RpgServer>({
                     id: 'jan-kala',
                     x: 168,
                     y: 136,
-                    event: AmbientNpc('female', 'jan_kala_rest'),
+                    // Hiker on mountain pass — hark's hooded ranger look.
+                    event: AmbientNpc('npc_villager_masc_hark', 'jan_kala_rest'),
                 },
                 {
                     id: 'jan-wawa',
@@ -73,6 +74,8 @@ export default defineModule<RpgServer>({
                         badgeFlag: 'badge_sewi',
                         rewardWord: 'sewi',
                         nextBeatId: 'beat_04_ma_telo',
+                        // Orange axe-warrior — raw physical strength, wawa type.
+                        graphic: 'combatant_warrior_axe',
                         hp: 60,  // phase 1: waso_sewi L8 — lighter
                         atk: 16,
                         pdef: 10,
@@ -106,13 +109,15 @@ export default defineModule<RpgServer>({
                     id: 'jan-kala-lake',
                     x: 88,
                     y: 216,
-                    event: AmbientNpc('female', 'jan_kala_lake_quest'),
+                    // Lake fisher — vash's practical outdoor gear suits a shore-side angler.
+                    event: AmbientNpc('npc_villager_fem_vash', 'jan_kala_lake_quest'),
                 },
                 {
                     id: 'jan-moku',
                     x: 136,
                     y: 72,
-                    event: AmbientNpc('female', 'jan_moku_stall'),
+                    // Food-stall cook — seza's apron / vendor look is a direct match.
+                    event: AmbientNpc('npc_villager_fem_seza', 'jan_moku_stall'),
                 },
                 {
                     id: 'jan-telo',
@@ -123,6 +128,8 @@ export default defineModule<RpgServer>({
                         badgeFlag: 'badge_telo',
                         rewardWord: 'telo',
                         nextBeatId: 'beat_05_ma_lete',
+                        // Red-robed elemental mage — water/lake aesthetic.
+                        graphic: 'combatant_mage_fem_red',
                         hp: 80,  // phase 1: kala_suli L10 — slippery
                         atk: 20,
                         pdef: 12,
@@ -156,13 +163,15 @@ export default defineModule<RpgServer>({
                     id: 'jan-anpa',
                     x: 104,
                     y: 72,
-                    event: AmbientNpc('female', 'jan_anpa_watch'),
+                    // Watchman in cold village — grym's heavy weathered look fits cold-region.
+                    event: AmbientNpc('npc_villager_masc_grym', 'jan_anpa_watch'),
                 },
                 {
                     id: 'jan-kasi',
                     x: 248,
                     y: 168,
-                    event: AmbientNpc('female', 'jan_kasi_garden'),
+                    // Garden-tender — vash's practical outdoors gear.
+                    event: AmbientNpc('npc_villager_fem_vash', 'jan_kasi_garden'),
                 },
                 {
                     id: 'jan-lete',
@@ -173,6 +182,8 @@ export default defineModule<RpgServer>({
                         badgeFlag: 'badge_lete',
                         rewardWord: 'lete',
                         nextBeatId: 'beat_06_nena_suli',
+                        // Hooded brown mage — cold, withdrawn ice master.
+                        graphic: 'combatant_mage_hooded_brown',
                         hp: 90,  // phase 1: waso_lete L10 — quick
                         atk: 22,
                         pdef: 14,
@@ -206,13 +217,15 @@ export default defineModule<RpgServer>({
                     id: 'jan-pi-kon',
                     x: 88,
                     y: 168,
-                    event: AmbientNpc('female', 'jan_pi_kon_meditate'),
+                    // Meditating figure on great peak — nyro's mystic robes.
+                    event: AmbientNpc('npc_villager_masc_nyro', 'jan_pi_kon_meditate'),
                 },
                 {
                     id: 'jan-pi-nasin',
                     x: 168,
                     y: 120,
-                    event: AmbientNpc('female', 'jan_pi_nasin_ask'),
+                    // Trail-asking NPC — janik's distinguished artisan look.
+                    event: AmbientNpc('npc_villager_masc_janik', 'jan_pi_nasin_ask'),
                 },
                 {
                     id: 'jan-suli',
@@ -223,6 +236,8 @@ export default defineModule<RpgServer>({
                         badgeFlag: 'badge_suli',
                         rewardWord: 'suli',
                         nextBeatId: 'beat_07_nasin_pi_telo',
+                        // Paladin — champion-tier, hardest gym before endgame.
+                        graphic: 'combatant_warrior_paladin',
                         hp: 110,  // phase 1: waso_sewi L12 — eagle skills
                         atk: 28,
                         pdef: 18,
@@ -256,25 +271,29 @@ export default defineModule<RpgServer>({
                     id: 'jan-kala-lili',
                     x: 120,
                     y: 152,
-                    event: AmbientNpc('female', 'jan_kala_lili_flavor'),
+                    // Lighter-duty young fisher — hana's warm casual look.
+                    event: AmbientNpc('npc_villager_fem_hana', 'jan_kala_lili_flavor'),
                 },
                 {
                     id: 'jan-moku-pona',
                     x: 200,
                     y: 88,
-                    event: AmbientNpc('female', 'jan_moku_pona_grill'),
+                    // Grillmaster — artun's youthful energetic look for a roadside cook.
+                    event: AmbientNpc('npc_villager_masc_artun', 'jan_moku_pona_grill'),
                 },
                 {
                     id: 'jan-kala-suli',
                     x: 280,
                     y: 152,
-                    event: AmbientNpc('female', 'jan_kala_suli_tuneup'),
+                    // Veteran fisher (suli = big/experienced) — heaviest warrior sprite.
+                    event: AmbientNpc('npc_warrior_2h_sword', 'jan_kala_suli_tuneup'),
                 },
                 {
                     id: 'jan-olin-telo',
                     x: 360,
                     y: 88,
-                    event: AmbientNpc('female', 'jan_olin_telo_quiet'),
+                    // Quiet lake-lover — reza's traveller look for a riverside contemplator.
+                    event: AmbientNpc('npc_villager_masc_reza', 'jan_olin_telo_quiet'),
                 },
                 {
                     id: 'green-dragon',
