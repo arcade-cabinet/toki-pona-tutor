@@ -48,7 +48,7 @@ Everything beyond this is `v0.3.0` material.
 | 2 | Combat Polish + Party | Combat UI themed, HP bars animate, party panel, catch UX, XP/level | 4 | 2 | 9 |
 | 3 | Save, Menus, Transitions | Title, pause, settings, continue, autosave, loading screens | 10 | 2 | 1 |
 | 4 | Content Breadth | 7 regions biome-correct, 7 set-pieces, 7 gyms, badges, bestiary | 9 | 1 | 7 |
-| 5 | Audio, Mobile, Accessibility | Music per region, SFX wired, virtual joystick, AA contrast, text speed | 5 | 0 | 9 |
+| 5 | Audio, Mobile, Accessibility | Music per region, SFX wired, mobile HUD + tap-to-walk, AA contrast, text speed | 7 | 0 | 9 |
 | 6 | Release Hardening | Signed release APK, web ≤ 10 MB, CI matrix, meaningful tests, v0.2.0 | 11 | 1 | 6 |
 | 7 | Post-v0.2 Depth + Replay | Journey beats 8-10, status effects, breeding, NG+, secret areas | 8 | 0 | 2 |
 | 8 | Language Learning Layer | Sentence log, sitelen glyphs, micro-game, dictionary export | 5 | 0 | 1 |
@@ -165,9 +165,11 @@ Completed via the RPG.js v5 pivot. All 14 Godot-era tasks either landed or were 
 | T5-03 | Combat music override | ⬜ | `bgmForContext` returns `bgm_battle`/`bgm_gym`/`bgm_boss` correctly; gym-leader.ts hook to call Howler open. |
 | T5-04 | Wire 12 SFX events | 🟡 | `src/modules/main/sfx.ts` catalogs 12 events + balanced base volumes + `effectiveSfxVolume(event, bus)`. Howler wiring + `.ogg` assets still open. |
 | T5-05 | Apply Settings volume sliders | ✅ | Sliders persist in `src/platform/persistence/settings.ts`. |
-| T5-06 | Virtual d-pad for mobile | 🟡 | Pure input-semantics in `src/modules/main/virtual-dpad.ts` (dead zone, diagonal snap, tap detection). Actual touch overlay DOM open. |
-| T5-07 | Virtual A/B action buttons | ⬜ | |
-| T5-08 | ≥ 44 dp touch targets audit | ⬜ | |
+| T5-06 | ~~Virtual d-pad for mobile~~ | ✅ superseded | Retired in favor of **tap-to-walk** per `docs/UX.md`. `src/modules/main/virtual-dpad.ts` + its 20 unit tests removed; the "which mental model drives mobile input" problem dissolves — we're not a handheld emulator. |
+| T5-07 | ~~Virtual A/B action buttons~~ | ✅ superseded | Retired per `docs/UX.md`. Interactions come to the player via a **contextual hint glyph** attached to the player sprite, not persistent on-screen buttons. |
+| T5-08 | ≥ 44 dp touch targets audit | ⬜ | Applies to the HUD-native testids once the HUD `.ce` components land. |
+| T5-15 | **HUD `.ce` shell** — status strip + hamburger + hint glyph + pause overlay | ⬜ | Per `docs/UX.md`. Four CanvasEngine components (`hud-status.ce`, `hud-menu.ce`, `hud-hint.ce`, `hud-menu-panel.ce`) registered via `defineModule<RpgClient>({ gui: [...] })` with signal dependencies. Responsive via `brand.css` tokens + container queries. First-render test: screenshot diff against `docs/screenshots/hud-opening.png`. |
+| T5-16 | Tap-to-walk + tap-to-interact | ⬜ | Canvas pointer events route through RPG.js's input system. Tap a tile → walk; tap interactable → walk adjacent + auto-interact; tap hint glyph → interact with current adjacent target. 4-way grid only. |
 | T5-09 | Portrait-lock for Android | ⬜ | `capacitor.config.ts` manifest. |
 | T5-10 | Text-speed slider applied to typewriter + combat log | ⬜ | Setting persisted via T3-06; runtime binding open. |
 | T5-11 | Color-contrast AA audit + high-contrast body class | ✅ | BRAND.md §Palette meets WCAG AA on body text; `poki-high-contrast` body class doubles borders + flattens gradients. Settings toggle wired. |
@@ -297,7 +299,7 @@ Beyond web + Android debug.
 4. **Tatoeba corpus drift.** Corpus updates weekly; future refresh could invalidate passing lines. *Mitigation:* corpus is vendored (`src/content/corpus/tatoeba.json`), refreshed only on human command via `pnpm fetch-corpus`, never in CI.
 5. **Save schema churn during Phase 4-5.** Adding bestiary fields, badges, `ma` coins grows save payload. *Mitigation:* T3-11 schema versioning is live (`PRAGMA user_version` + migrations); every additive change bumps `DB_VERSION`.
 6. **Action-battle → party combat mismatch.** Default action-battle is single-protagonist; creature-catching wants lead-creature-vs-enemy. *Mitigation:* V5-02 tracks this; simpler fallback is to keep player-as-fighter with the lead creature as cosmetic companion until combat gets a rework.
-7. **Mobile input vs grid-stepped movement.** RPG.js v5 controller is grid-snapped; thumbstick expects analog. *Mitigation:* T5-06 virtual d-pad emits discrete directional presses matching keyboard semantics (math done, DOM overlay open).
+7. **Mobile input vs grid-stepped movement.** RPG.js v5 controller is grid-snapped; a thumbstick wants analog. *Mitigation:* tap-to-walk instead of virtual stick (per `docs/UX.md`) — the tap target is a tile, and the engine pathfinds one grid step at a time. Keyboard remains the desktop shortcut path. `virtual-dpad.ts` retired as of 2026-04-20.
 8. **Integration-suite singleton hazards.** RPG.js engine uses module-level singletons; parallel test files trample state. *Mitigation:* `fileParallelism: false` on the integration project in `vitest.config.ts`, `afterEach(clear)` in every test. Accepts slower CI for correctness.
 
 ---
@@ -306,7 +308,7 @@ Beyond web + Android debug.
 
 - **Content authoring** — each map spec or dialog JSON is independent. Worktree-per-agent, max 5 in flight (per AGENTS.md).
 - **Integration tests** — one feature per file (singletons); but every feature gets one.
-- **Runtime UI wiring** — T2-01 / T3-12 / T5-06 / T5-14 are three parallel streams.
+- **Runtime UI wiring** — T5-15 HUD shell + T5-16 tap-to-walk + T2-01 combat theme + T3-12 credits are parallelizable streams sharing `src/modules/main/client/` as the home for `.ce` components.
 - **Engine-serial** — anything touching `src/modules/main/server.ts`, `player.ts`, or `src/config/config.client.ts` runs serially.
 
 ---
@@ -320,7 +322,7 @@ Aggressive estimate with 1 engineer + opportunistic parallel agents (content / U
 | 2 | 1.5 | T2-01 theme → T2-02/05/06 animations → T2-10 party panel |
 | 3 | 1 | T3-07 loading screen + T3-08/09/12 final pause/credits |
 | 4 | 2 | T4-01…T4-07 biome paints (parallelizable) → T4-13/16/17 bestiary + shop |
-| 5 | 1 | T5-01…T5-04 audio runtime → T5-06/07 mobile overlay |
+| 5 | 1 | T5-01…T5-04 audio runtime → T5-15/16 HUD + tap-to-walk |
 | 6 | 1 | T6-10 integration suite extension → T6-11 signed APK → T6-17 release-please |
 
 **`v0.2.0` ETA:** ~6.5 weeks from branch merge.

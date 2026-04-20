@@ -31,7 +31,7 @@ Language is diegetic flavor, not mechanic. The player never translates — toki 
 ### What we removed in the pivot
 
 - Phaser 4 — replaced by RPG.js v5 + CanvasEngine.
-- Solid-JS / React / Tailwind — replaced by RPG.js v5's built-in Vue-compat GUI system (`@rpgjs/ui-css`).
+- Solid-JS / React / Tailwind — replaced by RPG.js v5's native GUI system. Custom HUD + overlays are authored as `.ce` (CanvasEngine) components and registered via `defineModule<RpgClient>({ gui: [...] })`. Styling uses `@rpgjs/ui-css` tokens overridden by `src/styles/brand.css`. See `docs/UX.md` for the full HUD architecture.
 - Koota ECS — entity management is now RPG.js v5's player/event model.
 - `vite-plugin-solid`, `@vitejs/plugin-react` — removed; `rpgjs()` Vite plugin replaces both.
 
@@ -278,7 +278,8 @@ Vitest browser harness (Playwright-backed, chromium) in `tests/e2e/`. RPG.js v5 
 
 ## Decision log
 
-- **RPG.js v5 beta pivot** (2026-04-19) — the Phaser 4 + Solid + Koota stack (L1 PR #64) was closed in favor of RPG.js v5 which provides: Tiled tilemaps out of the box (`@rpgjs/tiledmap`), built-in event/NPC model, a save abstraction (`ISaveStorageStrategy`), Vue-compat GUI screens, and a standalone dev mode (no external server needed). The content pipeline (`src/content/`), Fan-tasy tilesets (`public/assets/tilesets/`), and journey model are preserved unchanged.
+- **RPG.js v5 beta pivot** (2026-04-19) — the Phaser 4 + Solid + Koota stack (L1 PR #64) was closed in favor of RPG.js v5 which provides: Tiled tilemaps out of the box (`@rpgjs/tiledmap`), built-in event/NPC model, a save abstraction (`ISaveStorageStrategy`), a CanvasEngine `.ce` GUI system, and a standalone dev mode (no external server needed). The content pipeline (`src/content/`), Fan-tasy tilesets (`public/assets/tilesets/`), and journey model are preserved unchanged.
+- **RPG.js-native GUI, no bolt-ons** (2026-04-20) — the HUD, pause overlay, party panel, and every custom surface are authored as `.ce` (CanvasEngine) files registered via RPG.js's unified GUI system. No SolidJS, no Vue, no React. Reactivity comes from CanvasEngine signals (same model as Solid) which RPG.js already threads through the client engine. Mobile-first, tap-to-walk is primary input (keyboard is a desktop shortcut to the same actions), 4-way movement only. See `docs/UX.md` for the HUD spec.
 - **Pre-Godot spike base** (`0a582e0`) — this branch resurrects the pre-Godot Phaser+Koota tip; the Godot branch on `main` proved more fighting than it was worth.
 - **Fan-tasy tilesets unified** — a single coherent art family (6 biome packs) replaces the prior Kenney + Lonesome Forest + Old Town patchwork.
 - **Boss vs creature tiering by animation depth** — animated sprites (`bosses/`); static sprites (`creatures/`). Green dragon is the designated final boss.

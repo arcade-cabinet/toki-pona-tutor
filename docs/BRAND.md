@@ -153,8 +153,12 @@ Listed in order of precedence — earlier rules win.
 6. **Persistence is quiet.** Autosaves flash a tiny indicator — never a
    modal. Manual save asks once with a TP verb, never confirms twice.
 7. **Mobile is a first-class surface, not an afterthought.** 44×44dp
-   minimum on every touchable. Virtual d-pad in the bottom-left with
-   thumb reach in mind.
+   minimum on every touchable. **Tap-to-walk** is the primary movement
+   input — tap a tile, the lead walks there (4-way grid, no diagonals).
+   No persistent virtual d-pad or A/B button cluster; this game is not
+   a handheld emulator. Interactions come to the player as a contextual
+   hint glyph that follows the sprite. The full HUD + input spec lives
+   in `docs/UX.md`.
 8. **Accessibility is default-on.** `prefers-reduced-motion`,
    `prefers-color-scheme: dark` (we only do dark; light mode is out
    of scope), high-contrast setting toggles doubled border weights +
@@ -183,12 +187,26 @@ Listed in order of precedence — earlier rules win.
 - Sitelen-pona overlay (T8-04) replaces the speaker label row with a
   glyph row when the pref is on.
 
-### Pause menu
+### Overworld HUD
 
-Four-item vertical list: `nimi` (vocabulary / T3-13), `poki` (inventory
-+ badges / T3-09), `awen` (save / T3-05), `tawa` (back to field).
-Highlighted row uses `--poki-kasi` border + `--poki-kasi-glow` fill at
-20% alpha. Action labels are single TP words in 20px Inter.
+Top bar: **status strip** pinned top-left (lead portrait + name + HP
+bar + level + mastered-words tally) + **hamburger** pinned top-right.
+A **contextual hint glyph** (`toki` / `tawa` / `alasa` / `poki` /
+`kama` / `utala`) follows the player sprite in world-space whenever
+an interactable is adjacent. No persistent action buttons. Full spec
+in `docs/UX.md`.
+
+### Pause overlay
+
+Slide-in from right, summoned by the top-right hamburger. Full-width
+sheet on phones; ~420px side panel on tablets + desktop with the world
+canvas visible behind at reduced opacity. Four routes tabbed:
+**Party** (sitelen `soweli`), **Vocab** (sitelen `nasin` / T3-13),
+**Inventory** (sitelen `ijo` — badges, beat progress, items),
+**Settings** (sitelen `awen` / T3-06). Plus a Save row + Quit row at
+the bottom. Back-button / swipe-right / Escape / tap-outside all
+dismiss. Highlighted tab uses `--poki-kasi` border + `--poki-kasi-glow`
+fill at 20% alpha. Action labels are single TP words in 20px Inter.
 
 ### Combat HUD (top-of-screen)
 

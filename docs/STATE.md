@@ -22,6 +22,7 @@ Read these in order before touching code:
 3. **`docs/TESTING.md`** — the E2E-first testing rule: every feature ships with an integration test that exercises the real engine before any unit test.
 4. **`docs/DESIGN.md`** — product vision (what the game IS and IS NOT).
 5. **`docs/BRAND.md`** — palette, typography, chrome patterns. All UI surfaces draw from these tokens.
+6. **`docs/UX.md`** — HUD architecture, tap-to-walk input model, `.ce` component registration contract, data-testid naming. Any new on-screen surface starts here.
 
 Then: `git status && git log --oneline -10 && gh pr view 66`.
 
