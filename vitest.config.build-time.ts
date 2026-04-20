@@ -38,6 +38,7 @@ export default defineConfig({
         'src/modules/main/victory-sequence.ts',
         'src/styles/brand-preferences.ts',
         'src/styles/hp-bar.ts',
+        'src/styles/sitelen-glyph.ts',
         'src/platform/persistence/settings.ts',
       ],
       // T9-04 dual-threshold ratchet (mirrors T6-13 bundle-size pattern:
