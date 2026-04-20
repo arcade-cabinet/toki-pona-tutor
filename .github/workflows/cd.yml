@@ -61,7 +61,7 @@ jobs:
         with:
           version: 10
 
-      - uses: actions/setup-node@v5
+      - uses: actions/setup-node@v6
         if: steps.latest.outputs.has_release == 'false'
         with:
           node-version: 22
