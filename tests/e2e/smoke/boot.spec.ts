@@ -43,9 +43,7 @@ test('boots on the starter map with brand chrome applied', async ({ page }) => {
     );
     expect(inkColor).not.toBe('');
 
-    // Visual-regression anchor (committed under *-snapshots/ by Playwright
-    // on first run; compared thereafter).
-    await expect(page).toHaveScreenshot('boot-opening-scene.png', {
-        fullPage: false,
-    });
+    // Visual regression belongs in the full Playwright suite (where
+    // we can maintain per-platform baselines against a consistent CI
+    // runner image). Smoke stays platform-portable: assertions only.
 });
