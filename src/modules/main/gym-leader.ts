@@ -4,6 +4,7 @@ import { playDialog } from './dialog';
 import { getFlag, setFlag, recordMasteredWord, getParty, awardXpToLead } from '../../platform/persistence/queries';
 import { preferences, KEYS } from '../../platform/persistence/preferences';
 import { gainXp } from './xp-curve';
+import { movesLearnedAtLevel } from './content';
 
 /**
  * Shared factory for the seven jan lawa (region masters).
@@ -107,6 +108,9 @@ export function GymLeader(opts: GymLeaderOptions): EventDefinition {
                                 await (attacker as RpgPlayer).showText(
                                     `${lead.species_id} L${lvl.from} → L${lvl.to}`,
                                 );
+                                for (const moveId of movesLearnedAtLevel(lead.species_id, lvl.to)) {
+                                    await (attacker as RpgPlayer).showText(`learned: ${moveId}`);
+                                }
                             }
                         }
 
