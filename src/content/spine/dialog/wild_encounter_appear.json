@@ -1,0 +1,9 @@
+{
+  "id": "wild_encounter_appear",
+  "npc_id": null,
+  "priority": 10,
+  "beats": [
+    { "text": { "en": "You're an animal." }, "mood": "excited", "glyph": "soweli" }
+  ],
+  "triggers": {}
+}

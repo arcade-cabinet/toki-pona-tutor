@@ -50,6 +50,13 @@ CREATE TABLE IF NOT EXISTS encounter_log (
   outcome     TEXT NOT NULL,
   logged_at   TEXT NOT NULL
 );
+
+CREATE TABLE IF NOT EXISTS party_roster (
+  slot       INTEGER PRIMARY KEY,
+  species_id TEXT NOT NULL,
+  level      INTEGER NOT NULL,
+  caught_at  TEXT NOT NULL
+);
 `;
 
 export async function getDatabase(): Promise<SQLiteDBConnection> {

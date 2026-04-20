@@ -51,6 +51,32 @@ export async function getFlag(flagId: string): Promise<string | null> {
     return row ? String(row.value) : null;
 }
 
+export async function addToParty(speciesId: string, level: number): Promise<number | null> {
+    const db = await getDatabase();
+    const count = await db.query(`SELECT COUNT(*) AS n FROM party_roster`);
+    const current = Number(count.values?.[0]?.n ?? 0);
+    if (current >= 6) return null;
+    const slot = current;
+    await db.run(
+        `INSERT INTO party_roster (slot, species_id, level, caught_at) VALUES (?, ?, ?, ?)`,
+        [slot, speciesId, level, new Date().toISOString()],
+    );
+    await saveWebStore();
+    return slot;
+}
+
+export async function getParty(): Promise<Array<{ slot: number; species_id: string; level: number }>> {
+    const db = await getDatabase();
+    const result = await db.query(
+        `SELECT slot, species_id, level FROM party_roster ORDER BY slot`,
+    );
+    return (result.values ?? []).map((row) => ({
+        slot: Number(row.slot),
+        species_id: String(row.species_id),
+        level: Number(row.level),
+    }));
+}
+
 export async function logEncounter(
     speciesId: string,
     mapId: string,
