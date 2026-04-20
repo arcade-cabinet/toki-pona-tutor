@@ -1,0 +1,28 @@
+{
+  "id": "waso_lape",
+  "name": { "en": "lape" },
+  "description": { "en": "Everyone dreams." },
+  "type": "lete",
+  "base_stats": { "hp": 58, "attack": 72, "defense": 44, "speed": 66 },
+  "learnset": [
+    { "level": 1, "move_id": "utala_lili" },
+    { "level": 1, "move_id": "lete_lili" },
+    { "level": 10, "move_id": "wawa_waso" }
+  ],
+  "catch_rate": 0.24,
+  "xp_yield": 95,
+  "sprite": {
+    "src": "/assets/animals/owl.png",
+    "frame_width": 32,
+    "frame_height": 32,
+    "animations": {
+      "idle":     { "row": 0, "col_start": 0, "cols": 4,  "fps": 4,  "loop": true  },
+      "idle_alt": { "row": 2, "col_start": 0, "cols": 4,  "fps": 4,  "loop": true  },
+      "fly":      { "row": 4, "col_start": 0, "cols": 11, "fps": 10, "loop": true  },
+      "walk":     { "row": 5, "col_start": 0, "cols": 4,  "fps": 8,  "loop": true  },
+      "attack":   { "row": 8, "col_start": 0, "cols": 5,  "fps": 12, "loop": false },
+      "hurt":     { "row": 9, "col_start": 0, "cols": 4,  "fps": 8,  "loop": false }
+    },
+    "tier": "uncommon"
+  }
+}
