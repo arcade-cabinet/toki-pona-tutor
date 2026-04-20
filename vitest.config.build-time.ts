@@ -38,6 +38,7 @@ export default defineConfig({
         'src/modules/main/rematch.ts',
         'src/modules/main/victory-sequence.ts',
         'src/modules/main/bestiary.ts',
+        'src/modules/main/party-order.ts',
         'src/styles/brand-preferences.ts',
         'src/styles/hp-bar.ts',
         'src/styles/sitelen-glyph.ts',
