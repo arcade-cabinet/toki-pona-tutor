@@ -40,8 +40,11 @@ export interface HarnessHandle {
   tick: (ms?: number) => Promise<void>;
   /** Read the live harness inspector. Throws if not installed. */
   inspector: () => TokiHarness;
-  /** Tear down the Phaser instance + harness. Idempotent. */
-  destroy: () => void;
+  /** Tear down the Phaser instance + harness. Idempotent. Tests should
+   * `await` this even though Phaser's `Game.destroy()` is synchronous —
+   * it lets the contract evolve to async cleanup (e.g. waiting for
+   * deferred destroys) without breaking callers. */
+  destroy: () => void | Promise<void>;
 }
 
 /**

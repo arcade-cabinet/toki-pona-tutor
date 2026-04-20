@@ -11,7 +11,7 @@ import { page } from 'vitest/browser';
  * becomes `player-walks-N-tiles-east`.
  */
 export function screenshotFilename(testName: string, stepName: string): string {
-  const sanitize = (s: string) => s.replace(/[^A-Za-z0-9_-]+/g, '-').replace(/^-|-$/g, '');
+  const sanitize = (s: string) => s.replace(/[^A-Za-z0-9_-]+/g, '-').replace(/^-+|-+$/g, '');
   const ts = new Date().toISOString().replace(/[:.]/g, '-');
   return `${sanitize(testName)}__${sanitize(stepName)}__${ts}.png`;
 }

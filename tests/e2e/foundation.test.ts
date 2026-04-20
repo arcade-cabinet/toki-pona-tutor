@@ -19,7 +19,7 @@ describe('e2e harness foundation', () => {
       expect(harness.ready).toBe(true);
       await harness.snapshot('after-boot');
     } finally {
-      harness.destroy();
+      await harness.destroy();
     }
   });
 
