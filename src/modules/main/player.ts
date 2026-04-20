@@ -2,6 +2,7 @@ import { RpgPlayer, RpgShape, type RpgPlayerHooks } from '@rpgjs/server';
 import { handleEncounterShapeEntered } from './encounter';
 import { showVocabulary } from './vocabulary-screen';
 import { showInventory } from './inventory-screen';
+import { showSaveMenu } from './save-menu';
 import { markSafeMapIfVillage, respawnAtLastSafeMap } from './respawn';
 import { handleFinalBossTrigger } from './green-dragon';
 
@@ -52,6 +53,10 @@ export const player: RpgPlayerHooks = {
         }
         if (action === 'inventory') {
             await showInventory(player);
+            return;
+        }
+        if (action === 'save') {
+            await showSaveMenu(player);
         }
     },
     async onInShape(player: RpgPlayer, shape: RpgShape) {
