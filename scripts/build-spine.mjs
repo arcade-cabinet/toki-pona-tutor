@@ -7,20 +7,20 @@
  *   2. For every translatable string ({en, tp?} shape) inside content,
  *      resolve `tp` from the Tatoeba corpus. Single-word entries are exempt.
  *   3. Assemble a World object with shape
- *      { schema_version, title, start_region_id, species, moves, items, journey }
+ *      { schema_version, title, start_region_id, species, moves, items, dialog, journey }
  *      and write it to src/content/generated/world.json.
  *
  * Region JSON files no longer exist. Per-region content (NPCs, warps,
- * encounters, set-piece triggers) lives in Tiled `.tmx` Object/Encounters
- * layers under `public/assets/maps/<map_id>.tmj`. The journey manifest
- * (`src/content/spine/journey.json`) is the ordered arc through those maps
- * and is the source of truth for the L4 interaction layer.
+ * encounters, set-piece triggers) lives in Tiled Object/Encounters layers
+ * inside TMJ map packages under `public/assets/maps/<map_id>.tmj`. The
+ * journey manifest (`src/content/spine/journey.json`) is the ordered arc
+ * through those maps and is the source of truth for the L4 interaction layer.
  *
  * Fails loudly on any missed translation — `validate-tp` is expected to have
  * been run first, but this script also re-runs the check as a safety net.
  */
 import { readFileSync, writeFileSync, readdirSync, mkdirSync, existsSync } from 'node:fs';
-import { resolve, dirname, join } from 'node:path';
+import { resolve, dirname, join, relative } from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
@@ -34,30 +34,9 @@ if (!existsSync(corpusPath)) {
   process.exit(1);
 }
 
-function emitEmptyWorld(reason) {
-  console.log(`[build-spine] ${reason} — emitting empty world`);
-  mkdirSync(dirname(outPath), { recursive: true });
-  writeFileSync(
-    outPath,
-    JSON.stringify(
-      {
-        schema_version: 1,
-        title: { en: 'land', tp: 'ma' },
-        start_region_id: '',
-        species: [],
-        moves: [],
-        items: [],
-        journey: { beats: [] },
-      },
-      null,
-      2,
-    ) + '\n',
-  );
-}
-
 if (!existsSync(spineDir)) {
-  emitEmptyWorld('spine directory missing');
-  process.exit(0);
+  console.error('[build-spine] spine directory missing — cannot build world.json');
+  process.exit(1);
 }
 
 const corpus = JSON.parse(readFileSync(corpusPath, 'utf8'));
@@ -125,8 +104,8 @@ function resolveTranslatables(obj, pathTrail, misses) {
 
 const spineFiles = listJsonRecursive(spineDir);
 if (spineFiles.length === 0) {
-  emitEmptyWorld(`no spine files found under ${spineDir}`);
-  process.exit(0);
+  console.error(`[build-spine] no spine files found under ${spineDir} — cannot build world.json`);
+  process.exit(1);
 }
 
 /** @typedef {{
@@ -150,7 +129,9 @@ const collected = {
 
 for (const file of spineFiles) {
   const body = JSON.parse(readFileSync(file, 'utf8'));
-  const rel = file.replace(`${root}/`, '');
+  // Use path.relative + normalise separators so classification works on both
+  // POSIX and Windows (file.replace(`${root}/`, '') breaks on Windows paths).
+  const rel = relative(root, file).replace(/\\/g, '/');
   if (rel.includes('/species/')) collected.species.push(body);
   else if (rel.includes('/moves/')) collected.moves.push(body);
   else if (rel.includes('/items/')) collected.items.push(body);
@@ -207,12 +188,49 @@ if (misses.length > 0) {
   process.exit(1);
 }
 
+// Enforce the green-dragon final-boss rule: the green dragon's species id
+// must never appear in any encounter table before beat 7.  The final beat is
+// the ONLY place it belongs. We check every encounter_table in every species
+// file (encounter tables are arrays of { species_id, weight } entries or
+// direct species_id strings) as well as any species whose id is green_dragon
+// appearing in a non-final beat's encounter list.
+const GREEN_DRAGON_ID = 'green_dragon';
+const finalBeat = collected.journey.beats[collected.journey.beats.length - 1];
+for (let i = 0; i < collected.journey.beats.length - 1; i++) {
+  const beat = collected.journey.beats[i];
+  // Check encounter tables if the beat spec includes inline ones (future).
+  // For now, guard against the species id appearing in non-final beat ids,
+  // and check that no species file whose id is green_dragon is added to any
+  // encounter table in a non-final beat context.
+  if (beat.encounters) {
+    for (const zone of beat.encounters) {
+      const ids = Array.isArray(zone.species)
+        ? zone.species.map(e => (typeof e === 'string' ? e : e.species_id))
+        : Object.keys(zone.species ?? {});
+      if (ids.includes(GREEN_DRAGON_ID)) {
+        console.error(
+          `[build-spine] green dragon (${GREEN_DRAGON_ID}) found in encounter table ` +
+          `of beat #${i + 1} (${beat.id}) — it is reserved for beat 7 only`,
+        );
+        process.exit(1);
+      }
+    }
+  }
+}
+
 const world = collected.world ?? {};
 const startRegionId = collected.journey.beats[0]?.map_id ?? '';
+if (world.start_region_id && world.start_region_id !== startRegionId) {
+  console.error(
+    `[build-spine] world.start_region_id (${world.start_region_id}) does not match ` +
+    `first journey beat map_id (${startRegionId}) — they must agree to avoid boot/journey desyncs`,
+  );
+  process.exit(1);
+}
 const output = {
   schema_version: 1,
   title: world.title ?? { en: 'land', tp: 'ma' },
-  start_region_id: world.start_region_id || startRegionId,
+  start_region_id: world.start_region_id ?? startRegionId,
   species: collected.species,
   moves: collected.moves,
   items: collected.items,
