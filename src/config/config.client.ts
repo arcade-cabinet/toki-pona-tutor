@@ -4,6 +4,7 @@ import { provideTiledMap } from '@rpgjs/tiledmap/client';
 import { provideActionBattle } from '@rpgjs/action-battle/client';
 import { effectSpritesheets } from './effect-sprites';
 import { COMBATANT_SPRITESHEETS } from './combatant-sprites';
+import { npcSpritesheets } from './npc-sprites';
 
 export default {
     providers: [
@@ -18,6 +19,7 @@ export default {
                 spritesheets: [
                     ...effectSpritesheets,
                     ...COMBATANT_SPRITESHEETS,
+                    ...npcSpritesheets,
                     {
                         id: 'hero',
                         image: 'spritesheets/hero.png',
