@@ -22,8 +22,15 @@ This branch (`feat/rpgjs-v5-pivot`) descends from commit `0a582e0` — the pre-G
 - **Mastered-words tokenizer.** Every TP dialog line is tokenized against the 131-word dictionary; each appearance bumps a per-word sightings counter. Pause-menu vocabulary screen (escape key) lists mastered words with definitions.
 - **Game-over loop.** `onDead` respawns at the last village at full HP with party preserved (no permadeath).
 - **Shared factories.** `GymLeader`, `AmbientNpc`, `Warp`, `GreenDragon`, `runStarterCeremony` — each future beat is a ~30-line server.ts entry.
-- **Capacitor Android CI.** `.github/workflows/android-apk.yml` builds a debug APK on every PR, uploaded as a 14-day retention artifact for sideload testing.
-- **PR #66 review-sweep.** 37 CodeRabbit + Copilot comments resolved in 6 commits.
+- **Green dragon final-boss polish.** Dedicated `green_dragon_death` spritesheet + defeat animation swap via `setGraphic` on boss-dead signal. Only creature with death animation (per design lore).
+- **Multi-phase BattleAi for gym leaders.** `gym-leader.ts` factory accepts optional `phase2` descriptor; 250ms HP poller triggers `runPhaseTransition` when a threshold crosses. Surfaces a difficulty arc for late-game gyms without handwriting AI.
+- **Pause-menu inventory screen.** `onInput('inventory')` opens badges + journey beat + party roster paginated via showText. Complements the existing vocabulary pause screen.
+- **E2E smoke harness ported to RPG.js v5.** `tests/e2e/` scaffolding (Vitest browser + Playwright) rebuilt against the v5 bundle — blocked on v5 inspector API for deep assertions but boot-path green.
+- **CI workflow trifecta.** Consolidated around the global standard: `ci.yml` (PR gate — validate + APK), `release.yml` (on release-please tag — web bundle + release APK attached to GH Release), `cd.yml` (on push to main — Pages deploy from latest release). `release-please-config.json` + `.release-please-manifest.json` drive Conventional Commits → tags. `dependabot-automerge.yml` auto-merges minor/patch bumps.
+- **Capacitor Android CI.** Debug APK built on every PR, uploaded as a 14-day retention artifact for sideload testing. Explicit least-privilege `permissions: contents: read`.
+- **PR #66 review-sweep.** 53 CodeRabbit + Copilot comments resolved in 9 commits across two waves (37 comments in the first wave, 16 in the second).
+- **Comprehensive ROADMAP.** Ports the Godot-era 91-task ROADMAP (commit 3177af2) forward to RPG.js v5, preserving all T*-* IDs for historical traceability. 94 total tasks across 6 phases; adds 3 v5-specific tasks (V5-01 inspector, V5-02 party combat, V5-03 moves UI).
+- **TESTING.md.** Documents the 4-layer test strategy: content pipeline → type surface → build-time units → browser E2E smoke. Codifies the docs > tests > code dependency chain.
 
 ### Changed
 
