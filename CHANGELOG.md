@@ -1,6 +1,6 @@
 ---
 title: Changelog
-updated: 2026-04-19
+updated: 2026-04-20
 status: current
 ---
 
@@ -8,9 +8,37 @@ status: current
 
 All notable changes to poki soweli. Format based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/) and [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
-This branch (`spike/phaser-koota-revive`) descends from commit `0a582e0` — the pre-Godot tip. The Godot era between `1d924fe` (pivot) and `0edfe61` (feat/anchor-to-template) lives on `main` and is not represented here. Release-please releases `v0.1.0`…`v0.1.3` tagged on `main` cover the Godot build and do not apply to this branch.
+This branch (`feat/rpgjs-v5-pivot`) descends from commit `0a582e0` — the pre-Godot tip. The Godot era between `1d924fe` (pivot) and `0edfe61` (feat/anchor-to-template) lives on `main` and is not represented here. Release-please releases `v0.1.0`…`v0.1.3` tagged on `main` cover the Godot build and do not apply to this branch.
 
-## [Unreleased] — spike/phaser-koota-revive
+## [Unreleased] — feat/rpgjs-v5-pivot
+
+### Added — pivot to RPG.js v5 beta + full journey arc
+
+- **Engine pivot.** Retired the in-progress Phaser 4 + Solid + Koota stack (PRs #64 + #65) in favour of **RPG.js v5 beta** — Vite plugin, Vitest, agnostic save, built-in GUI, `@rpgjs/action-battle`, `@rpgjs/tiledmap`. The remaining L4-L8 layer work collapses into configuration of the module's existing primitives instead of hand-rolled scenes.
+- **Capacitor persistence layer.** `@capacitor/preferences` for small KV, `@capacitor-community/sqlite` (sql.js + jeep-sqlite on web, UserDefaults / SharedPreferences on native) for structured data. **localStorage is forbidden in feature code** — the wrappers hold the only shim.
+- **Map-authoring as build artifact.** Maps are emitted from TypeScript specs via `pnpm author:build`. Both `src/tiled/<id>.tmx` (runtime) and `public/assets/maps/<id>.tmj` (archive) regenerate from one source. `pnpm author:verify` runs in `pnpm validate` + CI and fails on any hand-edited or drifted .tmx.
+- **Full 7-beat journey playable end-to-end:** ma_tomo_lili → nasin_wan → nena_sewi → ma_telo → ma_lete → nena_suli → nasin_pi_telo (green dragon final boss, gated on all four region badges).
+- **Wild-encounter capture** via `onInShape` on Tiled Encounter zones. Weighted species roll, level band, catch-vs-flee choice, `catch_rate` roll, adds to `party_roster` (6-slot cap). No HP-reduction step — kid-friendly.
+- **Mastered-words tokenizer.** Every TP dialog line is tokenized against the 131-word dictionary; each appearance bumps a per-word sightings counter. Pause-menu vocabulary screen (escape key) lists mastered words with definitions.
+- **Game-over loop.** `onDead` respawns at the last village at full HP with party preserved (no permadeath).
+- **Shared factories.** `GymLeader`, `AmbientNpc`, `Warp`, `GreenDragon`, `runStarterCeremony` — each future beat is a ~30-line server.ts entry.
+- **Capacitor Android CI.** `.github/workflows/android-apk.yml` builds a debug APK on every PR, uploaded as a 14-day retention artifact for sideload testing.
+- **PR #66 review-sweep.** 37 CodeRabbit + Copilot comments resolved in 6 commits.
+
+### Changed
+
+- `capacitor.config.ts` rebranded from `app.tokitown.game` / "Toki Town" to `com.pokisoweli.game` / "poki soweli".
+- `docs/STATE.md`, `docs/DEPLOYMENT.md`, `docs/COMBAT.md` promoted from stub/draft to current.
+- `scripts/build-spine.mjs` now emits collected dialog nodes into `world.json` (previously dropped). Cross-validates `world.start_region_id`. Enforces green-dragon-only-in-final-beat rule.
+- `pnpm validate` now runs `validate-challenges && validate-tp && author:verify`.
+
+### Removed
+
+- All Phaser-era source: `src/game/`, `src/components/`, `src/main.tsx`, `src/App.tsx`, `src/hooks/`, `src/lib/`, region schema + spine files.
+- Koota schema leftovers (`src/content/schema/koota-gen.ts` + barrel export).
+- `scripts/map-authoring/specs/hello_map.ts` (toolchain smoke test, superseded).
+
+## [Pre-pivot — spike/phaser-koota-revive] — historical, kept for context
 
 ### Added
 
