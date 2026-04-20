@@ -1,12 +1,15 @@
 import type { RpgPlayer } from '@rpgjs/server';
-import { addToParty, logEncounter, recordMasteredWord } from '../../platform/persistence/queries';
+import { addToParty, logEncounter, recordMasteredWord, getParty, awardXpToLead } from '../../platform/persistence/queries';
 import { playDialog } from './dialog';
+import { gainXp } from './xp-curve';
+import { movesLearnedAtLevel } from './content';
 import worldRaw from '../../content/generated/world.json';
 
 type Species = {
     id: string;
     name: { en: string; tp?: string };
     catch_rate: number;
+    xp_yield: number;
 };
 
 const species = (worldRaw as unknown as { species: Species[] }).species;
@@ -107,8 +110,28 @@ async function runCaptureDialog(
         }
         await playDialog(player, 'wild_encounter_caught');
         await logEncounter(meta.id, mapId, 'caught');
+        // Wild capture grants the lead party creature half the species'
+        // xp_yield (catching is less risky than defeating, so less xp).
+        await grantLeadXp(player, Math.floor(meta.xp_yield / 2));
     } else {
         await playDialog(player, 'wild_encounter_escaped');
         await logEncounter(meta.id, mapId, 'escaped');
+    }
+}
+
+async function grantLeadXp(player: RpgPlayer, amount: number): Promise<void> {
+    if (amount <= 0) return;
+    const party = await getParty();
+    const lead = party[0];
+    if (!lead) return;
+    const { xp, levelUps } = gainXp(lead.xp, amount);
+    const newLevel = levelUps.length ? levelUps[levelUps.length - 1].to : lead.level;
+    await awardXpToLead(xp, newLevel);
+    await player.showText(`+${amount} xp`);
+    for (const lvl of levelUps) {
+        await player.showText(`${lead.species_id} L${lvl.from} → L${lvl.to}`);
+        for (const moveId of movesLearnedAtLevel(lead.species_id, lvl.to)) {
+            await player.showText(`learned: ${moveId}`);
+        }
     }
 }
