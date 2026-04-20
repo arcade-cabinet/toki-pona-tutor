@@ -22,14 +22,22 @@ export function Warp(opts: WarpOptions): EventDefinition {
                 }
             }
             const position = opts.position ?? { x: 32, y: 96 };
+            // Map transition is critical — rethrow so the RPG.js event system
+            // surfaces the failure.
             try {
                 await player.changeMap(opts.targetMap, position);
+            } catch (err) {
+                console.error(`[warp] changeMap failed for ${opts.targetMap}:`, err);
+                throw err;
+            }
+            // Persistence writes are best-effort: the player is already on
+            // the new map so a failed preference write must not roll back the
+            // teleport.
+            try {
                 await preferences.set(KEYS.currentMapId, opts.targetMap);
                 await markSafeMapIfVillage(opts.targetMap);
             } catch (err) {
-                console.error(`[warp] Failed to change map to ${opts.targetMap}:`, err);
-                // Re-throw so the RPG.js event system can surface the failure.
-                throw err;
+                console.warn(`[warp] Failed to persist currentMapId for ${opts.targetMap}:`, err);
             }
         },
     };

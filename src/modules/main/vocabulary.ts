@@ -13,6 +13,7 @@ type DictionaryEntry = {
 
 const dictionary = dictionaryRaw as DictionaryEntry[];
 const wordSet = new Set(dictionary.map((e) => e.word));
+const wordMap = new Map<string, DictionaryEntry>(dictionary.map((e) => [e.word, e]));
 
 /**
  * Tokenize a TP line into word tokens. Strips punctuation, lowercases,
@@ -30,7 +31,7 @@ export function tokenize(tp: string): string[] {
 }
 
 export function lookupWord(tp: string): DictionaryEntry | undefined {
-    return dictionary.find((e) => e.word === tp);
+    return wordMap.get(tp);
 }
 
 /**

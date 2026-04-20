@@ -1,19 +1,21 @@
 import type { RpgPlayer } from '@rpgjs/server';
 import { listMasteredWords, getWordSightings } from '../../platform/persistence/queries';
-import { lookupWord, dictionarySize } from './vocabulary';
+import { dictionarySize } from './vocabulary';
 
 const MASTERY_THRESHOLD = 3;
 const PAGE_SIZE = 8;
 
 /**
  * Shows the player's vocabulary progress: count of mastered words vs
- * dictionary total, then pages through the mastered list with
- * sightings + short definition for each entry.
+ * dictionary total, then pages through the mastered list showing each
+ * word and its sighting count.
+ *
+ * No English glosses are shown — vocabulary is learned diegetically
+ * through play, never via an in-game translation dictionary. A richer
+ * sitelen-pona glyph view can land when the Vue GUI layer is wired up.
  *
  * Uses showText (plain dialog) rather than a custom GUI because v5's
- * GUI layer is Vue-based and our shell stays minimal. A proper GUI
- * lands when we need richer UX (filter by book, search, sitelen
- * glyph rendering).
+ * GUI layer is Vue-based and our shell stays minimal.
  */
 export async function showVocabulary(player: RpgPlayer): Promise<void> {
     const mastered = await listMasteredWords(MASTERY_THRESHOLD);
@@ -26,16 +28,9 @@ export async function showVocabulary(player: RpgPlayer): Promise<void> {
         const chunk = mastered.slice(page, page + PAGE_SIZE);
         const lines: string[] = [];
         for (const word of chunk) {
-            const entry = lookupWord(word);
             const sightings = await getWordSightings(word);
-            const gloss = entry ? firstGloss(entry.definition) : '';
-            lines.push(`${word}${gloss ? ` — ${gloss}` : ''}  (${sightings}x)`);
+            lines.push(`${word}  (${sightings}x)`);
         }
         await player.showText(lines.join('\n'));
     }
-}
-
-function firstGloss(definition: string): string {
-    const first = definition.split(/;|\.|,/)[0];
-    return first.replace(/^\s*\([^)]*\)\s*/, '').trim();
 }

@@ -97,8 +97,15 @@ async function runCaptureDialog(
 
     const caught = Math.random() < meta.catch_rate;
     if (caught) {
+        const slot = await addToParty(meta.id, level);
+        if (slot === null) {
+            // Party is full — treat as a failed catch so the dialog and log
+            // reflect what actually happened (nothing was added to the roster).
+            await playDialog(player, 'wild_encounter_escaped');
+            await logEncounter(meta.id, mapId, 'fled');
+            return;
+        }
         await playDialog(player, 'wild_encounter_caught');
-        await addToParty(meta.id, level);
         await logEncounter(meta.id, mapId, 'caught');
     } else {
         await playDialog(player, 'wild_encounter_escaped');

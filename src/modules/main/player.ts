@@ -39,7 +39,7 @@ export const player: RpgPlayerHooks = {
         }
         const shapeType = properties.type ?? shape.name;
         if (shapeType === 'Encounter' || shapeName.startsWith('encounter_')) {
-            const mapId = String((player as unknown as { currentMap?: string }).currentMap ?? 'unknown');
+            const mapId = player.getCurrentMap()?.id ?? 'unknown';
             await handleEncounterShapeEntered(player, properties, mapId);
         }
     },
