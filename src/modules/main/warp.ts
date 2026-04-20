@@ -9,6 +9,14 @@ export interface WarpOptions {
     position?: { x: number; y: number };
     requiredFlag?: string;
     gatedDialogId?: string;
+    /**
+     * T3-07 loading overlay — when set, the engine shows this
+     * label briefly before + after the transition. Typically a
+     * single TP word identifying the destination biome (e.g.
+     * `ma lete` for the cold village). Keeps mobile users oriented
+     * when tapping through dialog.
+     */
+    loadingLabel?: string;
 }
 
 export function Warp(opts: WarpOptions): EventDefinition {
@@ -22,6 +30,21 @@ export function Warp(opts: WarpOptions): EventDefinition {
                 }
             }
             const position = opts.position ?? { x: 32, y: 96 };
+
+            // T3-07: brief loading-label toast before the transition.
+            // Uses native showText (brand-styled via brand.css) rather
+            // than a custom overlay so mobile users get a clear moment
+            // even on slow devices where the changeMap reshuffle is
+            // perceptible. Best-effort; a showText failure must not
+            // block the teleport.
+            if (opts.loadingLabel) {
+                try {
+                    await player.showText(opts.loadingLabel);
+                } catch {
+                    /* best-effort */
+                }
+            }
+
             // Map transition is critical — rethrow so the RPG.js event system
             // surfaces the failure.
             try {
