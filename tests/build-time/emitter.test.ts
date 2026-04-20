@@ -85,12 +85,37 @@ describe('emitTmj — minimum viable map', () => {
     expect(tmj.tileheight).toBe(16);
   });
 
-  it('emits a tileset ref with firstgid=1 and a relative source path', () => {
+  it('emits an embedded tileset with firstgid=1 and a relative image path', () => {
     const tmj = emitTmj(spec, [ground], '/output/test_map.tmj');
     expect(tmj.tilesets).toHaveLength(1);
-    expect(tmj.tilesets[0].firstgid).toBe(1);
-    // Source path is relative from .tmj location to .tsx file
-    expect(tmj.tilesets[0].source).toMatch(/Tileset_Ground\.tsx$/);
+    const ref = tmj.tilesets[0];
+    expect(ref.firstgid).toBe(1);
+    expect(ref.name).toBe('Tileset_Ground');
+    // Image path is relative from .tmj to PNG; embedded tileset (no `source`).
+    expect(ref.image).toMatch(/Tileset_Ground\.png$/);
+    expect(ref.tilewidth).toBe(16);
+    expect(ref.tileheight).toBe(16);
+    expect(ref.tilecount).toBe(100);
+    expect(ref.columns).toBe(10);
+    expect(ref.imagewidth).toBe(160);
+    expect(ref.imageheight).toBe(160);
+    expect((ref as unknown as { source?: string }).source).toBeUndefined();
+  });
+
+  it('embeds per-tile properties (e.g. collides) inside the tileset ref', () => {
+    const collides = mkTileset('Tileset_World', {
+      properties: { 5: { collides: true } },
+    });
+    const localSpec = mkSpec({
+      tilesets: ['Tileset_World'],
+      palette: { g: { tsx: 'Tileset_World', local_id: 5 } },
+      layers: { 'Below Player': [['g', 'g', 'g'], ['g', 'g', 'g']] },
+    });
+    const tmj = emitTmj(localSpec, [collides], '/output/test_map.tmj');
+    const ref = tmj.tilesets[0];
+    expect(ref.tiles).toBeDefined();
+    const tile5 = ref.tiles!.find((t) => t.id === 5);
+    expect(tile5?.properties).toEqual([{ name: 'collides', type: 'bool', value: true }]);
   });
 
   it('emits a tile layer with correct data length', () => {

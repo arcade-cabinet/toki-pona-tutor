@@ -12,7 +12,21 @@ import { existsSync, mkdtempSync, rmSync } from 'node:fs';
 import { readFile, readdir } from 'node:fs/promises';
 import { spawnSync } from 'node:child_process';
 import { tmpdir } from 'node:os';
-import type { TmjMap } from '../lib/index';
+/**
+ * `inspect` consumes TMJs from two sources: our own emitter (which writes
+ * embedded tilesets) and `tiled --export-map json` (which writes external
+ * tilesets with a `source` field). The shape we look at here is the
+ * loose union of both — type it locally instead of constraining to our
+ * own TmjMap.
+ */
+type LooseTmjTilesetRef = { firstgid: number; source?: string; name?: string };
+type LooseTmjLayer =
+  | { type: 'tilelayer'; data: number[] }
+  | { type: 'objectgroup' };
+interface LooseTmj {
+  tilesets: LooseTmjTilesetRef[];
+  layers: LooseTmjLayer[];
+}
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
@@ -51,7 +65,7 @@ async function main(): Promise<void> {
     scratchDir,
     `${sampleMap.replace(/\s+/g, '_')}.tmj`,
   );
-  let tmj: TmjMap;
+  let tmj: LooseTmj;
   try {
     const res = spawnSync('tiled', ['--export-map', 'json', tmxPath, tmpTmj], {
       stdio: 'inherit',
@@ -73,11 +87,15 @@ async function main(): Promise<void> {
     // ENOENT if something deleted it already.
     rmSync(scratchDir, { recursive: true, force: true });
   }
-  // Find the firstgid for the tileset
-  const tsRef = tmj.tilesets.find((t) => basename(t.source, '.tsx') === tilesetName);
+  // Find the firstgid for the tileset. `tiled --export-map json` writes
+  // external tilesets as `{ firstgid, source }`, while our own emitter
+  // embeds them as `{ firstgid, name, image, ... }` — handle both shapes.
+  const refStem = (t: { source?: string; name?: string }) =>
+    t.source ? basename(t.source, '.tsx') : (t.name ?? '');
+  const tsRef = tmj.tilesets.find((t) => refStem(t) === tilesetName);
   if (!tsRef) {
     console.error(`tileset "${tilesetName}" not referenced in sample "${sampleMap}"`);
-    console.error('  available:', tmj.tilesets.map((t) => basename(t.source, '.tsx')).join(', '));
+    console.error('  available:', tmj.tilesets.map(refStem).join(', '));
     process.exit(1);
   }
 

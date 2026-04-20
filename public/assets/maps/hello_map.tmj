@@ -15,7 +15,16 @@
   "tilesets": [
     {
       "firstgid": 1,
-      "source": "../tilesets/core/Tiled/Tilesets/Tileset_Ground.tsx"
+      "name": "Tileset_Ground",
+      "image": "../tilesets/core/Art/Ground Tilesets/Tileset_Ground.png",
+      "imagewidth": 768,
+      "imageheight": 1520,
+      "tilewidth": 16,
+      "tileheight": 16,
+      "tilecount": 4560,
+      "columns": 48,
+      "margin": 0,
+      "spacing": 0
     }
   ],
   "layers": [

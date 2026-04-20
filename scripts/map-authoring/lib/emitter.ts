@@ -16,6 +16,7 @@ import type {
   TmjObject,
   TmjProperty,
   TmjTilesetRef,
+  TmjEmbeddedTile,
   PropertyValue,
   ObjectMarker,
   EncounterZone,
@@ -49,14 +50,30 @@ export function emitTmj(
 
   const tilesetRefs: TmjTilesetRef[] = referenced.map((ts) => {
     const firstgid = firstGids.get(tsxQualifiedKey(ts))!;
-    // Tiled's TMJ format expects POSIX-style forward slashes in source paths
+    // Tiled's TMJ format expects POSIX-style forward slashes in image paths
     // regardless of the authoring OS. `node:path.relative` emits whatever the
     // host platform uses (backslashes on Windows), so normalize here.
-    const rel = relative(dirname(outputPath), ts.absolutePath).replace(/\\/g, '/');
-    return {
+    //
+    // We embed tilesets inline (Tiled's "Embed Tilesets" export option) — Phaser's
+    // tilemapTiledJSON loader does not follow external `source` references at
+    // runtime, so the tileset definition has to be present in the .tmj itself.
+    const imageRel = relative(dirname(outputPath), ts.image.absolutePath).replace(/\\/g, '/');
+    const tiles = embedPerTileData(ts);
+    const ref: TmjTilesetRef = {
       firstgid,
-      source: rel,
+      name: ts.name || tsxStem(ts),
+      image: imageRel,
+      imagewidth: ts.image.width,
+      imageheight: ts.image.height,
+      tilewidth: ts.tileWidth,
+      tileheight: ts.tileHeight,
+      tilecount: ts.tileCount,
+      columns: ts.columns,
+      margin: ts.margin,
+      spacing: ts.spacing,
     };
+    if (tiles.length > 0) ref.tiles = tiles;
+    return ref;
   });
 
   let nextLayerId = 1;
@@ -272,6 +289,31 @@ function emitEncounters(
     };
   });
   return { objects, nextId: id };
+}
+
+/**
+ * Build the embedded `tiles` array Tiled places inside a tileset to carry
+ * per-tile custom properties + animations. Only tiles that declare either
+ * appear here. This is what Phaser reads when you call
+ * `worldLayer.setCollisionByProperty({ collides: true })`.
+ */
+function embedPerTileData(ts: ParsedTileset): TmjEmbeddedTile[] {
+  const ids = new Set<number>([
+    ...Object.keys(ts.properties).map(Number),
+    ...Object.keys(ts.animations).map(Number),
+  ]);
+  const out: TmjEmbeddedTile[] = [];
+  for (const id of [...ids].sort((a, b) => a - b)) {
+    const entry: TmjEmbeddedTile = { id };
+    const props = ts.properties[id];
+    if (props && Object.keys(props).length > 0) {
+      entry.properties = mapPropsToTmj(props);
+    }
+    const anim = ts.animations[id];
+    if (anim && anim.length > 0) entry.animation = anim;
+    out.push(entry);
+  }
+  return out;
 }
 
 function mapPropsToTmj(props: Record<string, PropertyValue>): TmjProperty[] {

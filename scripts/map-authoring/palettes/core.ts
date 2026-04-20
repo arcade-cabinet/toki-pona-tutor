@@ -4,34 +4,37 @@
  * Populated bottom-up as specs need tiles — see
  * docs/build-time/MAP_AUTHORING.md § "Palette seed data".
  *
- * To discover local_ids: run `pnpm author:inspect <tileset> <sample-map>`
- * against the Fan-tasy sample maps (Village Bridge, Farm Shore, etc.)
- * and pick the most-used tile for the effect you want.
+ * Local IDs were harvested via `pnpm author:inspect <tileset> <sample-map>`
+ * against Fan-tasy's bundled samples (Village Bridge, Farm Shore,
+ * Mage Tower) and by sampling the source PNGs directly.
  */
 import type { Palette } from '../lib/types';
 
 export const corePalette: Palette = {
-  // Ground — single-char keys for compact paint grids.
-  // local_id 0 is the top-left tile of Tileset_Ground. Fan-tasy's author
-  // arranges ground tilesets so 0 is usually "basic grass" — Fan-tasy
-  // specifically places "Grass" as the first atlas row.
-  g: { tsx: 'core/Tileset_Ground', local_id: 0, description: 'grass base' },
+  // ── Ground ──────────────────────────────────────────────────────────
+  // Plain grass — Tileset_Ground local_id 50 is the most-used "basic
+  // grass" tile in Fan-tasy's Village Bridge sample. It's the safe
+  // fill tile for an overworld field.
+  g: { tsx: 'core/Tileset_Ground', local_id: 50, description: 'grass base' },
+  // Two more grass variants for visual texture in `paint` grids.
+  G: { tsx: 'core/Tileset_Ground', local_id: 56, description: 'grass variant a' },
+  H: { tsx: 'core/Tileset_Ground', local_id: 62, description: 'grass variant b' },
 
-  // Tall grass — the encounter tile.
-  G: { tsx: 'Tileset_TallGrass', local_id: 0, description: 'tall grass (encounter)' },
+  // Tall grass — wang-tile interior fill from Tileset_TallGrass.
+  // local_id 7 is the center cell of the autotile (full coverage),
+  // visually a uniform dark-green grass clump used for encounter zones.
+  t: { tsx: 'core/Tileset_TallGrass', local_id: 7, description: 'tall grass interior (encounter)' },
 
-  // Sand (for beaches / paths in village settings).
-  s: { tsx: 'Tileset_Sand', local_id: 0, description: 'sand' },
+  // Water — Tileset_Water local_id 25 is the deep-water interior cell
+  // of its wang autotile.
+  w: { tsx: 'core/Tileset_Water', local_id: 25, description: 'water deep' },
 
-  // Water.
-  w: { tsx: 'Tileset_Water', local_id: 0, description: 'water' },
+  // Sand path — Tileset_Sand local_id 50 is plain sand interior.
+  // Used for the village's main thoroughfare.
+  s: { tsx: 'core/Tileset_Sand', local_id: 50, description: 'sand path' },
 
-  // Dirt road / path.
-  d: { tsx: 'Tileset_Road', local_id: 0, description: 'dirt road' },
-
-  // Shadow base (used under trees + building eaves). `h` keeps the
-  // 1-2 char paint-grid convention; `shadow` is the long-name alias
-  // for use in `place` entries where readability beats compactness.
-  h: { tsx: 'Tileset_Shadow', local_id: 0, description: 'shadow' },
-  shadow: { tsx: 'Tileset_Shadow', local_id: 0, description: 'shadow' },
+  // Shadow — Tileset_Shadow local_id 0. Used as a soft ground accent.
+  // Long-name alias for `place` callers that prefer readability.
+  h: { tsx: 'core/Tileset_Shadow', local_id: 0, description: 'shadow' },
+  shadow: { tsx: 'core/Tileset_Shadow', local_id: 0, description: 'shadow' },
 };

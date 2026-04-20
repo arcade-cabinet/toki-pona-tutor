@@ -105,7 +105,14 @@ describe.skipIf(!TILED_AVAILABLE)('Fan-tasy sample round-trip', () => {
       expect(r.status, `tiled exported ${tmxPath}`).toBe(0);
       expect(existsSync(tmjPath)).toBe(true);
 
-      const tmj: TmjMap = JSON.parse(await readFile(tmjPath, 'utf-8'));
+      // `tiled --export-map json` emits external tileset refs of the form
+      // `{ firstgid, source: "../Tilesets/foo.tsx" }`, which our own
+      // emitter no longer produces (it embeds tilesets inline). Type the
+      // parsed JSON loosely here so we can read the `source` field.
+      type ExternalTmj = Omit<TmjMap, 'tilesets'> & {
+        tilesets: { firstgid: number; source: string }[];
+      };
+      const tmj: ExternalTmj = JSON.parse(await readFile(tmjPath, 'utf-8'));
       // Load every tileset referenced by the .tmj
       const tilesets = [];
       for (const ref of tmj.tilesets) {

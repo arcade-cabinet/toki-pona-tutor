@@ -28,8 +28,8 @@ type Ctx2D = ReturnType<ReturnType<typeof createCanvas>['getContext']>;
  * Render a TMJ map to a PNG (returned as a parsed pngjs PNG).
  *
  * `tilesets` must include every tileset referenced by the map's
- * tilesets[] array, keyed by the same stem the TMJ uses in its
- * tileset.source paths.
+ * tilesets[] array, matched by the `name` field embedded in the TMJ
+ * (which the emitter sets to the parsed tileset's `name` attribute).
  */
 export async function renderTmj(
   tmjPath: string,
@@ -55,11 +55,19 @@ export async function renderTmj(
   };
   const tilesetImages: Loaded[] = [];
   for (const ref of tmj.tilesets) {
-    const stem = tsxStemFromSource(ref.source);
-    const ts = tilesets.find((t) => tsxStemOf(t) === stem);
+    // Support both embedded refs ({ name, image, ... }) and external refs
+    // ({ source: "../Tilesets/Foo.tsx" }) — the latter come from TMJs that
+    // were produced by `tiled --export-map json` for fixture round-trip
+    // testing. Match by the tileset's `name` when available, otherwise by
+    // the .tsx filename stem.
+    const refLoose = ref as { name?: string; source?: string };
+    const lookupKey = refLoose.name ?? (refLoose.source ? tsxStemFromSource(refLoose.source) : '');
+    const ts = tilesets.find(
+      (t) => t.name === lookupKey || tsxStemOf(t) === lookupKey,
+    );
     if (!ts) {
       throw new Error(
-        `renderer: tileset "${stem}" referenced by TMJ but not loaded`,
+        `renderer: tileset "${lookupKey}" referenced by TMJ but not loaded`,
       );
     }
     if (ts.isCollection) {

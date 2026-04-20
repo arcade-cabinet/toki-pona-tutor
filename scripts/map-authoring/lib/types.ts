@@ -192,9 +192,34 @@ export interface TmjMap {
   layers: TmjLayer[];
 }
 
+/**
+ * Tileset reference inside a `.tmj`. We always emit *embedded* tilesets
+ * (Tiled's "Embed Tilesets" export option) — Phaser's tilemapTiledJSON
+ * loader does not follow external `source` references at runtime, so the
+ * tileset definition has to be inline. The shape mirrors Tiled 1.10's
+ * embedded tileset JSON spec.
+ */
 export interface TmjTilesetRef {
   firstgid: number;
-  source: string;
+  name: string;
+  /** Source PNG path, relative to the .tmj file. */
+  image: string;
+  imagewidth: number;
+  imageheight: number;
+  tilewidth: number;
+  tileheight: number;
+  tilecount: number;
+  columns: number;
+  margin: number;
+  spacing: number;
+  /** Per-tile properties (collisions, etc.), in Tiled's embedded format. */
+  tiles?: TmjEmbeddedTile[];
+}
+
+export interface TmjEmbeddedTile {
+  id: number;
+  properties?: TmjProperty[];
+  animation?: { tileid: number; duration: number }[];
 }
 
 export type TmjLayer = TmjTileLayer | TmjObjectLayer;

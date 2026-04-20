@@ -4,7 +4,7 @@ import { gameBus } from '../GameBus';
 import { selectDialog, getNpc } from '../content/loader';
 import type { DialogNode, Npc } from '../../content/schema';
 import { getSave, setFlag, advanceQuest, addItem } from '../ecs/saveState';
-import { giftToParty } from '../scenes/RegionScene';
+import { giftToParty } from '../ecs/party';
 import { sitelenFor, toSitelenPona } from '../../lib/sitelen';
 
 const TYPE_MS = 22;
