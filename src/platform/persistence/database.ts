@@ -32,9 +32,15 @@ CREATE TABLE IF NOT EXISTS saves (
 );
 
 CREATE TABLE IF NOT EXISTS mastered_words (
-  tp_word     TEXT NOT NULL,
-  mastered_at TEXT NOT NULL,
-  PRIMARY KEY (tp_word)
+  tp_word     TEXT PRIMARY KEY,
+  sightings   INTEGER NOT NULL DEFAULT 0,
+  mastered_at TEXT NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS flags (
+  flag_id TEXT PRIMARY KEY,
+  value   TEXT NOT NULL,
+  set_at  TEXT NOT NULL
 );
 
 CREATE TABLE IF NOT EXISTS encounter_log (

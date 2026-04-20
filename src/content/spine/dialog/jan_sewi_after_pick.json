@@ -1,0 +1,11 @@
+{
+  "id": "jan_sewi_after_pick",
+  "npc_id": "jan_sewi",
+  "when_flags": { "starter_chosen": true },
+  "priority": 5,
+  "beats": [
+    { "text": { "en": "You seem well..." }, "mood": "happy", "glyph": "pona" },
+    { "text": { "en": "Are you in the house?" }, "mood": "thinking", "glyph": "lon" }
+  ],
+  "triggers": {}
+}

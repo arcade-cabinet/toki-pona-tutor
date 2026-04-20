@@ -992,6 +992,69 @@
       "sprite_frame": 65
     }
   ],
+  "dialog": [
+    {
+      "id": "jan_sewi_after_pick",
+      "npc_id": "jan_sewi",
+      "when_flags": {
+        "starter_chosen": true
+      },
+      "priority": 5,
+      "beats": [
+        {
+          "text": {
+            "en": "You seem well...",
+            "tp": "lukin la sina pilin pona..."
+          },
+          "mood": "happy",
+          "glyph": "pona"
+        },
+        {
+          "text": {
+            "en": "Are you in the house?",
+            "tp": "sina lon ala lon tomo?"
+          },
+          "mood": "thinking",
+          "glyph": "lon"
+        }
+      ],
+      "triggers": {}
+    },
+    {
+      "id": "jan_sewi_starter_intro",
+      "npc_id": "jan_sewi",
+      "when_flags": {
+        "starter_chosen": false
+      },
+      "priority": 10,
+      "beats": [
+        {
+          "text": {
+            "en": "hello"
+          },
+          "mood": "happy",
+          "glyph": "toki"
+        },
+        {
+          "text": {
+            "en": "Fresh fruit is good for the health.",
+            "tp": "kili sin li pona tawa sijelo."
+          },
+          "mood": "thinking",
+          "glyph": "pona"
+        },
+        {
+          "text": {
+            "en": "Which color do you prefer?",
+            "tp": "kule seme li pona tawa sina?"
+          },
+          "mood": "excited",
+          "glyph": "seme"
+        }
+      ],
+      "triggers": {}
+    }
+  ],
   "journey": {
     "beats": [
       {

@@ -1,13 +1,13 @@
 import { type EventDefinition, RpgPlayer } from '@rpgjs/server';
+import { runStarterCeremony } from './starter-ceremony';
 
-/** jan Sewi — the starting-village guide who offers the three starters. */
 export function JanSewi(): EventDefinition {
     return {
         onInit() {
             this.setGraphic('female');
         },
-        onAction(player: RpgPlayer) {
-            player.showText('o kama! sina wile soweli seme? (starter ceremony — wired in V3)');
+        async onAction(player: RpgPlayer) {
+            await runStarterCeremony(player);
         },
     };
 }

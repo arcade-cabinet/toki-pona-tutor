@@ -216,11 +216,12 @@ const output = {
   species: collected.species,
   moves: collected.moves,
   items: collected.items,
+  dialog: collected.dialog,
   journey: collected.journey,
 };
 
 mkdirSync(dirname(outPath), { recursive: true });
 writeFileSync(outPath, JSON.stringify(output, null, 2) + '\n');
 console.log(
-  `[build-spine] ✓ ${collected.species.length} species, ${collected.moves.length} moves, ${collected.items.length} items, ${collected.journey.beats.length} journey beat(s) → ${outPath.replace(root + '/', '')}`,
+  `[build-spine] ✓ ${collected.species.length} species, ${collected.moves.length} moves, ${collected.items.length} items, ${collected.dialog.length} dialog node(s), ${collected.journey.beats.length} journey beat(s) → ${outPath.replace(root + '/', '')}`,
 );
