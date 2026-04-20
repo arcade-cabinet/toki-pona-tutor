@@ -67,8 +67,10 @@ jobs:
           node-version: 22
           cache: pnpm
 
-      - name: Install + build (fallback)
+      - name: Install + build (fallback — GITHUB_PAGES base)
         if: steps.latest.outputs.has_release == 'false'
+        env:
+          GITHUB_PAGES: 'true'
         run: |
           pnpm install --ignore-workspace --frozen-lockfile
           pnpm build

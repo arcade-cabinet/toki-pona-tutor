@@ -1,0 +1,73 @@
+/*
+ * Self-hosted font faces. No CDN, no Google-Fonts runtime fetch —
+ * Capacitor builds run offline and every font must ship inside the
+ * bundle. Same pattern kings-road uses.
+ *
+ * Absolute `/assets/fonts/...` URLs are rewritten to `${base}assets/...`
+ * by vite at build time (base = '/' dev, '/poki-soweli/' Pages, './'
+ * Capacitor — see vite.config.ts). Files live under
+ * public/assets/fonts/ and are copied verbatim to the output.
+ *
+ * Variable fonts: one .woff2 per family (italic is a separate file
+ * because CSS can't interpolate italics through a weight axis).
+ * Tokens in brand.css (`--font-body` / `--font-display` / `--font-mono`
+ * / `--font-glyph`) resolve to the family names declared below.
+ *
+ * Family choices (locked in docs/BRAND.md §Typography):
+ *   Nunito         body + dialog + descriptions (weight 200–900)
+ *   Fredoka        display + headings + toasts (weight 300–700, wdth 75–125%)
+ *   JetBrains Mono numbers + HP/XP/level (tabular-nums, weight 100–800)
+ *   nasin-nanpa    sitelen-pona glyphs (UCSUR codepoints U+F1900+)
+ *
+ * Licenses: all four ship under SIL Open Font License 1.1; each
+ * family directory retains its original OFL.txt.
+ */
+
+@font-face {
+    font-family: 'Nunito';
+    src: url('/assets/fonts/nunito/Nunito-VariableFont.woff2') format('woff2');
+    font-weight: 200 900;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Nunito';
+    src: url('/assets/fonts/nunito/Nunito-Italic-VariableFont.woff2') format('woff2');
+    font-weight: 200 900;
+    font-style: italic;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'Fredoka';
+    src: url('/assets/fonts/fredoka/Fredoka-VariableFont.woff2') format('woff2');
+    font-weight: 300 700;
+    font-stretch: 75% 125%;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'JetBrains Mono';
+    src: url('/assets/fonts/jetbrains-mono/JetBrainsMono-VariableFont.woff2') format('woff2');
+    font-weight: 100 800;
+    font-style: normal;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'JetBrains Mono';
+    src: url('/assets/fonts/jetbrains-mono/JetBrainsMono-Italic-VariableFont.woff2') format('woff2');
+    font-weight: 100 800;
+    font-style: italic;
+    font-display: swap;
+}
+
+@font-face {
+    font-family: 'nasin-nanpa';
+    src: url('/assets/fonts/nasin-nanpa/nasin-nanpa-UCSUR.woff2') format('woff2');
+    font-weight: normal;
+    font-style: normal;
+    font-display: swap;
+}

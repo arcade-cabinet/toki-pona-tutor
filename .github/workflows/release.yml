@@ -55,7 +55,11 @@ jobs:
       - name: Install JS deps
         run: pnpm install --ignore-workspace --frozen-lockfile
 
-      - name: Build
+      # Web-bundle artifact attached to the release is what cd.yml
+      # downloads and deploys to GitHub Pages → base must be Pages.
+      - name: Build (Pages base)
+        env:
+          GITHUB_PAGES: 'true'
         run: pnpm build
 
       - name: Package + attach web bundle to release
@@ -93,7 +97,11 @@ jobs:
       - name: Install JS deps
         run: pnpm install --ignore-workspace --frozen-lockfile
 
-      - name: Build web bundle
+      # APK embeds the web bundle in the Android assets dir and serves
+      # from the WebView app root → base must be Capacitor.
+      - name: Build web bundle (Capacitor base)
+        env:
+          CAPACITOR: 'true'
         run: pnpm build
 
       - name: Initialize Android platform

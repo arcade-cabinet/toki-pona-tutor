@@ -81,7 +81,14 @@ jobs:
       - name: Install JS deps
         run: pnpm install --ignore-workspace --frozen-lockfile
 
-      - name: Build web bundle
+      # The artifact that gets deployed to GitHub Pages in cd.yml must be
+      # built with GITHUB_PAGES=true so vite rewrites the public-asset
+      # URLs to `${base}assets/...` with base='/poki-soweli/'. Without
+      # this flag every font + tilemap + wasm 404s under the
+      # `/poki-soweli/` subpath.
+      - name: Build web bundle (Pages base)
+        env:
+          GITHUB_PAGES: 'true'
         run: pnpm build
 
       - name: Web bundle size audit (T6-13)
@@ -203,7 +210,12 @@ jobs:
       - name: Install JS deps
         run: pnpm install --ignore-workspace --frozen-lockfile
 
-      - name: Build web bundle
+      # Capacitor WebView serves bundled assets from the app root, so the
+      # web bundle going into the APK needs base='./'. CAPACITOR=true
+      # switches vite to the relative-URL pattern.
+      - name: Build web bundle (Capacitor base)
+        env:
+          CAPACITOR: 'true'
         run: pnpm build
 
       - name: Initialize Android platform (idempotent)
