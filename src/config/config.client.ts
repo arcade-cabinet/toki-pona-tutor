@@ -2,6 +2,8 @@ import { provideClientGlobalConfig, provideClientModules, Presets } from '@rpgjs
 import { provideMain } from '../modules/main';
 import { provideTiledMap } from '@rpgjs/tiledmap/client';
 import { provideActionBattle } from '@rpgjs/action-battle/client';
+import { effectSpritesheets } from './effect-sprites';
+import { COMBATANT_SPRITESHEETS } from './combatant-sprites';
 
 export default {
     providers: [
@@ -14,6 +16,8 @@ export default {
         provideClientModules([
             {
                 spritesheets: [
+                    ...effectSpritesheets,
+                    ...COMBATANT_SPRITESHEETS,
                     {
                         id: 'hero',
                         image: 'spritesheets/hero.png',
