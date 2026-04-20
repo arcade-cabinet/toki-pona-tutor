@@ -102,8 +102,8 @@ export const journeyBeat = z.object({
   map_id: z.string().regex(/^[a-z][a-z0-9_]*$/),
   /** Dev-facing prose describing what happens in this beat. Mirrors the
    *  matching section in `docs/JOURNEY.md`. NOT shown to the player; NOT
-   *  Tatoeba-validated. Keep it under ~200 words. */
-  narrative: z.string().min(20),
+   *  Tatoeba-validated. Keep it under ~200 words (~1 500 chars). */
+  narrative: z.string().min(20).max(1500),
   /** What the player must do here before the next beat is reachable.
    *  Optional — beats without a gate are pass-through (currently none in
    *  the canonical arc). */

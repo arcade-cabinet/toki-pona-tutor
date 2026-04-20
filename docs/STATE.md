@@ -98,7 +98,10 @@ Added missing devDeps `canvas` + `pngjs` + `@types/pngjs`, added `canvas` to `pn
 ## Next layers (queued for V8+)
 
 ### V8 — first gym leader (jan Wawa, beat 3)
-- Author `nena_sewi.tmx` spec + wire encounter zones.
+- Edit `scripts/map-authoring/specs/nena_sewi.ts` to add encounter zones,
+  then run `pnpm author:build nena_sewi` to regenerate `src/tiled/nena_sewi.tmx`
+  and `public/assets/maps/nena_sewi.tmj`. Commit both the spec and the
+  regenerated files. (`src/tiled/*.tmx` are build artifacts — never edit them directly.)
 - `jan_wawa` event: two-creature fight (`waso_sewi` L8 → `soweli_lete` L10). First gym-leader pattern using `BattleAi` phase-transitions.
 - `onDefeated` sets `badge_sewi` flag + advances journey beat + grants the reward word `sewi` (mastery bump).
 
@@ -110,7 +113,9 @@ When the player's HP hits 0 in an action-battle, RPG.js default is undefined. Ho
 - CI job to build + upload the debug APK as a PR artifact on every push.
 
 ### V11–V15 — remaining journey beats (ma_telo, ma_lete, nena_suli, nasin_pi_telo, endgame)
-- Each follows the V8 pattern: spec → dialog → gym-leader event → badge flag.
+- Each follows the V8 pattern: edit `scripts/map-authoring/specs/<id>.ts`,
+  run `pnpm author:build <id>`, commit spec + regenerated `.tmx`/`.tmj`.
+  Never edit `.tmx` files directly — they are build artifacts.
 - Final beat: green-dragon cutscene + unique death animation.
 
 ## Locked design decisions
