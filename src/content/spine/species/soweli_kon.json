@@ -1,0 +1,27 @@
+{
+  "id": "soweli_kon",
+  "name": { "en": "kon" },
+  "description": { "en": "Everything is ugly." },
+  "type": "kasi",
+  "base_stats": { "hp": 48, "attack": 44, "defense": 38, "speed": 36 },
+  "learnset": [
+    { "level": 1, "move_id": "utala_lili" },
+    { "level": 1, "move_id": "kon_wawa" },
+    { "level": 9, "move_id": "kasi_lili" }
+  ],
+  "catch_rate": 0.42,
+  "xp_yield": 48,
+  "sprite": {
+    "src": "/assets/animals/skunk.png",
+    "frame_width": 32,
+    "frame_height": 32,
+    "animations": {
+      "walk":   { "row": 0, "col_start": 0, "cols": 8, "fps": 10, "loop": true  },
+      "idle":   { "row": 1, "col_start": 0, "cols": 8, "fps": 4,  "loop": true  },
+      "attack": { "row": 2, "col_start": 0, "cols": 5, "fps": 10, "loop": false },
+      "hurt":   { "row": 3, "col_start": 0, "cols": 3, "fps": 8,  "loop": false },
+      "death":  { "row": 4, "col_start": 0, "cols": 3, "fps": 6,  "loop": false }
+    },
+    "tier": "common"
+  }
+}
