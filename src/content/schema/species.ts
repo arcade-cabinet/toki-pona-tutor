@@ -19,8 +19,16 @@ export type BaseStats = z.infer<typeof baseStats>;
  * A named animation strip within a sprite sheet. Each strip occupies
  * one contiguous range of cells — typically one row (`row` = Y index,
  * `cols` = how many frames across). Frame size is fixed per sheet.
+ *
+ * Boss creatures store each animation in a separate PNG file. Those
+ * strips carry a `src` override so the runtime knows which file to
+ * slice rather than falling back to the sheet-level `sprite.src`.
  */
 export const animationStrip = z.object({
+  /** Optional per-strip source PNG, for bosses whose animations live in
+   *  separate files. Must start with /assets/ like the sheet-level src.
+   *  When absent the runtime uses the enclosing sprite.src. */
+  src: z.string().regex(/^\/assets\//, 'strip src must start with /assets/').optional(),
   /** Row index (0-based, top row = 0). */
   row: z.number().int().min(0).max(63),
   /** First column of the strip (0-based, leftmost = 0). */
