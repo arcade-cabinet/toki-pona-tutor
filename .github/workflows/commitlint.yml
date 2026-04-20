@@ -1,0 +1,62 @@
+name: commitlint
+
+# ROADMAP T6-16 — Conventional Commits gate.
+# Validates every commit in an open PR's range against the
+# @commitlint/config-conventional rules. Runs on pull_request (no
+# branch filter) per the ci → release → cd trifecta convention.
+#
+# Why title AND commits: GitHub's squash-merge uses the PR title as the
+# resulting commit message on main. If the title is non-conforming
+# release-please can't classify the change for CHANGELOG.md. Each
+# individual commit is also linted so the feature branch itself stays
+# readable in git log.
+
+on:
+  pull_request:
+
+permissions:
+  contents: read
+  pull-requests: read
+
+jobs:
+  commitlint:
+    name: conventional commits
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 22
+
+      - name: Install commitlint
+        run: |
+          npm install --no-save \
+            @commitlint/cli@19 \
+            @commitlint/config-conventional@19
+
+      - name: Write config
+        run: |
+          cat > .commitlintrc.json <<'EOF'
+          {
+            "extends": ["@commitlint/config-conventional"],
+            "rules": {
+              "subject-case": [0],
+              "body-max-line-length": [0],
+              "footer-max-line-length": [0]
+            }
+          }
+          EOF
+
+      - name: Lint PR title
+        env:
+          PR_TITLE: ${{ github.event.pull_request.title }}
+        run: echo "$PR_TITLE" | npx commitlint
+
+      - name: Lint PR commits
+        env:
+          PR_BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          PR_HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+        run: npx commitlint --from "$PR_BASE_SHA" --to "$PR_HEAD_SHA" --verbose
