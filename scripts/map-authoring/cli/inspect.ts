@@ -6,7 +6,7 @@
  *
  * See docs/build-time/MAP_AUTHORING.md § "Palette seed data".
  */
-import { dirname, resolve, join, basename } from 'node:path';
+import { dirname, resolve, join, posix } from 'node:path';
 import { fileURLToPath } from 'node:url';
 import { existsSync, mkdtempSync, rmSync } from 'node:fs';
 import { readFile, readdir } from 'node:fs/promises';
@@ -90,8 +90,16 @@ async function main(): Promise<void> {
   // Find the firstgid for the tileset. `tiled --export-map json` writes
   // external tilesets as `{ firstgid, source }`, while our own emitter
   // embeds them as `{ firstgid, name, image, ... }` — handle both shapes.
-  const refStem = (t: { source?: string; name?: string }) =>
-    t.source ? basename(t.source, '.tsx') : (t.name ?? '');
+  // Source paths in TMJs are POSIX-style by spec regardless of host OS
+  // (see renderer.ts comment on `tsxStemFromSource`); normalize before
+  // basename so Windows-authored TMJs don't surprise this path.
+  const refStem = (t: { source?: string; name?: string }) => {
+    if (t.source) {
+      const normalized = t.source.replace(/\\/g, '/');
+      return posix.basename(normalized, '.tsx');
+    }
+    return t.name ?? '';
+  };
   const tsRef = tmj.tilesets.find((t) => refStem(t) === tilesetName);
   if (!tsRef) {
     console.error(`tileset "${tilesetName}" not referenced in sample "${sampleMap}"`);
