@@ -55,8 +55,8 @@ export default defineMap({
       },
     ],
     Encounters: [
-      { rect: [3, 15, 4, 3], species: { waso_suli: 40, waso_sewi: 30, soweli_lete_suli: 30 }, levelRange: [10, 13] },
-      { rect: [10, 12, 4, 3], species: { waso_suli: 35, waso_sewi: 25, soweli_lete_suli: 40 }, levelRange: [12, 15] },
+      { rect: [3, 15, 4, 3], species: { jan_wawa_suli: 40, jan_wawa_utala: 30, sijelo_utala: 30 }, levelRange: [10, 13] },
+      { rect: [10, 12, 4, 3], species: { jan_wawa_suli: 35, jan_wawa_utala: 25, sijelo_utala: 40 }, levelRange: [12, 15] },
     ],
   },
 });

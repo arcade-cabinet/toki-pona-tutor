@@ -1,0 +1,16 @@
+{
+  "id": "sijelo_linja",
+  "name": { "en": "linja" },
+  "description": { "en": "Birds drink water." },
+  "type": "lete",
+  "base_stats": { "hp": 40, "attack": 54, "defense": 38, "speed": 50 },
+  "learnset": [
+    { "level": 1, "move_id": "lete_lili" },
+    { "level": 1, "move_id": "utala" },
+    { "level": 11, "move_id": "lete_wawa" }
+  ],
+  "catch_rate": 0.35,
+  "xp_yield": 75,
+  "sprite_frame": 0,
+  "portrait_src": "/assets/creatures/skelly/archer.png"
+}

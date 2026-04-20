@@ -584,7 +584,7 @@
             {
               "name": "species",
               "type": "string",
-              "value": "{\"kala_lili\":30,\"kala_telo\":25,\"waso_telo\":20,\"soweli_telo\":15,\"kala_suli\":10}"
+              "value": "{\"jan_moli\":30,\"kon_moli\":25,\"telo_jaki\":20,\"jan_moli_wawa\":15,\"seli_moli\":10}"
             },
             {
               "name": "level_min",
@@ -612,7 +612,7 @@
             {
               "name": "species",
               "type": "string",
-              "value": "{\"kala_lili\":25,\"kala_telo\":25,\"waso_telo\":20,\"soweli_telo\":15,\"kala_suli\":15}"
+              "value": "{\"jan_moli\":25,\"kon_moli\":25,\"telo_jaki\":20,\"jan_moli_wawa\":15,\"seli_moli\":15}"
             },
             {
               "name": "level_min",

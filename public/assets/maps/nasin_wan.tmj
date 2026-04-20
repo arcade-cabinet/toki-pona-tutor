@@ -512,7 +512,7 @@
             {
               "name": "species",
               "type": "string",
-              "value": "{\"pipi_kon\":40,\"akesi_ma\":35,\"kala_lili\":25}"
+              "value": "{\"jan_ike_lili\":40,\"jan_utala_lili\":35,\"jan_moli\":25}"
             },
             {
               "name": "level_min",
@@ -540,7 +540,7 @@
             {
               "name": "species",
               "type": "string",
-              "value": "{\"pipi_kon\":30,\"akesi_ma\":40,\"kala_lili\":30}"
+              "value": "{\"jan_ike_lili\":30,\"jan_utala_lili\":40,\"jan_moli\":30}"
             },
             {
               "name": "level_min",
@@ -568,7 +568,7 @@
             {
               "name": "species",
               "type": "string",
-              "value": "{\"pipi_kon\":25,\"akesi_ma\":30,\"kala_lili\":45}"
+              "value": "{\"jan_ike_lili\":25,\"jan_utala_lili\":30,\"jan_moli\":45}"
             },
             {
               "name": "level_min",

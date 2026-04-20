@@ -1,0 +1,16 @@
+{
+  "id": "jan_moli_wawa",
+  "name": { "en": "wawa" },
+  "description": { "en": "The snake is big." },
+  "type": "kasi",
+  "base_stats": { "hp": 68, "attack": 70, "defense": 42, "speed": 38 },
+  "learnset": [
+    { "level": 1, "move_id": "kasi_lili" },
+    { "level": 1, "move_id": "utala" },
+    { "level": 10, "move_id": "kasi_wawa" }
+  ],
+  "catch_rate": 0.20,
+  "xp_yield": 140,
+  "sprite_frame": 4,
+  "portrait_src": "/assets/bosses/zombie-burster/burster.png"
+}

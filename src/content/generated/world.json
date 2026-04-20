@@ -6,7 +6,7 @@
   "start_region_id": "ma_tomo_lili",
   "species": [
     {
-      "id": "akesi_ma",
+      "id": "akesi_sewi",
       "name": {
         "en": "akesi"
       },
@@ -14,172 +14,51 @@
         "en": "That's a lizard.",
         "tp": "ni li akesi."
       },
-      "type": "lete",
+      "type": "seli",
       "base_stats": {
-        "hp": 42,
-        "attack": 38,
-        "defense": 44,
-        "speed": 34
+        "hp": 140,
+        "attack": 110,
+        "defense": 100,
+        "speed": 75
       },
       "learnset": [
         {
           "level": 1,
-          "move_id": "utala_lili"
+          "move_id": "seli_wawa"
         },
         {
           "level": 1,
-          "move_id": "lete_lili"
-        },
-        {
-          "level": 9,
           "move_id": "utala"
         },
         {
-          "level": 16,
-          "move_id": "lete_wawa"
+          "level": 10,
+          "move_id": "kon_wawa"
+        },
+        {
+          "level": 18,
+          "move_id": "wawa_waso"
         }
       ],
-      "catch_rate": 0.35,
-      "xp_yield": 42,
-      "sprite_frame": 122
+      "catch_rate": 0.05,
+      "xp_yield": 300,
+      "sprite_frame": 5,
+      "portrait_src": "/assets/bosses/green-dragon/idle-green.png"
     },
     {
-      "id": "kala_lili",
+      "id": "jan_ike_lili",
       "name": {
-        "en": "kala"
+        "en": "ike"
       },
       "description": {
-        "en": "There's some fish.",
-        "tp": "kala lili li lon."
-      },
-      "type": "telo",
-      "base_stats": {
-        "hp": 40,
-        "attack": 36,
-        "defense": 38,
-        "speed": 48
-      },
-      "learnset": [
-        {
-          "level": 1,
-          "move_id": "telo_lili"
-        },
-        {
-          "level": 1,
-          "move_id": "utala_lili"
-        },
-        {
-          "level": 7,
-          "move_id": "utala"
-        },
-        {
-          "level": 14,
-          "move_id": "telo_wawa"
-        }
-      ],
-      "catch_rate": 0.4,
-      "xp_yield": 36,
-      "sprite_frame": 126
-    },
-    {
-      "id": "kala_suli",
-      "name": {
-        "en": "kala"
-      },
-      "description": {
-        "en": "The fish swam in the lake.",
-        "tp": "kala li tawa lon telo suli."
-      },
-      "type": "telo",
-      "base_stats": {
-        "hp": 68,
-        "attack": 58,
-        "defense": 54,
-        "speed": 44
-      },
-      "learnset": [
-        {
-          "level": 1,
-          "move_id": "telo_lili"
-        },
-        {
-          "level": 1,
-          "move_id": "utala_lili"
-        },
-        {
-          "level": 8,
-          "move_id": "utala"
-        },
-        {
-          "level": 14,
-          "move_id": "telo_wawa"
-        },
-        {
-          "level": 22,
-          "move_id": "telo_suli"
-        }
-      ],
-      "catch_rate": 0.35,
-      "xp_yield": 72,
-      "sprite_frame": 127
-    },
-    {
-      "id": "kala_telo",
-      "name": {
-        "en": "kala"
-      },
-      "description": {
-        "en": "Fish swim.",
-        "tp": "kala li tawa."
-      },
-      "type": "telo",
-      "base_stats": {
-        "hp": 50,
-        "attack": 42,
-        "defense": 45,
-        "speed": 40
-      },
-      "learnset": [
-        {
-          "level": 1,
-          "move_id": "utala_lili"
-        },
-        {
-          "level": 1,
-          "move_id": "telo_lili"
-        },
-        {
-          "level": 8,
-          "move_id": "utala"
-        },
-        {
-          "level": 15,
-          "move_id": "telo_wawa"
-        },
-        {
-          "level": 22,
-          "move_id": "lete_wawa"
-        }
-      ],
-      "catch_rate": 0.45,
-      "xp_yield": 60,
-      "sprite_frame": 104
-    },
-    {
-      "id": "kasi_pona",
-      "name": {
-        "en": "kasi"
-      },
-      "description": {
-        "en": "Flowers are yellow.",
-        "tp": "kasi kule li jelo."
+        "en": "The bug is still alive.",
+        "tp": "pipi li awen lon."
       },
       "type": "kasi",
       "base_stats": {
-        "hp": 46,
-        "attack": 40,
-        "defense": 48,
-        "speed": 38
+        "hp": 42,
+        "attack": 38,
+        "defense": 32,
+        "speed": 46
       },
       "learnset": [
         {
@@ -200,167 +79,234 @@
         }
       ],
       "catch_rate": 0.45,
-      "xp_yield": 60,
-      "sprite_frame": 106
+      "xp_yield": 55,
+      "sprite_frame": 0,
+      "portrait_src": "/assets/creatures/goblin/goblin.png"
     },
     {
-      "id": "pipi_kiwen",
+      "id": "jan_moli",
       "name": {
-        "en": "pipi"
+        "en": "moli"
       },
       "description": {
-        "en": "The bug is still alive.",
-        "tp": "pipi li awen lon."
+        "en": "The fish swam in the lake.",
+        "tp": "kala li tawa lon telo suli."
       },
-      "type": "wawa",
+      "type": "kasi",
       "base_stats": {
         "hp": 50,
         "attack": 38,
-        "defense": 54,
-        "speed": 30
+        "defense": 36,
+        "speed": 24
+      },
+      "learnset": [
+        {
+          "level": 1,
+          "move_id": "kasi_lili"
+        },
+        {
+          "level": 1,
+          "move_id": "utala_lili"
+        },
+        {
+          "level": 10,
+          "move_id": "kasi_wawa"
+        }
+      ],
+      "catch_rate": 0.4,
+      "xp_yield": 64,
+      "sprite_frame": 0,
+      "portrait_src": "/assets/creatures/zombie/zombie.png"
+    },
+    {
+      "id": "jan_moli_wawa",
+      "name": {
+        "en": "wawa"
+      },
+      "description": {
+        "en": "The snake is big.",
+        "tp": "akesi linja li suli."
+      },
+      "type": "kasi",
+      "base_stats": {
+        "hp": 68,
+        "attack": 70,
+        "defense": 42,
+        "speed": 38
+      },
+      "learnset": [
+        {
+          "level": 1,
+          "move_id": "kasi_lili"
+        },
+        {
+          "level": 1,
+          "move_id": "utala"
+        },
+        {
+          "level": 10,
+          "move_id": "kasi_wawa"
+        }
+      ],
+      "catch_rate": 0.2,
+      "xp_yield": 140,
+      "sprite_frame": 4,
+      "portrait_src": "/assets/bosses/zombie-burster/burster.png"
+    },
+    {
+      "id": "jan_pi_sewi_pimeja",
+      "name": {
+        "en": "pimeja"
+      },
+      "description": {
+        "en": "The snow is white.",
+        "tp": "ko lete li walo."
+      },
+      "type": "lete",
+      "base_stats": {
+        "hp": 55,
+        "attack": 42,
+        "defense": 48,
+        "speed": 28
+      },
+      "learnset": [
+        {
+          "level": 1,
+          "move_id": "lete_lili"
+        },
+        {
+          "level": 1,
+          "move_id": "utala_lili"
+        },
+        {
+          "level": 10,
+          "move_id": "lete_suli"
+        }
+      ],
+      "catch_rate": 0.35,
+      "xp_yield": 70,
+      "sprite_frame": 0,
+      "portrait_src": "/assets/creatures/mummy/mummy.png"
+    },
+    {
+      "id": "jan_utala_lili",
+      "name": {
+        "en": "utala"
+      },
+      "description": {
+        "en": "The bug is thirsty.",
+        "tp": "pipi li wile moku e telo."
+      },
+      "type": "kasi",
+      "base_stats": {
+        "hp": 40,
+        "attack": 44,
+        "defense": 30,
+        "speed": 50
       },
       "learnset": [
         {
           "level": 1,
           "move_id": "utala_lili"
+        },
+        {
+          "level": 1,
+          "move_id": "kasi_lili"
+        },
+        {
+          "level": 7,
+          "move_id": "utala"
+        }
+      ],
+      "catch_rate": 0.42,
+      "xp_yield": 58,
+      "sprite_frame": 0,
+      "portrait_src": "/assets/creatures/goblin/slinger.png"
+    },
+    {
+      "id": "jan_utala_suli",
+      "name": {
+        "en": "utala"
+      },
+      "description": {
+        "en": "She isn't afraid of snakes.",
+        "tp": "akesi linja li akesi ala tawa ona."
+      },
+      "type": "wawa",
+      "base_stats": {
+        "hp": 85,
+        "attack": 80,
+        "defense": 74,
+        "speed": 42
+      },
+      "learnset": [
+        {
+          "level": 1,
+          "move_id": "utala"
         },
         {
           "level": 1,
           "move_id": "kiwen_wawa"
         },
         {
-          "level": 8,
-          "move_id": "utala"
+          "level": 12,
+          "move_id": "utala_lili"
         }
       ],
-      "catch_rate": 0.4,
-      "xp_yield": 42,
-      "sprite_frame": 119
+      "catch_rate": 0.12,
+      "xp_yield": 180,
+      "sprite_frame": 3,
+      "portrait_src": "/assets/bosses/dread-knight/non-combat-animations.png"
     },
     {
-      "id": "pipi_kon",
+      "id": "jan_wawa",
       "name": {
-        "en": "pipi"
+        "en": "wawa"
       },
       "description": {
-        "en": "The bug is thirsty.",
-        "tp": "pipi li wile moku e telo."
+        "en": "That animal is strong.",
+        "tp": "soweli ni li wawa."
       },
       "type": "wawa",
       "base_stats": {
-        "hp": 34,
-        "attack": 38,
-        "defense": 30,
-        "speed": 48
+        "hp": 62,
+        "attack": 55,
+        "defense": 48,
+        "speed": 34
       },
       "learnset": [
         {
           "level": 1,
-          "move_id": "utala_lili"
-        },
-        {
-          "level": 5,
           "move_id": "utala"
-        }
-      ],
-      "catch_rate": 0.45,
-      "xp_yield": 28,
-      "sprite_frame": 118
-    },
-    {
-      "id": "soweli_lete",
-      "name": {
-        "en": "soweli"
-      },
-      "description": {
-        "en": "That animal is strong.",
-        "tp": "soweli ni li wawa."
-      },
-      "type": "lete",
-      "base_stats": {
-        "hp": 48,
-        "attack": 46,
-        "defense": 42,
-        "speed": 48
-      },
-      "learnset": [
-        {
-          "level": 1,
-          "move_id": "utala_lili"
         },
         {
           "level": 1,
-          "move_id": "lete_lili"
-        },
-        {
-          "level": 7,
-          "move_id": "lete_sewi"
-        },
-        {
-          "level": 13,
-          "move_id": "lete_wawa"
-        }
-      ],
-      "catch_rate": 0.35,
-      "xp_yield": 48,
-      "sprite_frame": 123
-    },
-    {
-      "id": "soweli_lete_suli",
-      "name": {
-        "en": "soweli"
-      },
-      "description": {
-        "en": "The bear is big.",
-        "tp": "soweli wawa li suli."
-      },
-      "type": "lete",
-      "base_stats": {
-        "hp": 78,
-        "attack": 72,
-        "defense": 70,
-        "speed": 35
-      },
-      "learnset": [
-        {
-          "level": 1,
-          "move_id": "utala_lili"
-        },
-        {
-          "level": 1,
-          "move_id": "lete_lili"
-        },
-        {
-          "level": 8,
-          "move_id": "utala"
+          "move_id": "kiwen_wawa"
         },
         {
           "level": 12,
-          "move_id": "lete_wawa"
-        },
-        {
-          "level": 18,
-          "move_id": "lete_suli"
+          "move_id": "utala_lili"
         }
       ],
-      "catch_rate": 0.18,
-      "xp_yield": 80,
-      "sprite_frame": 112
+      "catch_rate": 0.28,
+      "xp_yield": 85,
+      "sprite_frame": 0,
+      "portrait_src": "/assets/creatures/orc/orc.png"
     },
     {
-      "id": "soweli_seli",
+      "id": "jan_wawa_jaki",
       "name": {
-        "en": "soweli"
+        "en": "jaki"
       },
       "description": {
-        "en": "That animal is strong.",
-        "tp": "soweli ni li wawa."
+        "en": "Fish swim.",
+        "tp": "kala li tawa."
       },
-      "type": "seli",
+      "type": "wawa",
       "base_stats": {
         "hp": 48,
-        "attack": 46,
-        "defense": 40,
+        "attack": 50,
+        "defense": 38,
         "speed": 42
       },
       "learnset": [
@@ -370,63 +316,310 @@
         },
         {
           "level": 1,
-          "move_id": "seli_lili"
-        },
-        {
-          "level": 8,
           "move_id": "utala"
         },
         {
-          "level": 15,
-          "move_id": "seli_wawa"
+          "level": 11,
+          "move_id": "kiwen_wawa"
         }
       ],
-      "catch_rate": 0.45,
-      "xp_yield": 60,
-      "sprite_frame": 102
+      "catch_rate": 0.38,
+      "xp_yield": 68,
+      "sprite_frame": 0,
+      "portrait_src": "/assets/creatures/orc/soldier-unarmoured.png"
     },
     {
-      "id": "soweli_suwi",
+      "id": "jan_wawa_linja",
       "name": {
-        "en": "soweli"
+        "en": "linja"
+      },
+      "description": {
+        "en": "The birds are red.",
+        "tp": "waso li loje."
+      },
+      "type": "wawa",
+      "base_stats": {
+        "hp": 52,
+        "attack": 60,
+        "defense": 40,
+        "speed": 44
+      },
+      "learnset": [
+        {
+          "level": 1,
+          "move_id": "utala"
+        },
+        {
+          "level": 1,
+          "move_id": "wawa_waso"
+        },
+        {
+          "level": 10,
+          "move_id": "utala_lili"
+        }
+      ],
+      "catch_rate": 0.3,
+      "xp_yield": 88,
+      "sprite_frame": 0,
+      "portrait_src": "/assets/creatures/orc/archer.png"
+    },
+    {
+      "id": "jan_wawa_suli",
+      "name": {
+        "en": "suli"
+      },
+      "description": {
+        "en": "The bear is big.",
+        "tp": "soweli wawa li suli."
+      },
+      "type": "wawa",
+      "base_stats": {
+        "hp": 78,
+        "attack": 66,
+        "defense": 62,
+        "speed": 26
+      },
+      "learnset": [
+        {
+          "level": 1,
+          "move_id": "utala"
+        },
+        {
+          "level": 1,
+          "move_id": "kiwen_wawa"
+        },
+        {
+          "level": 12,
+          "move_id": "utala_lili"
+        }
+      ],
+      "catch_rate": 0.2,
+      "xp_yield": 120,
+      "sprite_frame": 0,
+      "portrait_src": "/assets/creatures/orc/champion.png"
+    },
+    {
+      "id": "jan_wawa_utala",
+      "name": {
+        "en": "utala"
+      },
+      "description": {
+        "en": "There's some fish.",
+        "tp": "kala lili li lon."
+      },
+      "type": "wawa",
+      "base_stats": {
+        "hp": 58,
+        "attack": 58,
+        "defense": 52,
+        "speed": 38
+      },
+      "learnset": [
+        {
+          "level": 1,
+          "move_id": "utala"
+        },
+        {
+          "level": 1,
+          "move_id": "kiwen_wawa"
+        },
+        {
+          "level": 9,
+          "move_id": "utala_lili"
+        }
+      ],
+      "catch_rate": 0.32,
+      "xp_yield": 80,
+      "sprite_frame": 0,
+      "portrait_src": "/assets/creatures/orc/soldier.png"
+    },
+    {
+      "id": "kon_moli",
+      "name": {
+        "en": "kon"
       },
       "description": {
         "en": "The cat is very cute.",
         "tp": "soweli tomo li suwi mute."
       },
-      "type": "wawa",
+      "type": "seli",
       "base_stats": {
         "hp": 44,
-        "attack": 42,
-        "defense": 38,
-        "speed": 45
+        "attack": 52,
+        "defense": 34,
+        "speed": 54
       },
       "learnset": [
+        {
+          "level": 1,
+          "move_id": "seli_lili"
+        },
         {
           "level": 1,
           "move_id": "utala_lili"
         },
         {
-          "level": 1,
-          "move_id": "kasi_lili"
-        },
-        {
           "level": 8,
-          "move_id": "utala"
+          "move_id": "seli_wawa"
         },
         {
           "level": 15,
-          "move_id": "kasi_wawa"
+          "move_id": "kon_wawa"
         }
       ],
-      "catch_rate": 0.4,
-      "xp_yield": 40,
-      "sprite_frame": 110
+      "catch_rate": 0.45,
+      "xp_yield": 60,
+      "sprite_frame": 0,
+      "portrait_src": "/assets/creatures/wraith/wraith.png"
     },
     {
-      "id": "soweli_telo",
+      "id": "seli_moli",
       "name": {
-        "en": "soweli"
+        "en": "seli"
+      },
+      "description": {
+        "en": "The floor is lava!",
+        "tp": "anpa li telo pi kiwen seli!"
+      },
+      "type": "seli",
+      "base_stats": {
+        "hp": 62,
+        "attack": 72,
+        "defense": 50,
+        "speed": 54
+      },
+      "learnset": [
+        {
+          "level": 1,
+          "move_id": "seli_lili"
+        },
+        {
+          "level": 1,
+          "move_id": "utala"
+        },
+        {
+          "level": 10,
+          "move_id": "seli_wawa"
+        },
+        {
+          "level": 16,
+          "move_id": "kon_wawa"
+        }
+      ],
+      "catch_rate": 0.18,
+      "xp_yield": 130,
+      "sprite_frame": 2,
+      "portrait_src": "/assets/bosses/fire-skull/fire-skull.png"
+    },
+    {
+      "id": "sijelo_kiwen",
+      "name": {
+        "en": "kiwen"
+      },
+      "description": {
+        "en": "Flowers are yellow.",
+        "tp": "kasi kule li jelo."
+      },
+      "type": "lete",
+      "base_stats": {
+        "hp": 44,
+        "attack": 48,
+        "defense": 58,
+        "speed": 36
+      },
+      "learnset": [
+        {
+          "level": 1,
+          "move_id": "lete_lili"
+        },
+        {
+          "level": 1,
+          "move_id": "utala_lili"
+        },
+        {
+          "level": 10,
+          "move_id": "lete_suli"
+        }
+      ],
+      "catch_rate": 0.38,
+      "xp_yield": 70,
+      "sprite_frame": 0,
+      "portrait_src": "/assets/creatures/skelly/skelly.png"
+    },
+    {
+      "id": "sijelo_linja",
+      "name": {
+        "en": "linja"
+      },
+      "description": {
+        "en": "Birds drink water.",
+        "tp": "waso li moku e telo."
+      },
+      "type": "lete",
+      "base_stats": {
+        "hp": 40,
+        "attack": 54,
+        "defense": 38,
+        "speed": 50
+      },
+      "learnset": [
+        {
+          "level": 1,
+          "move_id": "lete_lili"
+        },
+        {
+          "level": 1,
+          "move_id": "utala"
+        },
+        {
+          "level": 11,
+          "move_id": "lete_wawa"
+        }
+      ],
+      "catch_rate": 0.35,
+      "xp_yield": 75,
+      "sprite_frame": 0,
+      "portrait_src": "/assets/creatures/skelly/archer.png"
+    },
+    {
+      "id": "sijelo_utala",
+      "name": {
+        "en": "utala"
+      },
+      "description": {
+        "en": "The eagle is king of birds.",
+        "tp": "waso wawa li lawa e waso ali."
+      },
+      "type": "lete",
+      "base_stats": {
+        "hp": 56,
+        "attack": 58,
+        "defense": 54,
+        "speed": 40
+      },
+      "learnset": [
+        {
+          "level": 1,
+          "move_id": "lete_lili"
+        },
+        {
+          "level": 1,
+          "move_id": "utala"
+        },
+        {
+          "level": 12,
+          "move_id": "lete_suli"
+        }
+      ],
+      "catch_rate": 0.26,
+      "xp_yield": 95,
+      "sprite_frame": 0,
+      "portrait_src": "/assets/creatures/skelly/warrior.png"
+    },
+    {
+      "id": "telo_jaki",
+      "name": {
+        "en": "jaki"
       },
       "description": {
         "en": "We live near the lake.",
@@ -434,230 +627,33 @@
       },
       "type": "telo",
       "base_stats": {
-        "hp": 56,
-        "attack": 48,
+        "hp": 52,
+        "attack": 44,
         "defense": 46,
-        "speed": 58
+        "speed": 32
       },
       "learnset": [
-        {
-          "level": 1,
-          "move_id": "utala_lili"
-        },
         {
           "level": 1,
           "move_id": "telo_lili"
         },
         {
-          "level": 6,
-          "move_id": "utala"
-        },
-        {
-          "level": 12,
-          "move_id": "telo_wawa"
-        },
-        {
-          "level": 20,
-          "move_id": "lete_wawa"
-        }
-      ],
-      "catch_rate": 0.4,
-      "xp_yield": 60,
-      "sprite_frame": 111
-    },
-    {
-      "id": "waso_lete",
-      "name": {
-        "en": "waso"
-      },
-      "description": {
-        "en": "The snow is white.",
-        "tp": "ko lete li walo."
-      },
-      "type": "lete",
-      "base_stats": {
-        "hp": 38,
-        "attack": 48,
-        "defense": 30,
-        "speed": 70
-      },
-      "learnset": [
-        {
           "level": 1,
           "move_id": "utala_lili"
-        },
-        {
-          "level": 1,
-          "move_id": "lete_lili"
-        },
-        {
-          "level": 7,
-          "move_id": "utala"
-        },
-        {
-          "level": 13,
-          "move_id": "lete_wawa"
-        }
-      ],
-      "catch_rate": 0.35,
-      "xp_yield": 45,
-      "sprite_frame": 121
-    },
-    {
-      "id": "waso_lili",
-      "name": {
-        "en": "waso"
-      },
-      "description": {
-        "en": "The birds are red.",
-        "tp": "waso li loje."
-      },
-      "type": "wawa",
-      "base_stats": {
-        "hp": 36,
-        "attack": 40,
-        "defense": 32,
-        "speed": 52
-      },
-      "learnset": [
-        {
-          "level": 1,
-          "move_id": "utala_lili"
-        },
-        {
-          "level": 4,
-          "move_id": "seli_lili"
-        },
-        {
-          "level": 10,
-          "move_id": "utala"
-        },
-        {
-          "level": 16,
-          "move_id": "seli_wawa"
-        }
-      ],
-      "catch_rate": 0.4,
-      "xp_yield": 32,
-      "sprite_frame": 120
-    },
-    {
-      "id": "waso_sewi",
-      "name": {
-        "en": "waso"
-      },
-      "description": {
-        "en": "The birds are red.",
-        "tp": "waso li loje."
-      },
-      "type": "wawa",
-      "base_stats": {
-        "hp": 40,
-        "attack": 44,
-        "defense": 32,
-        "speed": 58
-      },
-      "learnset": [
-        {
-          "level": 1,
-          "move_id": "utala_lili"
-        },
-        {
-          "level": 1,
-          "move_id": "wawa_waso"
-        },
-        {
-          "level": 6,
-          "move_id": "utala"
-        },
-        {
-          "level": 12,
-          "move_id": "kiwen_wawa"
-        }
-      ],
-      "catch_rate": 0.4,
-      "xp_yield": 40,
-      "sprite_frame": 121
-    },
-    {
-      "id": "waso_suli",
-      "name": {
-        "en": "waso"
-      },
-      "description": {
-        "en": "The eagle is king of birds.",
-        "tp": "waso wawa li lawa e waso ali."
-      },
-      "type": "wawa",
-      "base_stats": {
-        "hp": 65,
-        "attack": 72,
-        "defense": 55,
-        "speed": 80
-      },
-      "learnset": [
-        {
-          "level": 1,
-          "move_id": "utala_lili"
-        },
-        {
-          "level": 1,
-          "move_id": "wawa_waso"
         },
         {
           "level": 8,
-          "move_id": "kon_wawa"
+          "move_id": "telo_suli"
         },
         {
-          "level": 14,
-          "move_id": "utala"
-        },
-        {
-          "level": 20,
-          "move_id": "kiwen_wawa"
-        }
-      ],
-      "catch_rate": 0.15,
-      "xp_yield": 70,
-      "sprite_frame": 107
-    },
-    {
-      "id": "waso_telo",
-      "name": {
-        "en": "waso"
-      },
-      "description": {
-        "en": "Birds drink water.",
-        "tp": "waso li moku e telo."
-      },
-      "type": "telo",
-      "base_stats": {
-        "hp": 38,
-        "attack": 40,
-        "defense": 28,
-        "speed": 50
-      },
-      "learnset": [
-        {
-          "level": 1,
-          "move_id": "telo_lili"
-        },
-        {
-          "level": 1,
-          "move_id": "utala_lili"
-        },
-        {
-          "level": 6,
-          "move_id": "wawa_waso"
-        },
-        {
-          "level": 12,
+          "level": 15,
           "move_id": "telo_wawa"
         }
       ],
-      "catch_rate": 0.42,
-      "xp_yield": 28,
-      "sprite_frame": 103
+      "catch_rate": 0.45,
+      "xp_yield": 62,
+      "sprite_frame": 1,
+      "portrait_src": "/assets/bosses/slime/idle.png"
     }
   ],
   "moves": [
@@ -1608,7 +1604,7 @@
       {
         "id": "beat_01_ma_tomo_lili",
         "map_id": "ma_tomo_lili",
-        "narrative": "Player wakes in the starter village — stone-floored homes ringed by green grass. jan Sewi stands at the village center; jan Pona lingers in the upper plaza; jan Telo leans against the well. Walking up to jan Sewi fires the four-beat starter ceremony (toki / poki / wan / wawa) and offers the three starters: soweli_seli, soweli_telo, kasi_pona. Picking one sets starter_chosen, drops three poki_lili, adds the chosen creature to the party at level 5. Until starter_chosen is true the eastern warp is non-interactive.",
+        "narrative": "Player wakes in the starter village — stone-floored homes ringed by green grass. jan Sewi stands at the village center; jan Pona lingers in the upper plaza; jan Telo leans against the well. Walking up to jan Sewi fires the four-beat starter ceremony (toki / poki / wan / wawa) and offers the three starters: kon_moli (seli spirit), telo_jaki (telo slime), jan_ike_lili (kasi goblin). Picking one sets starter_chosen, drops three poki_lili, adds the chosen creature to the party at level 5. Until starter_chosen is true the eastern warp is non-interactive.",
         "gate": {
           "kind": "starter_chosen"
         },
@@ -1620,7 +1616,7 @@
       {
         "id": "beat_02_nasin_wan",
         "map_id": "nasin_wan",
-        "narrative": "Long path-route east-to-west, framed by trees. Three tall_grass rectangles host the player's first encounters: pipi_kon, akesi_ma, kala_lili in the level 3-7 band — first chance to throw a poki_lili. Halfway along a sign reads 'the path was narrow.' At the eastern edge stands jan Ike, the rival, with soweli_seli at level 5 and two starter moves. Defeating him (or losing — losses restore the party at the last village) opens the eastern warp.",
+        "narrative": "Long path-route east-to-west, framed by trees. Three tall_grass rectangles host the player's first encounters: jan_ike_lili, jan_utala_lili, jan_moli in the level 3-7 band — first chance to throw a poki_lili. Halfway along a sign reads 'the path was narrow.' At the eastern edge stands jan Ike, the rival, with kon_moli at level 5 and two starter moves. Defeating him (or losing — losses restore the party at the last village) opens the eastern warp.",
         "gate": {
           "kind": "defeated",
           "npc_id": "jan_ike"
@@ -1633,7 +1629,7 @@
       {
         "id": "beat_03_nena_sewi",
         "map_id": "nena_sewi",
-        "narrative": "Mountain pass — stone footpaths between rocks and tall_grass clumps. Encounters skew wawa-ish and high-altitude: waso_sewi, soweli_lete, pipi_kiwen. jan Kala the hiker sits along the path catching her breath, teaches lete ahead of the next region. At the top, jan Wawa — the strong-master and first jan lawa — blocks the northward path with a two-creature gym fight: waso_sewi at level 8 then soweli_lete at level 10. Winning sets badge_sewi and grants the reward word sewi.",
+        "narrative": "Mountain pass — stone footpaths between rocks and tall_grass clumps. Encounters skew wawa-ish and rocky: jan_wawa, jan_wawa_linja, sijelo_kiwen. jan Kala the hiker sits along the path catching her breath, teaches lete ahead of the next region. At the top, jan Wawa — the strong-master and first jan lawa — blocks the northward path with a two-creature gym fight: jan_wawa_linja at level 8 then sijelo_kiwen at level 10. Winning sets badge_sewi and grants the reward word sewi.",
         "gate": {
           "kind": "defeated",
           "npc_id": "jan_wawa"
@@ -1646,7 +1642,7 @@
       {
         "id": "beat_04_ma_telo",
         "map_id": "ma_telo",
-        "narrative": "Round village built on a stone island in the middle of a lake. No tall grass, no random encounters — a story-and-shop beat. jan Telo (first met at the well in ma_tomo_lili) is now revealed as the jan lawa of ma_telo with kala_suli at level 10 and kasi_pona at level 12 — a deliberate type wrinkle that punishes one-typed parties. Beating him sets badge_telo and grants telo. jan Kala sits at the lake's edge with a small lost-something quest stub. jan Moku runs a lakeside stall.",
+        "narrative": "Round village built on a stone island in the middle of a lake. No tall grass, no random encounters — a story-and-shop beat. jan Telo (first met at the well in ma_tomo_lili) is now revealed as the jan lawa of ma_telo with telo_jaki at level 10 and jan_ike_lili at level 12 — a deliberate type wrinkle that punishes one-typed parties. Beating him sets badge_telo and grants telo. jan Kala sits at the lake's edge with a small lost-something quest stub. jan Moku runs a lakeside stall.",
         "gate": {
           "kind": "defeated",
           "npc_id": "jan_telo"
@@ -1659,7 +1655,7 @@
       {
         "id": "beat_05_ma_lete",
         "map_id": "ma_lete",
-        "narrative": "Cold-land village. Stone ground with patches of grass_detail (the local tall-grass key), bordered by snow-laden trees and a fenced herb garden. Encounter table mixes waso_lete, soweli_lete_suli (the big bear's first appearance), kasi_pona, soweli_suwi, levels 7-12. jan Lete the jan lawa fields waso_lete level 10 and soweli_lete_suli level 13 — first gym where a player without a seli creature feels real friction. jan Anpa watches the snow from her doorstep; jan Kasi tends the garden. Beating jan Lete sets badge_lete and grants lete.",
+        "narrative": "Cold-land village. Stone ground with patches of grass_detail (the local tall-grass key), bordered by snow-laden trees and a fenced herb garden. Encounter table mixes sijelo_kiwen, sijelo_linja, jan_pi_sewi_pimeja, levels 7-12. jan Lete the jan lawa fields sijelo_linja level 10 and jan_pi_sewi_pimeja level 13 — first gym where a player without a seli creature feels real friction. jan Anpa watches the snow from her doorstep; jan Kasi tends the garden. Beating jan Lete sets badge_lete and grants lete.",
         "gate": {
           "kind": "defeated",
           "npc_id": "jan_lete"
@@ -1672,7 +1668,7 @@
       {
         "id": "beat_06_nena_suli",
         "map_id": "nena_suli",
-        "narrative": "The great peak — hardest gym before the endgame. Tall narrow map, stone everywhere, sparse tall-grass patches around rocky outcrops. Encounters are heavy birds and the bear: waso_suli (the eagle), waso_sewi, soweli_lete_suli at higher levels (10-15). jan Suli waits at the upper shrine with waso_sewi level 12 (utala_lili + wawa_waso + kon_wawa) and soweli_lete_suli level 14 (utala + lete_wawa + lete_suli). jan pi kon meditates on a rock teaching kon; jan pi nasin asks which way is down, teaching nasin. Beating jan Suli sets badge_suli and grants suli — the canonical 'you are ready' moment.",
+        "narrative": "The great peak — hardest gym before the endgame. Tall narrow map, stone everywhere, sparse tall-grass patches around rocky outcrops. Encounters are heavy elites: jan_wawa_suli, jan_wawa_utala, sijelo_utala at higher levels (10-15). jan Suli waits at the upper shrine with jan_wawa_suli level 12 (utala_lili + wawa_waso + kon_wawa) and sijelo_utala level 14 (utala + lete_wawa + lete_suli). jan pi kon meditates on a rock teaching kon; jan pi nasin asks which way is down, teaching nasin. Beating jan Suli sets badge_suli and grants suli — the canonical 'you are ready' moment.",
         "gate": {
           "kind": "defeated",
           "npc_id": "jan_suli"
@@ -1685,7 +1681,7 @@
       {
         "id": "beat_07_nasin_pi_telo",
         "map_id": "nasin_pi_telo",
-        "narrative": "Endgame approach. Long riverside route — wide grassy west bank, deep water channel down the east side, scattered tall-grass clumps. Heavily aquatic encounters: kala_lili, kala_telo, waso_telo, soweli_telo, kala_suli at the highest levels yet (7-13). jan Kala Suli is a veteran fisher who offers an optional XP-only fight (kala_suli level 10 + kala_telo level 11) — a tune-up before the final boss. jan Kala Lili is cheerful flavor. jan Moku Pona grills river fish at a cart. jan Olin Telo speaks quietly about the water. With all four region badges in hand, walking onto the eastern final_boss_trigger fires the green-dragon cutscene + final fight; the dragon's dedicated death animation is reserved for this beat.",
+        "narrative": "Endgame approach. Long riverside route — wide grassy west bank, deep water channel down the east side, scattered tall-grass clumps. Heavily shadowed encounters: jan_moli, kon_moli, telo_jaki, jan_moli_wawa at the highest wild-roll levels yet (7-13). jan Kala Suli is a veteran fisher who offers an optional XP-only fight (jan_moli_wawa level 10 + telo_jaki level 11) — a tune-up before the final boss. jan Kala Lili is cheerful flavor. jan Moku Pona grills river fish at a cart. jan Olin Telo speaks quietly about the water. With all four region badges in hand, walking onto the eastern final_boss_trigger fires the akesi_sewi cutscene + final legendary catch opportunity; the green dragon's dedicated death animation plays on either defeat or capture.",
         "gate": {
           "kind": "flag",
           "flag_id": "badges_all_four"

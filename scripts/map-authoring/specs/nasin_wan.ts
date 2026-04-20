@@ -7,8 +7,8 @@
  * `jan_ike_defeated`.
  *
  * Encounter rosters come from journey.json beat 2; species listed
- * here are the level-3-7 band from that narrative (pipi_kon, akesi_ma,
- * kala_lili).
+ * here are the level-3-7 band from that narrative (jan_ike_lili,
+ * jan_utala_lili, jan_moli).
  */
 import { defineMap } from '../lib/spec-helpers';
 import { corePalette } from '../palettes/core';
@@ -44,9 +44,9 @@ export default defineMap({
       },
     ],
     Encounters: [
-      { rect: [6, 3, 4, 2], species: { pipi_kon: 40, akesi_ma: 35, kala_lili: 25 }, levelRange: [3, 5] },
-      { rect: [14, 6, 5, 2], species: { pipi_kon: 30, akesi_ma: 40, kala_lili: 30 }, levelRange: [4, 6] },
-      { rect: [22, 3, 4, 2], species: { pipi_kon: 25, akesi_ma: 30, kala_lili: 45 }, levelRange: [5, 7] },
+      { rect: [6, 3, 4, 2], species: { jan_ike_lili: 40, jan_utala_lili: 35, jan_moli: 25 }, levelRange: [3, 5] },
+      { rect: [14, 6, 5, 2], species: { jan_ike_lili: 30, jan_utala_lili: 40, jan_moli: 30 }, levelRange: [4, 6] },
+      { rect: [22, 3, 4, 2], species: { jan_ike_lili: 25, jan_utala_lili: 30, jan_moli: 45 }, levelRange: [5, 7] },
     ],
   },
 });

@@ -16,8 +16,8 @@ import { preferences, KEYS } from '../../platform/persistence/preferences';
  * replaced with a fresh BattleAi using the phase 2 archetype/stats
  * tweaks, HP is bumped up to the phase 2 pool, a graphic swap can
  * happen, and an optional phase-transition dialog plays. This
- * mirrors the JOURNEY.md gym rosters (e.g. jan_wawa's "waso_sewi
- * L8 → soweli_lete L10").
+ * mirrors the JOURNEY.md gym rosters (e.g. jan_wawa's
+ * "jan_wawa_linja L8 → sijelo_kiwen L10").
  *
  * Polling-based rather than hook-driven because @rpgjs/action-battle
  * doesn't expose a public per-event onDamage hook. A 250ms tick is

@@ -4,9 +4,9 @@ import { recordMasteredWord, setFlag, addToParty, addToInventory } from '../../p
 import { playDialog } from './dialog';
 
 const STARTERS = [
-    { id: 'soweli_seli', label: 'soweli seli' },
-    { id: 'soweli_telo', label: 'soweli telo' },
-    { id: 'kasi_pona', label: 'kasi pona' },
+    { id: 'kon_moli', label: 'kon moli' },
+    { id: 'telo_jaki', label: 'telo jaki' },
+    { id: 'jan_ike_lili', label: 'jan ike lili' },
 ] as const;
 
 export async function runStarterCeremony(player: RpgPlayer): Promise<void> {

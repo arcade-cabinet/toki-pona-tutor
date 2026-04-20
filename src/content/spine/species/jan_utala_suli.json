@@ -1,0 +1,16 @@
+{
+  "id": "jan_utala_suli",
+  "name": { "en": "utala" },
+  "description": { "en": "She isn't afraid of snakes." },
+  "type": "wawa",
+  "base_stats": { "hp": 85, "attack": 80, "defense": 74, "speed": 42 },
+  "learnset": [
+    { "level": 1, "move_id": "utala" },
+    { "level": 1, "move_id": "kiwen_wawa" },
+    { "level": 12, "move_id": "utala_lili" }
+  ],
+  "catch_rate": 0.12,
+  "xp_yield": 180,
+  "sprite_frame": 3,
+  "portrait_src": "/assets/bosses/dread-knight/non-combat-animations.png"
+}

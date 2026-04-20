@@ -1,0 +1,16 @@
+{
+  "id": "jan_wawa_suli",
+  "name": { "en": "suli" },
+  "description": { "en": "The bear is big." },
+  "type": "wawa",
+  "base_stats": { "hp": 78, "attack": 66, "defense": 62, "speed": 26 },
+  "learnset": [
+    { "level": 1, "move_id": "utala" },
+    { "level": 1, "move_id": "kiwen_wawa" },
+    { "level": 12, "move_id": "utala_lili" }
+  ],
+  "catch_rate": 0.20,
+  "xp_yield": 120,
+  "sprite_frame": 0,
+  "portrait_src": "/assets/creatures/orc/champion.png"
+}

@@ -62,8 +62,8 @@ export default defineMap({
       },
     ],
     Encounters: [
-      { rect: [4, 10, 5, 3], species: { kala_lili: 30, kala_telo: 25, waso_telo: 20, soweli_telo: 15, kala_suli: 10 }, levelRange: [7, 10] },
-      { rect: [14, 10, 6, 3], species: { kala_lili: 25, kala_telo: 25, waso_telo: 20, soweli_telo: 15, kala_suli: 15 }, levelRange: [9, 13] },
+      { rect: [4, 10, 5, 3], species: { jan_moli: 30, kon_moli: 25, telo_jaki: 20, jan_moli_wawa: 15, seli_moli: 10 }, levelRange: [7, 10] },
+      { rect: [14, 10, 6, 3], species: { jan_moli: 25, kon_moli: 25, telo_jaki: 20, jan_moli_wawa: 15, seli_moli: 15 }, levelRange: [9, 13] },
     ],
   },
 });

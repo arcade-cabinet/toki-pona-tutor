@@ -2,7 +2,7 @@
  * beat_03_nena_sewi — mountain pass.
  *
  * Stone footpaths between rocks; the second-region hiking route.
- * Encounters skew high-altitude (waso_sewi, soweli_lete, pipi_kiwen)
+ * Encounters skew rocky-elite (jan_wawa, jan_wawa_linja, sijelo_kiwen)
  * in the level 6-9 band. jan Kala the hiker sits along the path; at
  * the upper shrine jan Wawa blocks the northern warp with a
  * two-creature gym fight.
@@ -51,8 +51,8 @@ export default defineMap({
       },
     ],
     Encounters: [
-      { rect: [4, 4, 4, 2], species: { waso_sewi: 45, soweli_lete: 30, pipi_kiwen: 25 }, levelRange: [6, 8] },
-      { rect: [14, 10, 6, 3], species: { waso_sewi: 35, soweli_lete: 35, pipi_kiwen: 30 }, levelRange: [7, 9] },
+      { rect: [4, 4, 4, 2], species: { jan_wawa: 45, jan_wawa_linja: 30, sijelo_kiwen: 25 }, levelRange: [6, 8] },
+      { rect: [14, 10, 6, 3], species: { jan_wawa: 35, jan_wawa_linja: 35, sijelo_kiwen: 30 }, levelRange: [7, 9] },
     ],
   },
 });

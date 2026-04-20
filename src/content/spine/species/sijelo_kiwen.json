@@ -1,0 +1,16 @@
+{
+  "id": "sijelo_kiwen",
+  "name": { "en": "kiwen" },
+  "description": { "en": "Flowers are yellow." },
+  "type": "lete",
+  "base_stats": { "hp": 44, "attack": 48, "defense": 58, "speed": 36 },
+  "learnset": [
+    { "level": 1, "move_id": "lete_lili" },
+    { "level": 1, "move_id": "utala_lili" },
+    { "level": 10, "move_id": "lete_suli" }
+  ],
+  "catch_rate": 0.38,
+  "xp_yield": 70,
+  "sprite_frame": 0,
+  "portrait_src": "/assets/creatures/skelly/skelly.png"
+}

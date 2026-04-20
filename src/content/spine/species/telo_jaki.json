@@ -1,0 +1,17 @@
+{
+  "id": "telo_jaki",
+  "name": { "en": "jaki" },
+  "description": { "en": "We live near the lake." },
+  "type": "telo",
+  "base_stats": { "hp": 52, "attack": 44, "defense": 46, "speed": 32 },
+  "learnset": [
+    { "level": 1, "move_id": "telo_lili" },
+    { "level": 1, "move_id": "utala_lili" },
+    { "level": 8, "move_id": "telo_suli" },
+    { "level": 15, "move_id": "telo_wawa" }
+  ],
+  "catch_rate": 0.45,
+  "xp_yield": 62,
+  "sprite_frame": 1,
+  "portrait_src": "/assets/bosses/slime/idle.png"
+}

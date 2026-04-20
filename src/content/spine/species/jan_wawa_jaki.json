@@ -1,0 +1,16 @@
+{
+  "id": "jan_wawa_jaki",
+  "name": { "en": "jaki" },
+  "description": { "en": "Fish swim." },
+  "type": "wawa",
+  "base_stats": { "hp": 48, "attack": 50, "defense": 38, "speed": 42 },
+  "learnset": [
+    { "level": 1, "move_id": "utala_lili" },
+    { "level": 1, "move_id": "utala" },
+    { "level": 11, "move_id": "kiwen_wawa" }
+  ],
+  "catch_rate": 0.38,
+  "xp_yield": 68,
+  "sprite_frame": 0,
+  "portrait_src": "/assets/creatures/orc/soldier-unarmoured.png"
+}

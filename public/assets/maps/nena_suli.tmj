@@ -494,7 +494,7 @@
             {
               "name": "species",
               "type": "string",
-              "value": "{\"waso_suli\":40,\"waso_sewi\":30,\"soweli_lete_suli\":30}"
+              "value": "{\"jan_wawa_suli\":40,\"jan_wawa_utala\":30,\"sijelo_utala\":30}"
             },
             {
               "name": "level_min",
@@ -522,7 +522,7 @@
             {
               "name": "species",
               "type": "string",
-              "value": "{\"waso_suli\":35,\"waso_sewi\":25,\"soweli_lete_suli\":40}"
+              "value": "{\"jan_wawa_suli\":35,\"jan_wawa_utala\":25,\"sijelo_utala\":40}"
             },
             {
               "name": "level_min",

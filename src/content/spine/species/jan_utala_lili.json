@@ -1,0 +1,16 @@
+{
+  "id": "jan_utala_lili",
+  "name": { "en": "utala" },
+  "description": { "en": "The bug is thirsty." },
+  "type": "kasi",
+  "base_stats": { "hp": 40, "attack": 44, "defense": 30, "speed": 50 },
+  "learnset": [
+    { "level": 1, "move_id": "utala_lili" },
+    { "level": 1, "move_id": "kasi_lili" },
+    { "level": 7, "move_id": "utala" }
+  ],
+  "catch_rate": 0.42,
+  "xp_yield": 58,
+  "sprite_frame": 0,
+  "portrait_src": "/assets/creatures/goblin/slinger.png"
+}

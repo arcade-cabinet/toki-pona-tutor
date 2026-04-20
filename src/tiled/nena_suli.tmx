@@ -58,14 +58,14 @@
  <objectgroup id="3" name="Encounters" visible="1" opacity="1">
   <object id="6" name="encounter_0" type="Encounter" x="48" y="240" width="64" height="48" visible="1" rotation="0">
    <properties>
-     <property name="species" value="{&quot;waso_suli&quot;:40,&quot;waso_sewi&quot;:30,&quot;soweli_lete_suli&quot;:30}"/>
+     <property name="species" value="{&quot;jan_wawa_suli&quot;:40,&quot;jan_wawa_utala&quot;:30,&quot;sijelo_utala&quot;:30}"/>
      <property name="level_min" type="int" value="10"/>
      <property name="level_max" type="int" value="13"/>
    </properties>
   </object>
   <object id="7" name="encounter_1" type="Encounter" x="160" y="192" width="64" height="48" visible="1" rotation="0">
    <properties>
-     <property name="species" value="{&quot;waso_suli&quot;:35,&quot;waso_sewi&quot;:25,&quot;soweli_lete_suli&quot;:40}"/>
+     <property name="species" value="{&quot;jan_wawa_suli&quot;:35,&quot;jan_wawa_utala&quot;:25,&quot;sijelo_utala&quot;:40}"/>
      <property name="level_min" type="int" value="12"/>
      <property name="level_max" type="int" value="15"/>
    </properties>

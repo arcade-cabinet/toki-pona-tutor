@@ -1,0 +1,16 @@
+{
+  "id": "jan_wawa",
+  "name": { "en": "wawa" },
+  "description": { "en": "That animal is strong." },
+  "type": "wawa",
+  "base_stats": { "hp": 62, "attack": 55, "defense": 48, "speed": 34 },
+  "learnset": [
+    { "level": 1, "move_id": "utala" },
+    { "level": 1, "move_id": "kiwen_wawa" },
+    { "level": 12, "move_id": "utala_lili" }
+  ],
+  "catch_rate": 0.28,
+  "xp_yield": 85,
+  "sprite_frame": 0,
+  "portrait_src": "/assets/creatures/orc/orc.png"
+}

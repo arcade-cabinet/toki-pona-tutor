@@ -1,0 +1,16 @@
+{
+  "id": "jan_pi_sewi_pimeja",
+  "name": { "en": "pimeja" },
+  "description": { "en": "The snow is white." },
+  "type": "lete",
+  "base_stats": { "hp": 55, "attack": 42, "defense": 48, "speed": 28 },
+  "learnset": [
+    { "level": 1, "move_id": "lete_lili" },
+    { "level": 1, "move_id": "utala_lili" },
+    { "level": 10, "move_id": "lete_suli" }
+  ],
+  "catch_rate": 0.35,
+  "xp_yield": 70,
+  "sprite_frame": 0,
+  "portrait_src": "/assets/creatures/mummy/mummy.png"
+}

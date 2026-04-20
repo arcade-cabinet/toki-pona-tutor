@@ -1,0 +1,16 @@
+{
+  "id": "sijelo_utala",
+  "name": { "en": "utala" },
+  "description": { "en": "The eagle is king of birds." },
+  "type": "lete",
+  "base_stats": { "hp": 56, "attack": 58, "defense": 54, "speed": 40 },
+  "learnset": [
+    { "level": 1, "move_id": "lete_lili" },
+    { "level": 1, "move_id": "utala" },
+    { "level": 12, "move_id": "lete_suli" }
+  ],
+  "catch_rate": 0.26,
+  "xp_yield": 95,
+  "sprite_frame": 0,
+  "portrait_src": "/assets/creatures/skelly/warrior.png"
+}
