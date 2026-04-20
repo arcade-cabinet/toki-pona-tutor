@@ -1,7 +1,7 @@
 {
   "compilerOptions": {
     "target": "ES2022",
-    "lib": ["ES2022"],
+    "lib": ["ES2022", "DOM", "DOM.Iterable"],
     "module": "ESNext",
     "moduleResolution": "bundler",
     "resolveJsonModule": true,
@@ -14,11 +14,12 @@
     "allowImportingTsExtensions": false,
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true,
-    "types": ["node"]
+    "types": ["node", "vite/client"]
   },
   "include": [
-    "scripts/map-authoring/**/*.ts",
-    "tests/build-time/**/*.ts",
-    "vitest.config.build-time.ts"
+    "tests/e2e/**/*.ts",
+    "src/game/harness.ts",
+    "vitest.config.e2e.ts",
+    "vite.config.ts"
   ]
 }

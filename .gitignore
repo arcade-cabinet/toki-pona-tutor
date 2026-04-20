@@ -142,6 +142,11 @@ vite.config.ts.timestamp-*
 *.png
 !public/**/*.png
 
+# Vitest browser harness screenshots — captured per-run; commit only when
+# a screenshot is intentionally being added as a regression baseline (then
+# force-add with `git add -f tests/e2e/__screenshots__/<name>.png`).
+tests/e2e/__screenshots__/
+
 # Tatoeba corpus cache (regenerate via scripts/fetch-tatoeba-corpus.mjs)
 .tatoeba-cache/
 
