@@ -11,7 +11,14 @@ import { recordMasteredWord } from '../../platform/persistence/queries';
  */
 export async function playDialog(player: RpgPlayer, dialogId: string): Promise<boolean> {
     const node = getDialogById(dialogId);
-    if (!node) return false;
+    if (!node) {
+        // Surface authoring misses to the player instead of silent-no-op.
+        // The id shows up verbatim so the author can grep content/spine/
+        // and add the missing node. Ships with a kid-friendly framing —
+        // never a stack trace or "undefined".
+        await player.showText(`(${dialogId})`);
+        return false;
+    }
     for (const beat of node.beats) {
         const line = beat.text.tp ?? beat.text.en;
         await player.showText(line);

@@ -74,7 +74,6 @@ export default defineModule<RpgServer>({
                         badgeFlag: 'badge_sewi',
                         rewardWord: 'sewi',
                         nextBeatId: 'beat_04_ma_telo',
-                        xpYield: 120,
                         // Orange axe-warrior — raw physical strength, wawa type.
                         graphic: 'combatant_warrior_axe',
                         hp: 60,  // phase 1: waso_sewi L8 — lighter
@@ -127,7 +126,6 @@ export default defineModule<RpgServer>({
                     event: GymLeader({
                         npcId: 'jan_telo',
                         badgeFlag: 'badge_telo',
-                        xpYield: 150,
                         rewardWord: 'telo',
                         nextBeatId: 'beat_05_ma_lete',
                         // Red-robed elemental mage — water/lake aesthetic.
@@ -182,7 +180,6 @@ export default defineModule<RpgServer>({
                     event: GymLeader({
                         npcId: 'jan_lete',
                         badgeFlag: 'badge_lete',
-                        xpYield: 180,
                         rewardWord: 'lete',
                         nextBeatId: 'beat_06_nena_suli',
                         // Hooded brown mage — cold, withdrawn ice master.
@@ -237,7 +234,6 @@ export default defineModule<RpgServer>({
                     event: GymLeader({
                         npcId: 'jan_suli',
                         badgeFlag: 'badge_suli',
-                        xpYield: 220,
                         rewardWord: 'suli',
                         nextBeatId: 'beat_07_nasin_pi_telo',
                         // Paladin — champion-tier, hardest gym before endgame.

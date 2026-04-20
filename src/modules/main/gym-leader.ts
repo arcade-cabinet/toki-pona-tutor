@@ -42,9 +42,11 @@ export interface GymLeaderOptions {
     pdef: number;
     /** Base dialog id — `<base>_intro` pre-fight, `<base>_victory` post. */
     dialogBase: string;
-    /** XP awarded to the lead party creature on defeat. Typical gym
-     *  range is 120–220 depending on region difficulty. */
-    xpYield: number;
+    /** XP awarded to the lead party creature on defeat. Optional —
+     *  defaults to REGION_XP_CURVE[opts.badgeFlag] so callers don't
+     *  duplicate the per-region XP schedule. Override only for
+     *  non-gym leaders (e.g. the endgame rival). */
+    xpYield?: number;
     /** AI archetype for phase 1; defaults to Aggressive. */
     enemyType?: EnemyType;
     /** Graphic id (from config.client.ts spritesheets). */
@@ -69,6 +71,23 @@ export interface GymLeaderOptions {
 }
 
 const PHASE_POLL_MS = 250;
+
+/**
+ * XP yield per region. Canonical source of truth for gym xpYield so
+ * server.ts doesn't have to hardcode magic numbers per leader. Keyed
+ * by badge flag; lookup by `opts.badgeFlag` matches the existing
+ * factory call shape.
+ *
+ * Curve is roughly +30 XP per region, matching the n^3 XP curve's
+ * accelerating threshold (players level up slower as they progress,
+ * so gym yield scales up to keep level gains per-gym consistent).
+ */
+export const REGION_XP_CURVE: Record<string, number> = {
+    badge_sewi: 120, // jan Wawa — region 3
+    badge_telo: 150, // jan Telo — region 4
+    badge_lete: 180, // jan Lete — region 5
+    badge_suli: 220, // jan Suli — region 6
+};
 
 export function GymLeader(opts: GymLeaderOptions): EventDefinition {
     const graphic = opts.graphic ?? 'female';
@@ -96,14 +115,15 @@ export function GymLeader(opts: GymLeaderOptions): EventDefinition {
                         // still advance the beat; XP just has nowhere to go.
                         const party = await getParty();
                         const lead = party[0];
+                        const xpYield = opts.xpYield ?? REGION_XP_CURVE[opts.badgeFlag] ?? 100;
                         if (lead && attacker) {
-                            const { xp, levelUps } = gainXp(lead.xp, opts.xpYield);
+                            const { xp, levelUps } = gainXp(lead.xp, xpYield);
                             const newLevel = levelUps.length
                                 ? levelUps[levelUps.length - 1].to
                                 : lead.level;
                             await awardXpToLead(xp, newLevel);
 
-                            await (attacker as RpgPlayer).showText(`+${opts.xpYield} xp`);
+                            await (attacker as RpgPlayer).showText(`+${xpYield} xp`);
                             for (const lvl of levelUps) {
                                 await (attacker as RpgPlayer).showText(
                                     `${lead.species_id} L${lvl.from} → L${lvl.to}`,
