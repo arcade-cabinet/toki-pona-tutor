@@ -31,5 +31,5 @@ export type {
   ValidationIssue,
   ValidationReport,
 } from './types';
-export { defineMap, paint } from './spec-helpers';
+export { defineMap, paint, paintRect } from './spec-helpers';
 export { loadTilesetsForSpec } from './loader';

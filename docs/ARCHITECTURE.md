@@ -45,7 +45,7 @@ Used for: current map id, party slot pointer, settings flags, journey beat point
 
 ### Structured / multi-row (`@capacitor-community/sqlite`)
 
-Used for: full save snapshots (complete world state), mastered-words log (per-word timestamps), party rosters with full stats, encounter history, journal entries. Web fallback via `jeep-sqlite` / `sql.js`. Pattern at `src/platform/persistence/database.ts` — follows the mean-streets `prepareWebStore()` / `initWebStore` / `saveToStore` pattern exactly. `sql.js` is pinned through package-manager overrides so the web shim stays aligned with the tested Capacitor SQLite/jeep-sqlite stack.
+Used for: full save snapshots (complete world state), mastered-words log (per-word timestamps), party rosters with full stats, encounter history, journal entries. Web fallback via `jeep-sqlite` / `sql.js`. Pattern at `src/platform/persistence/database.ts` — follows the mean-streets `prepareWebStore()` / `initWebStore` / `saveToStore` pattern exactly. `sql.js` is pinned to `1.11.0` in dependencies and package-manager overrides so the web shim stays aligned with the tested Capacitor SQLite/jeep-sqlite stack and Vite copies the matching `sql-wasm.*` runtime files.
 
 RPG.js v5's save hook is wired to write through the sqlite adapter; on the client side the preferences wrapper is used for ephemeral small state.
 
@@ -120,7 +120,7 @@ src/content/
     ambient.json              — day/night tint and weather probability tables
     combat.json               — creature type list, matchup matrix, status effects, wild-combat formulas, tag overrides, encounter timing
     effects.json              — effect spritesheet frame grids and animation strips
-    language.json             — wan sitelen prompt pool and result copy
+    language.json             — TP sentence micro-game (`wan sitelen`) prompt pool and result copy
     visuals.json              — combat chrome, HP tiers/colors, tap selectors, sprite layouts, spritesheet manifests
     audio.json                — BGM/SFX event asset paths, base volumes, BGM selection, runtime audio timing, gameplay SFX cue mapping
     ui.json                   — HUD/combat/tap IDs/copy/retry tuning, lead move bar tuning/copy/templates, title/starter/pause/settings/inventory/save/vocab/party-panel/bestiary/quest/dialog/overlay/shop/wild-encounter/dictionary-export copy/templates/data, dialog IDs, notification durations, save-position snap timing, credits pages

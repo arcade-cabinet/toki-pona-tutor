@@ -9,18 +9,11 @@
  *
  * 32×14 — slightly taller than nasin_wan to suggest vertical travel.
  */
-import { defineMap } from '../lib/spec-helpers';
+import { defineMap, paintRect } from '../lib/spec-helpers';
 import { mountainPalette } from '../palettes/mountain';
 
 const WIDTH = 32;
 const HEIGHT = 14;
-
-function paintRect(grid: string[][], rect: [number, number, number, number], tile: string): void {
-  const [x, y, w, h] = rect;
-  for (let yy = y; yy < y + h; yy++) {
-    for (let xx = x; xx < x + w; xx++) grid[yy][xx] = tile;
-  }
-}
 
 function fillHighland(grid: string[][], rect: [number, number, number, number]): void {
   const [x0, y0, w, h] = rect;

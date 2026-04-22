@@ -8,6 +8,24 @@ export type TilePoint = {
     y: number;
 };
 
+export type TileInfoLike = {
+    hasCollision?: boolean;
+};
+
+export type TiledMapLike = {
+    width: number;
+    height: number;
+    tilewidth: number;
+    tileheight: number;
+    getTileByPosition(
+        x: number,
+        y: number,
+        z?: [number, number],
+        options?: { populateTiles?: boolean },
+    ): TileInfoLike;
+    getAllObjects?(): TiledObjectLike[];
+};
+
 export type TiledObjectProperties = Record<string, unknown> | TiledPropertyEntry[];
 
 export type TiledObjectLike = {
@@ -73,20 +91,49 @@ export function manhattanDistance(a: TilePoint, b: TilePoint): number {
     return Math.abs(a.x - b.x) + Math.abs(a.y - b.y);
 }
 
+export function tilePointFromWorld(
+    x: number,
+    y: number,
+    tileWidth: number,
+    tileHeight: number,
+): TilePoint {
+    return {
+        x: Math.floor(x / tileWidth),
+        y: Math.floor(y / tileHeight),
+    };
+}
+
+export function clampTileToBounds(
+    tile: TilePoint,
+    bounds: { width: number; height: number },
+): TilePoint {
+    return {
+        x: Math.max(0, Math.min(bounds.width - 1, tile.x)),
+        y: Math.max(0, Math.min(bounds.height - 1, tile.y)),
+    };
+}
+
+export function getAdjacentTiles(tile: TilePoint): TilePoint[] {
+    return [
+        { x: tile.x, y: tile.y - 1 },
+        { x: tile.x + 1, y: tile.y },
+        { x: tile.x, y: tile.y + 1 },
+        { x: tile.x - 1, y: tile.y },
+    ];
+}
+
+export function tileKey(tile: TilePoint): string {
+    return `${tile.x},${tile.y}`;
+}
+
 function toTilePoint(
     map: { tilewidth: number; tileheight: number },
     x: number,
     y: number,
 ): TilePoint {
-    return {
-        x: Math.floor(x / map.tilewidth),
-        y: Math.floor(y / map.tileheight),
-    };
+    return tilePointFromWorld(x, y, map.tilewidth, map.tileheight);
 }
 
 function clampTile(map: { width: number; height: number }, tile: TilePoint): TilePoint {
-    return {
-        x: Math.max(0, Math.min(map.width - 1, tile.x)),
-        y: Math.max(0, Math.min(map.height - 1, tile.y)),
-    };
+    return clampTileToBounds(tile, map);
 }

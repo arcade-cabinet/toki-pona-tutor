@@ -10,7 +10,7 @@
  * here are the level-3-7 band from that narrative (jan_ike_lili,
  * jan_utala_lili, jan_moli).
  */
-import { defineMap } from '../lib/spec-helpers';
+import { defineMap, paintRect } from '../lib/spec-helpers';
 import { forestPalette } from '../palettes/forest';
 
 const WIDTH = 32;
@@ -29,15 +29,6 @@ function forestBase(): string[][] {
   paintRect(grid, [14, 6, 5, 2], 'G');
   paintRect(grid, [22, 3, 4, 2], 'G');
   return grid;
-}
-
-function paintRect(grid: string[][], rect: [number, number, number, number], tile: string): void {
-  const [x, y, w, h] = rect;
-  for (let yy = y; yy < y + h; yy++) {
-    for (let xx = x; xx < x + w; xx++) {
-      grid[yy][xx] = tile;
-    }
-  }
 }
 
 export default defineMap({

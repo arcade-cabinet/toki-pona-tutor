@@ -14,11 +14,16 @@ describe("Maestro mobile QA contract", () => {
         const pkg = JSON.parse(text("package.json")) as {
             scripts: Record<string, string>;
         };
+        const androidBuildScript = text("scripts/android-build-debug.mjs");
+        const maestroCheckScript = text("scripts/maestro-check.mjs");
 
-        expect(pkg.scripts["maestro:check"]).toContain("maestro check-syntax");
+        expect(pkg.scripts["maestro:check"]).toContain("node scripts/maestro-check.mjs");
+        expect(maestroCheckScript).toContain("check-syntax");
         expect(pkg.scripts["maestro:android"]).toContain(".maestro/android/debug-apk-smoke.yaml");
         expect(pkg.scripts["maestro:ios"]).toContain(".maestro/ios/pages-safari-smoke.yaml");
-        expect(pkg.scripts["android:build-debug"]).toContain("./gradlew assembleDebug");
+        expect(pkg.scripts["android:build-debug"]).toContain("node scripts/android-build-debug.mjs");
+        expect(androidBuildScript).toContain("CAPACITOR");
+        expect(androidBuildScript).toContain("assembleDebug");
     });
 
     it("keeps Android debug APK flow pointed at the Capacitor package", () => {

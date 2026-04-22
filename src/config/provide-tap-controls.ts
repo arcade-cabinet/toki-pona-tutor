@@ -1,8 +1,16 @@
 import type { RpgClient, RpgClientEngine } from "@rpgjs/client";
 import { createModule, defineModule } from "@rpgjs/common";
 import { getCurrentInteractionHint, triggerInteractionHint } from "./interaction-hint";
-import { readTiledObjectType, type TiledObjectLike } from "./tiled-object";
-import { tilesEqual, type TilePoint } from "./tiled-object";
+import {
+    clampTileToBounds,
+    getAdjacentTiles,
+    readTiledObjectType,
+    tileKey,
+    tilePointFromWorld,
+    tilesEqual,
+    type TiledMapLike,
+    type TilePoint,
+} from "./tiled-object";
 import {
     TAP_ROUTE_EVENT,
     TAP_ROUTE_SNAP_EVENT,
@@ -20,24 +28,6 @@ import {
 type ViewportLike = {
     toWorld(x: number, y: number): { x: number; y: number };
     toScreen(x: number, y: number): { x: number; y: number };
-};
-
-type TileInfoLike = {
-    hasCollision?: boolean;
-};
-
-type TiledMapLike = {
-    width: number;
-    height: number;
-    tilewidth: number;
-    tileheight: number;
-    getTileByPosition(
-        x: number,
-        y: number,
-        z?: [number, number],
-        options?: { populateTiles?: boolean },
-    ): TileInfoLike;
-    getAllObjects?(): TiledObjectLike[];
 };
 
 type ClientPlayerLike = {
@@ -627,18 +617,11 @@ function isAlignedToMovementGrid(value: number): boolean {
 }
 
 function toTilePoint(map: TiledMapLike, x: number, y: number): TilePoint {
-    return {
-        x: Math.floor(x / MOVEMENT_TILE_SIZE),
-        y: Math.floor(y / MOVEMENT_TILE_SIZE),
-    };
+    return tilePointFromWorld(x, y, MOVEMENT_TILE_SIZE, MOVEMENT_TILE_SIZE);
 }
 
 function clampTile(map: TiledMapLike, tile: TilePoint): TilePoint {
-    const { width, height } = getMovementGridSize(map);
-    return {
-        x: Math.max(0, Math.min(width - 1, tile.x)),
-        y: Math.max(0, Math.min(height - 1, tile.y)),
-    };
+    return clampTileToBounds(tile, getMovementGridSize(map));
 }
 
 function getMovementGridSize(map: TiledMapLike): { width: number; height: number } {
@@ -646,19 +629,6 @@ function getMovementGridSize(map: TiledMapLike): { width: number; height: number
         width: Math.max(1, Math.floor((map.width * map.tilewidth) / MOVEMENT_TILE_SIZE)),
         height: Math.max(1, Math.floor((map.height * map.tileheight) / MOVEMENT_TILE_SIZE)),
     };
-}
-
-function getAdjacentTiles(tile: TilePoint): TilePoint[] {
-    return [
-        { x: tile.x, y: tile.y - 1 },
-        { x: tile.x + 1, y: tile.y },
-        { x: tile.x, y: tile.y + 1 },
-        { x: tile.x - 1, y: tile.y },
-    ];
-}
-
-function tileKey(tile: TilePoint): string {
-    return `${tile.x},${tile.y}`;
 }
 
 function applyTapRouteSnap(engine: RpgClientEngine, payload: TapRouteSnap): void {

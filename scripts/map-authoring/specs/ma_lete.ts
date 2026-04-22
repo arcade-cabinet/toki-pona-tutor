@@ -9,18 +9,11 @@
  * 22×16 — bigger than ma_telo because this is a mixed beat:
  * encounters + story + gym.
  */
-import { defineMap } from '../lib/spec-helpers';
+import { defineMap, paintRect } from '../lib/spec-helpers';
 import { icePalette } from '../palettes/ice';
 
 const WIDTH = 22;
 const HEIGHT = 16;
-
-function paintRect(grid: string[][], rect: [number, number, number, number], tile: string): void {
-  const [x, y, w, h] = rect;
-  for (let yy = y; yy < y + h; yy++) {
-    for (let xx = x; xx < x + w; xx++) grid[yy][xx] = tile;
-  }
-}
 
 function coldVillageBase(): string[][] {
   const grid = Array.from({ length: HEIGHT }, () => Array(WIDTH).fill('s'));

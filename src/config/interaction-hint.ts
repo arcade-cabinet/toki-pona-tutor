@@ -2,31 +2,15 @@ import type { RpgClientEngine } from "@rpgjs/client";
 import { Direction } from "@rpgjs/common";
 import { INTERACTION_HINT_CONFIG } from "../content/gameplay";
 import {
+    clampTileToBounds,
     getTiledObjectTiles,
     isEncounterObject,
     manhattanDistance,
+    tilePointFromWorld,
     tilesEqual,
-    type TiledObjectLike,
+    type TiledMapLike,
     type TilePoint,
 } from "./tiled-object";
-
-type TileInfoLike = {
-    hasCollision?: boolean;
-};
-
-type TiledMapLike = {
-    width: number;
-    height: number;
-    tilewidth: number;
-    tileheight: number;
-    getTileByPosition(
-        x: number,
-        y: number,
-        z?: [number, number],
-        options?: { populateTiles?: boolean },
-    ): TileInfoLike;
-    getAllObjects?(): TiledObjectLike[];
-};
 
 type ClientPlayerLike = {
     x(): number;
@@ -47,6 +31,7 @@ export type InteractionHint = {
 };
 
 const BATTLE_EVENT_IDS = new Set(INTERACTION_HINT_CONFIG.battleEventIds);
+const emittedDevWarnings = new Set<string>();
 
 export function getCurrentInteractionHint(engine: RpgClientEngine): InteractionHint | null {
     return getInteractionHintForPlayer(engine, getCurrentPlayer(engine));
@@ -135,21 +120,6 @@ function getEncounterHint(map: TiledMapLike, currentTile: TilePoint): Interactio
     return null;
 }
 
-function getEventAtTile(
-    engine: RpgClientEngine,
-    map: TiledMapLike,
-    tile: TilePoint,
-): { id: string; tile: TilePoint } | null {
-    const events = getSceneEvents(engine);
-    for (const [id, event] of Object.entries(events)) {
-        const eventTile = clampTile(map, toTilePoint(map, event.x(), event.y()));
-        if (tilesEqual(eventTile, tile)) {
-            return { id, tile: eventTile };
-        }
-    }
-    return null;
-}
-
 function getInteractableEvents(
     engine: RpgClientEngine,
     map: TiledMapLike,
@@ -175,21 +145,39 @@ function getInteractableEvents(
 }
 
 function getSceneEvents(engine: RpgClientEngine): Record<string, ClientEventLike> {
-    const sceneMapEvents = (
-        engine as unknown as { sceneMap?: { events?: () => Record<string, ClientEventLike> } }
-    ).sceneMap?.events;
-    if (sceneMapEvents) {
-        return sceneMapEvents() ?? {};
+    const engineRecord = asRecord(engine);
+    const sceneMap = asRecord(engineRecord?.sceneMap);
+    const sceneMapEvents = sceneMap?.events;
+    if (typeof sceneMapEvents === "function") {
+        return toClientEventRecord(sceneMapEvents.call(sceneMap));
     }
-    const sceneEvents = (
-        engine.scene as unknown as { events?: () => Record<string, ClientEventLike> }
-    ).events;
-    return sceneEvents?.() ?? {};
+
+    const scene = asRecord(engine.scene);
+    const sceneEvents = scene?.events;
+    if (typeof sceneEvents === "function") {
+        return toClientEventRecord(sceneEvents.call(scene));
+    }
+
+    warnDev("RPG.js scene does not expose sceneMap.events() or scene.events()");
+    return {};
 }
 
 function getTiledMap(engine: RpgClientEngine): TiledMapLike | null {
-    const mapData = (engine.scene.data?.() ?? null) as { tiled?: TiledMapLike } | null;
-    return mapData?.tiled ?? null;
+    const scene = asRecord(engine.scene);
+    const data = scene?.data;
+    if (typeof data !== "function") {
+        warnDev("RPG.js scene does not expose scene.data()");
+        return null;
+    }
+
+    const mapData = asRecord(data.call(scene));
+    const tiled = mapData?.tiled;
+    if (!isTiledMapLike(tiled)) {
+        warnDev("RPG.js scene.data() did not include a usable tiled map");
+        return null;
+    }
+
+    return tiled;
 }
 
 function getCurrentPlayer(engine: RpgClientEngine): ClientPlayerLike | null {
@@ -226,17 +214,11 @@ function directionToEvent(
 }
 
 function toTilePoint(map: TiledMapLike, x: number, y: number): TilePoint {
-    return {
-        x: Math.floor(x / map.tilewidth),
-        y: Math.floor(y / map.tileheight),
-    };
+    return tilePointFromWorld(x, y, map.tilewidth, map.tileheight);
 }
 
 function clampTile(map: TiledMapLike, tile: TilePoint): TilePoint {
-    return {
-        x: Math.max(0, Math.min(map.width - 1, tile.x)),
-        y: Math.max(0, Math.min(map.height - 1, tile.y)),
-    };
+    return clampTileToBounds(tile, map);
 }
 
 function directionBetween(from: TilePoint, to: TilePoint): Direction | null {
@@ -245,4 +227,45 @@ function directionBetween(from: TilePoint, to: TilePoint): Direction | null {
     if (to.x === from.x && to.y === from.y + 1) return Direction.Down;
     if (to.x === from.x && to.y === from.y - 1) return Direction.Up;
     return null;
+}
+
+function asRecord(value: unknown): Record<string, unknown> | null {
+    return value !== null && typeof value === "object" ? (value as Record<string, unknown>) : null;
+}
+
+function isClientEventLike(value: unknown): value is ClientEventLike {
+    const event = asRecord(value);
+    return typeof event?.x === "function" && typeof event.y === "function";
+}
+
+function toClientEventRecord(value: unknown): Record<string, ClientEventLike> {
+    const record = asRecord(value);
+    if (!record) return {};
+
+    const events: Record<string, ClientEventLike> = {};
+    for (const [id, event] of Object.entries(record)) {
+        if (isClientEventLike(event)) {
+            events[id] = event;
+        }
+    }
+    return events;
+}
+
+function isTiledMapLike(value: unknown): value is TiledMapLike {
+    const map = asRecord(value);
+    return (
+        typeof map?.width === "number" &&
+        typeof map.height === "number" &&
+        typeof map.tilewidth === "number" &&
+        typeof map.tileheight === "number" &&
+        typeof map.getTileByPosition === "function"
+    );
+}
+
+function warnDev(message: string): void {
+    const env = import.meta.env as Record<string, unknown> | undefined;
+    if (env?.DEV === true && env.TEST !== true && !emittedDevWarnings.has(message)) {
+        emittedDevWarnings.add(message);
+        console.debug(`[interaction-hint] ${message}`);
+    }
 }

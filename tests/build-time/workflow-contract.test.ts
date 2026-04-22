@@ -49,6 +49,24 @@ describe("GitHub Actions run/release/deploy contract", () => {
         expect(`${ci}\n${JSON.stringify(packageJson.scripts)}`).not.toContain("--headless");
     });
 
+    it("keeps package verification scripts shell-portable", () => {
+        const portableScripts = [
+            "typecheck:src",
+            "typecheck:build-time",
+            "workflow:check",
+            "android:build-debug",
+            "maestro:check",
+        ];
+
+        for (const scriptName of portableScripts) {
+            const script = packageJson.scripts[scriptName];
+            expect(script, scriptName).toMatch(/^node scripts\/.+\.mjs/);
+            expect(script, scriptName).not.toMatch(
+                /\b(grep|tee|find|test)\b|CAPACITOR=|\$\(|\|\s*|&&|\.\//,
+            );
+        }
+    });
+
     it("keeps sql.js wasm available to both Vite dev and production builds", () => {
         const viteConfig = readFileSync(resolve(root, "vite.config.ts"), "utf8");
 

@@ -8,18 +8,11 @@
  * Encounters are heavy birds and the bear at higher levels than
  * any earlier route. jan Suli's fight is the "you are ready" moment.
  */
-import { defineMap } from '../lib/spec-helpers';
+import { defineMap, paintRect } from '../lib/spec-helpers';
 import { cavePalette } from '../palettes/cave';
 
 const WIDTH = 16;
 const HEIGHT = 20;
-
-function paintRect(grid: string[][], rect: [number, number, number, number], tile: string): void {
-  const [x, y, w, h] = rect;
-  for (let yy = y; yy < y + h; yy++) {
-    for (let xx = x; xx < x + w; xx++) grid[yy][xx] = tile;
-  }
-}
 
 function caveBase(): string[][] {
   const grid = Array.from({ length: HEIGHT }, () => Array(WIDTH).fill('w'));

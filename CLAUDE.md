@@ -20,7 +20,7 @@ Before touching code, read these in order:
 4. `docs/DESIGN.md` — product vision (what the game IS and IS NOT).
 5. `docs/BRAND.md` — palette, typography, chrome patterns. Every UI surface draws from these tokens.
 6. `docs/UX.md` — HUD architecture, tap-to-walk input model, `.ce` component registration, data-testid naming.
-7. `docs/TESTING.md` — five-layer testing strategy + E2E-first policy.
+7. `docs/TESTING.md` — five-layer testing strategy + integration first for player-visible behavior, then E2E, then unit coverage for pure logic.
 
 Then: `git status && git log --oneline -10 && gh pr list`.
 
@@ -33,7 +33,7 @@ Then: `git status && git log --oneline -10 && gh pr list`.
 -   **Every monster is catchable.** Tiering is about rarity + catch difficulty + animation depth — not whether the poki works. Animated sprites live in `public/assets/bosses/` (tier-2: rare spawns + set-piece fights, harder catch); static sprites in `public/assets/creatures/` (tier-1: common random encounters). Green dragon (`akesi_sewi`) is the endgame set-piece and a legendary final-route catch; its dedicated defeat animation plays on the green-dragon clear.
 -   **No hand-authored toki pona.** Every user-facing TP string round-trips through the Tatoeba corpus. See `docs/WRITING_RULES.md`. If `pnpm validate-tp` rejects a line, rewrite the EN, not the TP.
 -   **Always use pull requests.** Work on branches; don't push to `main`. Never merge with `--admin` / bypass checks. Branch names are ephemeral; check `git branch --show-current` rather than assuming.
--   **Integration + E2E > unit.** Integration + E2E tests (real engine, real browser) are what prove the game works. Unit tests are reserved for pure-logic/math/formulas. See `docs/TESTING.md`.
+-   **Integration → E2E → unit.** Player-visible behavior is proven with integration tests first, headed-browser E2E second, and unit coverage only for pure logic/math/formulas. See `docs/TESTING.md`.
 -   **Mobile-first, no fixed layout.** Tap-to-walk is primary input; keyboard is a desktop shortcut. No persistent A/B/d-pad cluster. Full HUD spec in `docs/UX.md`.
 -   **GitHub Actions pinned to exact SHAs** (latest stable). Never use `@vN` tags.
 -   **No CDN at runtime.** Fonts, wasm, assets — all self-hosted under `public/assets/`.

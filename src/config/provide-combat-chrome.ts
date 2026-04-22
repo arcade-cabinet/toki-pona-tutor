@@ -1,5 +1,6 @@
 import type { RpgClient } from "@rpgjs/client";
 import { createModule, defineModule } from "@rpgjs/common";
+import type { ComponentFunction } from "canvasengine";
 import {
     combatChromeDependenciesForObject,
     combatChromePropsForObject,
@@ -12,12 +13,15 @@ import CombatTargetReticleComponent from "./poki-combat-target-reticle.ce";
 import { COMBAT_UI_CONFIG } from "../content/gameplay";
 
 type CombatChromeComponentConfig = {
-    component:
-        | typeof CombatFeedbackComponent
-        | typeof CombatHpBarComponent
-        | typeof CombatTargetReticleComponent;
+    component: ComponentFunction;
     props: (object: CombatSpriteObject) => ReturnType<typeof combatChromePropsForObject>;
     dependencies: (object: CombatSpriteObject) => unknown[];
+};
+
+type RpgClientWithSpriteComponentRegistrations = Omit<RpgClient, "sprite"> & {
+    sprite: {
+        componentsInFront: CombatChromeComponentConfig[];
+    };
 };
 
 const combatFeedbackConfig: CombatChromeComponentConfig = {
@@ -38,7 +42,7 @@ const combatTargetReticleConfig: CombatChromeComponentConfig = {
     dependencies: combatChromeDependenciesForObject,
 };
 
-const combatChromeClientModule = defineModule<RpgClient>({
+const combatChromeClientModule = defineModule<RpgClientWithSpriteComponentRegistrations>({
     componentAnimations: [
         {
             id: COMBAT_UI_CONFIG.combatFaintAnimationId,
@@ -47,9 +51,9 @@ const combatChromeClientModule = defineModule<RpgClient>({
     ],
     sprite: {
         componentsInFront: [
-            combatTargetReticleConfig as unknown as typeof CombatHpBarComponent,
-            combatFeedbackConfig as unknown as typeof CombatHpBarComponent,
-            combatHpBarConfig as unknown as typeof CombatHpBarComponent,
+            combatTargetReticleConfig,
+            combatFeedbackConfig,
+            combatHpBarConfig,
         ],
     },
 });

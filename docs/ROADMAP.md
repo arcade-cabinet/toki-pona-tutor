@@ -55,7 +55,7 @@ Everything beyond this is `v0.3.0` material.
 | 9   | Engine, Perf, Infrastructure | Asset compression, bench suite, error tracking, visual regression                           | 3    | 0       | 7    |
 | 10  | Platform Expansion           | iOS, Play Store listing, desktop shells, WebXR                                              | 0    | 0       | 5    |
 
-"Done" counts the items marked ✅. "Partial" counts 🟡. "Open" counts ⬜. Totals below assume every sub-task in every phase, including the two parallel tracks in Phase 6 (E2E-first test extension + release plumbing). RPG.js-v5-specific compatibility items are tracked separately below and are not included in the phase inventory.
+"Done" counts the items marked ✅. "Partial" counts 🟡. "Open" counts ⬜. Totals below assume every sub-task in every phase, including the two parallel tracks in Phase 6 (integration-first/headed-E2E test extension + release plumbing). RPG.js-v5-specific compatibility items are tracked separately below and are not included in the phase inventory.
 
 ---
 
@@ -183,7 +183,7 @@ Playable today. The original vertical slice now has starter selection, first rou
 
 **Goal:** CI matrix green, debug APK + web exports under budget, integration suite carries the real weight, and the next v0.2 release-please tag is published.
 
-### Testing (parallel with runtime work — E2E-first policy per TESTING.md)
+### Testing (parallel with runtime work — integration first, headed E2E second per TESTING.md)
 
 | ID    | Title                                                  | Status | Notes                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                               |
 | ----- | ------------------------------------------------------ | ------ | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |

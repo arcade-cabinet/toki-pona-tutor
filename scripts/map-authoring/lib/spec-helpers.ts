@@ -50,3 +50,16 @@ export function paint(strings: TemplateStringsArray, ...values: unknown[]): {
     },
   };
 }
+
+export function paintRect(
+  grid: string[][],
+  rect: [number, number, number, number],
+  tile: string,
+): void {
+  const [x, y, w, h] = rect;
+  for (let yy = y; yy < y + h; yy++) {
+    for (let xx = x; xx < x + w; xx++) {
+      grid[yy][xx] = tile;
+    }
+  }
+}

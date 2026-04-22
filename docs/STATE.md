@@ -87,7 +87,7 @@ This is the current verified baseline, not a wishlist:
 -   **No hand-authored toki pona.** Every user-facing TP string round-trips through the Tatoeba corpus. `pnpm validate-tp` is the gate. If it rejects, rewrite the EN.
 -   **No direct `localStorage` / `IndexedDB`** in feature code — `src/platform/persistence/preferences.ts` (KV) or `src/platform/persistence/database.ts` (structured) only.
 -   **Docs > tests > code.** Docs describe the game; tests describe the code; code satisfies both. Tests never chase code.
--   **Integration + E2E > unit.** Integration tests with the real engine and E2E tests with headed Chromium carry the weight. Pure-logic unit tests are for algorithms, nothing else. See `docs/TESTING.md`.
+-   **Integration → headed E2E → unit.** Player-visible behavior starts with integration tests against the real engine, then headed Chromium E2E, then unit tests only for pure logic/math. See `docs/TESTING.md`.
 -   **Always use pull requests.** Never push to `main` directly.
 
 ## Current emphasis
