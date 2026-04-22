@@ -1,6 +1,6 @@
 import { expect, type Page, type TestInfo } from "@playwright/test";
 import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
-import { dirname } from "node:path";
+import { basename, dirname } from "node:path";
 import { PNG } from "pngjs";
 
 type MapConfig = {
@@ -30,13 +30,23 @@ type TmjTileset = {
     source: string;
 };
 
+type TmjObject = {
+    name?: string;
+    type?: string;
+    x?: number;
+    y?: number;
+    width?: number;
+    height?: number;
+    properties?: TmjProperty[];
+};
+
 type TmjLayer = {
     name: string;
     type: string;
     width?: number;
     height?: number;
     data?: number[];
-    objects?: Array<{ name?: string; type?: string; x?: number; y?: number }>;
+    objects?: TmjObject[];
 };
 
 type TmjMap = {
@@ -143,10 +153,30 @@ type StaticMapDiagnostics = {
         objectCountsByType: Record<string, number>;
         tileContext: Array<{
             layer: string;
-            centerGid: number | null;
-            matrix3x3: Array<Array<number | null>>;
+            center: StaticTileCell;
+            matrix3x3: StaticTileCell[][];
         }>;
+        nearbyObjects: StaticObjectContext[];
     } | null;
+};
+
+type StaticTileCell = {
+    x: number;
+    y: number;
+    gid: number | null;
+    tilesetSource: string | null;
+    tilesetFamily: string | null;
+    localId: number | null;
+    label: string;
+};
+
+type StaticObjectContext = {
+    layer: string;
+    name: string;
+    type: string;
+    tile: { x: number; y: number };
+    rectTiles: { width: number; height: number };
+    distanceTiles: number;
 };
 
 export type GoldenPathCheckpointOptions = {
@@ -232,6 +262,7 @@ const ALLOWED_TILESET_FAMILIES = new Set([
     "desert",
     "fortress",
     "indoor",
+    "generated",
 ]);
 
 const INVENTORY_ITEMS = ["ma", "poki_lili", "poki_wawa", "kili", "telo_pona"];
@@ -741,6 +772,7 @@ function collectStaticMapDiagnostics(
             })),
             objectCountsByType,
             tileContext: renderTile ? tileContext(tmj, renderTile) : [],
+            nearbyObjects: renderTile ? nearbyObjects(tmj, renderTile) : [],
         },
     };
 }
@@ -765,30 +797,107 @@ function tileContext(
         (layer) => layer.type === "tilelayer" && Array.isArray(layer.data),
     );
     return layers.map((layer) => {
-        const matrix3x3: Array<Array<number | null>> = [];
+        const matrix3x3: StaticTileCell[][] = [];
         for (let y = renderTile.y - 1; y <= renderTile.y + 1; y += 1) {
-            const row: Array<number | null> = [];
+            const row: StaticTileCell[] = [];
             for (let x = renderTile.x - 1; x <= renderTile.x + 1; x += 1) {
                 if (x < 0 || y < 0 || x >= tmj.width || y >= tmj.height) {
-                    row.push(null);
+                    row.push(tileCell(tmj, x, y, null));
                 } else {
-                    row.push(layer.data?.[y * tmj.width + x] ?? null);
+                    row.push(tileCell(tmj, x, y, layer.data?.[y * tmj.width + x] ?? null));
                 }
             }
             matrix3x3.push(row);
         }
         return {
             layer: layer.name,
-            centerGid:
+            center:
                 renderTile.x < 0 ||
                 renderTile.y < 0 ||
                 renderTile.x >= tmj.width ||
                 renderTile.y >= tmj.height
-                    ? null
-                    : (layer.data?.[renderTile.y * tmj.width + renderTile.x] ?? null),
+                    ? tileCell(tmj, renderTile.x, renderTile.y, null)
+                    : tileCell(
+                          tmj,
+                          renderTile.x,
+                          renderTile.y,
+                          layer.data?.[renderTile.y * tmj.width + renderTile.x] ?? null,
+                      ),
             matrix3x3,
         };
     });
+}
+
+function tileCell(tmj: TmjMap, x: number, y: number, gid: number | null): StaticTileCell {
+    const resolved = gid && gid > 0 ? resolveGid(tmj, gid) : null;
+    const source = resolved?.tileset.source ?? null;
+    const localId = resolved?.localId ?? null;
+    const sourceName = source ? basename(source, ".tsx") : null;
+    const label =
+        gid == null ? "." : gid === 0 ? "empty" : `${sourceName ?? "unknown"}#${localId ?? "?"}`;
+
+    return {
+        x,
+        y,
+        gid,
+        tilesetSource: source,
+        tilesetFamily: source ? tilesetFamily(source) : null,
+        localId,
+        label,
+    };
+}
+
+function resolveGid(tmj: TmjMap, gid: number): { tileset: TmjTileset; localId: number } | null {
+    const tilesets = [...(tmj.tilesets ?? [])].sort((a, b) => a.firstgid - b.firstgid);
+    let match: TmjTileset | null = null;
+    for (const tileset of tilesets) {
+        if (tileset.firstgid > gid) break;
+        match = tileset;
+    }
+    return match ? { tileset: match, localId: gid - match.firstgid } : null;
+}
+
+function nearbyObjects(tmj: TmjMap, renderTile: { x: number; y: number }): StaticObjectContext[] {
+    const objects: StaticObjectContext[] = [];
+    for (const layer of tmj.layers ?? []) {
+        if (layer.type !== "objectgroup") continue;
+        for (const object of layer.objects ?? []) {
+            const tile = {
+                x: Math.floor((object.x ?? 0) / tmj.tilewidth),
+                y: Math.floor((object.y ?? 0) / tmj.tileheight),
+            };
+            const rectTiles = {
+                width: Math.max(1, Math.ceil((object.width ?? 0) / tmj.tilewidth)),
+                height: Math.max(1, Math.ceil((object.height ?? 0) / tmj.tileheight)),
+            };
+            const maxX = tile.x + rectTiles.width - 1;
+            const maxY = tile.y + rectTiles.height - 1;
+            const dx =
+                renderTile.x < tile.x
+                    ? tile.x - renderTile.x
+                    : renderTile.x > maxX
+                      ? renderTile.x - maxX
+                      : 0;
+            const dy =
+                renderTile.y < tile.y
+                    ? tile.y - renderTile.y
+                    : renderTile.y > maxY
+                      ? renderTile.y - maxY
+                      : 0;
+
+            objects.push({
+                layer: layer.name,
+                name: object.name ?? "(unnamed)",
+                type: object.type ?? "(untyped)",
+                tile,
+                rectTiles,
+                distanceTiles: Math.max(dx, dy),
+            });
+        }
+    }
+    return objects
+        .sort((a, b) => a.distanceTiles - b.distanceTiles || a.name.localeCompare(b.name))
+        .slice(0, 10);
 }
 
 function screenshotDiagnostics(path: string) {
@@ -919,7 +1028,11 @@ function buildPresentationDiagnostics(
         ? Math.min(runtime.camera.scale.x, runtime.camera.scale.y)
         : null;
 
-    if (!authoredMapPixels || (!largestVisibleComponent && runtimeCameraScale == null) || !dimensions) {
+    if (
+        !authoredMapPixels ||
+        (!largestVisibleComponent && runtimeCameraScale == null) ||
+        !dimensions
+    ) {
         return {
             authoredMapPixels,
             targetTileScreenSizePx: visualsConfig.map_viewport.min_tile_screen_px,
@@ -1104,6 +1217,20 @@ function buildAutomatedFindings(
             `Authored map appears to cover only ${(presentation.estimatedMapViewportCoverageRatio * 100).toFixed(1)}% of the viewport.`,
         );
     }
+    if (mapPresentationCheckpoint && staticMap?.tmj?.nearbyObjects.length) {
+        const overlappingObjects = staticMap.tmj.nearbyObjects.filter(
+            (object) => object.distanceTiles === 0 && object.type !== "SpawnPoint",
+        );
+        if (overlappingObjects.length) {
+            add(
+                "warn",
+                "player-object-overlap",
+                `Player render tile overlaps authored object(s): ${overlappingObjects
+                    .map((object) => `${object.name}/${object.type}`)
+                    .join(", ")}.`,
+            );
+        }
+    }
     if (findings.length === 0) {
         add("info", "automated-checks", "No automated diagnostic failures at this checkpoint.");
     }
@@ -1182,6 +1309,9 @@ function renderMarkdownChecklist(diagnostic: {
         `- Tileset families: ${diagnostic.staticMap?.tmj?.tilesetFamilies.join(", ") || "unknown"}`,
         `- Tilesets: ${diagnostic.staticMap?.tmj?.tilesets.map((tileset) => tileset.source).join(", ") ?? "unknown"}`,
         "",
+        "## Nearby Objects",
+        ...renderNearbyObjects(diagnostic.staticMap),
+        "",
         "## Tile Context Around Player",
         ...renderTileContext(diagnostic.staticMap),
         "",
@@ -1195,16 +1325,30 @@ function renderMarkdownChecklist(diagnostic: {
     return `${lines.join("\n")}\n`;
 }
 
+function renderNearbyObjects(staticMap: StaticMapDiagnostics | null): string[] {
+    const objects = staticMap?.tmj?.nearbyObjects ?? [];
+    if (!objects.length) return ["- No nearby authored objects available."];
+    return objects.map(
+        (object) =>
+            `- ${object.name} (${object.type}) on ${object.layer}: tile=${object.tile.x},${object.tile.y} ` +
+            `size=${object.rectTiles.width}x${object.rectTiles.height} distance=${object.distanceTiles}`,
+    );
+}
+
 function renderTileContext(staticMap: StaticMapDiagnostics | null): string[] {
     if (!staticMap?.tmj?.tileContext.length) return ["- No tile context available."];
     return staticMap.tmj.tileContext.flatMap((context) => [
-        `- ${context.layer}: center=${context.centerGid ?? "null"}`,
+        `- ${context.layer}: center=${formatTileCell(context.center)}`,
         "```text",
-        ...context.matrix3x3.map((row) =>
-            row.map((gid) => (gid == null ? " ." : String(gid).padStart(2, " "))).join(" "),
-        ),
+        ...context.matrix3x3.map((row) => row.map(formatTileCell).join(" | ")),
         "```",
     ]);
+}
+
+function formatTileCell(cell: StaticTileCell): string {
+    if (cell.gid == null) return `(${cell.x},${cell.y}) .`;
+    if (cell.gid === 0) return `(${cell.x},${cell.y}) empty`;
+    return `(${cell.x},${cell.y}) ${cell.label} gid=${cell.gid}`;
 }
 
 function formatSize(size: { width: number; height: number } | null): string {

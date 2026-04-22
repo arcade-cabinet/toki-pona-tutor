@@ -143,6 +143,21 @@ describe("authored map content contracts", () => {
         }
     });
 
+    it("T4-01: ma_tomo_lili uses seasons grass and dirt-path transitions instead of core placeholder paint", () => {
+        expect(maTomoLili.tilesets).toEqual(
+            expect.arrayContaining(["seasons/Tileset_Ground_Seasons", "seasons/Tileset_Road"]),
+        );
+        expect(maTomoLili.tilesets).not.toContain("core/Tileset_Ground");
+
+        const below = maTomoLili.layers["Below Player"];
+        if (!isTileGrid(below))
+            throw new Error("expected ma_tomo_lili Below Player to be a tile grid");
+
+        const used = new Set(below.flat());
+        expect([...used]).toEqual(expect.arrayContaining(["g", "f", "v", "d"]));
+        expect([...used].some((cell) => cell.startsWith("gd_"))).toBe(true);
+    });
+
     it("T4-02: nasin_wan uses the seasons forest tileset instead of placeholder core grass", () => {
         expect(nasinWan.biome).toBe("forest");
         expect(nasinWan.tilesets).toEqual(
