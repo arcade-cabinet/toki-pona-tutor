@@ -106,7 +106,7 @@ export default defineMap({
 5. **Rects are `[x, y, w, h]`** in tile units, not pixels. The toolchain multiplies by `tileSize` on emit.
 6. **No "empty" tile sentinel in `place`**; use `paint` with `.` for empty cells.
 7. **NPC markers are part of the content contract.** Current shipped maps must keep at least five NPC markers. `tests/build-time/map-spec-content.test.ts` enforces the floor and verifies new ambient dialog nodes are multi-beat spine entries.
-8. **Transitions are explicit authoring rules.** Specs can call `paintEdgeTransitions(...)` after base terrain paint to replace eligible cells with configured edge/corner palette entries. The helper reads from a snapshot, so a newly-painted transition never cascades into its neighbor during the same pass.
+8. **Transitions are explicit authoring rules.** Specs can call `paintNeighborBuffer(...)` to add one-tile shoulders around terrain families, then `paintEdgeTransitions(...)` to replace eligible cells with configured edge/corner palette entries. Both helpers read from a snapshot, so newly-painted buffer or transition cells never cascade into neighbors during the same pass.
 
 ## Palette format
 
@@ -134,7 +134,7 @@ Short (1–2 char) palette keys are for `paint` grids. Long names are for `place
 
 **Surface semantics**: palette entries can explicitly declare `surface`, `role`, and `walkable`. Use explicit semantics for anything that visual metadata alone cannot classify safely, especially generated composites and tiles whose description includes words like "shore" but should still behave as base sand.
 
-**Generated water-shore tiles**: the Fan-tasy water and sand shoreline wang tiles contain transparent regions when used alone. `pnpm author:tilesets` composites the configured opaque sand base under the configured water-shore source tiles, writes `generated/Tileset_Water_Shore_Seasons`, and marks every generated shoreline tile as blocked water. Specs then paint shoreline transitions on water cells adjacent to sand, preserving walkable sand cells while removing transparent/black artifacts.
+**Generated water-shore tiles**: the Fan-tasy water and sand shoreline wang tiles contain transparent regions when used alone. `pnpm author:tilesets` composites the configured opaque sand base under the configured water-shore source tiles, writes `generated/Tileset_Water_Shore_Seasons`, and marks every generated shoreline tile as blocked water. Water specs first buffer causeway/pier edges with walkable sand, then paint shoreline transitions on water cells adjacent to sand, preserving walkable sand cells while removing transparent/black artifacts.
 
 ## The TMJ emitter
 

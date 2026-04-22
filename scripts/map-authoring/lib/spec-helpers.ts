@@ -78,6 +78,36 @@ export interface EdgeTransitionRule {
     transitions: Partial<Record<EdgeTransitionKey, string>>;
 }
 
+export interface NeighborBufferRule {
+    /** Palette names eligible to be replaced with the buffer tile. */
+    base: string | string[];
+    /** Neighbor palette names that should attract the buffer tile. */
+    neighbors: string | string[];
+    /** Palette name to write into eligible cells adjacent to a neighbor. */
+    buffer: string;
+}
+
+/**
+ * Paint a one-tile buffer around a terrain family.
+ *
+ * This is intentionally simpler than a general autotiler: it only replaces
+ * eligible base cells when the original source grid has a cardinal neighbor.
+ */
+export function paintNeighborBuffer(grid: string[][], rule: NeighborBufferRule): void {
+    const base = asSet(rule.base);
+    const neighbors = asSet(rule.neighbors);
+    const snapshot = grid.map((row) => [...row]);
+
+    for (let y = 0; y < snapshot.length; y++) {
+        for (let x = 0; x < snapshot[y].length; x++) {
+            if (!base.has(snapshot[y][x])) continue;
+            if (hasCardinalNeighbor(snapshot, x, y, neighbors)) {
+                grid[y][x] = rule.buffer;
+            }
+        }
+    }
+}
+
 /**
  * Paint transition tiles around a surface without guessing at runtime.
  *
@@ -137,6 +167,20 @@ function edgeTransitionKey(
     if (s && e) return "se";
     if (s && w) return "sw";
     return null;
+}
+
+function hasCardinalNeighbor(
+    grid: string[][],
+    x: number,
+    y: number,
+    neighbors: Set<string>,
+): boolean {
+    return (
+        neighbors.has(grid[y - 1]?.[x]) ||
+        neighbors.has(grid[y]?.[x + 1]) ||
+        neighbors.has(grid[y + 1]?.[x]) ||
+        neighbors.has(grid[y]?.[x - 1])
+    );
 }
 
 function asSet(value: string | string[]): Set<string> {

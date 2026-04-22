@@ -6,7 +6,12 @@
  * The player catches their breath between the first gym (jan Wawa) and
  * the type-wrinkle fight against jan Telo.
  */
-import { defineMap, edgeTransitionTiles, paintEdgeTransitions } from "../lib/spec-helpers";
+import {
+    defineMap,
+    edgeTransitionTiles,
+    paintEdgeTransitions,
+    paintNeighborBuffer,
+} from "../lib/spec-helpers";
 import { lakeTownPalette } from "../palettes/lake-town";
 
 const WIDTH = 20;
@@ -51,6 +56,11 @@ function lakeVillageBase(): string[][] {
     for (let x = 4; x <= 12; x++) grid[12][x] = "d";
     for (let x = 4; x <= 7; x++) grid[13][x] = "d";
 
+    paintNeighborBuffer(grid, {
+        base: "w",
+        neighbors: "d",
+        buffer: "s",
+    });
     paintEdgeTransitions(grid, {
         base: ["g", "v"],
         neighbors: "d",

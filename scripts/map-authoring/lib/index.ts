@@ -54,8 +54,10 @@ export {
     edgeTransitionTiles,
     paint,
     paintEdgeTransitions,
+    paintNeighborBuffer,
     paintRect,
     type EdgeTransitionKey,
     type EdgeTransitionRule,
+    type NeighborBufferRule,
 } from "./spec-helpers";
 export { loadTilesetsForSpec } from "./loader";

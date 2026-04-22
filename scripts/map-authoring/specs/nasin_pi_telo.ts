@@ -11,7 +11,12 @@
  * the green-dragon fight + unique death cutscene. Until all four
  * badges are in hand, that trigger is gated.
  */
-import { defineMap, edgeTransitionTiles, paintEdgeTransitions } from "../lib/spec-helpers";
+import {
+    defineMap,
+    edgeTransitionTiles,
+    paintEdgeTransitions,
+    paintNeighborBuffer,
+} from "../lib/spec-helpers";
 import { waterPalette } from "../palettes/water";
 
 const WIDTH = 28;
@@ -48,6 +53,11 @@ function riversideBase(): string[][] {
         for (let x = 14; x <= 19; x++) grid[y][x] = "G";
     }
 
+    paintNeighborBuffer(grid, {
+        base: "w",
+        neighbors: "d",
+        buffer: "s",
+    });
     paintEdgeTransitions(grid, {
         base: ["g", "f", "v"],
         neighbors: "d",
