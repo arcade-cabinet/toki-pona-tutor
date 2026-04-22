@@ -4,7 +4,7 @@ import { devices } from "@playwright/test";
 /**
  * Real-browser E2E suite for poki soweli.
  *
- * Runs the actual Vite dev server and drives headless Chrome with GPU
+ * Runs the actual Vite dev server and drives headed Chromium with GPU
  * WebGL via ANGLE so Pixi / CanvasEngine render the way they do in
  * production. Capacitor SQLite runs real jeep-sqlite + sql.js wasm;
  * brand.css evaluates against a real stylesheet engine; input is real
@@ -26,9 +26,8 @@ const isCI = !!process.env.CI;
 const e2ePort = process.env.E2E_PORT || "5173";
 const defaultBaseURL = `http://127.0.0.1:${e2ePort}`;
 
-// GPU-accelerated WebGL args for headless Chrome. `--use-angle=gl`
-// is the piece that makes WebGL actually render off-screen — without
-// it Pixi falls back to a software renderer that won't match prod.
+// GPU-accelerated WebGL args for real Chromium. CI provides the display
+// with xvfb-run; local runs use the host compositor.
 const GPU_ARGS = [
     "--no-sandbox",
     "--use-angle=gl",
@@ -96,7 +95,7 @@ const config: PlaywrightTestConfig = {
                 // would require a system-installed Google Chrome and
                 // silently fail on minimal CI runners.
                 browserName: "chromium",
-                headless: true,
+                headless: false,
                 launchOptions: {
                     args: GPU_ARGS,
                     slowMo: isCI ? 0 : 50,
@@ -114,7 +113,7 @@ const config: PlaywrightTestConfig = {
                 // would require a system-installed Google Chrome and
                 // silently fail on minimal CI runners.
                 browserName: "chromium",
-                headless: true,
+                headless: false,
                 launchOptions: {
                     args: GPU_ARGS,
                     slowMo: isCI ? 0 : 50,

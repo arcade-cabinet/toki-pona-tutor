@@ -447,10 +447,6 @@ export function formatCombatItemResult(result: CombatItemUseResult): string {
     }
 }
 
-function lookupItem(id: string): Item | undefined {
-    return items.find((item) => item.id === id);
-}
-
 async function lookupBestAvailablePoki(): Promise<Item | null> {
     const pokiItems = items
         .filter((item) => item.kind === "poki")

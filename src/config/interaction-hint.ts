@@ -1,6 +1,7 @@
 import type { RpgClientEngine } from "@rpgjs/client";
 import { Direction } from "@rpgjs/common";
 import { INTERACTION_HINT_CONFIG } from "../content/gameplay";
+import { readTiledObjectType, type TiledObjectLike } from "./tiled-object";
 
 type TilePoint = {
     x: number;
@@ -9,16 +10,6 @@ type TilePoint = {
 
 type TileInfoLike = {
     hasCollision?: boolean;
-};
-
-type TiledObjectLike = {
-    name?: string;
-    type?: string;
-    x?: number;
-    y?: number;
-    width?: number;
-    height?: number;
-    properties?: Record<string, unknown>;
 };
 
 type TiledMapLike = {
@@ -156,7 +147,7 @@ function getEncounterHint(map: TiledMapLike, currentTile: TilePoint): Interactio
 }
 
 function isEncounterObject(object: TiledObjectLike): boolean {
-    const type = String(object.type ?? object.properties?.type ?? "");
+    const type = readTiledObjectType(object);
     const name = String(object.name ?? "");
     return type === "Encounter" || name.startsWith("encounter_");
 }
@@ -286,15 +277,6 @@ function clampTile(map: TiledMapLike, tile: TilePoint): TilePoint {
         x: Math.max(0, Math.min(map.width - 1, tile.x)),
         y: Math.max(0, Math.min(map.height - 1, tile.y)),
     };
-}
-
-function getAdjacentTiles(tile: TilePoint): TilePoint[] {
-    return [
-        { x: tile.x, y: tile.y - 1 },
-        { x: tile.x + 1, y: tile.y },
-        { x: tile.x, y: tile.y + 1 },
-        { x: tile.x - 1, y: tile.y },
-    ];
 }
 
 function directionBetween(from: TilePoint, to: TilePoint): Direction | null {

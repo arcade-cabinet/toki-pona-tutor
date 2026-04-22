@@ -1,6 +1,7 @@
 import type { RpgClient, RpgClientEngine } from "@rpgjs/client";
 import { createModule, defineModule } from "@rpgjs/common";
 import { getCurrentInteractionHint, triggerInteractionHint } from "./interaction-hint";
+import { readTiledObjectType, type TiledObjectLike } from "./tiled-object";
 import {
     TAP_ROUTE_EVENT,
     TAP_ROUTE_SNAP_EVENT,
@@ -23,15 +24,6 @@ type ViewportLike = {
 
 type TileInfoLike = {
     hasCollision?: boolean;
-};
-
-type TiledObjectLike = {
-    name?: string;
-    type?: string;
-    x?: number;
-    y?: number;
-    width?: number;
-    height?: number;
 };
 
 type TiledMapLike = {
@@ -90,6 +82,7 @@ const TARGET_BLOCKING_UI_SELECTOR = TAP_CONTROL_TARGET_BLOCKING_UI_SELECTORS.joi
 
 let detachCanvasListener: (() => void) | null = null;
 let detachTapRouteSnapListener: (() => void) | null = null;
+let canvasBindRetryTimer: ReturnType<typeof setTimeout> | null = null;
 let latestTapRouteSnapVersion = 0;
 let pendingTapRouteSnap: TapRouteSnap | null = null;
 let pendingTapRouteSnapTimer: ReturnType<typeof setTimeout> | null = null;
@@ -117,12 +110,15 @@ export function provideTapControls() {
 
 function installCanvasTapListener(engine: RpgClientEngine): void {
     detachCanvasListener?.();
-    detachCanvasListener = null;
+    detachCanvasListener = () => clearCanvasBindRetryTimer();
 
     const bind = (attempt = 0): void => {
         if (!getCanvasElement()) {
             if (attempt < BIND_RETRY_MAX_ATTEMPTS) {
-                setTimeout(() => bind(attempt + 1), BIND_RETRY_MS);
+                canvasBindRetryTimer = setTimeout(() => {
+                    canvasBindRetryTimer = null;
+                    bind(attempt + 1);
+                }, BIND_RETRY_MS);
             }
             return;
         }
@@ -169,6 +165,7 @@ function installCanvasTapListener(engine: RpgClientEngine): void {
 
         document.addEventListener("pointerup", handlePointerUp);
         detachCanvasListener = () => {
+            clearCanvasBindRetryTimer();
             document.removeEventListener("pointerup", handlePointerUp);
         };
     };
@@ -180,20 +177,10 @@ function installTapRouteSnapListener(engine: RpgClientEngine): void {
     detachTapRouteSnapListener?.();
     detachTapRouteSnapListener = null;
     latestTapRouteSnapVersion = 0;
-    pendingTapRouteSnap = null;
-    pendingTapRouteSnapAttempts = 0;
-    pendingTapRouteSnapDeferred = false;
-    pendingTapRouteSnapStabilizing = false;
-    if (pendingTapRouteSnapTimer) {
-        clearTimeout(pendingTapRouteSnapTimer);
-        pendingTapRouteSnapTimer = null;
-    }
+    resetPendingTapRouteSnapRuntime();
     const storedSnap = readStoredPendingTapRouteSnap();
     if (storedSnap) {
-        pendingTapRouteSnap = storedSnap;
-        pendingTapRouteSnapDeferred = true;
-        pendingTapRouteSnapStabilizing = false;
-        schedulePendingTapRouteSnap(engine);
+        deferPendingTapRouteSnap(engine, storedSnap);
     }
 
     const handleSnap = (payload: unknown): void => {
@@ -211,12 +198,7 @@ function receiveTapRouteSnap(engine: RpgClientEngine, payload: TapRouteSnap): vo
     if (payload.version < latestTapRouteSnapVersion) return;
 
     if (getCurrentMapId(engine) !== payload.mapId) {
-        pendingTapRouteSnap = payload;
-        writeStoredPendingTapRouteSnap(payload);
-        pendingTapRouteSnapAttempts = 0;
-        pendingTapRouteSnapDeferred = true;
-        pendingTapRouteSnapStabilizing = false;
-        schedulePendingTapRouteSnap(engine);
+        deferPendingTapRouteSnap(engine, payload);
         return;
     }
 
@@ -238,11 +220,7 @@ function flushPendingTapRouteSnap(engine: RpgClientEngine): void {
     if (!payload) return;
 
     if (payload.version < latestTapRouteSnapVersion) {
-        pendingTapRouteSnap = null;
-        writeStoredPendingTapRouteSnap(null);
-        pendingTapRouteSnapAttempts = 0;
-        pendingTapRouteSnapDeferred = false;
-        pendingTapRouteSnapStabilizing = false;
+        clearPendingTapRouteSnap();
         return;
     }
 
@@ -250,9 +228,7 @@ function flushPendingTapRouteSnap(engine: RpgClientEngine): void {
         applyTapRouteSnap(engine, payload);
         latestTapRouteSnapVersion = payload.version;
         if (!pendingTapRouteSnapDeferred) {
-            pendingTapRouteSnap = null;
-            writeStoredPendingTapRouteSnap(null);
-            pendingTapRouteSnapAttempts = 0;
+            clearPendingTapRouteSnap();
             return;
         }
         if (!pendingTapRouteSnapStabilizing) {
@@ -261,11 +237,7 @@ function flushPendingTapRouteSnap(engine: RpgClientEngine): void {
         }
         pendingTapRouteSnapAttempts += 1;
         if (pendingTapRouteSnapAttempts >= SNAP_STABILIZE_MAX_ATTEMPTS) {
-            pendingTapRouteSnap = null;
-            writeStoredPendingTapRouteSnap(null);
-            pendingTapRouteSnapAttempts = 0;
-            pendingTapRouteSnapDeferred = false;
-            pendingTapRouteSnapStabilizing = false;
+            clearPendingTapRouteSnap();
             return;
         }
         schedulePendingTapRouteSnap(engine);
@@ -274,13 +246,43 @@ function flushPendingTapRouteSnap(engine: RpgClientEngine): void {
 
     pendingTapRouteSnapAttempts += 1;
     if (pendingTapRouteSnapAttempts >= SNAP_MAX_ATTEMPTS) {
-        pendingTapRouteSnap = null;
-        writeStoredPendingTapRouteSnap(null);
-        pendingTapRouteSnapAttempts = 0;
-        pendingTapRouteSnapDeferred = false;
-        pendingTapRouteSnapStabilizing = false;
+        clearPendingTapRouteSnap();
         return;
     }
+    schedulePendingTapRouteSnap(engine);
+}
+
+function clearCanvasBindRetryTimer(): void {
+    if (!canvasBindRetryTimer) return;
+    clearTimeout(canvasBindRetryTimer);
+    canvasBindRetryTimer = null;
+}
+
+function clearPendingTapRouteSnapTimer(): void {
+    if (!pendingTapRouteSnapTimer) return;
+    clearTimeout(pendingTapRouteSnapTimer);
+    pendingTapRouteSnapTimer = null;
+}
+
+function resetPendingTapRouteSnapRuntime(): void {
+    pendingTapRouteSnap = null;
+    pendingTapRouteSnapAttempts = 0;
+    pendingTapRouteSnapDeferred = false;
+    pendingTapRouteSnapStabilizing = false;
+    clearPendingTapRouteSnapTimer();
+}
+
+function clearPendingTapRouteSnap(): void {
+    resetPendingTapRouteSnapRuntime();
+    writeStoredPendingTapRouteSnap(null);
+}
+
+function deferPendingTapRouteSnap(engine: RpgClientEngine, payload: TapRouteSnap): void {
+    pendingTapRouteSnap = payload;
+    writeStoredPendingTapRouteSnap(payload);
+    pendingTapRouteSnapAttempts = 0;
+    pendingTapRouteSnapDeferred = true;
+    pendingTapRouteSnapStabilizing = false;
     schedulePendingTapRouteSnap(engine);
 }
 
@@ -391,7 +393,7 @@ function getObjectAtWorldPoint(
         const withinY = worldY >= object.y && worldY <= object.y + height;
         if (!withinX || !withinY) continue;
 
-        const normalizedType = String(object.type ?? "").toLowerCase();
+        const normalizedType = readTiledObjectType(object).toLowerCase();
         return {
             id: object.name,
             kind: normalizedType === "warp" || object.name.startsWith("warp_") ? "touch" : "action",
@@ -677,10 +679,7 @@ function applyTapRouteSnap(engine: RpgClientEngine, payload: TapRouteSnap): void
     const hitbox = typeof player.hitbox === "function" ? player.hitbox() : player.hitbox;
     const width = hitbox?.w ?? 0;
     const height = hitbox?.h ?? 0;
-    const updated = sceneMap.updateHitbox(player.id, payload.x, payload.y, width, height);
-    if (!updated) {
-        sceneMap.setBodyPosition(player.id, payload.x, payload.y, "top-left");
-    }
+    sceneMap.updateHitbox(player.id, payload.x, payload.y, width, height);
     sceneMap.setBodyPosition(player.id, payload.x, payload.y, "top-left");
     const playerX = player.x as unknown as { set?: (value: number) => void };
     const playerY = player.y as unknown as { set?: (value: number) => void };

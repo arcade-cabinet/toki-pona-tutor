@@ -3,7 +3,7 @@ import { handleEncounterShapeEntered } from "./encounter";
 import { showPauseMenu } from "./pause-menu";
 import { markSafeMapIfVillage, respawnAtLastSafeMap } from "./respawn";
 import { handleFinalBossTrigger } from "./green-dragon";
-import { loadSaveSlot, listSaveSlots } from "./save-slots";
+import { loadSaveSlot } from "./save-slots";
 import { AUTOSAVE_SLOT } from "../../platform/persistence/constants";
 import {
     exportPersistedRuntimeState,

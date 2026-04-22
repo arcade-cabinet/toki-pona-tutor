@@ -1,4 +1,4 @@
-import { test, expect } from '@playwright/test';
+import { test, expect, type Page } from "@playwright/test";
 
 /**
  * Smoke: the real web build boots in a real browser on the starter map.
@@ -17,40 +17,62 @@ import { test, expect } from '@playwright/test';
  * stays platform-portable: assertions only.
  */
 
-test('boots on the starter map and shows the title menu with brand chrome applied', async ({ page }) => {
+function titleEntry(page: Page, index: number) {
+    return page.locator(".rpg-ui-title-screen-menu .rpg-ui-menu-item").nth(index);
+}
+
+async function assertTitleMenu(page: Page): Promise<void> {
+    await expect(page.locator(".rpg-ui-title-screen-title")).toContainText("poki soweli", {
+        timeout: 30_000,
+    });
+    await expect(titleEntry(page, 0)).toContainText("open sin");
+    await expect(titleEntry(page, 1)).toContainText("nasin");
+    await expect(titleEntry(page, 2)).toContainText("pini");
+}
+
+test("boots on the starter map and shows the title menu with brand chrome applied", async ({
+    page,
+}) => {
     const pageErrors: string[] = [];
     const consoleErrors: string[] = [];
 
-    page.on('pageerror', (error) => {
+    page.on("pageerror", (error) => {
         pageErrors.push(error.message);
     });
-    page.on('console', (message) => {
-        if (message.type() === 'error') {
+    page.on("console", (message) => {
+        if (message.type() === "error") {
             consoleErrors.push(message.text());
         }
     });
 
     // Local dev/preview boot at `/`; the `/poki-soweli/` subpath is
     // reserved for Pages builds only.
-    await page.goto('/');
+    await page.goto("/");
 
-    await expect(page.locator('.rpg-ui-title-screen-title')).toContainText('poki soweli', {
-        timeout: 30_000,
-    });
-    await expect(page.locator('meta[name="description"]')).toHaveAttribute('content', /creature-catching RPG/);
-    await expect(page.locator('link[rel="manifest"]')).toHaveAttribute('href', /manifest\.json$/);
+    await expect(page.locator('meta[name="description"]')).toHaveAttribute(
+        "content",
+        /creature-catching RPG/,
+    );
+    await expect(page.locator('link[rel="manifest"]')).toHaveAttribute("href", /manifest\.json$/);
     await expect(page.locator('link[rel="icon"][sizes="32x32"]')).toHaveAttribute(
-        'href',
+        "href",
         /icons\/poki-soweli-32\.png$/,
     );
     await expect(page.locator('link[rel="apple-touch-icon"]')).toHaveAttribute(
-        'href',
+        "href",
         /icons\/poki-soweli-192\.png$/,
     );
     await expect(page.locator('main[aria-label="poki soweli game"]')).toBeVisible();
-    await expect(page.locator('#rpg')).toHaveAttribute('role', 'application');
-    await expect(page.locator('#rpg')).toHaveAttribute('aria-label', 'poki soweli game canvas');
-    await expect(page.locator('#rpg canvas')).toBeVisible();
+    await expect(page.locator("#rpg")).toHaveAttribute("role", "application");
+    await expect(page.locator("#rpg")).toHaveAttribute("aria-label", "poki soweli game canvas");
+    await expect(page.locator("#rpg canvas")).toBeVisible();
+
+    await page.waitForFunction(
+        () =>
+            Boolean(window.__POKI__) ||
+            Boolean(document.querySelector(".rpg-ui-title-screen-title")),
+        { timeout: 30_000 },
+    );
 
     const hasDebugSurface = await page.evaluate(() => Boolean(window.__POKI__));
     if (hasDebugSurface) {
@@ -61,7 +83,9 @@ test('boots on the starter map and shows the title menu with brand chrome applie
 
         // Keep the boot surface deterministic: no existing save should mean
         // a fresh title menu with New + Settings only.
-        await page.evaluate(() => window.__POKI__!.testing.resetPersistence({ includeSaves: true }));
+        await page.evaluate(() =>
+            window.__POKI__!.testing.resetPersistence({ includeSaves: true }),
+        );
         await page.reload();
         await page.waitForFunction(() => window.__POKI__?.ready === true, {
             timeout: 30_000,
@@ -70,20 +94,18 @@ test('boots on the starter map and shows the title menu with brand chrome applie
         // Player was actually assigned an id.
         const playerId = await page.evaluate(() => window.__POKI__?.playerId ?? null);
         expect(playerId).toMatch(/^[a-z0-9_-]+$/i);
-        await expect(page.locator('#rpg canvas')).toBeVisible();
+        await expect(page.locator("#rpg canvas")).toBeVisible();
     }
+
+    await assertTitleMenu(page);
 
     // Brand CSS resolved — --poki-ink is the token every panel derives
     // its text color from. If fonts.css / brand.css didn't load at the
     // right base path, this token would be empty.
     const inkColor = await page.evaluate(() =>
-        getComputedStyle(document.documentElement).getPropertyValue('--poki-ink').trim(),
+        getComputedStyle(document.documentElement).getPropertyValue("--poki-ink").trim(),
     );
-    expect(inkColor).not.toBe('');
-
-    await expect(page.locator('.rpg-ui-title-screen-menu .rpg-ui-menu-item').nth(0)).toContainText('open sin');
-    await expect(page.locator('.rpg-ui-title-screen-menu .rpg-ui-menu-item').nth(1)).toContainText('nasin');
-    await expect(page.locator('.rpg-ui-title-screen-menu .rpg-ui-menu-item').nth(2)).toContainText('pini');
+    expect(inkColor).not.toBe("");
 
     // Let late asset/bootstrap work settle; smoke should fail on real browser
     // exceptions rather than logging them after the assertion phase ends.
