@@ -21,6 +21,17 @@ function titleEntry(page: Page, index: number) {
     return page.locator(".rpg-ui-title-screen-menu .rpg-ui-menu-item").nth(index);
 }
 
+async function assertSqlWasmAsset(page: Page): Promise<void> {
+    const response = await page.request.get("/assets/sql-wasm.wasm");
+    expect(response.ok()).toBe(true);
+    expect(response.headers()["content-type"]).toMatch(
+        /application\/wasm|application\/octet-stream/,
+    );
+    expect((await response.body()).subarray(0, 4)).toEqual(
+        Buffer.from([0x00, 0x61, 0x73, 0x6d]),
+    );
+}
+
 async function clearBrowserPersistence(page: Page): Promise<void> {
     // Run on a same-origin static document before the game boots. Calling the
     // in-app reset hook while the engine is rendering can stall the web SQLite
@@ -71,6 +82,7 @@ test("boots on the starter map and shows the title menu with brand chrome applie
     // Local dev/preview boot at `/`; the `/poki-soweli/` subpath is
     // reserved for Pages builds only.
     await clearBrowserPersistence(page);
+    await assertSqlWasmAsset(page);
     await page.goto("/");
 
     await expect(page.locator('meta[name="description"]')).toHaveAttribute(

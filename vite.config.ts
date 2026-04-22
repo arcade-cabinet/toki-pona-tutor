@@ -1,4 +1,5 @@
 import { defineConfig } from 'vite';
+import type { Plugin } from 'vite';
 import { rpgjs, tiledMapFolderPlugin } from '@rpgjs/vite';
 import { copyFileSync, mkdirSync } from 'node:fs';
 import { resolve, dirname } from 'node:path';
@@ -22,22 +23,32 @@ const resolveBase = () => {
 };
 const base = resolveBase();
 
+function copySqlJsWasmAssets() {
+  const dest = resolve(__dirname, 'public/assets');
+  mkdirSync(dest, { recursive: true });
+  const jeepSqliteRoot = dirname(require.resolve('jeep-sqlite/package.json'));
+  const sqlJsRoot = dirname(require.resolve('sql.js/package.json', { paths: [jeepSqliteRoot] }));
+  const sqlDist = resolve(sqlJsRoot, 'dist');
+  copyFileSync(resolve(sqlDist, 'sql-wasm.wasm'), resolve(dest, 'sql-wasm.wasm'));
+  copyFileSync(resolve(sqlDist, 'sql-wasm.js'), resolve(dest, 'sql-wasm.js'));
+}
+
 /**
  * Copy sql.js WASM (and its loader JS) into public/assets/ so jeep-sqlite
  * can fetch them at the wasmpath we set in prepareWebStore(). This runs at
  * dev-server start and at build time, keeping the public tree consistent.
  */
-function copyWasmPlugin() {
+function copyWasmPlugin(): Plugin {
   return {
     name: 'copy-wasm',
+    configResolved() {
+      copySqlJsWasmAssets();
+    },
+    configureServer() {
+      copySqlJsWasmAssets();
+    },
     buildStart() {
-      const dest = resolve(__dirname, 'public/assets');
-      mkdirSync(dest, { recursive: true });
-      const jeepSqliteRoot = dirname(require.resolve('jeep-sqlite/package.json'));
-      const sqlJsRoot = dirname(require.resolve('sql.js/package.json', { paths: [jeepSqliteRoot] }));
-      const sqlDist = resolve(sqlJsRoot, 'dist');
-      copyFileSync(resolve(sqlDist, 'sql-wasm.wasm'), resolve(dest, 'sql-wasm.wasm'));
-      copyFileSync(resolve(sqlDist, 'sql-wasm.js'), resolve(dest, 'sql-wasm.js'));
+      copySqlJsWasmAssets();
     },
   };
 }

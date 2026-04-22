@@ -49,6 +49,17 @@ describe("GitHub Actions run/release/deploy contract", () => {
         expect(`${ci}\n${JSON.stringify(packageJson.scripts)}`).not.toContain("--headless");
     });
 
+    it("keeps sql.js wasm available to both Vite dev and production builds", () => {
+        const viteConfig = readFileSync(resolve(root, "vite.config.ts"), "utf8");
+
+        expect(viteConfig).toContain("configResolved()");
+        expect(viteConfig).toContain("configureServer()");
+        expect(viteConfig).toContain("buildStart()");
+        expect(viteConfig).toContain("copySqlJsWasmAssets()");
+        expect(viteConfig).toContain("sql-wasm.wasm");
+        expect(viteConfig).toContain("sql-wasm.js");
+    });
+
     it("keeps release.yml on release-please PAT plus versioned workflow artifacts", () => {
         expect(release).toMatch(/^on:\n\s+push:\n\s+branches:\n\s+- main/m);
         expect(release).toContain("token: ${{ secrets.CI_GITHUB_TOKEN_PAT }}");
