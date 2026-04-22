@@ -37,13 +37,17 @@ Map-authoring scripts plus helpers. All run as `pnpm author:*` scripts:
 | `pnpm author:all <map-id>`                       | Run validate → build → render as one pipeline                                                                       |
 | `pnpm author:verify`                             | Regenerate TMX/TMJ in memory and fail on missing, orphaned, or drifted map artifacts                                |
 | `pnpm author:inspect <tileset> <sample>`         | Inspect an upstream sample map to harvest local tile IDs for palette entries                                        |
+| `pnpm author:audit-surfaces`                     | Dump every used palette entry with inferred/explicit surface role, walkability, collision, and wang metadata        |
+| `pnpm author:tilesets`                           | Rebuild project-owned composite tilesets derived from Fan-tasy source art                                           |
 | `pnpm author:convert-tmx <source.tmx> [out.tmj]` | Convert a Tiled TMX sample to TMJ for fixture/debug work                                                            |
 
 Plus:
 
 -   `scripts/map-authoring/palettes/` — per-tileset palettes: `{ name: 'grass', tsx: 'Tileset_Ground', local_id: 47 }` entries that let specs reference tiles by human name instead of firstgid arithmetic.
+-   `scripts/map-authoring/config/fantasy-surfaces.json` — central tile-ID config for frequently reused Fan-tasy surfaces and transition families. Palette files should read from this config instead of scattering raw local IDs.
 -   `scripts/map-authoring/specs/<map-id>.ts` — my authored map specs, TypeScript, high-level.
 -   `scripts/map-authoring/lib/` — shared implementation: TSX parser, TMJ emitter, renderer, palette resolver, validator.
+-   `public/assets/tilesets/generated/` — deterministic, project-owned composite tilesets. Current generated output is `Tileset_Water_Shore_Seasons`, which bakes opaque sand under vendor water-shore wang tiles so shoreline previews/runtime tiles do not expose transparency holes.
 -   Current biome palettes include `forest.ts` for `nasin_wan`, `water.ts` for `nasin_pi_telo`, `lake-town.ts` for `ma_telo`, `ice.ts` for `ma_lete`, `mountain.ts` for `nena_sewi`, and `cave.ts` for `nena_suli`; water, lake, mountain, and cave palettes deliberately point at Fan-tasy tiles that carry Tiled collision objects when the gameplay contract says terrain is blocked.
 -   The current seven-map arc now carries the T4-15 NPC floor: every shipped spec has at least five `NPC` objects, each backed by a runtime event factory payload in `src/content/gameplay/events.json` and a dialog node under `src/content/spine/dialog/`. Runtime placement resolves from the emitted object coordinates compiled into `world.json`.
 
@@ -102,6 +106,7 @@ export default defineMap({
 5. **Rects are `[x, y, w, h]`** in tile units, not pixels. The toolchain multiplies by `tileSize` on emit.
 6. **No "empty" tile sentinel in `place`**; use `paint` with `.` for empty cells.
 7. **NPC markers are part of the content contract.** Current shipped maps must keep at least five NPC markers. `tests/build-time/map-spec-content.test.ts` enforces the floor and verifies new ambient dialog nodes are multi-beat spine entries.
+8. **Transitions are explicit authoring rules.** Specs can call `paintEdgeTransitions(...)` after base terrain paint to replace eligible cells with configured edge/corner palette entries. The helper reads from a snapshot, so a newly-painted transition never cascades into its neighbor during the same pass.
 
 ## Palette format
 
@@ -126,6 +131,10 @@ export const corePalette: Palette = {
 Short (1–2 char) palette keys are for `paint` grids. Long names are for `place`. Same palette, just different ergonomics per use site.
 
 **Palette ownership**: I populate palettes incrementally as I discover I need a tile. The first time `ma_tomo_lili` needs a red-roof house, I add `house_wood_red_small` to `corePalette` with the right local_id. Palettes grow bottom-up from actual spec needs.
+
+**Surface semantics**: palette entries can explicitly declare `surface`, `role`, and `walkable`. Use explicit semantics for anything that visual metadata alone cannot classify safely, especially generated composites and tiles whose description includes words like "shore" but should still behave as base sand.
+
+**Generated water-shore tiles**: the Fan-tasy water and sand shoreline wang tiles contain transparent regions when used alone. `pnpm author:tilesets` composites the configured opaque sand base under the configured water-shore source tiles, writes `generated/Tileset_Water_Shore_Seasons`, and marks every generated shoreline tile as blocked water. Specs then paint shoreline transitions on water cells adjacent to sand, preserving walkable sand cells while removing transparent/black artifacts.
 
 ## The TMJ emitter
 
@@ -216,6 +225,8 @@ Checks:
 pnpm author:build  ma_tomo_lili            # spec → .tmj + .tmx
 pnpm author:render ma_tomo_lili [--grid]   # .tmj → .preview.png
 pnpm author:validate ma_tomo_lili           # spec-side validation
+pnpm author:tilesets                        # rebuild generated composite tilesets
+pnpm author:audit-surfaces                  # inspect surface/collision semantics
 pnpm author:all ma_tomo_lili                # validate → build → render
 pnpm author:all --all                       # iterate every spec in specs/
 pnpm author:all --all --dry-run             # validate/emits/renders without rewriting repo artifacts
@@ -244,7 +255,7 @@ The preview PNG is checked into git alongside the spec + emitted map artifacts. 
 -   **Not a runtime thing.** Game code never imports from `scripts/map-authoring/`.
 -   **Not a replacement for Tiled.** Humans can inspect the emitted `.tmj`/`.tmx` in Tiled, but source edits still belong in `scripts/map-authoring/specs/`; `author:verify` rejects artifact drift.
 -   **Not a map editor UI.** No in-browser interactivity, no drag-to-place. I write code; the toolchain emits + renders; I read the PNG; I adjust.
--   **Not smart.** It's deterministic transform + pixel composition. No AI layout, no autotiling. If Tiled inspection is needed, inspect there, then encode the source change back in `scripts/map-authoring/specs/` and regenerate artifacts from the spec.
+-   **Not smart.** It's deterministic transform + pixel composition. No AI layout. Transition helpers are limited authoring utilities, not a general autotiler; if a new terrain family needs edge/corner behavior, add explicit config, palette entries, tests, and spec calls.
 
 ## Tests (what `tests/build-time/` proves)
 

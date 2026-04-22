@@ -2,12 +2,13 @@
  * pnpm author:render <map-id> [--grid] [--no-overlay]
  * Renders public/assets/maps/<map-id>.tmj → public/assets/maps/<map-id>.preview.png
  */
-import { dirname, resolve, join } from 'node:path';
-import { fileURLToPath, pathToFileURL } from 'node:url';
-import { writeFile } from 'node:fs/promises';
-import { PNG } from 'pngjs';
-import { renderTmj, loadTilesetsForSpec } from '../lib/index';
-import type { MapSpec } from '../lib/index';
+import { dirname, resolve, join } from "node:path";
+import { fileURLToPath, pathToFileURL } from "node:url";
+import { writeFile } from "node:fs/promises";
+import { PNG } from "pngjs";
+import { renderTmj, loadTilesetsForSpec } from "../lib/index";
+import { buildDerivedTilesets } from "../lib/derived-tilesets";
+import type { MapSpec } from "../lib/index";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 
@@ -16,52 +17,51 @@ const __dirname = dirname(fileURLToPath(import.meta.url));
  * Keeps CLI inputs from reaching outside scripts/map-authoring/specs/.
  */
 function assertSafeMapId(id: string): void {
-  if (!/^[a-zA-Z0-9_-]+$/.test(id)) {
-    console.error(
-      `invalid map id "${id}" — only alphanumerics, underscore, and dash are allowed`,
-    );
-    process.exit(1);
-  }
+    if (!/^[a-zA-Z0-9_-]+$/.test(id)) {
+        console.error(
+            `invalid map id "${id}" — only alphanumerics, underscore, and dash are allowed`,
+        );
+        process.exit(1);
+    }
 }
 
 async function main(): Promise<void> {
-  const args = process.argv.slice(2);
-  const mapId = args.find((a) => !a.startsWith('--'));
-  const grid = args.includes('--grid');
-  const overlay = !args.includes('--no-overlay');
+    const args = process.argv.slice(2);
+    const mapId = args.find((a) => !a.startsWith("--"));
+    const grid = args.includes("--grid");
+    const overlay = !args.includes("--no-overlay");
 
-  if (!mapId) {
-    console.error('usage: pnpm author:render <map-id> [--grid] [--no-overlay]');
-    process.exit(1);
-  }
-  assertSafeMapId(mapId);
+    if (!mapId) {
+        console.error("usage: pnpm author:render <map-id> [--grid] [--no-overlay]");
+        process.exit(1);
+    }
+    assertSafeMapId(mapId);
 
-  const worktreeRoot = resolve(__dirname, '..', '..', '..');
-  const specPath = join(worktreeRoot, 'scripts', 'map-authoring', 'specs', `${mapId}.ts`);
-  // ESM dynamic import requires a file:// URL on Windows.
-  const mod = (await import(pathToFileURL(specPath).href)) as { default?: MapSpec };
-  if (mod.default && mod.default.id !== mapId) {
-    console.error(
-      `spec.id "${mod.default.id}" does not match requested id "${mapId}"`,
-    );
-    process.exit(1);
-  }
-  if (!mod.default) {
-    console.error(`spec "${specPath}" has no default export`);
-    process.exit(1);
-  }
-  const tilesets = await loadTilesetsForSpec(mod.default, worktreeRoot);
+    const worktreeRoot = resolve(__dirname, "..", "..", "..");
+    await buildDerivedTilesets(worktreeRoot);
+    const specPath = join(worktreeRoot, "scripts", "map-authoring", "specs", `${mapId}.ts`);
+    // ESM dynamic import requires a file:// URL on Windows.
+    const mod = (await import(pathToFileURL(specPath).href)) as { default?: MapSpec };
+    if (mod.default && mod.default.id !== mapId) {
+        console.error(`spec.id "${mod.default.id}" does not match requested id "${mapId}"`);
+        process.exit(1);
+    }
+    if (!mod.default) {
+        console.error(`spec "${specPath}" has no default export`);
+        process.exit(1);
+    }
+    const tilesets = await loadTilesetsForSpec(mod.default, worktreeRoot);
 
-  const tmjPath = join(worktreeRoot, 'public', 'assets', 'maps', `${mapId}.tmj`);
-  const png = await renderTmj(tmjPath, tilesets, { grid, overlay });
+    const tmjPath = join(worktreeRoot, "public", "assets", "maps", `${mapId}.tmj`);
+    const png = await renderTmj(tmjPath, tilesets, { grid, overlay });
 
-  const outPath = join(worktreeRoot, 'public', 'assets', 'maps', `${mapId}.preview.png`);
-  const buf = PNG.sync.write(png);
-  await writeFile(outPath, buf);
-  console.log(`✓ rendered ${outPath} (${png.width}×${png.height})`);
+    const outPath = join(worktreeRoot, "public", "assets", "maps", `${mapId}.preview.png`);
+    const buf = PNG.sync.write(png);
+    await writeFile(outPath, buf);
+    console.log(`✓ rendered ${outPath} (${png.width}×${png.height})`);
 }
 
 main().catch((err) => {
-  console.error(err);
-  process.exit(1);
+    console.error(err);
+    process.exit(1);
 });

@@ -49,5 +49,13 @@ export type {
     ValidationIssue,
     ValidationReport,
 } from "./types";
-export { defineMap, paint, paintRect } from "./spec-helpers";
+export {
+    defineMap,
+    edgeTransitionTiles,
+    paint,
+    paintEdgeTransitions,
+    paintRect,
+    type EdgeTransitionKey,
+    type EdgeTransitionRule,
+} from "./spec-helpers";
 export { loadTilesetsForSpec } from "./loader";

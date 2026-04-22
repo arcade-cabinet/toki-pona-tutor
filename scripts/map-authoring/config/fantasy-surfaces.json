@@ -1,0 +1,54 @@
+{
+  "seasons": {
+    "ground": {
+      "grass": {
+        "base": 50,
+        "darkVariant": 56,
+        "lightVariant": 62
+      },
+      "grassDirtTransitions": {
+        "n": 8,
+        "e": 57,
+        "s": 104,
+        "w": 55,
+        "ne": 9,
+        "nw": 7,
+        "se": 105,
+        "sw": 103
+      }
+    },
+    "sand": {
+      "shore": 50
+    },
+    "road": {
+      "dirt": 20,
+      "stone": 272
+    },
+    "water": {
+      "blocked": 26,
+      "shoreTransitionSourceTiles": {
+        "n": 2,
+        "e": 27,
+        "s": 50,
+        "w": 25,
+        "ne": 3,
+        "nw": 1,
+        "se": 51,
+        "sw": 49
+      },
+      "shoreTransitionTiles": {
+        "n": 0,
+        "e": 1,
+        "s": 2,
+        "w": 3,
+        "ne": 4,
+        "nw": 5,
+        "se": 6,
+        "sw": 7
+      }
+    },
+    "tallGrass": {
+      "summer": 0
+    }
+  }
+}
