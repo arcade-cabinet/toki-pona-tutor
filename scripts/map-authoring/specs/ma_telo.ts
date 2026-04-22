@@ -12,6 +12,7 @@ import {
     paintEdgeTransitions,
     paintNeighborBuffer,
 } from "../lib/spec-helpers";
+import { collectionAtlasTileset } from "../config/collection-atlases";
 import { lakeTownPalette } from "../palettes/lake-town";
 
 const WIDTH = 20;
@@ -88,8 +89,8 @@ export default defineMap({
         "seasons/Tileset_Sand",
         "seasons/Tileset_Water",
         "generated/Tileset_Water_Shore_Seasons",
-        "seasons/Objects_Buildings_Seasons",
-        "seasons/Objects_Trees_Seasons",
+        collectionAtlasTileset("seasons/Objects_Buildings_Seasons"),
+        collectionAtlasTileset("seasons/Objects_Trees_Seasons"),
     ],
     palette: lakeTownPalette,
     layers: {

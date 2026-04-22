@@ -100,7 +100,9 @@ export async function renderTmj(
                     const dy = y * tmj.tileheight + tmj.tileheight - img.height;
                     ctx.drawImage(img, dx, dy);
                 } else if (found.atlas) {
-                    // Atlas: slice out the tile from the source image grid.
+                    // Atlas: slice out the tile from the source image grid. Tiled
+                    // bottom-anchors oversized tiles to the map cell, which is how
+                    // generated landmark atlases render tree/building sprites.
                     if (ts.columns <= 0) {
                         // Defensive: `columns=0` is Tiled's marker for image-collection
                         // tilesets; those should go through the perTile path above. If
@@ -119,9 +121,9 @@ export async function renderTmj(
                         ts.tileWidth,
                         ts.tileHeight,
                         x * tmj.tilewidth,
-                        y * tmj.tileheight,
-                        tmj.tilewidth,
-                        tmj.tileheight,
+                        (y + 1) * tmj.tileheight - ts.tileHeight,
+                        ts.tileWidth,
+                        ts.tileHeight,
                     );
                 }
             }

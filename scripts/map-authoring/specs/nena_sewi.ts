@@ -10,6 +10,7 @@
  * 32×14 — slightly taller than nasin_wan to suggest vertical travel.
  */
 import { defineMap, paintRect } from '../lib/spec-helpers';
+import { collectionAtlasTileset } from '../config/collection-atlases';
 import { mountainPalette } from '../palettes/mountain';
 
 const WIDTH = 32;
@@ -58,8 +59,8 @@ export default defineMap({
     'seasons/Tileset_Road',
     'seasons/Tileset_TallGrass',
     'seasons/Tileset_RockSlope_2_Gray',
-    'seasons/Objects_Rocks_Seasons',
-    'seasons/Objects_Trees_Seasons',
+    collectionAtlasTileset('seasons/Objects_Rocks_Seasons'),
+    collectionAtlasTileset('seasons/Objects_Trees_Seasons'),
   ],
   palette: mountainPalette,
   layers: {

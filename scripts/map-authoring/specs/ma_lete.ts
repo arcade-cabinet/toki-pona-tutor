@@ -10,6 +10,7 @@
  * encounters + story + gym.
  */
 import { defineMap, paintRect } from '../lib/spec-helpers';
+import { collectionAtlasTileset } from '../config/collection-atlases';
 import { icePalette } from '../palettes/ice';
 
 const WIDTH = 22;
@@ -52,10 +53,10 @@ export default defineMap({
     'snow/Tileset_Snow',
     'snow/Tileset_TallGrass',
     'snow/Tileset_Fence_1_Snow',
-    'snow/Objects_Buildings_Snow',
-    'snow/Objects_Props_Snow',
-    'snow/Objects_Rocks_Snow',
-    'snow/Objects_Trees_Snow',
+    collectionAtlasTileset('snow/Objects_Buildings_Snow'),
+    collectionAtlasTileset('snow/Objects_Props_Snow'),
+    collectionAtlasTileset('snow/Objects_Rocks_Snow'),
+    collectionAtlasTileset('snow/Objects_Trees_Snow'),
   ],
   palette: icePalette,
   layers: {

@@ -200,6 +200,15 @@ interface ObstructionFootprint {
     visualBounds: CellBounds | null;
 }
 
+interface TileVisualMetrics {
+    width: number;
+    height: number;
+    offsetX: number;
+    offsetY: number;
+    frameWidth: number;
+    frameHeight: number;
+}
+
 function checkGameplaySurfacePlacement(
     spec: MapSpec,
     tilesets: ParsedTileset[],
@@ -399,7 +408,7 @@ function collisionBoundsForTile(
         return [anchorBounds(spec, at, entry)];
     }
 
-    const origin = tileImageOrigin(spec, at, entry, tileset);
+    const origin = tileFrameOrigin(spec, at, entry, tileset);
     return objects
         .map((object) => {
             const localBounds =
@@ -428,14 +437,14 @@ function visualBoundsForTile(
     entry: PaletteEntry,
     tileset: ParsedTileset,
 ): CellBounds | null {
-    const image = tileset.perTileImages[entry.local_id];
-    if (!image) return anchorBounds(spec, at, entry);
-    const origin = tileImageOrigin(spec, at, entry, tileset);
+    const metrics = tileVisualMetricsForTile(tileset, entry.local_id);
+    if (!metrics) return anchorBounds(spec, at, entry);
+    const origin = tileFrameOrigin(spec, at, entry, tileset);
     return cellBoundsFromPixels(
-        origin.left,
-        origin.top,
-        origin.left + image.width,
-        origin.top + image.height,
+        origin.left + metrics.offsetX,
+        origin.top + metrics.offsetY,
+        origin.left + metrics.offsetX + metrics.width,
+        origin.top + metrics.offsetY + metrics.height,
         spec,
     );
 }
@@ -451,16 +460,63 @@ function anchorBounds(spec: MapSpec, at: [number, number], entry: PaletteEntry):
     };
 }
 
-function tileImageOrigin(
+function tileFrameOrigin(
     spec: MapSpec,
     at: [number, number],
     entry: PaletteEntry,
     tileset: ParsedTileset,
 ): { left: number; top: number } {
-    const image = tileset.perTileImages[entry.local_id];
+    const metrics = tileVisualMetricsForTile(tileset, entry.local_id);
     const left = at[0] * spec.tileSize;
-    const top = image ? (at[1] + 1) * spec.tileSize - image.height : at[1] * spec.tileSize;
+    const top = metrics ? (at[1] + 1) * spec.tileSize - metrics.frameHeight : at[1] * spec.tileSize;
     return { left, top };
+}
+
+function tileVisualMetricsForTile(
+    tileset: ParsedTileset,
+    localId: number,
+): TileVisualMetrics | null {
+    const collectionImage = tileset.perTileImages[localId];
+    if (collectionImage) {
+        return {
+            width: collectionImage.width,
+            height: collectionImage.height,
+            offsetX: 0,
+            offsetY: 0,
+            frameWidth: collectionImage.width,
+            frameHeight: collectionImage.height,
+        };
+    }
+
+    const props = tileset.properties[localId] ?? {};
+    const width = numberProperty(props.source_image_width);
+    const height = numberProperty(props.source_image_height);
+    const offsetX = numberProperty(props.source_image_offset_x);
+    const offsetY = numberProperty(props.source_image_offset_y);
+    const frameWidth = numberProperty(props.atlas_frame_width);
+    const frameHeight = numberProperty(props.atlas_frame_height);
+
+    if (
+        width == null ||
+        height == null ||
+        offsetX == null ||
+        offsetY == null ||
+        frameWidth == null ||
+        frameHeight == null
+    ) {
+        return null;
+    }
+
+    return { width, height, offsetX, offsetY, frameWidth, frameHeight };
+}
+
+function numberProperty(value: unknown): number | null {
+    if (typeof value === "number" && Number.isFinite(value)) return value;
+    if (typeof value === "string" && value.trim() !== "") {
+        const parsed = Number(value);
+        return Number.isFinite(parsed) ? parsed : null;
+    }
+    return null;
 }
 
 function polygonBounds(

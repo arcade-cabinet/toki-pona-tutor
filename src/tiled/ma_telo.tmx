@@ -11,8 +11,8 @@
  <tileset firstgid="5569" source="../assets/tilesets/seasons/Tiled/Tilesets/Tileset_Sand.tsx"/>
  <tileset firstgid="8449" source="../assets/tilesets/seasons/Tiled/Tilesets/Tileset_Water.tsx"/>
  <tileset firstgid="8761" source="../assets/tilesets/generated/Tiled/Tilesets/Tileset_Water_Shore_Seasons.tsx"/>
- <tileset firstgid="8769" source="../assets/tilesets/seasons/Tiled/Tilesets/Objects_Buildings_Seasons.tsx"/>
- <tileset firstgid="9069" source="../assets/tilesets/seasons/Tiled/Tilesets/Objects_Trees_Seasons.tsx"/>
+ <tileset firstgid="8769" source="../assets/tilesets/generated/Tiled/Tilesets/Atlas_Seasons_Objects_Buildings_Seasons.tsx"/>
+ <tileset firstgid="8772" source="../assets/tilesets/generated/Tiled/Tilesets/Atlas_Seasons_Objects_Trees_Seasons.tsx"/>
  <layer id="1" name="Below Player" width="20" height="16" visible="1" opacity="1">
   <data encoding="csv">
 8475,8475,8475,8475,8475,8475,8475,8475,8475,8475,8475,8475,8762,5619,4581,4581,5619,8764,8475,8475,
@@ -35,19 +35,19 @@
  </layer>
  <layer id="2" name="World" width="20" height="16" visible="1" opacity="1">
   <data encoding="csv">
-9040,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,9069,0,0,0,0,0,0,0,0,0,0,0,0,0,0,9070,0,0,
+8770,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,8772,0,0,0,0,0,0,0,0,0,0,0,0,0,0,8773,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,9051,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,8771,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,9083,0,0,0,0,0,0,0,9083,0,0,0,0,0,0,0,
-0,9069,0,0,0,0,0,0,0,0,0,0,0,0,0,0,8827,0,9070,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,8775,0,0,0,0,0,0,0,8775,0,0,0,0,0,0,0,
+0,8772,0,0,0,0,0,0,0,0,0,0,0,0,0,0,8769,0,8773,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0

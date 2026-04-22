@@ -10,9 +10,11 @@ import {
 import surfaceConfig from "../../scripts/map-authoring/config/fantasy-surfaces.json";
 import { forestPalette } from "../../scripts/map-authoring/palettes/forest";
 import { waterPalette } from "../../scripts/map-authoring/palettes/water";
+import { collectionAtlasEntry } from "../../scripts/map-authoring/config/collection-atlases";
 import type { PaletteEntry, ParsedTileset } from "../../scripts/map-authoring/lib/types";
 
 const SEASONS_TSX = resolve(__dirname, "../../public/assets/tilesets/seasons/Tiled/Tilesets");
+const GENERATED_TSX = resolve(__dirname, "../../public/assets/tilesets/generated/Tiled/Tilesets");
 const WANG_EDGE_INDEX = {
     top: 0,
     right: 2,
@@ -29,6 +31,31 @@ describe("TSX metadata parser", () => {
         expect(trees.objectGroups[32]).toHaveLength(1);
         expect(trees.objectGroups[32][0].polygon?.length).toBeGreaterThan(6);
         expect(tileHasCollision(trees, 32)).toBe(true);
+    });
+
+    it("builds render-safe generated atlases for collection-image landmarks", async () => {
+        const trees = await parseTsx(
+            resolve(GENERATED_TSX, "Atlas_Seasons_Objects_Trees_Seasons.tsx"),
+        );
+        const treeWide = collectionAtlasEntry("seasons/Objects_Trees_Seasons", 32);
+
+        expect(trees.isCollection).toBe(false);
+        expect(treeWide).toMatchObject({
+            tsx: "generated/Atlas_Seasons_Objects_Trees_Seasons",
+            local_id: 5,
+        });
+        expect(trees.image).toMatchObject({ width: 776, height: 248 });
+        expect(trees.properties[treeWide.local_id]).toMatchObject({
+            collides: true,
+            source_tileset: "seasons/Objects_Trees_Seasons",
+            source_local_id: 32,
+            source_image_width: 64,
+            source_image_height: 63,
+            atlas_frame_width: 97,
+            atlas_frame_height: 124,
+        });
+        expect(trees.objectGroups[treeWide.local_id]).toHaveLength(1);
+        expect(tileHasCollision(trees, treeWide.local_id)).toBe(true);
     });
 
     it("parses wangsets and probability hints from ground tilesets", async () => {

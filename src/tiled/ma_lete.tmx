@@ -11,10 +11,10 @@
  <tileset firstgid="5569" source="../assets/tilesets/snow/Tiled/Tilesets/Tileset_Snow.tsx"/>
  <tileset firstgid="5659" source="../assets/tilesets/snow/Tiled/Tilesets/Tileset_TallGrass.tsx"/>
  <tileset firstgid="5959" source="../assets/tilesets/snow/Tiled/Tilesets/Tileset_Fence_1_Snow.tsx"/>
- <tileset firstgid="5995" source="../assets/tilesets/snow/Tiled/Tilesets/Objects_Buildings_Snow.tsx"/>
- <tileset firstgid="6990" source="../assets/tilesets/snow/Tiled/Tilesets/Objects_Props_Snow.tsx"/>
- <tileset firstgid="8233" source="../assets/tilesets/snow/Tiled/Tilesets/Objects_Rocks_Snow.tsx"/>
- <tileset firstgid="8383" source="../assets/tilesets/snow/Tiled/Tilesets/Objects_Trees_Snow.tsx"/>
+ <tileset firstgid="5995" source="../assets/tilesets/generated/Tiled/Tilesets/Atlas_Snow_Objects_Buildings_Snow.tsx"/>
+ <tileset firstgid="5998" source="../assets/tilesets/generated/Tiled/Tilesets/Atlas_Snow_Objects_Props_Snow.tsx"/>
+ <tileset firstgid="5999" source="../assets/tilesets/generated/Tiled/Tilesets/Atlas_Snow_Objects_Rocks_Snow.tsx"/>
+ <tileset firstgid="6001" source="../assets/tilesets/generated/Tiled/Tilesets/Atlas_Snow_Objects_Trees_Snow.tsx"/>
  <layer id="1" name="Below Player" width="22" height="16" visible="1" opacity="1">
   <data encoding="csv">
 5577,5577,5577,5577,5577,5577,5577,5577,5577,5577,5577,5577,5577,5577,5577,5577,4833,4833,4833,5577,5577,5577,
@@ -37,22 +37,22 @@
  </layer>
  <layer id="2" name="World" width="22" height="16" visible="1" opacity="1">
   <data encoding="csv">
-6336,0,0,0,0,0,6353,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+5996,0,0,0,0,0,5997,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,8413,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,8388,0,
+0,6004,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,6001,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,6288,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,5995,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,8390,0,0,0,0,0,0,0,0,8328,0,0,
-0,0,0,0,8404,0,0,0,0,0,0,0,0,5972,5972,5972,5972,5972,5972,0,0,0,
-0,0,0,8321,0,0,0,0,0,0,0,0,0,5959,7404,0,0,0,5959,0,0,0,
+0,0,0,0,0,0,0,0,0,0,6002,0,0,0,0,0,0,0,0,6000,0,0,
+0,0,0,0,6003,0,0,0,0,0,0,0,0,5972,5972,5972,5972,5972,5972,0,0,0,
+0,0,0,5999,0,0,0,0,0,0,0,0,0,5959,5998,0,0,0,5959,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,8413,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,6004,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,8388,0
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,6001,0
   </data>
  </layer>
  <objectgroup id="3" name="Objects" visible="1" opacity="1">

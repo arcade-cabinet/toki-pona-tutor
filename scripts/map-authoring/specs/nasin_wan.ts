@@ -16,6 +16,7 @@ import {
     paintEdgeTransitions,
     paintRect,
 } from "../lib/spec-helpers";
+import { collectionAtlasTileset } from "../config/collection-atlases";
 import { forestPalette } from "../palettes/forest";
 
 const WIDTH = 32;
@@ -53,7 +54,7 @@ export default defineMap({
         "seasons/Tileset_Ground_Seasons",
         "seasons/Tileset_Road",
         "seasons/Tileset_TallGrass",
-        "seasons/Objects_Trees_Seasons",
+        collectionAtlasTileset("seasons/Objects_Trees_Seasons"),
     ],
     palette: forestPalette,
     layers: {

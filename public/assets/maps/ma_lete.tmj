@@ -47,19 +47,19 @@
     },
     {
       "firstgid": 5995,
-      "source": "../tilesets/snow/Tiled/Tilesets/Objects_Buildings_Snow.tsx"
+      "source": "../tilesets/generated/Tiled/Tilesets/Atlas_Snow_Objects_Buildings_Snow.tsx"
     },
     {
-      "firstgid": 6990,
-      "source": "../tilesets/snow/Tiled/Tilesets/Objects_Props_Snow.tsx"
+      "firstgid": 5998,
+      "source": "../tilesets/generated/Tiled/Tilesets/Atlas_Snow_Objects_Props_Snow.tsx"
     },
     {
-      "firstgid": 8233,
-      "source": "../tilesets/snow/Tiled/Tilesets/Objects_Rocks_Snow.tsx"
+      "firstgid": 5999,
+      "source": "../tilesets/generated/Tiled/Tilesets/Atlas_Snow_Objects_Rocks_Snow.tsx"
     },
     {
-      "firstgid": 8383,
-      "source": "../tilesets/snow/Tiled/Tilesets/Objects_Trees_Snow.tsx"
+      "firstgid": 6001,
+      "source": "../tilesets/generated/Tiled/Tilesets/Atlas_Snow_Objects_Trees_Snow.tsx"
     }
   ],
   "layers": [
@@ -439,13 +439,13 @@
       "visible": true,
       "opacity": 1,
       "data": [
-        6336,
+        5996,
         0,
         0,
         0,
         0,
         0,
-        6353,
+        5997,
         0,
         0,
         0,
@@ -506,7 +506,7 @@
         0,
         0,
         0,
-        8413,
+        6004,
         0,
         0,
         0,
@@ -525,7 +525,7 @@
         0,
         0,
         0,
-        8388,
+        6001,
         0,
         0,
         0,
@@ -582,7 +582,7 @@
         0,
         0,
         0,
-        6288,
+        5995,
         0,
         0,
         0,
@@ -625,7 +625,7 @@
         0,
         0,
         0,
-        8390,
+        6002,
         0,
         0,
         0,
@@ -634,14 +634,14 @@
         0,
         0,
         0,
-        8328,
+        6000,
         0,
         0,
         0,
         0,
         0,
         0,
-        8404,
+        6003,
         0,
         0,
         0,
@@ -662,7 +662,7 @@
         0,
         0,
         0,
-        8321,
+        5999,
         0,
         0,
         0,
@@ -673,7 +673,7 @@
         0,
         0,
         5959,
-        7404,
+        5998,
         0,
         0,
         0,
@@ -723,7 +723,7 @@
         0,
         0,
         0,
-        8413,
+        6004,
         0,
         0,
         0,
@@ -789,7 +789,7 @@
         0,
         0,
         0,
-        8388,
+        6001,
         0
       ]
     },

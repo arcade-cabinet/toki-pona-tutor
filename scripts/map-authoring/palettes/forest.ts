@@ -5,9 +5,11 @@
  */
 import type { Palette } from "../lib/types";
 import surfaceConfig from "../config/fantasy-surfaces.json";
+import { collectionAtlasEntry } from "../config/collection-atlases";
 
 const seasons = surfaceConfig.seasons;
 const ground = seasons.ground;
+const seasonsTrees = "seasons/Objects_Trees_Seasons";
 
 export const forestPalette: Palette = {
     // Ground + path.
@@ -104,24 +106,21 @@ export const forestPalette: Palette = {
     },
 
     // Tree and underbrush collection images.
-    tree_a: { tsx: "seasons/Objects_Trees_Seasons", local_id: 0, description: "emerald tree 2" },
-    tree_b: { tsx: "seasons/Objects_Trees_Seasons", local_id: 1, description: "emerald tree 3" },
-    tree_c: { tsx: "seasons/Objects_Trees_Seasons", local_id: 2, description: "emerald tree 4" },
+    tree_a: { ...collectionAtlasEntry(seasonsTrees, 0), description: "emerald tree 2" },
+    tree_b: { ...collectionAtlasEntry(seasonsTrees, 1), description: "emerald tree 3" },
+    tree_c: { ...collectionAtlasEntry(seasonsTrees, 2), description: "emerald tree 4" },
     tree_wide: {
-        tsx: "seasons/Objects_Trees_Seasons",
-        local_id: 32,
+        ...collectionAtlasEntry(seasonsTrees, 32),
         description: "wide emerald tree",
     },
     tree_big: {
-        tsx: "seasons/Objects_Trees_Seasons",
-        local_id: 82,
+        ...collectionAtlasEntry(seasonsTrees, 82),
         description: "large emerald tree",
     },
-    bush_a: { tsx: "seasons/Objects_Trees_Seasons", local_id: 14, description: "emerald bush 1" },
-    bush_b: { tsx: "seasons/Objects_Trees_Seasons", local_id: 16, description: "emerald bush 3" },
+    bush_a: { ...collectionAtlasEntry(seasonsTrees, 14), description: "emerald bush 1" },
+    bush_b: { ...collectionAtlasEntry(seasonsTrees, 16), description: "emerald bush 3" },
     bush_leaf: {
-        tsx: "seasons/Objects_Trees_Seasons",
-        local_id: 52,
+        ...collectionAtlasEntry(seasonsTrees, 52),
         description: "leafy emerald bush",
     },
 };

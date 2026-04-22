@@ -47,11 +47,11 @@
     },
     {
       "firstgid": 8769,
-      "source": "../tilesets/seasons/Tiled/Tilesets/Objects_Buildings_Seasons.tsx"
+      "source": "../tilesets/generated/Tiled/Tilesets/Atlas_Seasons_Objects_Buildings_Seasons.tsx"
     },
     {
-      "firstgid": 9069,
-      "source": "../tilesets/seasons/Tiled/Tilesets/Objects_Trees_Seasons.tsx"
+      "firstgid": 8772,
+      "source": "../tilesets/generated/Tiled/Tilesets/Atlas_Seasons_Objects_Trees_Seasons.tsx"
     }
   ],
   "layers": [
@@ -399,7 +399,7 @@
       "visible": true,
       "opacity": 1,
       "data": [
-        9040,
+        8770,
         0,
         0,
         0,
@@ -421,7 +421,7 @@
         0,
         0,
         0,
-        9069,
+        8772,
         0,
         0,
         0,
@@ -436,7 +436,7 @@
         0,
         0,
         0,
-        9070,
+        8773,
         0,
         0,
         0,
@@ -466,7 +466,7 @@
         0,
         0,
         0,
-        9051,
+        8771,
         0,
         0,
         0,
@@ -623,7 +623,7 @@
         0,
         0,
         0,
-        9083,
+        8775,
         0,
         0,
         0,
@@ -631,7 +631,7 @@
         0,
         0,
         0,
-        9083,
+        8775,
         0,
         0,
         0,
@@ -640,7 +640,7 @@
         0,
         0,
         0,
-        9069,
+        8772,
         0,
         0,
         0,
@@ -655,9 +655,9 @@
         0,
         0,
         0,
-        8827,
+        8769,
         0,
-        9070,
+        8773,
         0,
         0,
         0,

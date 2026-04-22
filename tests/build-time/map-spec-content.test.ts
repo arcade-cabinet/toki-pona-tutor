@@ -12,6 +12,7 @@ import { cavePalette } from "../../scripts/map-authoring/palettes/cave";
 import { icePalette } from "../../scripts/map-authoring/palettes/ice";
 import { mountainPalette } from "../../scripts/map-authoring/palettes/mountain";
 import { waterPalette } from "../../scripts/map-authoring/palettes/water";
+import { collectionAtlasTileset } from "../../scripts/map-authoring/config/collection-atlases";
 import type { PlacedTile, TileGrid } from "../../scripts/map-authoring/lib/types";
 
 const SHIPPED_SPECS = [
@@ -165,7 +166,7 @@ describe("authored map content contracts", () => {
                 "seasons/Tileset_Ground_Seasons",
                 "seasons/Tileset_Road",
                 "seasons/Tileset_TallGrass",
-                "seasons/Objects_Trees_Seasons",
+                collectionAtlasTileset("seasons/Objects_Trees_Seasons"),
             ]),
         );
         expect(nasinWan.tilesets).not.toContain("core/Tileset_Ground");
@@ -267,8 +268,8 @@ describe("authored map content contracts", () => {
                 "seasons/Tileset_Road",
                 "seasons/Tileset_Sand",
                 "seasons/Tileset_Water",
-                "seasons/Objects_Buildings_Seasons",
-                "seasons/Objects_Trees_Seasons",
+                collectionAtlasTileset("seasons/Objects_Buildings_Seasons"),
+                collectionAtlasTileset("seasons/Objects_Trees_Seasons"),
             ]),
         );
         expect(maTelo.tilesets).not.toContain("core/Tileset_Ground");
@@ -341,10 +342,10 @@ describe("authored map content contracts", () => {
                 "snow/Tileset_Snow",
                 "snow/Tileset_TallGrass",
                 "snow/Tileset_Fence_1_Snow",
-                "snow/Objects_Buildings_Snow",
-                "snow/Objects_Props_Snow",
-                "snow/Objects_Rocks_Snow",
-                "snow/Objects_Trees_Snow",
+                collectionAtlasTileset("snow/Objects_Buildings_Snow"),
+                collectionAtlasTileset("snow/Objects_Props_Snow"),
+                collectionAtlasTileset("snow/Objects_Rocks_Snow"),
+                collectionAtlasTileset("snow/Objects_Trees_Snow"),
             ]),
         );
         expect(maLete.tilesets).not.toContain("core/Tileset_Ground");
@@ -443,8 +444,8 @@ describe("authored map content contracts", () => {
                 "seasons/Tileset_Road",
                 "seasons/Tileset_TallGrass",
                 "seasons/Tileset_RockSlope_2_Gray",
-                "seasons/Objects_Rocks_Seasons",
-                "seasons/Objects_Trees_Seasons",
+                collectionAtlasTileset("seasons/Objects_Rocks_Seasons"),
+                collectionAtlasTileset("seasons/Objects_Trees_Seasons"),
             ]),
         );
         expect(nenaSewi.tilesets).not.toContain("core/Tileset_Ground");

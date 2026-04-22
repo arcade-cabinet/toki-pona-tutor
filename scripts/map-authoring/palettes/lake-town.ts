@@ -6,11 +6,14 @@
  */
 import type { Palette } from "../lib/types";
 import surfaceConfig from "../config/fantasy-surfaces.json";
+import { collectionAtlasEntry } from "../config/collection-atlases";
 
 const seasons = surfaceConfig.seasons;
 const ground = seasons.ground;
 const shore = seasons.sand;
 const water = seasons.water;
+const seasonsBuildings = "seasons/Objects_Buildings_Seasons";
+const seasonsTrees = "seasons/Objects_Trees_Seasons";
 
 export const lakeTownPalette: Palette = {
     g: {
@@ -176,22 +179,19 @@ export const lakeTownPalette: Palette = {
     },
 
     house_blue: {
-        tsx: "seasons/Objects_Buildings_Seasons",
-        local_id: 271,
+        ...collectionAtlasEntry(seasonsBuildings, 271),
         description: "small hay-roof house",
     },
     house_red: {
-        tsx: "seasons/Objects_Buildings_Seasons",
-        local_id: 58,
+        ...collectionAtlasEntry(seasonsBuildings, 58),
         description: "narrow hay-roof house",
     },
     market_stand: {
-        tsx: "seasons/Objects_Buildings_Seasons",
-        local_id: 282,
+        ...collectionAtlasEntry(seasonsBuildings, 282),
         description: "red market stand",
     },
 
-    tree_a: { tsx: "seasons/Objects_Trees_Seasons", local_id: 0, description: "emerald tree 2" },
-    tree_b: { tsx: "seasons/Objects_Trees_Seasons", local_id: 1, description: "emerald tree 3" },
-    bush_a: { tsx: "seasons/Objects_Trees_Seasons", local_id: 14, description: "emerald bush 1" },
+    tree_a: { ...collectionAtlasEntry(seasonsTrees, 0), description: "emerald tree 2" },
+    tree_b: { ...collectionAtlasEntry(seasonsTrees, 1), description: "emerald tree 3" },
+    bush_a: { ...collectionAtlasEntry(seasonsTrees, 14), description: "emerald bush 1" },
 };
