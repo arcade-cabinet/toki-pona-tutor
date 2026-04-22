@@ -45,14 +45,14 @@
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,6288,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,8328,0,0,
+0,0,0,0,0,0,0,0,0,0,8390,0,0,0,0,0,0,0,0,8328,0,0,
 0,0,0,0,8404,0,0,0,0,0,0,0,0,5972,5972,5972,5972,5972,5972,0,0,0,
 0,0,0,8321,0,0,0,0,0,0,0,0,0,5959,7404,0,0,0,5959,0,0,0,
-0,0,0,0,0,0,0,0,0,0,8390,0,0,0,0,0,0,0,0,0,0,0,
-0,8388,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,8413,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,8413,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
 0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,8388,0
   </data>
  </layer>
  <objectgroup id="3" name="Objects" visible="1" opacity="1">
@@ -69,13 +69,13 @@
      <property name="dialog_id" value="jan_suno_lete_light"/>
    </properties>
   </object>
-  <object id="4" name="jan-poki-lete" type="NPC" x="64" y="128" width="0" height="0" visible="1" rotation="0">
+  <object id="4" name="jan-poki-lete" type="NPC" x="112" y="128" width="0" height="0" visible="1" rotation="0">
    <properties>
      <property name="id" value="jan_poki_lete"/>
      <property name="dialog_id" value="jan_poki_lete_cold"/>
    </properties>
   </object>
-  <object id="5" name="jan-kasi" type="NPC" x="240" y="160" width="0" height="0" visible="1" rotation="0">
+  <object id="5" name="jan-kasi" type="NPC" x="256" y="160" width="0" height="0" visible="1" rotation="0">
    <properties>
      <property name="id" value="jan_kasi"/>
      <property name="dialog_id" value="jan_kasi_garden"/>

@@ -43,6 +43,7 @@
     "author:validate": "tsx scripts/map-authoring/cli/validate.ts",
     "author:convert-tmx": "tsx scripts/map-authoring/cli/convert-tmx.ts",
     "author:inspect": "tsx scripts/map-authoring/cli/inspect.ts",
+    "author:audit-surfaces": "tsx scripts/map-authoring/cli/surface-audit.ts",
     "author:all": "tsx scripts/map-authoring/cli/all.ts",
     "author:verify": "tsx scripts/map-authoring/cli/verify.ts",
     "android:configure-release-signing": "node scripts/capacitor/configure-release-signing.mjs"

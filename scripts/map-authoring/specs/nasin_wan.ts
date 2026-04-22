@@ -49,10 +49,10 @@ export default defineMap({
     'Below Player': forestBase(),
     World: [
       { at: [2, 3], tile: 'tree_wide' },
-      { at: [6, 3], tile: 'tree_b' },
+      { at: [6, 1], tile: 'tree_b' },
       { at: [11, 2], tile: 'tree_c' },
       { at: [17, 3], tile: 'tree_a' },
-      { at: [23, 2], tile: 'tree_big' },
+      { at: [23, 1], tile: 'tree_big' },
       { at: [29, 3], tile: 'tree_wide' },
       { at: [4, 11], tile: 'tree_a' },
       { at: [10, 11], tile: 'tree_a' },

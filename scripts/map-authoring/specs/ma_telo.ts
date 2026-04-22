@@ -78,7 +78,7 @@ export default defineMap({
       { at: [1, 12], tile: 'tree_a' },
       { at: [18, 12], tile: 'tree_b' },
       { at: [0, 0], tile: 'house_blue' },
-      { at: [13, 10], tile: 'house_red' },
+      { at: [16, 12], tile: 'house_red' },
       { at: [7, 3], tile: 'market_stand' },
       { at: [4, 11], tile: 'bush_a' },
       { at: [12, 11], tile: 'bush_a' },
@@ -94,7 +94,7 @@ export default defineMap({
       {
         type: 'NPC',
         name: 'jan-olin-telo',
-        at: [4, 10],
+        at: [8, 10],
         props: { id: 'jan_olin_telo', dialog_id: 'jan_olin_telo_quiet' },
       },
       {
