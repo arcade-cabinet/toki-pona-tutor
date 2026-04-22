@@ -4,9 +4,9 @@ import {
     BGM_STOP_DELAY_PADDING_MS,
     BgmCrossfadeController,
     getPlayableSound,
-    publicAssetPath,
     type HowlLike,
 } from "../../src/config/audio-controller";
+import { publicAssetPath } from "../../src/config/asset-paths";
 import type { BgmId } from "../../src/modules/main/audio";
 
 class FakeHowl implements HowlLike {

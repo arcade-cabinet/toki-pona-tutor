@@ -5,6 +5,7 @@ import {
     existsSync,
     mkdirSync,
     mkdtempSync,
+    readdirSync,
     readFileSync,
     statSync,
     writeFileSync,
@@ -15,19 +16,26 @@ import { pathToFileURL } from "node:url";
 
 const TAG_PATTERN = /^v\d+\.\d+\.\d+(?:[-+][0-9A-Za-z.-]+)?$/;
 const SHA_PATTERN = /^(?:[a-f0-9]{7,40}|local)$/;
-export const REQUIRED_WEB_BUNDLE_FILES = [
+export const STATIC_REQUIRED_WEB_BUNDLE_FILES = [
     "index.html",
     "manifest.json",
     "default-bundle.json",
     "revoltfx-spritesheet.json",
-    "map/ma_lete.tmx",
-    "map/ma_telo.tmx",
-    "map/ma_tomo_lili.tmx",
-    "map/nasin_pi_telo.tmx",
-    "map/nasin_wan.tmx",
-    "map/nena_sewi.tmx",
-    "map/nena_suli.tmx",
 ];
+export const REQUIRED_WEB_BUNDLE_FILES = requiredWebBundleFiles();
+
+export function requiredWebBundleFiles(root = process.cwd()) {
+    return [...STATIC_REQUIRED_WEB_BUNDLE_FILES, ...requiredMapBundleFiles(root)];
+}
+
+export function requiredMapBundleFiles(root = process.cwd()) {
+    const tiledDir = resolve(root, "src/tiled");
+    if (!existsSync(tiledDir)) return [];
+    return readdirSync(tiledDir)
+        .filter((name) => name.endsWith(".tmx"))
+        .sort()
+        .map((name) => `map/${name}`);
+}
 
 export function releaseArtifactNames(tagName) {
     assertTagName(tagName);
@@ -114,7 +122,7 @@ export function smokeReleaseArtifacts({
     const apkPath = resolve(repoRoot, "android/app/build/outputs/apk/debug/app-debug.apk");
     const outRoot = prepareOutputDirectory(outDir, tagName);
 
-    assertBuiltWebBundle(distDir);
+    assertBuiltWebBundle(distDir, repoRoot);
     assertFile(apkPath, "debug APK");
 
     mkdirSync(outRoot, { recursive: true });
@@ -133,7 +141,7 @@ export function smokeReleaseArtifacts({
     copyFileSync(apkPath, apkOutPath);
     writeFileSync(metadataPath, `${JSON.stringify(metadata, null, 2)}\n`);
 
-    for (const file of REQUIRED_WEB_BUNDLE_FILES) {
+    for (const file of requiredWebBundleFiles(repoRoot)) {
         assertTarContains(webBundlePath, `./${file}`);
     }
     assertFile(apkOutPath, "copied debug APK");
@@ -165,7 +173,7 @@ function versionFromTagName(tagName) {
     return tagName.replace(/^v/, "");
 }
 
-export function assertBuiltWebBundle(distDir) {
+export function assertBuiltWebBundle(distDir, root = process.cwd()) {
     const indexPath = join(distDir, "index.html");
     assertFile(indexPath, "web bundle index.html");
     const indexHtml = readFileSync(indexPath, "utf8");
@@ -178,7 +186,7 @@ export function assertBuiltWebBundle(distDir) {
         );
     }
 
-    for (const file of REQUIRED_WEB_BUNDLE_FILES) {
+    for (const file of requiredWebBundleFiles(root)) {
         assertFile(join(distDir, file), `web bundle ${file}`);
     }
 }

@@ -11,6 +11,7 @@ const releaseArtifacts = (await import("../../scripts/deploy/smoke-release-artif
         body?: string;
     }): Record<string, string>;
     releaseArtifactNames(tagName: string): Record<string, string>;
+    requiredWebBundleFiles(root?: string): string[];
     smokeReleaseArtifacts(input: {
         root: string;
         tagName: string;
@@ -28,7 +29,10 @@ const releaseArtifacts = (await import("../../scripts/deploy/smoke-release-artif
     validateReleaseMetadata(input: unknown): Record<string, string>;
 };
 const pagesBundle = (await import("../../scripts/deploy/verify-pages-bundle.mjs")) as {
-    verifyPagesBundle(distDir?: string): {
+    verifyPagesBundle(
+        distDir?: string,
+        root?: string,
+    ): {
         distDir: string;
         requiredFiles: string[];
     };
@@ -55,19 +59,17 @@ function tempRoot() {
     return root;
 }
 
+const FIXTURE_MAP_FILES = ["ma_lili.tmx", "nasin_lili.tmx"];
+
 function writeRequiredWebBundleFiles(root: string, skipFile?: string) {
-    for (const file of [
-        "manifest.json",
-        "default-bundle.json",
-        "revoltfx-spritesheet.json",
-        "map/ma_lete.tmx",
-        "map/ma_telo.tmx",
-        "map/ma_tomo_lili.tmx",
-        "map/nasin_pi_telo.tmx",
-        "map/nasin_wan.tmx",
-        "map/nena_sewi.tmx",
-        "map/nena_suli.tmx",
-    ]) {
+    mkdirSync(join(root, "src/tiled"), { recursive: true });
+    for (const mapFile of FIXTURE_MAP_FILES) {
+        writeFileSync(join(root, "src/tiled", mapFile), "<map />\n");
+    }
+
+    for (const file of releaseArtifacts
+        .requiredWebBundleFiles(root)
+        .filter((file) => file !== "index.html")) {
         if (file === skipFile) continue;
         writeFileSync(join(root, "dist", file), "{}\n");
     }
@@ -183,10 +185,10 @@ describe("release artifact handoff contract", () => {
         );
         writeRequiredWebBundleFiles(root);
 
-        const result = pagesBundle.verifyPagesBundle(join(root, "dist"));
+        const result = pagesBundle.verifyPagesBundle(join(root, "dist"), root);
 
         expect(result.requiredFiles).toContain("manifest.json");
-        expect(result.requiredFiles).toContain("map/nena_suli.tmx");
+        expect(result.requiredFiles).toContain("map/nasin_lili.tmx");
     });
 
     it("rejects deployable Pages bundle verification when the Pages base is missing", () => {
@@ -201,7 +203,7 @@ describe("release artifact handoff contract", () => {
         );
         writeRequiredWebBundleFiles(root);
 
-        expect(() => pagesBundle.verifyPagesBundle(join(root, "dist"))).toThrow(
+        expect(() => pagesBundle.verifyPagesBundle(join(root, "dist"), root)).toThrow(
             /GITHUB_PAGES=true/,
         );
     });
@@ -243,7 +245,7 @@ describe("release artifact handoff contract", () => {
                 '<script type="module" src="/poki-soweli/assets/index.js"></script>',
             ].join("\n"),
         );
-        writeRequiredWebBundleFiles(root, "map/nena_suli.tmx");
+        writeRequiredWebBundleFiles(root, "map/nasin_lili.tmx");
         writeFileSync(join(root, "android/app/build/outputs/apk/debug/app-debug.apk"), "apk\n");
 
         expect(() =>
@@ -254,7 +256,7 @@ describe("release artifact handoff contract", () => {
                 version: "0.2.3",
                 sha: "local",
             }),
-        ).toThrow(/map\/nena_suli\.tmx/);
+        ).toThrow(/map\/nasin_lili\.tmx/);
     });
 
     it("refuses to wipe a caller-supplied existing output directory", () => {

@@ -117,7 +117,7 @@ tests/
 
 -   Don't introduce tilesets outside the Fan-tasy family.
 -   Don't hand-author toki pona text.
--   Don't edit `src/content/generated/world.json` directly — it's compiled from `spine/`.
+-   Don't edit `src/content/generated/world.json` directly — `pnpm build-spine` compiles it from `src/content/spine/` plus map object layers from `public/assets/maps/*.tmj`.
 -   Don't use the green dragon for mid-game encounters — it's endgame material.
 -   Don't write code before docs and tests exist for it.
 

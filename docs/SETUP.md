@@ -11,14 +11,16 @@ Fresh clone → running dev server in under five minutes.
 
 ## Prerequisites
 
-- **Node 22+** (LTS) — enforce via `corepack enable`
-- **pnpm 10+** — `npm install -g pnpm` or corepack
-- **Git 2.40+** with LFS for binary assets (`git lfs install` once per machine)
+-   **Node 22+** (LTS) — enforce via `corepack enable`
+-   **pnpm 10+** — `npm install -g pnpm` or corepack
+-   **Git 2.40+** with LFS for binary assets (`git lfs install` once per machine)
+-   **`sql.js` pin:** keep the direct dependency and `pnpm.overrides` entry at `1.11.0` unless the Capacitor SQLite + `jeep-sqlite` web shim is revalidated end to end; Vite copies the matching `sql-wasm.*` files into `public/assets/`.
 
 Optional:
-- **Tiled editor** — for *inspecting* `.tmx` maps (authoring is spec-based; Tiled is read-only here)
-- **Android SDK 34 + Java 21 Temurin** — only needed if you're building APKs locally (CI handles debug APK builds)
-- **actionlint + shellcheck** — only needed for local `pnpm workflow:check` before editing GitHub Actions
+
+-   **Tiled editor** — for _inspecting_ `.tmx` maps (authoring is spec-based; Tiled is read-only here)
+-   **Android SDK 34 + Java 21 Temurin** — only needed if you're building APKs locally (CI handles debug APK builds)
+-   **actionlint + shellcheck** — only needed for local `pnpm workflow:check` before editing GitHub Actions
 
 ## First-run bootstrap
 
@@ -53,9 +55,9 @@ pnpm workflow:check   # actionlint + shellcheck over every workflow run: block
 
 Maps and species are **build artifacts**, not hand-edited files. The source of truth is:
 
-- **Maps:** `scripts/map-authoring/specs/<id>.ts` → `pnpm author:build <id>` or `pnpm author:all --all` → emits `src/tiled/<id>.tmx` + `public/assets/maps/<id>.tmj` + preview PNG.
-- **Species / moves / items / dialog / journey + map object registry:** `src/content/spine/**/*.json` + `public/assets/maps/*.tmj` → `pnpm build-spine` → emits `src/content/generated/world.json`.
-- **Toki Pona strings:** every multi-word `en` field on a translatable goes through the Tatoeba corpus at `src/content/corpus/tatoeba.json`. If `pnpm validate-tp` rejects your sentence, **rewrite the EN, don't hand-author the TP**.
+-   **Maps:** `scripts/map-authoring/specs/<id>.ts` → `pnpm author:build <id>` or `pnpm author:all --all` → emits `src/tiled/<id>.tmx` + `public/assets/maps/<id>.tmj` + preview PNG.
+-   **Species / moves / items / dialog / journey + map object registry:** `src/content/spine/**/*.json` + `public/assets/maps/*.tmj` → `pnpm build-spine` → emits `src/content/generated/world.json`.
+-   **Toki Pona strings:** every multi-word `en` field on a translatable goes through the Tatoeba corpus at `src/content/corpus/tatoeba.json`. If `pnpm validate-tp` rejects your sentence, **rewrite the EN, don't hand-author the TP**.
 
 See `docs/ARCHITECTURE.md` for the full shape.
 
@@ -74,11 +76,11 @@ pnpm test:e2e:full        # broader Playwright suite (local)
 
 ## Common gotchas
 
-- **Dev server or smoke spec uses the wrong URL:** local dev/preview is `/`, GitHub Pages is `/poki-soweli/`, and Capacitor is `./`. If you hit `http://localhost:5173/poki-soweli/` in local dev, you're testing the wrong base.
-- **Playwright reports the wrong app or port 5173 is occupied:** the E2E config starts this repo with `vite --strictPort` on `127.0.0.1:5173` and no longer reuses arbitrary servers by default. Stop the conflicting server or run with an explicit port, for example `E2E_PORT=5174 pnpm test:e2e:full`.
-- **Dev server fails with `window is not defined` at startup:** you imported from `@rpgjs/action-battle` directly instead of `/server` or `/client` subpath. See `src/types/rpgjs-tiledmap.d.ts`.
-- **`pnpm typecheck` filters `@rpgjs/common/src/rooms/WorldMaps.ts`:** that's an upstream TS bug; our grep in the typecheck script hides it. Don't remove the filter.
-- **Local Android build fails immediately:** build the Capacitor bundle first, then ensure the Android scaffold exists before Gradle:
+-   **Dev server or smoke spec uses the wrong URL:** local dev/preview is `/`, GitHub Pages is `/poki-soweli/`, and Capacitor is `./`. If you hit `http://localhost:5173/poki-soweli/` in local dev, you're testing the wrong base.
+-   **Playwright reports the wrong app or port 5173 is occupied:** the E2E config starts this repo with `vite --strictPort` on `127.0.0.1:5173` and no longer reuses arbitrary servers by default. Stop the conflicting server or run with an explicit port, for example `E2E_PORT=5174 pnpm test:e2e:full`.
+-   **Dev server fails with `window is not defined` at startup:** you imported from `@rpgjs/action-battle` directly instead of `/server` or `/client` subpath. See `src/types/rpgjs-tiledmap.d.ts`.
+-   **`pnpm typecheck` filters `@rpgjs/common/src/rooms/WorldMaps.ts`:** that's an upstream TS bug; our grep in the typecheck script hides it. Don't remove the filter.
+-   **Local Android build fails immediately:** build the Capacitor bundle first, then ensure the Android scaffold exists before Gradle:
 
 ```sh
 CAPACITOR=true pnpm build
@@ -101,6 +103,6 @@ This lets multiple Claude agents work on orthogonal branches without stomping on
 
 ## Next
 
-- Read `CLAUDE.md` for the critical rules (Fan-tasy only, no hand-authored TP, every monster catchable, maps are build artifacts).
-- Read `docs/STATE.md` for what just landed and what's queued.
-- Read `docs/ROADMAP.md` for the full phase backlog.
+-   Read `CLAUDE.md` for the critical rules (Fan-tasy only, no hand-authored TP, every monster catchable, maps are build artifacts).
+-   Read `docs/STATE.md` for what just landed and what's queued.
+-   Read `docs/ROADMAP.md` for the full phase backlog.

@@ -1,14 +1,14 @@
 #!/usr/bin/env node
 import { resolve } from "node:path";
 import { pathToFileURL } from "node:url";
-import { assertBuiltWebBundle, REQUIRED_WEB_BUNDLE_FILES } from "./smoke-release-artifacts.mjs";
+import { assertBuiltWebBundle, requiredWebBundleFiles } from "./smoke-release-artifacts.mjs";
 
-export function verifyPagesBundle(distDir = "dist") {
+export function verifyPagesBundle(distDir = "dist", root = process.cwd()) {
     const resolvedDistDir = resolve(distDir);
-    assertBuiltWebBundle(resolvedDistDir);
+    assertBuiltWebBundle(resolvedDistDir, root);
     return {
         distDir: resolvedDistDir,
-        requiredFiles: [...REQUIRED_WEB_BUNDLE_FILES],
+        requiredFiles: requiredWebBundleFiles(root),
     };
 }
 

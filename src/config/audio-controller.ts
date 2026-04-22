@@ -1,6 +1,5 @@
 import { bgmForContext, effectiveVolume, type BgmId, type MapContext } from "../modules/main/audio";
 import { AUDIO_RUNTIME_CONFIG } from "../content/gameplay";
-export { publicAssetPath } from "./asset-paths";
 
 export type HowlLike = {
     play: () => number | string | void;

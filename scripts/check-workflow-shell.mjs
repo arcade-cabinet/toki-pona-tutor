@@ -22,11 +22,14 @@ function collectRunBlocks(value, blocks = []) {
     if (!value || typeof value !== "object") return blocks;
 
     if (typeof value.run === "string") {
-        blocks.push(value.run.replace(/\n+$/, ""));
+        blocks.push({
+            run: value.run.replace(/\n+$/, ""),
+            shell: typeof value.shell === "string" ? value.shell : undefined,
+        });
     }
 
     for (const [key, child] of Object.entries(value)) {
-        if (key !== "run") collectRunBlocks(child, blocks);
+        if (key !== "run" && key !== "shell") collectRunBlocks(child, blocks);
     }
 
     return blocks;
@@ -34,7 +37,22 @@ function collectRunBlocks(value, blocks = []) {
 
 export function extractRunBlocks(source) {
     const workflow = parse(source, { prettyErrors: true });
-    return collectRunBlocks(workflow).map(sanitizeGithubExpressions);
+    return collectRunBlocks(workflow).map((block) => ({
+        ...block,
+        run: sanitizeGithubExpressions(block.run),
+    }));
+}
+
+export function shellcheckDialectForShell(shell) {
+    if (!shell) return "bash";
+
+    const firstToken = shell.trim().split(/\s+/)[0]?.toLowerCase() ?? "";
+    const executable = firstToken.split(/[\\/]/).pop();
+    if (executable === "bash") return "bash";
+    if (executable === "sh") return "sh";
+    if (executable === "dash") return "dash";
+    if (executable === "ksh") return "ksh";
+    return null;
 }
 
 export function workflowFiles(dir = workflowsDir) {
@@ -53,7 +71,8 @@ export function checkWorkflowShell({ dir = workflowsDir, command = "shellcheck" 
     }
 
     const tempRoot = mkdtempSync(join(tmpdir(), "poki-workflow-shell-"));
-    const shellFiles = [];
+    const shellFilesByDialect = new Map();
+    const skippedShells = new Set();
 
     try {
         for (const workflowPath of files) {
@@ -62,37 +81,57 @@ export function checkWorkflowShell({ dir = workflowsDir, command = "shellcheck" 
             const base = workflowPath.slice(dir.length + 1).replace(/[^a-zA-Z0-9_.-]/g, "_");
 
             blocks.forEach((block, index) => {
+                const dialect = shellcheckDialectForShell(block.shell);
+                if (!dialect) {
+                    skippedShells.add(block.shell);
+                    return;
+                }
                 const path = join(tempRoot, `${base}.${index}.sh`);
-                writeFileSync(path, `#!/usr/bin/env bash\n${block}\n`);
+                writeFileSync(path, `#!/usr/bin/env ${dialect}\n${block.run}\n`);
+                const shellFiles = shellFilesByDialect.get(dialect) ?? [];
                 shellFiles.push(path);
+                shellFilesByDialect.set(dialect, shellFiles);
             });
         }
 
-        if (shellFiles.length === 0) {
-            console.log("[workflow-shellcheck] no run blocks found");
+        const checkedCount = Array.from(shellFilesByDialect.values()).reduce(
+            (count, shellFiles) => count + shellFiles.length,
+            0,
+        );
+
+        if (checkedCount === 0) {
+            for (const shell of skippedShells) {
+                console.log(`[workflow-shellcheck] skipped unsupported shell '${shell}'`);
+            }
+            console.log("[workflow-shellcheck] no shellcheck-supported run blocks found");
             return 0;
         }
 
-        const result = spawnSync(command, ["-s", "bash", ...shellFiles], {
-            stdio: "inherit",
-        });
+        for (const [dialect, shellFiles] of shellFilesByDialect) {
+            const result = spawnSync(command, ["-s", dialect, ...shellFiles], {
+                stdio: "inherit",
+            });
 
-        if (result.error) {
-            if (result.error.code === "ENOENT") {
-                console.error(
-                    "[workflow-shellcheck] shellcheck is required but was not found on PATH",
-                );
-                return 127;
+            if (result.error) {
+                if (result.error.code === "ENOENT") {
+                    console.error(
+                        "[workflow-shellcheck] shellcheck is required but was not found on PATH",
+                    );
+                    return 127;
+                }
+                throw result.error;
             }
-            throw result.error;
+
+            if (result.status !== 0) {
+                return result.status ?? 1;
+            }
         }
 
-        if (result.status !== 0) {
-            return result.status ?? 1;
+        for (const shell of skippedShells) {
+            console.log(`[workflow-shellcheck] skipped unsupported shell '${shell}'`);
         }
-
         console.log(
-            `[workflow-shellcheck] checked ${shellFiles.length} run block(s) from ${files.length} workflow file(s)`,
+            `[workflow-shellcheck] checked ${checkedCount} run block(s) from ${files.length} workflow file(s)`,
         );
         return 0;
     } finally {

@@ -3,8 +3,8 @@ import {
     PLAYER_SPRITESHEET_CONFIGS,
     spriteLayout,
     type RuntimeSpritesheetConfig,
-} from "../content/gameplay";
-import { standFrames, walkFrames, type SpritesheetFrame } from "./sprite-layout";
+} from "src/content/gameplay";
+import { standFrames, walkFrames, type SpritesheetFrame } from "src/config/sprite-layout";
 
 type PlayerTextureKey = "idle" | Animation;
 type SpritesheetTexture = {

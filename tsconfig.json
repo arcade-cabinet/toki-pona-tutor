@@ -4,6 +4,9 @@
     "lib": ["dom", "esnext"],
     "module": "ES2020",
     "moduleResolution": "bundler",
+    "paths": {
+      "src/*": ["./src/*"]
+    },
     "resolveJsonModule": true,
     "strict": true,
     "strictNullChecks": true,
@@ -29,15 +32,7 @@
     "sourceMap": true,
     "stripInternal": true
   },
-  "include": [
-    "src",
-    "vite.config.ts"
-  ],
-  "exclude": [
-    "node_modules"
-  ],
-  "typeRoots": [
-    "node_modules/@types",
-    "src/types"
-  ]
+  "include": ["src", "vite.config.ts"],
+  "exclude": ["node_modules"],
+  "typeRoots": ["node_modules/@types", "src/types"]
 }
