@@ -481,6 +481,38 @@ export const visualsConfigSchema = z.object({
         blocking_ui_selectors: z.array(idSchema).min(1),
         target_blocking_ui_selectors: z.array(idSchema).min(1),
     }),
+    map_viewport: z
+        .object({
+            default_tile_px: positiveIntSchema,
+            desktop_zoom: z.number().positive(),
+            mobile_zoom: z.number().positive(),
+            min_tile_screen_px: positiveIntSchema,
+            max_zoom: z.number().positive(),
+            poll_ms: positiveIntSchema,
+        })
+        .superRefine((viewport, ctx) => {
+            if (viewport.desktop_zoom > viewport.max_zoom) {
+                ctx.addIssue({
+                    code: "custom",
+                    path: ["desktop_zoom"],
+                    message: "map_viewport.desktop_zoom must be <= max_zoom",
+                });
+            }
+            if (viewport.mobile_zoom > viewport.max_zoom) {
+                ctx.addIssue({
+                    code: "custom",
+                    path: ["mobile_zoom"],
+                    message: "map_viewport.mobile_zoom must be <= max_zoom",
+                });
+            }
+            if (viewport.min_tile_screen_px / viewport.default_tile_px > viewport.max_zoom) {
+                ctx.addIssue({
+                    code: "custom",
+                    path: ["min_tile_screen_px"],
+                    message: "map_viewport.min_tile_screen_px cannot require zoom above max_zoom",
+                });
+            }
+        }),
     pixi: z.object({
         guarded_fx_aliases: z.array(idSchema).min(1),
     }),

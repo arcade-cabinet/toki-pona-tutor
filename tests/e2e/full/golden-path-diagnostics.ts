@@ -14,6 +14,12 @@ type MapsConfig = {
     maps: Record<string, MapConfig>;
 };
 
+type VisualsConfig = {
+    map_viewport: {
+        min_tile_screen_px: number;
+    };
+};
+
 type TmjProperty = {
     name?: string;
     value?: unknown;
@@ -60,6 +66,7 @@ type ScreenshotComponent = {
 
 type PresentationDiagnostics = {
     authoredMapPixels: { width: number; height: number } | null;
+    targetTileScreenSizePx: number;
     largestVisibleComponent: ScreenshotComponent | null;
     estimatedRenderScale: number | null;
     estimatedTileScreenSizePx: number | null;
@@ -82,6 +89,11 @@ type RuntimeDiagnostics = {
     party: unknown[];
     inventory: Record<string, number>;
     viewport: { width: number; height: number; deviceScaleFactor: number };
+    camera: {
+        scale: { x: number; y: number } | null;
+        center: { x: number; y: number } | null;
+        worldScreenSize: { width: number; height: number } | null;
+    } | null;
     canvas: {
         present: boolean;
         visible: boolean;
@@ -209,6 +221,9 @@ const REVIEW_CHECKLIST = [
 const mapsConfig = JSON.parse(
     readFileSync(new URL("../../../src/content/gameplay/maps.json", import.meta.url), "utf-8"),
 ) as MapsConfig;
+const visualsConfig = JSON.parse(
+    readFileSync(new URL("../../../src/content/gameplay/visuals.json", import.meta.url), "utf-8"),
+) as VisualsConfig;
 
 const ALLOWED_TILESET_FAMILIES = new Set([
     "core",
@@ -364,16 +379,44 @@ async function captureCompositedScreenshot(page: Page, screenshotPath: string): 
                     return position & Node.DOCUMENT_POSITION_FOLLOWING ? -1 : 1;
                 });
 
-            function inlineStyles(source: Element, target: Element): void {
+            async function inlineCssUrls(value: string): Promise<string> {
+                const matches = Array.from(value.matchAll(/url\(["']?([^"')]+)["']?\)/g));
+                let nextValue = value;
+                for (const match of matches) {
+                    const raw = match[0];
+                    const url = match[1];
+                    if (!url || url.startsWith("data:")) continue;
+                    try {
+                        const response = await fetch(new URL(url, document.baseURI));
+                        if (!response.ok) continue;
+                        const blob = await response.blob();
+                        const dataUrl = await new Promise<string>((resolve, reject) => {
+                            const reader = new FileReader();
+                            reader.onload = () => resolve(String(reader.result));
+                            reader.onerror = () => reject(reader.error);
+                            reader.readAsDataURL(blob);
+                        });
+                        nextValue = nextValue.replace(raw, `url("${dataUrl}")`);
+                    } catch {
+                        // Keep the original URL if the browser refuses to inline it.
+                    }
+                }
+                return nextValue;
+            }
+
+            async function inlineStyles(source: Element, target: Element): Promise<void> {
                 const style = window.getComputedStyle(source);
-                target.setAttribute(
-                    "style",
-                    Array.from(style)
-                        .map((prop) => `${prop}:${style.getPropertyValue(prop)};`)
-                        .join(""),
-                );
+                const declarations = [];
+                for (const prop of Array.from(style)) {
+                    let value = style.getPropertyValue(prop);
+                    if (value.includes("url(")) {
+                        value = await inlineCssUrls(value);
+                    }
+                    declarations.push(`${prop}:${value};`);
+                }
+                target.setAttribute("style", declarations.join(""));
                 for (let index = 0; index < source.children.length; index += 1) {
-                    inlineStyles(source.children[index], target.children[index]);
+                    await inlineStyles(source.children[index], target.children[index]);
                 }
             }
 
@@ -385,7 +428,7 @@ async function captureCompositedScreenshot(page: Page, screenshotPath: string): 
                 for (const canvas of Array.from(clone.querySelectorAll("canvas"))) {
                     canvas.remove();
                 }
-                inlineStyles(element, clone);
+                await inlineStyles(element, clone);
                 clone.style.position = "static";
                 clone.style.inset = "auto";
                 clone.style.left = "auto";
@@ -471,13 +514,49 @@ async function collectRuntimeDiagnostics(page: Page): Promise<RuntimeDiagnostics
                 isVisible(document.querySelector(`[data-testid="${testId}"]`)),
             );
 
+            const engine = window.__POKI__?.engine as
+                | {
+                      scene?: { data?: () => { tiled?: unknown } };
+                      canvasElement?: {
+                          props?: {
+                              context?: {
+                                  viewport?: {
+                                      scale?: { x?: number; y?: number };
+                                      center?: { x?: number; y?: number };
+                                      worldScreenWidth?: number;
+                                      worldScreenHeight?: number;
+                                  };
+                              };
+                          };
+                      };
+                  }
+                | null
+                | undefined;
+            const engineViewport = engine?.canvasElement?.props?.context?.viewport;
+            const camera = engineViewport
+                ? {
+                      scale:
+                          typeof engineViewport.scale?.x === "number" &&
+                          typeof engineViewport.scale?.y === "number"
+                              ? { x: engineViewport.scale.x, y: engineViewport.scale.y }
+                              : null,
+                      center:
+                          typeof engineViewport.center?.x === "number" &&
+                          typeof engineViewport.center?.y === "number"
+                              ? { x: engineViewport.center.x, y: engineViewport.center.y }
+                              : null,
+                      worldScreenSize:
+                          typeof engineViewport.worldScreenWidth === "number" &&
+                          typeof engineViewport.worldScreenHeight === "number"
+                              ? {
+                                    width: engineViewport.worldScreenWidth,
+                                    height: engineViewport.worldScreenHeight,
+                                }
+                              : null,
+                  }
+                : null;
+
             const runtimeTile = (() => {
-                const engine = window.__POKI__?.engine as
-                    | {
-                          scene?: { data?: () => { tiled?: unknown } };
-                      }
-                    | null
-                    | undefined;
                 const map = engine?.scene?.data?.()?.tiled as
                     | {
                           width: number;
@@ -595,6 +674,7 @@ async function collectRuntimeDiagnostics(page: Page): Promise<RuntimeDiagnostics
                     height: window.innerHeight,
                     deviceScaleFactor: window.devicePixelRatio,
                 },
+                camera,
                 canvas: {
                     present: !!canvas,
                     visible: isVisible(canvas),
@@ -835,9 +915,14 @@ function buildPresentationDiagnostics(
           }
         : (runtime.runtimeTile?.mapPixels ?? null);
     const largestVisibleComponent = screenshot.largestVisibleComponent;
-    if (!authoredMapPixels || !largestVisibleComponent || !dimensions) {
+    const runtimeCameraScale = runtime.camera?.scale
+        ? Math.min(runtime.camera.scale.x, runtime.camera.scale.y)
+        : null;
+
+    if (!authoredMapPixels || (!largestVisibleComponent && runtimeCameraScale == null) || !dimensions) {
         return {
             authoredMapPixels,
+            targetTileScreenSizePx: visualsConfig.map_viewport.min_tile_screen_px,
             largestVisibleComponent,
             estimatedRenderScale: null,
             estimatedTileScreenSizePx: null,
@@ -846,24 +931,32 @@ function buildPresentationDiagnostics(
         };
     }
 
-    const scaleX = largestVisibleComponent.width / authoredMapPixels.width;
-    const scaleY = largestVisibleComponent.height / authoredMapPixels.height;
-    const estimatedRenderScale = roundMetric(Math.min(scaleX, scaleY));
+    const componentRenderScale = largestVisibleComponent
+        ? Math.min(
+              largestVisibleComponent.width / authoredMapPixels.width,
+              largestVisibleComponent.height / authoredMapPixels.height,
+          )
+        : null;
+    const estimatedRenderScale = roundMetric(runtimeCameraScale ?? componentRenderScale ?? 1);
     const estimatedTileScreenSizePx = roundMetric(dimensions.tilewidth * estimatedRenderScale);
     const estimatedMapViewportCoverageRatio = roundMetric(
-        (authoredMapPixels.width *
-            estimatedRenderScale *
-            (authoredMapPixels.height * estimatedRenderScale)) /
-            (screenshot.width * screenshot.height),
+        Math.min(
+            1,
+            (authoredMapPixels.width *
+                estimatedRenderScale *
+                (authoredMapPixels.height * estimatedRenderScale)) /
+                (screenshot.width * screenshot.height),
+        ),
     );
 
     return {
         authoredMapPixels,
+        targetTileScreenSizePx: visualsConfig.map_viewport.min_tile_screen_px,
         largestVisibleComponent,
         estimatedRenderScale,
         estimatedTileScreenSizePx,
         estimatedMapViewportCoverageRatio,
-        note: "Scale is estimated from the largest non-dark connected component; dialog/combat overlays can inflate it, so use map-entry checkpoints for final presentation judgment.",
+        note: "Scale uses the runtime viewport camera when available; the largest non-dark connected component is retained as a crop/matte clue for map-entry presentation review.",
     };
 }
 
@@ -992,12 +1085,12 @@ function buildAutomatedFindings(
     if (
         mapPresentationCheckpoint &&
         presentation.estimatedTileScreenSizePx != null &&
-        presentation.estimatedTileScreenSizePx < 24
+        presentation.estimatedTileScreenSizePx < presentation.targetTileScreenSizePx - 1
     ) {
         add(
             "warn",
             "tile-screen-scale",
-            `Tiles appear about ${presentation.estimatedTileScreenSizePx}px on screen; current 1x presentation reads too small for a polished 16-bit RPG target.`,
+            `Tiles appear about ${presentation.estimatedTileScreenSizePx}px on screen; target is at least ${presentation.targetTileScreenSizePx}px for readable 16-bit RPG presentation.`,
         );
     }
     if (
@@ -1047,11 +1140,13 @@ function renderMarkdownChecklist(diagnostic: {
         "",
         "## Presentation Metrics",
         `- Authored map pixels: ${formatSize(diagnostic.presentation.authoredMapPixels)}`,
+        `- Target tile size on screen: ${diagnostic.presentation.targetTileScreenSizePx} px`,
         `- Largest visible component: ${formatComponent(diagnostic.presentation.largestVisibleComponent)}`,
         `- Estimated render scale: ${formatMetric(diagnostic.presentation.estimatedRenderScale)}x`,
         `- Estimated tile size on screen: ${formatMetric(
             diagnostic.presentation.estimatedTileScreenSizePx,
         )} px`,
+        `- Runtime camera scale: ${formatCameraScale(diagnostic.runtime.camera)}`,
         `- Estimated map viewport coverage: ${formatPercent(
             diagnostic.presentation.estimatedMapViewportCoverageRatio,
         )}`,
@@ -1125,6 +1220,11 @@ function formatComponent(component: ScreenshotComponent | null): string {
 
 function formatMetric(value: number | null): string {
     return value == null ? "unknown" : String(value);
+}
+
+function formatCameraScale(camera: RuntimeDiagnostics["camera"]): string {
+    if (!camera?.scale) return "unknown";
+    return `${roundMetric(camera.scale.x)}x${roundMetric(camera.scale.y)}`;
 }
 
 function formatPercent(value: number | null): string {

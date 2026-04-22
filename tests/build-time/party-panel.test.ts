@@ -40,6 +40,13 @@ describe('buildPartyPanelSlot', () => {
         expect(slot.primaryLabel).toBe('kon moli');
         expect(slot.secondaryLabel).toBe('kon');
         expect(slot.portraitSrc).toBe('/assets/creatures/wraith/wraith.png');
+        expect(slot.portraitFrame).toMatchObject({
+            src: '/assets/creatures/wraith/wraith.png',
+            framesWidth: 4,
+            framesHeight: 7,
+            frameX: 0,
+            frameY: 0,
+        });
         expect(slot.typeLabel).toBe('seli');
         expect(slot.levelLabel).toBe('L5');
         expect(slot.hpLabel).toBe('HP 24 / 48');
@@ -66,6 +73,7 @@ describe('buildPartyPanelSlot', () => {
         expect(slot.secondaryLabel).toBeNull();
         expect(slot.typeLabel).toBe('unknown');
         expect(slot.portraitSrc).toBeNull();
+        expect(slot.portraitFrame).toBeNull();
         expect(slot.portraitFallback).toBe('MB');
         expect(slot.hpLabel).toBe('HP 1 / 1');
         expect(slot.moveSummary).toBe('moves: ala');

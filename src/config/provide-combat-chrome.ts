@@ -50,11 +50,7 @@ const combatChromeClientModule = defineModule<RpgClientWithSpriteComponentRegist
         },
     ],
     sprite: {
-        componentsInFront: [
-            combatTargetReticleConfig,
-            combatFeedbackConfig,
-            combatHpBarConfig,
-        ],
+        componentsInFront: [combatTargetReticleConfig, combatFeedbackConfig, combatHpBarConfig],
     },
 });
 

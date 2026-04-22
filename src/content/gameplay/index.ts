@@ -580,6 +580,14 @@ export const COMBAT_CHROME_CONFIG = {
 export const TAP_CONTROL_BLOCKING_UI_SELECTORS = visualsConfig.tap_controls.blocking_ui_selectors;
 export const TAP_CONTROL_TARGET_BLOCKING_UI_SELECTORS =
     visualsConfig.tap_controls.target_blocking_ui_selectors;
+export const MAP_VIEWPORT_CONFIG = {
+    defaultTilePx: visualsConfig.map_viewport.default_tile_px,
+    desktopZoom: visualsConfig.map_viewport.desktop_zoom,
+    mobileZoom: visualsConfig.map_viewport.mobile_zoom,
+    minTileScreenPx: visualsConfig.map_viewport.min_tile_screen_px,
+    maxZoom: visualsConfig.map_viewport.max_zoom,
+    pollMs: visualsConfig.map_viewport.poll_ms,
+};
 export const SPRITE_LAYOUTS: Record<string, RuntimeSpriteLayoutConfig> = Object.fromEntries(
     Object.entries(visualsConfig.sprite_layouts).map(([layoutId, layout]) => [
         layoutId,

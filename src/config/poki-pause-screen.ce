@@ -34,7 +34,7 @@
                                     aria-label={row.hpLabel || row.label}
                                     click={row.id ? selectEntry(routeList().length + rowIndex) : undefined}
                                 >
-                                    <div class={{"poki-party-portrait": true, "has-image": !!row.portraitSrc}} style={partyPortraitStyle(row)}>
+                                    <div class={{"poki-party-portrait": true, "has-image": !!row.portraitFrame}} style={partyPortraitStyle(row)}>
                                         <span>{row.portraitFallback || partyPortraitFallback}</span>
                                     </div>
                                     <div class="poki-party-slot-copy">
@@ -101,10 +101,12 @@
     import { signal, computed, effect } from "canvasengine";
     import { inject, RpgClientEngine } from "@rpgjs/client";
     import { PAUSE_MENU_CONFIG, PARTY_PANEL_CONFIG } from "../content/gameplay";
+    import { publicAssetPath } from "./asset-paths";
     import { playClientSfx } from "./client-sfx";
 
     const engine = inject(RpgClientEngine);
     const keyboardControls = engine.globalConfig.keyboardControls;
+    const base = import.meta.env.BASE_URL || "/";
     const routesAriaLabel = PAUSE_MENU_CONFIG.routesAriaLabel;
     const partyPortraitFallback = PARTY_PANEL_CONFIG.missingPortraitFallback;
 
@@ -170,10 +172,18 @@
         return Array.isArray(lines) ? lines : [];
     };
     const partyPortraitStyle = (row) => {
-        const src = row?.portraitSrc;
-        if (!src) return {};
+        const frame = row?.portraitFrame;
+        if (!frame?.src) return {};
+        const framesWidth = Math.max(1, Number(frame.framesWidth || 1));
+        const framesHeight = Math.max(1, Number(frame.framesHeight || 1));
+        const frameX = Math.max(0, Math.min(framesWidth - 1, Number(frame.frameX || 0)));
+        const frameY = Math.max(0, Math.min(framesHeight - 1, Number(frame.frameY || 0)));
+        const positionX = framesWidth <= 1 ? 0 : (frameX / (framesWidth - 1)) * 100;
+        const positionY = framesHeight <= 1 ? 0 : (frameY / (framesHeight - 1)) * 100;
         return {
-            backgroundImage: `url(${src})`
+            backgroundImage: `url(${publicAssetPath(frame.src, base)})`,
+            backgroundSize: `${framesWidth * 100}% ${framesHeight * 100}%`,
+            backgroundPosition: `${positionX}% ${positionY}%`
         };
     };
     const partyHpStyle = (row) => `width: ${Number(row?.hpPercent ?? 0)}%`;

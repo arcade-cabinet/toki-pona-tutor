@@ -1,6 +1,11 @@
 import worldRaw from "../content/generated/world.json";
 import { HUD_STATUS_CONFIG } from "../content/gameplay";
 import { formatGameplayTemplate } from "../content/gameplay/templates";
+import {
+    resolveSpeciesPortraitFrame,
+    type SpeciesAnimationStrip,
+    type SpeciesPortraitFrame,
+} from "../content/species-portrait";
 import { hpClassFor, hpRatio, type HpClass } from "../styles/hp-bar";
 
 type SpeciesName = {
@@ -14,6 +19,7 @@ type SpeciesEntry = {
     portrait_src?: string;
     sprite?: {
         src?: string;
+        animations?: Record<string, SpeciesAnimationStrip>;
     };
 };
 
@@ -34,6 +40,7 @@ export type HudLeadStatus = {
     primaryLabel: string;
     secondaryLabel: string | null;
     portraitSrc: string | null;
+    portraitFrame: SpeciesPortraitFrame | null;
     portraitFallback: string;
     levelLabel: string;
     masteredLabel: string;
@@ -60,7 +67,7 @@ export function buildHudLeadStatus(input: HudLeadStatusInput): HudLeadStatus {
     const species = speciesIndex.get(input.speciesId);
     const primaryLabel = prettifySpeciesId(input.speciesId);
     const secondaryLabel = resolveSecondaryLabel(primaryLabel, species?.name);
-    const portraitSrc = species?.portrait_src ?? species?.sprite?.src ?? null;
+    const portraitFrame = resolveSpeciesPortraitFrame(species);
     const hpPercent = Math.round(hpRatio(input.currentHp, input.maxHp) * 100);
     const hpClass = hpClassFor(input.currentHp, input.maxHp);
 
@@ -68,7 +75,8 @@ export function buildHudLeadStatus(input: HudLeadStatusInput): HudLeadStatus {
         speciesId: input.speciesId,
         primaryLabel,
         secondaryLabel,
-        portraitSrc,
+        portraitSrc: portraitFrame?.src ?? null,
+        portraitFrame,
         portraitFallback: portraitFallbackFor(secondaryLabel ?? primaryLabel),
         levelLabel: formatGameplayTemplate(HUD_STATUS_CONFIG.levelLabelTemplate, {
             level: input.level,

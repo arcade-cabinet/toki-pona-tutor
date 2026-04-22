@@ -45,6 +45,14 @@
       ".poki-hud-hint-glyph"
     ]
   },
+  "map_viewport": {
+    "default_tile_px": 16,
+    "desktop_zoom": 3,
+    "mobile_zoom": 3,
+    "min_tile_screen_px": 48,
+    "max_zoom": 3,
+    "poll_ms": 100
+  },
   "pixi": {
     "guarded_fx_aliases": ["fx_settings", "fx_spritesheet"]
   },

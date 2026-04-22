@@ -7,6 +7,7 @@ import { provideDefeatScreenGui } from "./provide-defeat-screen-gui";
 import { provideDictionaryExportRuntime } from "./provide-dictionary-export";
 import { provideHudMenuGui } from "./provide-hud-menu-gui";
 import { provideLeadMoveBarGui } from "./provide-lead-movebar-gui";
+import { provideMapViewport } from "./provide-map-viewport";
 import { providePauseGui } from "./provide-pause-gui";
 import { provideTapControls } from "./provide-tap-controls";
 import { provideTiledMap } from "./provide-tiled-map";
@@ -37,6 +38,7 @@ export default {
         provideLeadMoveBarGui(),
         provideHudMenuGui(),
         providePauseGui(),
+        provideMapViewport(),
         provideTapControls(),
         provideMain(),
         provideClientModules([

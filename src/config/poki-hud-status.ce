@@ -35,11 +35,13 @@
     import { RpgGui } from "@rpgjs/client";
     import { PERSISTENCE_CHANGED_EVENT } from "../platform/persistence/database";
     import { getParty, listMasteredWords } from "../platform/persistence/queries";
+    import { publicAssetPath } from "./asset-paths";
     import { hasBlockingGui } from "./hud-gui-visibility";
     import { buildHudLeadStatus } from "./hud-status";
 
     const engine = inject(RpgClientEngine);
     const guiService = inject(RpgGui);
+    const base = import.meta.env.BASE_URL || "/";
     const currentPlayer = engine.scene.currentPlayer;
     const snapshot = signal(null);
     const refreshVersion = signal(0);
@@ -65,12 +67,20 @@
     const shouldShow = computed(() => {
         return !!currentPlayer() && !!hudStatus() && !hasBlockingGui(guiService);
     });
-    const hasPortraitImage = computed(() => !!hudStatus()?.portraitSrc);
+    const hasPortraitImage = computed(() => !!hudStatus()?.portraitFrame);
     const portraitStyle = computed(() => {
-        const src = hudStatus()?.portraitSrc;
-        if (!src) return {};
+        const frame = hudStatus()?.portraitFrame;
+        if (!frame?.src) return {};
+        const framesWidth = Math.max(1, Number(frame.framesWidth || 1));
+        const framesHeight = Math.max(1, Number(frame.framesHeight || 1));
+        const frameX = Math.max(0, Math.min(framesWidth - 1, Number(frame.frameX || 0)));
+        const frameY = Math.max(0, Math.min(framesHeight - 1, Number(frame.frameY || 0)));
+        const positionX = framesWidth <= 1 ? 0 : (frameX / (framesWidth - 1)) * 100;
+        const positionY = framesHeight <= 1 ? 0 : (frameY / (framesHeight - 1)) * 100;
         return {
-            backgroundImage: `url(${src})`,
+            backgroundImage: `url(${publicAssetPath(frame.src, base)})`,
+            backgroundSize: `${framesWidth * 100}% ${framesHeight * 100}%`,
+            backgroundPosition: `${positionX}% ${positionY}%`,
         };
     });
     const secondaryLabel = computed(() => hudStatus()?.secondaryLabel ?? "");

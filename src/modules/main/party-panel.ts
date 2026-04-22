@@ -1,6 +1,11 @@
 import worldRaw from "../../content/generated/world.json";
 import { PARTY_PANEL_CONFIG } from "../../content/gameplay";
 import { formatGameplayTemplate } from "../../content/gameplay/templates";
+import {
+    resolveSpeciesPortraitFrame,
+    type SpeciesAnimationStrip,
+    type SpeciesPortraitFrame,
+} from "../../content/species-portrait";
 import { hpClassFor, hpRatio, type HpClass } from "../../styles/hp-bar";
 import { canonicalXpTotal, MAX_LEVEL, xpForLevel } from "./xp-curve";
 
@@ -23,6 +28,7 @@ type SpeciesEntry = {
     portrait_src?: string;
     sprite?: {
         src?: string;
+        animations?: Record<string, SpeciesAnimationStrip>;
     };
 };
 
@@ -56,6 +62,7 @@ export type PartyPanelSlot = {
     secondaryLabel: string | null;
     typeLabel: string;
     portraitSrc: string | null;
+    portraitFrame: SpeciesPortraitFrame | null;
     portraitFallback: string;
     levelLabel: string;
     hpLabel: string;
@@ -102,6 +109,7 @@ export function buildPartyPanelSlot(
     const nextLevel = member.level >= MAX_LEVEL ? null : member.level + 1;
     const nextLevelXp = nextLevel === null ? null : xpForLevel(nextLevel);
     const moves = knownMovesFor(species, member.level);
+    const portraitFrame = resolveSpeciesPortraitFrame(species);
 
     return {
         slot: member.slot,
@@ -109,7 +117,8 @@ export function buildPartyPanelSlot(
         primaryLabel,
         secondaryLabel,
         typeLabel: species?.type ?? PARTY_PANEL_CONFIG.unknownTypeLabel,
-        portraitSrc: species?.portrait_src ?? species?.sprite?.src ?? null,
+        portraitSrc: portraitFrame?.src ?? null,
+        portraitFrame,
         portraitFallback: portraitFallbackFor(secondaryLabel ?? primaryLabel),
         levelLabel: formatGameplayTemplate(PARTY_PANEL_CONFIG.levelLabelTemplate, {
             level: member.level,
