@@ -80,7 +80,7 @@ const config: PlaywrightTestConfig = {
     //   full  — runs locally on `pnpm test:e2e`. Opt-in in CI via a
     //           label / scheduled workflow once that's wired. This is
     //           where feature-level E2E lives (starter ceremony flow,
-    //           encounter + catch, gym defeat, save round-trip).
+    //           encounter + catch, jan lawa defeat, save round-trip).
     //
     // New tests default to `full`. Only promote a test to `smoke` if
     // it's a boot/sanity invariant — smoke must stay fast.

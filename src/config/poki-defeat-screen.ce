@@ -33,7 +33,7 @@
     });
 
     const rootStyle = { pointerEvents: "none" };
-    const view = computed(() => data() || null);
+    const view = computed(() => data());
     const phase = computed(() => view()?.phase || DEFEAT_SCREEN_CONFIG.defaultPhase);
     const label = computed(() => view()?.label || "");
     const messageLabel = computed(() => DEFEAT_SCREEN_CONFIG.messageLabel);

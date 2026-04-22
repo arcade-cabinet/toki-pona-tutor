@@ -8,19 +8,17 @@ type PixiAssetLike = {
 };
 
 export function shouldSkipPixiAssetAdd(
-    asset: PixiAssetLike | null | undefined,
+    asset: unknown,
     hasKey: (alias: string) => boolean,
 ): boolean {
-    const rawAliases = Array.isArray(asset?.alias)
-        ? asset.alias
-        : typeof asset?.alias === "string"
-          ? [asset.alias]
-          : [];
+    if (!asset || typeof asset !== "object") return false;
+    const alias = (asset as PixiAssetLike).alias;
+    const rawAliases = Array.isArray(alias) ? alias : typeof alias === "string" ? [alias] : [];
     const guardedAliases = rawAliases.filter((alias) => GUARDED_FX_ALIASES.has(alias));
     if (guardedAliases.length === 0) {
         return false;
     }
-    return guardedAliases.every((alias) => hasKey(alias));
+    return rawAliases.every((alias) => hasKey(alias));
 }
 
 /**

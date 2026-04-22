@@ -1,12 +1,13 @@
 import type { RpgClientEngine } from "@rpgjs/client";
 import { Direction } from "@rpgjs/common";
 import { INTERACTION_HINT_CONFIG } from "../content/gameplay";
-import { readTiledObjectType, type TiledObjectLike } from "./tiled-object";
-
-type TilePoint = {
-    x: number;
-    y: number;
-};
+import {
+    manhattanDistance,
+    readTiledObjectType,
+    tilesEqual,
+    type TiledObjectLike,
+    type TilePoint,
+} from "./tiled-object";
 
 type TileInfoLike = {
     hasCollision?: boolean;
@@ -58,15 +59,6 @@ export function getInteractionHintForPlayer(
     if (!map || !player) return null;
 
     const currentTile = clampTile(map, toTilePoint(map, player.x(), player.y()));
-
-    const standingWarp = getEventAtTile(engine, map, currentTile);
-    if (standingWarp?.id.startsWith("warp_")) {
-        return {
-            glyph: INTERACTION_HINT_CONFIG.glyphs.warp,
-            targetId: standingWarp.id,
-            interaction: { kind: "touch", direction: null },
-        };
-    }
 
     for (const event of getInteractableEvents(engine, map, player)) {
         if (event.id.startsWith("warp_")) {
@@ -123,11 +115,7 @@ function getEncounterHint(map: TiledMapLike, currentTile: TilePoint): Interactio
 
         for (const tile of getObjectTiles(map, object)) {
             if (tilesEqual(tile, currentTile)) {
-                return {
-                    glyph: INTERACTION_HINT_CONFIG.glyphs.encounter,
-                    targetId: object.name ?? INTERACTION_HINT_CONFIG.encounterFallbackTargetId,
-                    interaction: { kind: "touch", direction: null },
-                };
+                continue;
             }
 
             if (manhattanDistance(tile, currentTile) === 1) {
@@ -199,6 +187,7 @@ function getInteractableEvents(
         .map(([id, event]) => ({
             id,
             direction: directionToEvent(map, player, event),
+            distance: Math.abs(event.x() - player.x()) + Math.abs(event.y() - player.y()),
         }))
         .filter((event) => event.direction != null);
 
@@ -206,7 +195,7 @@ function getInteractableEvents(
         const leftWarp = left.id.startsWith("warp_") ? 0 : 1;
         const rightWarp = right.id.startsWith("warp_") ? 0 : 1;
         if (leftWarp !== rightWarp) return leftWarp - rightWarp;
-        return 0;
+        return left.distance - right.distance;
     });
 
     return interactable;
@@ -285,12 +274,4 @@ function directionBetween(from: TilePoint, to: TilePoint): Direction | null {
     if (to.x === from.x && to.y === from.y + 1) return Direction.Down;
     if (to.x === from.x && to.y === from.y - 1) return Direction.Up;
     return null;
-}
-
-function tilesEqual(a: TilePoint, b: TilePoint): boolean {
-    return a.x === b.x && a.y === b.y;
-}
-
-function manhattanDistance(a: TilePoint, b: TilePoint): number {
-    return Math.abs(a.x - b.x) + Math.abs(a.y - b.y);
 }

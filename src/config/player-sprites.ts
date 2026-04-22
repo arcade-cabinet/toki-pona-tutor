@@ -43,4 +43,5 @@ function playerSheet(config: RuntimeSpritesheetConfig): PlayerSpritesheetEntry {
     };
 }
 
-export const PLAYER_SPRITESHEETS = [...PLAYER_SPRITESHEET_CONFIGS.map(playerSheet)] as const;
+export const PLAYER_SPRITESHEETS: PlayerSpritesheetEntry[] =
+    PLAYER_SPRITESHEET_CONFIGS.map(playerSheet);

@@ -2,6 +2,7 @@ import type { RpgClient, RpgClientEngine } from "@rpgjs/client";
 import { createModule, defineModule } from "@rpgjs/common";
 import { getCurrentInteractionHint, triggerInteractionHint } from "./interaction-hint";
 import { readTiledObjectType, type TiledObjectLike } from "./tiled-object";
+import { tilesEqual, type TilePoint } from "./tiled-object";
 import {
     TAP_ROUTE_EVENT,
     TAP_ROUTE_SNAP_EVENT,
@@ -9,7 +10,6 @@ import {
     type TapRouteInteraction,
     type TapRouteRequest,
     type TapRouteSnap,
-    type TilePoint,
 } from "../modules/main/tap-route-contract";
 import {
     TAP_CONTROL_BLOCKING_UI_SELECTORS,
@@ -655,10 +655,6 @@ function getAdjacentTiles(tile: TilePoint): TilePoint[] {
         { x: tile.x, y: tile.y + 1 },
         { x: tile.x - 1, y: tile.y },
     ];
-}
-
-function tilesEqual(a: TilePoint, b: TilePoint): boolean {
-    return a.x === b.x && a.y === b.y;
 }
 
 function tileKey(tile: TilePoint): string {

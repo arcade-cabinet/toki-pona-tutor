@@ -66,7 +66,7 @@ Runs on every PR:
 
 1. `unit` job: `validate-challenges`, `validate-tp`, `author:verify`, `build-spine`, `typecheck`, and `test:coverage`
 2. `integration` job: `pnpm test:integration`
-3. `e2e-smoke` job: Playwright boot smoke in Chromium under `xvfb`
+3. `e2e-smoke` job: Playwright boot smoke in headed Chromium under `xvfb`
 4. `build` job: `GITHUB_PAGES=true pnpm build` plus the web-size audit
 5. `android-debug-apk` job: `CAPACITOR=true pnpm build`, `cap add android` if needed, `cap sync android`, `./gradlew assembleDebug`
 

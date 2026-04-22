@@ -67,9 +67,9 @@ Five NPCs anchor the village: **jan Lete**, the **jan lawa**, posts up in the vi
 
 ## Beat 6 — `nena_suli` (the great peak)
 
-The hardest gym before the endgame. The map is tall and narrow — a cave-shrine climb with blocked rock walls, stone floors, torch landmarks, and sparse encounter overgrowth around rocky outcrops. Encounters are `jan_wawa_suli`, `jan_wawa_utala`, `jan_utala_suli`, `soweli_utala`, `sijelo_utala`, `waso_moku`, `waso_moli`, `soweli_sewi`, `soweli_alasa`, and `soweli_wawa` at levels 10-15. This region is where the player's party either grows or stalls.
+The hardest jan lawa challenge before the endgame. The map is tall and narrow — a cave-shrine climb with blocked rock walls, stone floors, torch landmarks, and sparse encounter overgrowth around rocky outcrops. Encounters are `jan_wawa_suli`, `jan_wawa_utala`, `jan_utala_suli`, `soweli_utala`, `sijelo_utala`, `waso_moku`, `waso_moli`, `soweli_sewi`, `soweli_alasa`, and `soweli_wawa` at levels 10-15. This region is where the player's party either grows or stalls.
 
-**jan Suli** — the great-peak master — waits at the upper shrine with the current action-battle trainer config: HP 110, ATK 28, PDEF 18, aggressive AI, then phase 2 HP 140, ATK 36, PDEF 22, berserker AI. Four NPCs flesh out the climb: **jan Kiwen Suli**, **jan pi kon**, **jan Pimeja Suli**, and **jan pi nasin**. **jan Pimeja Suli** starts `quest_suli_torch` (catch two cave-biome creatures for `telo_pona`). They reinforce cave, quiet, and route vocabulary before the gym fight. Defeating jan Suli sets `badge_suli` and grants the reward word `suli`.
+**jan Suli** — the great-peak master — waits at the upper shrine with the current action-battle trainer config: HP 110, ATK 28, PDEF 18, aggressive AI, then phase 2 HP 140, ATK 36, PDEF 22, berserker AI. Four NPCs flesh out the climb: **jan Kiwen Suli**, **jan pi kon**, **jan Pimeja Suli**, and **jan pi nasin**. **jan Pimeja Suli** starts `quest_suli_torch` (catch two cave-biome creatures for `telo_pona`). They reinforce cave, quiet, and route vocabulary before the jan lawa fight. Defeating jan Suli sets `badge_suli` and grants the reward word `suli`.
 
 **Gate.** Journey beat gate `defeated:jan_suli`; runtime warp gate `badge_suli`. This is the canonical "you are ready" moment in the arc: the player should have at least four badges (`sewi`, `telo`, `lete`, `suli`) before the final route opens.
 
@@ -81,7 +81,7 @@ The endgame approach. A long riverside route — wide grassy west bank, deep wat
 
 Five NPCs populate the bank: **jan Kala Lili**, a kid with a small net who is pure cheerful flavor; **jan Moku Pona**, a friendly cook grilling river fish; **jan Kala Suli**, a veteran fisher who gives final-route tune-up flavor; **jan Olin Telo**, a quiet river watcher; and **jan Suno Telo**, the final quest-giver before the boss trigger. **jan Suno Telo** starts `quest_telo_last_light` (catch one water-route creature for two `poki_wawa`).
 
-The endgame trigger lives at the eastern edge of this map. When the player walks onto the eastern `Trigger` object with all four region badges in hand, a cutscene-style transition fires: the green dragon descends, the camera focuses, and the final boss fight begins. The dragon is the only creature with a dedicated death animation; the final-boss defeat path is what it was reserved for.
+The endgame trigger lives at the eastern edge of this map. When the player walks onto the eastern `Trigger` object with all four region badges in hand, a cutscene-style transition fires: the green dragon descends, the camera focuses, and the final boss fight begins. The dragon is the only creature with a dedicated defeat animation; the final-boss defeat path is what it was reserved for.
 
 **Gate.** `flag:badges_all_four` is the virtual aggregate condition for `badge_sewi`, `badge_telo`, `badge_lete`, and `badge_suli`. Until all four are true, the eastern trigger is dormant.
 
@@ -89,7 +89,7 @@ The endgame trigger lives at the eastern edge of this map. When the player walks
 
 ## Cross-cutting notes
 
-- **No grim language.** Defeated creatures `pakala` (break), they do not die. The dragon, even at death, is a designated narrative beat — not gore.
-- **Returnability.** Every gym loss restores the party at the last visited village, no permadeath. The journey is a gentle directed graph, not a pass/fail run.
-- **No `sike_mun` reference.** The canonical seventh region is `nasin_pi_telo`; current specs, TMX/TMJ artifacts, and the journey manifest use that id.
-- **The green dragon belongs only to beat 7.** No earlier beat references it, by name or by sprite. The build script (`scripts/build-spine.mjs`) enforces this: any encounter table in a non-final beat that lists the final-boss species causes the build to fail. The dragon's species id is `akesi_sewi`; do not use that id outside beat 7.
+-   **No grim language.** Defeated creatures `pakala` (break), they do not die. The dragon, even at death, is a designated narrative beat — not gore.
+-   **Returnability.** Every jan lawa loss restores the party at the last visited village, no permadeath. The journey is a gentle directed graph, not a pass/fail run.
+-   **No `sike_mun` reference.** The canonical seventh region is `nasin_pi_telo`; current specs, TMX/TMJ artifacts, and the journey manifest use that id.
+-   **The green dragon belongs only to beat 7.** No earlier beat references it, by name or by sprite. The build script (`scripts/build-spine.mjs`) enforces this: any encounter table in a non-final beat that lists the final-boss species causes the build to fail. The dragon's species id is `akesi_sewi`; do not use that id outside beat 7.

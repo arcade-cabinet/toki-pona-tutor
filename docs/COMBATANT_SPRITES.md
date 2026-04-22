@@ -7,7 +7,7 @@ domain: technical
 
 # Combatant Sprite Manifest
 
-Human trainer sprites for rivals and gym leaders (jan Ike, jan Wawa, jan Telo, jan Lete, jan Suli).
+Human trainer sprites for rivals and jan lawa (jan Ike, jan Wawa, jan Telo, jan Lete, jan Suli).
 Located in `public/assets/combatants/` under three sub-packs: `mages/`, `rogues/`, `warriors/`.
 
 Combatants are **NOT catchable creatures**. They do not appear in `src/content/spine/species/`.
@@ -24,13 +24,13 @@ action-battle trainers do not fall back to a walk-only preset.
 
 ## NPC ↔ sprite binding (canonical)
 
-| NPC | Sprite ID | Source file | Rationale |
-|---|---|---|---|
-| jan Ike (rival) | `combatant_rogue_hooded` | `rogues/hooded-rogue-non-combat-daggers-equipped.png` | Hooded rogue = sneaky rival archetype |
-| jan Wawa (region 3 gym) | `combatant_warrior_axe` | `warriors/axe-warrior-16x16.png` | Axe warrior = raw physical strength, wawa type |
-| jan Telo (region 4 gym) | `combatant_mage_fem_red` | `mages/mage-fem-red.png` | Red mage, elemental caster; fits water/lake aesthetic |
-| jan Lete (region 5 gym) | `combatant_mage_hooded_brown` | `mages/mage-hooded-brown.png` | Hooded/cloaked mage = cold, northern, ice master |
-| jan Suli (region 6 gym) | `combatant_warrior_paladin` | `warriors/paladin/non-combat-animations.png` | Paladin = champion-tier, hardest gym before endgame |
+| NPC                          | Sprite ID                     | Source file                                           | Rationale                                                |
+| ---------------------------- | ----------------------------- | ----------------------------------------------------- | -------------------------------------------------------- |
+| jan Ike (rival)              | `combatant_rogue_hooded`      | `rogues/hooded-rogue-non-combat-daggers-equipped.png` | Hooded rogue = sneaky rival archetype                    |
+| jan Wawa (region 3 jan lawa) | `combatant_warrior_axe`       | `warriors/axe-warrior-16x16.png`                      | Axe warrior = raw physical strength, wawa type           |
+| jan Telo (region 4 jan lawa) | `combatant_mage_fem_red`      | `mages/mage-fem-red.png`                              | Red mage, elemental caster; fits water/lake aesthetic    |
+| jan Lete (region 5 jan lawa) | `combatant_mage_hooded_brown` | `mages/mage-hooded-brown.png`                         | Hooded/cloaked mage = cold, northern, ice master         |
+| jan Suli (region 6 jan lawa) | `combatant_warrior_paladin`   | `warriors/paladin/non-combat-animations.png`          | Paladin = champion-tier, hardest jan lawa before endgame |
 
 ---
 
@@ -42,22 +42,22 @@ action-battle trainers do not fall back to a walk-only preset.
 **Dimensions:** 64×496  
 **Frame size:** 16×16  
 **Grid:** 4 cols × 31 rows  
-**Used by:** jan Telo (region 4 gym leader)
+**Used by:** jan Telo (region 4 jan lawa)
 
 4-directional overworld walk sheet. Red-robed feminine mage with elemental casting stance at bottom.
 
-| Row range | Frames | Animation | fps | loop |
-|---|---|---|---|---|
-| 0–2 | 4 | `walk_down` | 8 | yes |
-| 3–5 | 4 | `walk_left` | 8 | yes |
-| 6–8 | 4 | `walk_right` | 8 | yes |
-| 9–11 | 4 | `walk_up` | 8 | yes |
-| 12–14 | 4 | `idle` | 4 | yes |
-| 15–17 | 4 | `idle_alt` | 4 | yes |
-| 18–20 | 4 | `taunt` | 6 | no |
-| 21–23 | 4 | `cast` | 8 | no |
-| 24–26 | 4 | `hurt` | 8 | no |
-| 27–30 | 4 | `defeat` | 5 | no |
+| Row range | Frames | Animation    | fps | loop |
+| --------- | ------ | ------------ | --- | ---- |
+| 0–2       | 4      | `walk_down`  | 8   | yes  |
+| 3–5       | 4      | `walk_left`  | 8   | yes  |
+| 6–8       | 4      | `walk_right` | 8   | yes  |
+| 9–11      | 4      | `walk_up`    | 8   | yes  |
+| 12–14     | 4      | `idle`       | 4   | yes  |
+| 15–17     | 4      | `idle_alt`   | 4   | yes  |
+| 18–20     | 4      | `taunt`      | 6   | no   |
+| 21–23     | 4      | `cast`       | 8   | no   |
+| 24–26     | 4      | `hurt`       | 8   | no   |
+| 27–30     | 4      | `defeat`     | 5   | no   |
 
 ---
 
@@ -71,16 +71,16 @@ action-battle trainers do not fall back to a walk-only preset.
 
 Close-up combat sheet. 2 frames wide, 8 animation rows.
 
-| Row | Frames | Animation | fps | loop |
-|---|---|---|---|---|
-| 0 | 2 | `idle` | 4 | yes |
-| 1 | 2 | `idle_alt` | 4 | yes |
-| 2 | 2 | `walk` | 8 | yes |
-| 3 | 2 | `cast` | 8 | no |
-| 4 | 2 | `attack` | 10 | no |
-| 5 | 2 | `taunt` | 6 | no |
-| 6 | 2 | `hurt` | 8 | no |
-| 7 | 2 | `defeat` | 5 | no |
+| Row | Frames | Animation  | fps | loop |
+| --- | ------ | ---------- | --- | ---- |
+| 0   | 2      | `idle`     | 4   | yes  |
+| 1   | 2      | `idle_alt` | 4   | yes  |
+| 2   | 2      | `walk`     | 8   | yes  |
+| 3   | 2      | `cast`     | 8   | no   |
+| 4   | 2      | `attack`   | 10  | no   |
+| 5   | 2      | `taunt`    | 6   | no   |
+| 6   | 2      | `hurt`     | 8   | no   |
+| 7   | 2      | `defeat`   | 5   | no   |
 
 ---
 
@@ -90,22 +90,22 @@ Close-up combat sheet. 2 frames wide, 8 animation rows.
 **Dimensions:** 64×496  
 **Frame size:** 16×16  
 **Grid:** 4 cols × 31 rows  
-**Used by:** jan Lete (region 5 gym leader)
+**Used by:** jan Lete (region 5 jan lawa)
 
 4-directional overworld walk sheet. Hooded brown-robed mage; cowl pulled low — fits the cold, withdrawn ice-master character.
 
-| Row range | Frames | Animation | fps | loop |
-|---|---|---|---|---|
-| 0–2 | 4 | `walk_down` | 8 | yes |
-| 3–5 | 4 | `walk_left` | 8 | yes |
-| 6–8 | 4 | `walk_right` | 8 | yes |
-| 9–11 | 4 | `walk_up` | 8 | yes |
-| 12–14 | 4 | `idle` | 4 | yes |
-| 15–17 | 4 | `idle_alt` | 4 | yes |
-| 18–20 | 4 | `taunt` | 6 | no |
-| 21–23 | 4 | `cast` | 8 | no |
-| 24–26 | 4 | `hurt` | 8 | no |
-| 27–30 | 4 | `defeat` | 5 | no |
+| Row range | Frames | Animation    | fps | loop |
+| --------- | ------ | ------------ | --- | ---- |
+| 0–2       | 4      | `walk_down`  | 8   | yes  |
+| 3–5       | 4      | `walk_left`  | 8   | yes  |
+| 6–8       | 4      | `walk_right` | 8   | yes  |
+| 9–11      | 4      | `walk_up`    | 8   | yes  |
+| 12–14     | 4      | `idle`       | 4   | yes  |
+| 15–17     | 4      | `idle_alt`   | 4   | yes  |
+| 18–20     | 4      | `taunt`      | 6   | no   |
+| 21–23     | 4      | `cast`       | 8   | no   |
+| 24–26     | 4      | `hurt`       | 8   | no   |
+| 27–30     | 4      | `defeat`     | 5   | no   |
 
 ---
 
@@ -119,16 +119,16 @@ Close-up combat sheet. 2 frames wide, 8 animation rows.
 
 Same animation row layout as `mage-fem-red-combat.png`.
 
-| Row | Frames | Animation | fps | loop |
-|---|---|---|---|---|
-| 0 | 2 | `idle` | 4 | yes |
-| 1 | 2 | `idle_alt` | 4 | yes |
-| 2 | 2 | `walk` | 8 | yes |
-| 3 | 2 | `cast` | 8 | no |
-| 4 | 2 | `attack` | 10 | no |
-| 5 | 2 | `taunt` | 6 | no |
-| 6 | 2 | `hurt` | 8 | no |
-| 7 | 2 | `defeat` | 5 | no |
+| Row | Frames | Animation  | fps | loop |
+| --- | ------ | ---------- | --- | ---- |
+| 0   | 2      | `idle`     | 4   | yes  |
+| 1   | 2      | `idle_alt` | 4   | yes  |
+| 2   | 2      | `walk`     | 8   | yes  |
+| 3   | 2      | `cast`     | 8   | no   |
+| 4   | 2      | `attack`   | 10  | no   |
+| 5   | 2      | `taunt`    | 6   | no   |
+| 6   | 2      | `hurt`     | 8   | no   |
+| 7   | 2      | `defeat`   | 5   | no   |
 
 ---
 
@@ -142,18 +142,18 @@ Same animation row layout as `mage-fem-red-combat.png`.
 
 4-directional overworld walk sheet. Dark-grey-robed masculine mage with angular posture. `mage-masc-dkgrey.png` is identical in structure (same sheet, alternate filename).
 
-| Row range | Frames | Animation | fps | loop |
-|---|---|---|---|---|
-| 0–2 | 4 | `walk_down` | 8 | yes |
-| 3–5 | 4 | `walk_left` | 8 | yes |
-| 6–8 | 4 | `walk_right` | 8 | yes |
-| 9–11 | 4 | `walk_up` | 8 | yes |
-| 12–14 | 4 | `idle` | 4 | yes |
-| 15–17 | 4 | `idle_alt` | 4 | yes |
-| 18–20 | 4 | `taunt` | 6 | no |
-| 21–23 | 4 | `cast` | 8 | no |
-| 24–26 | 4 | `hurt` | 8 | no |
-| 27–30 | 4 | `defeat` | 5 | no |
+| Row range | Frames | Animation    | fps | loop |
+| --------- | ------ | ------------ | --- | ---- |
+| 0–2       | 4      | `walk_down`  | 8   | yes  |
+| 3–5       | 4      | `walk_left`  | 8   | yes  |
+| 6–8       | 4      | `walk_right` | 8   | yes  |
+| 9–11      | 4      | `walk_up`    | 8   | yes  |
+| 12–14     | 4      | `idle`       | 4   | yes  |
+| 15–17     | 4      | `idle_alt`   | 4   | yes  |
+| 18–20     | 4      | `taunt`      | 6   | no   |
+| 21–23     | 4      | `cast`       | 8   | no   |
+| 24–26     | 4      | `hurt`       | 8   | no   |
+| 27–30     | 4      | `defeat`     | 5   | no   |
 
 ---
 
@@ -167,16 +167,16 @@ Same animation row layout as `mage-fem-red-combat.png`.
 
 Same animation row layout as `mage-fem-red-combat.png`.
 
-| Row | Frames | Animation | fps | loop |
-|---|---|---|---|---|
-| 0 | 2 | `idle` | 4 | yes |
-| 1 | 2 | `idle_alt` | 4 | yes |
-| 2 | 2 | `walk` | 8 | yes |
-| 3 | 2 | `cast` | 8 | no |
-| 4 | 2 | `attack` | 10 | no |
-| 5 | 2 | `taunt` | 6 | no |
-| 6 | 2 | `hurt` | 8 | no |
-| 7 | 2 | `defeat` | 5 | no |
+| Row | Frames | Animation  | fps | loop |
+| --- | ------ | ---------- | --- | ---- |
+| 0   | 2      | `idle`     | 4   | yes  |
+| 1   | 2      | `idle_alt` | 4   | yes  |
+| 2   | 2      | `walk`     | 8   | yes  |
+| 3   | 2      | `cast`     | 8   | no   |
+| 4   | 2      | `attack`   | 10  | no   |
+| 5   | 2      | `taunt`    | 6   | no   |
+| 6   | 2      | `hurt`     | 8   | no   |
+| 7   | 2      | `defeat`   | 5   | no   |
 
 ---
 
@@ -201,18 +201,18 @@ Same animation row layout as `mage-fem-red-combat.png`.
 
 4-directional overworld walk sheet. Dark-hooded rogue with paired daggers at belt. The hood and daggers match jan Ike's competitive-but-not-malicious rival archetype — quick and sneaky but not a villain.
 
-| Row range | Frames | Animation | fps | loop |
-|---|---|---|---|---|
-| 0–2 | 4 | `walk_down` | 8 | yes |
-| 3–5 | 4 | `walk_left` | 8 | yes |
-| 6–8 | 4 | `walk_right` | 8 | yes |
-| 9–11 | 4 | `walk_up` | 8 | yes |
-| 12–14 | 4 | `idle` | 4 | yes |
-| 15–17 | 4 | `idle_alt` | 4 | yes |
-| 18–20 | 4 | `taunt` | 6 | no |
-| 21–23 | 4 | `attack` | 10 | no |
-| 24–26 | 4 | `hurt` | 8 | no |
-| 27–30 | 4 | `defeat` | 5 | no |
+| Row range | Frames | Animation    | fps | loop |
+| --------- | ------ | ------------ | --- | ---- |
+| 0–2       | 4      | `walk_down`  | 8   | yes  |
+| 3–5       | 4      | `walk_left`  | 8   | yes  |
+| 6–8       | 4      | `walk_right` | 8   | yes  |
+| 9–11      | 4      | `walk_up`    | 8   | yes  |
+| 12–14     | 4      | `idle`       | 4   | yes  |
+| 15–17     | 4      | `idle_alt`   | 4   | yes  |
+| 18–20     | 4      | `taunt`      | 6   | no   |
+| 21–23     | 4      | `attack`     | 10  | no   |
+| 24–26     | 4      | `hurt`       | 8   | no   |
+| 27–30     | 4      | `defeat`     | 5   | no   |
 
 ---
 
@@ -227,17 +227,17 @@ Same animation row layout as `mage-fem-red-combat.png`.
 Close-up combat sheet. Hooded rogue, no attack-effect overlay. Cleaner for engine rendering.
 
 | Row | Frames | Animation | fps | loop |
-|---|---|---|---|---|
-| 0 | 2 | `idle` | 4 | yes |
-| 1 | 2 | `walk` | 8 | yes |
-| 2 | 2 | `sneak` | 6 | yes |
-| 3 | 2 | `attack` | 12 | no |
-| 4 | 2 | `cast` | 8 | no |
-| 5 | 2 | `taunt` | 6 | no |
-| 6 | 2 | `flee` | 10 | yes |
-| 7 | 2 | `defend` | 6 | yes |
-| 8 | 2 | `hurt` | 8 | no |
-| 9 | 2 | `defeat` | 5 | no |
+| --- | ------ | --------- | --- | ---- |
+| 0   | 2      | `idle`    | 4   | yes  |
+| 1   | 2      | `walk`    | 8   | yes  |
+| 2   | 2      | `sneak`   | 6   | yes  |
+| 3   | 2      | `attack`  | 12  | no   |
+| 4   | 2      | `cast`    | 8   | no   |
+| 5   | 2      | `taunt`   | 6   | no   |
+| 6   | 2      | `flee`    | 10  | yes  |
+| 7   | 2      | `defend`  | 6   | yes  |
+| 8   | 2      | `hurt`    | 8   | no   |
+| 9   | 2      | `defeat`  | 5   | no   |
 
 ---
 
@@ -251,18 +251,18 @@ Close-up combat sheet. Hooded rogue, no attack-effect overlay. Cleaner for engin
 
 Combat sheet with embedded attack FX. 3 cols wide to accommodate weapon-swing overlap.
 
-| Row | Frames | Animation | fps | loop |
-|---|---|---|---|---|
-| 0 | 3 | `idle` | 4 | yes |
-| 1 | 3 | `walk` | 8 | yes |
-| 2 | 3 | `sneak` | 6 | yes |
-| 3 | 3 | `attack` | 12 | no |
-| 4 | 3 | `cast` | 8 | no |
-| 5 | 3 | `taunt` | 6 | no |
-| 6 | 3 | `flee` | 10 | yes |
-| 7 | 3 | `defend` | 6 | yes |
-| 8 | 3 | `hurt` | 8 | no |
-| 9–14 | 3 | `special` | 10 | no |
+| Row  | Frames | Animation | fps | loop |
+| ---- | ------ | --------- | --- | ---- |
+| 0    | 3      | `idle`    | 4   | yes  |
+| 1    | 3      | `walk`    | 8   | yes  |
+| 2    | 3      | `sneak`   | 6   | yes  |
+| 3    | 3      | `attack`  | 12  | no   |
+| 4    | 3      | `cast`    | 8   | no   |
+| 5    | 3      | `taunt`   | 6   | no   |
+| 6    | 3      | `flee`    | 10  | yes  |
+| 7    | 3      | `defend`  | 6   | yes  |
+| 8    | 3      | `hurt`    | 8   | no   |
+| 9–14 | 3      | `special` | 10  | no   |
 
 ---
 
@@ -276,18 +276,18 @@ Combat sheet with embedded attack FX. 3 cols wide to accommodate weapon-swing ov
 
 Same animation layout as `combatant_rogue_hooded` but bow equipped at back.
 
-| Row range | Frames | Animation | fps | loop |
-|---|---|---|---|---|
-| 0–2 | 4 | `walk_down` | 8 | yes |
-| 3–5 | 4 | `walk_left` | 8 | yes |
-| 6–8 | 4 | `walk_right` | 8 | yes |
-| 9–11 | 4 | `walk_up` | 8 | yes |
-| 12–14 | 4 | `idle` | 4 | yes |
-| 15–17 | 4 | `idle_alt` | 4 | yes |
-| 18–20 | 4 | `taunt` | 6 | no |
-| 21–23 | 4 | `attack` | 10 | no |
-| 24–26 | 4 | `hurt` | 8 | no |
-| 27–30 | 4 | `defeat` | 5 | no |
+| Row range | Frames | Animation    | fps | loop |
+| --------- | ------ | ------------ | --- | ---- |
+| 0–2       | 4      | `walk_down`  | 8   | yes  |
+| 3–5       | 4      | `walk_left`  | 8   | yes  |
+| 6–8       | 4      | `walk_right` | 8   | yes  |
+| 9–11      | 4      | `walk_up`    | 8   | yes  |
+| 12–14     | 4      | `idle`       | 4   | yes  |
+| 15–17     | 4      | `idle_alt`   | 4   | yes  |
+| 18–20     | 4      | `taunt`      | 6   | no   |
+| 21–23     | 4      | `attack`     | 10  | no   |
+| 24–26     | 4      | `hurt`       | 8   | no   |
+| 27–30     | 4      | `defeat`     | 5   | no   |
 
 ---
 
@@ -301,18 +301,18 @@ Same animation layout as `combatant_rogue_hooded` but bow equipped at back.
 
 Same animation layout. No hood — clearer facial silhouette.
 
-| Row range | Frames | Animation | fps | loop |
-|---|---|---|---|---|
-| 0–2 | 4 | `walk_down` | 8 | yes |
-| 3–5 | 4 | `walk_left` | 8 | yes |
-| 6–8 | 4 | `walk_right` | 8 | yes |
-| 9–11 | 4 | `walk_up` | 8 | yes |
-| 12–14 | 4 | `idle` | 4 | yes |
-| 15–17 | 4 | `idle_alt` | 4 | yes |
-| 18–20 | 4 | `taunt` | 6 | no |
-| 21–23 | 4 | `attack` | 10 | no |
-| 24–26 | 4 | `hurt` | 8 | no |
-| 27–30 | 4 | `defeat` | 5 | no |
+| Row range | Frames | Animation    | fps | loop |
+| --------- | ------ | ------------ | --- | ---- |
+| 0–2       | 4      | `walk_down`  | 8   | yes  |
+| 3–5       | 4      | `walk_left`  | 8   | yes  |
+| 6–8       | 4      | `walk_right` | 8   | yes  |
+| 9–11      | 4      | `walk_up`    | 8   | yes  |
+| 12–14     | 4      | `idle`       | 4   | yes  |
+| 15–17     | 4      | `idle_alt`   | 4   | yes  |
+| 18–20     | 4      | `taunt`      | 6   | no   |
+| 21–23     | 4      | `attack`     | 10  | no   |
+| 24–26     | 4      | `hurt`       | 8   | no   |
+| 27–30     | 4      | `defeat`     | 5   | no   |
 
 ---
 
@@ -327,17 +327,17 @@ Same animation layout. No hood — clearer facial silhouette.
 Same row layout as `combatant_rogue_hooded_combat`.
 
 | Row | Frames | Animation | fps | loop |
-|---|---|---|---|---|
-| 0 | 2 | `idle` | 4 | yes |
-| 1 | 2 | `walk` | 8 | yes |
-| 2 | 2 | `sneak` | 6 | yes |
-| 3 | 2 | `attack` | 12 | no |
-| 4 | 2 | `cast` | 8 | no |
-| 5 | 2 | `taunt` | 6 | no |
-| 6 | 2 | `flee` | 10 | yes |
-| 7 | 2 | `defend` | 6 | yes |
-| 8 | 2 | `hurt` | 8 | no |
-| 9 | 2 | `defeat` | 5 | no |
+| --- | ------ | --------- | --- | ---- |
+| 0   | 2      | `idle`    | 4   | yes  |
+| 1   | 2      | `walk`    | 8   | yes  |
+| 2   | 2      | `sneak`   | 6   | yes  |
+| 3   | 2      | `attack`  | 12  | no   |
+| 4   | 2      | `cast`    | 8   | no   |
+| 5   | 2      | `taunt`   | 6   | no   |
+| 6   | 2      | `flee`    | 10  | yes  |
+| 7   | 2      | `defend`  | 6   | yes  |
+| 8   | 2      | `hurt`    | 8   | no   |
+| 9   | 2      | `defeat`  | 5   | no   |
 
 ---
 
@@ -351,18 +351,18 @@ Same row layout as `combatant_rogue_hooded_combat`.
 
 Same row layout as `combatant_rogue_hooded_combat_fx`.
 
-| Row | Frames | Animation | fps | loop |
-|---|---|---|---|---|
-| 0 | 3 | `idle` | 4 | yes |
-| 1 | 3 | `walk` | 8 | yes |
-| 2 | 3 | `sneak` | 6 | yes |
-| 3 | 3 | `attack` | 12 | no |
-| 4 | 3 | `cast` | 8 | no |
-| 5 | 3 | `taunt` | 6 | no |
-| 6 | 3 | `flee` | 10 | yes |
-| 7 | 3 | `defend` | 6 | yes |
-| 8 | 3 | `hurt` | 8 | no |
-| 9–14 | 3 | `special` | 10 | no |
+| Row  | Frames | Animation | fps | loop |
+| ---- | ------ | --------- | --- | ---- |
+| 0    | 3      | `idle`    | 4   | yes  |
+| 1    | 3      | `walk`    | 8   | yes  |
+| 2    | 3      | `sneak`   | 6   | yes  |
+| 3    | 3      | `attack`  | 12  | no   |
+| 4    | 3      | `cast`    | 8   | no   |
+| 5    | 3      | `taunt`   | 6   | no   |
+| 6    | 3      | `flee`    | 10  | yes  |
+| 7    | 3      | `defend`  | 6   | yes  |
+| 8    | 3      | `hurt`    | 8   | no   |
+| 9–14 | 3      | `special` | 10  | no   |
 
 ---
 
@@ -386,22 +386,22 @@ Unhooded rogue, bow equipped. Same animation layout as other non-combat overworl
 **Dimensions:** 64×496  
 **Frame size:** 16×16  
 **Grid:** 4 cols × 31 rows  
-**Used by:** jan Wawa (region 3 gym leader)
+**Used by:** jan Wawa (region 3 jan lawa)
 
-4-directional overworld walk sheet. Orange-armored warrior with large axe. Heavy-set silhouette reads as physical strength — fitting for the wawa-type mountain gym master.
+4-directional overworld walk sheet. Orange-armored warrior with large axe. Heavy-set silhouette reads as physical strength — fitting for the wawa-type mountain jan lawa.
 
-| Row range | Frames | Animation | fps | loop |
-|---|---|---|---|---|
-| 0–2 | 4 | `walk_down` | 8 | yes |
-| 3–5 | 4 | `walk_left` | 8 | yes |
-| 6–8 | 4 | `walk_right` | 8 | yes |
-| 9–11 | 4 | `walk_up` | 8 | yes |
-| 12–14 | 4 | `idle` | 4 | yes |
-| 15–17 | 4 | `idle_alt` | 4 | yes |
-| 18–20 | 4 | `taunt` | 6 | no |
-| 21–23 | 4 | `attack` | 12 | no |
-| 24–26 | 4 | `hurt` | 8 | no |
-| 27–30 | 4 | `defeat` | 5 | no |
+| Row range | Frames | Animation    | fps | loop |
+| --------- | ------ | ------------ | --- | ---- |
+| 0–2       | 4      | `walk_down`  | 8   | yes  |
+| 3–5       | 4      | `walk_left`  | 8   | yes  |
+| 6–8       | 4      | `walk_right` | 8   | yes  |
+| 9–11      | 4      | `walk_up`    | 8   | yes  |
+| 12–14     | 4      | `idle`       | 4   | yes  |
+| 15–17     | 4      | `idle_alt`   | 4   | yes  |
+| 18–20     | 4      | `taunt`      | 6   | no   |
+| 21–23     | 4      | `attack`     | 12  | no   |
+| 24–26     | 4      | `hurt`       | 8   | no   |
+| 27–30     | 4      | `defeat`     | 5   | no   |
 
 ---
 
@@ -415,13 +415,13 @@ Unhooded rogue, bow equipped. Same animation layout as other non-combat overworl
 
 4-directional combat sheet with attack-effect overlays. 4 cols = 4 directional slices per animation.
 
-| Rows | Frames | Animation | fps | loop |
-|---|---|---|---|---|
-| 0–3 | 4 | `walk_down` / `walk_left` / `walk_right` / `walk_up` (one dir per row) | 8 | yes |
-| 4–7 | 4 | `idle` (4 directions) | 4 | yes |
-| 8–11 | 4 | `attack` (4 directions) | 12 | no |
-| 12–15 | 4 | `hurt` (4 directions) | 8 | no |
-| 16–19 | 4 | `defeat` (4 directions) | 5 | no |
+| Rows  | Frames | Animation                                                              | fps | loop |
+| ----- | ------ | ---------------------------------------------------------------------- | --- | ---- |
+| 0–3   | 4      | `walk_down` / `walk_left` / `walk_right` / `walk_up` (one dir per row) | 8   | yes  |
+| 4–7   | 4      | `idle` (4 directions)                                                  | 4   | yes  |
+| 8–11  | 4      | `attack` (4 directions)                                                | 12  | no   |
+| 12–15 | 4      | `hurt` (4 directions)                                                  | 8   | no   |
+| 16–19 | 4      | `defeat` (4 directions)                                                | 5   | no   |
 
 ---
 
@@ -447,18 +447,18 @@ Same animation layout as `combatant_warrior_axe_combat` at 24×24.
 
 4-directional overworld walk sheet. Caped warrior with sword and colorful cloak. Distinguished, hero-like silhouette.
 
-| Row range | Frames | Animation | fps | loop |
-|---|---|---|---|---|
-| 0–2 | 4 | `walk_down` | 8 | yes |
-| 3–5 | 4 | `walk_left` | 8 | yes |
-| 6–8 | 4 | `walk_right` | 8 | yes |
-| 9–11 | 4 | `walk_up` | 8 | yes |
-| 12–14 | 4 | `idle` | 4 | yes |
-| 15–17 | 4 | `idle_alt` | 4 | yes |
-| 18–20 | 4 | `taunt` | 6 | no |
-| 21–23 | 4 | `attack` | 12 | no |
-| 24–26 | 4 | `hurt` | 8 | no |
-| 27–30 | 4 | `defeat` | 5 | no |
+| Row range | Frames | Animation    | fps | loop |
+| --------- | ------ | ------------ | --- | ---- |
+| 0–2       | 4      | `walk_down`  | 8   | yes  |
+| 3–5       | 4      | `walk_left`  | 8   | yes  |
+| 6–8       | 4      | `walk_right` | 8   | yes  |
+| 9–11      | 4      | `walk_up`    | 8   | yes  |
+| 12–14     | 4      | `idle`       | 4   | yes  |
+| 15–17     | 4      | `idle_alt`   | 4   | yes  |
+| 18–20     | 4      | `taunt`      | 6   | no   |
+| 21–23     | 4      | `attack`     | 12  | no   |
+| 24–26     | 4      | `hurt`       | 8   | no   |
+| 27–30     | 4      | `defeat`     | 5   | no   |
 
 ---
 
@@ -494,18 +494,18 @@ Same directional layout as `combatant_warrior_axe_combat`. Caped silhouette with
 
 4-directional overworld walk sheet. Dark-armored skullcap warrior with heavy axe. Intimidating silhouette.
 
-| Row range | Frames | Animation | fps | loop |
-|---|---|---|---|---|
-| 0–2 | 4 | `walk_down` | 8 | yes |
-| 3–5 | 4 | `walk_left` | 8 | yes |
-| 6–8 | 4 | `walk_right` | 8 | yes |
-| 9–11 | 4 | `walk_up` | 8 | yes |
-| 12–14 | 4 | `idle` | 4 | yes |
-| 15–17 | 4 | `idle_alt` | 4 | yes |
-| 18–20 | 4 | `taunt` | 6 | no |
-| 21–23 | 4 | `attack` | 12 | no |
-| 24–26 | 4 | `hurt` | 8 | no |
-| 27–30 | 4 | `defeat` | 5 | no |
+| Row range | Frames | Animation    | fps | loop |
+| --------- | ------ | ------------ | --- | ---- |
+| 0–2       | 4      | `walk_down`  | 8   | yes  |
+| 3–5       | 4      | `walk_left`  | 8   | yes  |
+| 6–8       | 4      | `walk_right` | 8   | yes  |
+| 9–11      | 4      | `walk_up`    | 8   | yes  |
+| 12–14     | 4      | `idle`       | 4   | yes  |
+| 15–17     | 4      | `idle_alt`   | 4   | yes  |
+| 18–20     | 4      | `taunt`      | 6   | no   |
+| 21–23     | 4      | `attack`     | 12  | no   |
+| 24–26     | 4      | `hurt`       | 8   | no   |
+| 27–30     | 4      | `defeat`     | 5   | no   |
 
 ---
 
@@ -535,22 +535,22 @@ Same directional layout as `combatant_warrior_axe_combat`. Caped silhouette with
 **Dimensions:** 96×744  
 **Frame size:** 24×24  
 **Grid:** 4 cols × 31 rows  
-**Used by:** jan Suli (region 6 gym leader — champion tier)
+**Used by:** jan Suli (region 6 jan lawa — champion tier)
 
-4-directional overworld walk + extended animation sheet. White/red-accented paladin with shield and sword. The paladin archetype — disciplined champion — fits jan Suli as the hardest gym master before the endgame.
+4-directional overworld walk + extended animation sheet. White/red-accented paladin with shield and sword. The paladin archetype — disciplined champion — fits jan Suli as the hardest jan lawa before the endgame.
 
-| Row range | Frames | Animation | fps | loop |
-|---|---|---|---|---|
-| 0–2 | 4 | `walk_down` | 8 | yes |
-| 3–5 | 4 | `walk_left` | 8 | yes |
-| 6–8 | 4 | `walk_right` | 8 | yes |
-| 9–11 | 4 | `walk_up` | 8 | yes |
-| 12–14 | 4 | `idle` | 4 | yes |
-| 15–17 | 4 | `idle_alt` | 4 | yes |
-| 18–20 | 4 | `taunt` | 6 | no |
-| 21–23 | 4 | `attack` | 12 | no |
-| 24–26 | 4 | `defend` | 6 | yes |
-| 27–30 | 4 | `hurt` | 8 | no |
+| Row range | Frames | Animation    | fps | loop |
+| --------- | ------ | ------------ | --- | ---- |
+| 0–2       | 4      | `walk_down`  | 8   | yes  |
+| 3–5       | 4      | `walk_left`  | 8   | yes  |
+| 6–8       | 4      | `walk_right` | 8   | yes  |
+| 9–11      | 4      | `walk_up`    | 8   | yes  |
+| 12–14     | 4      | `idle`       | 4   | yes  |
+| 15–17     | 4      | `idle_alt`   | 4   | yes  |
+| 18–20     | 4      | `taunt`      | 6   | no   |
+| 21–23     | 4      | `attack`     | 12  | no   |
+| 24–26     | 4      | `defend`     | 6   | yes  |
+| 27–30     | 4      | `hurt`       | 8   | no   |
 
 Note: The paladin sheet is 96px wide (24×24 frames, 4 cols) and 744px tall — extended format
 with additional animation rows beyond the standard 31-row layout. The extra rows (31+) include
@@ -569,11 +569,11 @@ the `framesWidth: 4` / `framesHeight: 31` covers the primary overworld animation
 
 Compact combat sheet. 4-directional, 12 animation rows.
 
-| Rows | Frames | Animation | fps | loop |
-|---|---|---|---|---|
-| 0–3 | 4 | `idle` (4 directions) | 4 | yes |
-| 4–7 | 4 | `attack` (4 directions) | 12 | no |
-| 8–11 | 4 | `hurt` / `defeat` (4 directions) | 8 | no |
+| Rows | Frames | Animation                        | fps | loop |
+| ---- | ------ | -------------------------------- | --- | ---- |
+| 0–3  | 4      | `idle` (4 directions)            | 4   | yes  |
+| 4–7  | 4      | `attack` (4 directions)          | 12  | no   |
+| 8–11 | 4      | `hurt` / `defeat` (4 directions) | 8   | no   |
 
 ---
 
@@ -617,10 +617,10 @@ No ID registered.
 
 ## Summary
 
-| Category | Total sheets | Bound to NPC | Document-only | Skipped |
-|---|---|---|---|---|
-| Mages | 7 | 2 (`mage-fem-red`, `mage-hooded-brown`) | 4 | 1 (duplicate `mage-masc-dkgrey.png`) |
-| Rogues | 8 | 1 (`hooded-rogue-non-combat-daggers`) | 7 | 0 |
-| Warriors (non-paladin) | 9 | 1 (`axe-warrior-16x16`) | 8 | 0 |
-| Warriors (paladin) | 7 | 1 (`paladin/non-combat-animations`) | 3 | 3 (effect-only strips) |
-| **Total** | **31** | **5** | **22** | **4** |
+| Category               | Total sheets | Bound to NPC                            | Document-only | Skipped                              |
+| ---------------------- | ------------ | --------------------------------------- | ------------- | ------------------------------------ |
+| Mages                  | 7            | 2 (`mage-fem-red`, `mage-hooded-brown`) | 4             | 1 (duplicate `mage-masc-dkgrey.png`) |
+| Rogues                 | 8            | 1 (`hooded-rogue-non-combat-daggers`)   | 7             | 0                                    |
+| Warriors (non-paladin) | 9            | 1 (`axe-warrior-16x16`)                 | 8             | 0                                    |
+| Warriors (paladin)     | 7            | 1 (`paladin/non-combat-animations`)     | 3             | 3 (effect-only strips)               |
+| **Total**              | **31**       | **5**                                   | **22**        | **4**                                |

@@ -10,7 +10,8 @@ import {
 import { AUDIO_RUNTIME_CONFIG } from "../content/gameplay";
 import { isSfxEvent, sfxFile } from "../modules/main/sfx";
 import { getBgmVolume } from "../platform/persistence/settings";
-import { BgmCrossfadeController, publicAssetPath } from "./audio-controller";
+import { publicAssetPath } from "./asset-paths";
+import { BgmCrossfadeController } from "./audio-controller";
 import { playClientSfx } from "./client-sfx";
 
 type MapDataLike = {
@@ -57,6 +58,7 @@ function installAudioRuntime(engine: RpgClientEngine): void {
     });
     let audioUnlocked = false;
     let pendingMapId: string | null = null;
+    let pendingOverride: { mapId: string; inCombat: boolean; userVol?: number } | null = null;
 
     const playMapBgm = (mapId: string): void => {
         pendingMapId = mapId;
@@ -67,6 +69,12 @@ function installAudioRuntime(engine: RpgClientEngine): void {
     const unlockAudio = (): void => {
         if (audioUnlocked) return;
         audioUnlocked = true;
+        if (pendingOverride) {
+            const override = pendingOverride;
+            pendingOverride = null;
+            void playOverrideTrack(controller, override.mapId, override.inCombat, override.userVol);
+            return;
+        }
         if (pendingMapId) {
             void playAmbientTrack(controller, pendingMapId);
         }
@@ -86,8 +94,11 @@ function installAudioRuntime(engine: RpgClientEngine): void {
 
     engine.socket.on(AUDIO_BGM_OVERRIDE_EVENT, (payload: unknown) => {
         if (!isBgmOverridePayload(payload)) return;
-        audioUnlocked = true;
         const userVol = typeof payload.userVol === "number" ? payload.userVol : undefined;
+        if (!audioUnlocked) {
+            pendingOverride = { mapId: payload.mapId, inCombat: payload.inCombat, userVol };
+            return;
+        }
         void playOverrideTrack(controller, payload.mapId, payload.inCombat, userVol);
     });
 }

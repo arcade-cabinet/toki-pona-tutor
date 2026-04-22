@@ -40,10 +40,13 @@ pnpm maestro:android
 
 ## GitHub Pages Smoke
 
-1. Open `https://arcade-cabinet.github.io/poki-soweli/` in a clean browser profile.
-2. Confirm the title screen appears and no asset 404s are visible in devtools.
-3. Start a new game, pick a starter, and walk one screen far enough to prove map rendering and input.
-4. Reload the page, choose Continue, and verify the save resumes.
+1. Download `poki-soweli-web-<tag>.tar.gz` from the GitHub release assets and inspect that release-attached artifact, not a local rebuild.
+2. Confirm the tarball contains `index.html`, `manifest.json`, `assets/`, `map/ma_tomo_lili.tmx`, and the other six runtime maps.
+3. Confirm `index.html` references `/poki-soweli/manifest.json` and `/poki-soweli/assets/`, proving it was built for the Pages base.
+4. Open `https://arcade-cabinet.github.io/poki-soweli/` in a clean browser profile.
+5. Confirm the title screen appears and no asset 404s are visible in devtools.
+6. Start a new game, pick a starter, and walk one screen far enough to prove map rendering and input.
+7. Reload the page, choose Continue, and verify the save resumes.
 
 ## iOS Browser Smoke
 
@@ -63,4 +66,5 @@ pnpm maestro:ios
 -   No blank canvas on launch.
 -   No blocking asset 404s on Pages.
 -   New game, Continue, starter selection, movement, one wild encounter action, HUD menu, Settings route, and Quit-to-title all work on the tested devices.
+-   Web artifact under test is the release-attached tarball, not a locally rebuilt bundle.
 -   Android artifact under test is the release-attached debug APK, not a locally rebuilt APK.

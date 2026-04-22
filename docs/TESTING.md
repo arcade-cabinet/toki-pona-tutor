@@ -21,13 +21,13 @@ When a bug is reported, it goes in the integration suite first and the fix has t
 
 ## Five layers, one rule each
 
-| Layer                            | Lives in                                           | Gate                              | Runtime                      |
-| -------------------------------- | -------------------------------------------------- | --------------------------------- | ---------------------------- |
-| **1. Content pipeline**          | `scripts/validate-*.mjs`, `author:verify`          | `pnpm validate` in CI             | Node                         |
-| **2. Type surface**              | `tsc --noEmit` across `src/`, `scripts/`, `tests/` | `pnpm typecheck` in CI            | Node                         |
-| **3. Unit (pure logic)**         | `tests/build-time/`, vitest `unit` project         | `pnpm test:unit` + coverage in CI | Node                         |
-| **4. Integration (real engine)** | `tests/integration/`, vitest `integration` project | `pnpm test:integration` in CI     | happy-dom + `@rpgjs/testing` |
-| **5. E2E smoke (real browser)**  | `tests/e2e/smoke/`, Playwright                     | `pnpm test:e2e:smoke` in CI       | Chromium + xvfb + WebGL      |
+| Layer                            | Lives in                                           | Gate                              | Runtime                        |
+| -------------------------------- | -------------------------------------------------- | --------------------------------- | ------------------------------ |
+| **1. Content pipeline**          | `scripts/validate-*.mjs`, `author:verify`          | `pnpm validate` in CI             | Node                           |
+| **2. Type surface**              | `tsc --noEmit` across `src/`, `scripts/`, `tests/` | `pnpm typecheck` in CI            | Node                           |
+| **3. Unit (pure logic)**         | `tests/build-time/`, vitest `unit` project         | `pnpm test:unit` + coverage in CI | Node                           |
+| **4. Integration (real engine)** | `tests/integration/`, vitest `integration` project | `pnpm test:integration` in CI     | happy-dom + `@rpgjs/testing`   |
+| **5. E2E smoke (real browser)**  | `tests/e2e/smoke/`, Playwright                     | `pnpm test:e2e:smoke` in CI       | Headed Chromium + xvfb + WebGL |
 
 ## Layer 1 — Content pipeline
 

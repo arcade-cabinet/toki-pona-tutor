@@ -1,7 +1,10 @@
-import { describe, expect, it, vi } from 'vitest';
-import type { RpgClientEngine } from '@rpgjs/client';
-import { Direction } from '@rpgjs/common';
-import { getInteractionHintForPlayer, triggerInteractionHint } from '../../src/config/interaction-hint';
+import { describe, expect, it, vi } from "vitest";
+import type { RpgClientEngine } from "@rpgjs/client";
+import { Direction } from "@rpgjs/common";
+import {
+    getInteractionHintForPlayer,
+    triggerInteractionHint,
+} from "../../src/config/interaction-hint";
 
 type MockMap = {
     width: number;
@@ -67,15 +70,15 @@ function createEngine(options: {
     };
 }
 
-describe('interaction hint detection', () => {
-    it('returns toki for a talkable npc within the mobile landing tolerance', () => {
+describe("interaction hint detection", () => {
+    it("returns toki for a talkable npc within the mobile landing tolerance", () => {
         const { engine } = createEngine({
             player: {
                 x: () => 144,
                 y: () => 128,
             },
             events: {
-                'jan-sewi': {
+                "jan-sewi": {
                     x: () => 160,
                     y: () => 96,
                 },
@@ -83,20 +86,20 @@ describe('interaction hint detection', () => {
         });
 
         expect(getInteractionHintForPlayer(engine, engine.getCurrentPlayer())).toEqual({
-            glyph: 'toki',
-            targetId: 'jan-sewi',
-            interaction: { kind: 'action' },
+            glyph: "toki",
+            targetId: "jan-sewi",
+            interaction: { kind: "action" },
         });
     });
 
-    it('returns utala for a gym-leader event in range', () => {
+    it("returns utala for a gym-leader event in range", () => {
         const { engine } = createEngine({
             player: {
                 x: () => 144,
                 y: () => 128,
             },
             events: {
-                'jan-wawa': {
+                "jan-wawa": {
                     x: () => 160,
                     y: () => 96,
                 },
@@ -104,13 +107,13 @@ describe('interaction hint detection', () => {
         });
 
         expect(getInteractionHintForPlayer(engine, engine.getCurrentPlayer())).toEqual({
-            glyph: 'utala',
-            targetId: 'jan-wawa',
-            interaction: { kind: 'action' },
+            glyph: "utala",
+            targetId: "jan-wawa",
+            interaction: { kind: "action" },
         });
     });
 
-    it('returns tawa when standing on a warp tile', () => {
+    it("does not surface a dead touch hint when already standing on a warp tile", () => {
         const { engine } = createEngine({
             player: {
                 x: () => 240,
@@ -124,14 +127,10 @@ describe('interaction hint detection', () => {
             },
         });
 
-        expect(getInteractionHintForPlayer(engine, engine.getCurrentPlayer())).toEqual({
-            glyph: 'tawa',
-            targetId: 'warp_east',
-            interaction: { kind: 'touch', direction: null },
-        });
+        expect(getInteractionHintForPlayer(engine, engine.getCurrentPlayer())).toBeNull();
     });
 
-    it('returns alasa for an encounter object adjacent to the player', () => {
+    it("returns alasa for an encounter object adjacent to the player", () => {
         const { engine } = createEngine({
             player: {
                 x: () => 144,
@@ -140,8 +139,8 @@ describe('interaction hint detection', () => {
             map: createMap({
                 getAllObjects: () => [
                     {
-                        name: 'encounter_test',
-                        type: 'Encounter',
+                        name: "encounter_test",
+                        type: "Encounter",
                         x: 160,
                         y: 96,
                         width: 16,
@@ -152,35 +151,60 @@ describe('interaction hint detection', () => {
         });
 
         expect(getInteractionHintForPlayer(engine, engine.getCurrentPlayer())).toEqual({
-            glyph: 'alasa',
-            targetId: 'encounter_test',
-            interaction: { kind: 'touch', direction: Direction.Right },
+            glyph: "alasa",
+            targetId: "encounter_test",
+            interaction: { kind: "touch", direction: Direction.Right },
+        });
+    });
+
+    it("chooses the nearest aligned interactable target", () => {
+        const { engine } = createEngine({
+            player: {
+                x: () => 144,
+                y: () => 128,
+            },
+            events: {
+                "jan-far": {
+                    x: () => 144,
+                    y: () => 64,
+                },
+                "jan-near": {
+                    x: () => 144,
+                    y: () => 96,
+                },
+            },
+        });
+
+        expect(getInteractionHintForPlayer(engine, engine.getCurrentPlayer())).toEqual({
+            glyph: "toki",
+            targetId: "jan-near",
+            interaction: { kind: "action" },
         });
     });
 });
 
-describe('interaction hint triggering', () => {
-    it('routes action hints through processAction', () => {
+describe("interaction hint triggering", () => {
+    it("routes action hints through processAction", () => {
         const { engine, processAction, processInput } = createEngine({});
 
         const handled = triggerInteractionHint(engine, {
-            glyph: 'toki',
-            targetId: 'jan-sewi',
-            interaction: { kind: 'action' },
+            glyph: "toki",
+            targetId: "jan-sewi",
+            interaction: { kind: "action" },
         });
 
         expect(handled).toBe(true);
-        expect(processAction).toHaveBeenCalledWith({ action: 'action' });
+        expect(processAction).toHaveBeenCalledWith({ action: "action" });
         expect(processInput).not.toHaveBeenCalled();
     });
 
-    it('routes touch hints through processInput when a direction exists', () => {
+    it("routes touch hints through processInput when a direction exists", () => {
         const { engine, processAction, processInput } = createEngine({});
 
         const handled = triggerInteractionHint(engine, {
-            glyph: 'tawa',
-            targetId: 'warp_east',
-            interaction: { kind: 'touch', direction: Direction.Right },
+            glyph: "tawa",
+            targetId: "warp_east",
+            interaction: { kind: "touch", direction: Direction.Right },
         });
 
         expect(handled).toBe(true);
@@ -188,13 +212,13 @@ describe('interaction hint triggering', () => {
         expect(processAction).not.toHaveBeenCalled();
     });
 
-    it('returns false for touch hints without a usable direction', () => {
+    it("returns false for touch hints without a usable direction", () => {
         const { engine, processAction, processInput } = createEngine({});
 
         const handled = triggerInteractionHint(engine, {
-            glyph: 'tawa',
-            targetId: 'warp_east',
-            interaction: { kind: 'touch', direction: null },
+            glyph: "tawa",
+            targetId: "warp_east",
+            interaction: { kind: "touch", direction: null },
         });
 
         expect(handled).toBe(false);

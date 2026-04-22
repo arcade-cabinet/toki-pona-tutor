@@ -3,6 +3,11 @@ export type TiledPropertyEntry = {
     value?: unknown;
 };
 
+export type TilePoint = {
+    x: number;
+    y: number;
+};
+
 export type TiledObjectProperties = Record<string, unknown> | TiledPropertyEntry[];
 
 export type TiledObjectLike = {
@@ -28,4 +33,12 @@ export function readTiledObjectProperty(object: TiledObjectLike, propertyName: s
 
 export function readTiledObjectType(object: TiledObjectLike): string {
     return String(object.type ?? readTiledObjectProperty(object, "type") ?? "");
+}
+
+export function tilesEqual(a: TilePoint, b: TilePoint): boolean {
+    return a.x === b.x && a.y === b.y;
+}
+
+export function manhattanDistance(a: TilePoint, b: TilePoint): number {
+    return Math.abs(a.x - b.x) + Math.abs(a.y - b.y);
 }

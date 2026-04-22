@@ -29,7 +29,9 @@ describe("Maestro mobile QA contract", () => {
         expect(flow).toContain("clearState: com.pokisoweli.game");
         expect(flow).toContain('visible: "poki soweli"');
         expect(flow).toContain('tapOn: "open sin"');
+        expect(flow).toContain('tapOn: "kon moli"');
         expect(flow).toContain('tapOn: "≡"');
+        expect(flow).not.toContain("point:");
     });
 
     it("keeps iOS flow on Mobile Safari Pages until a native iOS target exists", () => {
@@ -40,6 +42,8 @@ describe("Maestro mobile QA contract", () => {
         expect(flow).toContain("name: iOS Safari Pages smoke");
         expect(flow).toContain('visible: "poki soweli"');
         expect(flow).toContain('tapOn: "open sin"');
+        expect(flow).toContain('tapOn: "kon moli"');
+        expect(flow).not.toContain("point:");
     });
 
     it("keeps release QA docs wired to Maestro without overstating device proof", () => {

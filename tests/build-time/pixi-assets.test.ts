@@ -20,10 +20,17 @@ describe("pixi fx alias guard", () => {
 
     it("does not skip unrelated or first-time asset registrations", () => {
         expect(shouldSkipPixiAssetAdd({ alias: "green_dragon_idle" }, () => false)).toBe(false);
+        expect(shouldSkipPixiAssetAdd("green_dragon_idle", () => true)).toBe(false);
         expect(shouldSkipPixiAssetAdd({ alias: "fx_settings" }, () => false)).toBe(false);
         expect(
             shouldSkipPixiAssetAdd(
                 { alias: ["fx_settings", "fx_spritesheet"] },
+                (alias) => alias === "fx_settings",
+            ),
+        ).toBe(false);
+        expect(
+            shouldSkipPixiAssetAdd(
+                { alias: ["fx_settings", "game_sprite"] },
                 (alias) => alias === "fx_settings",
             ),
         ).toBe(false);

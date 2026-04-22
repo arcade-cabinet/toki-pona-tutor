@@ -17,13 +17,11 @@ tags:
 - extendedWaitUntil:
     visible: "kili sin li pona tawa sijelo."
     timeout: 30000
-- tapOn:
-    point: "50%,82%"
+- tapOn: "kili sin li pona tawa sijelo."
 - extendedWaitUntil:
     visible: "kule seme li pona tawa sina?"
     timeout: 10000
-- tapOn:
-    point: "30%,76%"
+- tapOn: "kon moli"
 - extendedWaitUntil:
     visible: "≡"
     timeout: 20000

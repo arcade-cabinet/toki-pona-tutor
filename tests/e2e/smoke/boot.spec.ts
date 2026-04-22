@@ -21,6 +21,29 @@ function titleEntry(page: Page, index: number) {
     return page.locator(".rpg-ui-title-screen-menu .rpg-ui-menu-item").nth(index);
 }
 
+async function clearBrowserPersistence(page: Page): Promise<void> {
+    // Run on a same-origin static document before the game boots. Calling the
+    // in-app reset hook while the engine is rendering can stall the web SQLite
+    // save-to-store promise on Linux/xvfb headed Chromium.
+    await page.goto("/manifest.json");
+    await page.evaluate(async () => {
+        for (const key of Object.keys(localStorage)) {
+            if (key.startsWith("poki-soweli.")) {
+                localStorage.removeItem(key);
+            }
+        }
+        sessionStorage.clear();
+
+        await new Promise<void>((resolve, reject) => {
+            const request = indexedDB.deleteDatabase("jeepSQLiteStore");
+            request.onsuccess = () => resolve();
+            request.onblocked = () => resolve();
+            request.onerror = () =>
+                reject(request.error ?? new Error("failed to delete jeepSQLiteStore"));
+        });
+    });
+}
+
 async function assertTitleMenu(page: Page): Promise<void> {
     await expect(page.locator(".rpg-ui-title-screen-title")).toContainText("poki soweli", {
         timeout: 30_000,
@@ -47,6 +70,7 @@ test("boots on the starter map and shows the title menu with brand chrome applie
 
     // Local dev/preview boot at `/`; the `/poki-soweli/` subpath is
     // reserved for Pages builds only.
+    await clearBrowserPersistence(page);
     await page.goto("/");
 
     await expect(page.locator('meta[name="description"]')).toHaveAttribute(
@@ -77,16 +101,6 @@ test("boots on the starter map and shows the title menu with brand chrome applie
     const hasDebugSurface = await page.evaluate(() => Boolean(window.__POKI__));
     if (hasDebugSurface) {
         // Wait for engine + canvas + current player to all resolve.
-        await page.waitForFunction(() => window.__POKI__?.ready === true, {
-            timeout: 30_000,
-        });
-
-        // Keep the boot surface deterministic: no existing save should mean
-        // a fresh title menu with New + Settings only.
-        await page.evaluate(() =>
-            window.__POKI__!.testing.resetPersistence({ includeSaves: true }),
-        );
-        await page.reload();
         await page.waitForFunction(() => window.__POKI__?.ready === true, {
             timeout: 30_000,
         });

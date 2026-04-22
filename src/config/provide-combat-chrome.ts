@@ -12,13 +12,16 @@ import CombatTargetReticleComponent from "./poki-combat-target-reticle.ce";
 import { COMBAT_UI_CONFIG } from "../content/gameplay";
 
 type CombatChromeComponentConfig = {
-    component: typeof CombatHpBarComponent;
+    component:
+        | typeof CombatFeedbackComponent
+        | typeof CombatHpBarComponent
+        | typeof CombatTargetReticleComponent;
     props: (object: CombatSpriteObject) => ReturnType<typeof combatChromePropsForObject>;
     dependencies: (object: CombatSpriteObject) => unknown[];
 };
 
 const combatFeedbackConfig: CombatChromeComponentConfig = {
-    component: CombatFeedbackComponent as unknown as typeof CombatHpBarComponent,
+    component: CombatFeedbackComponent,
     props: combatChromePropsForObject,
     dependencies: combatChromeDependenciesForObject,
 };
@@ -30,7 +33,7 @@ const combatHpBarConfig: CombatChromeComponentConfig = {
 };
 
 const combatTargetReticleConfig: CombatChromeComponentConfig = {
-    component: CombatTargetReticleComponent as unknown as typeof CombatHpBarComponent,
+    component: CombatTargetReticleComponent,
     props: combatChromePropsForObject,
     dependencies: combatChromeDependenciesForObject,
 };

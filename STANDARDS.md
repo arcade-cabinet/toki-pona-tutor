@@ -44,7 +44,7 @@ The previous playthrough's biggest bug was **inconsistent playing pieces** — K
 -   **Wild creatures** live in `public/assets/creatures/` and are static sprites (no rigs needed; they appear in combat as still idle frames).
 -   **Player** is the Fan-tasy Main Character. Never substitute another sprite for the player.
 
-The green dragon is reserved as the final boss — it's the only creature with a dedicated death animation. Never use it for mid-game encounters.
+The green dragon is reserved as the final boss — it's the only creature with a dedicated defeat animation. Never use it for mid-game encounters.
 
 ### Audience
 
@@ -89,7 +89,9 @@ pnpm author:verify          # enforcement gate (runs in validate + CI)
 
 -   any `src/tiled/<id>.tmx` has no corresponding spec
 -   any spec has no emitted `.tmx`
--   any emitted `.tmx` drifts from what its spec would produce now (i.e. someone hand-edited the artifact, or forgot to rebuild after editing the spec)
+-   any `public/assets/maps/<id>.tmj` has no corresponding spec
+-   any spec has no emitted `.tmj`
+-   any emitted `.tmx` or `.tmj` drifts from what its spec would produce now (i.e. someone hand-edited the artifact, or forgot to rebuild after editing the spec)
 
 If a contributor needs to change map geometry, NPC placement, encounter tables, warps, etc., they edit the spec and rebuild. The spec is source; `.tmx`/`.tmj` are compiled output. Tileset `.tsx` files remain hand-authored (they belong to the Fan-tasy asset pack, not to our codebase).
 
@@ -117,6 +119,8 @@ All game code is TypeScript strict. No `any` escape hatches without a `// intent
 E2E tests go through the real game in Playwright. Unit tests are for pure logic (combat math, type matchups, save migration, docs/config guards). Integration tests use `@rpgjs/testing` to exercise the real RPG.js engine in-process.
 
 Do not mock the content pipeline in tests — run against a real compiled `generated/world.json`.
+
+When feature scope crosses layers, add or update checks in this order: docs acceptance text first, integration/E2E behavior proof second, and narrow unit coverage only for pure formulas or config guards that fell out of the feature.
 
 ## Asset contract
 

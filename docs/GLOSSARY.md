@@ -49,7 +49,7 @@ Frequency is rough — `★★★` = shows up in every region, `★★` = 2-3 be
 | **tomo**  | home / building         | "home" in starter village name.                | ★★   |
 | **nasin** | road / way / path       | Route prefix: nasin_wan, nasin_pi_telo.        | ★★   |
 | **nena**  | hill / mountain         | Mountain region prefix: nena_sewi, nena_suli.  | ★★   |
-| **sewi**  | high / heavens / divine | Region name + reward word from jan Wawa gym.   | ★★   |
+| **sewi**  | high / heavens / divine | Region name + reward word from jan Wawa.       | ★★   |
 | **suli**  | big                     | jan Suli (great peak master); reward word.     | ★★   |
 | **lete**  | cold                    | jan Lete (ice master); reward word.            | ★★   |
 | **wan**   | one / first             | "first road" (nasin_wan).                      | ★    |
@@ -57,17 +57,17 @@ Frequency is rough — `★★★` = shows up in every region, `★★` = 2-3 be
 
 ## People (jan = person)
 
-| TP           | EN sense      | Role                                   |
-| ------------ | ------------- | -------------------------------------- |
-| **jan Sewi** | wise elder    | Starter-village gifting ceremony.      |
-| **jan Pona** | the friend    | Flavor villager.                       |
-| **jan Telo** | water-keeper  | Villager then region-4 gym master.     |
-| **jan Ike**  | the rival     | Recurring forced-combat foe.           |
-| **jan Wawa** | strong-master | Region-3 gym (wawa type).              |
-| **jan Lete** | ice-master    | Region-5 gym (lete type).              |
-| **jan Suli** | big-master    | Region-6 gym (hardest before endgame). |
-| **jan Kala** | fisher        | Water-region NPC.                      |
-| **jan Moku** | cook          | Stall/food NPC.                        |
+| TP           | EN sense      | Role                              |
+| ------------ | ------------- | --------------------------------- |
+| **jan Sewi** | wise elder    | Starter-village gifting ceremony. |
+| **jan Pona** | the friend    | Flavor villager.                  |
+| **jan Telo** | water-keeper  | Villager then region-4 jan lawa.  |
+| **jan Ike**  | the rival     | Recurring forced-combat foe.      |
+| **jan Wawa** | strong-master | Region-3 jan lawa (wawa type).    |
+| **jan Lete** | ice-master    | Region-5 jan lawa (lete type).    |
+| **jan Suli** | big-master    | Region-6 jan lawa before endgame. |
+| **jan Kala** | fisher        | Water-region NPC.                 |
+| **jan Moku** | cook          | Stall/food NPC.                   |
 
 ## Moves (17 canonical)
 

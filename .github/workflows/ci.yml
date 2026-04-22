@@ -91,7 +91,7 @@ jobs:
       # `/poki-soweli/` subpath.
       - name: Build web bundle (Pages base)
         env:
-          GITHUB_PAGES: 'true'
+          GITHUB_PAGES: "true"
         run: pnpm build
 
       - name: Verify deployable Pages bundle
@@ -157,7 +157,7 @@ jobs:
         run: pnpm install --ignore-workspace --frozen-lockfile
 
       - name: Install Playwright Chromium + OS deps
-        run: pnpm exec playwright install --with-deps chromium
+        run: pnpm exec playwright install --with-deps --no-shell chromium
 
       - name: Compile spine
         run: pnpm build-spine
@@ -220,7 +220,7 @@ jobs:
       # switches vite to the relative-URL pattern.
       - name: Build web bundle (Capacitor base)
         env:
-          CAPACITOR: 'true'
+          CAPACITOR: "true"
         run: pnpm build
 
       - name: Initialize Android platform (idempotent)

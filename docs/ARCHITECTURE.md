@@ -19,21 +19,21 @@ Language is diegetic flavor, not mechanic. The player never translates — toki 
 
 ## Tech stack
 
-- **Vite 8** — build + dev server.
-- **RPG.js v5 beta** (`@rpgjs/client`, `@rpgjs/server`, `@rpgjs/tiledmap`, `@rpgjs/vite`) — game engine, overworld scenes, Tiled tilemap rendering, event/NPC system, dialog, save hooks.
-- **CanvasEngine 2.0 beta** (`canvasengine`, `@canvasengine/presets`, `@canvasengine/compiler`) — underlying renderer used by RPG.js v5 (Pixi 8-backed).
-- **Pixi.js 8** — low-level sprite/tilemap rendering (via CanvasEngine).
-- **@rpgjs/action-battle** — wired for rival + gym-leader fights. Gym leaders use `gym-leader.ts` factory with optional multi-phase BattleAi (HP-threshold poller triggers `runPhaseTransition`). Set-piece intros sync the player combat body/stats to the lead party creature through `lead-battle-avatar.ts`; `lead-battle-skills.ts` builds the custom movebar model and applies registered skill damage without relying on RPG.js beta learned-skill array sync.
-- **@signe/di** — dependency injection / module composition used by RPG.js v5.
-- **TypeScript strict** throughout.
-- **Capacitor 8** for Android native wrapper; the web deploy target is GitHub Pages.
+-   **Vite 8** — build + dev server.
+-   **RPG.js v5 beta** (`@rpgjs/client`, `@rpgjs/server`, `@rpgjs/tiledmap`, `@rpgjs/vite`) — game engine, overworld scenes, Tiled tilemap rendering, event/NPC system, dialog, save hooks.
+-   **CanvasEngine 2.0 beta** (`canvasengine`, `@canvasengine/presets`, `@canvasengine/compiler`) — underlying renderer used by RPG.js v5 (Pixi 8-backed).
+-   **Pixi.js 8** — low-level sprite/tilemap rendering (via CanvasEngine).
+-   **@rpgjs/action-battle** — wired for rival + jan lawa fights. Jan lawa use the legacy-named `gym-leader.ts` factory with optional multi-phase BattleAi (HP-threshold poller triggers `runPhaseTransition`). Set-piece intros sync the player combat body/stats to the lead party creature through `lead-battle-avatar.ts`; `lead-battle-skills.ts` builds the custom move bar model and applies registered skill damage without relying on RPG.js beta learned-skill array sync.
+-   **@signe/di** — dependency injection / module composition used by RPG.js v5.
+-   **TypeScript strict** throughout.
+-   **Capacitor 8** for Android native wrapper; the web deploy target is GitHub Pages.
 
 ### What we removed in the pivot
 
-- Phaser 4 — replaced by RPG.js v5 + CanvasEngine.
-- Solid-JS / React / Tailwind — replaced by RPG.js v5's native GUI system. Custom HUD + overlays are authored as `.ce` (CanvasEngine) components and registered via `defineModule<RpgClient>({ gui: [...] })`. Styling uses `@rpgjs/ui-css` tokens overridden by `src/styles/brand.css`. See `docs/UX.md` for the full HUD architecture.
-- Koota ECS — entity management is now RPG.js v5's player/event model.
-- `vite-plugin-solid`, `@vitejs/plugin-react` — removed; `rpgjs()` Vite plugin replaces both.
+-   Phaser 4 — replaced by RPG.js v5 + CanvasEngine.
+-   Solid-JS / React / Tailwind — replaced by RPG.js v5's native GUI system. Custom HUD + overlays are authored as `.ce` (CanvasEngine) components and registered via `defineModule<RpgClient>({ gui: [...] })`. Styling uses `@rpgjs/ui-css` tokens overridden by `src/styles/brand.css`. See `docs/UX.md` for the full HUD architecture.
+-   Koota ECS — entity management is now RPG.js v5's player/event model.
+-   `vite-plugin-solid`, `@vitejs/plugin-react` — removed; `rpgjs()` Vite plugin replaces both.
 
 ## Persistence
 
@@ -45,7 +45,7 @@ Used for: current map id, party slot pointer, settings flags, journey beat point
 
 ### Structured / multi-row (`@capacitor-community/sqlite`)
 
-Used for: full save snapshots (complete world state), mastered-words log (per-word timestamps), party rosters with full stats, encounter history, journal entries. Web fallback via `jeep-sqlite` / `sql.js`. Pattern at `src/platform/persistence/database.ts` — follows the mean-streets `prepareWebStore()` / `initWebStore` / `saveToStore` pattern exactly.
+Used for: full save snapshots (complete world state), mastered-words log (per-word timestamps), party rosters with full stats, encounter history, journal entries. Web fallback via `jeep-sqlite` / `sql.js`. Pattern at `src/platform/persistence/database.ts` — follows the mean-streets `prepareWebStore()` / `initWebStore` / `saveToStore` pattern exactly. `sql.js` is pinned through package-manager overrides so the web shim stays aligned with the tested Capacitor SQLite/jeep-sqlite stack.
 
 RPG.js v5's save hook is wired to write through the sqlite adapter; on the client side the preferences wrapper is used for ephemeral small state.
 
@@ -113,16 +113,17 @@ src/content/
     maps.json                 — labels, biome/music mirrors, safe spawns, default respawn
     events.json               — per-map runtime event factory payloads and intentional anchor offsets
     starters.json             — starter choices, initial level, initial items, mastered words
-    progression.json          — badge display, party/save-slot limits, level curve, gym XP curve, NG+, daycare, rematch scaling/rewards
-    trainers.json             — rival/gym stats, BattleAi tuning, rewards, phase config
+    progression.json          — badge display, party/save-slot limits, level curve, jan lawa XP curve, NG+, daycare, rematch scaling/rewards
+    trainers.json             — rival/jan lawa stats, BattleAi tuning, rewards, phase config
     shops.json                — coin item, shop stock/NPC graphic/dialog/delivery target, battle coin rewards
     item-drops.json           — species-drop type/tier fallback data
     ambient.json              — day/night tint and weather probability tables
     combat.json               — creature type list, matchup matrix, status effects, wild-combat formulas, tag overrides, encounter timing
     effects.json              — effect spritesheet frame grids and animation strips
+    language.json             — wan sitelen prompt pool and result copy
     visuals.json              — combat chrome, HP tiers/colors, tap selectors, sprite layouts, spritesheet manifests
     audio.json                — BGM/SFX event asset paths, base volumes, BGM selection, runtime audio timing, gameplay SFX cue mapping
-    ui.json                   — HUD/combat/tap IDs/copy/retry tuning, lead movebar tuning/copy/templates, title/starter/pause/settings/inventory/save/vocab/party-panel/bestiary/quest/dialog/overlay/shop/wild-encounter/dictionary-export copy/templates/data, dialog IDs, notification durations, save-position snap timing, credits pages
+    ui.json                   — HUD/combat/tap IDs/copy/retry tuning, lead move bar tuning/copy/templates, title/starter/pause/settings/inventory/save/vocab/party-panel/bestiary/quest/dialog/overlay/shop/wild-encounter/dictionary-export copy/templates/data, dialog IDs, notification durations, save-position snap timing, credits pages
     quests.json               — side-quest catalog
   generated/
     world.json                — compiled output, including map object layers, committed for reproducibility
@@ -130,12 +131,13 @@ src/content/
 
 **Authoring contract**: authors edit only `src/content/spine/`. Every Zod schema tags translatable string fields with a `.describe('tp')` marker. Those fields carry an `en` value at authoring time; `tp` is resolved at build time by matching against the Tatoeba corpus.
 
-**Gameplay-config contract**: authored runtime catalogs live in `src/content/gameplay/*.json`, not scattered through RPG.js modules. `src/content/gameplay/schema.ts` validates those files with Zod at import time, and `src/content/gameplay/index.ts` normalizes JSON naming into the TypeScript shapes consumed by runtime modules. Use TypeScript for behavior and adapters; use JSON for map labels/safe spawns, runtime map event factory payloads, starter grants/mentor graphic, player default graphic, badges, party/save-slot limits, shop stock/NPC graphic/dialog/delivery target, battle rewards, level curves, trainer/final-boss battle stats/AI/rewards/death visuals, NG+ reset/scaling, daycare offspring tuning, gym XP/rematch tuning, type matchups, status-effect rules, wild-combat formulas, encounter probabilities/timing, side quests, item-drop defaults, ambient weather/tint tables, combat chrome values, HP tiers/colors/labels, HUD/tap/combat UI IDs/timing/copy/retry tuning, lead movebar SP/cooldown/range tuning/copy/templates, sprite layouts, player/NPC/trainer/boss/effect manifests, audio event paths/volumes/selection/runtime timing/cue mapping, title/starter/pause/settings/inventory/save/vocabulary/party-panel/bestiary/quest journal/dialog fallback/defaults/SFX/shop/wild-encounter copy/choices/templates/dialog IDs, defeat/warp overlay ARIA/default phases, defeat revive dialog IDs, dictionary export text/SVG layout, notification templates/durations, save-position snap timing, and credits text. Event placement itself resolves from compiled TMJ objects in `world.json` via `src/content/map-objects.ts` and `src/modules/main/runtime-map-events.ts`; `events.json` should not duplicate absolute map coordinates. `tests/build-time/gameplay-config-boundary.test.ts` keeps that boundary enforceable by failing on new top-level runtime table literals outside the config layer unless they are explicitly allowlisted as behavior/schema adapters.
+**Gameplay-config contract**: authored runtime catalogs live in `src/content/gameplay/*.json`, not scattered through RPG.js modules. `src/content/gameplay/schema.ts` validates those files with Zod at import time, and `src/content/gameplay/index.ts` normalizes JSON naming into the TypeScript shapes consumed by runtime modules. Use TypeScript for behavior and adapters; use JSON for map labels/safe spawns, runtime map event factory payloads, starter grants/mentor graphic, player default graphic, badges, party/save-slot limits, shop stock/NPC graphic/dialog/delivery target, battle rewards, level curves, trainer/final-boss battle stats/AI/rewards/defeat visuals, NG+ reset/scaling, daycare offspring tuning, jan lawa XP/rematch tuning, type matchups, status-effect rules, wild-combat formulas, encounter probabilities/timing, side quests, item-drop defaults, ambient weather/tint tables, combat chrome values, HP tiers/colors/labels, HUD/tap/combat UI IDs/timing/copy/retry tuning, lead move bar SP/cooldown/range tuning/copy/templates, sprite layouts, player/NPC/trainer/boss/effect manifests, audio event paths/volumes/selection/runtime timing/cue mapping, title/starter/pause/settings/inventory/save/vocabulary/party-panel/bestiary/quest journal/dialog fallback/defaults/SFX/shop/wild-encounter copy/choices/templates/dialog IDs, wan sitelen prompt/result copy, defeat/warp overlay ARIA/default phases, defeat revive dialog IDs, dictionary export text/SVG layout, notification templates/durations, save-position snap timing, and credits text. Event placement itself resolves from compiled TMJ objects in `world.json` via `src/content/map-objects.ts` and `src/modules/main/runtime-map-events.ts`; `events.json` should not duplicate absolute map coordinates. `tests/build-time/gameplay-config-boundary.test.ts` keeps that boundary enforceable by failing on new top-level runtime table literals outside the config layer unless they are explicitly allowlisted as behavior/schema adapters.
 
 **Build steps**:
-- `pnpm validate-tp` — walks every `en`-tagged string in spine, confirms an exact Tatoeba pair exists. Exit 1 on any miss.
-- `pnpm build-spine` — validates spine files against Zod, resolves every `en` → canonical TP, and emits `src/content/generated/world.json` with both authored content and compiled TMJ object layers.
-- `pnpm prebuild` — runs validate + build-spine + typecheck before `vite build`.
+
+-   `pnpm validate-tp` — walks every `en`-tagged string in spine, confirms an exact Tatoeba pair exists. Exit 1 on any miss.
+-   `pnpm build-spine` — validates spine files against Zod, resolves every `en` → canonical TP, and emits `src/content/generated/world.json` with both authored content and compiled TMJ object layers.
+-   `pnpm prebuild` — runs validate + build-spine + typecheck before `vite build`.
 
 Single-word dictionary TP values (`kili`, `soweli`, `moku`) are exempt — the validator only gates multi-word constructions.
 
@@ -146,16 +148,18 @@ Regions are **not authored** as a schema — they're Tiled map files. What IS au
 ```typescript
 // src/content/schema/journey.ts
 type JourneyBeat = {
-  map_id: string;           // matches src/tiled/<map_id>.tmx
-  narrative: string;        // prose describing what happens here (dev-facing only)
-  gate?: {                  // optional: what unlocks progression out of this beat
-    kind: 'starter_chosen' | 'catch_count' | 'flag' | 'defeated';
-    params: Record<string, unknown>;
-  };
-  transition?: {            // optional: how we cut to the next beat
-    kind: 'warp' | 'dialog' | 'combat' | 'cutscene';
-    trigger_object?: string;  // name of the Tiled object that fires the transition
-  };
+    map_id: string; // matches src/tiled/<map_id>.tmx
+    narrative: string; // prose describing what happens here (dev-facing only)
+    gate?: {
+        // optional: what unlocks progression out of this beat
+        kind: "starter_chosen" | "catch_count" | "flag" | "defeated";
+        params: Record<string, unknown>;
+    };
+    transition?: {
+        // optional: how we cut to the next beat
+        kind: "warp" | "dialog" | "combat" | "cutscene";
+        trigger_object?: string; // name of the Tiled object that fires the transition
+    };
 };
 type Journey = { beats: JourneyBeat[] };
 ```
@@ -178,7 +182,7 @@ src/
     provide-hud-menu-gui.ts / provide-pause-gui.ts
                              — HUD menu button, status strip, hint, and pause overlay GUI providers
     provide-combat-chrome.ts — registers action-battle HP-bar, hit-feedback, and target-reticle overlays
-    provide-lead-movebar-gui.ts — registers the lead-creature action-battle movebar
+    provide-lead-movebar-gui.ts — registers the lead-creature action-battle move bar
     provide-defeat-screen-gui.ts — registers the full-screen defeat/respawn overlay
     provide-wild-battle-gui.ts — registers the wild encounter lead/target overlay
     provide-dialog-gui.ts    — branded dialog/typewriter GUI override
@@ -209,7 +213,7 @@ src/
       runtime-map-events.ts — compiles TMJ object positions into runtime event placement
       warp.ts               — gated map-to-map transitions + loading overlay handoff
       warp-loading.ts       — pure destination-label/phase model for `poki-warp-loading`
-      gym-leader.ts         — rival/gym factory with optional multi-phase BattleAi
+      gym-leader.ts         — legacy-named rival/jan lawa factory with optional multi-phase BattleAi
       green-dragon.ts       — final boss; gated on all four region badges
       ambient-npc.ts        — villager/sign NPC factory
   content/
@@ -236,7 +240,7 @@ src/
 
 ### The party (player's character sheet)
 
-The player has no standalone progression stats. Their `party[]` is up to 6 creatures. Each creature has HP, types, moves, XP, and a level. The current v0.2 action-battle bridge syncs the server player body, HP/SP/ATK/PDEF, and generated lead movebar model to party slot 0 for rival/gym/final set-pieces, then applies selected moves through registered RPG.js skill damage without mutating the beta engine's learned-skill array. Configured rival/gym/final targets render a sprite-local cyan reticle through `poki-combat-target-reticle.ce`, and the movebar exposes direct bench switching when another conscious creature is available. It restores the field `hero` sprite after combat. If the active battle lead faints and a bench creature still has HP, the runtime promotes the next conscious creature and refreshes the combat body/stats/movebar; if the full party is down, the player wakes in the last visited village with party restored (no permadeath). A deeper full-party battle command UI remains roadmap scope.
+The player has no standalone progression stats. Their `party[]` is up to 6 creatures. Each creature has HP, types, moves, XP, and a level. The current v0.2 action-battle bridge syncs the server player body, HP/SP/ATK/PDEF, and generated lead move bar model to party slot 0 for rival/jan lawa/final set-pieces, then applies selected moves through registered RPG.js skill damage without mutating the beta engine's learned-skill array. Configured rival/jan lawa/final targets render a sprite-local cyan reticle through `poki-combat-target-reticle.ce`, and the move bar exposes direct bench switching when another conscious creature is available. It restores the field `hero` sprite after combat. If the active battle lead faints and a bench creature still has HP, the runtime promotes the next conscious creature and refreshes the combat body/stats/move bar; if the full party is down, the player wakes in the last visited village with party restored (no permadeath). A deeper full-party battle command UI remains roadmap scope.
 
 ### XP + level-up curve
 
@@ -252,11 +256,11 @@ On a victory or successful catch, `awardLeadVictoryXp()` applies the relevant re
 
 Five types:
 
-- **seli** (fire) beats **kasi** (plant)
-- **telo** (water) beats **seli**
-- **kasi** beats **telo**
-- **lete** (ice) strong vs flying (`waso`-tagged species); weak offensive coverage otherwise
-- **wawa** (strong) no advantage/disadvantage; high raw damage — the bruiser type
+-   **seli** (fire) beats **kasi** (plant)
+-   **telo** (water) beats **seli**
+-   **kasi** beats **telo**
+-   **lete** (ice) strong vs flying (`waso`-tagged species); weak offensive coverage otherwise
+-   **wawa** (strong) no advantage/disadvantage; high raw damage — the bruiser type
 
 Starters are the seli/telo/kasi triangle. `lete` and `wawa` species are catchable in later regions.
 
@@ -264,7 +268,7 @@ Starters are the seli/telo/kasi triangle. `lete` and `wawa` species are catchabl
 
 **Tall-grass random:** on each overworld step while inside an `Encounters` object-layer rectangle tagged tall-grass, roll the region's species weight table. On hit, transition to combat. Wild combat stays inside `rpg-dialog`: the target prompt can render the encountered species' idle face, `utala` damage is scaled by the lead-vs-target type matchup, and the feedback text reports `pona mute`, `awen`, or `pakala` before the updated HP.
 
-**Set-piece:** hand-placed fights — rivals (jan Ike), gym masters (jan Telo / jan Wawa / jan Lete / jan Suli), the final boss (green dragon at endgame).
+**Set-piece:** hand-placed fights — rivals (jan Ike), jan lawa (jan Telo / jan Wawa / jan Lete / jan Suli), the final boss (green dragon at endgame).
 
 ### Catch mechanic
 
@@ -287,28 +291,28 @@ index.html  →  src/standalone.ts (development: client + server in same Vite pr
 
 ## What lives where (quick reference)
 
-| Concern | Home |
-|---|---|
-| Tile layout + layer structure | TypeScript specs in `scripts/map-authoring/specs/`, emitted to `.tmx` files in `src/tiled/` |
-| Player spawn location | `Spawn Point` object in the map's Objects layer |
-| NPC placement | NPC object in Objects layer; runtime event registered in `src/modules/main/server.ts` |
-| NPC dialog content | `src/content/spine/dialog/*.json` nodes referenced by `dialog_id` (Tatoeba-validated) |
-| Warps | Warp object with `target_map` + `target_spawn` |
-| Encounter zones | Rectangles in `Encounters` object layer |
-| Species data | `src/content/spine/species/<id>.json` |
-| Move data | `src/content/spine/moves/<id>.json` |
-| Item data | `src/content/spine/items/<id>.json` |
-| Game arc | `src/content/spine/journey.json` + `docs/JOURNEY.md` |
-| Runtime gameplay catalogs | `src/content/gameplay/*.json` via `src/content/gameplay/index.ts` |
-| Save state (small KV) | `src/platform/persistence/preferences.ts` (Capacitor Preferences) |
-| Save state (full snapshots) | `src/platform/persistence/database.ts` (Capacitor SQLite) |
-| RPG.js save hook | `src/platform/persistence/save-strategy.ts` |
-| Combat logic | `@rpgjs/action-battle/server` BattleAi via `src/modules/main/gym-leader.ts`; set-piece lead avatar sync in `src/modules/main/lead-battle-avatar.ts`; generated lead skill sync/use in `src/modules/main/lead-battle-skills.ts`; wild encounter helpers in `src/modules/main/wild-combat.ts` |
-| Combat chrome | `src/config/provide-combat-chrome.ts`, `src/config/poki-combat-hp-bar.ce`, `src/config/poki-combat-feedback.ce`, `src/config/poki-combat-target-reticle.ce`, `src/config/provide-lead-movebar-gui.ts`, `src/config/poki-lead-movebar.ce`, `src/config/provide-wild-battle-gui.ts`, `src/config/poki-wild-battle.ce`, `src/modules/main/combat-chrome.ts`, `src/modules/main/wild-battle-view.ts`, and combat CSS in `src/styles/brand.css` |
-| Creature spritesheets | `src/config/creature-sprites.ts` derives RPG.js sheets from all generated species sprite metadata, including action-battle `stand` / `walk` / `attack` fallbacks |
-| Multi-phase bosses | `gym-leader.ts` `phase2` descriptor + HP-threshold poller |
-| Badge tracking | `db_flag` rows keyed `badge_<region>`; `inventory-screen.ts` reads |
-| Map emission | `scripts/map-authoring/` specs + emitters (runs in `pnpm validate`) |
+| Concern                       | Home                                                                                                                                                                                                                                                                                                                                                                                                                                       |
+| ----------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| Tile layout + layer structure | TypeScript specs in `scripts/map-authoring/specs/`, emitted to `.tmx` files in `src/tiled/`                                                                                                                                                                                                                                                                                                                                                |
+| Player spawn location         | `Spawn Point` object in the map's Objects layer                                                                                                                                                                                                                                                                                                                                                                                            |
+| NPC placement                 | NPC object in Objects layer; runtime event registered in `src/modules/main/server.ts`                                                                                                                                                                                                                                                                                                                                                      |
+| NPC dialog content            | `src/content/spine/dialog/*.json` nodes referenced by `dialog_id` (Tatoeba-validated)                                                                                                                                                                                                                                                                                                                                                      |
+| Warps                         | Warp object with `target_map` + `target_spawn`                                                                                                                                                                                                                                                                                                                                                                                             |
+| Encounter zones               | Rectangles in `Encounters` object layer                                                                                                                                                                                                                                                                                                                                                                                                    |
+| Species data                  | `src/content/spine/species/<id>.json`                                                                                                                                                                                                                                                                                                                                                                                                      |
+| Move data                     | `src/content/spine/moves/<id>.json`                                                                                                                                                                                                                                                                                                                                                                                                        |
+| Item data                     | `src/content/spine/items/<id>.json`                                                                                                                                                                                                                                                                                                                                                                                                        |
+| Game arc                      | `src/content/spine/journey.json` + `docs/JOURNEY.md`                                                                                                                                                                                                                                                                                                                                                                                       |
+| Runtime gameplay catalogs     | `src/content/gameplay/*.json` via `src/content/gameplay/index.ts`                                                                                                                                                                                                                                                                                                                                                                          |
+| Save state (small KV)         | `src/platform/persistence/preferences.ts` (Capacitor Preferences)                                                                                                                                                                                                                                                                                                                                                                          |
+| Save state (full snapshots)   | `src/platform/persistence/database.ts` (Capacitor SQLite)                                                                                                                                                                                                                                                                                                                                                                                  |
+| RPG.js save hook              | `src/platform/persistence/save-strategy.ts`                                                                                                                                                                                                                                                                                                                                                                                                |
+| Combat logic                  | `@rpgjs/action-battle/server` BattleAi via `src/modules/main/gym-leader.ts`; set-piece lead avatar sync in `src/modules/main/lead-battle-avatar.ts`; generated lead skill sync/use in `src/modules/main/lead-battle-skills.ts`; wild encounter helpers in `src/modules/main/wild-combat.ts`                                                                                                                                                |
+| Combat chrome                 | `src/config/provide-combat-chrome.ts`, `src/config/poki-combat-hp-bar.ce`, `src/config/poki-combat-feedback.ce`, `src/config/poki-combat-target-reticle.ce`, `src/config/provide-lead-movebar-gui.ts`, `src/config/poki-lead-movebar.ce`, `src/config/provide-wild-battle-gui.ts`, `src/config/poki-wild-battle.ce`, `src/modules/main/combat-chrome.ts`, `src/modules/main/wild-battle-view.ts`, and combat CSS in `src/styles/brand.css` |
+| Creature spritesheets         | `src/config/creature-sprites.ts` derives RPG.js sheets from all generated species sprite metadata, including action-battle `stand` / `walk` / `attack` fallbacks                                                                                                                                                                                                                                                                           |
+| Multi-phase bosses            | legacy-named `gym-leader.ts` `phase2` descriptor + HP-threshold poller                                                                                                                                                                                                                                                                                                                                                                     |
+| Badge tracking                | `db_flag` rows keyed `badge_<region>`; `inventory-screen.ts` reads                                                                                                                                                                                                                                                                                                                                                                         |
+| Map emission                  | `scripts/map-authoring/` specs + emitters (runs in `pnpm validate`)                                                                                                                                                                                                                                                                                                                                                                        |
 
 ## Test infrastructure
 
@@ -316,19 +320,19 @@ Vitest owns pure build-time tests and in-process RPG.js integration tests. Playw
 
 ## What we explicitly DO NOT have
 
-- **No Phaser, Koota, React, Solid, Tailwind.** Removed in the RPG.js v5 pivot.
-- **No region schema.** Maps are Tiled files, not JSON.
-- **No procgen.** The world is authored end-to-end.
-- **No translation UI.** No EN glosses shown to the player.
-- **No mixed tileset families.** Fan-tasy is the sole tileset source.
-- **No copyrighted-property references.** Not in code, comments, docs, or asset names.
-- **No direct `localStorage` / `IndexedDB`** in feature code. Capacitor abstractions only.
+-   **No Phaser, Koota, React, Solid, Tailwind.** Removed in the RPG.js v5 pivot.
+-   **No region schema.** Maps are Tiled files, not JSON.
+-   **No procgen.** The world is authored end-to-end.
+-   **No translation UI.** No EN glosses shown to the player.
+-   **No mixed tileset families.** Fan-tasy is the sole tileset source.
+-   **No copyrighted-property references.** Not in code, comments, docs, or asset names.
+-   **No direct `localStorage` / `IndexedDB`** in feature code. Capacitor abstractions only.
 
 ## Decision log
 
-- **RPG.js v5 beta pivot** (2026-04-19) — the Phaser 4 + Solid + Koota stack was closed in favor of RPG.js v5 which provides: Tiled tilemaps out of the box (`@rpgjs/tiledmap`), built-in event/NPC model, a save abstraction (`ISaveStorageStrategy`), a CanvasEngine `.ce` GUI system, and a standalone dev mode (no external server needed). The content pipeline (`src/content/`), Fan-tasy tilesets (`public/assets/tilesets/`), and journey model are preserved unchanged.
-- **RPG.js-native GUI, no bolt-ons** (2026-04-20) — the HUD, pause overlay, party panel, and every custom surface are authored as `.ce` (CanvasEngine) files registered via RPG.js's unified GUI system. No SolidJS, no Vue, no React. Reactivity comes from CanvasEngine signals (same model as Solid) which RPG.js already threads through the client engine. Mobile-first, tap-to-walk is primary input (keyboard is a desktop shortcut to the same actions), 4-way movement only. See `docs/UX.md` for the HUD spec.
-- **Pre-Godot spike base** (`0a582e0`) — repo history includes a pre-Godot Phaser+Koota tip that informed the current pivot, but current work should not assume it happens on any special historical branch.
-- **Fan-tasy tilesets unified** — a single coherent art family (6 biome packs) replaces the prior Kenney + Lonesome Forest + Old Town patchwork.
-- **Boss vs creature tiering by animation depth** — animated sprites (`bosses/`); static sprites (`creatures/`). Green dragon is the designated final boss.
-- **Capacitor persistence** — `@capacitor/preferences` for small KV, `@capacitor-community/sqlite` for structured data. No `localStorage` in feature code.
+-   **RPG.js v5 beta pivot** (2026-04-19) — the Phaser 4 + Solid + Koota stack was closed in favor of RPG.js v5 which provides: Tiled tilemaps out of the box (`@rpgjs/tiledmap`), built-in event/NPC model, a save abstraction (`ISaveStorageStrategy`), a CanvasEngine `.ce` GUI system, and a standalone dev mode (no external server needed). The content pipeline (`src/content/`), Fan-tasy tilesets (`public/assets/tilesets/`), and journey model are preserved unchanged.
+-   **RPG.js-native GUI, no bolt-ons** (2026-04-20) — the HUD, pause overlay, party panel, and every custom surface are authored as `.ce` (CanvasEngine) files registered via RPG.js's unified GUI system. No SolidJS, no Vue, no React. Reactivity comes from CanvasEngine signals (same model as Solid) which RPG.js already threads through the client engine. Mobile-first, tap-to-walk is primary input (keyboard is a desktop shortcut to the same actions), 4-way movement only. See `docs/UX.md` for the HUD spec.
+-   **Pre-Godot spike base** (`0a582e0`) — repo history includes a pre-Godot Phaser+Koota tip that informed the current pivot, but current work should not assume it happens on any special historical branch.
+-   **Fan-tasy tilesets unified** — a single coherent art family (6 biome packs) replaces the prior Kenney + Lonesome Forest + Old Town patchwork.
+-   **Boss vs creature tiering by animation depth** — animated sprites (`bosses/`); static sprites (`creatures/`). Green dragon is the designated final boss.
+-   **Capacitor persistence** — `@capacitor/preferences` for small KV, `@capacitor-community/sqlite` for structured data. No `localStorage` in feature code.

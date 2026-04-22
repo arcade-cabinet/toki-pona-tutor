@@ -11,7 +11,7 @@
                             type="button"
                             class="rpg-ui-menu-item poki-pause-route"
                             data-selected={activeRouteId() === routeKey(route) ? "true" : "false"}
-                            data-testid={route.testId}
+                            data-testid={testId(route.testId, `pause-route-${routeKey(route) || index}`)}
                             tabindex={index}
                             click={selectEntry(index)}
                         >{route.label}</button>
@@ -30,7 +30,7 @@
                                         disabled: isEntryDisabled(row),
                                         selected: !!row.selected
                                     }}
-                                    data-testid={row.testId || ""}
+                                    data-testid={testId(row.testId, rowFallbackTestId(row, rowIndex))}
                                     aria-label={row.hpLabel || row.label}
                                     click={row.id ? selectEntry(routeList().length + rowIndex) : undefined}
                                 >
@@ -53,7 +53,7 @@
                                 </div>
                             }
                             @else if (row.kind === "party-detail") {
-                                <div class="poki-party-detail-card" data-testid={row.testId || ""}>
+                                <div class="poki-party-detail-card" data-testid={testId(row.testId, rowFallbackTestId(row, rowIndex))}>
                                     <div class="poki-party-detail-title">{row.label}</div>
                                     @for (line of detailLines(row)) {
                                         <div class="poki-party-detail-line">{line}</div>
@@ -67,7 +67,7 @@
                                         actionable: !!row.id,
                                         disabled: isEntryDisabled(row)
                                     }}
-                                    data-testid={row.testId || ""}
+                                    data-testid={testId(row.testId, rowFallbackTestId(row, rowIndex))}
                                     click={row.id ? selectEntry(routeList().length + rowIndex) : undefined}
                                 >
                                     <span>{row.label}</span>
@@ -86,7 +86,7 @@
                             class="rpg-ui-menu-item poki-pause-footer-item"
                             class={{disabled: isEntryDisabled(entry)}}
                             data-selected={selectedEntry() === routeList().length + contentRows().length + index ? "true" : "false"}
-                            data-testid={entry.testId || ""}
+                            data-testid={testId(entry.testId, entryFallbackTestId(entry, index))}
                             tabindex={routeList().length + contentRows().length + index}
                             click={selectEntry(routeList().length + contentRows().length + index)}
                         >{entry.label}</button>
@@ -161,6 +161,10 @@
     const contentTitleText = computed(() => resolveProp(contentTitle) || "");
     const activeRouteId = computed(() => resolveProp(activeRoute) || PAUSE_MENU_CONFIG.defaultRouteId);
     const routeKey = (route) => String(route?.id || "").replace(/^route:/, "");
+    const slug = (value) => String(value || "").replace(/[^a-zA-Z0-9_-]+/g, "-").replace(/^-+|-+$/g, "");
+    const testId = (value, fallback) => slug(value) || fallback;
+    const rowFallbackTestId = (row, index) => `pause-row-${slug(row?.id || row?.kind) || index}`;
+    const entryFallbackTestId = (entry, index) => `pause-entry-${slug(entry?.id) || index}`;
     const detailLines = (row) => {
         const lines = resolveProp(row?.detailLines);
         return Array.isArray(lines) ? lines : [];

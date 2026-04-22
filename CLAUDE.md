@@ -8,7 +8,7 @@ status: current
 
 A creature-catching RPG whose world is named in toki pona. The player catches creatures in tall grass with a **poki** (net), builds a party of up to six, and beats the current four **jan lawa** (region masters) to reach the final boss — picking up vocabulary by playing, never translating.
 
-Repo path: `/Users/jbogaty/src/arcade-cabinet/toki-pona-tutor`.
+Repo path: clone-dependent; use `git rev-parse --show-toplevel` instead of assuming a fixed local path.
 
 ## Orient yourself
 
@@ -30,7 +30,7 @@ Then: `git status && git log --oneline -10 && gh pr list`.
 -   **Fan-tasy is the only tileset family.** `public/assets/tilesets/{core,seasons,snow,desert,fortress,indoor}/` is the source of truth. Do not mix in other tilesets — tonal inconsistency is what sank the previous playthrough. See `docs/SPRITE_CURATION.md`.
 -   **Maps are build artifacts, never hand-authored.** The only way a map enters the repo is via a spec in `scripts/map-authoring/specs/<id>.ts` built by `pnpm author:build <id>` (or `pnpm author:all --all`). `src/tiled/<id>.tmx` (runtime), `public/assets/maps/<id>.tmj` (archive), and `public/assets/maps/<id>.preview.png` (review PNG) are regenerated from the spec. `pnpm author:verify` runs in `validate` + `prebuild` + CI and fails on any hand-edited, missing, orphaned, or drifted `.tmx`/`.tmj`; `tests/build-time/map-preview-regression.test.ts` pixel-diffs preview PNG drift. If you need to change a map: edit the spec, rebuild, commit the spec plus emitted artifacts.
 -   **Map object coordinates are compiled, not copied.** `pnpm build-spine` reads `public/assets/maps/*.tmj` object layers into `src/content/generated/world.json`; runtime event placement resolves from that registry. Do not paste absolute NPC/warp coordinates into `server.ts` or `events.json`.
--   **Every monster is catchable.** Tiering is about rarity + catch difficulty + animation depth — not whether the poki works. Animated sprites live in `public/assets/bosses/` (tier-2: rare spawns + set-piece fights, harder catch); static sprites in `public/assets/creatures/` (tier-1: common random encounters). Green dragon (`akesi_sewi`) is the final boss and a legendary final-route catch; its dedicated death animation plays on final-boss defeat.
+-   **Every monster is catchable.** Tiering is about rarity + catch difficulty + animation depth — not whether the poki works. Animated sprites live in `public/assets/bosses/` (tier-2: rare spawns + set-piece fights, harder catch); static sprites in `public/assets/creatures/` (tier-1: common random encounters). Green dragon (`akesi_sewi`) is the final boss and a legendary final-route catch; its dedicated defeat animation plays on final-boss defeat.
 -   **No hand-authored toki pona.** Every user-facing TP string round-trips through the Tatoeba corpus. See `docs/WRITING_RULES.md`. If `pnpm validate-tp` rejects a line, rewrite the EN, not the TP.
 -   **Always use pull requests.** Work on branches; don't push to `main`. Never merge with `--admin` / bypass checks. Branch names are ephemeral; check `git branch --show-current` rather than assuming.
 -   **E2E > unit.** Integration + E2E tests (real engine, real browser) are what prove the game works. Unit tests are reserved for pure-logic/math/formulas. See `docs/TESTING.md`.
@@ -101,7 +101,7 @@ public/assets/
 ├── bosses/                       # animated: green-dragon, dread-knight, slime, fire-skull, zombie-burster
 ├── creatures/                    # static wild-encounter sprites
 ├── npcs/                         # villagers, guards, warriors
-├── combatants/                   # rival trainers, gym leaders (warriors_rogues_mages)
+├── combatants/                   # rival trainers, jan lawa combatants (warriors_rogues_mages)
 └── effects/                      # weapon + magical FX
 
 docs/                      # specs — see list in docs/STATE.md

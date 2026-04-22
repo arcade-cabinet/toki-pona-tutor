@@ -165,14 +165,14 @@ tail-pointer corner so the pointer reads as continuous.
 
 ## Motion
 
-| Action             | Duration                                               | Easing                            | Notes                                 |
-| ------------------ | ------------------------------------------------------ | --------------------------------- | ------------------------------------- |
-| Menu open/close    | 200ms                                                  | `ease-out`                        | Scale + fade combined                 |
-| Button press       | 120ms                                                  | `ease-out`                        | Translate-y 2px + shadow shrink       |
-| HP damage tween    | 400ms                                                  | `ease-in-out`                     | Separate from color stop change       |
-| Victory toast      | 300ms in, 2.5s hold, 400ms out                         | `ease-out` / `linear` / `ease-in` | Stack bottom-up                       |
-| Dialog text reveal | speed = `textSpeed` pref (default 48 cps); 0 = instant |
-| Level-up flash     | 600ms                                                  | `ease-out`                        | Yellow glow fades on the party sprite |
+| Action             | Duration                                               | Easing                            | Notes                                   |
+| ------------------ | ------------------------------------------------------ | --------------------------------- | --------------------------------------- |
+| Menu open/close    | 200ms                                                  | `ease-out`                        | Scale + fade combined                   |
+| Button press       | 120ms                                                  | `ease-out`                        | Translate-y 2px + shadow shrink         |
+| HP damage tween    | 400ms                                                  | `ease-in-out`                     | Separate from color stop change         |
+| Victory toast      | 300ms in, 2.5s hold, 400ms out                         | `ease-out` / `linear` / `ease-in` | Stack bottom-up                         |
+| Dialog text reveal | speed = `textSpeed` pref (default 48 cps); 0 = instant | n/a                               | User setting controls typewriter reveal |
+| Level-up flash     | 600ms                                                  | `ease-out`                        | Yellow glow fades on the party sprite   |
 
 Respect `prefers-reduced-motion: reduce` — fade, don't slide.
 
@@ -303,7 +303,7 @@ lead/target creature cards, cropped idle sprites, HP bars, type chips,
 an `utala` damage popup, and `poki` throw/caught/escaped feedback.
 Set-piece action-battle intros also swap the player combat body/stats
 to the lead species sprite before restoring the field hero graphic after
-combat. The full-browser lead-movebar spec now uses an iPhone viewport
+combat. The full-browser lead move bar spec now uses an iPhone viewport
 and proves tap selection, target/range state, 44px+ move target sizing,
 single-target cyan reticle capture, in-combat bench switching, SP
 spend, live HP damage, and cooldown/ARIA state. A fuller party-command
@@ -328,7 +328,7 @@ When a new surface is built, point it at the matching reference:
 | Pause inventory               | `src/modules/main/inventory-screen.ts`                                                                                                                                                 |
 | Pause party/bestiary panel    | `src/modules/main/pause-menu.ts` + `src/config/poki-pause-screen.ce` (slots, detail, `lead`, `kili`, `lipu soweli`)                                                                    |
 | Action-battle chrome          | `src/config/provide-combat-chrome.ts` + `src/config/poki-combat-hp-bar.ce` + `src/config/poki-combat-target-reticle.ce` + `src/modules/main/combat-chrome.ts`                          |
-| Lead movebar                  | `src/modules/main/lead-battle-skills.ts` + `src/config/provide-lead-movebar-gui.ts` + `src/config/poki-lead-movebar.ce`                                                                |
+| Lead move bar                 | `src/modules/main/lead-battle-skills.ts` + `src/config/provide-lead-movebar-gui.ts` + `src/config/poki-lead-movebar.ce`                                                                |
 | Wild combat choices + overlay | `src/modules/main/wild-combat.ts` + `src/modules/main/wild-combat-ui.ts` + `src/modules/main/wild-battle-view.ts` + `src/config/poki-wild-battle.ce` + `src/modules/main/encounter.ts` |
 | Shop choices                  | `src/modules/main/shop-npc.ts` + `src/modules/main/shop.ts` (jan Moku, `ma`, `poki_lili`, `kili`)                                                                                      |
 | Pause save slots              | `src/modules/main/save-menu.ts`                                                                                                                                                        |
@@ -336,7 +336,7 @@ When a new surface is built, point it at the matching reference:
 
 ## Out of scope for v0.2
 
--   Full bespoke party-switching combat arena — the current v0.2 scope keeps RPG.js action-battle with a lead-creature avatar/movebar bridge plus local HP overlays and dialog-based wild fights.
+-   Full bespoke party-switching combat arena — the current v0.2 scope keeps RPG.js action-battle with a lead-creature avatar/move bar bridge plus local HP overlays and dialog-based wild fights.
 -   Theme switching (light mode, custom palettes).
 -   Localized EN — the game is diegetic TP. Store-page copy can be
     localized to other human languages, but in-game EN stays fixed.

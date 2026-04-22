@@ -117,6 +117,6 @@
 
     function isLeadMoveBarDomVisible() {
         const element = globalThis.document?.querySelector?.('[data-testid="lead-movebar"]');
-        return element instanceof HTMLElement && element.getClientRects().length > 0;
+        return typeof HTMLElement !== "undefined" && element instanceof HTMLElement && element.getClientRects().length > 0;
     }
 </script>

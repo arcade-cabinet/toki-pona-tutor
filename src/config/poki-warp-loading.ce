@@ -37,8 +37,9 @@
     const view = computed(() => data() || null);
     const phase = computed(() => view()?.phase || WARP_LOADING_CONFIG.defaultPhase);
     const label = computed(() => view()?.label || "");
-    const statusLabel = computed(() => view()?.statusLabel || WARP_LOADING_CONFIG.phaseLabels.enter.statusLabel);
-    const detailLabel = computed(() => view()?.detailLabel || WARP_LOADING_CONFIG.phaseLabels.enter.detailLabel);
+    const phaseDefaults = computed(() => WARP_LOADING_CONFIG.phaseLabels[phase()] || WARP_LOADING_CONFIG.phaseLabels[WARP_LOADING_CONFIG.defaultPhase]);
+    const statusLabel = computed(() => view()?.statusLabel || phaseDefaults().statusLabel);
+    const detailLabel = computed(() => view()?.detailLabel || phaseDefaults().detailLabel);
     const loadingClass = computed(() => `poki-warp-loading phase-${phase()}`);
     const ariaLabel = computed(() => formatGameplayTemplate(WARP_LOADING_CONFIG.ariaLabelTemplate, {
         status: statusLabel(),

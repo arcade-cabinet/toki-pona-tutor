@@ -16,6 +16,9 @@ type CanvasElementWithInstance = {
     };
 };
 
+let resolvedViewportClass: ViewportComponentConstructor | null = null;
+let resolvedSpriteClass: SpriteAssetTrackerComponentConstructor | null = null;
+
 /**
  * CanvasEngine's current Viewport implementation still uses Pixi's deprecated
  * beginFill/drawRect/endFill trio in updateMask(). Replace only that method
@@ -40,6 +43,10 @@ export function installCanvasSpriteDeferredAssetCleanupPatch(): void {
 }
 
 export function resolveRegisteredViewportClass(): ViewportComponentConstructor {
+    if (resolvedViewportClass) {
+        return resolvedViewportClass;
+    }
+
     const probe = createComponent("Viewport") as CanvasElementWithInstance;
     const viewportClass = probe.componentInstance?.constructor as
         | ViewportComponentConstructor
@@ -48,10 +55,15 @@ export function resolveRegisteredViewportClass(): ViewportComponentConstructor {
         throw new Error("CanvasEngine Viewport component class could not be resolved");
     }
 
-    return viewportClass;
+    resolvedViewportClass = viewportClass;
+    return resolvedViewportClass;
 }
 
 export function resolveRegisteredSpriteClass(): SpriteAssetTrackerComponentConstructor {
+    if (resolvedSpriteClass) {
+        return resolvedSpriteClass;
+    }
+
     const probe = createComponent("Sprite") as CanvasElementWithInstance;
     const spriteClass = probe.componentInstance?.constructor as
         | SpriteAssetTrackerComponentConstructor
@@ -60,7 +72,8 @@ export function resolveRegisteredSpriteClass(): SpriteAssetTrackerComponentConst
         throw new Error("CanvasEngine Sprite component class could not be resolved");
     }
 
-    return spriteClass;
+    resolvedSpriteClass = spriteClass;
+    return resolvedSpriteClass;
 }
 
 export { patchSpriteDeferredAssetCleanupConstructor, patchSpriteHitboxAnchorConstructor };

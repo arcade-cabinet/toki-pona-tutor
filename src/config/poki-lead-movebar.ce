@@ -123,7 +123,7 @@
         const options = switchInfo()?.options;
         return Array.isArray(options) ? options : [];
     });
-    const hasSwitchOptions = computed(() => switchOptions().length > 1);
+    const hasSwitchOptions = computed(() => switchOptions().length > 0);
     const targetInfo = computed(() => view()?.target || null);
     const targetLabel = computed(() => targetInfo()?.label || copy.defaultTargetLabel);
     const targetStatusLabel = computed(() => targetInfo()?.statusLabel || copy.defaultTargetStatus);

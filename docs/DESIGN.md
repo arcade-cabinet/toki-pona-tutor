@@ -11,7 +11,7 @@ What poki soweli **is**, what it **is not**, and the UX principles that settle t
 
 ## What it is
 
-**A cozy creature-catching RPG where the world is named in toki pona.** Players walk between villages, catch creatures (goblins, orcs, skellies, wraiths, slimes, dread-knights, the green dragon) with a **poki** (net), build a party of up to six, and beat the current four **jan lawa** (region masters) to reach the final boss. Vocabulary accumulates diegetically — by the end of a playthrough, the player reads a dialog line in TP and understands it the way they'd understand a song lyric they've sung a hundred times: not translated, *known*. Warm cream + parchment chrome (see `docs/BRAND.md`); cozy village-fable energy, not edgy.
+**A cozy creature-catching RPG where the world is named in toki pona.** Players walk between villages, catch creatures (goblins, orcs, skellies, wraiths, slimes, dread-knights, the green dragon) with a **poki** (net), build a party of up to six, and beat the current four **jan lawa** (region masters) to reach the final boss. Vocabulary accumulates diegetically — by the end of a playthrough, the player reads a dialog line in TP and understands it the way they'd understand a song lyric they've sung a hundred times: not translated, _known_. Warm cream + parchment chrome (see `docs/BRAND.md`); cozy village-fable energy, not edgy.
 
 **It is for kids** learning language — roughly 7-to-12 — with a fierce-but-friendly tone. Dread-knight, not death-knight. The monsters are scary-cool (goblins in grass, skellies in crypts, a dragon at the peak), not gory. Clear palette, quick resolution on every interaction (no filibuster tutorials, no walls of English).
 
@@ -21,11 +21,11 @@ What poki soweli **is**, what it **is not**, and the UX principles that settle t
 
 ## What it is NOT
 
-- **Not a translation exercise.** The UI never shows EN glosses for TP words. No flashcards, no quizzes mid-play.
-- **Not a clone of any trademarked property.** The genre conventions (parties, types, catch nets, gym-like region masters) are conventions, not copies. The toki pona language frame + cozy dark-fantasy aesthetic + catch-and-befriend loop are what make this its own thing. Never reference any specific franchise by name in any doc, code comment, or asset.
-- **Not grindy.** Every encounter moves the story forward by either vocabulary, item, or region-gate progress. If a player is killing time for XP, something's wrong with the spec.
-- **Not combat-optimization-first.** The fun is exploration + language + catching, not min-maxing movesets. Combat needs to be *legible* and *fair*, not deep.
-- **Not an authoring platform.** Maps are authored as TypeScript specs that emit committed `.tmx` / `.tmj` artifacts; there's no in-game editor.
+-   **Not a translation exercise.** The UI never shows EN glosses for TP words. No flashcards, no quizzes mid-play.
+-   **Not a clone of any trademarked property.** The genre conventions (parties, types, catch nets, regional masters) are conventions, not copies. The toki pona language frame + cozy dark-fantasy aesthetic + catch-and-befriend loop are what make this its own thing. Never reference any specific franchise by name in any doc, code comment, or asset.
+-   **Not grindy.** Every encounter moves the story forward by either vocabulary, item, or region-gate progress. If a player is killing time for XP, something's wrong with the spec.
+-   **Not combat-optimization-first.** The fun is exploration + language + catching, not min-maxing movesets. Combat needs to be _legible_ and _fair_, not deep.
+-   **Not an authoring platform.** Maps are authored as TypeScript specs that emit committed `.tmx` / `.tmj` artifacts; there's no in-game editor.
 
 ## Core loop
 
@@ -41,13 +41,13 @@ Every other system (dialog, inventory, save, audio) supports this loop.
 
 ## The five types
 
-| TP | EN gloss | Role |
-|---|---|---|
-| **seli** | fire | strong against kasi; weak to telo |
-| **telo** | water | strong against seli; weak to kasi |
-| **kasi** | plant | strong against telo; weak to seli |
-| **lete** | ice/cold | strong against flying (`waso`); limited coverage elsewhere |
-| **wawa** | strong | no advantage / disadvantage; high raw damage, "bruiser" type |
+| TP       | EN gloss | Role                                                         |
+| -------- | -------- | ------------------------------------------------------------ |
+| **seli** | fire     | strong against kasi; weak to telo                            |
+| **telo** | water    | strong against seli; weak to kasi                            |
+| **kasi** | plant    | strong against telo; weak to seli                            |
+| **lete** | ice/cold | strong against flying (`waso`); limited coverage elsewhere   |
+| **wawa** | strong   | no advantage / disadvantage; high raw damage, "bruiser" type |
 
 Starters are seli / telo / kasi (the rock-paper-scissors triangle). `lete` and `wawa` are catchable later.
 
@@ -55,7 +55,7 @@ Starters are seli / telo / kasi (the rock-paper-scissors triangle). `lete` and `
 
 ### Diegetic over didactic
 
-When in doubt, the game explains itself *through* the world, not through a tutorial overlay. The starter ceremony is jan Sewi handing the player a choice — not a modal. The encounter mechanic is a creature appearing when the player steps on tall grass — not a popup explaining "Encounters happen in tall grass."
+When in doubt, the game explains itself _through_ the world, not through a tutorial overlay. The starter ceremony is jan Sewi handing the player a choice — not a modal. The encounter mechanic is a creature appearing when the player steps on tall grass — not a popup explaining "Encounters happen in tall grass."
 
 ### Consistent playing pieces
 
@@ -77,7 +77,7 @@ When a naming call is close, pick the kid-friendly one. When a mechanic feels pu
 
 These are the objective tests the current v0.2 release-hardening milestone must pass. See `docs/ROADMAP.md` for the full list; headlines:
 
-1. **Full playthrough, softlock-free.** Boot → starter ceremony → walk → catch → warp → gym → next region → … → final boss. No dead-ends.
+1. **Full playthrough, softlock-free.** Boot → starter ceremony → walk → catch → warp → jan lawa fight → next region → … → final boss. No dead-ends.
 2. **Catch count reachable.** ≥ 20 distinct wild creatures across the 43-species roster achievable without grinding.
 3. **Combat is legible and fair.** Animated HP, damage numbers, visible type matchups, clear capture/defeat outcomes.
 4. **UI is themed and mobile-legible.** 44×44dp touch targets on 1080p phone. sitelen-pona renders in names.
@@ -88,7 +88,7 @@ These are the objective tests the current v0.2 release-hardening milestone must 
 
 ## Open design questions (not yet settled)
 
-- **Full party-creature combat arena** — current v0.2 combat keeps RPG.js action-battle for set-pieces, with a browser-proven lead-creature body/stat/movebar bridge, configured-target cyan reticles, automatic next-creature send-out when a battle lead faints, in-combat bench switching, and dialog-based wild fights; V5-02 still tracks deeper full-party battle command UI and non-pointer input polish.
-- **Difficulty curve** — enemy level ramp across regions 1–7. Need to playtest before committing numbers.
+-   **Full party-creature combat arena** — current v0.2 combat keeps RPG.js action-battle for set-pieces, with a browser-proven lead-creature body/stat/move bar bridge, configured-target cyan reticles, automatic next-creature send-out when a battle lead faints, in-combat bench switching, and dialog-based wild fights; V5-02 still tracks deeper full-party battle command UI and non-pointer input polish.
+-   **Difficulty curve** — enemy level ramp across regions 1–7. Need to playtest before committing numbers.
 
 None block the current v0.2 release-hardening work.

@@ -4,11 +4,12 @@ import {
     copyFileSync,
     existsSync,
     mkdirSync,
+    mkdtempSync,
     readFileSync,
-    rmSync,
     statSync,
     writeFileSync,
 } from "node:fs";
+import { tmpdir } from "node:os";
 import { join, resolve } from "node:path";
 import { pathToFileURL } from "node:url";
 
@@ -41,6 +42,7 @@ export function releaseArtifactNames(tagName) {
 export function buildReleaseMetadata({ tag_name, version, sha, body = "" }) {
     assertTagName(tag_name);
     assertNonEmptyString(version, "version");
+    assertVersionMatchesTag(tag_name, version);
     assertSha(sha);
     assertString(body, "body");
 
@@ -102,20 +104,19 @@ export function validateReleaseMetadata(input) {
 export function smokeReleaseArtifacts({
     root = process.cwd(),
     tagName = "v0.0.0-local",
-    version = tagName.replace(/^v/, "").replace(/[-+].*$/, ""),
+    version = versionFromTagName(tagName),
     sha = "local",
     body = "Local release artifact smoke test.\n",
-    outDir = `/tmp/poki-soweli-release-smoke-${tagName}`,
+    outDir,
 } = {}) {
     const repoRoot = resolve(root);
     const distDir = resolve(repoRoot, "dist");
     const apkPath = resolve(repoRoot, "android/app/build/outputs/apk/debug/app-debug.apk");
-    const outRoot = resolve(outDir);
+    const outRoot = prepareOutputDirectory(outDir, tagName);
 
     assertBuiltWebBundle(distDir);
     assertFile(apkPath, "debug APK");
 
-    rmSync(outRoot, { recursive: true, force: true });
     mkdirSync(outRoot, { recursive: true });
 
     const metadata = buildReleaseMetadata({
@@ -145,6 +146,23 @@ export function smokeReleaseArtifacts({
         webBundlePath,
         apkPath: apkOutPath,
     };
+}
+
+function prepareOutputDirectory(outDir, tagName) {
+    if (outDir) {
+        const resolved = resolve(outDir);
+        if (existsSync(resolved)) {
+            throw new Error(`release smoke output directory already exists: ${resolved}`);
+        }
+        return resolved;
+    }
+
+    return mkdtempSync(join(tmpdir(), `poki-soweli-release-smoke-${tagName}-`));
+}
+
+function versionFromTagName(tagName) {
+    assertTagName(tagName);
+    return tagName.replace(/^v/, "");
 }
 
 export function assertBuiltWebBundle(distDir) {
@@ -184,6 +202,15 @@ function assertTagName(value) {
     assertNonEmptyString(value, "tag_name");
     if (!TAG_PATTERN.test(value)) {
         throw new Error(`tag_name must be a v-prefixed semver tag, got '${value}'`);
+    }
+}
+
+function assertVersionMatchesTag(tagName, version) {
+    const expected = versionFromTagName(tagName);
+    if (version !== expected) {
+        throw new Error(
+            `version must be '${expected}' for tag_name '${tagName}', got '${version}'`,
+        );
     }
 }
 

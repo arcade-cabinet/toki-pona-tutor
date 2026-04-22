@@ -310,7 +310,9 @@ describe("current-state documentation drift guards", () => {
     it("keeps LORE species inventory synchronized with generated content", () => {
         const lore = doc("docs/LORE.md");
         const tableRows = [
-            ...lore.matchAll(/^\| `([^`]+)` \| ([^|]+) \| ([^|]+) \| ([^|]+) \| `([^`]+)` \|$/gm),
+            ...lore.matchAll(
+                /^\|\s*`([^`]+)`\s*\|\s*([^|]+?)\s*\|\s*([^|]+?)\s*\|\s*([^|]+?)\s*\|\s*`([^`]+)`\s*\|$/gm,
+            ),
         ]
             .map((match) => ({
                 id: match[1],

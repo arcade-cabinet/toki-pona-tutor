@@ -102,9 +102,27 @@ describe("release artifact handoff contract", () => {
         );
     });
 
+    it("keeps prerelease metadata versions aligned with the tag", () => {
+        expect(
+            releaseArtifacts.buildReleaseMetadata({
+                tag_name: "v0.2.3-rc.1",
+                version: "0.2.3-rc.1",
+                sha: "local",
+            }).version,
+        ).toBe("0.2.3-rc.1");
+
+        expect(() =>
+            releaseArtifacts.buildReleaseMetadata({
+                tag_name: "v0.2.3-rc.1",
+                version: "0.2.3",
+                sha: "local",
+            }),
+        ).toThrow(/version must be '0\.2\.3-rc\.1'/);
+    });
+
     it("packages a local web bundle, debug APK, and release.json smoke artifact set", () => {
         const root = tempRoot();
-        const outDir = tempRoot();
+        const outDir = join(tempRoot(), "release-out");
         mkdirSync(join(root, "dist"), { recursive: true });
         mkdirSync(join(root, "dist/map"), { recursive: true });
         mkdirSync(join(root, "android/app/build/outputs/apk/debug"), { recursive: true });
@@ -163,12 +181,14 @@ describe("release artifact handoff contract", () => {
         );
         writeRequiredWebBundleFiles(root);
 
-        expect(() => pagesBundle.verifyPagesBundle(join(root, "dist"))).toThrow(/GITHUB_PAGES=true/);
+        expect(() => pagesBundle.verifyPagesBundle(join(root, "dist"))).toThrow(
+            /GITHUB_PAGES=true/,
+        );
     });
 
     it("rejects a local release smoke when dist is not the Pages build", () => {
         const root = tempRoot();
-        const outDir = tempRoot();
+        const outDir = join(tempRoot(), "release-out");
         mkdirSync(join(root, "dist"), { recursive: true });
         mkdirSync(join(root, "android/app/build/outputs/apk/debug"), { recursive: true });
         writeFileSync(
@@ -193,7 +213,7 @@ describe("release artifact handoff contract", () => {
 
     it("rejects a local release smoke when a runtime map is missing from dist", () => {
         const root = tempRoot();
-        const outDir = tempRoot();
+        const outDir = join(tempRoot(), "release-out");
         mkdirSync(join(root, "dist/map"), { recursive: true });
         mkdirSync(join(root, "android/app/build/outputs/apk/debug"), { recursive: true });
         writeFileSync(
@@ -215,5 +235,31 @@ describe("release artifact handoff contract", () => {
                 sha: "local",
             }),
         ).toThrow(/map\/nena_suli\.tmx/);
+    });
+
+    it("refuses to wipe a caller-supplied existing output directory", () => {
+        const root = tempRoot();
+        const outDir = tempRoot();
+        mkdirSync(join(root, "dist/map"), { recursive: true });
+        mkdirSync(join(root, "android/app/build/outputs/apk/debug"), { recursive: true });
+        writeFileSync(
+            join(root, "dist/index.html"),
+            [
+                '<link rel="manifest" href="/poki-soweli/manifest.json">',
+                '<script type="module" src="/poki-soweli/assets/index.js"></script>',
+            ].join("\n"),
+        );
+        writeRequiredWebBundleFiles(root);
+        writeFileSync(join(root, "android/app/build/outputs/apk/debug/app-debug.apk"), "apk\n");
+
+        expect(() =>
+            releaseArtifacts.smokeReleaseArtifacts({
+                root,
+                outDir,
+                tagName: "v0.2.3",
+                version: "0.2.3",
+                sha: "local",
+            }),
+        ).toThrow(/output directory already exists/);
     });
 });

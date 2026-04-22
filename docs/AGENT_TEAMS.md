@@ -11,9 +11,9 @@ poki soweli is authored by a human orchestrator plus a small fleet of content-wr
 
 ## Ground truth on the Claude Code team primitives
 
-- `CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1` is set in `~/.claude/settings.json` on this machine. Verify `TeamCreate`, `TeamDelete`, and `SendMessage` are present in the active Claude Code session before starting a wave.
-- **Known bug (#37549, observed locally with Claude Code 2.1.98):** spawning an `Agent` with both `team_name` and `isolation: "worktree"` can silently *ignore* the isolation flag. The teammate may land in the primary checkout on the current branch. Re-test after Claude Code upgrades, but keep the worktree prologue mandatory unless the bug is proven fixed.
-- **Workaround (the policing model):** every teammate's brief opens with a worktree prologue they run before touching any files. The prologue creates a worktree from `origin/main` and `cd`s into it. The rest of the brief operates in that worktree.
+-   `CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1` is set in `~/.claude/settings.json` on this machine. Verify `TeamCreate`, `TeamDelete`, and `SendMessage` are present in the active Claude Code session before starting a wave.
+-   **Known bug (#37549, observed locally with Claude Code 2.1.98):** spawning an `Agent` with both `team_name` and `isolation: "worktree"` can silently _ignore_ the isolation flag. The teammate may land in the primary checkout on the current branch. Re-test after Claude Code upgrades, but keep the worktree prologue mandatory unless the bug is proven fixed.
+-   **Workaround (the policing model):** every teammate's brief opens with a worktree prologue they run before touching any files. The prologue creates a worktree from `origin/main` and `cd`s into it. The rest of the brief operates in that worktree.
 
 This is acceptable. The isolation responsibility shifts from the framework to the teammate's opening checklist, and that checklist goes in every brief.
 
@@ -24,13 +24,13 @@ Content is landed in waves. Each wave is a small set of PRs that can be authored
 1. **Wave 0 — Infra (orchestrator only).** Zod schemas, content pipeline, validate-tp prebuild, procgen delete. One big PR.
 2. **Wave 1 — Schema audit (1 teammate).** Reads the schemas the orchestrator wrote, writes `docs/schema/*.md` reference docs, catches any holes.
 3. **Wave 2 — Content fanout (up to 5 teammates parallel).**
-   - species: creature species JSONs across the five types
-   - moves: move JSONs keyed to types
-   - region-1: ma tomo lili — starter village, jan Sewi's ceremony
-   - region-2: nasin wan — first route, tall-grass encounter table
-   - items: poki variants, healing items
-3. **Wave 3 — Engine integration (orchestrator only).** Wire RPG.js modules to read `generated/world.json`, catch mechanics, party state, and `lipu soweli`.
-4. **Wave 4 — Content fanout (more teammates).** Regions 3–6, dialog polish, balance pass, gym-master fights.
+    - species: creature species JSONs across the five types
+    - moves: move JSONs keyed to types
+    - region-1: ma tomo lili — starter village, jan Sewi's ceremony
+    - region-2: nasin wan — first route, tall-grass encounter table
+    - items: poki variants, healing items
+4. **Wave 3 — Engine integration (orchestrator only).** Wire RPG.js modules to read `generated/world.json`, catch mechanics, party state, and `lipu soweli`.
+5. **Wave 4 — Content fanout (more teammates).** Regions 3–6, dialog polish, balance pass, jan lawa fights.
 
 Max five teammates in flight at once. More than that strains context budgets, tangles the git remote, and multiplies review load.
 
@@ -74,9 +74,9 @@ Once the PR is open and CI is green, the agent runs through this before `gh pr m
 
 An agent knows reviewer feedback has stalled when:
 
-- CI has been all-green for ≥ 10 minutes.
-- No new comment bodies in that window (ignoring auto-generated rate-limit messages from CodeRabbit / Gemini quota notices).
-- At least one reviewer from {CodeRabbit, Copilot, Amazon Q} has left actual review content (even "LGTM" counts).
+-   CI has been all-green for ≥ 10 minutes.
+-   No new comment bodies in that window (ignoring auto-generated rate-limit messages from CodeRabbit / Gemini quota notices).
+-   At least one reviewer from {CodeRabbit, Copilot, Amazon Q} has left actual review content (even "LGTM" counts).
 
 If only rate-limit messages have appeared, that counts as immediate stall — move to self-review without the 10-minute wait.
 
@@ -84,8 +84,8 @@ If only rate-limit messages have appeared, that counts as immediate stall — mo
 
 Self-review produces two outcomes. The agent picks and commits:
 
-- **High-confidence:** the diff matches the brief, all validators pass, nothing looks dubious. Merge.
-- **Low-confidence:** something in the diff feels wrong and the agent can't resolve it alone. Post a PR comment with the specific question, add `needs-human-review` label, stop work. The orchestrator picks it up on their next check-in.
+-   **High-confidence:** the diff matches the brief, all validators pass, nothing looks dubious. Merge.
+-   **Low-confidence:** something in the diff feels wrong and the agent can't resolve it alone. Post a PR comment with the specific question, add `needs-human-review` label, stop work. The orchestrator picks it up on their next check-in.
 
 **Never ship work the agent is unsure about.** Unreviewed rollback is cheaper than merged regression.
 
@@ -103,9 +103,9 @@ Self-review produces two outcomes. The agent picks and commits:
 
 The repo inherits `~/.claude/CLAUDE.md`. Every agent must respect:
 
-- Conventional commit messages, squash-merge PRs, always PR to `main`
-- Never force-push to `main`
-- Never skip hooks (`--no-verify`) unless explicitly asked by a human
-- Address all reviewer feedback before merge
-- 300-LOC-per-file is a soft signal, not a hard cap — use judgment
-- CI → release → CD workflow order
+-   Conventional commit messages, squash-merge PRs, always PR to `main`
+-   Never force-push to `main`
+-   Never skip hooks (`--no-verify`) unless explicitly asked by a human
+-   Address all reviewer feedback before merge
+-   300-LOC-per-file is a soft signal, not a hard cap — use judgment
+-   CI → release → CD workflow order

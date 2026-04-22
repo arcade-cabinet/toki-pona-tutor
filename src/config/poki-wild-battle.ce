@@ -74,7 +74,7 @@
     import { computed } from "canvasengine";
     import { COMBAT_UI_CONFIG } from "../content/gameplay";
     import { formatGameplayTemplate } from "../content/gameplay/templates";
-    import { publicAssetPath } from "./audio-controller";
+    import { publicAssetPath } from "./asset-paths";
 
     const { data } = defineProps({
         data: {

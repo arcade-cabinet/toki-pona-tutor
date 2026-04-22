@@ -31,6 +31,7 @@ declare global {
 
 let lastPayloadKey: string | null = null;
 let lastPayloadAt = 0;
+let installedExportSockets = new WeakSet<object>();
 
 const dictionaryExportClientModule = defineModule<RpgClient>({
     engine: {
@@ -55,8 +56,10 @@ export function provideDictionaryExportRuntime() {
 }
 
 function installDictionaryExportRuntime(engine?: RpgClientEngine): void {
-    recordRuntimeStatus("installed");
     const socket = resolveSocket(engine);
+    if (installedExportSockets.has(socket as object)) return;
+    installedExportSockets.add(socket as object);
+    recordRuntimeStatus("installed");
     socket.on(DICTIONARY_EXPORT_EVENT, (payload: unknown) => {
         if (!isDictionaryExportPayload(payload)) {
             recordRuntimeStatus("invalid");

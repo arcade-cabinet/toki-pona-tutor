@@ -1,5 +1,6 @@
 import { bgmForContext, effectiveVolume, type BgmId, type MapContext } from "../modules/main/audio";
 import { AUDIO_RUNTIME_CONFIG } from "../content/gameplay";
+export { publicAssetPath } from "./asset-paths";
 
 export type HowlLike = {
     play: () => number | string | void;
@@ -24,13 +25,6 @@ type ActiveBgm = {
 
 export const BGM_CROSSFADE_MS = AUDIO_RUNTIME_CONFIG.bgmCrossfadeMs;
 export const BGM_STOP_DELAY_PADDING_MS = AUDIO_RUNTIME_CONFIG.bgmStopDelayPaddingMs;
-
-export function publicAssetPath(path: string, base = "/"): string {
-    const normalizedPath = path.replace(/^\/+/, "");
-    if (base === "./") return `./${normalizedPath}`;
-    const normalizedBase = base.endsWith("/") ? base : `${base}/`;
-    return `${normalizedBase}${normalizedPath}`;
-}
 
 export async function getPlayableSound(
     backend: AudioBackend,
@@ -80,10 +74,10 @@ export class BgmCrossfadeController {
         if (previous) {
             const previousVolume = readVolume(previous.sound, previous.playId);
             fade(previous.sound, previousVolume, 0, BGM_CROSSFADE_MS, previous.playId);
-            this.scheduleStop(
-                () => previous.sound.stop(previous.playId as number | string | undefined),
-                BGM_CROSSFADE_MS + BGM_STOP_DELAY_PADDING_MS,
-            );
+            this.scheduleStop(() => {
+                if (this.active?.sound === previous.sound) return;
+                previous.sound.stop(previous.playId as number | string | undefined);
+            }, BGM_CROSSFADE_MS + BGM_STOP_DELAY_PADDING_MS);
         }
     }
 

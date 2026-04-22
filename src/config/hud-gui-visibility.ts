@@ -26,9 +26,9 @@ export function isGuiDisplayed(guiService: GuiServiceLike, guiId: string): boole
 }
 
 export function hasBlockingGui(guiService: GuiServiceLike): boolean {
-    const guis = Object.values(guiService.gui?.() ?? {});
-    return guis.some((gui) => {
-        if (NON_BLOCKING_GUI_IDS.has(String(gui.name ?? ""))) return false;
+    const guis = guiService.gui?.() ?? {};
+    return Object.entries(guis).some(([id, gui]) => {
+        if (NON_BLOCKING_GUI_IDS.has(String(gui.name ?? id))) return false;
         return gui.display?.() === true;
     });
 }
