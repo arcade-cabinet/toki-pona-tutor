@@ -5293,7 +5293,7 @@
       {
         "id": "beat_03_nena_sewi",
         "map_id": "nena_sewi",
-        "narrative": "Mountain pass with stone footpaths between blocked cliffs, rocks, and tall-grass clumps. Encounters skew wawa-ish and rocky: jan_wawa, jan_wawa_linja, jan_wawa_jaki, sijelo_kiwen, soweli_palisa, waso_lape, akesi_seli, and soweli_sewi. jan Kiwen, jan Kala, jan Waso Sewi, and jan Nasin Sewi provide ambient route dialog. At the top, jan Wawa blocks the northward path with the first gym fight. Winning sets badge_sewi and grants the reward word sewi.",
+        "narrative": "Mountain pass with stone footpaths between blocked cliffs, rocks, and tall-grass clumps. Encounters skew wawa-typed and rocky: jan_wawa, jan_wawa_linja, jan_wawa_jaki, sijelo_kiwen, soweli_palisa, waso_lape, akesi_seli, and soweli_sewi. jan Kiwen, jan Kala, jan Waso Sewi, and jan Nasin Sewi provide ambient route dialog. At the top, jan Wawa blocks the northward path with the first jan lawa fight. Winning sets badge_sewi and grants the reward word sewi.",
         "gate": {
           "kind": "defeated",
           "npc_id": "jan_wawa"
@@ -5332,7 +5332,7 @@
       {
         "id": "beat_06_nena_suli",
         "map_id": "nena_suli",
-        "narrative": "The great peak is the hardest gym before the endgame: a tall narrow cave-shrine with stone floors, blocked rock walls, torch landmarks, and sparse encounter overgrowth. Encounters are heavy elites: jan_wawa_suli, jan_wawa_utala, jan_utala_suli, soweli_utala, sijelo_utala, waso_moku, waso_moli, soweli_sewi, soweli_alasa, and soweli_wawa at levels 10-15. jan Kiwen Suli, jan pi kon, jan Pimeja Suli, and jan pi nasin flesh out the climb before jan Suli. Beating jan Suli sets badge_suli and grants suli.",
+        "narrative": "The great peak is the hardest jan lawa challenge before the endgame: a tall narrow cave-shrine with stone floors, blocked rock walls, torch landmarks, and sparse encounter overgrowth. Encounters are heavy elites: jan_wawa_suli, jan_wawa_utala, jan_utala_suli, soweli_utala, sijelo_utala, waso_moku, waso_moli, soweli_sewi, soweli_alasa, and soweli_wawa at levels 10-15. jan Kiwen Suli, jan Pi Kon, jan Pimeja Suli, and jan Pi Nasin flesh out the climb before jan Suli. Beating jan Suli sets badge_suli and grants suli.",
         "gate": {
           "kind": "defeated",
           "npc_id": "jan_suli"
@@ -5345,7 +5345,7 @@
       {
         "id": "beat_07_nasin_pi_telo",
         "map_id": "nasin_pi_telo",
-        "narrative": "Endgame approach: long riverside route with a grassy west bank, deep water channel, sandbar path, and two aquatic encounter patches. Encounters include jan_moli, kon_moli, telo_jaki, kala_telo, kala_uta, kala_tomo, jan_moli_wawa, kala_luka, seli_moli, akesi_suli, and the rare akesi_sewi across levels 7-13. jan Kala Lili, jan Moku Pona, jan Kala Suli, jan Olin Telo, and jan Suno Telo populate the bank. With all four region badges in hand, final_boss_trigger fires the akesi_sewi cutscene; the final-boss defeat path plays the green dragon death animation.",
+        "narrative": "Endgame approach: long riverside route with a grassy west bank, deep water channel, sandbar path, and two aquatic encounter patches. Encounters include jan_moli, kon_moli, telo_jaki, kala_telo, kala_uta, kala_tomo, jan_moli_wawa, kala_luka, seli_moli, akesi_suli, and the rare akesi_sewi across levels 7-13. jan Kala Lili, jan Moku Pona, jan Kala Suli, jan Olin Telo, and jan Suno Telo populate the bank. With all four region badges in hand, final_boss_trigger fires the akesi_sewi cutscene; the green-dragon clear path plays the green dragon defeat animation.",
         "gate": {
           "kind": "flag",
           "flag_id": "badges_all_four"

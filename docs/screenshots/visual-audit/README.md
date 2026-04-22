@@ -29,4 +29,4 @@ The source spec captures the live browser canvas and high-risk GUI shells. It al
 | `map-ma_telo.png`                  | Lake village tile placement, water/shore boundaries, and NPC/shop spacing. |
 | `map-ma_lete.png`                  | Ice region tile placement.                                                 |
 | `map-nena_suli.png`                | Final mountain/cave tile placement.                                        |
-| `map-nasin_pi_telo.png`            | Endgame water route tile placement and final-boss approach.                |
+| `map-nasin_pi_telo.png`            | Endgame water route tile placement and green-dragon approach.              |

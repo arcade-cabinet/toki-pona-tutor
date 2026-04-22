@@ -92,7 +92,7 @@ function titleEntry(page: Page, index: number) {
 }
 
 function dialogChoice(page: Page, index: number) {
-    return page.locator(`.rpg-ui-dialog-choice[data-choice-index="${index}"]`);
+    return page.getByTestId(`dialog-choice-${index}`);
 }
 
 async function expectTouchTarget(locator: Locator, label: string): Promise<void> {

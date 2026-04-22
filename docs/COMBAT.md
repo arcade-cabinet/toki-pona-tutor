@@ -20,7 +20,7 @@ Two distinct combat loops exist in **poki soweli**:
 
 Both loops are live in the current seven-map arc. Wild encounters carry
 party growth and catch UX; action-battle carries rival, four jan lawa,
-badge gates, final boss, combat music, XP, `ma` rewards, and autosave.
+badge gates, the green-dragon endgame encounter, combat music, XP, `ma` rewards, and autosave.
 
 ## Wild encounter contract
 
@@ -141,7 +141,7 @@ Designated fights, one per journey beat 2+:
 | 4    | `jan_telo`   | jan lawa       | HP 80 → 100, ATK 20 → 24, PDEF 12 → 16, `Defensive`                                                                  | `badge_telo`                            |
 | 5    | `jan_lete`   | jan lawa       | HP 90 → 120, ATK 22 → 30, PDEF 14 → 20, `Ranged` → `Tank`                                                            | `badge_lete`                            |
 | 6    | `jan_suli`   | jan lawa       | HP 110 → 140, ATK 28 → 36, PDEF 18 → 22, `Aggressive` → `Berserker`                                                  | `badge_suli`                            |
-| 7    | green dragon | final boss     | Configured in `src/content/gameplay/trainers.json`: HP 320, ATK 42, PDEF 28, `Berserker`, dedicated defeat animation | `green_dragon_defeated`, `game_cleared` |
+| 7    | green dragon | endgame boss   | Configured in `src/content/gameplay/trainers.json`: HP 320, ATK 42, PDEF 28, `Berserker`, dedicated defeat animation | `green_dragon_defeated`, `game_cleared` |
 
 ### Wiring
 
@@ -163,7 +163,7 @@ Designated fights, one per journey beat 2+:
    `src/modules/main/server.ts`, with placement resolved by
    `runtime-map-events.ts` from compiled TMJ objects in `world.json`.
    Rival/jan lawa stats, rewards, action-battle tuning, phase-two config,
-   final-boss config, and defeat visuals come from
+   green-dragon config, and defeat visuals come from
    `src/content/gameplay/trainers.json`.
 
 4. **Dialog** — two Tatoeba-gated dialog nodes:
@@ -174,7 +174,7 @@ Designated fights, one per journey beat 2+:
 
 5. **Flag propagation** — `setFlag(...)` writes to the `flags` SQLite
    table. Warps read those flags through `Warp({ requiredFlag })` to gate
-   the next region. The final boss trigger uses `allBadgesEarned()`.
+   the next region. The green-dragon trigger uses `allBadgesEarned()`.
 
 6. **Rewards and persistence** — rival/jan lawa/final wins grant XP and/or
    `ma`, record mastered words, cue SFX/BGM, emit XP/level-up/new-move

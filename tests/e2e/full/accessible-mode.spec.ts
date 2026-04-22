@@ -11,7 +11,7 @@ function titleEntry(page: Page, index: number) {
 }
 
 function dialogChoice(page: Page, index: number) {
-    return page.locator(`.rpg-ui-dialog-choice[data-choice-index="${index}"]`);
+    return page.getByTestId(`dialog-choice-${index}`);
 }
 
 test('settings accessible mode toggle applies larger-type reduced-motion body class', async ({ page }) => {

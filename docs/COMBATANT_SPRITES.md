@@ -552,10 +552,9 @@ Same directional layout as `combatant_warrior_axe_combat`. Caped silhouette with
 | 24–26     | 4      | `defend`     | 6   | yes  |
 | 27–30     | 4      | `hurt`       | 8   | no   |
 
-Note: The paladin sheet is 96px wide (24×24 frames, 4 cols) and 744px tall — extended format
-with additional animation rows beyond the standard 31-row layout. The extra rows (31+) include
-an elaborate defeat/surrender sequence (shield-down, kneel, bow). For RPG.js registration,
-the `framesWidth: 4` / `framesHeight: 31` covers the primary overworld animations.
+Note: The paladin sheet is 96px wide (24×24 frames, 4 cols) and 744px tall — exactly
+31 rows. No rows beyond 0–30 are present or registered; the runtime
+`framesWidth: 4` / `framesHeight: 31` covers the full sheet.
 
 ---
 
@@ -622,5 +621,5 @@ No ID registered.
 | Mages                  | 7            | 2 (`mage-fem-red`, `mage-hooded-brown`) | 4             | 1 (duplicate `mage-masc-dkgrey.png`) |
 | Rogues                 | 8            | 1 (`hooded-rogue-non-combat-daggers`)   | 7             | 0                                    |
 | Warriors (non-paladin) | 9            | 1 (`axe-warrior-16x16`)                 | 8             | 0                                    |
-| Warriors (paladin)     | 7            | 1 (`paladin/non-combat-animations`)     | 3             | 3 (effect-only strips)               |
-| **Total**              | **31**       | **5**                                   | **22**        | **4**                                |
+| Warriors (paladin)     | 6            | 1 (`paladin/non-combat-animations`)     | 2             | 3 (effect-only strips)               |
+| **Total**              | **30**       | **5**                                   | **21**        | **4**                                |

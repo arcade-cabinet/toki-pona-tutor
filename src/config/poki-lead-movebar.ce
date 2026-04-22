@@ -1,6 +1,11 @@
 <DOMContainer width="100%" height="190" class="poki-lead-movebar-root" style={rootStyle}>
     @if (hasMoves()) {
-        <div class="poki-lead-movebar" data-testid="lead-movebar" aria-label={barLabel()}>
+        <div
+            class="poki-lead-movebar"
+            data-testid="lead-movebar"
+            aria-label={barLabel()}
+            style={interactiveStyle}
+        >
             <div class="poki-lead-movebar-header">
                 <div>
                     <span>{leadLabel()}</span>
@@ -14,7 +19,7 @@
                     <div class="poki-lead-movebar-energy">{energyLabel()}</div>
                 </div>
             </div>
-            @if (hasSwitchOptions()) {
+            @if (switchInfo()) {
                 <div class="poki-lead-switch-panel" data-testid="lead-switch-panel">
                     <div class="poki-lead-switch-heading">
                         <span>{switchTitle()}</span>
@@ -102,6 +107,7 @@
     });
 
     const rootStyle = { pointerEvents: "none" };
+    const interactiveStyle = { pointerEvents: "auto" };
     const copy = COMBAT_UI_CONFIG.leadMoveBar;
     const now = signal(Date.now());
     let lastInteractionKey = "";

@@ -24,7 +24,7 @@ function titleEntry(page: Page, index: number) {
 }
 
 function dialogChoice(page: Page, index: number) {
-    return page.locator(`.rpg-ui-dialog-choice[data-choice-index="${index}"]`);
+    return page.getByTestId(`dialog-choice-${index}`);
 }
 
 async function beginEvent(page: Page, eventId: string, trigger: 'action' | 'touch' = 'action'): Promise<string> {

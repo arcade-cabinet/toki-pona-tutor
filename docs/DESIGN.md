@@ -11,7 +11,7 @@ What poki soweli **is**, what it **is not**, and the UX principles that settle t
 
 ## What it is
 
-**A cozy creature-catching RPG where the world is named in toki pona.** Players walk between villages, catch creatures (goblins, orcs, skellies, wraiths, slimes, dread-knights, the green dragon) with a **poki** (net), build a party of up to six, and beat the current four **jan lawa** (region masters) to reach the final boss. Vocabulary accumulates diegetically — by the end of a playthrough, the player reads a dialog line in TP and understands it the way they'd understand a song lyric they've sung a hundred times: not translated, _known_. Warm cream + parchment chrome (see `docs/BRAND.md`); cozy village-fable energy, not edgy.
+**A cozy creature-catching RPG where the world is named in toki pona.** Players walk between villages, catch creatures (goblins, orcs, skellies, wraiths, slimes, dread-knights, the green dragon) with a **poki** (net), build a party of up to six, and beat the current four **jan lawa** (region masters) to reach the green-dragon endgame encounter. Vocabulary accumulates diegetically — by the end of a playthrough, the player reads a dialog line in TP and understands it the way they'd understand a song lyric they've sung a hundred times: not translated, _known_. Warm cream + parchment chrome (see `docs/BRAND.md`); cozy village-fable energy, not edgy.
 
 **It is for kids** learning language — roughly 7-to-12 — with a fierce-but-friendly tone. Dread-knight, not death-knight. The monsters are scary-cool (goblins in grass, skellies in crypts, a dragon at the peak), not gory. Clear palette, quick resolution on every interaction (no filibuster tutorials, no walls of English).
 
@@ -46,7 +46,7 @@ Every other system (dialog, inventory, save, audio) supports this loop.
 | **seli** | fire     | strong against kasi; weak to telo                            |
 | **telo** | water    | strong against seli; weak to kasi                            |
 | **kasi** | plant    | strong against telo; weak to seli                            |
-| **lete** | ice/cold | strong against flying (`waso`); limited coverage elsewhere   |
+| **lete** | ice/cold | specialist cold coverage; limited elsewhere                   |
 | **wawa** | strong   | no advantage / disadvantage; high raw damage, "bruiser" type |
 
 Starters are seli / telo / kasi (the rock-paper-scissors triangle). `lete` and `wawa` are catchable later.
@@ -77,7 +77,7 @@ When a naming call is close, pick the kid-friendly one. When a mechanic feels pu
 
 These are the objective tests the current v0.2 release-hardening milestone must pass. See `docs/ROADMAP.md` for the full list; headlines:
 
-1. **Full playthrough, softlock-free.** Boot → starter ceremony → walk → catch → warp → jan lawa fight → next region → … → final boss. No dead-ends.
+1. **Full playthrough, softlock-free.** Boot → starter ceremony → walk → catch → warp → jan lawa fight → next region → … → green-dragon clear. No dead-ends.
 2. **Catch count reachable.** ≥ 20 distinct wild creatures across the 43-species roster achievable without grinding.
 3. **Combat is legible and fair.** Animated HP, damage numbers, visible type matchups, clear capture/defeat outcomes.
 4. **UI is themed and mobile-legible.** 44×44dp touch targets on 1080p phone. sitelen-pona renders in names.

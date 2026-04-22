@@ -108,7 +108,7 @@ test("mobile touch can open the pause overlay via the HUD toggle and return to t
     await expect(page.locator('[data-testid="micro-game-action"]')).toContainText("wan sitelen");
     await page.locator('[data-testid="micro-game-action"]').tap();
     await expect(page.locator(".rpg-ui-dialog-choice")).toHaveCount(4);
-    await expect(page.locator(".rpg-ui-dialog-choice").first()).toContainText("li");
+    await expect(page.getByTestId("dialog-choice-0")).toContainText("li");
     await page.evaluate(() => window.__POKI__!.testing.closeGui("rpg-dialog"));
     await expect(page.locator('[data-testid="pause-overlay"]')).toBeVisible();
     await expect(page.locator('[data-testid="dictionary-export-action"]')).toContainText(

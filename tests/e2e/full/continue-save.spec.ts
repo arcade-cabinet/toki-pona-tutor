@@ -215,16 +215,16 @@ test('new game prompts before wiping an existing save and resets to the starter 
 
     await titleEntry(page, 1).click();
     await expect(page.locator('.rpg-ui-dialog-content')).toContainText('open sin?');
-    await expect(page.locator('.rpg-ui-dialog-choice[data-choice-index="0"]')).toContainText('lon');
-    await expect(page.locator('.rpg-ui-dialog-choice[data-choice-index="1"]')).toContainText('ala');
+    await expect(page.getByTestId('dialog-choice-0')).toContainText('lon');
+    await expect(page.getByTestId('dialog-choice-1')).toContainText('ala');
 
-    await page.locator('.rpg-ui-dialog-choice[data-choice-index="1"]').click();
+    await page.getByTestId('dialog-choice-1').click();
     await expect(page.locator('.rpg-ui-title-screen-title')).toContainText('poki soweli');
     await expect(titleEntry(page, 0)).toContainText('kama');
 
     await titleEntry(page, 1).click();
     await expect(page.locator('.rpg-ui-dialog-content')).toContainText('open sin?');
-    await page.locator('.rpg-ui-dialog-choice[data-choice-index="0"]').click();
+    await page.getByTestId('dialog-choice-0').click();
     await waitForReady(page);
 
     await expect.poll(async () => {

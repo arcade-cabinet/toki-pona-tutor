@@ -35,10 +35,11 @@
     const rootStyle = { pointerEvents: "none" };
     const view = computed(() => data());
     const phase = computed(() => view()?.phase || DEFEAT_SCREEN_CONFIG.defaultPhase);
+    const phaseCopy = computed(() => DEFEAT_SCREEN_CONFIG.phaseLabels[phase()] || DEFEAT_SCREEN_CONFIG.phaseLabels[DEFEAT_SCREEN_CONFIG.defaultPhase]);
     const label = computed(() => view()?.label || "");
     const messageLabel = computed(() => DEFEAT_SCREEN_CONFIG.messageLabel);
-    const statusLabel = computed(() => view()?.statusLabel || DEFEAT_SCREEN_CONFIG.phaseLabels.fallen.statusLabel);
-    const detailLabel = computed(() => view()?.detailLabel || DEFEAT_SCREEN_CONFIG.phaseLabels.fallen.detailLabel);
+    const statusLabel = computed(() => view()?.statusLabel || phaseCopy().statusLabel);
+    const detailLabel = computed(() => view()?.detailLabel || phaseCopy().detailLabel);
     const screenClass = computed(() => `poki-defeat-screen phase-${phase()}`);
     const ariaLabel = computed(() => formatGameplayTemplate(DEFEAT_SCREEN_CONFIG.ariaLabelTemplate, {
         status: statusLabel(),

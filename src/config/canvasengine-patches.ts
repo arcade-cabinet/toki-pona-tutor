@@ -51,7 +51,7 @@ export function resolveRegisteredViewportClass(): ViewportComponentConstructor {
     const viewportClass = probe.componentInstance?.constructor as
         | ViewportComponentConstructor
         | undefined;
-    if (!viewportClass?.prototype?.updateMask) {
+    if (typeof viewportClass?.prototype?.updateMask !== "function") {
         throw new Error("CanvasEngine Viewport component class could not be resolved");
     }
 
@@ -68,7 +68,10 @@ export function resolveRegisteredSpriteClass(): SpriteAssetTrackerComponentConst
     const spriteClass = probe.componentInstance?.constructor as
         | SpriteAssetTrackerComponentConstructor
         | undefined;
-    if (!spriteClass?.prototype?.applyHitboxAnchor || !spriteClass.prototype.onDestroy) {
+    if (
+        typeof spriteClass?.prototype?.applyHitboxAnchor !== "function" ||
+        typeof spriteClass.prototype.onDestroy !== "function"
+    ) {
         throw new Error("CanvasEngine Sprite component class could not be resolved");
     }
 

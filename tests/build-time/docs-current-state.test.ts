@@ -247,8 +247,8 @@ describe("current-state documentation drift guards", () => {
         const ux = doc("docs/UX.md");
         const dialogComponent = doc("src/config/rpg-dialog.ce");
 
-        expect(dialogComponent).toContain("data-choice-index={index}");
-        expect(ux).toContain('.rpg-ui-dialog-choice[data-choice-index="{n}"]');
+        expect(dialogComponent).toContain("data-testid={choiceTestId(index)}");
+        expect(ux).toContain('data-testid="dialog-choice-{n}"');
         expect(ux).not.toContain("`choice-{n}`");
     });
 

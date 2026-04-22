@@ -24,11 +24,14 @@ type CombatantSheetOptions = {
     hurtRow?: number;
 };
 
-type CombatantTextures = {
-    [key: string]: {
-        animations: (args: { direction: Direction }) => Array<SpritesheetFrame[]>;
-    };
+type CombatantTextureKey = "idle" | "hurt" | Animation;
+type CombatantTexture = {
+    animations: (args: { direction: Direction }) => Array<SpritesheetFrame[]>;
 };
+type RequiredCombatantTextureKey = "idle" | Animation.Stand | Animation.Walk | Animation.Attack;
+type OptionalCombatantTextureKey = Exclude<CombatantTextureKey, RequiredCombatantTextureKey>;
+type CombatantTextures = Record<RequiredCombatantTextureKey, CombatantTexture> &
+    Partial<Record<OptionalCombatantTextureKey, CombatantTexture>>;
 
 type CombatantSpritesheetEntry = {
     id: string;

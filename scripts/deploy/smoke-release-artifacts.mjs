@@ -190,9 +190,18 @@ function assertFile(path, label) {
 }
 
 function assertTarContains(tarPath, expectedEntry) {
-    const listing = execFileSync("tar", ["-tzf", tarPath], { encoding: "utf8" })
-        .split("\n")
-        .filter(Boolean);
+    let listing;
+    try {
+        listing = execFileSync("tar", ["-tzf", tarPath], {
+            encoding: "utf8",
+            timeout: 30_000,
+        })
+            .split("\n")
+            .filter(Boolean);
+    } catch (error) {
+        const message = error instanceof Error ? error.message : String(error);
+        throw new Error(`failed to inspect web bundle tarball ${tarPath}: ${message}`);
+    }
     if (!listing.includes(expectedEntry)) {
         throw new Error(`${tarPath} does not contain ${expectedEntry}`);
     }

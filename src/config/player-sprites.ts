@@ -6,14 +6,15 @@ import {
 } from "../content/gameplay";
 import { standFrames, walkFrames, type SpritesheetFrame } from "./sprite-layout";
 
+type PlayerTextureKey = "idle" | Animation;
+type SpritesheetTexture = {
+    animations: (args: { direction: Direction }) => Array<SpritesheetFrame[]>;
+};
+
 type PlayerSpritesheetEntry = {
     id: string;
     image: string;
-    textures: {
-        [key: string]: {
-            animations: (args: { direction: Direction }) => Array<SpritesheetFrame[]>;
-        };
-    };
+    textures: Record<PlayerTextureKey, SpritesheetTexture>;
     framesWidth: number;
     framesHeight: number;
 };
@@ -35,6 +36,12 @@ function playerSheet(config: RuntimeSpritesheetConfig): PlayerSpritesheetEntry {
                 animations: ({ direction }) => [walkFrames(layout, direction)],
             },
             [Animation.Attack]: {
+                animations: ({ direction }) => [walkFrames(layout, direction, attackSpeed)],
+            },
+            [Animation.Defense]: {
+                animations: ({ direction }) => [standFrames(layout, direction)],
+            },
+            [Animation.Skill]: {
                 animations: ({ direction }) => [walkFrames(layout, direction, attackSpeed)],
             },
         },

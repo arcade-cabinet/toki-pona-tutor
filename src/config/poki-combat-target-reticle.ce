@@ -55,6 +55,7 @@
 
     const isCombatEvent = computed(() => Boolean(readProp(isCombatEventProp, false)));
     const isLeadMoveBarVisible = computed(() => {
+        // Keep this computed tied to the animation tick so DOM visibility changes are rechecked.
         pulseProgress();
         return isGuiDisplayed(guiService, COMBAT_UI_CONFIG.leadMoveBarGuiId)
             || isLeadMoveBarDomVisible();

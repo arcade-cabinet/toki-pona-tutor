@@ -25,11 +25,11 @@ Manual smoke checklist for the current v0.2 release-hardening gate. This checkli
 adb install -r "$APK_FILE"
 ```
 
-3. Launch the app and confirm it reaches the title screen without a blank canvas.
-4. Start a new game, pick a starter, walk to `nasin_wan`, trigger one wild encounter, use `utala`, then use `tawa`.
-5. Open the HUD menu and verify Party, Items, Settings, and Quit-to-title routes respond to touch.
-6. Quit to title, choose Continue, and verify the save resumes on the expected map.
-7. Rotate the device once each direction and verify the app remains playable with no orientation lock.
+1. Launch the app and confirm it reaches the title screen without a blank canvas.
+2. Start a new game, pick a starter, walk to `nasin_wan`, trigger one wild encounter, use `utala`, then use `tawa`.
+3. Open the HUD menu and verify Party, Items, Settings, and Quit-to-title routes respond to touch.
+4. Quit to title, choose Continue, and verify the save resumes on the expected map.
+5. Rotate the device once each direction and verify the app remains playable with no orientation lock.
 
 If an Android emulator is available, run the same smoke path through Maestro
 after installing the release-attached debug APK:

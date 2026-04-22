@@ -44,7 +44,7 @@ The previous playthrough's biggest bug was **inconsistent playing pieces** — K
 -   **Wild creatures** live in `public/assets/creatures/` and are static sprites (no rigs needed; they appear in combat as still idle frames).
 -   **Player** is the Fan-tasy Main Character. Never substitute another sprite for the player.
 
-The green dragon is reserved as the final boss — it's the only creature with a dedicated defeat animation. Never use it for mid-game encounters.
+The green dragon is reserved for the endgame set-piece — it's the only creature with a dedicated defeat animation. Never use it for mid-game encounters.
 
 ### Audience
 
@@ -120,7 +120,7 @@ E2E tests go through the real game in Playwright. Unit tests are for pure logic 
 
 Do not mock the content pipeline in tests — run against a real compiled `generated/world.json`.
 
-When feature scope crosses layers, add or update checks in this order: docs acceptance text first, integration/E2E behavior proof second, and narrow unit coverage only for pure formulas or config guards that fell out of the feature.
+When feature scope crosses layers, add or update checks in this order: docs acceptance text first, integration tests second, E2E tests third, and narrow unit coverage last for pure formulas or config guards that fell out of the feature.
 
 ## Asset contract
 

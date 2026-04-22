@@ -41,6 +41,7 @@ export async function getPlayableSound(
 
 export class BgmCrossfadeController {
     private active: ActiveBgm | null = null;
+    private requestId = 0;
 
     constructor(
         private readonly backend: AudioBackend,
@@ -59,11 +60,14 @@ export class BgmCrossfadeController {
     async playTrack(nextId: BgmId, targetVolume: number): Promise<void> {
         const volume = Math.max(0, Math.min(1, targetVolume));
         if (this.active?.id === nextId) {
+            this.requestId += 1;
             this.active.sound.volume(volume, this.active.playId as number | string | undefined);
             return;
         }
 
+        const requestId = ++this.requestId;
         const nextSound = await getPlayableSound(this.backend, nextId);
+        if (requestId !== this.requestId) return;
         if (!nextSound) return;
 
         const previous = this.active;
@@ -82,6 +86,7 @@ export class BgmCrossfadeController {
     }
 
     stop(): void {
+        this.requestId += 1;
         if (!this.active) return;
         this.active.sound.stop(this.active.playId as number | string | undefined);
         this.active = null;

@@ -38,7 +38,7 @@ Frequency is rough — `★★★` = shows up in every region, `★★` = 2-3 be
 | **seli** | fire       | Beats kasi.                                |
 | **telo** | water      | Beats seli.                                |
 | **kasi** | plant      | Beats telo.                                |
-| **lete** | cold / ice | 2× vs waso-tagged; 0.5× else.              |
+| **lete** | cold / ice | Specialist cold matchup; limited else.     |
 | **wawa** | strong     | Flat 1.0× — bruiser balanced by raw power. |
 
 ## Journey + region vocabulary
@@ -87,7 +87,7 @@ Frequency is rough — `★★★` = shows up in every region, `★★` = 2-3 be
 | **lete_suli**  | big ice               | lete     |
 | **lete_wawa**  | strong ice            | lete     |
 | **lete_sewi**  | high-ice (blizzard)   | lete     |
-| **kiwen_wawa** | strong stone          | wawa-ish |
+| **kiwen_wawa** | strong stone          | wawa     |
 | **kon_wawa**   | strong spirit/air     | wawa     |
 | **wawa_waso**  | strong bird-attack    | wawa     |
 

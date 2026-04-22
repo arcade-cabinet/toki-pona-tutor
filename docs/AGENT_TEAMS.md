@@ -63,7 +63,7 @@ git branch --show-current
 
 Once the PR is open and CI is green, the agent runs through this before `gh pr merge`:
 
-1. Every validator is green: `pnpm validate-tp && pnpm typecheck && pnpm build`
+1. Required PR checks are green: validate/typecheck/unit, integration, headed smoke E2E under `xvfb-run`, web bundle, debug APK, and workflow contract guards.
 2. Every reviewer has either commented (with no blocking asks remaining) or rate-limited out
 3. The agent has waited for 10 minutes of no new comments post-green-CI
 4. Self-review: re-read the diff, check against the original brief, check for stubs/TODOs/dead code

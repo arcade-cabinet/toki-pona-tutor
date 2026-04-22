@@ -143,6 +143,58 @@ function collectCompiledMaps() {
         .sort((a, b) => a.id.localeCompare(b.id));
 }
 
+function mapPathForId(mapId) {
+    return join(mapsDir, `${mapId}.tmj`);
+}
+
+function speciesIdsFromEncounterConfig(species) {
+    if (!species) return [];
+    if (typeof species === "string") {
+        try {
+            return speciesIdsFromEncounterConfig(JSON.parse(species));
+        } catch {
+            return [species];
+        }
+    }
+    if (Array.isArray(species)) {
+        return species
+            .map((entry) => {
+                if (typeof entry === "string") return entry;
+                return entry?.species_id ?? entry?.id;
+            })
+            .filter(Boolean);
+    }
+    if (typeof species === "object") return Object.keys(species);
+    return [];
+}
+
+function encounterObjectsFromTmj(tmj) {
+    return (tmj.layers ?? [])
+        .filter((layer) => layer.type === "objectgroup")
+        .flatMap((layer) =>
+            (layer.objects ?? [])
+                .filter((object) => layer.name === "Encounters" || object.type === "Encounter")
+                .map((object) => ({
+                    layer: layer.name ?? "",
+                    name: object.name ?? "",
+                    properties: propertiesToRecord(object.properties),
+                })),
+        );
+}
+
+function allObjectPropertyValuesFromTmj(tmj) {
+    return (tmj.layers ?? [])
+        .filter((layer) => layer.type === "objectgroup")
+        .flatMap((layer) =>
+            (layer.objects ?? []).flatMap((object) => [
+                object.name ?? "",
+                object.type ?? "",
+                ...Object.values(propertiesToRecord(object.properties)),
+            ]),
+        )
+        .filter((value) => typeof value === "string");
+}
+
 /**
  * Walk an object and fill every { en: string, tp?: string } shape whose tp
  * is missing by looking up en in the corpus. Pushes any miss into `misses`
@@ -244,9 +296,8 @@ if (!Array.isArray(collected.journey.beats) || collected.journey.beats.length ==
     process.exit(1);
 }
 
-// Cross-check: every beat's map_id must be lower-snake-case and (in a future
-// pass when L4 lands) point at an existing public/assets/maps/<map_id>.tmj.
-// We only enforce the id shape here so unknown maps still build.
+// Cross-check: every beat's map_id must be lower-snake-case and point at an
+// emitted public/assets/maps/<map_id>.tmj artifact.
 for (const [i, beat] of collected.journey.beats.entries()) {
     if (typeof beat.map_id !== "string" || !/^[a-z][a-z0-9_]*$/.test(beat.map_id)) {
         console.error(
@@ -256,6 +307,13 @@ for (const [i, beat] of collected.journey.beats.entries()) {
     }
     if (typeof beat.id !== "string" || !/^[a-z][a-z0-9_]*$/.test(beat.id)) {
         console.error(`[build-spine] journey beat #${i} (map_id=${beat.map_id}) has invalid id`);
+        process.exit(1);
+    }
+    const beatMapPath = mapPathForId(beat.map_id);
+    if (!existsSync(beatMapPath)) {
+        console.error(
+            `[build-spine] journey beat #${i} (${beat.id}) references missing map artifact: ${relative(root, beatMapPath).replace(/\\/g, "/")}`,
+        );
         process.exit(1);
     }
 }
@@ -293,34 +351,44 @@ for (const entry of collected.species) {
     }
 }
 
-// Enforce the green-dragon final-boss rule: the green dragon's species id
-// must never appear in any encounter table before beat 7.  The final beat is
-// the ONLY place it belongs. We check every encounter_table in every species
-// file (encounter tables are arrays of { species_id, weight } entries or
-// direct species_id strings) as well as any species whose id is green_dragon
-// appearing in a non-final beat's encounter list.
-const GREEN_DRAGON_ID = "green_dragon";
+// Enforce the green-dragon endgame rule: the green dragon species and event
+// must never appear in encounter tables or trigger wiring before the final beat.
+const GREEN_DRAGON_SPECIES_ID = "akesi_sewi";
+const GREEN_DRAGON_EVENT_ID = "green_dragon";
 // Walk all non-final beats (indices 0..len-2). The final beat is the only
 // one allowed to feature green_dragon, so we skip it by iterating to len-1.
 for (let i = 0; i < collected.journey.beats.length - 1; i++) {
     const beat = collected.journey.beats[i];
-    // Check encounter tables if the beat spec includes inline ones (future).
-    // For now, guard against the species id appearing in non-final beat ids,
-    // and check that no species file whose id is green_dragon is added to any
-    // encounter table in a non-final beat context.
     if (beat.encounters) {
         for (const zone of beat.encounters) {
-            const ids = Array.isArray(zone.species)
-                ? zone.species.map((e) => (typeof e === "string" ? e : e.species_id))
-                : Object.keys(zone.species ?? {});
-            if (ids.includes(GREEN_DRAGON_ID)) {
+            const ids = speciesIdsFromEncounterConfig(zone.species);
+            if (ids.includes(GREEN_DRAGON_SPECIES_ID) || ids.includes(GREEN_DRAGON_EVENT_ID)) {
                 console.error(
-                    `[build-spine] green dragon (${GREEN_DRAGON_ID}) found in encounter table ` +
+                    `[build-spine] green dragon found in inline encounter table ` +
                         `of beat #${i + 1} (${beat.id}) — it is reserved for beat 7 only`,
                 );
                 process.exit(1);
             }
         }
+    }
+
+    const tmj = readJsonFile(mapPathForId(beat.map_id), "TMJ map");
+    for (const object of encounterObjectsFromTmj(tmj)) {
+        const ids = speciesIdsFromEncounterConfig(object.properties.species);
+        if (ids.includes(GREEN_DRAGON_SPECIES_ID) || ids.includes(GREEN_DRAGON_EVENT_ID)) {
+            console.error(
+                `[build-spine] green dragon found in ${beat.map_id}.${object.layer}.${object.name} ` +
+                    `encounter table — it is reserved for beat 7 only`,
+            );
+            process.exit(1);
+        }
+    }
+
+    if (allObjectPropertyValuesFromTmj(tmj).includes(GREEN_DRAGON_EVENT_ID)) {
+        console.error(
+            `[build-spine] green dragon event wiring found in non-final beat ${beat.id} (${beat.map_id})`,
+        );
+        process.exit(1);
     }
 }
 

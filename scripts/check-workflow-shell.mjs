@@ -4,69 +4,37 @@ import { join, resolve } from "node:path";
 import { spawnSync } from "node:child_process";
 import { tmpdir } from "node:os";
 import { pathToFileURL } from "node:url";
+import { parse } from "yaml";
 
 const repoRoot = process.cwd();
 const workflowsDir = resolve(repoRoot, ".github/workflows");
-
-function countIndent(line) {
-    const match = line.match(/^ */);
-    return match ? match[0].length : 0;
-}
-
-function trimBlockIndent(lines, style = "|") {
-    const indents = lines.filter((line) => line.trim().length > 0).map(countIndent);
-    const minIndent = indents.length > 0 ? Math.min(...indents) : 0;
-    const literal = lines
-        .map((line) => (line.trim().length > 0 ? line.slice(minIndent) : ""))
-        .join("\n")
-        .replace(/\n+$/, "");
-    if (style.startsWith(">")) {
-        return literal
-            .split("\n")
-            .map((line) => line.trim())
-            .join(" ")
-            .replace(/\s+/g, " ")
-            .trim();
-    }
-    return literal;
-}
 
 function sanitizeGithubExpressions(script) {
     return script.replace(/\$\{\{[\s\S]*?\}\}/g, "EXPR");
 }
 
-export function extractRunBlocks(source) {
-    const blocks = [];
-    const lines = source.split(/\r?\n/);
-
-    for (let i = 0; i < lines.length; i += 1) {
-        const line = lines[i];
-        const match = line.match(/^(\s*)(?:-\s*)?run:\s*(.*)$/);
-        if (!match) continue;
-
-        const baseIndent = match[1].length;
-        const value = match[2].trim();
-
-        if (/^[>|][+-]?$/.test(value)) {
-            const blockLines = [];
-            let cursor = i + 1;
-            while (cursor < lines.length) {
-                const next = lines[cursor];
-                if (next.trim() !== "" && countIndent(next) <= baseIndent) break;
-                blockLines.push(next);
-                cursor += 1;
-            }
-            blocks.push(trimBlockIndent(blockLines, value));
-            i = cursor - 1;
-            continue;
-        }
-
-        if (value.length > 0) {
-            blocks.push(value);
-        }
+function collectRunBlocks(value, blocks = []) {
+    if (Array.isArray(value)) {
+        value.forEach((entry) => collectRunBlocks(entry, blocks));
+        return blocks;
     }
 
-    return blocks.map(sanitizeGithubExpressions);
+    if (!value || typeof value !== "object") return blocks;
+
+    if (typeof value.run === "string") {
+        blocks.push(value.run.replace(/\n+$/, ""));
+    }
+
+    for (const [key, child] of Object.entries(value)) {
+        if (key !== "run") collectRunBlocks(child, blocks);
+    }
+
+    return blocks;
+}
+
+export function extractRunBlocks(source) {
+    const workflow = parse(source, { prettyErrors: true });
+    return collectRunBlocks(workflow).map(sanitizeGithubExpressions);
 }
 
 export function workflowFiles(dir = workflowsDir) {

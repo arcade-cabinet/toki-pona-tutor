@@ -275,7 +275,7 @@ test('captures mobile starter choice dialog and pause HUD for visual audit', asy
         await advanceDialog(page, 'kule seme li pona tawa sina?');
         await expect(page.locator('.rpg-ui-dialog-choice')).toHaveCount(3);
         await captureElementPixels(page, testInfo, '.rpg-ui-dialog-container', 'mobile-starter-choice-dialog');
-        await page.locator('.rpg-ui-dialog-choice').nth(0).tap();
+        await page.getByTestId('dialog-choice-0').tap();
         await expect.poll(async () => page.evaluate((id) => window.__POKI__!.testing.getTaskStatus(id), starterTask))
             .toMatchObject({ done: true });
 

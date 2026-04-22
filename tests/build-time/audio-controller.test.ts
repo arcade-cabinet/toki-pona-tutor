@@ -58,6 +58,14 @@ function makeController() {
     return { controller, sounds, scheduled };
 }
 
+function deferredSound() {
+    let resolve!: (sound: FakeHowl | undefined) => void;
+    const promise = new Promise<FakeHowl | undefined>((resolver) => {
+        resolve = resolver;
+    });
+    return { promise, resolve };
+}
+
 describe("publicAssetPath", () => {
     it("preserves local dev root base", () => {
         expect(publicAssetPath("/rpg/audio/bgm-village.ogg", "/")).toBe(
@@ -184,5 +192,44 @@ describe("BgmCrossfadeController", () => {
 
         expect(controller.currentTrack).toBe("bgm_village");
         expect(sounds.get("bgm_village")!.calls).not.toContain("stop:bgm_village:play");
+    });
+
+    it("ignores stale async track loads after a newer request wins", async () => {
+        const forest = deferredSound();
+        const gym = deferredSound();
+        const sounds = {
+            bgm_forest: new FakeHowl("bgm_forest"),
+            bgm_gym: new FakeHowl("bgm_gym"),
+        };
+        const controller = new BgmCrossfadeController({
+            getSound: (id) => (id === "bgm_forest" ? forest.promise : gym.promise),
+        });
+
+        const pendingForest = controller.playTrack("bgm_forest", 0.6);
+        const pendingGym = controller.playTrack("bgm_gym", 0.7);
+        gym.resolve(sounds.bgm_gym);
+        await pendingGym;
+        forest.resolve(sounds.bgm_forest);
+        await pendingForest;
+
+        expect(controller.currentTrack).toBe("bgm_gym");
+        expect(sounds.bgm_gym.calls).toContain("play");
+        expect(sounds.bgm_forest.calls).toEqual([]);
+    });
+
+    it("cancels a pending async load when stopped", async () => {
+        const pending = deferredSound();
+        const sound = new FakeHowl("bgm_forest");
+        const controller = new BgmCrossfadeController({
+            getSound: () => pending.promise,
+        });
+
+        const play = controller.playTrack("bgm_forest", 0.6);
+        controller.stop();
+        pending.resolve(sound);
+        await play;
+
+        expect(controller.currentTrack).toBeNull();
+        expect(sound.calls).toEqual([]);
     });
 });

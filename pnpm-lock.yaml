@@ -40,7 +40,7 @@ importers:
         version: 8.0.2(@capacitor/core@8.3.1)
       '@rpgjs/action-battle':
         specifier: 5.0.0-beta.1
-        version: 5.0.0-beta.1(@canvasengine/presets@2.0.0-beta.56(canvasengine@2.0.0-beta.56(@types/react@19.2.14)(pixi.js@8.18.1)(react@18.3.1))(pixi.js@8.18.1))(@rpgjs/client@5.0.0-beta.1(@canvasengine/presets@2.0.0-beta.56(canvasengine@2.0.0-beta.56(@types/react@19.2.14)(pixi.js@8.18.1)(react@18.3.1))(pixi.js@8.18.1))(@types/react@19.2.14)(canvasengine@2.0.0-beta.56(@types/react@19.2.14)(pixi.js@8.18.1)(react@18.3.1))(pixi.js@8.18.1)(react@18.3.1)(vitest@4.1.4))(@rpgjs/common@5.0.0-beta.1(react@18.3.1))(@rpgjs/server@5.0.0-beta.1(@types/react@19.2.14)(pixi.js@8.18.1)(react@18.3.1)(vitest@4.1.4))(@rpgjs/vite@5.0.0-beta.1(@types/react@19.2.14)(@vitest/browser-playwright@4.1.4)(@vitest/coverage-v8@4.1.4)(happy-dom@20.9.0)(hono@4.12.14)(jiti@1.21.7)(lightningcss@1.32.0)(pixi.js@8.18.1)(react@18.3.1)(rollup@4.60.2)(tsx@4.21.0))(canvasengine@2.0.0-beta.56(@types/react@19.2.14)(pixi.js@8.18.1)(react@18.3.1))
+        version: 5.0.0-beta.1(@canvasengine/presets@2.0.0-beta.56(canvasengine@2.0.0-beta.56(@types/react@19.2.14)(pixi.js@8.18.1)(react@18.3.1))(pixi.js@8.18.1))(@rpgjs/client@5.0.0-beta.1(@canvasengine/presets@2.0.0-beta.56(canvasengine@2.0.0-beta.56(@types/react@19.2.14)(pixi.js@8.18.1)(react@18.3.1))(pixi.js@8.18.1))(@types/react@19.2.14)(canvasengine@2.0.0-beta.56(@types/react@19.2.14)(pixi.js@8.18.1)(react@18.3.1))(pixi.js@8.18.1)(react@18.3.1)(vitest@4.1.4))(@rpgjs/common@5.0.0-beta.1(react@18.3.1))(@rpgjs/server@5.0.0-beta.1(@types/react@19.2.14)(pixi.js@8.18.1)(react@18.3.1)(vitest@4.1.4))(@rpgjs/vite@5.0.0-beta.1(@types/react@19.2.14)(@vitest/browser-playwright@4.1.4)(@vitest/coverage-v8@4.1.4)(happy-dom@20.9.0)(hono@4.12.14)(jiti@1.21.7)(lightningcss@1.32.0)(pixi.js@8.18.1)(react@18.3.1)(rollup@4.60.2)(tsx@4.21.0)(yaml@2.8.3))(canvasengine@2.0.0-beta.56(@types/react@19.2.14)(pixi.js@8.18.1)(react@18.3.1))
       '@rpgjs/client':
         specifier: 5.0.0-beta.1
         version: 5.0.0-beta.1(@canvasengine/presets@2.0.0-beta.56(canvasengine@2.0.0-beta.56(@types/react@19.2.14)(pixi.js@8.18.1)(react@18.3.1))(pixi.js@8.18.1))(@types/react@19.2.14)(canvasengine@2.0.0-beta.56(@types/react@19.2.14)(pixi.js@8.18.1)(react@18.3.1))(pixi.js@8.18.1)(react@18.3.1)(vitest@4.1.4)
@@ -52,13 +52,13 @@ importers:
         version: 5.0.0-beta.1(@canvasengine/presets@2.0.0-beta.56(canvasengine@2.0.0-beta.56(@types/react@19.2.14)(pixi.js@8.18.1)(react@18.3.1))(pixi.js@8.18.1))(@types/react@19.2.14)(pixi.js@8.18.1)(react@18.3.1)(vitest@4.1.4)
       '@rpgjs/tiledmap':
         specifier: 5.0.0-beta.1
-        version: 5.0.0-beta.1(@canvasengine/presets@2.0.0-beta.56(canvasengine@2.0.0-beta.56(@types/react@19.2.14)(pixi.js@8.18.1)(react@18.3.1))(pixi.js@8.18.1))(@rpgjs/client@5.0.0-beta.1(@canvasengine/presets@2.0.0-beta.56(canvasengine@2.0.0-beta.56(@types/react@19.2.14)(pixi.js@8.18.1)(react@18.3.1))(pixi.js@8.18.1))(@types/react@19.2.14)(canvasengine@2.0.0-beta.56(@types/react@19.2.14)(pixi.js@8.18.1)(react@18.3.1))(pixi.js@8.18.1)(react@18.3.1)(vitest@4.1.4))(@rpgjs/common@5.0.0-beta.1(react@18.3.1))(@rpgjs/server@5.0.0-beta.1(@types/react@19.2.14)(pixi.js@8.18.1)(react@18.3.1)(vitest@4.1.4))(@rpgjs/vite@5.0.0-beta.1(@types/react@19.2.14)(@vitest/browser-playwright@4.1.4)(@vitest/coverage-v8@4.1.4)(happy-dom@20.9.0)(hono@4.12.14)(jiti@1.21.7)(lightningcss@1.32.0)(pixi.js@8.18.1)(react@18.3.1)(rollup@4.60.2)(tsx@4.21.0))(canvasengine@2.0.0-beta.56(@types/react@19.2.14)(pixi.js@8.18.1)(react@18.3.1))
+        version: 5.0.0-beta.1(@canvasengine/presets@2.0.0-beta.56(canvasengine@2.0.0-beta.56(@types/react@19.2.14)(pixi.js@8.18.1)(react@18.3.1))(pixi.js@8.18.1))(@rpgjs/client@5.0.0-beta.1(@canvasengine/presets@2.0.0-beta.56(canvasengine@2.0.0-beta.56(@types/react@19.2.14)(pixi.js@8.18.1)(react@18.3.1))(pixi.js@8.18.1))(@types/react@19.2.14)(canvasengine@2.0.0-beta.56(@types/react@19.2.14)(pixi.js@8.18.1)(react@18.3.1))(pixi.js@8.18.1)(react@18.3.1)(vitest@4.1.4))(@rpgjs/common@5.0.0-beta.1(react@18.3.1))(@rpgjs/server@5.0.0-beta.1(@types/react@19.2.14)(pixi.js@8.18.1)(react@18.3.1)(vitest@4.1.4))(@rpgjs/vite@5.0.0-beta.1(@types/react@19.2.14)(@vitest/browser-playwright@4.1.4)(@vitest/coverage-v8@4.1.4)(happy-dom@20.9.0)(hono@4.12.14)(jiti@1.21.7)(lightningcss@1.32.0)(pixi.js@8.18.1)(react@18.3.1)(rollup@4.60.2)(tsx@4.21.0)(yaml@2.8.3))(canvasengine@2.0.0-beta.56(@types/react@19.2.14)(pixi.js@8.18.1)(react@18.3.1))
       '@rpgjs/ui-css':
         specifier: 5.0.0-beta.1
         version: 5.0.0-beta.1
       '@rpgjs/vite':
         specifier: 5.0.0-beta.1
-        version: 5.0.0-beta.1(@types/react@19.2.14)(@vitest/browser-playwright@4.1.4)(@vitest/coverage-v8@4.1.4)(happy-dom@20.9.0)(hono@4.12.14)(jiti@1.21.7)(lightningcss@1.32.0)(pixi.js@8.18.1)(react@18.3.1)(rollup@4.60.2)(tsx@4.21.0)
+        version: 5.0.0-beta.1(@types/react@19.2.14)(@vitest/browser-playwright@4.1.4)(@vitest/coverage-v8@4.1.4)(happy-dom@20.9.0)(hono@4.12.14)(jiti@1.21.7)(lightningcss@1.32.0)(pixi.js@8.18.1)(react@18.3.1)(rollup@4.60.2)(tsx@4.21.0)(yaml@2.8.3)
       '@signe/di':
         specifier: ^2.9.0
         version: 2.9.0
@@ -80,7 +80,7 @@ importers:
     devDependencies:
       '@canvasengine/compiler':
         specifier: 2.0.0-beta.56
-        version: 2.0.0-beta.56(@types/node@25.6.0)(jiti@1.21.7)(lightningcss@1.32.0)(tsx@4.21.0)
+        version: 2.0.0-beta.56(@types/node@25.6.0)(jiti@1.21.7)(lightningcss@1.32.0)(tsx@4.21.0)(yaml@2.8.3)
       '@capacitor/android':
         specifier: ^8.3.1
         version: 8.3.1(@capacitor/core@8.3.1)
@@ -101,7 +101,7 @@ importers:
         version: 1.4.11
       '@vitejs/plugin-vue':
         specifier: ^6.0.5
-        version: 6.0.6(vite@8.0.9(@types/node@25.6.0)(esbuild@0.27.7)(jiti@1.21.7)(tsx@4.21.0))(vue@3.5.32(typescript@6.0.3))
+        version: 6.0.6(vite@8.0.9(@types/node@25.6.0)(esbuild@0.27.7)(jiti@1.21.7)(tsx@4.21.0)(yaml@2.8.3))(vue@3.5.32(typescript@6.0.3))
       '@vitest/coverage-v8':
         specifier: ^4.1.4
         version: 4.1.4(@vitest/browser@4.1.4)(vitest@4.1.4)
@@ -137,13 +137,16 @@ importers:
         version: 6.0.3
       vite:
         specifier: ^8.0.9
-        version: 8.0.9(@types/node@25.6.0)(esbuild@0.27.7)(jiti@1.21.7)(tsx@4.21.0)
+        version: 8.0.9(@types/node@25.6.0)(esbuild@0.27.7)(jiti@1.21.7)(tsx@4.21.0)(yaml@2.8.3)
       vitest:
         specifier: ^4.1.4
-        version: 4.1.4(@types/node@25.6.0)(@vitest/browser-playwright@4.1.4)(@vitest/coverage-v8@4.1.4)(happy-dom@20.9.0)(vite@8.0.9(@types/node@25.6.0)(esbuild@0.27.7)(jiti@1.21.7)(tsx@4.21.0))
+        version: 4.1.4(@types/node@25.6.0)(@vitest/browser-playwright@4.1.4)(@vitest/coverage-v8@4.1.4)(happy-dom@20.9.0)(vite@8.0.9(@types/node@25.6.0)(esbuild@0.27.7)(jiti@1.21.7)(tsx@4.21.0)(yaml@2.8.3))
       vitest-webgl-canvas-mock:
         specifier: ^1.1.0
         version: 1.1.0
+      yaml:
+        specifier: ^2.8.3
+        version: 2.8.3
 
 packages:
 
@@ -2510,6 +2513,11 @@ packages:
     resolution: {integrity: sha512-YgvUTfwqyc7UXVMrB+SImsVYSmTS8X/tSrtdNZMImM+n7+QTriRXyXim0mBrTXNeqzVF0KWGgHPeiyViFFrNDw==}
     engines: {node: '>=18'}
 
+  yaml@2.8.3:
+    resolution: {integrity: sha512-AvbaCLOO2Otw/lW5bmh9d/WEdcDFdQp2Z2ZUH3pX9U2ihyUY0nvLv7J6TrWowklRGPYbB/IuIMfYgxaCPg5Bpg==}
+    engines: {node: '>= 14.6'}
+    hasBin: true
+
   yauzl@2.10.0:
     resolution: {integrity: sha512-p4a9I6X6nu6IhoGmBqAcbJy1mlC4j27vEPZX9F4L4/vZT3Lyq1VkFHw/V/PUcB9Buo+DG3iHkT0x3Qya58zc3g==}
 
@@ -2546,12 +2554,12 @@ snapshots:
   '@blazediff/core@1.9.1':
     optional: true
 
-  '@canvasengine/compiler@2.0.0-beta.54(@types/node@25.6.0)(jiti@1.21.7)(lightningcss@1.32.0)(tsx@4.21.0)':
+  '@canvasengine/compiler@2.0.0-beta.54(@types/node@25.6.0)(jiti@1.21.7)(lightningcss@1.32.0)(tsx@4.21.0)(yaml@2.8.3)':
     dependencies:
       acorn: 8.16.0
       peggy: 4.2.0
       typescript: 5.9.3
-      vite: 6.4.2(@types/node@25.6.0)(jiti@1.21.7)(lightningcss@1.32.0)(tsx@4.21.0)
+      vite: 6.4.2(@types/node@25.6.0)(jiti@1.21.7)(lightningcss@1.32.0)(tsx@4.21.0)(yaml@2.8.3)
     transitivePeerDependencies:
       - '@types/node'
       - jiti
@@ -2565,12 +2573,12 @@ snapshots:
       - tsx
       - yaml
 
-  '@canvasengine/compiler@2.0.0-beta.56(@types/node@25.6.0)(jiti@1.21.7)(lightningcss@1.32.0)(tsx@4.21.0)':
+  '@canvasengine/compiler@2.0.0-beta.56(@types/node@25.6.0)(jiti@1.21.7)(lightningcss@1.32.0)(tsx@4.21.0)(yaml@2.8.3)':
     dependencies:
       acorn: 8.16.0
       peggy: 4.2.0
       typescript: 5.9.3
-      vite: 6.4.2(@types/node@25.6.0)(jiti@1.21.7)(lightningcss@1.32.0)(tsx@4.21.0)
+      vite: 6.4.2(@types/node@25.6.0)(jiti@1.21.7)(lightningcss@1.32.0)(tsx@4.21.0)(yaml@2.8.3)
     transitivePeerDependencies:
       - '@types/node'
       - jiti
@@ -2597,7 +2605,7 @@ snapshots:
     dependencies:
       canvasengine: 2.0.0-beta.50(@types/react@19.2.14)(pixi.js@8.18.1)(react@18.3.1)
       rxjs: 7.8.2
-      vitest: 4.1.4(@types/node@25.6.0)(@vitest/browser-playwright@4.1.4)(@vitest/coverage-v8@4.1.4)(happy-dom@20.9.0)(vite@8.0.9(@types/node@25.6.0)(esbuild@0.27.7)(jiti@1.21.7)(tsx@4.21.0))
+      vitest: 4.1.4(@types/node@25.6.0)(@vitest/browser-playwright@4.1.4)(@vitest/coverage-v8@4.1.4)(happy-dom@20.9.0)(vite@8.0.9(@types/node@25.6.0)(esbuild@0.27.7)(jiti@1.21.7)(tsx@4.21.0)(yaml@2.8.3))
 
   '@canvasengine/tiled@2.0.0-beta.54':
     dependencies:
@@ -3176,13 +3184,13 @@ snapshots:
   '@rollup/rollup-win32-x64-msvc@4.60.2':
     optional: true
 
-  '@rpgjs/action-battle@5.0.0-beta.1(@canvasengine/presets@2.0.0-beta.56(canvasengine@2.0.0-beta.56(@types/react@19.2.14)(pixi.js@8.18.1)(react@18.3.1))(pixi.js@8.18.1))(@rpgjs/client@5.0.0-beta.1(@canvasengine/presets@2.0.0-beta.56(canvasengine@2.0.0-beta.56(@types/react@19.2.14)(pixi.js@8.18.1)(react@18.3.1))(pixi.js@8.18.1))(@types/react@19.2.14)(canvasengine@2.0.0-beta.56(@types/react@19.2.14)(pixi.js@8.18.1)(react@18.3.1))(pixi.js@8.18.1)(react@18.3.1)(vitest@4.1.4))(@rpgjs/common@5.0.0-beta.1(react@18.3.1))(@rpgjs/server@5.0.0-beta.1(@types/react@19.2.14)(pixi.js@8.18.1)(react@18.3.1)(vitest@4.1.4))(@rpgjs/vite@5.0.0-beta.1(@types/react@19.2.14)(@vitest/browser-playwright@4.1.4)(@vitest/coverage-v8@4.1.4)(happy-dom@20.9.0)(hono@4.12.14)(jiti@1.21.7)(lightningcss@1.32.0)(pixi.js@8.18.1)(react@18.3.1)(rollup@4.60.2)(tsx@4.21.0))(canvasengine@2.0.0-beta.56(@types/react@19.2.14)(pixi.js@8.18.1)(react@18.3.1))':
+  '@rpgjs/action-battle@5.0.0-beta.1(@canvasengine/presets@2.0.0-beta.56(canvasengine@2.0.0-beta.56(@types/react@19.2.14)(pixi.js@8.18.1)(react@18.3.1))(pixi.js@8.18.1))(@rpgjs/client@5.0.0-beta.1(@canvasengine/presets@2.0.0-beta.56(canvasengine@2.0.0-beta.56(@types/react@19.2.14)(pixi.js@8.18.1)(react@18.3.1))(pixi.js@8.18.1))(@types/react@19.2.14)(canvasengine@2.0.0-beta.56(@types/react@19.2.14)(pixi.js@8.18.1)(react@18.3.1))(pixi.js@8.18.1)(react@18.3.1)(vitest@4.1.4))(@rpgjs/common@5.0.0-beta.1(react@18.3.1))(@rpgjs/server@5.0.0-beta.1(@types/react@19.2.14)(pixi.js@8.18.1)(react@18.3.1)(vitest@4.1.4))(@rpgjs/vite@5.0.0-beta.1(@types/react@19.2.14)(@vitest/browser-playwright@4.1.4)(@vitest/coverage-v8@4.1.4)(happy-dom@20.9.0)(hono@4.12.14)(jiti@1.21.7)(lightningcss@1.32.0)(pixi.js@8.18.1)(react@18.3.1)(rollup@4.60.2)(tsx@4.21.0)(yaml@2.8.3))(canvasengine@2.0.0-beta.56(@types/react@19.2.14)(pixi.js@8.18.1)(react@18.3.1))':
     dependencies:
       '@canvasengine/presets': 2.0.0-beta.56(canvasengine@2.0.0-beta.56(@types/react@19.2.14)(pixi.js@8.18.1)(react@18.3.1))(pixi.js@8.18.1)
       '@rpgjs/client': 5.0.0-beta.1(@canvasengine/presets@2.0.0-beta.56(canvasengine@2.0.0-beta.56(@types/react@19.2.14)(pixi.js@8.18.1)(react@18.3.1))(pixi.js@8.18.1))(@types/react@19.2.14)(canvasengine@2.0.0-beta.56(@types/react@19.2.14)(pixi.js@8.18.1)(react@18.3.1))(pixi.js@8.18.1)(react@18.3.1)(vitest@4.1.4)
       '@rpgjs/common': 5.0.0-beta.1(react@18.3.1)
       '@rpgjs/server': 5.0.0-beta.1(@canvasengine/presets@2.0.0-beta.56(canvasengine@2.0.0-beta.56(@types/react@19.2.14)(pixi.js@8.18.1)(react@18.3.1))(pixi.js@8.18.1))(@types/react@19.2.14)(pixi.js@8.18.1)(react@18.3.1)(vitest@4.1.4)
-      '@rpgjs/vite': 5.0.0-beta.1(@types/react@19.2.14)(@vitest/browser-playwright@4.1.4)(@vitest/coverage-v8@4.1.4)(happy-dom@20.9.0)(hono@4.12.14)(jiti@1.21.7)(lightningcss@1.32.0)(pixi.js@8.18.1)(react@18.3.1)(rollup@4.60.2)(tsx@4.21.0)
+      '@rpgjs/vite': 5.0.0-beta.1(@types/react@19.2.14)(@vitest/browser-playwright@4.1.4)(@vitest/coverage-v8@4.1.4)(happy-dom@20.9.0)(hono@4.12.14)(jiti@1.21.7)(lightningcss@1.32.0)(pixi.js@8.18.1)(react@18.3.1)(rollup@4.60.2)(tsx@4.21.0)(yaml@2.8.3)
       canvasengine: 2.0.0-beta.56(@types/react@19.2.14)(pixi.js@8.18.1)(react@18.3.1)
 
   '@rpgjs/client@5.0.0-beta.1(@canvasengine/presets@2.0.0-beta.56(canvasengine@2.0.0-beta.56(@types/react@19.2.14)(pixi.js@8.18.1)(react@18.3.1))(pixi.js@8.18.1))(@types/react@19.2.14)(canvasengine@2.0.0-beta.50(@types/react@19.2.14)(pixi.js@8.18.1)(react@18.3.1))(pixi.js@8.18.1)(react@18.3.1)(vitest@4.1.4)':
@@ -3271,21 +3279,21 @@ snapshots:
       - react
       - vitest
 
-  '@rpgjs/tiledmap@5.0.0-beta.1(@canvasengine/presets@2.0.0-beta.56(canvasengine@2.0.0-beta.56(@types/react@19.2.14)(pixi.js@8.18.1)(react@18.3.1))(pixi.js@8.18.1))(@rpgjs/client@5.0.0-beta.1(@canvasengine/presets@2.0.0-beta.56(canvasengine@2.0.0-beta.56(@types/react@19.2.14)(pixi.js@8.18.1)(react@18.3.1))(pixi.js@8.18.1))(@types/react@19.2.14)(canvasengine@2.0.0-beta.56(@types/react@19.2.14)(pixi.js@8.18.1)(react@18.3.1))(pixi.js@8.18.1)(react@18.3.1)(vitest@4.1.4))(@rpgjs/common@5.0.0-beta.1(react@18.3.1))(@rpgjs/server@5.0.0-beta.1(@types/react@19.2.14)(pixi.js@8.18.1)(react@18.3.1)(vitest@4.1.4))(@rpgjs/vite@5.0.0-beta.1(@types/react@19.2.14)(@vitest/browser-playwright@4.1.4)(@vitest/coverage-v8@4.1.4)(happy-dom@20.9.0)(hono@4.12.14)(jiti@1.21.7)(lightningcss@1.32.0)(pixi.js@8.18.1)(react@18.3.1)(rollup@4.60.2)(tsx@4.21.0))(canvasengine@2.0.0-beta.56(@types/react@19.2.14)(pixi.js@8.18.1)(react@18.3.1))':
+  '@rpgjs/tiledmap@5.0.0-beta.1(@canvasengine/presets@2.0.0-beta.56(canvasengine@2.0.0-beta.56(@types/react@19.2.14)(pixi.js@8.18.1)(react@18.3.1))(pixi.js@8.18.1))(@rpgjs/client@5.0.0-beta.1(@canvasengine/presets@2.0.0-beta.56(canvasengine@2.0.0-beta.56(@types/react@19.2.14)(pixi.js@8.18.1)(react@18.3.1))(pixi.js@8.18.1))(@types/react@19.2.14)(canvasengine@2.0.0-beta.56(@types/react@19.2.14)(pixi.js@8.18.1)(react@18.3.1))(pixi.js@8.18.1)(react@18.3.1)(vitest@4.1.4))(@rpgjs/common@5.0.0-beta.1(react@18.3.1))(@rpgjs/server@5.0.0-beta.1(@types/react@19.2.14)(pixi.js@8.18.1)(react@18.3.1)(vitest@4.1.4))(@rpgjs/vite@5.0.0-beta.1(@types/react@19.2.14)(@vitest/browser-playwright@4.1.4)(@vitest/coverage-v8@4.1.4)(happy-dom@20.9.0)(hono@4.12.14)(jiti@1.21.7)(lightningcss@1.32.0)(pixi.js@8.18.1)(react@18.3.1)(rollup@4.60.2)(tsx@4.21.0)(yaml@2.8.3))(canvasengine@2.0.0-beta.56(@types/react@19.2.14)(pixi.js@8.18.1)(react@18.3.1))':
     dependencies:
       '@canvasengine/presets': 2.0.0-beta.56(canvasengine@2.0.0-beta.56(@types/react@19.2.14)(pixi.js@8.18.1)(react@18.3.1))(pixi.js@8.18.1)
       '@canvasengine/tiled': 2.0.0-beta.56
       '@rpgjs/client': 5.0.0-beta.1(@canvasengine/presets@2.0.0-beta.56(canvasengine@2.0.0-beta.56(@types/react@19.2.14)(pixi.js@8.18.1)(react@18.3.1))(pixi.js@8.18.1))(@types/react@19.2.14)(canvasengine@2.0.0-beta.56(@types/react@19.2.14)(pixi.js@8.18.1)(react@18.3.1))(pixi.js@8.18.1)(react@18.3.1)(vitest@4.1.4)
       '@rpgjs/common': 5.0.0-beta.1(react@18.3.1)
       '@rpgjs/server': 5.0.0-beta.1(@canvasengine/presets@2.0.0-beta.56(canvasengine@2.0.0-beta.56(@types/react@19.2.14)(pixi.js@8.18.1)(react@18.3.1))(pixi.js@8.18.1))(@types/react@19.2.14)(pixi.js@8.18.1)(react@18.3.1)(vitest@4.1.4)
-      '@rpgjs/vite': 5.0.0-beta.1(@types/react@19.2.14)(@vitest/browser-playwright@4.1.4)(@vitest/coverage-v8@4.1.4)(happy-dom@20.9.0)(hono@4.12.14)(jiti@1.21.7)(lightningcss@1.32.0)(pixi.js@8.18.1)(react@18.3.1)(rollup@4.60.2)(tsx@4.21.0)
+      '@rpgjs/vite': 5.0.0-beta.1(@types/react@19.2.14)(@vitest/browser-playwright@4.1.4)(@vitest/coverage-v8@4.1.4)(happy-dom@20.9.0)(hono@4.12.14)(jiti@1.21.7)(lightningcss@1.32.0)(pixi.js@8.18.1)(react@18.3.1)(rollup@4.60.2)(tsx@4.21.0)(yaml@2.8.3)
       canvasengine: 2.0.0-beta.56(@types/react@19.2.14)(pixi.js@8.18.1)(react@18.3.1)
 
   '@rpgjs/ui-css@5.0.0-beta.1': {}
 
-  '@rpgjs/vite@5.0.0-beta.1(@types/react@19.2.14)(@vitest/browser-playwright@4.1.4)(@vitest/coverage-v8@4.1.4)(happy-dom@20.9.0)(hono@4.12.14)(jiti@1.21.7)(lightningcss@1.32.0)(pixi.js@8.18.1)(react@18.3.1)(rollup@4.60.2)(tsx@4.21.0)':
+  '@rpgjs/vite@5.0.0-beta.1(@types/react@19.2.14)(@vitest/browser-playwright@4.1.4)(@vitest/coverage-v8@4.1.4)(happy-dom@20.9.0)(hono@4.12.14)(jiti@1.21.7)(lightningcss@1.32.0)(pixi.js@8.18.1)(react@18.3.1)(rollup@4.60.2)(tsx@4.21.0)(yaml@2.8.3)':
     dependencies:
-      '@canvasengine/compiler': 2.0.0-beta.54(@types/node@25.6.0)(jiti@1.21.7)(lightningcss@1.32.0)(tsx@4.21.0)
+      '@canvasengine/compiler': 2.0.0-beta.54(@types/node@25.6.0)(jiti@1.21.7)(lightningcss@1.32.0)(tsx@4.21.0)(yaml@2.8.3)
       '@canvasengine/tiled': 2.0.0-beta.54
       '@hono/vite-dev-server': 0.25.1(hono@4.12.14)
       '@rpgjs/server': 5.0.0-beta.1(@canvasengine/presets@2.0.0-beta.56(canvasengine@2.0.0-beta.56(@types/react@19.2.14)(pixi.js@8.18.1)(react@18.3.1))(pixi.js@8.18.1))(@types/react@19.2.14)(pixi.js@8.18.1)(react@18.3.1)(vitest@4.1.4)
@@ -3294,9 +3302,9 @@ snapshots:
       acorn-walk: 8.3.5
       magic-string: 0.30.21
       typescript: 5.9.3
-      vite: 7.3.2(@types/node@25.6.0)(jiti@1.21.7)(lightningcss@1.32.0)(tsx@4.21.0)
-      vite-plugin-dts: 4.5.4(@types/node@25.6.0)(rollup@4.60.2)(typescript@5.9.3)(vite@7.3.2(@types/node@25.6.0)(jiti@1.21.7)(lightningcss@1.32.0)(tsx@4.21.0))
-      vitest: 4.1.4(@types/node@25.6.0)(@vitest/browser-playwright@4.1.4)(@vitest/coverage-v8@4.1.4)(happy-dom@20.9.0)(vite@7.3.2(@types/node@25.6.0)(jiti@1.21.7)(lightningcss@1.32.0)(tsx@4.21.0))
+      vite: 7.3.2(@types/node@25.6.0)(jiti@1.21.7)(lightningcss@1.32.0)(tsx@4.21.0)(yaml@2.8.3)
+      vite-plugin-dts: 4.5.4(@types/node@25.6.0)(rollup@4.60.2)(typescript@5.9.3)(vite@7.3.2(@types/node@25.6.0)(jiti@1.21.7)(lightningcss@1.32.0)(tsx@4.21.0)(yaml@2.8.3))
+      vitest: 4.1.4(@types/node@25.6.0)(@vitest/browser-playwright@4.1.4)(@vitest/coverage-v8@4.1.4)(happy-dom@20.9.0)(vite@7.3.2(@types/node@25.6.0)(jiti@1.21.7)(lightningcss@1.32.0)(tsx@4.21.0)(yaml@2.8.3))
       ws: 8.20.0
     transitivePeerDependencies:
       - '@edge-runtime/vm'
@@ -3463,19 +3471,19 @@ snapshots:
     dependencies:
       '@types/node': 25.6.0
 
-  '@vitejs/plugin-vue@6.0.6(vite@8.0.9(@types/node@25.6.0)(esbuild@0.27.7)(jiti@1.21.7)(tsx@4.21.0))(vue@3.5.32(typescript@6.0.3))':
+  '@vitejs/plugin-vue@6.0.6(vite@8.0.9(@types/node@25.6.0)(esbuild@0.27.7)(jiti@1.21.7)(tsx@4.21.0)(yaml@2.8.3))(vue@3.5.32(typescript@6.0.3))':
     dependencies:
       '@rolldown/pluginutils': 1.0.0-rc.13
-      vite: 8.0.9(@types/node@25.6.0)(esbuild@0.27.7)(jiti@1.21.7)(tsx@4.21.0)
+      vite: 8.0.9(@types/node@25.6.0)(esbuild@0.27.7)(jiti@1.21.7)(tsx@4.21.0)(yaml@2.8.3)
       vue: 3.5.32(typescript@6.0.3)
 
-  '@vitest/browser-playwright@4.1.4(playwright@1.59.1)(vite@8.0.9(@types/node@25.6.0)(esbuild@0.27.7)(jiti@1.21.7)(tsx@4.21.0))(vitest@4.1.4)':
+  '@vitest/browser-playwright@4.1.4(playwright@1.59.1)(vite@8.0.9(@types/node@25.6.0)(esbuild@0.27.7)(jiti@1.21.7)(tsx@4.21.0)(yaml@2.8.3))(vitest@4.1.4)':
     dependencies:
-      '@vitest/browser': 4.1.4(vite@8.0.9(@types/node@25.6.0)(esbuild@0.27.7)(jiti@1.21.7)(tsx@4.21.0))(vitest@4.1.4)
-      '@vitest/mocker': 4.1.4(vite@8.0.9(@types/node@25.6.0)(esbuild@0.27.7)(jiti@1.21.7)(tsx@4.21.0))
+      '@vitest/browser': 4.1.4(vite@8.0.9(@types/node@25.6.0)(esbuild@0.27.7)(jiti@1.21.7)(tsx@4.21.0)(yaml@2.8.3))(vitest@4.1.4)
+      '@vitest/mocker': 4.1.4(vite@8.0.9(@types/node@25.6.0)(esbuild@0.27.7)(jiti@1.21.7)(tsx@4.21.0)(yaml@2.8.3))
       playwright: 1.59.1
       tinyrainbow: 3.1.0
-      vitest: 4.1.4(@types/node@25.6.0)(@vitest/browser-playwright@4.1.4)(@vitest/coverage-v8@4.1.4)(happy-dom@20.9.0)(vite@8.0.9(@types/node@25.6.0)(esbuild@0.27.7)(jiti@1.21.7)(tsx@4.21.0))
+      vitest: 4.1.4(@types/node@25.6.0)(@vitest/browser-playwright@4.1.4)(@vitest/coverage-v8@4.1.4)(happy-dom@20.9.0)(vite@8.0.9(@types/node@25.6.0)(esbuild@0.27.7)(jiti@1.21.7)(tsx@4.21.0)(yaml@2.8.3))
     transitivePeerDependencies:
       - bufferutil
       - msw
@@ -3483,16 +3491,16 @@ snapshots:
       - vite
     optional: true
 
-  '@vitest/browser@4.1.4(vite@8.0.9(@types/node@25.6.0)(esbuild@0.27.7)(jiti@1.21.7)(tsx@4.21.0))(vitest@4.1.4)':
+  '@vitest/browser@4.1.4(vite@8.0.9(@types/node@25.6.0)(esbuild@0.27.7)(jiti@1.21.7)(tsx@4.21.0)(yaml@2.8.3))(vitest@4.1.4)':
     dependencies:
       '@blazediff/core': 1.9.1
-      '@vitest/mocker': 4.1.4(vite@8.0.9(@types/node@25.6.0)(esbuild@0.27.7)(jiti@1.21.7)(tsx@4.21.0))
+      '@vitest/mocker': 4.1.4(vite@8.0.9(@types/node@25.6.0)(esbuild@0.27.7)(jiti@1.21.7)(tsx@4.21.0)(yaml@2.8.3))
       '@vitest/utils': 4.1.4
       magic-string: 0.30.21
       pngjs: 7.0.0
       sirv: 3.0.2
       tinyrainbow: 3.1.0
-      vitest: 4.1.4(@types/node@25.6.0)(@vitest/browser-playwright@4.1.4)(@vitest/coverage-v8@4.1.4)(happy-dom@20.9.0)(vite@8.0.9(@types/node@25.6.0)(esbuild@0.27.7)(jiti@1.21.7)(tsx@4.21.0))
+      vitest: 4.1.4(@types/node@25.6.0)(@vitest/browser-playwright@4.1.4)(@vitest/coverage-v8@4.1.4)(happy-dom@20.9.0)(vite@8.0.9(@types/node@25.6.0)(esbuild@0.27.7)(jiti@1.21.7)(tsx@4.21.0)(yaml@2.8.3))
       ws: 8.20.0
     transitivePeerDependencies:
       - bufferutil
@@ -3513,9 +3521,9 @@ snapshots:
       obug: 2.1.1
       std-env: 4.1.0
       tinyrainbow: 3.1.0
-      vitest: 4.1.4(@types/node@25.6.0)(@vitest/browser-playwright@4.1.4)(@vitest/coverage-v8@4.1.4)(happy-dom@20.9.0)(vite@8.0.9(@types/node@25.6.0)(esbuild@0.27.7)(jiti@1.21.7)(tsx@4.21.0))
+      vitest: 4.1.4(@types/node@25.6.0)(@vitest/browser-playwright@4.1.4)(@vitest/coverage-v8@4.1.4)(happy-dom@20.9.0)(vite@8.0.9(@types/node@25.6.0)(esbuild@0.27.7)(jiti@1.21.7)(tsx@4.21.0)(yaml@2.8.3))
     optionalDependencies:
-      '@vitest/browser': 4.1.4(vite@8.0.9(@types/node@25.6.0)(esbuild@0.27.7)(jiti@1.21.7)(tsx@4.21.0))(vitest@4.1.4)
+      '@vitest/browser': 4.1.4(vite@8.0.9(@types/node@25.6.0)(esbuild@0.27.7)(jiti@1.21.7)(tsx@4.21.0)(yaml@2.8.3))(vitest@4.1.4)
 
   '@vitest/expect@4.1.4':
     dependencies:
@@ -3526,21 +3534,21 @@ snapshots:
       chai: 6.2.2
       tinyrainbow: 3.1.0
 
-  '@vitest/mocker@4.1.4(vite@7.3.2(@types/node@25.6.0)(jiti@1.21.7)(lightningcss@1.32.0)(tsx@4.21.0))':
+  '@vitest/mocker@4.1.4(vite@7.3.2(@types/node@25.6.0)(jiti@1.21.7)(lightningcss@1.32.0)(tsx@4.21.0)(yaml@2.8.3))':
     dependencies:
       '@vitest/spy': 4.1.4
       estree-walker: 3.0.3
       magic-string: 0.30.21
     optionalDependencies:
-      vite: 7.3.2(@types/node@25.6.0)(jiti@1.21.7)(lightningcss@1.32.0)(tsx@4.21.0)
+      vite: 7.3.2(@types/node@25.6.0)(jiti@1.21.7)(lightningcss@1.32.0)(tsx@4.21.0)(yaml@2.8.3)
 
-  '@vitest/mocker@4.1.4(vite@8.0.9(@types/node@25.6.0)(esbuild@0.27.7)(jiti@1.21.7)(tsx@4.21.0))':
+  '@vitest/mocker@4.1.4(vite@8.0.9(@types/node@25.6.0)(esbuild@0.27.7)(jiti@1.21.7)(tsx@4.21.0)(yaml@2.8.3))':
     dependencies:
       '@vitest/spy': 4.1.4
       estree-walker: 3.0.3
       magic-string: 0.30.21
     optionalDependencies:
-      vite: 8.0.9(@types/node@25.6.0)(esbuild@0.27.7)(jiti@1.21.7)(tsx@4.21.0)
+      vite: 8.0.9(@types/node@25.6.0)(esbuild@0.27.7)(jiti@1.21.7)(tsx@4.21.0)(yaml@2.8.3)
 
   '@vitest/pretty-format@4.1.4':
     dependencies:
@@ -4710,7 +4718,7 @@ snapshots:
 
   util-deprecate@1.0.2: {}
 
-  vite-plugin-dts@4.5.4(@types/node@25.6.0)(rollup@4.60.2)(typescript@5.9.3)(vite@7.3.2(@types/node@25.6.0)(jiti@1.21.7)(lightningcss@1.32.0)(tsx@4.21.0)):
+  vite-plugin-dts@4.5.4(@types/node@25.6.0)(rollup@4.60.2)(typescript@5.9.3)(vite@7.3.2(@types/node@25.6.0)(jiti@1.21.7)(lightningcss@1.32.0)(tsx@4.21.0)(yaml@2.8.3)):
     dependencies:
       '@microsoft/api-extractor': 7.58.5(@types/node@25.6.0)
       '@rollup/pluginutils': 5.3.0(rollup@4.60.2)
@@ -4723,13 +4731,13 @@ snapshots:
       magic-string: 0.30.21
       typescript: 5.9.3
     optionalDependencies:
-      vite: 7.3.2(@types/node@25.6.0)(jiti@1.21.7)(lightningcss@1.32.0)(tsx@4.21.0)
+      vite: 7.3.2(@types/node@25.6.0)(jiti@1.21.7)(lightningcss@1.32.0)(tsx@4.21.0)(yaml@2.8.3)
     transitivePeerDependencies:
       - '@types/node'
       - rollup
       - supports-color
 
-  vite@6.4.2(@types/node@25.6.0)(jiti@1.21.7)(lightningcss@1.32.0)(tsx@4.21.0):
+  vite@6.4.2(@types/node@25.6.0)(jiti@1.21.7)(lightningcss@1.32.0)(tsx@4.21.0)(yaml@2.8.3):
     dependencies:
       esbuild: 0.25.12
       fdir: 6.5.0(picomatch@4.0.4)
@@ -4743,8 +4751,9 @@ snapshots:
       jiti: 1.21.7
       lightningcss: 1.32.0
       tsx: 4.21.0
+      yaml: 2.8.3
 
-  vite@7.3.2(@types/node@25.6.0)(jiti@1.21.7)(lightningcss@1.32.0)(tsx@4.21.0):
+  vite@7.3.2(@types/node@25.6.0)(jiti@1.21.7)(lightningcss@1.32.0)(tsx@4.21.0)(yaml@2.8.3):
     dependencies:
       esbuild: 0.27.7
       fdir: 6.5.0(picomatch@4.0.4)
@@ -4758,8 +4767,9 @@ snapshots:
       jiti: 1.21.7
       lightningcss: 1.32.0
       tsx: 4.21.0
+      yaml: 2.8.3
 
-  vite@8.0.9(@types/node@25.6.0)(esbuild@0.27.7)(jiti@1.21.7)(tsx@4.21.0):
+  vite@8.0.9(@types/node@25.6.0)(esbuild@0.27.7)(jiti@1.21.7)(tsx@4.21.0)(yaml@2.8.3):
     dependencies:
       lightningcss: 1.32.0
       picomatch: 4.0.4
@@ -4772,16 +4782,17 @@ snapshots:
       fsevents: 2.3.3
       jiti: 1.21.7
       tsx: 4.21.0
+      yaml: 2.8.3
 
   vitest-webgl-canvas-mock@1.1.0:
     dependencies:
       cssfontparser: 1.2.1
       parse-color: 1.0.0
 
-  vitest@4.1.4(@types/node@25.6.0)(@vitest/browser-playwright@4.1.4)(@vitest/coverage-v8@4.1.4)(happy-dom@20.9.0)(vite@7.3.2(@types/node@25.6.0)(jiti@1.21.7)(lightningcss@1.32.0)(tsx@4.21.0)):
+  vitest@4.1.4(@types/node@25.6.0)(@vitest/browser-playwright@4.1.4)(@vitest/coverage-v8@4.1.4)(happy-dom@20.9.0)(vite@7.3.2(@types/node@25.6.0)(jiti@1.21.7)(lightningcss@1.32.0)(tsx@4.21.0)(yaml@2.8.3)):
     dependencies:
       '@vitest/expect': 4.1.4
-      '@vitest/mocker': 4.1.4(vite@7.3.2(@types/node@25.6.0)(jiti@1.21.7)(lightningcss@1.32.0)(tsx@4.21.0))
+      '@vitest/mocker': 4.1.4(vite@7.3.2(@types/node@25.6.0)(jiti@1.21.7)(lightningcss@1.32.0)(tsx@4.21.0)(yaml@2.8.3))
       '@vitest/pretty-format': 4.1.4
       '@vitest/runner': 4.1.4
       '@vitest/snapshot': 4.1.4
@@ -4798,20 +4809,20 @@ snapshots:
       tinyexec: 1.1.1
       tinyglobby: 0.2.16
       tinyrainbow: 3.1.0
-      vite: 7.3.2(@types/node@25.6.0)(jiti@1.21.7)(lightningcss@1.32.0)(tsx@4.21.0)
+      vite: 7.3.2(@types/node@25.6.0)(jiti@1.21.7)(lightningcss@1.32.0)(tsx@4.21.0)(yaml@2.8.3)
       why-is-node-running: 2.3.0
     optionalDependencies:
       '@types/node': 25.6.0
-      '@vitest/browser-playwright': 4.1.4(playwright@1.59.1)(vite@8.0.9(@types/node@25.6.0)(esbuild@0.27.7)(jiti@1.21.7)(tsx@4.21.0))(vitest@4.1.4)
+      '@vitest/browser-playwright': 4.1.4(playwright@1.59.1)(vite@8.0.9(@types/node@25.6.0)(esbuild@0.27.7)(jiti@1.21.7)(tsx@4.21.0)(yaml@2.8.3))(vitest@4.1.4)
       '@vitest/coverage-v8': 4.1.4(@vitest/browser@4.1.4)(vitest@4.1.4)
       happy-dom: 20.9.0
     transitivePeerDependencies:
       - msw
 
-  vitest@4.1.4(@types/node@25.6.0)(@vitest/browser-playwright@4.1.4)(@vitest/coverage-v8@4.1.4)(happy-dom@20.9.0)(vite@8.0.9(@types/node@25.6.0)(esbuild@0.27.7)(jiti@1.21.7)(tsx@4.21.0)):
+  vitest@4.1.4(@types/node@25.6.0)(@vitest/browser-playwright@4.1.4)(@vitest/coverage-v8@4.1.4)(happy-dom@20.9.0)(vite@8.0.9(@types/node@25.6.0)(esbuild@0.27.7)(jiti@1.21.7)(tsx@4.21.0)(yaml@2.8.3)):
     dependencies:
       '@vitest/expect': 4.1.4
-      '@vitest/mocker': 4.1.4(vite@8.0.9(@types/node@25.6.0)(esbuild@0.27.7)(jiti@1.21.7)(tsx@4.21.0))
+      '@vitest/mocker': 4.1.4(vite@8.0.9(@types/node@25.6.0)(esbuild@0.27.7)(jiti@1.21.7)(tsx@4.21.0)(yaml@2.8.3))
       '@vitest/pretty-format': 4.1.4
       '@vitest/runner': 4.1.4
       '@vitest/snapshot': 4.1.4
@@ -4828,11 +4839,11 @@ snapshots:
       tinyexec: 1.1.1
       tinyglobby: 0.2.16
       tinyrainbow: 3.1.0
-      vite: 8.0.9(@types/node@25.6.0)(esbuild@0.27.7)(jiti@1.21.7)(tsx@4.21.0)
+      vite: 8.0.9(@types/node@25.6.0)(esbuild@0.27.7)(jiti@1.21.7)(tsx@4.21.0)(yaml@2.8.3)
       why-is-node-running: 2.3.0
     optionalDependencies:
       '@types/node': 25.6.0
-      '@vitest/browser-playwright': 4.1.4(playwright@1.59.1)(vite@8.0.9(@types/node@25.6.0)(esbuild@0.27.7)(jiti@1.21.7)(tsx@4.21.0))(vitest@4.1.4)
+      '@vitest/browser-playwright': 4.1.4(playwright@1.59.1)(vite@8.0.9(@types/node@25.6.0)(esbuild@0.27.7)(jiti@1.21.7)(tsx@4.21.0)(yaml@2.8.3))(vitest@4.1.4)
       '@vitest/coverage-v8': 4.1.4(@vitest/browser@4.1.4)(vitest@4.1.4)
       happy-dom: 20.9.0
     transitivePeerDependencies:
@@ -4885,6 +4896,8 @@ snapshots:
   xmlbuilder@15.1.1: {}
 
   yallist@5.0.0: {}
+
+  yaml@2.8.3: {}
 
   yauzl@2.10.0:
     dependencies:

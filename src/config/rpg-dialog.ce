@@ -34,6 +34,7 @@
                                         class="rpg-ui-dialog-choice"
                                         class={{active: selectedItem() === index}}
                                         tabindex={index}
+                                        data-testid={choiceTestId(index)}
                                         data-choice-index={index}
                                         pointerdown={capturePointerEvent}
                                         pointerup={capturePointerEvent}
@@ -190,6 +191,7 @@
     const showIndicator = computed(() => !hasChoices() && !isTyping());
     const selectedItem = signal(0);
     const nav = createTabindexNavigator(selectedItem, { count: () => choices.length }, 'wrap');
+    const choiceTestId = (index) => `dialog-choice-${index}`;
 
     function capturePointerEvent(event) {
         event?.stopPropagation?.();
