@@ -1,29 +1,61 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-down"
      width="22" height="16" tilewidth="16" tileheight="16" infinite="0"
-     nextlayerid="4" nextobjectid="8">
- <tileset firstgid="1" source="../../public/assets/tilesets/core/Tiled/Tilesets/Tileset_Ground.tsx"/>
+     nextlayerid="5" nextobjectid="10">
+ <properties>
+   <property name="biome" value="ice"/>
+   <property name="music_track" value="bgm_snow"/>
+ </properties>
+ <tileset firstgid="1" source="../assets/tilesets/snow/Tiled/Tilesets/Tileset_Ground_Snow.tsx"/>
+ <tileset firstgid="4561" source="../assets/tilesets/snow/Tiled/Tilesets/Tileset_Road.tsx"/>
+ <tileset firstgid="5569" source="../assets/tilesets/snow/Tiled/Tilesets/Tileset_Snow.tsx"/>
+ <tileset firstgid="5659" source="../assets/tilesets/snow/Tiled/Tilesets/Tileset_TallGrass.tsx"/>
+ <tileset firstgid="5959" source="../assets/tilesets/snow/Tiled/Tilesets/Tileset_Fence_1_Snow.tsx"/>
+ <tileset firstgid="5995" source="../assets/tilesets/snow/Tiled/Tilesets/Objects_Buildings_Snow.tsx"/>
+ <tileset firstgid="6990" source="../assets/tilesets/snow/Tiled/Tilesets/Objects_Props_Snow.tsx"/>
+ <tileset firstgid="8233" source="../assets/tilesets/snow/Tiled/Tilesets/Objects_Rocks_Snow.tsx"/>
+ <tileset firstgid="8383" source="../assets/tilesets/snow/Tiled/Tilesets/Objects_Trees_Snow.tsx"/>
  <layer id="1" name="Below Player" width="22" height="16" visible="1" opacity="1">
   <data encoding="csv">
-1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
-1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
-1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
-1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
-1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
-1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
-1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
-1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
-1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
-1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
-1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
-1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
-1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
-1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
-1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
-1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1
+5577,5577,5577,5577,5577,5577,5577,5577,5577,5577,5577,5577,5577,5577,5577,5577,4833,4833,4833,5577,5577,5577,
+5577,5577,5577,5577,5577,5577,5577,5577,5577,5577,5577,5577,5577,5577,5577,5577,4833,4833,4833,5577,5577,5577,
+5577,5577,2079,2079,2079,2085,2079,2079,2079,2079,2079,2079,2085,2079,2079,2079,4833,4833,4833,2085,5577,5577,
+5577,5577,2079,2079,2085,2079,2079,2079,2079,2079,2079,2085,2079,2079,2079,2079,4833,4833,4833,2079,5577,5577,
+5577,5577,2079,2085,2079,2079,2079,2079,2079,4833,4833,4833,4833,4833,4833,4833,4833,4833,4833,2079,5577,5577,
+4581,4581,4581,4581,4581,4581,4581,4581,4581,4833,4833,4833,4833,4833,4833,4833,4833,4833,4833,2079,5577,5577,
+4581,4581,4581,4581,4581,4581,4581,4581,4581,4833,4833,4833,4833,4833,4833,4833,4833,4833,4833,2079,5577,5577,
+4581,4581,4581,4581,4581,4581,4581,4581,4581,4833,4833,4833,4833,4833,4833,4833,4833,4833,4833,2079,5577,5577,
+5577,5577,2079,2079,2079,2079,2085,2079,2079,2079,2079,2079,2079,2085,2079,2079,2079,2079,2079,2079,5577,5577,
+5577,5577,2079,2079,2079,2085,2079,2079,2079,2079,2079,2079,2085,4833,4833,4833,4833,4833,4833,2085,5577,5577,
+5577,5577,2079,2079,2085,2079,2079,2079,2079,2079,2079,2085,2079,2079,2079,2079,2079,2079,2079,2079,5577,5577,
+5577,5577,2079,2085,2079,2079,2079,2079,2079,2079,2085,2079,2079,2079,2079,2079,2079,2079,2079,2079,5577,5577,
+5577,5577,2085,2079,5659,5659,5659,5659,5659,2085,2079,2079,5659,5659,5659,5659,5659,5659,2079,2079,5577,5577,
+5577,5577,5577,5577,5659,5659,5659,5659,5659,5577,5577,5577,5659,5659,5659,5659,5659,5659,5577,5577,5577,5577,
+5577,5577,5577,5577,5659,5659,5659,5659,5659,5577,5577,5577,5659,5659,5659,5659,5659,5659,5577,5577,5577,5577,
+5577,5577,5577,5577,5577,5577,5577,5577,5577,5577,5577,5577,5577,5577,5577,5577,5577,5577,5577,5577,5577,5577
   </data>
  </layer>
- <objectgroup id="2" name="Objects" visible="1" opacity="1">
+ <layer id="2" name="World" width="22" height="16" visible="1" opacity="1">
+  <data encoding="csv">
+6336,0,0,0,0,0,6353,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,8413,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,8388,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,6288,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,8328,0,0,
+0,0,0,0,8404,0,0,0,0,0,0,0,0,5972,5972,5972,5972,5972,5972,0,0,0,
+0,0,0,8321,0,0,0,0,0,0,0,0,0,5959,7404,0,0,0,5959,0,0,0,
+0,0,0,0,0,0,0,0,0,0,8390,0,0,0,0,0,0,0,0,0,0,0,
+0,8388,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,8413,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+  </data>
+ </layer>
+ <objectgroup id="3" name="Objects" visible="1" opacity="1">
   <object id="1" name="from_ma_telo" type="SpawnPoint" x="32" y="96" width="0" height="0" visible="1" rotation="0"/>
   <object id="2" name="jan-anpa" type="NPC" x="96" y="64" width="0" height="0" visible="1" rotation="0">
    <properties>
@@ -31,19 +63,31 @@
      <property name="dialog_id" value="jan_anpa_watch"/>
    </properties>
   </object>
-  <object id="3" name="jan-kasi" type="NPC" x="240" y="160" width="0" height="0" visible="1" rotation="0">
+  <object id="3" name="jan-suno-lete" type="NPC" x="144" y="96" width="0" height="0" visible="1" rotation="0">
+   <properties>
+     <property name="id" value="jan_suno_lete"/>
+     <property name="dialog_id" value="jan_suno_lete_light"/>
+   </properties>
+  </object>
+  <object id="4" name="jan-poki-lete" type="NPC" x="64" y="128" width="0" height="0" visible="1" rotation="0">
+   <properties>
+     <property name="id" value="jan_poki_lete"/>
+     <property name="dialog_id" value="jan_poki_lete_cold"/>
+   </properties>
+  </object>
+  <object id="5" name="jan-kasi" type="NPC" x="240" y="160" width="0" height="0" visible="1" rotation="0">
    <properties>
      <property name="id" value="jan_kasi"/>
      <property name="dialog_id" value="jan_kasi_garden"/>
    </properties>
   </object>
-  <object id="4" name="jan-lete" type="NPC" x="272" y="64" width="0" height="0" visible="1" rotation="0">
+  <object id="6" name="jan-lete" type="NPC" x="272" y="64" width="0" height="0" visible="1" rotation="0">
    <properties>
      <property name="id" value="jan_lete"/>
      <property name="dialog_id" value="jan_lete_intro"/>
    </properties>
   </object>
-  <object id="5" name="warp_north" type="Warp" x="272" y="0" width="16" height="16" visible="1" rotation="0">
+  <object id="7" name="warp_north" type="Warp" x="272" y="0" width="16" height="16" visible="1" rotation="0">
    <properties>
      <property name="target_map" value="nena_suli"/>
      <property name="target_spawn" value="from_ma_lete"/>
@@ -51,15 +95,15 @@
    </properties>
   </object>
  </objectgroup>
- <objectgroup id="3" name="Encounters" visible="1" opacity="1">
-  <object id="6" name="encounter_0" type="Encounter" x="64" y="192" width="80" height="48" visible="1" rotation="0">
+ <objectgroup id="4" name="Encounters" visible="1" opacity="1">
+  <object id="8" name="encounter_0" type="Encounter" x="64" y="192" width="80" height="48" visible="1" rotation="0">
    <properties>
      <property name="species" value="{&quot;sijelo_linja&quot;:20,&quot;sijelo_kiwen&quot;:15,&quot;jan_pi_sewi_pimeja&quot;:15,&quot;waso_lete&quot;:20,&quot;soweli_nena&quot;:15,&quot;soweli_kiwen&quot;:15}"/>
      <property name="level_min" type="int" value="7"/>
      <property name="level_max" type="int" value="10"/>
    </properties>
   </object>
-  <object id="7" name="encounter_1" type="Encounter" x="192" y="192" width="96" height="48" visible="1" rotation="0">
+  <object id="9" name="encounter_1" type="Encounter" x="192" y="192" width="96" height="48" visible="1" rotation="0">
    <properties>
      <property name="species" value="{&quot;sijelo_linja&quot;:15,&quot;sijelo_kiwen&quot;:20,&quot;jan_pi_sewi_pimeja&quot;:15,&quot;sijelo_utala&quot;:15,&quot;waso_lete&quot;:15,&quot;soweli_kiwen&quot;:20}"/>
      <property name="level_min" type="int" value="9"/>

@@ -37,7 +37,7 @@ jobs:
           # repo's full dep graph (which has legit peer-dep mismatches on
           # @capacitor-community/sqlite that pnpm tolerates but npm rejects).
           mkdir -p /tmp/commitlint-runner
-          cd /tmp/commitlint-runner
+          cd /tmp/commitlint-runner || exit
           npm init -y > /dev/null
           npm install \
             @commitlint/cli@19 \

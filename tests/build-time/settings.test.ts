@@ -1,5 +1,5 @@
 import { describe, it, expect, beforeEach } from 'vitest';
-import { setPreferencesImpl, type IPreferences } from '../../src/platform/persistence/preferences';
+import { setPreferencesImpl, type PreferencesAdapter } from '../../src/platform/persistence/preferences';
 import {
     getSitelenOverlay,
     setSitelenOverlay,
@@ -7,14 +7,17 @@ import {
     setTextSpeed,
     getHighContrast,
     setHighContrast,
+    getAccessibleMode,
+    setAccessibleMode,
     getBgmVolume,
     setBgmVolume,
     getSfxVolume,
     setSfxVolume,
     _internals,
 } from '../../src/platform/persistence/settings';
+import { buildSettingsSummary, settingsChoiceLabel } from '../../src/modules/main/settings-screen';
 
-class InMemoryPrefs implements IPreferences {
+class InMemoryPrefs implements PreferencesAdapter {
     private store = new Map<string, string>();
     async get(key: string) {
         return this.store.get(key) ?? null;
@@ -120,6 +123,19 @@ describe('high-contrast — T5-11', () => {
     });
 });
 
+describe('accessible mode — T5-12', () => {
+    it('defaults to false', async () => {
+        expect(await getAccessibleMode()).toBe(false);
+    });
+
+    it('round-trips', async () => {
+        await setAccessibleMode(true);
+        expect(await getAccessibleMode()).toBe(true);
+        await setAccessibleMode(false);
+        expect(await getAccessibleMode()).toBe(false);
+    });
+});
+
 describe('volumes — T5-01', () => {
     it('BGM defaults to 70', async () => {
         expect(await getBgmVolume()).toBe(70);
@@ -141,5 +157,34 @@ describe('volumes — T5-01', () => {
         await setSfxVolume(0);
         expect(await getBgmVolume()).toBe(0);
         expect(await getSfxVolume()).toBe(0);
+    });
+});
+
+describe('settings screen copy', () => {
+    const state = {
+        sitelen: true,
+        textSpeed: 48,
+        highContrast: false,
+        accessibleMode: true,
+        bgm: 70,
+        sfx: 80,
+    };
+
+    it('formats the settings summary from gameplay JSON', () => {
+        expect(buildSettingsSummary(state)).toBe([
+            'nasin:',
+            '  sitelen    lon',
+            '  tenpo      48 / sec',
+            '  wawa       ala',
+            '  suli       lon',
+            '  kalama     bgm 70   sfx 80',
+        ].join('\n'));
+    });
+
+    it('formats choice labels from gameplay JSON', () => {
+        expect(settingsChoiceLabel('sitelen', { label: 'sitelen', ...state })).toBe('sitelen  [lon]');
+        expect(settingsChoiceLabel('text_speed', { label: 'tenpo', ...state })).toBe('tenpo   48 / sec');
+        expect(settingsChoiceLabel('contrast', { label: 'wawa', ...state })).toBe('wawa  [ala]');
+        expect(settingsChoiceLabel('bgm', { label: 'kalama bgm', ...state })).toBe('kalama bgm 70');
     });
 });

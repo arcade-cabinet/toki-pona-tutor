@@ -1,6 +1,6 @@
-import worldRaw from '../../content/generated/world.json';
-import type { DialogNode } from '../../content/schema/dialog';
-import type { Journey } from '../../content/schema/journey';
+import worldRaw from "../../content/generated/world.json";
+import type { DialogNode } from "../../content/schema/dialog";
+import type { Journey } from "../../content/schema/journey";
 
 type Species = {
     id: string;
@@ -29,14 +29,14 @@ type ContentWorld = {
 function assertContentWorld(raw: unknown): ContentWorld {
     if (
         raw == null ||
-        typeof raw !== 'object' ||
+        typeof raw !== "object" ||
         !Array.isArray((raw as Record<string, unknown>).dialog) ||
         !Array.isArray((raw as Record<string, unknown>).species) ||
-        typeof (raw as Record<string, unknown>).start_region_id !== 'string' ||
+        typeof (raw as Record<string, unknown>).start_region_id !== "string" ||
         (raw as Record<string, unknown>).journey == null
     ) {
         throw new Error(
-            '[content] world.json is missing required fields — run `pnpm build-spine` to regenerate',
+            "[content] world.json is missing required fields — run `pnpm build-spine` to regenerate",
         );
     }
     return raw as unknown as ContentWorld;

@@ -14,7 +14,7 @@ export type FirstGidMap = Map<string, number>;
 
 /**
  * Assign firstgid values to tilesets in the order given. First tileset gets 1;
- * each subsequent tileset starts at `previous.firstgid + previous.tileCount`.
+ * each subsequent tileset starts at `previous.firstgid + gidSpan(previous)`.
  * The tileset's key in the returned map is its `.tsx` filename stem (matches
  * `PaletteEntry.tsx`).
  *
@@ -42,9 +42,25 @@ export function assignFirstGids(tilesets: ParsedTileset[]): FirstGidMap {
     // Only register the bare stem if not already taken, so the first-seen
     // tileset wins the bare-name slot. Qualified key always works.
     if (!m.has(bare)) m.set(bare, cursor);
-    cursor += ts.tileCount;
+    cursor += tilesetGidSpan(ts);
   }
   return m;
+}
+
+export function tilesetGidSpan(ts: ParsedTileset): number {
+  const sparseIds = [
+    ...Object.keys(ts.perTileImages),
+    ...Object.keys(ts.properties),
+    ...Object.keys(ts.animations),
+  ].map((id) => Number(id)).filter((id) => Number.isInteger(id) && id >= 0);
+  const maxSparseId = sparseIds.length > 0 ? Math.max(...sparseIds) : -1;
+  return Math.max(ts.tileCount, maxSparseId + 1);
+}
+
+export function hasLocalTileId(ts: ParsedTileset, localId: number): boolean {
+  if (!Number.isInteger(localId) || localId < 0) return false;
+  if (ts.isCollection) return ts.perTileImages[localId] != null;
+  return localId < tilesetGidSpan(ts);
 }
 
 /**
@@ -80,9 +96,9 @@ export function resolvePaletteName(
     );
   }
 
-  if (entry.local_id < 0 || entry.local_id >= tileset.tileCount) {
+  if (!hasLocalTileId(tileset, entry.local_id)) {
     throw new Error(
-      `palette: entry "${name}" has local_id ${entry.local_id} out of range [0, ${tileset.tileCount})`,
+      `palette: entry "${name}" has local_id ${entry.local_id} out of range for tileset "${entry.tsx}"`,
     );
   }
 

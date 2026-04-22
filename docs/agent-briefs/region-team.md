@@ -1,13 +1,13 @@
 ---
 title: Agent Brief — Region Team
-updated: 2026-04-19
-status: current
+updated: 2026-04-22
+status: historical
 domain: ops
 ---
 
 # Region team agent brief
 
-You're authoring one complete region for Toki Town. A region is a single Phaser scene's worth of world — tile layout, NPCs, dialog, signs, warps to adjacent regions, encounter table. You write one file at `src/content/spine/regions/<region_id>.json` that validates against `src/content/schema/region.ts`.
+Historical note: this brief predates the RPG.js v5 pivot. Region content no longer lives under `src/content/spine/regions/`, and the current repo does not use Phaser scenes. For current work, author the map in `scripts/map-authoring/specs/<region_id>.ts` and any supporting dialog under `src/content/spine/dialog/`.
 
 ## Worktree prologue
 
@@ -25,19 +25,19 @@ pnpm install --ignore-workspace
 
 ## What to author
 
-Your brief specifies **one region** by id — e.g. `ma_telo` (the lake village), `nena_sewi` (the mountain pass). Write its region JSON plus any dialog nodes its NPCs need.
+Your brief specifies **one region** by id — e.g. `ma_telo` (the lake village), `nena_sewi` (the mountain pass). Author the map spec plus any dialog nodes its NPCs need.
 
 ### Required content
 
 - Grid dimensions: villages are ~20×14, routes are long (~32×10), mountain passes are ~16×20. Your brief will specify.
 - Sky color: villages `#8bc260` (kenney town green), routes same, mountains `#6b7a83` (stone), lakes `#5ba7d8` (blue).
 - At least **2 tile layers** (`ground`, `objects`). A third `overlay` layer is optional (flowers, shimmer).
-- **3–5 NPCs**, each with a distinct role — one quest-giver / jan-lawa, one ambient, optionally a shopkeeper or rival.
+- **At least 5 NPCs**, each with a distinct role — one quest-giver / jan-lawa where the region has one, multiple ambient villagers, optionally a shopkeeper or rival.
 - **2–3 signs** with canonical-TP text.
 - **1–2 warps** to adjacent regions.
 - **Tall grass:** if this region has encounters, 30–60% of walkable ground should be tall-grass keys.
-- **Encounters:** 3–6 species in a weighted table summing to 1.0. Species must already exist in `src/content/spine/species/`.
-- **Dialog array:** at least 1 dialog node per NPC. Quest-giver NPCs get multi-beat dialog (3–5 beats); ambient NPCs get single-beat flavor lines.
+- **Encounters:** 3–6 species in a weighted table. Weights are relative integers, not probabilities that must sum to 1.0. Species must already exist in `src/content/spine/species/`.
+- **Dialog spine:** at least 1 dialog node per NPC under `src/content/spine/dialog/`. Quest-giver NPCs get multi-beat dialog (3–5 beats); ambient NPCs now use at least two beats so the T4-15 floor remains meaningful.
 - **Spawn point:** where the player lands when warping in.
 
 ### Writing canonical TP
@@ -70,7 +70,7 @@ Tile keys in `layers[].tiles` are short strings the engine maps to frames at run
 - `"mushroom"` — kili patch
 - `"grass_tall"` — tall grass tile (goes in `tall_grass_keys`)
 
-Add new keys if your region needs them; the engine will translate them via the shared tile-key → frame lookup in `src/game/content-loader.ts`.
+Add new keys if your region needs them; encode them in the relevant `scripts/map-authoring/palettes/*.ts` file so the emitter and renderer can resolve them.
 
 ### Warps
 
@@ -111,6 +111,6 @@ See `docs/AGENT_TEAMS.md`.
 ## Guardrails
 
 - Only edit inside your worktree
-- Only create files under `src/content/spine/regions/<region_id>.json` — no engine changes
+- Keep region content in `scripts/map-authoring/specs/<region_id>.ts` plus supporting `src/content/spine/dialog/*.json`; do not revive `src/content/spine/regions/`
 - Never hand-author TP; always let the pipeline resolve it
 - Always squash-merge, never force-push, never skip hooks

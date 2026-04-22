@@ -1,0 +1,10 @@
+{
+  "id": "jan_suno_lete_light",
+  "npc_id": "jan_suno_lete",
+  "priority": 0,
+  "beats": [
+    { "text": { "en": "Brr! This water's really cold!" }, "mood": "thinking", "glyph": "lete" },
+    { "text": { "en": "I'm getting tired." }, "mood": "sad", "glyph": "lape" }
+  ],
+  "triggers": {}
+}

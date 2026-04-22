@@ -19,9 +19,10 @@
  * next action. All state is owned by the caller — this module is pure.
  */
 
-import type { TpType } from './type-matchup';
+import { STATUS_EFFECT_CONFIG, type ConfiguredStatusId } from "../../content/gameplay";
+import type { TpType } from "./type-matchup";
 
-export type StatusId = 'burn' | 'wet' | 'frozen';
+export type StatusId = ConfiguredStatusId;
 
 export interface Status {
     id: StatusId;
@@ -48,14 +49,11 @@ export function rollStatusEffect(
 ): Status | null {
     const has = (id: StatusId) => targetStatuses.some((s) => s.id === id);
 
-    if (moveType === 'seli' && !has('burn') && !has('wet')) {
-        return rng() < 0.25 ? { id: 'burn', turnsRemaining: 3 } : null;
-    }
-    if (moveType === 'telo' && !has('wet')) {
-        return rng() < 0.3 ? { id: 'wet', turnsRemaining: 3 } : null;
-    }
-    if (moveType === 'lete' && has('wet') && !has('frozen')) {
-        return { id: 'frozen', turnsRemaining: 1 };
+    for (const rule of STATUS_EFFECT_CONFIG.applicationRules) {
+        if (rule.moveType !== moveType) continue;
+        if (rule.requires.some((statusId) => !has(statusId))) continue;
+        if (rule.blockedBy.some(has)) continue;
+        return rng() < rule.chance ? { id: rule.statusId, turnsRemaining: rule.turns } : null;
     }
     return null;
 }
@@ -73,7 +71,10 @@ export function rollStatusEffect(
  * tickStatusEffects([{ id: 'frozen', turnsRemaining: 1 }], 100)
  * // → { statuses: [], damage: 0, skipNextTurn: true }
  */
-export function tickStatusEffects(statuses: Status[], targetMaxHp: number): {
+export function tickStatusEffects(
+    statuses: Status[],
+    targetMaxHp: number,
+): {
     statuses: Status[];
     damage: number;
     skipNextTurn: boolean;
@@ -83,10 +84,11 @@ export function tickStatusEffects(statuses: Status[], targetMaxHp: number): {
     const out: Status[] = [];
 
     for (const s of statuses) {
-        if (s.id === 'burn') {
-            damage += Math.max(1, Math.floor(targetMaxHp / 16));
+        const effect = STATUS_EFFECT_CONFIG.tickEffects[s.id];
+        if (effect?.damageMaxHpDivisor) {
+            damage += Math.max(1, Math.floor(targetMaxHp / effect.damageMaxHpDivisor));
         }
-        if (s.id === 'frozen') {
+        if (effect?.skipNextTurn) {
             skipNextTurn = true;
         }
         const remaining = s.turnsRemaining - 1;
@@ -103,7 +105,10 @@ export function damageMultiplierFromStatuses(
     incomingType: TpType,
     targetStatuses: Status[],
 ): number {
-    if (incomingType === 'lete' && targetStatuses.some((s) => s.id === 'wet')) return 1.5;
-    if (incomingType === 'seli' && targetStatuses.some((s) => s.id === 'wet')) return 0;
-    return 1;
+    const modifier = STATUS_EFFECT_CONFIG.damageMultipliers.find(
+        (entry) =>
+            entry.incomingType === incomingType &&
+            targetStatuses.some((status) => status.id === entry.targetStatus),
+    );
+    return modifier?.multiplier ?? 1;
 }

@@ -16,12 +16,12 @@
     "frame_width": 64,
     "frame_height": 64,
     "animations": {
-      "idle":   { "row": 0, "col_start": 0, "cols": 4, "fps": 4,  "loop": true  },
-      "walk":   { "row": 1, "col_start": 0, "cols": 4, "fps": 10, "loop": true  },
+      "idle": { "row": 0, "col_start": 0, "cols": 4, "fps": 4, "loop": true },
+      "walk": { "row": 1, "col_start": 0, "cols": 4, "fps": 10, "loop": true },
       "attack": { "row": 2, "col_start": 0, "cols": 4, "fps": 12, "loop": false },
-      "hurt":   { "row": 3, "col_start": 0, "cols": 1, "fps": 8,  "loop": false },
-      "flee":   { "row": 4, "col_start": 0, "cols": 4, "fps": 12, "loop": true  },
-      "death":  { "row": 5, "col_start": 0, "cols": 4, "fps": 6,  "loop": false }
+      "hurt": { "row": 3, "col_start": 0, "cols": 1, "fps": 8, "loop": false },
+      "flee": { "row": 4, "col_start": 0, "cols": 4, "fps": 12, "loop": true },
+      "death": { "row": 5, "col_start": 0, "cols": 4, "fps": 6, "loop": false }
     },
     "tier": "uncommon"
   }

@@ -1,29 +1,58 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-down"
      width="20" height="16" tilewidth="16" tileheight="16" infinite="0"
-     nextlayerid="3" nextobjectid="6">
- <tileset firstgid="1" source="../../public/assets/tilesets/core/Tiled/Tilesets/Tileset_Ground.tsx"/>
+     nextlayerid="4" nextobjectid="8">
+ <properties>
+   <property name="biome" value="town"/>
+   <property name="music_track" value="bgm_village"/>
+ </properties>
+ <tileset firstgid="1" source="../assets/tilesets/seasons/Tiled/Tilesets/Tileset_Ground_Seasons.tsx"/>
+ <tileset firstgid="4561" source="../assets/tilesets/seasons/Tiled/Tilesets/Tileset_Road.tsx"/>
+ <tileset firstgid="5569" source="../assets/tilesets/seasons/Tiled/Tilesets/Tileset_Sand.tsx"/>
+ <tileset firstgid="8449" source="../assets/tilesets/seasons/Tiled/Tilesets/Tileset_Water.tsx"/>
+ <tileset firstgid="8761" source="../assets/tilesets/seasons/Tiled/Tilesets/Objects_Buildings_Seasons.tsx"/>
+ <tileset firstgid="9061" source="../assets/tilesets/seasons/Tiled/Tilesets/Objects_Trees_Seasons.tsx"/>
  <layer id="1" name="Below Player" width="20" height="16" visible="1" opacity="1">
   <data encoding="csv">
-1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
-1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
-1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
-1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
-1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
-1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
-1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
-1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
-1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
-1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
-1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
-1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
-1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
-1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
-1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
-1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1
+8475,8475,8475,8475,8475,8475,8475,8475,8475,8475,8475,8475,8475,8475,4581,4581,8475,8475,8475,8475,
+8475,8475,8475,8475,8475,8475,8475,8475,8475,8475,8475,8475,8475,8475,4581,4581,8475,8475,8475,8475,
+8475,8475,8475,8475,8475,8475,8475,8475,5569,5569,5569,5569,5569,8475,4581,4581,8475,8475,8475,8475,
+8475,8475,8475,8475,8475,8475,5569,5569,51,51,51,51,51,5569,4581,4581,8475,8475,8475,8475,
+8475,8475,8475,8475,5569,5569,51,4833,4833,4833,4833,4833,4833,4833,4833,4833,5569,8475,8475,8475,
+4581,4581,4581,4581,4581,4581,4581,4833,4833,4833,4833,4833,4833,4833,4833,4833,51,5569,8475,8475,
+4581,4581,4581,4581,4581,4581,4581,4833,4833,4833,4833,4833,4833,4833,4833,4833,51,5569,8475,8475,
+4581,4581,4581,4581,4581,4581,4581,4833,4833,4833,4833,4833,4833,4833,4833,4833,51,63,5569,8475,
+8475,8475,5569,51,51,51,51,4833,4833,4833,4833,4833,4833,4833,4833,4833,63,51,5569,8475,
+8475,8475,5569,51,51,51,51,4833,4833,4833,4833,4833,4833,4833,4833,4833,51,51,5569,8475,
+8475,8475,8475,5569,51,51,63,4833,4833,4833,4833,4833,4833,4833,4833,4833,51,5569,8475,8475,
+8475,8475,8475,5569,51,63,51,51,51,51,51,51,51,63,51,51,51,5569,8475,8475,
+8475,8475,8475,8475,4581,4581,4581,4581,4581,4581,4581,4581,4581,51,51,5569,5569,8475,8475,8475,
+8475,8475,8475,8475,4581,4581,4581,4581,51,51,51,63,51,5569,5569,8475,8475,8475,8475,8475,
+8475,8475,8475,8475,8475,8475,8475,8475,5569,5569,5569,5569,5569,8475,8475,8475,8475,8475,8475,8475,
+8475,8475,8475,8475,8475,8475,8475,8475,8475,8475,8475,8475,8475,8475,8475,8475,8475,8475,8475,8475
   </data>
  </layer>
- <objectgroup id="2" name="Objects" visible="1" opacity="1">
+ <layer id="2" name="World" width="20" height="16" visible="1" opacity="1">
+  <data encoding="csv">
+9032,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,9061,0,0,0,0,0,0,0,0,0,0,0,0,0,0,9062,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,9043,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,8819,0,0,0,0,0,0,
+0,0,0,0,9075,0,0,0,0,0,0,0,9075,0,0,0,0,0,0,0,
+0,9061,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,9062,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
+0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
+  </data>
+ </layer>
+ <objectgroup id="3" name="Objects" visible="1" opacity="1">
   <object id="1" name="from_nena_sewi" type="SpawnPoint" x="32" y="96" width="0" height="0" visible="1" rotation="0"/>
   <object id="2" name="jan-kala-lake" type="NPC" x="80" y="208" width="0" height="0" visible="1" rotation="0">
    <properties>
@@ -31,19 +60,31 @@
      <property name="dialog_id" value="jan_kala_lake_quest"/>
    </properties>
   </object>
-  <object id="3" name="jan-moku" type="NPC" x="128" y="64" width="0" height="0" visible="1" rotation="0">
+  <object id="3" name="jan-olin-telo" type="NPC" x="64" y="160" width="0" height="0" visible="1" rotation="0">
+   <properties>
+     <property name="id" value="jan_olin_telo"/>
+     <property name="dialog_id" value="jan_olin_telo_quiet"/>
+   </properties>
+  </object>
+  <object id="4" name="jan-moku" type="NPC" x="128" y="64" width="0" height="0" visible="1" rotation="0">
    <properties>
      <property name="id" value="jan_moku"/>
      <property name="dialog_id" value="jan_moku_stall"/>
    </properties>
   </object>
-  <object id="4" name="jan-telo" type="NPC" x="240" y="128" width="0" height="0" visible="1" rotation="0">
+  <object id="5" name="jan-sike-telo" type="NPC" x="192" y="128" width="0" height="0" visible="1" rotation="0">
+   <properties>
+     <property name="id" value="jan_sike_telo"/>
+     <property name="dialog_id" value="jan_sike_telo_plaza"/>
+   </properties>
+  </object>
+  <object id="6" name="jan-telo" type="NPC" x="240" y="128" width="0" height="0" visible="1" rotation="0">
    <properties>
      <property name="id" value="jan_telo"/>
      <property name="dialog_id" value="jan_telo_intro"/>
    </properties>
   </object>
-  <object id="5" name="warp_north" type="Warp" x="240" y="0" width="16" height="16" visible="1" rotation="0">
+  <object id="7" name="warp_north" type="Warp" x="240" y="0" width="16" height="16" visible="1" rotation="0">
    <properties>
      <property name="target_map" value="ma_lete"/>
      <property name="target_spawn" value="from_ma_telo"/>

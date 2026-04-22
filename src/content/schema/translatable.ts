@@ -1,4 +1,4 @@
-import { z } from 'zod';
+import { z } from "zod";
 
 /**
  * A translatable string — authored as English, filled with canonical Toki
@@ -10,8 +10,8 @@ import { z } from 'zod';
  * the same Zod schema vets authored spine files and generated output.
  */
 export const translatable = z.object({
-  en: z.string().min(1, 'en required'),
-  tp: z.string().optional(),
+    en: z.string().min(1, "en required"),
+    tp: z.string().optional(),
 });
 export type Translatable = z.infer<typeof translatable>;
 
@@ -21,9 +21,9 @@ export type Translatable = z.infer<typeof translatable>;
  * is already vetted. Use for names, move keywords, type words, etc.
  */
 export const translatableWord = z
-  .object({
-    en: z.string().regex(/^\S+$/, 'single word required'),
-    tp: z.string().optional(),
-  })
-  .describe('single word — exempt from Tatoeba validation');
+    .object({
+        en: z.string().regex(/^\S+$/, "single word required"),
+        tp: z.string().optional(),
+    })
+    .describe("single word — exempt from Tatoeba validation");
 export type TranslatableWord = z.infer<typeof translatableWord>;

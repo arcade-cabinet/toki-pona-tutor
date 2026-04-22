@@ -11,6 +11,7 @@ import canvasPkg from 'canvas';
 import { readFile } from 'node:fs/promises';
 import { PNG } from 'pngjs';
 import type { ParsedTileset, TmjMap, TmjObject } from './types';
+import { tilesetGidSpan } from './palette';
 
 const { createCanvas, loadImage } = canvasPkg;
 
@@ -240,7 +241,7 @@ function findTileset(
   }
   if (!best) return undefined;
   const local = gid - best.firstgid;
-  if (local >= best.ts.tileCount) return undefined;
+  if (local >= tilesetGidSpan(best.ts)) return undefined;
   return best;
 }
 

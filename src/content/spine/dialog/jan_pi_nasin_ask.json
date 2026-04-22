@@ -2,8 +2,6 @@
   "id": "jan_pi_nasin_ask",
   "npc_id": "jan_pi_nasin",
   "priority": 0,
-  "beats": [
-    { "text": { "en": "Let's go!" }, "mood": "thinking", "glyph": "nasin" }
-  ],
+  "beats": [{ "text": { "en": "Let's go!" }, "mood": "thinking", "glyph": "nasin" }],
   "triggers": {}
 }

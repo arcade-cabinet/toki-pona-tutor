@@ -20,18 +20,22 @@
  * (flag `quest_<id>_done`). In-progress counts live in preferences
  * under `quest.<id>.count`.
  */
+import { SIDE_QUEST_CONFIGS } from "../../content/gameplay";
 
-export type QuestStatus = 'pending' | 'active' | 'completed';
+export type QuestStatus = "pending" | "active" | "completed";
 
 export type QuestGoal =
-    | { kind: 'catch_count'; speciesId: string; target: number }
-    | { kind: 'catch_any_in_biome'; biome: string; target: number }
-    | { kind: 'defeat_trainer'; npcId: string }
-    | { kind: 'deliver_item'; itemId: string; toNpcId: string };
+    | { kind: "catch_count"; speciesId: string; target: number }
+    | { kind: "catch_any_in_biome"; biome: string; target: number }
+    | { kind: "defeat_trainer"; npcId: string }
+    | { kind: "deliver_item"; itemId: string; toNpcId: string };
 
 export interface QuestDef {
     id: string;
     giverNpcId: string;
+    mapId?: string;
+    title?: string;
+    summary?: string;
     goal: QuestGoal;
     reward: {
         xp?: number;
@@ -47,11 +51,11 @@ export interface QuestState {
 }
 
 export type QuestEvent =
-    | { type: 'accept' }
-    | { type: 'catch'; speciesId: string; biome?: string }
-    | { type: 'defeat'; npcId: string }
-    | { type: 'deliver'; itemId: string; toNpcId: string }
-    | { type: 'collect_reward' };
+    | { type: "accept" }
+    | { type: "catch"; speciesId: string; biome?: string }
+    | { type: "defeat"; npcId: string }
+    | { type: "deliver"; itemId: string; toNpcId: string }
+    | { type: "collect_reward" };
 
 /**
  * Given a quest definition, the current state, and an incoming event,
@@ -70,31 +74,31 @@ export function advanceQuest(
     state: QuestState,
     event: QuestEvent,
 ): { state: QuestState; grantReward: boolean } {
-    if (event.type === 'accept') {
-        if (state.status === 'pending') {
-            return { state: { status: 'active', progress: 0 }, grantReward: false };
+    if (event.type === "accept") {
+        if (state.status === "pending") {
+            return { state: { status: "active", progress: 0 }, grantReward: false };
         }
         return { state, grantReward: false };
     }
 
-    if (event.type === 'collect_reward') {
-        if (state.status === 'active' && isGoalMet(def, state)) {
-            return { state: { status: 'completed', progress: state.progress }, grantReward: true };
+    if (event.type === "collect_reward") {
+        if (state.status === "active" && isGoalMet(def, state)) {
+            return { state: { status: "completed", progress: state.progress }, grantReward: true };
         }
         return { state, grantReward: false };
     }
 
-    if (state.status !== 'active') return { state, grantReward: false };
+    if (state.status !== "active") return { state, grantReward: false };
 
     const newProgress = progressDelta(def, state, event);
     if (newProgress === state.progress) return { state, grantReward: false };
 
-    return { state: { status: 'active', progress: newProgress }, grantReward: false };
+    return { state: { status: "active", progress: newProgress }, grantReward: false };
 }
 
 export function isGoalMet(def: QuestDef, state: QuestState): boolean {
     const { goal } = def;
-    if (goal.kind === 'catch_count' || goal.kind === 'catch_any_in_biome') {
+    if (goal.kind === "catch_count" || goal.kind === "catch_any_in_biome") {
         return state.progress >= goal.target;
     }
     return state.progress >= 1;
@@ -103,22 +107,22 @@ export function isGoalMet(def: QuestDef, state: QuestState): boolean {
 function progressDelta(def: QuestDef, state: QuestState, event: QuestEvent): number {
     const { goal } = def;
 
-    if (event.type === 'catch') {
-        if (goal.kind === 'catch_count' && event.speciesId === goal.speciesId) {
+    if (event.type === "catch") {
+        if (goal.kind === "catch_count" && event.speciesId === goal.speciesId) {
             return Math.min(state.progress + 1, goal.target);
         }
-        if (goal.kind === 'catch_any_in_biome' && event.biome === goal.biome) {
+        if (goal.kind === "catch_any_in_biome" && event.biome === goal.biome) {
             return Math.min(state.progress + 1, goal.target);
         }
     }
 
-    if (event.type === 'defeat' && goal.kind === 'defeat_trainer' && event.npcId === goal.npcId) {
+    if (event.type === "defeat" && goal.kind === "defeat_trainer" && event.npcId === goal.npcId) {
         return 1;
     }
 
     if (
-        event.type === 'deliver' &&
-        goal.kind === 'deliver_item' &&
+        event.type === "deliver" &&
+        goal.kind === "deliver_item" &&
         event.itemId === goal.itemId &&
         event.toNpcId === goal.toNpcId
     ) {
@@ -126,4 +130,21 @@ function progressDelta(def: QuestDef, state: QuestState, event: QuestEvent): num
     }
 
     return state.progress;
+}
+
+export function questGoalTarget(goal: QuestGoal): number {
+    if (goal.kind === "catch_count" || goal.kind === "catch_any_in_biome") {
+        return goal.target;
+    }
+    return 1;
+}
+
+export function questDisplayTitle(def: QuestDef): string {
+    return def.title ?? def.id.replace(/_/g, " ");
+}
+
+export const SIDE_QUESTS = SIDE_QUEST_CONFIGS satisfies readonly QuestDef[];
+
+export function getQuestById(questId: string): QuestDef | null {
+    return SIDE_QUESTS.find((quest) => quest.id === questId) ?? null;
 }

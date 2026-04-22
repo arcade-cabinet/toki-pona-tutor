@@ -13,27 +13,65 @@ import { test, expect } from '@playwright/test';
  * pipeline with the correct base path. If the CI build used the wrong
  * base, the font + token would 404 and this assertion would fail.
  *
- * `toHaveScreenshot` captures a visual-regression anchor of the
- * opening scene — committed under
- * `tests/e2e/smoke/boot.spec.ts-snapshots/` on first run, compared on
- * every subsequent run. Small pixel deltas are tolerated via the
- * project-level `maxDiffPixels` config in playwright.config.ts.
+ * Visual artifacts live in the full suite's visual-audit spec. Smoke
+ * stays platform-portable: assertions only.
  */
 
-test('boots on the starter map with brand chrome applied', async ({ page }) => {
-    await page.goto('/poki-soweli/');
+test('boots on the starter map and shows the title menu with brand chrome applied', async ({ page }) => {
+    const pageErrors: string[] = [];
+    const consoleErrors: string[] = [];
 
-    // Wait for engine + canvas + current player to all resolve.
-    await page.waitForFunction(() => window.__POKI__?.ready === true, {
-        timeout: 30_000,
+    page.on('pageerror', (error) => {
+        pageErrors.push(error.message);
+    });
+    page.on('console', (message) => {
+        if (message.type() === 'error') {
+            consoleErrors.push(message.text());
+        }
     });
 
-    // Player was actually assigned an id.
-    const playerId = await page.evaluate(() => window.__POKI__?.playerId ?? null);
-    expect(playerId).toMatch(/^[a-z0-9_-]+$/i);
+    // Local dev/preview boot at `/`; the `/poki-soweli/` subpath is
+    // reserved for Pages builds only.
+    await page.goto('/');
 
-    // Canvas element is visible in the DOM.
+    await expect(page.locator('.rpg-ui-title-screen-title')).toContainText('poki soweli', {
+        timeout: 30_000,
+    });
+    await expect(page.locator('meta[name="description"]')).toHaveAttribute('content', /creature-catching RPG/);
+    await expect(page.locator('link[rel="manifest"]')).toHaveAttribute('href', /manifest\.json$/);
+    await expect(page.locator('link[rel="icon"][sizes="32x32"]')).toHaveAttribute(
+        'href',
+        /icons\/poki-soweli-32\.png$/,
+    );
+    await expect(page.locator('link[rel="apple-touch-icon"]')).toHaveAttribute(
+        'href',
+        /icons\/poki-soweli-192\.png$/,
+    );
+    await expect(page.locator('main[aria-label="poki soweli game"]')).toBeVisible();
+    await expect(page.locator('#rpg')).toHaveAttribute('role', 'application');
+    await expect(page.locator('#rpg')).toHaveAttribute('aria-label', 'poki soweli game canvas');
     await expect(page.locator('#rpg canvas')).toBeVisible();
+
+    const hasDebugSurface = await page.evaluate(() => Boolean(window.__POKI__));
+    if (hasDebugSurface) {
+        // Wait for engine + canvas + current player to all resolve.
+        await page.waitForFunction(() => window.__POKI__?.ready === true, {
+            timeout: 30_000,
+        });
+
+        // Keep the boot surface deterministic: no existing save should mean
+        // a fresh title menu with New + Settings only.
+        await page.evaluate(() => window.__POKI__!.testing.resetPersistence({ includeSaves: true }));
+        await page.reload();
+        await page.waitForFunction(() => window.__POKI__?.ready === true, {
+            timeout: 30_000,
+        });
+
+        // Player was actually assigned an id.
+        const playerId = await page.evaluate(() => window.__POKI__?.playerId ?? null);
+        expect(playerId).toMatch(/^[a-z0-9_-]+$/i);
+        await expect(page.locator('#rpg canvas')).toBeVisible();
+    }
 
     // Brand CSS resolved — --poki-ink is the token every panel derives
     // its text color from. If fonts.css / brand.css didn't load at the
@@ -43,7 +81,16 @@ test('boots on the starter map with brand chrome applied', async ({ page }) => {
     );
     expect(inkColor).not.toBe('');
 
-    // Visual regression belongs in the full Playwright suite (where
-    // we can maintain per-platform baselines against a consistent CI
-    // runner image). Smoke stays platform-portable: assertions only.
+    await expect(page.locator('.rpg-ui-title-screen-menu .rpg-ui-menu-item').nth(0)).toContainText('open sin');
+    await expect(page.locator('.rpg-ui-title-screen-menu .rpg-ui-menu-item').nth(1)).toContainText('nasin');
+    await expect(page.locator('.rpg-ui-title-screen-menu .rpg-ui-menu-item').nth(2)).toContainText('pini');
+
+    // Let late asset/bootstrap work settle; smoke should fail on real browser
+    // exceptions rather than logging them after the assertion phase ends.
+    await page.waitForTimeout(250);
+    expect(pageErrors).toEqual([]);
+    expect(consoleErrors).toEqual([]);
+
+    // Visual artifacts belong in the full Playwright suite. Smoke stays
+    // platform-portable: assertions only.
 });

@@ -1,0 +1,105 @@
+{
+  "types": ["seli", "telo", "kasi", "lete", "wawa"],
+  "type_matchups": {
+    "default_multiplier": 1,
+    "attacker_defaults": {
+      "lete": 0.5,
+      "wawa": 1
+    },
+    "matrix": {
+      "seli": {
+        "kasi": 2,
+        "telo": 0.5
+      },
+      "telo": {
+        "seli": 2,
+        "kasi": 0.5
+      },
+      "kasi": {
+        "telo": 2,
+        "seli": 0.5
+      }
+    },
+    "defender_tag_overrides": [
+      {
+        "attacker": "lete",
+        "defender_tag": "waso",
+        "multiplier": 2
+      }
+    ]
+  },
+  "status_effects": {
+    "application_rules": [
+      {
+        "move_type": "seli",
+        "status_id": "burn",
+        "chance": 0.25,
+        "turns": 3,
+        "blocked_by": ["burn", "wet"]
+      },
+      {
+        "move_type": "telo",
+        "status_id": "wet",
+        "chance": 0.3,
+        "turns": 3,
+        "blocked_by": ["wet"]
+      },
+      {
+        "move_type": "lete",
+        "status_id": "frozen",
+        "chance": 1,
+        "turns": 1,
+        "requires": ["wet"],
+        "blocked_by": ["frozen"]
+      }
+    ],
+    "tick_effects": {
+      "burn": {
+        "damage_max_hp_divisor": 16
+      },
+      "frozen": {
+        "skip_next_turn": true
+      }
+    },
+    "damage_multipliers": [
+      {
+        "incoming_type": "lete",
+        "target_status": "wet",
+        "multiplier": 1.5
+      },
+      {
+        "incoming_type": "seli",
+        "target_status": "wet",
+        "multiplier": 0
+      }
+    ]
+  },
+  "encounter": {
+    "probability_per_step": 0.12,
+    "catch_throw_animation_ms": 700,
+    "catch_result_animation_ms": 320
+  },
+  "wild_combat": {
+    "target_hp": {
+      "base_floor": 1,
+      "level_floor": 1,
+      "level_multiplier": 2
+    },
+    "fight_damage": {
+      "attacker_level_floor": 1,
+      "stat_delta_divisor": 6,
+      "base_damage": 8,
+      "level_multiplier": 3,
+      "pre_multiplier_floor": 1,
+      "multiplier_fallback": 1,
+      "multiplier_min": 0,
+      "output_min": 0
+    },
+    "apply_damage": {
+      "target_max_hp_floor": 1,
+      "current_hp_floor": 1,
+      "applied_damage_floor": 1,
+      "target_hp_floor_after_attack": 1
+    }
+  }
+}

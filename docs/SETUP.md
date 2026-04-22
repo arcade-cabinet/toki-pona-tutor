@@ -1,6 +1,6 @@
 ---
 title: Setup
-updated: 2026-04-20
+updated: 2026-04-22
 status: current
 domain: ops
 ---
@@ -17,7 +17,8 @@ Fresh clone → running dev server in under five minutes.
 
 Optional:
 - **Tiled editor** — for *inspecting* `.tmx` maps (authoring is spec-based; Tiled is read-only here)
-- **Android SDK 34 + Java 21 Temurin** — only needed if you're building APKs locally (CI handles the release builds)
+- **Android SDK 34 + Java 21 Temurin** — only needed if you're building APKs locally (CI handles debug APK builds)
+- **actionlint + shellcheck** — only needed for local `pnpm workflow:check` before editing GitHub Actions
 
 ## First-run bootstrap
 
@@ -28,7 +29,7 @@ pnpm install
 pnpm dev
 ```
 
-`pnpm dev` opens a Vite server at http://localhost:5173 in RPG.js v5 standalone mode (client + server in one process). No separate backend.
+`pnpm dev` opens a Vite server at `http://localhost:5173/` in RPG.js v5 standalone mode (client + server in one process). No separate backend.
 
 ## Validating your changes
 
@@ -36,18 +37,24 @@ The three commands you'll run most often:
 
 ```sh
 pnpm validate    # content-pipeline gate (validate-challenges + validate-tp + author:verify)
-pnpm typecheck   # tsc --noEmit across src/ and tests/
+pnpm typecheck   # tsc --noEmit across src/vite + map-authoring + unit/integration TS
 pnpm build       # prebuild (validate + build-spine + typecheck) then vite build
 ```
 
 `pnpm validate` runs in CI on every PR; CI failure here almost always maps to a local `pnpm validate` rerun reproducing the error.
+
+If you touch `.github/workflows/*.yml`, also run:
+
+```sh
+pnpm workflow:check   # actionlint + shellcheck over every workflow run: block
+```
 
 ## The content pipeline
 
 Maps and species are **build artifacts**, not hand-edited files. The source of truth is:
 
 - **Maps:** `scripts/map-authoring/specs/<id>.ts` → `pnpm author:build <id>` or `pnpm author:all --all` → emits `src/tiled/<id>.tmx` + `public/assets/maps/<id>.tmj` + preview PNG.
-- **Species / moves / items / dialog / journey:** `src/content/spine/**/*.json` → `pnpm build-spine` → emits `src/content/generated/world.json`.
+- **Species / moves / items / dialog / journey + map object registry:** `src/content/spine/**/*.json` + `public/assets/maps/*.tmj` → `pnpm build-spine` → emits `src/content/generated/world.json`.
 - **Toki Pona strings:** every multi-word `en` field on a translatable goes through the Tatoeba corpus at `src/content/corpus/tatoeba.json`. If `pnpm validate-tp` rejects your sentence, **rewrite the EN, don't hand-author the TP**.
 
 See `docs/ARCHITECTURE.md` for the full shape.
@@ -59,15 +66,26 @@ When adding or updating a sprite sheet under `public/assets/`, follow `docs/SPRI
 ## Running tests
 
 ```sh
-npx vitest run tests/build-time/      # fast unit tests (catch-math, xp-curve, type-matchup, encounter-roll, schema-load)
-npx vitest run tests/e2e/             # browser E2E — currently scaffolding; mostly todo until V5-01 inspector
+pnpm test:unit            # pure/build-time suite, serialized for singleton safety
+pnpm test:integration     # in-process RPG.js engine tests via @rpgjs/testing
+pnpm test:e2e:smoke       # real-browser boot smoke (matches CI)
+pnpm test:e2e:full        # broader Playwright suite (local)
 ```
 
 ## Common gotchas
 
-- **`sqlite` peer-dep warning on install:** `@capacitor-community/sqlite@6` pins `@capacitor/core@^6` but we're on `@capacitor/core@8`. pnpm tolerates this; npm doesn't. If you see `ERESOLVE` errors, you're running `npm install` instead of `pnpm install`.
+- **Dev server or smoke spec uses the wrong URL:** local dev/preview is `/`, GitHub Pages is `/poki-soweli/`, and Capacitor is `./`. If you hit `http://localhost:5173/poki-soweli/` in local dev, you're testing the wrong base.
+- **Playwright reports the wrong app or port 5173 is occupied:** the E2E config starts this repo with `vite --strictPort` on `127.0.0.1:5173` and no longer reuses arbitrary servers by default. Stop the conflicting server or run with an explicit port, for example `E2E_PORT=5174 pnpm test:e2e:full`.
 - **Dev server fails with `window is not defined` at startup:** you imported from `@rpgjs/action-battle` directly instead of `/server` or `/client` subpath. See `src/types/rpgjs-tiledmap.d.ts`.
 - **`pnpm typecheck` filters `@rpgjs/common/src/rooms/WorldMaps.ts`:** that's an upstream TS bug; our grep in the typecheck script hides it. Don't remove the filter.
+- **Local Android build fails immediately:** build the Capacitor bundle first, then ensure the Android scaffold exists before Gradle:
+
+```sh
+CAPACITOR=true pnpm build
+pnpm exec cap add android    # only if android/ is missing
+pnpm exec cap sync android
+cd android && ./gradlew assembleDebug
+```
 
 ## Worktrees for parallel agent work
 

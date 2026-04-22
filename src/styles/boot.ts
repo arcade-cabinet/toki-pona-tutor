@@ -8,18 +8,21 @@
  * This file owns only the side-effect wiring.
  */
 
-import { getHighContrast } from '../platform/persistence/settings';
-import { applyBrandClasses } from './brand-preferences';
+import { getAccessibleMode, getHighContrast } from "../platform/persistence/settings";
+import { applyBrandClasses } from "./brand-preferences";
 
 /**
  * Apply the current brand preferences to <body>. Call at:
  *   - client boot (standalone.ts after startGame)
- *   - any settings-change event that flips high-contrast
+ *   - any settings-change event that flips high-contrast or accessible mode
  *
  * No-op outside the browser (SSR / vitest-node).
  */
 export async function applyBrandBoot(): Promise<void> {
-    if (typeof document === 'undefined' || !document.body) return;
-    const highContrast = await getHighContrast();
-    applyBrandClasses(document.body, { highContrast });
+    if (typeof document === "undefined" || !document.body) return;
+    const [highContrast, accessibleMode] = await Promise.all([
+        getHighContrast(),
+        getAccessibleMode(),
+    ]);
+    applyBrandClasses(document.body, { highContrast, accessibleMode });
 }

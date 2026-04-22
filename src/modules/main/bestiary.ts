@@ -23,7 +23,7 @@ export type BestiaryRecord = {
 
 export type BestiaryState = Record<string, BestiaryRecord>;
 
-export type BestiaryTier = 'unknown' | 'seen' | 'caught';
+export type BestiaryTier = "unknown" | "seen" | "caught";
 
 export function emptyBestiary(): BestiaryState {
     return {};
@@ -31,10 +31,10 @@ export function emptyBestiary(): BestiaryState {
 
 export function bestiaryTier(state: BestiaryState, speciesId: string): BestiaryTier {
     const rec = state[speciesId];
-    if (!rec) return 'unknown';
-    if (rec.caughtAt) return 'caught';
-    if (rec.seenAt) return 'seen';
-    return 'unknown';
+    if (!rec) return "unknown";
+    if (rec.caughtAt) return "caught";
+    if (rec.seenAt) return "seen";
+    return "unknown";
 }
 
 function minIso(a: string | undefined, b: string): string {
@@ -42,11 +42,7 @@ function minIso(a: string | undefined, b: string): string {
     return a < b ? a : b;
 }
 
-export function markSeen(
-    state: BestiaryState,
-    speciesId: string,
-    at: Date,
-): BestiaryState {
+export function markSeen(state: BestiaryState, speciesId: string, at: Date): BestiaryState {
     const iso = at.toISOString();
     const prev = state[speciesId];
     const next: BestiaryRecord = {
@@ -56,11 +52,7 @@ export function markSeen(
     return { ...state, [speciesId]: next };
 }
 
-export function markCaught(
-    state: BestiaryState,
-    speciesId: string,
-    at: Date,
-): BestiaryState {
+export function markCaught(state: BestiaryState, speciesId: string, at: Date): BestiaryState {
     const iso = at.toISOString();
     const prev = state[speciesId];
     const next: BestiaryRecord = {
@@ -76,17 +68,12 @@ export function isFullyDiscovered(
     allSpeciesIds: ReadonlyArray<string>,
 ): boolean {
     if (allSpeciesIds.length === 0) return true;
-    return allSpeciesIds.every((id) => bestiaryTier(state, id) === 'caught');
+    return allSpeciesIds.every((id) => bestiaryTier(state, id) === "caught");
 }
 
-export function progressRatio(
-    state: BestiaryState,
-    allSpeciesIds: ReadonlyArray<string>,
-): number {
+export function progressRatio(state: BestiaryState, allSpeciesIds: ReadonlyArray<string>): number {
     if (allSpeciesIds.length === 0) return 0;
-    const caught = allSpeciesIds.filter(
-        (id) => bestiaryTier(state, id) === 'caught',
-    ).length;
+    const caught = allSpeciesIds.filter((id) => bestiaryTier(state, id) === "caught").length;
     return caught / allSpeciesIds.length;
 }
 

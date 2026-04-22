@@ -17,6 +17,17 @@
  * is responsible for saving / copying / downloading the output.
  */
 
+import type { RpgPlayer } from "@rpgjs/server";
+import {
+    DICTIONARY_EXPORT_CONFIG,
+    FINAL_BOSS_CONFIG,
+    VOCABULARY_SCREEN_CONFIG,
+} from "../../content/gameplay";
+import { formatGameplayTemplate } from "../../content/gameplay/templates";
+import { getFlag, listMasteredWordRecords } from "../../platform/persistence/queries";
+
+export const DICTIONARY_EXPORT_EVENT = "poki:dictionary-export";
+
 export interface MasteredWord {
     tp: string;
     sightings: number;
@@ -29,6 +40,12 @@ export interface ExportSnapshot {
     journeyCleared: boolean;
     ngPlusCount: number;
     exportedAt: string; // ISO
+}
+
+export interface DictionaryExportPayload {
+    textCard: string;
+    svgCard: string;
+    filename: string;
 }
 
 /**
@@ -47,23 +64,19 @@ export interface ExportSnapshot {
  * // → (multi-line string with the player's stats)
  */
 export function exportTextCard(snap: ExportSnapshot): string {
+    const config = DICTIONARY_EXPORT_CONFIG.textCard;
     const lines: string[] = [];
-    const badge = snap.journeyCleared
-        ? snap.ngPlusCount > 0
-            ? `★ akesi sewi defeated × ${snap.ngPlusCount + 1}`
-            : '★ akesi sewi defeated'
-        : '… journey in progress';
 
-    lines.push('═══ lipu nimi — poki soweli ═══');
-    lines.push(`  jan ${snap.playerName}`);
-    lines.push(`  ${badge}`);
-    lines.push(`  tenpo pi pana: ${snap.exportedAt.slice(0, 10)}`);
-    lines.push(`  nimi sona: ${snap.words.length}`);
-    lines.push('');
+    lines.push(config.header);
+    lines.push(formatGameplayTemplate(config.playerTemplate, { player: snap.playerName }));
+    lines.push(`  ${textJourneyBadge(snap)}`);
+    lines.push(formatGameplayTemplate(config.exportedAtTemplate, { date: exportDate(snap) }));
+    lines.push(formatGameplayTemplate(config.wordCountTemplate, { count: snap.words.length }));
+    lines.push("");
 
     if (snap.words.length === 0) {
-        lines.push('  (nimi ala — catch and talk to find them)');
-        return lines.join('\n');
+        lines.push(config.emptyWords);
+        return lines.join("\n");
     }
 
     // Top-20 by sightings, tie-break by mastered_at asc (older first so
@@ -73,14 +86,19 @@ export function exportTextCard(snap: ExportSnapshot): string {
             if (b.sightings !== a.sightings) return b.sightings - a.sightings;
             return a.mastered_at.localeCompare(b.mastered_at);
         })
-        .slice(0, 20);
+        .slice(0, config.topWordsLimit);
 
-    lines.push('  ═ nimi lukin mute ═');
+    lines.push(config.topWordsHeader);
     for (const w of topSighted) {
-        lines.push(`    ${w.tp.padEnd(14)} ${'·'.repeat(Math.min(10, w.sightings))}`);
+        lines.push(
+            formatGameplayTemplate(config.wordRowTemplate, {
+                word: w.tp.padEnd(config.wordColumnWidth),
+                marks: config.sightingMark.repeat(Math.min(config.sightingMarkCap, w.sightings)),
+            }),
+        );
     }
 
-    return lines.join('\n');
+    return lines.join("\n");
 }
 
 /**
@@ -92,48 +110,146 @@ export function exportTextCard(snap: ExportSnapshot): string {
  * Pure: no DOM, no canvas. Returns the full SVG source.
  */
 export function exportSvgCard(snap: ExportSnapshot): string {
+    const config = DICTIONARY_EXPORT_CONFIG.svgCard;
     const top = [...snap.words]
         .sort((a, b) => b.sightings - a.sightings)
-        .slice(0, 24);
+        .slice(0, config.grid.wordLimit);
 
-    // Word cells — 6 columns × 4 rows, 60×80 each starting at (20, 260).
-    const cellW = 60;
-    const cellH = 80;
-    const gridX = 20;
-    const gridY = 260;
-    const cols = 6;
-    const cells = top.map((w, i) => {
-        const x = gridX + (i % cols) * cellW;
-        const y = gridY + Math.floor(i / cols) * cellH;
-        const fontSize = 11 + Math.min(6, Math.floor(w.sightings / 3));
-        return `<text x="${x + cellW / 2}" y="${y + cellH / 2}" font-size="${fontSize}" fill="#f5e6c8" text-anchor="middle" font-family="serif">${escapeXml(w.tp)}</text>`;
-    }).join('');
+    const cells = top
+        .map((w, i) => {
+            const x = config.grid.x + (i % config.grid.columns) * config.grid.cellWidth;
+            const y = config.grid.y + Math.floor(i / config.grid.columns) * config.grid.cellHeight;
+            const fontSize =
+                config.grid.wordFontBase +
+                Math.min(
+                    config.grid.wordFontBonusCap,
+                    Math.floor(w.sightings / config.grid.wordFontSightingDivisor),
+                );
+            return svgText({
+                x: x + config.grid.cellWidth / 2,
+                y: y + config.grid.cellHeight / 2,
+                fontSize,
+                fill: config.grid.wordFill,
+                fontFamily: config.fontFamily,
+                text: w.tp,
+            });
+        })
+        .join("");
 
     const clearedBadge = snap.journeyCleared
-        ? `<text x="200" y="220" font-size="14" fill="#e5a42c" text-anchor="middle" font-family="serif">akesi sewi — moli</text>`
-        : '';
+        ? svgText({
+              ...config.clearedBadge,
+              fontFamily: config.fontFamily,
+              text: config.clearedBadge.text ?? "",
+          })
+        : "";
 
     return [
-        `<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 600" width="400" height="600">`,
-        `<rect width="400" height="600" fill="#1b1510"/>`,
-        `<rect x="10" y="10" width="380" height="580" fill="none" stroke="#c9a268" stroke-width="2"/>`,
-        `<text x="200" y="60" font-size="22" fill="#f5e6c8" text-anchor="middle" font-family="serif">lipu nimi</text>`,
-        `<text x="200" y="90" font-size="14" fill="#c9a268" text-anchor="middle" font-family="serif">poki soweli</text>`,
-        `<text x="200" y="140" font-size="16" fill="#f5e6c8" text-anchor="middle" font-family="serif">jan ${escapeXml(snap.playerName)}</text>`,
-        `<text x="200" y="185" font-size="48" fill="#86a856" text-anchor="middle" font-family="serif">${snap.words.length}</text>`,
-        `<text x="200" y="205" font-size="11" fill="#c9a268" text-anchor="middle" font-family="serif">nimi sona</text>`,
+        `<svg xmlns="http://www.w3.org/2000/svg" viewBox="${config.viewBox}" width="${config.width}" height="${config.height}">`,
+        `<rect width="${config.width}" height="${config.height}" fill="${config.backgroundFill}"/>`,
+        `<rect x="${config.border.x}" y="${config.border.y}" width="${config.border.width}" height="${config.border.height}" fill="none" stroke="${config.border.stroke}" stroke-width="${config.border.strokeWidth}"/>`,
+        svgText({ ...config.title, fontFamily: config.fontFamily, text: config.title.text ?? "" }),
+        svgText({
+            ...config.subtitle,
+            fontFamily: config.fontFamily,
+            text: config.subtitle.text ?? "",
+        }),
+        svgText({
+            ...config.player,
+            fontFamily: config.fontFamily,
+            text: formatGameplayTemplate(config.player.template ?? "{player}", {
+                player: snap.playerName,
+            }),
+        }),
+        svgText({
+            ...config.wordCount,
+            fontFamily: config.fontFamily,
+            text: String(snap.words.length),
+        }),
+        svgText({
+            ...config.wordCountLabel,
+            fontFamily: config.fontFamily,
+            text: config.wordCountLabel.text ?? "",
+        }),
         clearedBadge,
         cells,
-        `<text x="200" y="585" font-size="9" fill="#c9a268" text-anchor="middle" font-family="serif">${snap.exportedAt.slice(0, 10)}</text>`,
+        svgText({ ...config.date, fontFamily: config.fontFamily, text: exportDate(snap) }),
         `</svg>`,
-    ].join('');
+    ].join("");
+}
+
+export async function buildDictionaryExportSnapshot(
+    options: {
+        playerName?: string;
+        exportedAt?: string;
+        masteryThreshold?: number;
+    } = {},
+): Promise<ExportSnapshot> {
+    const [words, cleared] = await Promise.all([
+        listMasteredWordRecords(
+            options.masteryThreshold ?? VOCABULARY_SCREEN_CONFIG.masteryThreshold,
+        ),
+        getFlag(FINAL_BOSS_CONFIG.clearedFlag),
+    ]);
+    return {
+        playerName: options.playerName ?? DICTIONARY_EXPORT_CONFIG.runtime.defaultPlayerName,
+        words,
+        journeyCleared: Boolean(cleared),
+        ngPlusCount: 0,
+        exportedAt: options.exportedAt ?? new Date().toISOString(),
+    };
+}
+
+export async function showDictionaryExport(player: RpgPlayer): Promise<DictionaryExportPayload> {
+    const snapshot = await buildDictionaryExportSnapshot();
+    const payload: DictionaryExportPayload = {
+        textCard: exportTextCard(snapshot),
+        svgCard: exportSvgCard(snapshot),
+        filename: DICTIONARY_EXPORT_CONFIG.runtime.downloadFilename,
+    };
+    player.emit(DICTIONARY_EXPORT_EVENT, payload);
+    await player.showText(payload.textCard);
+    return payload;
+}
+
+export function isDictionaryExportPayload(value: unknown): value is DictionaryExportPayload {
+    if (!value || typeof value !== "object") return false;
+    const payload = value as Partial<DictionaryExportPayload>;
+    return (
+        typeof payload.textCard === "string" &&
+        typeof payload.svgCard === "string" &&
+        typeof payload.filename === "string" &&
+        payload.filename.endsWith(".svg")
+    );
+}
+
+function textJourneyBadge(snap: ExportSnapshot): string {
+    const config = DICTIONARY_EXPORT_CONFIG.textCard;
+    if (!snap.journeyCleared) return config.inProgressBadge;
+    if (snap.ngPlusCount <= 0) return config.clearedBadge;
+    return formatGameplayTemplate(config.ngPlusBadgeTemplate, { count: snap.ngPlusCount + 1 });
+}
+
+function exportDate(snap: ExportSnapshot): string {
+    return snap.exportedAt.slice(0, 10);
+}
+
+function svgText(node: {
+    x: number;
+    y: number;
+    fontSize: number;
+    fill: string;
+    fontFamily: string;
+    text: string;
+}): string {
+    return `<text x="${node.x}" y="${node.y}" font-size="${node.fontSize}" fill="${node.fill}" text-anchor="middle" font-family="${escapeXml(node.fontFamily)}">${escapeXml(node.text)}</text>`;
 }
 
 function escapeXml(s: string): string {
     return s
-        .replace(/&/g, '&amp;')
-        .replace(/</g, '&lt;')
-        .replace(/>/g, '&gt;')
-        .replace(/"/g, '&quot;')
-        .replace(/'/g, '&apos;');
+        .replace(/&/g, "&amp;")
+        .replace(/</g, "&lt;")
+        .replace(/>/g, "&gt;")
+        .replace(/"/g, "&quot;")
+        .replace(/'/g, "&apos;");
 }

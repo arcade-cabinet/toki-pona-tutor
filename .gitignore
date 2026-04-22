@@ -141,6 +141,8 @@ vite.config.ts.timestamp-*
 .playwright-mcp/
 *.png
 !public/**/*.png
+!docs/screenshots/
+!docs/screenshots/**/*.png
 # Playwright writes visual-regression baselines under
 # tests/e2e/*/*-snapshots/*.png on first run and compares them
 # thereafter. Commit them so CI has a deterministic baseline.
@@ -177,6 +179,8 @@ tests/e2e/__screenshots__/
 .godot/
 .ralph-tui/
 android/
+!.maestro/android/
+!.maestro/android/**/*.yaml
 build/
 reports/
 server/

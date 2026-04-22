@@ -38,7 +38,7 @@ export interface ChestDef {
     openFlag: string;
 }
 
-export type ChestStatus = 'closed' | 'locked' | 'opened';
+export type ChestStatus = "closed" | "locked" | "opened";
 
 export interface PlayerGateState {
     /** SQLite flags that are set (e.g. `badge_sewi: '1'`). */
@@ -56,12 +56,12 @@ export interface PlayerGateState {
  * // → 'opened' (already opened before)
  */
 export function chestStatus(chest: ChestDef, player: PlayerGateState): ChestStatus {
-    if (player.flags[chest.openFlag]) return 'opened';
-    if (chest.requiredFlag && !player.flags[chest.requiredFlag]) return 'locked';
+    if (player.flags[chest.openFlag]) return "opened";
+    if (chest.requiredFlag && !player.flags[chest.requiredFlag]) return "locked";
     if (chest.requiredMasteredWord && !player.masteredWords.has(chest.requiredMasteredWord)) {
-        return 'locked';
+        return "locked";
     }
-    return 'closed';
+    return "closed";
 }
 
 /**
@@ -107,20 +107,25 @@ export function openChest(
     lockedReason?: string;
 } {
     const status = chestStatus(chest, player);
-    if (status === 'opened') {
+    if (status === "opened") {
         return { granted: null, newFlags: player.flags, alreadyOpened: true };
     }
-    if (status === 'locked') {
+    if (status === "locked") {
         const reason = chest.requiredFlag
             ? `flag:${chest.requiredFlag}`
             : `word:${chest.requiredMasteredWord}`;
-        return { granted: null, newFlags: player.flags, alreadyOpened: false, lockedReason: reason };
+        return {
+            granted: null,
+            newFlags: player.flags,
+            alreadyOpened: false,
+            lockedReason: reason,
+        };
     }
 
     const granted = rollLoot(chest, rng);
     return {
         granted,
-        newFlags: { ...player.flags, [chest.openFlag]: '1' },
+        newFlags: { ...player.flags, [chest.openFlag]: "1" },
         alreadyOpened: false,
     };
 }

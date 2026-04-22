@@ -11,14 +11,15 @@
   ],
   "catch_rate": 0.44,
   "xp_yield": 46,
+  "item_drop": { "item_id": "poki_lili", "chance": 0.15, "count": 1 },
   "sprite": {
     "src": "/assets/animals/bat.png",
     "frame_width": 16,
     "frame_height": 24,
     "animations": {
-      "fly":    { "row": 0, "col_start": 0, "cols": 5, "fps": 10, "loop": true  },
+      "fly": { "row": 0, "col_start": 0, "cols": 5, "fps": 10, "loop": true },
       "attack": { "row": 1, "col_start": 0, "cols": 4, "fps": 12, "loop": false },
-      "idle":   { "row": 2, "col_start": 0, "cols": 1, "fps": 3,  "loop": true  }
+      "idle": { "row": 2, "col_start": 0, "cols": 1, "fps": 3, "loop": true }
     },
     "tier": "common"
   }

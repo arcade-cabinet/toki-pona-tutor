@@ -438,6 +438,11 @@
       ],
       "catch_rate": 0.45,
       "xp_yield": 55,
+      "item_drop": {
+        "item_id": "kili",
+        "chance": 0.35,
+        "count": 1
+      },
       "sprite_frame": 0,
       "portrait_src": "/assets/creatures/goblin/goblin.png",
       "sprite": {
@@ -821,6 +826,11 @@
       ],
       "catch_rate": 0.42,
       "xp_yield": 58,
+      "item_drop": {
+        "item_id": "poki_lili",
+        "chance": 0.2,
+        "count": 1
+      },
       "sprite_frame": 0,
       "portrait_src": "/assets/creatures/goblin/slinger.png",
       "sprite": {
@@ -2439,6 +2449,11 @@
       ],
       "catch_rate": 0.48,
       "xp_yield": 48,
+      "item_drop": {
+        "item_id": "kili",
+        "chance": 0.15,
+        "count": 1
+      },
       "sprite": {
         "src": "/assets/animals/rat.png",
         "frame_width": 32,
@@ -2536,6 +2551,11 @@
       ],
       "catch_rate": 0.46,
       "xp_yield": 42,
+      "item_drop": {
+        "item_id": "kili",
+        "chance": 0.75,
+        "count": 1
+      },
       "sprite": {
         "src": "/assets/animals/squirrel.png",
         "frame_width": 32,
@@ -2778,6 +2798,11 @@
       ],
       "catch_rate": 0.4,
       "xp_yield": 52,
+      "item_drop": {
+        "item_id": "kili",
+        "chance": 0.25,
+        "count": 1
+      },
       "sprite": {
         "src": "/assets/animals/cat.png",
         "frame_width": 32,
@@ -3742,6 +3767,11 @@
       ],
       "catch_rate": 0.44,
       "xp_yield": 46,
+      "item_drop": {
+        "item_id": "poki_lili",
+        "chance": 0.15,
+        "count": 1
+      },
       "sprite": {
         "src": "/assets/animals/bat.png",
         "frame_width": 16,
@@ -4160,6 +4190,18 @@
       "sprite_frame": 64
     },
     {
+      "id": "ma",
+      "name": {
+        "en": "ma"
+      },
+      "description": {
+        "en": "land"
+      },
+      "kind": "flavor",
+      "stackable": true,
+      "sprite_frame": 96
+    },
+    {
       "id": "poki_lili",
       "name": {
         "en": "poki"
@@ -4408,6 +4450,102 @@
       "triggers": {}
     },
     {
+      "id": "jan_kasi_nasin_grass",
+      "npc_id": "jan_kasi_nasin",
+      "priority": 0,
+      "beats": [
+        {
+          "text": {
+            "en": "Fresh fruit is good for the health.",
+            "tp": "kili sin li pona tawa sijelo."
+          },
+          "mood": "happy",
+          "glyph": "kasi"
+        },
+        {
+          "text": {
+            "en": "There is a bird here.",
+            "tp": "waso li lon ni."
+          },
+          "mood": "thinking",
+          "glyph": "waso"
+        }
+      ],
+      "triggers": {}
+    },
+    {
+      "id": "jan_kili_tomo_snack",
+      "npc_id": "jan_kili_tomo",
+      "priority": 0,
+      "beats": [
+        {
+          "text": {
+            "en": "Fresh fruit is good for the health.",
+            "tp": "kili sin li pona tawa sijelo."
+          },
+          "mood": "happy",
+          "glyph": "kili"
+        },
+        {
+          "text": {
+            "en": "Ah. Good.",
+            "tp": "a. pona."
+          },
+          "mood": "happy",
+          "glyph": "pona"
+        }
+      ],
+      "triggers": {}
+    },
+    {
+      "id": "jan_kiwen_mountain",
+      "npc_id": "jan_kiwen",
+      "priority": 0,
+      "beats": [
+        {
+          "text": {
+            "en": "This thing is big.",
+            "tp": "ijo ni li suli."
+          },
+          "mood": "thinking",
+          "glyph": "suli"
+        },
+        {
+          "text": {
+            "en": "I'm plenty strong!",
+            "tp": "mi wawa mute!"
+          },
+          "mood": "excited",
+          "glyph": "wawa"
+        }
+      ],
+      "triggers": {}
+    },
+    {
+      "id": "jan_kiwen_suli_cave",
+      "npc_id": "jan_kiwen_suli",
+      "priority": 0,
+      "beats": [
+        {
+          "text": {
+            "en": "This thing is big.",
+            "tp": "ijo ni li suli."
+          },
+          "mood": "thinking",
+          "glyph": "suli"
+        },
+        {
+          "text": {
+            "en": "I'm plenty strong!",
+            "tp": "mi wawa mute!"
+          },
+          "mood": "excited",
+          "glyph": "wawa"
+        }
+      ],
+      "triggers": {}
+    },
+    {
       "id": "jan_lete_intro",
       "npc_id": "jan_lete",
       "when_flags": {
@@ -4462,6 +4600,30 @@
       "triggers": {}
     },
     {
+      "id": "jan_lukin_nasin_watch",
+      "npc_id": "jan_lukin_nasin",
+      "priority": 0,
+      "beats": [
+        {
+          "text": {
+            "en": "Let's see!",
+            "tp": "mi mute o lukin!"
+          },
+          "mood": "thinking",
+          "glyph": "lukin"
+        },
+        {
+          "text": {
+            "en": "I'm not.",
+            "tp": "mi ala."
+          },
+          "mood": "sad",
+          "glyph": "ala"
+        }
+      ],
+      "triggers": {}
+    },
+    {
       "id": "jan_moku_pona_grill",
       "npc_id": "jan_moku_pona",
       "priority": 0,
@@ -4494,6 +4656,30 @@
       "triggers": {}
     },
     {
+      "id": "jan_nasin_sewi_path",
+      "npc_id": "jan_nasin_sewi",
+      "priority": 0,
+      "beats": [
+        {
+          "text": {
+            "en": "Let's go!",
+            "tp": "mi mute o tawa!"
+          },
+          "mood": "excited",
+          "glyph": "tawa"
+        },
+        {
+          "text": {
+            "en": "You need to be strong to do that.",
+            "tp": "jan li pali e ni la ona li wawa."
+          },
+          "mood": "thinking",
+          "glyph": "wawa"
+        }
+      ],
+      "triggers": {}
+    },
+    {
       "id": "jan_olin_telo_quiet",
       "npc_id": "jan_olin_telo",
       "priority": 0,
@@ -4505,6 +4691,30 @@
           },
           "mood": "thinking",
           "glyph": "olin"
+        }
+      ],
+      "triggers": {}
+    },
+    {
+      "id": "jan_palisa_nasin_sign",
+      "npc_id": "jan_palisa_nasin",
+      "priority": 0,
+      "beats": [
+        {
+          "text": {
+            "en": "Let's see!",
+            "tp": "mi mute o lukin!"
+          },
+          "mood": "thinking",
+          "glyph": "lukin"
+        },
+        {
+          "text": {
+            "en": "Let's go!",
+            "tp": "mi mute o tawa!"
+          },
+          "mood": "excited",
+          "glyph": "tawa"
         }
       ],
       "triggers": {}
@@ -4537,6 +4747,126 @@
           },
           "mood": "thinking",
           "glyph": "nasin"
+        }
+      ],
+      "triggers": {}
+    },
+    {
+      "id": "jan_pimeja_suli_torch",
+      "npc_id": "jan_pimeja_suli",
+      "priority": 0,
+      "beats": [
+        {
+          "text": {
+            "en": "Let's see!",
+            "tp": "mi mute o lukin!"
+          },
+          "mood": "thinking",
+          "glyph": "lukin"
+        },
+        {
+          "text": {
+            "en": "I want you to be quiet.",
+            "tp": "wile mi la sina o toki ala."
+          },
+          "mood": "thinking",
+          "glyph": "toki"
+        }
+      ],
+      "triggers": {}
+    },
+    {
+      "id": "jan_poki_lete_cold",
+      "npc_id": "jan_poki_lete",
+      "priority": 0,
+      "beats": [
+        {
+          "text": {
+            "en": "You seem well...",
+            "tp": "lukin la sina pilin pona..."
+          },
+          "mood": "happy",
+          "glyph": "pona"
+        },
+        {
+          "text": {
+            "en": "Let's go!",
+            "tp": "mi mute o tawa!"
+          },
+          "mood": "excited",
+          "glyph": "tawa"
+        }
+      ],
+      "triggers": {}
+    },
+    {
+      "id": "jan_poki_nasin_pack",
+      "npc_id": "jan_poki_nasin",
+      "priority": 0,
+      "beats": [
+        {
+          "text": {
+            "en": "Good choice!",
+            "tp": "wile pona a!"
+          },
+          "mood": "happy",
+          "glyph": "pona"
+        },
+        {
+          "text": {
+            "en": "You seem well...",
+            "tp": "lukin la sina pilin pona..."
+          },
+          "mood": "thinking",
+          "glyph": "pona"
+        }
+      ],
+      "triggers": {}
+    },
+    {
+      "id": "jan_poki_tomo_ready",
+      "npc_id": "jan_poki_tomo",
+      "priority": 0,
+      "beats": [
+        {
+          "text": {
+            "en": "Good choice!",
+            "tp": "wile pona a!"
+          },
+          "mood": "happy",
+          "glyph": "pona"
+        },
+        {
+          "text": {
+            "en": "Let's go!",
+            "tp": "mi mute o tawa!"
+          },
+          "mood": "excited",
+          "glyph": "tawa"
+        }
+      ],
+      "triggers": {}
+    },
+    {
+      "id": "jan_pona_tomo_welcome",
+      "npc_id": "jan_pona_tomo",
+      "priority": 0,
+      "beats": [
+        {
+          "text": {
+            "en": "Ah. Good.",
+            "tp": "a. pona."
+          },
+          "mood": "happy",
+          "glyph": "pona"
+        },
+        {
+          "text": {
+            "en": "Let's go!",
+            "tp": "mi mute o tawa!"
+          },
+          "mood": "excited",
+          "glyph": "tawa"
         }
       ],
       "triggers": {}
@@ -4603,6 +4933,30 @@
       "triggers": {}
     },
     {
+      "id": "jan_sike_telo_plaza",
+      "npc_id": "jan_sike_telo",
+      "priority": 0,
+      "beats": [
+        {
+          "text": {
+            "en": "The shop is open.",
+            "tp": "esun li open."
+          },
+          "mood": "happy",
+          "glyph": "open"
+        },
+        {
+          "text": {
+            "en": "He likes fishing.",
+            "tp": "alasa kala li pona tawa ona."
+          },
+          "mood": "thinking",
+          "glyph": "kala"
+        }
+      ],
+      "triggers": {}
+    },
+    {
       "id": "jan_suli_intro",
       "npc_id": "jan_suli",
       "when_flags": {
@@ -4651,6 +5005,54 @@
             "tp": "mi mute o tawa!"
           },
           "mood": "thinking",
+          "glyph": "tawa"
+        }
+      ],
+      "triggers": {}
+    },
+    {
+      "id": "jan_suno_lete_light",
+      "npc_id": "jan_suno_lete",
+      "priority": 0,
+      "beats": [
+        {
+          "text": {
+            "en": "Brr! This water's really cold!",
+            "tp": "a! telo ni li lete a!"
+          },
+          "mood": "thinking",
+          "glyph": "lete"
+        },
+        {
+          "text": {
+            "en": "I'm getting tired.",
+            "tp": "mi kama wile lape."
+          },
+          "mood": "sad",
+          "glyph": "lape"
+        }
+      ],
+      "triggers": {}
+    },
+    {
+      "id": "jan_suno_telo_last",
+      "npc_id": "jan_suno_telo",
+      "priority": 0,
+      "beats": [
+        {
+          "text": {
+            "en": "He likes fishing.",
+            "tp": "alasa kala li pona tawa ona."
+          },
+          "mood": "happy",
+          "glyph": "kala"
+        },
+        {
+          "text": {
+            "en": "Let's go!",
+            "tp": "mi mute o tawa!"
+          },
+          "mood": "excited",
           "glyph": "tawa"
         }
       ],
@@ -4706,6 +5108,54 @@
           },
           "mood": "thinking",
           "glyph": "tawa"
+        }
+      ],
+      "triggers": {}
+    },
+    {
+      "id": "jan_telo_well_water",
+      "npc_id": "jan_telo_well",
+      "priority": 0,
+      "beats": [
+        {
+          "text": {
+            "en": "Brr! This water's really cold!",
+            "tp": "a! telo ni li lete a!"
+          },
+          "mood": "thinking",
+          "glyph": "telo"
+        },
+        {
+          "text": {
+            "en": "Ah. Good.",
+            "tp": "a. pona."
+          },
+          "mood": "happy",
+          "glyph": "pona"
+        }
+      ],
+      "triggers": {}
+    },
+    {
+      "id": "jan_waso_sewi_sky",
+      "npc_id": "jan_waso_sewi",
+      "priority": 0,
+      "beats": [
+        {
+          "text": {
+            "en": "There is a bird here.",
+            "tp": "waso li lon ni."
+          },
+          "mood": "happy",
+          "glyph": "waso"
+        },
+        {
+          "text": {
+            "en": "Let's see!",
+            "tp": "mi mute o lukin!"
+          },
+          "mood": "thinking",
+          "glyph": "lukin"
         }
       ],
       "triggers": {}
@@ -4818,7 +5268,7 @@
       {
         "id": "beat_01_ma_tomo_lili",
         "map_id": "ma_tomo_lili",
-        "narrative": "Player wakes in the starter village — stone-floored homes ringed by green grass. jan Sewi stands at the village center; jan Pona lingers in the upper plaza; jan Telo leans against the well. Walking up to jan Sewi fires the four-beat starter ceremony (toki / poki / wan / wawa) and offers the three starters: kon_moli (seli spirit), telo_jaki (telo slime), jan_ike_lili (kasi goblin). Picking one sets starter_chosen, drops three poki_lili, adds the chosen creature to the party at level 5. Until starter_chosen is true the eastern warp is non-interactive.",
+        "narrative": "Player wakes in the starter village: a small grass-ringed home plot with no encounters. jan Sewi runs the starter ceremony; jan Pona Tomo, jan Telo Well, jan Poki Tomo, and jan Kili Tomo provide ambient two-beat village dialog. Walking up to jan Sewi fires the starter ceremony and offers the three starters: kon_moli, telo_jaki, and jan_ike_lili. Picking one sets starter_chosen, drops three poki_lili, adds the chosen creature to the party at level 5, and unlocks the eastern warp.",
         "gate": {
           "kind": "starter_chosen"
         },
@@ -4830,7 +5280,7 @@
       {
         "id": "beat_02_nasin_wan",
         "map_id": "nasin_wan",
-        "narrative": "Long path-route east-to-west, framed by trees. Three tall_grass rectangles host the player's first encounters: jan_ike_lili, jan_utala_lili, jan_moli in the level 3-7 band — first chance to throw a poki_lili. Halfway along a sign reads 'the path was narrow.' At the eastern edge stands jan Ike, the rival, with kon_moli at level 5 and two starter moves. Defeating him (or losing — losses restore the party at the last village) opens the eastern warp.",
+        "narrative": "Long forest path-route east-to-west, framed by trees. Three tall-grass rectangles host the player's first encounters across the level 3-7 band: jan_ike_lili, jan_utala_lili, soweli_musi, soweli_kili, soweli_jaki, waso_pimeja, soweli_anpa, soweli_kon, jan_moli, waso_toki, akesi_linja, and soweli_nena. Four ambient route walkers plus jan Ike bring the map to five NPC markers. Defeating jan Ike, or losing and restoring at the last village, opens the eastern warp.",
         "gate": {
           "kind": "defeated",
           "npc_id": "jan_ike"
@@ -4843,7 +5293,7 @@
       {
         "id": "beat_03_nena_sewi",
         "map_id": "nena_sewi",
-        "narrative": "Mountain pass — stone footpaths between rocks and tall_grass clumps. Encounters skew wawa-ish and rocky: jan_wawa, jan_wawa_linja, sijelo_kiwen. jan Kala the hiker sits along the path catching her breath, teaches lete ahead of the next region. At the top, jan Wawa — the strong-master and first jan lawa — blocks the northward path with a two-creature gym fight: jan_wawa_linja at level 8 then sijelo_kiwen at level 10. Winning sets badge_sewi and grants the reward word sewi.",
+        "narrative": "Mountain pass with stone footpaths between blocked cliffs, rocks, and tall-grass clumps. Encounters skew wawa-ish and rocky: jan_wawa, jan_wawa_linja, jan_wawa_jaki, sijelo_kiwen, soweli_palisa, waso_lape, akesi_seli, and soweli_sewi. jan Kiwen, jan Kala, jan Waso Sewi, and jan Nasin Sewi provide ambient route dialog. At the top, jan Wawa blocks the northward path with the first gym fight. Winning sets badge_sewi and grants the reward word sewi.",
         "gate": {
           "kind": "defeated",
           "npc_id": "jan_wawa"
@@ -4856,7 +5306,7 @@
       {
         "id": "beat_04_ma_telo",
         "map_id": "ma_telo",
-        "narrative": "Round village built on a stone island in the middle of a lake. No tall grass, no random encounters — a story-and-shop beat. jan Telo (first met at the well in ma_tomo_lili) is now revealed as the jan lawa of ma_telo with telo_jaki at level 10 and jan_ike_lili at level 12 — a deliberate type wrinkle that punishes one-typed parties. Beating him sets badge_telo and grants telo. jan Kala sits at the lake's edge with a small lost-something quest stub. jan Moku runs a lakeside stall.",
+        "narrative": "Round village built on a stone island in the middle of a lake. No tall grass and no random encounters: this is a story-and-shop beat. jan Telo is the jan lawa of ma_telo; beating him sets badge_telo and grants telo. jan Kala Lake, jan Olin Telo, jan Moku, and jan Sike Telo fill the lake-village NPC floor. jan Moku runs a lakeside stall that sells poki_lili and kili for ma.",
         "gate": {
           "kind": "defeated",
           "npc_id": "jan_telo"
@@ -4869,7 +5319,7 @@
       {
         "id": "beat_05_ma_lete",
         "map_id": "ma_lete",
-        "narrative": "Cold-land village. Stone ground with patches of grass_detail (the local tall-grass key), bordered by snow-laden trees and a fenced herb garden. Encounter table mixes sijelo_kiwen, sijelo_linja, jan_pi_sewi_pimeja, levels 7-12. jan Lete the jan lawa fields sijelo_linja level 10 and jan_pi_sewi_pimeja level 13 — first gym where a player without a seli creature feels real friction. jan Anpa watches the snow from her doorstep; jan Kasi tends the garden. Beating jan Lete sets badge_lete and grants lete.",
+        "narrative": "Cold-land village with snow and ice ground, stone paths, snow tall grass, trees, houses, rocks, and a fenced herb garden. Encounters mix sijelo_linja, sijelo_kiwen, jan_pi_sewi_pimeja, waso_lete, soweli_nena, soweli_kiwen, and sijelo_utala at levels 7-12. jan Lete is the jan lawa. jan Anpa, jan Suno Lete, jan Poki Lete, and jan Kasi complete the five-NPC village floor. Beating jan Lete sets badge_lete and grants lete.",
         "gate": {
           "kind": "defeated",
           "npc_id": "jan_lete"
@@ -4882,7 +5332,7 @@
       {
         "id": "beat_06_nena_suli",
         "map_id": "nena_suli",
-        "narrative": "The great peak — hardest gym before the endgame. Tall narrow map, stone everywhere, sparse tall-grass patches around rocky outcrops. Encounters are heavy elites: jan_wawa_suli, jan_wawa_utala, sijelo_utala at higher levels (10-15). jan Suli waits at the upper shrine with jan_wawa_suli level 12 (utala_lili + wawa_waso + kon_wawa) and sijelo_utala level 14 (utala + lete_wawa + lete_suli). jan pi kon meditates on a rock teaching kon; jan pi nasin asks which way is down, teaching nasin. Beating jan Suli sets badge_suli and grants suli — the canonical 'you are ready' moment.",
+        "narrative": "The great peak is the hardest gym before the endgame: a tall narrow cave-shrine with stone floors, blocked rock walls, torch landmarks, and sparse encounter overgrowth. Encounters are heavy elites: jan_wawa_suli, jan_wawa_utala, jan_utala_suli, soweli_utala, sijelo_utala, waso_moku, waso_moli, soweli_sewi, soweli_alasa, and soweli_wawa at levels 10-15. jan Kiwen Suli, jan pi kon, jan Pimeja Suli, and jan pi nasin flesh out the climb before jan Suli. Beating jan Suli sets badge_suli and grants suli.",
         "gate": {
           "kind": "defeated",
           "npc_id": "jan_suli"
@@ -4895,7 +5345,7 @@
       {
         "id": "beat_07_nasin_pi_telo",
         "map_id": "nasin_pi_telo",
-        "narrative": "Endgame approach. Long riverside route — wide grassy west bank, deep water channel down the east side, scattered tall-grass clumps. Heavily shadowed encounters: jan_moli, kon_moli, telo_jaki, jan_moli_wawa at the highest wild-roll levels yet (7-13). jan Kala Suli is a veteran fisher who offers an optional XP-only fight (jan_moli_wawa level 10 + telo_jaki level 11) — a tune-up before the final boss. jan Kala Lili is cheerful flavor. jan Moku Pona grills river fish at a cart. jan Olin Telo speaks quietly about the water. With all four region badges in hand, walking onto the eastern final_boss_trigger fires the akesi_sewi cutscene + final legendary catch opportunity; the green dragon's dedicated death animation plays on either defeat or capture.",
+        "narrative": "Endgame approach: long riverside route with a grassy west bank, deep water channel, sandbar path, and two aquatic encounter patches. Encounters include jan_moli, kon_moli, telo_jaki, kala_telo, kala_uta, kala_tomo, jan_moli_wawa, kala_luka, seli_moli, akesi_suli, and the rare akesi_sewi across levels 7-13. jan Kala Lili, jan Moku Pona, jan Kala Suli, jan Olin Telo, and jan Suno Telo populate the bank. With all four region badges in hand, final_boss_trigger fires the akesi_sewi cutscene; the final-boss defeat path plays the green dragon death animation.",
         "gate": {
           "kind": "flag",
           "flag_id": "badges_all_four"
@@ -4906,5 +5356,846 @@
         }
       }
     ]
-  }
+  },
+  "maps": [
+    {
+      "id": "ma_lete",
+      "width": 22,
+      "height": 16,
+      "tilewidth": 16,
+      "tileheight": 16,
+      "objects": [
+        {
+          "layer": "Objects",
+          "name": "from_ma_telo",
+          "type": "SpawnPoint",
+          "x": 32,
+          "y": 96,
+          "width": 0,
+          "height": 0,
+          "properties": {}
+        },
+        {
+          "layer": "Objects",
+          "name": "jan-anpa",
+          "type": "NPC",
+          "x": 96,
+          "y": 64,
+          "width": 0,
+          "height": 0,
+          "properties": {
+            "id": "jan_anpa",
+            "dialog_id": "jan_anpa_watch"
+          }
+        },
+        {
+          "layer": "Objects",
+          "name": "jan-suno-lete",
+          "type": "NPC",
+          "x": 144,
+          "y": 96,
+          "width": 0,
+          "height": 0,
+          "properties": {
+            "id": "jan_suno_lete",
+            "dialog_id": "jan_suno_lete_light"
+          }
+        },
+        {
+          "layer": "Objects",
+          "name": "jan-poki-lete",
+          "type": "NPC",
+          "x": 64,
+          "y": 128,
+          "width": 0,
+          "height": 0,
+          "properties": {
+            "id": "jan_poki_lete",
+            "dialog_id": "jan_poki_lete_cold"
+          }
+        },
+        {
+          "layer": "Objects",
+          "name": "jan-kasi",
+          "type": "NPC",
+          "x": 240,
+          "y": 160,
+          "width": 0,
+          "height": 0,
+          "properties": {
+            "id": "jan_kasi",
+            "dialog_id": "jan_kasi_garden"
+          }
+        },
+        {
+          "layer": "Objects",
+          "name": "jan-lete",
+          "type": "NPC",
+          "x": 272,
+          "y": 64,
+          "width": 0,
+          "height": 0,
+          "properties": {
+            "id": "jan_lete",
+            "dialog_id": "jan_lete_intro"
+          }
+        },
+        {
+          "layer": "Objects",
+          "name": "warp_north",
+          "type": "Warp",
+          "x": 272,
+          "y": 0,
+          "width": 16,
+          "height": 16,
+          "properties": {
+            "target_map": "nena_suli",
+            "target_spawn": "from_ma_lete",
+            "required_flag": "badge_lete"
+          }
+        },
+        {
+          "layer": "Encounters",
+          "name": "encounter_0",
+          "type": "Encounter",
+          "x": 64,
+          "y": 192,
+          "width": 80,
+          "height": 48,
+          "properties": {
+            "species": "{\"sijelo_linja\":20,\"sijelo_kiwen\":15,\"jan_pi_sewi_pimeja\":15,\"waso_lete\":20,\"soweli_nena\":15,\"soweli_kiwen\":15}",
+            "level_min": 7,
+            "level_max": 10
+          }
+        },
+        {
+          "layer": "Encounters",
+          "name": "encounter_1",
+          "type": "Encounter",
+          "x": 192,
+          "y": 192,
+          "width": 96,
+          "height": 48,
+          "properties": {
+            "species": "{\"sijelo_linja\":15,\"sijelo_kiwen\":20,\"jan_pi_sewi_pimeja\":15,\"sijelo_utala\":15,\"waso_lete\":15,\"soweli_kiwen\":20}",
+            "level_min": 9,
+            "level_max": 12
+          }
+        }
+      ]
+    },
+    {
+      "id": "ma_telo",
+      "width": 20,
+      "height": 16,
+      "tilewidth": 16,
+      "tileheight": 16,
+      "objects": [
+        {
+          "layer": "Objects",
+          "name": "from_nena_sewi",
+          "type": "SpawnPoint",
+          "x": 32,
+          "y": 96,
+          "width": 0,
+          "height": 0,
+          "properties": {}
+        },
+        {
+          "layer": "Objects",
+          "name": "jan-kala-lake",
+          "type": "NPC",
+          "x": 80,
+          "y": 208,
+          "width": 0,
+          "height": 0,
+          "properties": {
+            "id": "jan_kala_lake",
+            "dialog_id": "jan_kala_lake_quest"
+          }
+        },
+        {
+          "layer": "Objects",
+          "name": "jan-olin-telo",
+          "type": "NPC",
+          "x": 64,
+          "y": 160,
+          "width": 0,
+          "height": 0,
+          "properties": {
+            "id": "jan_olin_telo",
+            "dialog_id": "jan_olin_telo_quiet"
+          }
+        },
+        {
+          "layer": "Objects",
+          "name": "jan-moku",
+          "type": "NPC",
+          "x": 128,
+          "y": 64,
+          "width": 0,
+          "height": 0,
+          "properties": {
+            "id": "jan_moku",
+            "dialog_id": "jan_moku_stall"
+          }
+        },
+        {
+          "layer": "Objects",
+          "name": "jan-sike-telo",
+          "type": "NPC",
+          "x": 192,
+          "y": 128,
+          "width": 0,
+          "height": 0,
+          "properties": {
+            "id": "jan_sike_telo",
+            "dialog_id": "jan_sike_telo_plaza"
+          }
+        },
+        {
+          "layer": "Objects",
+          "name": "jan-telo",
+          "type": "NPC",
+          "x": 240,
+          "y": 128,
+          "width": 0,
+          "height": 0,
+          "properties": {
+            "id": "jan_telo",
+            "dialog_id": "jan_telo_intro"
+          }
+        },
+        {
+          "layer": "Objects",
+          "name": "warp_north",
+          "type": "Warp",
+          "x": 240,
+          "y": 0,
+          "width": 16,
+          "height": 16,
+          "properties": {
+            "target_map": "ma_lete",
+            "target_spawn": "from_ma_telo",
+            "required_flag": "badge_telo"
+          }
+        }
+      ]
+    },
+    {
+      "id": "ma_tomo_lili",
+      "width": 16,
+      "height": 12,
+      "tilewidth": 16,
+      "tileheight": 16,
+      "objects": [
+        {
+          "layer": "Objects",
+          "name": "default",
+          "type": "SpawnPoint",
+          "x": 112,
+          "y": 80,
+          "width": 0,
+          "height": 0,
+          "properties": {}
+        },
+        {
+          "layer": "Objects",
+          "name": "jan-pona-tomo",
+          "type": "NPC",
+          "x": 64,
+          "y": 64,
+          "width": 0,
+          "height": 0,
+          "properties": {
+            "id": "jan_pona_tomo",
+            "dialog_id": "jan_pona_tomo_welcome"
+          }
+        },
+        {
+          "layer": "Objects",
+          "name": "jan-telo-well",
+          "type": "NPC",
+          "x": 48,
+          "y": 128,
+          "width": 0,
+          "height": 0,
+          "properties": {
+            "id": "jan_telo_well",
+            "dialog_id": "jan_telo_well_water"
+          }
+        },
+        {
+          "layer": "Objects",
+          "name": "jan-sewi",
+          "type": "NPC",
+          "x": 160,
+          "y": 96,
+          "width": 0,
+          "height": 0,
+          "properties": {
+            "id": "jan_sewi",
+            "dialog_id": "jan_sewi_starter_intro"
+          }
+        },
+        {
+          "layer": "Objects",
+          "name": "jan-poki-tomo",
+          "type": "NPC",
+          "x": 48,
+          "y": 80,
+          "width": 0,
+          "height": 0,
+          "properties": {
+            "id": "jan_poki_tomo",
+            "dialog_id": "jan_poki_tomo_ready"
+          }
+        },
+        {
+          "layer": "Objects",
+          "name": "jan-kili-tomo",
+          "type": "NPC",
+          "x": 96,
+          "y": 144,
+          "width": 0,
+          "height": 0,
+          "properties": {
+            "id": "jan_kili_tomo",
+            "dialog_id": "jan_kili_tomo_snack"
+          }
+        },
+        {
+          "layer": "Objects",
+          "name": "warp_east",
+          "type": "Warp",
+          "x": 240,
+          "y": 80,
+          "width": 16,
+          "height": 16,
+          "properties": {
+            "target_map": "nasin_wan",
+            "target_spawn": "from_tomo",
+            "required_flag": "starter_chosen"
+          }
+        }
+      ]
+    },
+    {
+      "id": "nasin_pi_telo",
+      "width": 28,
+      "height": 14,
+      "tilewidth": 16,
+      "tileheight": 16,
+      "objects": [
+        {
+          "layer": "Objects",
+          "name": "from_nena_suli",
+          "type": "SpawnPoint",
+          "x": 32,
+          "y": 96,
+          "width": 0,
+          "height": 0,
+          "properties": {}
+        },
+        {
+          "layer": "Objects",
+          "name": "jan-kala-lili",
+          "type": "NPC",
+          "x": 112,
+          "y": 144,
+          "width": 0,
+          "height": 0,
+          "properties": {
+            "id": "jan_kala_lili",
+            "dialog_id": "jan_kala_lili_flavor"
+          }
+        },
+        {
+          "layer": "Objects",
+          "name": "jan-moku-pona",
+          "type": "NPC",
+          "x": 192,
+          "y": 80,
+          "width": 0,
+          "height": 0,
+          "properties": {
+            "id": "jan_moku_pona",
+            "dialog_id": "jan_moku_pona_grill"
+          }
+        },
+        {
+          "layer": "Objects",
+          "name": "jan-kala-suli",
+          "type": "NPC",
+          "x": 272,
+          "y": 144,
+          "width": 0,
+          "height": 0,
+          "properties": {
+            "id": "jan_kala_suli",
+            "dialog_id": "jan_kala_suli_tuneup"
+          }
+        },
+        {
+          "layer": "Objects",
+          "name": "jan-olin-telo",
+          "type": "NPC",
+          "x": 352,
+          "y": 80,
+          "width": 0,
+          "height": 0,
+          "properties": {
+            "id": "jan_olin_telo",
+            "dialog_id": "jan_olin_telo_quiet"
+          }
+        },
+        {
+          "layer": "Objects",
+          "name": "jan-suno-telo",
+          "type": "NPC",
+          "x": 384,
+          "y": 96,
+          "width": 0,
+          "height": 0,
+          "properties": {
+            "id": "jan_suno_telo",
+            "dialog_id": "jan_suno_telo_last"
+          }
+        },
+        {
+          "layer": "Objects",
+          "name": "final_boss_trigger",
+          "type": "Trigger",
+          "x": 416,
+          "y": 80,
+          "width": 32,
+          "height": 48,
+          "properties": {
+            "target_event": "green_dragon",
+            "required_flag": "badges_all_four"
+          }
+        },
+        {
+          "layer": "Encounters",
+          "name": "encounter_0",
+          "type": "Encounter",
+          "x": 64,
+          "y": 160,
+          "width": 80,
+          "height": 48,
+          "properties": {
+            "species": "{\"jan_moli\":20,\"kon_moli\":15,\"telo_jaki\":15,\"kala_telo\":15,\"kala_uta\":15,\"kala_tomo\":15,\"jan_moli_wawa\":5}",
+            "level_min": 7,
+            "level_max": 10
+          }
+        },
+        {
+          "layer": "Encounters",
+          "name": "encounter_1",
+          "type": "Encounter",
+          "x": 224,
+          "y": 160,
+          "width": 96,
+          "height": 48,
+          "properties": {
+            "species": "{\"jan_moli\":14,\"kon_moli\":14,\"telo_jaki\":14,\"kala_telo\":14,\"kala_luka\":14,\"kala_uta\":14,\"seli_moli\":6,\"akesi_suli\":4,\"akesi_sewi\":2}",
+            "level_min": 9,
+            "level_max": 13
+          }
+        }
+      ]
+    },
+    {
+      "id": "nasin_wan",
+      "width": 32,
+      "height": 12,
+      "tilewidth": 16,
+      "tileheight": 16,
+      "objects": [
+        {
+          "layer": "Objects",
+          "name": "from_tomo",
+          "type": "SpawnPoint",
+          "x": 16,
+          "y": 80,
+          "width": 0,
+          "height": 0,
+          "properties": {}
+        },
+        {
+          "layer": "Objects",
+          "name": "jan-palisa-nasin",
+          "type": "NPC",
+          "x": 64,
+          "y": 80,
+          "width": 0,
+          "height": 0,
+          "properties": {
+            "id": "jan_palisa_nasin",
+            "dialog_id": "jan_palisa_nasin_sign"
+          }
+        },
+        {
+          "layer": "Objects",
+          "name": "jan-kasi-nasin",
+          "type": "NPC",
+          "x": 176,
+          "y": 80,
+          "width": 0,
+          "height": 0,
+          "properties": {
+            "id": "jan_kasi_nasin",
+            "dialog_id": "jan_kasi_nasin_grass"
+          }
+        },
+        {
+          "layer": "Objects",
+          "name": "jan-poki-nasin",
+          "type": "NPC",
+          "x": 320,
+          "y": 80,
+          "width": 0,
+          "height": 0,
+          "properties": {
+            "id": "jan_poki_nasin",
+            "dialog_id": "jan_poki_nasin_pack"
+          }
+        },
+        {
+          "layer": "Objects",
+          "name": "jan-lukin-nasin",
+          "type": "NPC",
+          "x": 400,
+          "y": 80,
+          "width": 0,
+          "height": 0,
+          "properties": {
+            "id": "jan_lukin_nasin",
+            "dialog_id": "jan_lukin_nasin_watch"
+          }
+        },
+        {
+          "layer": "Objects",
+          "name": "jan-ike",
+          "type": "NPC",
+          "x": 448,
+          "y": 80,
+          "width": 0,
+          "height": 0,
+          "properties": {
+            "id": "jan_ike",
+            "dialog_id": "jan_ike_rival"
+          }
+        },
+        {
+          "layer": "Objects",
+          "name": "warp_east",
+          "type": "Warp",
+          "x": 496,
+          "y": 80,
+          "width": 16,
+          "height": 16,
+          "properties": {
+            "target_map": "nena_sewi",
+            "target_spawn": "from_nasin_wan",
+            "required_flag": "jan_ike_defeated"
+          }
+        },
+        {
+          "layer": "Encounters",
+          "name": "encounter_0",
+          "type": "Encounter",
+          "x": 96,
+          "y": 48,
+          "width": 64,
+          "height": 32,
+          "properties": {
+            "species": "{\"jan_ike_lili\":20,\"jan_utala_lili\":18,\"soweli_musi\":18,\"soweli_kili\":14,\"soweli_jaki\":10,\"waso_pimeja\":10,\"soweli_anpa\":10}",
+            "level_min": 3,
+            "level_max": 5
+          }
+        },
+        {
+          "layer": "Encounters",
+          "name": "encounter_1",
+          "type": "Encounter",
+          "x": 224,
+          "y": 96,
+          "width": 80,
+          "height": 32,
+          "properties": {
+            "species": "{\"jan_ike_lili\":18,\"jan_utala_lili\":22,\"jan_moli\":14,\"soweli_musi\":14,\"soweli_kili\":14,\"waso_toki\":10,\"soweli_kon\":8}",
+            "level_min": 4,
+            "level_max": 6
+          }
+        },
+        {
+          "layer": "Encounters",
+          "name": "encounter_2",
+          "type": "Encounter",
+          "x": 352,
+          "y": 48,
+          "width": 64,
+          "height": 32,
+          "properties": {
+            "species": "{\"jan_ike_lili\":15,\"jan_moli\":25,\"soweli_kili\":20,\"soweli_jaki\":20,\"akesi_linja\":10,\"soweli_nena\":10}",
+            "level_min": 5,
+            "level_max": 7
+          }
+        }
+      ]
+    },
+    {
+      "id": "nena_sewi",
+      "width": 32,
+      "height": 14,
+      "tilewidth": 16,
+      "tileheight": 16,
+      "objects": [
+        {
+          "layer": "Objects",
+          "name": "from_nasin_wan",
+          "type": "SpawnPoint",
+          "x": 16,
+          "y": 112,
+          "width": 0,
+          "height": 0,
+          "properties": {}
+        },
+        {
+          "layer": "Objects",
+          "name": "jan-kiwen",
+          "type": "NPC",
+          "x": 64,
+          "y": 128,
+          "width": 0,
+          "height": 0,
+          "properties": {
+            "id": "jan_kiwen",
+            "dialog_id": "jan_kiwen_mountain"
+          }
+        },
+        {
+          "layer": "Objects",
+          "name": "jan-kala",
+          "type": "NPC",
+          "x": 160,
+          "y": 128,
+          "width": 0,
+          "height": 0,
+          "properties": {
+            "id": "jan_kala",
+            "dialog_id": "jan_kala_rest"
+          }
+        },
+        {
+          "layer": "Objects",
+          "name": "jan-waso-sewi",
+          "type": "NPC",
+          "x": 256,
+          "y": 96,
+          "width": 0,
+          "height": 0,
+          "properties": {
+            "id": "jan_waso_sewi",
+            "dialog_id": "jan_waso_sewi_sky"
+          }
+        },
+        {
+          "layer": "Objects",
+          "name": "jan-nasin-sewi",
+          "type": "NPC",
+          "x": 352,
+          "y": 80,
+          "width": 0,
+          "height": 0,
+          "properties": {
+            "id": "jan_nasin_sewi",
+            "dialog_id": "jan_nasin_sewi_path"
+          }
+        },
+        {
+          "layer": "Objects",
+          "name": "jan-wawa",
+          "type": "NPC",
+          "x": 384,
+          "y": 48,
+          "width": 0,
+          "height": 0,
+          "properties": {
+            "id": "jan_wawa",
+            "dialog_id": "jan_wawa_intro"
+          }
+        },
+        {
+          "layer": "Objects",
+          "name": "warp_north",
+          "type": "Warp",
+          "x": 384,
+          "y": 0,
+          "width": 16,
+          "height": 16,
+          "properties": {
+            "target_map": "ma_telo",
+            "target_spawn": "from_nena_sewi",
+            "required_flag": "badge_sewi"
+          }
+        },
+        {
+          "layer": "Encounters",
+          "name": "encounter_0",
+          "type": "Encounter",
+          "x": 64,
+          "y": 64,
+          "width": 64,
+          "height": 32,
+          "properties": {
+            "species": "{\"jan_wawa\":25,\"jan_wawa_linja\":20,\"sijelo_kiwen\":15,\"soweli_palisa\":15,\"waso_lape\":15,\"akesi_seli\":10}",
+            "level_min": 6,
+            "level_max": 8
+          }
+        },
+        {
+          "layer": "Encounters",
+          "name": "encounter_1",
+          "type": "Encounter",
+          "x": 224,
+          "y": 160,
+          "width": 96,
+          "height": 48,
+          "properties": {
+            "species": "{\"jan_wawa\":18,\"jan_wawa_linja\":18,\"jan_wawa_jaki\":14,\"sijelo_kiwen\":18,\"soweli_sewi\":12,\"waso_lape\":12,\"soweli_palisa\":8}",
+            "level_min": 7,
+            "level_max": 9
+          }
+        }
+      ]
+    },
+    {
+      "id": "nena_suli",
+      "width": 16,
+      "height": 20,
+      "tilewidth": 16,
+      "tileheight": 16,
+      "objects": [
+        {
+          "layer": "Objects",
+          "name": "from_ma_lete",
+          "type": "SpawnPoint",
+          "x": 32,
+          "y": 192,
+          "width": 0,
+          "height": 0,
+          "properties": {}
+        },
+        {
+          "layer": "Objects",
+          "name": "jan-kiwen-suli",
+          "type": "NPC",
+          "x": 48,
+          "y": 192,
+          "width": 0,
+          "height": 0,
+          "properties": {
+            "id": "jan_kiwen_suli",
+            "dialog_id": "jan_kiwen_suli_cave"
+          }
+        },
+        {
+          "layer": "Objects",
+          "name": "jan-pi-kon",
+          "type": "NPC",
+          "x": 80,
+          "y": 160,
+          "width": 0,
+          "height": 0,
+          "properties": {
+            "id": "jan_pi_kon",
+            "dialog_id": "jan_pi_kon_meditate"
+          }
+        },
+        {
+          "layer": "Objects",
+          "name": "jan-pimeja-suli",
+          "type": "NPC",
+          "x": 112,
+          "y": 128,
+          "width": 0,
+          "height": 0,
+          "properties": {
+            "id": "jan_pimeja_suli",
+            "dialog_id": "jan_pimeja_suli_torch"
+          }
+        },
+        {
+          "layer": "Objects",
+          "name": "jan-pi-nasin",
+          "type": "NPC",
+          "x": 160,
+          "y": 112,
+          "width": 0,
+          "height": 0,
+          "properties": {
+            "id": "jan_pi_nasin",
+            "dialog_id": "jan_pi_nasin_ask"
+          }
+        },
+        {
+          "layer": "Objects",
+          "name": "jan-suli",
+          "type": "NPC",
+          "x": 128,
+          "y": 32,
+          "width": 0,
+          "height": 0,
+          "properties": {
+            "id": "jan_suli",
+            "dialog_id": "jan_suli_intro"
+          }
+        },
+        {
+          "layer": "Objects",
+          "name": "warp_north",
+          "type": "Warp",
+          "x": 128,
+          "y": 0,
+          "width": 16,
+          "height": 16,
+          "properties": {
+            "target_map": "nasin_pi_telo",
+            "target_spawn": "from_nena_suli",
+            "required_flag": "badge_suli"
+          }
+        },
+        {
+          "layer": "Encounters",
+          "name": "encounter_0",
+          "type": "Encounter",
+          "x": 48,
+          "y": 240,
+          "width": 64,
+          "height": 48,
+          "properties": {
+            "species": "{\"jan_wawa_suli\":22,\"jan_wawa_utala\":18,\"soweli_utala\":12,\"sijelo_utala\":18,\"waso_moku\":12,\"waso_moli\":12,\"soweli_sewi\":6}",
+            "level_min": 10,
+            "level_max": 13
+          }
+        },
+        {
+          "layer": "Encounters",
+          "name": "encounter_1",
+          "type": "Encounter",
+          "x": 160,
+          "y": 192,
+          "width": 64,
+          "height": 48,
+          "properties": {
+            "species": "{\"jan_wawa_suli\":18,\"jan_wawa_utala\":18,\"jan_utala_suli\":6,\"sijelo_utala\":22,\"waso_moku\":14,\"soweli_alasa\":14,\"soweli_wawa\":8}",
+            "level_min": 12,
+            "level_max": 15
+          }
+        }
+      ]
+    }
+  ]
 }

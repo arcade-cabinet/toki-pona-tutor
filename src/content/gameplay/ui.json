@@ -1,0 +1,563 @@
+{
+  "title": {
+    "gui_id": "rpg-title-screen",
+    "menu_title": "poki soweli",
+    "player_default_graphic": "hero",
+    "start_map_id": "ma_tomo_lili",
+    "start_spawn": { "x": 128, "y": 128 },
+    "start_journey_beat_id": "beat_01_ma_tomo_lili",
+    "continue_label_prefix": "kama",
+    "continue_label_template": "{prefix} — {slot}",
+    "confirm_new_prompt": "open sin?",
+    "confirm_new_choices": [
+      { "value": "confirm", "label": "lon — weka e poki awen" },
+      { "value": "cancel", "label": "ala" }
+    ],
+    "quit_web_message": "pini la o weka e lipu ni.",
+    "entries": [
+      { "id": "new", "label": "open sin" },
+      { "id": "settings", "label": "nasin" },
+      { "id": "quit", "label": "pini" }
+    ]
+  },
+  "starter_ceremony": {
+    "already_chosen_dialog_id": "jan_sewi_after_pick",
+    "intro_dialog_id": "jan_sewi_starter_intro",
+    "mentor_graphic": "npc_villager_fem_nel",
+    "choice_prompt": "?",
+    "notification_ms": 3500
+  },
+  "pause": {
+    "gui_id": "poki-pause-screen",
+    "title": "nasin",
+    "routes_aria_label": "Pause routes",
+    "default_route_id": "party",
+    "routes": [
+      { "id": "party", "label": "soweli", "test_id": "pause-party" },
+      { "id": "vocab", "label": "nasin", "test_id": "pause-vocab" },
+      { "id": "inventory", "label": "ijo", "test_id": "pause-inventory" },
+      { "id": "bestiary", "label": "lipu", "test_id": "pause-bestiary" },
+      { "id": "settings", "label": "awen", "test_id": "pause-settings" }
+    ],
+    "footer_entries": [
+      { "id": "resume", "label": "kama", "test_id": "pause-resume" },
+      { "id": "save", "label": "awen", "test_id": "pause-save" },
+      { "id": "title", "label": "pini", "test_id": "pause-title" }
+    ],
+    "party_panel_heal_item_id": "kili",
+    "party": {
+      "title_template": "soweli {count} / {max}",
+      "empty": { "label": "poki: ala", "meta": "o alasa e soweli" },
+      "select_hint": { "label": "detail", "meta": "tap a slot" },
+      "detail_label_template": "{name} detail",
+      "detail_type_template": "type: {type}",
+      "detail_moves_template": "moves: {moves}",
+      "promote_label": "lead",
+      "promote_meta_template": "slot {from} → 1",
+      "fainted_meta": "HP 0",
+      "heal_meta_template": "+{healed} HP | ×{count}",
+      "heal_empty_meta": "×0",
+      "heal_full_meta": "full"
+    },
+    "vocabulary": {
+      "preview_limit": 6,
+      "title_template": "nasin {count} / {total}",
+      "sighting_meta_template": "{count}x",
+      "empty": { "label": "sona: ala", "meta": "o toki lon ma" },
+      "sentence_log_action": { "label": "lipu nasin", "meta": "{count} toki" },
+      "detail_action": { "label": "open detail", "meta": "sona" }
+    },
+    "inventory": {
+      "preview_limit": 4,
+      "title_template": "ijo {count} kind",
+      "badges_label_template": "badges {held} / {total}",
+      "badge_label_template": "{state} {label}",
+      "badge_held_state": "✓",
+      "badge_missing_state": "·",
+      "beat_label": "beat",
+      "unknown_beat": "unknown",
+      "item_count_meta_template": "×{count}",
+      "detail_action": { "label": "open detail", "meta": "inventory" }
+    }
+  },
+  "hud": {
+    "gui_ids": {
+      "status": "poki-hud-status",
+      "hint": "poki-hud-hint",
+      "menu": "poki-hud-menu-toggle"
+    },
+    "status": {
+      "level_label_template": "L{level}",
+      "mastered_label_template": "toki: {count}",
+      "hp_label_template": "HP {current} / {max}",
+      "missing_portrait_fallback": "?"
+    },
+    "menu": {
+      "aria_label": "Pause menu"
+    },
+    "hint": {
+      "aria_label_template": "Interact hint {glyph}",
+      "empty_aria_label": "Interact hint",
+      "poll_ms": 150,
+      "offset_y": -18
+    },
+    "non_blocking_gui_ids": [
+      "poki-hud-status",
+      "poki-hud-hint",
+      "poki-hud-menu-toggle",
+      "notification",
+      "rpg-notification"
+    ]
+  },
+  "interaction_hint": {
+    "glyphs": {
+      "default": "toki",
+      "battle": "utala",
+      "warp": "tawa",
+      "encounter": "alasa"
+    },
+    "encounter_fallback_target_id": "encounter",
+    "battle_event_ids": ["jan-ike", "jan-wawa", "jan-telo", "jan-lete", "jan-suli", "green-dragon"]
+  },
+  "dialog": {
+    "gui_id": "rpg-dialog",
+    "missing_node_template": "({dialog_id})",
+    "default_position": "bottom",
+    "sitelen_overlay_test_id": "dialog-sitelen-overlay",
+    "confirm_sfx_id": "sfx_menu_confirm",
+    "tick_sfx_id": "sfx_menu_tick"
+  },
+  "combat_ui": {
+    "lead_move_bar_gui_id": "poki-lead-movebar",
+    "lead_move_skill_prefix": "poki_move_",
+    "lead_move_bar_limit": 4,
+    "lead_move_bar": {
+      "level_label_template": "L{level}",
+      "energy_label_template": "{sp} SP",
+      "default_target_label": "target",
+      "default_target_status": "move close, then tap a move",
+      "no_target_label": "no target",
+      "no_target_status": "tap the map to move closer",
+      "in_range_template": "in range · {tiles} {tile_label}",
+      "out_of_range_template": "out of range · {tiles} {tile_label}",
+      "tile_singular_label": "tile",
+      "tile_plural_label": "tiles",
+      "move_meta_template": "{type} · w{power} · {sp} SP",
+      "empty_aria_label": "lead creature moves",
+      "bar_aria_template": "{lead} moves",
+      "fallback_move_label": "move",
+      "ready_label": "ready",
+      "cooldown_label_template": "{seconds}s",
+      "switch_action_label": "soweli",
+      "switch_title": "ante e lead",
+      "switch_empty_label": "soweli ante ala",
+      "switch_close_label": "awen",
+      "switch_current_meta": "lead now",
+      "switch_fainted_meta": "HP 0",
+      "switch_slot_meta_template": "slot {slot} · {hp}"
+    },
+    "lead_move_tuning": {
+      "max_sp_floor": 12,
+      "max_sp_cost_multiplier": 3,
+      "sp_cost_min": 1,
+      "sp_cost_max": 8,
+      "sp_cost_power_divisor": 18,
+      "cooldown_min_ms": 800,
+      "cooldown_base_ms": 900,
+      "cooldown_power_ms": 20,
+      "cooldown_priority_ms": 250,
+      "default_range_tiles": 3,
+      "range_tiles_by_type": {
+        "wawa": 1
+      }
+    },
+    "wild_battle_gui_id": "poki-wild-battle",
+    "wild_battle": {
+      "level_label_prefix": "L",
+      "hp_label_prefix": "HP",
+      "level_label_template": "{prefix}{level}",
+      "hp_label_template": "{prefix} {current} / {max}",
+      "prompt_template": "{label} {level}\n{hp} · {tier}",
+      "fight_result_action_label": "utala",
+      "fight_result_target_label": "soweli",
+      "fight_result_template": "{action}: {damage}\n{target} {hp} · {tier}",
+      "unknown_type_label": "unknown",
+      "missing_portrait_fallback": "?",
+      "missing_lead_label": "soweli ala",
+      "missing_lead_type_label": "party",
+      "battle_aria_label": "wild battle",
+      "battle_label_template": "{lead} vs {target}",
+      "dialog_ids": {
+        "appear": "wild_encounter_appear",
+        "caught": "wild_encounter_caught",
+        "escaped": "wild_encounter_escaped"
+      },
+      "versus_label": "utala",
+      "damage_miss_label": "pakala",
+      "damage_label_template": "-{damage} {hp_label}",
+      "damage_popup_template": "{damage} · {tone}",
+      "damage_notification_ms": 1200,
+      "damage_tone_labels": {
+        "super": "pona mute",
+        "resisted": "awen",
+        "neutral": "pona",
+        "miss": "pakala"
+      },
+      "capture_labels": {
+        "throw": "poki li tawa",
+        "caught": "poki li awen",
+        "escaped": "soweli li weka"
+      },
+      "choice_labels": {
+        "fight": "utala",
+        "catch": "poki",
+        "item": "ijo",
+        "flee": "tawa"
+      },
+      "missing_poki_text": "poki ala",
+      "item_menu": {
+        "prompt": "ijo",
+        "empty_text": "ijo ala",
+        "back_label": "tawa",
+        "choice_template": "{item} ×{count}{suffix}",
+        "heal_suffix_template": " +{healed} HP",
+        "full_suffix": " full",
+        "used_template": "{item}: +{healed} HP\nHP {next} / {max}",
+        "empty_text_result": "ijo ala",
+        "full_text": "sijelo li pona",
+        "invalid_hp_text": "sijelo ike",
+        "missing_text": "ijo ala"
+      }
+    },
+    "combat_faint_animation_id": "poki-combat-faint"
+  },
+  "defeat_screen": {
+    "gui_id": "poki-defeat-screen",
+    "enter_ms": 420,
+    "settle_ms": 360,
+    "default_phase": "fallen",
+    "revive_dialog_id": "game_over_revive",
+    "message_label": "sina tawa ma tomo.",
+    "aria_label_template": "{status}: {label}",
+    "phase_labels": {
+      "fallen": {
+        "status_label": "pakala!",
+        "detail_label": "o awen lili"
+      },
+      "returning": {
+        "status_label": "sina tawa ma tomo",
+        "detail_label": "sijelo li kama pona"
+      }
+    }
+  },
+  "warp_loading": {
+    "gui_id": "poki-warp-loading",
+    "enter_ms": 260,
+    "settle_ms": 360,
+    "default_phase": "enter",
+    "aria_label_template": "{status}: {label}",
+    "phase_labels": {
+      "enter": {
+        "status_label": "tawa ma",
+        "detail_label": "o awen lili"
+      },
+      "settle": {
+        "status_label": "kama pona",
+        "detail_label": "ma li kama"
+      }
+    }
+  },
+  "tap_route": {
+    "event": "poki:tap-route",
+    "snap_event": "poki:tap-route-snap",
+    "max_length": 256,
+    "movement_tile_size": 32,
+    "player_tap_radius_multiplier": 1.75,
+    "pending_snap_key": "__pokiPendingTapRouteSnap",
+    "bind_retry_ms": 50,
+    "bind_retry_max_attempts": 200,
+    "snap_retry_ms": 50,
+    "snap_stabilize_max_attempts": 20,
+    "snap_max_attempts": 300
+  },
+  "vocabulary": {
+    "mastery_threshold": 3,
+    "page_size": 8,
+    "summary_template": "{mastered} / {total}",
+    "row_label_template": "{glyph} {word}",
+    "entry_template": "{word}  ({sightings}x)",
+    "glyph_card_template": "{glyph}\n{word}\nlukin: {sightings}x",
+    "sentence_log_summary_template": "lipu nasin: {count}",
+    "sentence_log_empty_text": "toki ala lon lipu nasin.",
+    "sentence_dump_line_template": "{tp}    // sightings={sightings}    first={first_seen}"
+  },
+  "inventory_screen": {
+    "badges_header_template": "badges: {held} / {total}",
+    "badge_line_template": "  {state}  {label}  ({region})",
+    "badge_held_state": "✓",
+    "badge_missing_state": "·",
+    "beat_template": "beat: {beat}",
+    "items_title": "ijo:",
+    "item_line_template": "  {item} ×{count}",
+    "empty_line": "  (empty)",
+    "quests_title": "pali:",
+    "empty_party_text": "poki: (empty — catch some!)",
+    "party_header_template": "poki: {count} / {max}",
+    "party_line_template": "  {slot}.  {species}  L{level}"
+  },
+  "party_panel": {
+    "unknown_type_label": "unknown",
+    "missing_portrait_fallback": "?",
+    "level_label_template": "L{level}",
+    "hp_label_template": "HP {current} / {max}",
+    "xp_label_template": "XP {current} / {next}",
+    "xp_max_label_template": "XP {current} / max",
+    "next_xp_label_template": "{remaining} to L{level}",
+    "max_level_label": "max level",
+    "moves_empty_label": "moves: ala",
+    "move_separator": " · "
+  },
+  "bestiary_panel": {
+    "title_template": "lipu soweli {caught} / {total}",
+    "unknown_label_template": "??? {index}",
+    "unknown_type_label": "unknown",
+    "caught_meta_template": "jo · {type}",
+    "seen_meta_template": "lukin · {type}",
+    "unknown_meta": "ala",
+    "description_text_template": "{label}\n{description}",
+    "missing_description_text": "sona li awen."
+  },
+  "save_menu": {
+    "prompt": "poki awen",
+    "auto_label": "auto",
+    "cancel_label": "tawa",
+    "empty_label": "ala",
+    "empty_slot_template": "{tag} — {empty}",
+    "empty_detail_template": "{empty}",
+    "filled_slot_template": "{tag} — {date}{beat}",
+    "filled_detail_template": "{date}{beat}",
+    "beat_suffix_template": " · {beat}",
+    "auto_detail_template": "auto\n{label}",
+    "existing_slot_prompt_template": "{slot}?",
+    "actions": [
+      { "value": "save", "label": "awen" },
+      { "value": "load", "label": "kama" },
+      { "value": "cancel", "label": "tawa" }
+    ],
+    "missing_save_api_template": "ike · {slot}",
+    "save_success_template": "pona · {slot} awen",
+    "save_error_template": "ike · {slot} awen",
+    "load_success_template": "pona · {slot} kama",
+    "load_error_template": "ike · {slot} kama",
+    "loaded_position_snap_delay_ms": [500, 1500]
+  },
+  "quest": {
+    "offer_template": "{title}\n{goal}",
+    "progress_template": "{current} / {target}",
+    "journal_active_mark": "·",
+    "journal_completed_mark": "✓",
+    "journal_line_template": "  {mark} {title}: {progress}",
+    "accepted_template": "pali: {progress}",
+    "completed_text": "pali ni li pini",
+    "accept_label": "pali",
+    "back_label": "tawa",
+    "reward_success_template": "pali pini: {title}\n{rewards}",
+    "reward_not_ready_template": "pali: {progress}",
+    "delivery_template": "{item} -> {npc}",
+    "goal_templates": {
+      "catch_count": "poki: {species} x{target}",
+      "catch_any_in_biome": "poki: x{target}",
+      "defeat_trainer": "utala: {npc}",
+      "deliver_item": "pana: {item} -> {npc}"
+    },
+    "reward_templates": {
+      "item": "{item} x{count}",
+      "xp": "XP +{xp}",
+      "word": "nimi: {word}"
+    },
+    "notification_reward_template": "pali pini: {title}",
+    "notification_progress_template": "{title}: {progress}",
+    "notification_ready_template": "{title}: pini",
+    "notification_ms": 2500
+  },
+  "dictionary_export": {
+    "runtime": {
+      "action": { "label": "lipu nimi", "meta": "SVG" },
+      "default_player_name": "sina",
+      "download_filename": "poki-soweli-lipu-nimi.svg"
+    },
+    "text_card": {
+      "header": "═══ lipu nimi — poki soweli ═══",
+      "player_template": "  jan {player}",
+      "cleared_badge": "★ akesi sewi defeated",
+      "ng_plus_badge_template": "★ akesi sewi defeated × {count}",
+      "in_progress_badge": "… journey in progress",
+      "exported_at_template": "  tenpo pi pana: {date}",
+      "word_count_template": "  nimi sona: {count}",
+      "empty_words": "  (nimi ala — catch and talk to find them)",
+      "top_words_header": "  ═ nimi lukin mute ═",
+      "word_row_template": "    {word} {marks}",
+      "sighting_mark": "·",
+      "top_words_limit": 20,
+      "word_column_width": 14,
+      "sighting_mark_cap": 10
+    },
+    "svg_card": {
+      "width": 400,
+      "height": 600,
+      "view_box": "0 0 400 600",
+      "font_family": "serif",
+      "background_fill": "#1b1510",
+      "border": {
+        "x": 10,
+        "y": 10,
+        "width": 380,
+        "height": 580,
+        "stroke": "#c9a268",
+        "stroke_width": 2
+      },
+      "grid": {
+        "x": 20,
+        "y": 260,
+        "columns": 6,
+        "cell_width": 60,
+        "cell_height": 80,
+        "word_limit": 24,
+        "word_font_base": 11,
+        "word_font_bonus_cap": 6,
+        "word_font_sighting_divisor": 3,
+        "word_fill": "#f5e6c8"
+      },
+      "title": {
+        "text": "lipu nimi",
+        "x": 200,
+        "y": 60,
+        "font_size": 22,
+        "fill": "#f5e6c8"
+      },
+      "subtitle": {
+        "text": "poki soweli",
+        "x": 200,
+        "y": 90,
+        "font_size": 14,
+        "fill": "#c9a268"
+      },
+      "player": {
+        "template": "jan {player}",
+        "x": 200,
+        "y": 140,
+        "font_size": 16,
+        "fill": "#f5e6c8"
+      },
+      "word_count": {
+        "x": 200,
+        "y": 185,
+        "font_size": 48,
+        "fill": "#86a856"
+      },
+      "word_count_label": {
+        "text": "nimi sona",
+        "x": 200,
+        "y": 205,
+        "font_size": 11,
+        "fill": "#c9a268"
+      },
+      "cleared_badge": {
+        "text": "akesi sewi — moli",
+        "x": 200,
+        "y": 220,
+        "font_size": 14,
+        "fill": "#e5a42c"
+      },
+      "date": {
+        "x": 200,
+        "y": 585,
+        "font_size": 9,
+        "fill": "#c9a268"
+      }
+    }
+  },
+  "shop": {
+    "prompt_template": "{coin} {balance}",
+    "back_label": "tawa",
+    "choice_template": "{item} ×{count} · {coin} {price}",
+    "coin_grant_template": "{coin} ×{amount}",
+    "coin_grant_notification_ms": 2500,
+    "purchase_success_template": "{item} +{count}\n{coin} {balance}",
+    "insufficient_template": "{coin} ala",
+    "missing_template": "ijo ala"
+  },
+  "notifications": {
+    "victory": {
+      "time_ms": 2500,
+      "xp_template": "{species} +{amount} XP",
+      "level_template": "{species} L{from} -> L{to}",
+      "move_template": "{species} sona sin: {move}"
+    },
+    "item_drop": {
+      "time_ms": 2500,
+      "template": "{item} ×{count}"
+    },
+    "bench_switch": {
+      "time_ms": 1500,
+      "template": "{species} li kama"
+    }
+  },
+  "settings": {
+    "text_speed_presets": [0, 24, 48, 96],
+    "default_text_speed": 48,
+    "text_speed_value_template": "{value} / sec",
+    "volume_presets": [0, 30, 60, 100],
+    "default_volume": 70,
+    "state_labels": {
+      "on": "lon",
+      "off": "ala",
+      "instant": "wawa",
+      "muted": "ala"
+    },
+    "summary_title": "nasin:",
+    "summary_rows": [
+      { "value": "sitelen", "label": "sitelen", "template": "  {label}    {state}" },
+      { "value": "text_speed", "label": "tenpo", "template": "  {label}      {value}" },
+      { "value": "contrast", "label": "wawa", "template": "  {label}       {state}" },
+      { "value": "accessible", "label": "suli", "template": "  {label}       {state}" },
+      { "value": "volume", "label": "kalama", "template": "  {label}     bgm {bgm}   sfx {sfx}" }
+    ],
+    "pause_summary": {
+      "title": "awen / nasin",
+      "rows": [
+        { "value": "sitelen", "label": "sitelen", "meta_template": "{state}" },
+        { "value": "text_speed", "label": "tenpo", "meta_template": "{value}" },
+        { "value": "contrast", "label": "wawa", "meta_template": "{state}" },
+        { "value": "accessible", "label": "suli", "meta_template": "{state}" },
+        { "value": "volume", "label": "kalama", "meta_template": "bgm {bgm} / sfx {sfx}" }
+      ],
+      "detail_action": { "label": "open settings", "meta": "change values" }
+    },
+    "choice_prompt": "?",
+    "choice_formats": {
+      "boolean": "{label}  [{state}]",
+      "text_speed": "{label}   {value}",
+      "volume": "{label} {value}",
+      "default": "{label}"
+    },
+    "change_messages": {
+      "text_speed": "tenpo · {value}",
+      "volume": "kalama {bus} · {value}"
+    },
+    "choices": [
+      { "value": "sitelen", "label": "sitelen" },
+      { "value": "text_speed", "label": "tenpo" },
+      { "value": "contrast", "label": "wawa" },
+      { "value": "accessible", "label": "suli" },
+      { "value": "bgm", "label": "kalama bgm" },
+      { "value": "sfx", "label": "kalama sfx" },
+      { "value": "cancel", "label": "tawa" }
+    ]
+  },
+  "credits_pages": [
+    ["poki soweli", "", "thanks for playing."],
+    ["game / code / maps", "project team", "", "engine", "RPGJS / CanvasEngine / Pixi"],
+    ["art / tiles / creatures", "Fan-tasy asset family", "", "language corpus", "Tatoeba"]
+  ]
+}

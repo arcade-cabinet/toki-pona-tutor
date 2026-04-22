@@ -1,10 +1,13 @@
 import { describe, it, expect } from 'vitest';
+import type { RpgPlayer } from '@rpgjs/server';
+import { MICRO_GAME_CONFIG } from '../../src/content/gameplay';
 import {
     makeRng,
     shuffle,
     buildRound,
     buildSequence,
     gradePick,
+    playMicroGame,
     type SentencePrompt,
 } from '../../src/modules/main/micro-game';
 
@@ -151,5 +154,57 @@ describe('gradePick — scoring', () => {
     it('wrong pick returns correct: false', () => {
         const wrongIndex = (round.correctIndex + 1) % 4;
         expect(gradePick(round, wrongIndex, 0).correct).toBe(false);
+    });
+});
+
+describe('playMicroGame — RPG.js choice binding', () => {
+    it('runs configured rounds with TP-only choices and deterministic scoring', async () => {
+        const rounds = buildSequence(
+            MICRO_GAME_CONFIG.pool,
+            MICRO_GAME_CONFIG.roundCount,
+            MICRO_GAME_CONFIG.seed,
+        );
+        const prompts: string[] = [];
+        const choicesSeen: string[][] = [];
+        const texts: string[] = [];
+        let roundIndex = 0;
+        const player = {
+            showChoices: async (
+                message: string,
+                choices: Array<{ text: string; value: string }>,
+            ) => {
+                const round = rounds[roundIndex];
+                roundIndex += 1;
+                prompts.push(message);
+                choicesSeen.push(choices.map((choice) => choice.text));
+                return choices.find((choice) => choice.text === round?.prompt.tp) ?? null;
+            },
+            showText: async (line: string) => {
+                texts.push(line);
+            },
+        } as unknown as RpgPlayer;
+
+        const result = await playMicroGame(player);
+
+        expect(result).toEqual({ completed: true, score: 3, total: 3 });
+        expect(prompts[0]).toContain('1/3');
+        expect(choicesSeen).toHaveLength(3);
+        expect(choicesSeen.flat().every((choice) =>
+            MICRO_GAME_CONFIG.pool.some((entry) => entry.tp === choice),
+        )).toBe(true);
+        expect(texts).toContain('pini: 3/3');
+    });
+
+    it('returns incomplete when the choice dialog is cancelled', async () => {
+        const player = {
+            showChoices: async () => null,
+            showText: async () => {},
+        } as unknown as RpgPlayer;
+
+        await expect(playMicroGame(player)).resolves.toEqual({
+            completed: false,
+            score: 0,
+            total: 3,
+        });
     });
 });

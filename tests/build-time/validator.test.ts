@@ -22,6 +22,8 @@ describe('validateSpec — well-formed spec', () => {
     const ground = await parseTsx(resolve(CORE_TSX, 'Tileset_Ground.tsx'));
     const spec: MapSpec = {
       id: 'good',
+      biome: 'town',
+      music_track: 'bgm_village',
       width: 2,
       height: 2,
       tileSize: 16,
@@ -41,11 +43,65 @@ describe('validateSpec — well-formed spec', () => {
   });
 });
 
+describe('validateSpec — map metadata', () => {
+  it('errors when biome is not supported', async () => {
+    const ground = await parseTsx(resolve(CORE_TSX, 'Tileset_Ground.tsx'));
+    const spec: MapSpec = {
+      id: 'bad_biome',
+      biome: 'swamp' as MapSpec['biome'],
+      music_track: 'bgm_village',
+      width: 2,
+      height: 2,
+      tileSize: 16,
+      tilesets: ['Tileset_Ground'],
+      palette: { g: { tsx: 'Tileset_Ground', local_id: 0 } },
+      layers: {
+        'Below Player': [
+          ['g', 'g'],
+          ['g', 'g'],
+        ],
+        Objects: [{ type: 'SpawnPoint', name: 'default', at: [0, 0] }],
+      },
+    };
+
+    const report = await validateSpec(spec, [ground], () => null);
+    expect(report.ok).toBe(false);
+    expect(report.issues.find((i: ValidationIssue) => i.code === 'invalid_biome')).toBeDefined();
+  });
+
+  it('errors when music_track is not a supported ambient track', async () => {
+    const ground = await parseTsx(resolve(CORE_TSX, 'Tileset_Ground.tsx'));
+    const spec: MapSpec = {
+      id: 'bad_music',
+      biome: 'town',
+      music_track: 'bgm_boss' as MapSpec['music_track'],
+      width: 2,
+      height: 2,
+      tileSize: 16,
+      tilesets: ['Tileset_Ground'],
+      palette: { g: { tsx: 'Tileset_Ground', local_id: 0 } },
+      layers: {
+        'Below Player': [
+          ['g', 'g'],
+          ['g', 'g'],
+        ],
+        Objects: [{ type: 'SpawnPoint', name: 'default', at: [0, 0] }],
+      },
+    };
+
+    const report = await validateSpec(spec, [ground], () => null);
+    expect(report.ok).toBe(false);
+    expect(report.issues.find((i: ValidationIssue) => i.code === 'invalid_music_track')).toBeDefined();
+  });
+});
+
 describe('validateSpec — palette errors', () => {
   it('errors when a paint grid references an unknown palette name', async () => {
     const ground = await parseTsx(resolve(CORE_TSX, 'Tileset_Ground.tsx'));
     const spec: MapSpec = {
       id: 'unknown_palette',
+      biome: 'town',
+      music_track: 'bgm_village',
       width: 2,
       height: 2,
       tileSize: 16,
@@ -68,6 +124,8 @@ describe('validateSpec — palette errors', () => {
     const ground = await parseTsx(resolve(CORE_TSX, 'Tileset_Ground.tsx'));
     const spec: MapSpec = {
       id: 'oor',
+      biome: 'town',
+      music_track: 'bgm_village',
       width: 1,
       height: 1,
       tileSize: 16,
@@ -91,6 +149,8 @@ describe('validateSpec — grid dimensions', () => {
     const ground = await parseTsx(resolve(CORE_TSX, 'Tileset_Ground.tsx'));
     const spec: MapSpec = {
       id: 'bad_dims',
+      biome: 'town',
+      music_track: 'bgm_village',
       width: 3,
       height: 2,
       tileSize: 16,
@@ -115,6 +175,8 @@ describe('validateSpec — SpawnPoint requirement', () => {
     const ground = await parseTsx(resolve(CORE_TSX, 'Tileset_Ground.tsx'));
     const spec: MapSpec = {
       id: 'no_spawn',
+      biome: 'town',
+      music_track: 'bgm_village',
       width: 2,
       height: 2,
       tileSize: 16,
@@ -141,6 +203,8 @@ describe('validateSpec — SpawnPoint requirement', () => {
     const ground = await parseTsx(resolve(CORE_TSX, 'Tileset_Ground.tsx'));
     const spec: MapSpec = {
       id: 'no_objects',
+      biome: 'town',
+      music_track: 'bgm_village',
       width: 2,
       height: 2,
       tileSize: 16,
@@ -166,6 +230,8 @@ describe('validateSpec — unique object names', () => {
     const ground = await parseTsx(resolve(CORE_TSX, 'Tileset_Ground.tsx'));
     const spec: MapSpec = {
       id: 'dup_names',
+      biome: 'town',
+      music_track: 'bgm_village',
       width: 2,
       height: 2,
       tileSize: 16,
@@ -195,6 +261,8 @@ describe('validateSpec — encounter species exist', () => {
     const ground = await parseTsx(resolve(CORE_TSX, 'Tileset_Ground.tsx'));
     const spec: MapSpec = {
       id: 'bad_encounter',
+      biome: 'town',
+      music_track: 'bgm_village',
       width: 2,
       height: 2,
       tileSize: 16,
@@ -228,6 +296,8 @@ describe('validateSpec — encounter species exist', () => {
     const ground = await parseTsx(resolve(CORE_TSX, 'Tileset_Ground.tsx'));
     const spec: MapSpec = {
       id: 'good_encounter',
+      biome: 'town',
+      music_track: 'bgm_village',
       width: 2,
       height: 2,
       tileSize: 16,

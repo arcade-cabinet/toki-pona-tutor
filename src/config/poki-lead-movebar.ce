@@ -1,0 +1,229 @@
+<DOMContainer width="100%" height="190" class="poki-lead-movebar-root" style={rootStyle}>
+    @if (hasMoves()) {
+        <div class="poki-lead-movebar" data-testid="lead-movebar" aria-label={barLabel()}>
+            <div class="poki-lead-movebar-header">
+                <div>
+                    <span>{leadLabel()}</span>
+                    <small>{levelLabel()}</small>
+                </div>
+                <div class="poki-lead-movebar-actions">
+                    <div
+                        class="poki-lead-switch-toggle"
+                        data-testid="lead-switch-label"
+                    >{switchActionLabel()}</div>
+                    <div class="poki-lead-movebar-energy">{energyLabel()}</div>
+                </div>
+            </div>
+            @if (hasSwitchOptions()) {
+                <div class="poki-lead-switch-panel" data-testid="lead-switch-panel">
+                    <div class="poki-lead-switch-heading">
+                        <span>{switchTitle()}</span>
+                    </div>
+                    @if (switchOptions().length === 0) {
+                        <div class="poki-lead-switch-empty">{switchEmptyLabel()}</div>
+                    }
+                    @else {
+                        <div class="poki-lead-switch-list">
+                            @for (option of switchOptions()) {
+                                <button
+                                    type="button"
+                                    class={switchOptionClass(option)}
+                                    data-testid={switchOptionTestId(option)}
+                                    aria-disabled={switchOptionDisabledAttr(option)}
+                                    tabindex={switchOptionTabIndex(option)}
+                                    pointerdown={capturePointerEvent}
+                                    pointerup={useSwitchOption(option)}
+                                    mousedown={capturePointerEvent}
+                                    mouseup={capturePointerEvent}
+                                    touchstart={capturePointerEvent}
+                                    touchend={useSwitchOption(option)}
+                                    click={useSwitchOption(option)}
+                                >
+                                    <span class="poki-lead-switch-name">{option.label}</span>
+                                    <span class="poki-lead-switch-meta">{option.levelLabel} - {option.meta}</span>
+                                    <span class={["poki-lead-switch-hp", option.hpClass || "hp-healthy"]}>
+                                        <span class="poki-lead-switch-hp-track">
+                                            <span class="poki-lead-switch-hp-fill hp-fill" style={switchHpStyle(option)}></span>
+                                        </span>
+                                        <small>{option.hpLabel}</small>
+                                    </span>
+                                </button>
+                            }
+                        </div>
+                    }
+                </div>
+            }
+            <div
+                class="poki-lead-movebar-target"
+                data-testid="lead-movebar-target"
+                data-in-range={targetInRangeAttr()}
+            >
+                <span>{targetLabel()}</span>
+                <small>{targetStatusLabel()}</small>
+            </div>
+            <div class="poki-lead-movebar-grid">
+                @for (move of moveList()) {
+                    <button
+                        type="button"
+                        class={moveClass(move)}
+                        data-testid={moveTestId(move)}
+                        data-type={move.typeLabel}
+                        data-ready={moveReadyAttr(move)}
+                        aria-disabled={moveDisabledAttr(move)}
+                        aria-label={moveLabel(move)}
+                        tabindex={moveTabIndex(move)}
+                        pointerdown={capturePointerEvent}
+                        pointerup={useMove(move.actionId)}
+                        mousedown={capturePointerEvent}
+                        mouseup={capturePointerEvent}
+                        touchstart={capturePointerEvent}
+                        touchend={useMove(move.actionId)}
+                        click={useMove(move.actionId)}
+                    >
+                        <span class="poki-lead-movebar-name">{move.label}</span>
+                        <span class="poki-lead-movebar-meta">{move.meta}</span>
+                        <span class="poki-lead-movebar-cooldown">{cooldownLabel(move)}</span>
+                    </button>
+                }
+            </div>
+        </div>
+    }
+</DOMContainer>
+
+<script>
+    import { computed, mount, signal } from "canvasengine";
+    import { COMBAT_UI_CONFIG } from "../content/gameplay";
+    import { formatGameplayTemplate } from "../content/gameplay/templates";
+
+    const { data, onInteraction } = defineProps({
+        data: {
+            default: () => null
+        }
+    });
+
+    const rootStyle = { pointerEvents: "none" };
+    const copy = COMBAT_UI_CONFIG.leadMoveBar;
+    const now = signal(Date.now());
+    let lastInteractionKey = "";
+    let lastInteractionAt = 0;
+    const view = computed(() => data() || null);
+    const moveList = computed(() => {
+        const moves = view()?.moves;
+        return Array.isArray(moves) ? moves : [];
+    });
+    const hasMoves = computed(() => moveList().length > 0);
+    const leadLabel = computed(() => view()?.leadLabel || "");
+    const levelLabel = computed(() => view()?.levelLabel || "");
+    const energyLabel = computed(() => view()?.energyLabel || "");
+    const switchInfo = computed(() => view()?.switch || null);
+    const switchActionLabel = computed(() => switchInfo()?.actionLabel || copy.switchActionLabel);
+    const switchTitle = computed(() => switchInfo()?.title || copy.switchTitle);
+    const switchEmptyLabel = computed(() => switchInfo()?.emptyLabel || copy.switchEmptyLabel);
+    const switchOptions = computed(() => {
+        const options = switchInfo()?.options;
+        return Array.isArray(options) ? options : [];
+    });
+    const hasSwitchOptions = computed(() => switchOptions().length > 1);
+    const targetInfo = computed(() => view()?.target || null);
+    const targetLabel = computed(() => targetInfo()?.label || copy.defaultTargetLabel);
+    const targetStatusLabel = computed(() => targetInfo()?.statusLabel || copy.defaultTargetStatus);
+    const targetInRangeAttr = computed(() => targetInfo()?.inRange ? "true" : "false");
+    const barLabel = computed(() => {
+        const model = view();
+        if (!model) return copy.emptyAriaLabel;
+        return formatGameplayTemplate(copy.barAriaTemplate, { lead: model.leadLabel });
+    });
+
+    const isMoveReady = (move) => {
+        if (!move || move.disabled) return false;
+        return Number(move.readyAt || 0) <= now();
+    };
+
+    const moveClass = (move) => ({
+        "poki-lead-movebar-move": true,
+        ready: isMoveReady(move),
+        cooldown: !isMoveReady(move)
+    });
+
+    const moveTestId = (move) => `lead-move-${move?.moveId || "unknown"}`;
+    const moveReadyAttr = (move) => isMoveReady(move) ? "true" : "false";
+    const moveDisabledAttr = (move) => isMoveReady(move) ? "false" : "true";
+    const moveTabIndex = (move) => isMoveReady(move) ? "0" : "-1";
+    const switchOptionDisabled = (option) => !option || !!option.disabled;
+    const switchOptionClass = (option) => ({
+        "poki-lead-switch-option": true,
+        selected: !!option?.selected,
+        disabled: switchOptionDisabled(option)
+    });
+    const switchOptionTestId = (option) => `lead-switch-slot-${option?.slot ?? "unknown"}`;
+    const switchOptionDisabledAttr = (option) => switchOptionDisabled(option) ? "true" : "false";
+    const switchOptionTabIndex = (option) => switchOptionDisabled(option) ? "-1" : "0";
+    const switchHpStyle = (option) => `width: ${Number(option?.hpPercent ?? 0)}%`;
+
+    const moveLabel = (move) => {
+        if (!move) return copy.fallbackMoveLabel;
+        return `${move.label}, ${move.meta}, ${cooldownLabel(move)}`;
+    };
+
+    const cooldownLabel = (move) => {
+        const readyAt = Number(move?.readyAt || 0);
+        const remaining = readyAt - now();
+        if (remaining <= 0) return copy.readyLabel;
+        return formatGameplayTemplate(copy.cooldownLabelTemplate, {
+            seconds: Math.ceil(remaining / 1000)
+        });
+    };
+
+    function useMove(actionId) {
+        return function(event) {
+            const move = view()?.moves?.find((entry) => entry.actionId === actionId);
+            if (!isMoveReady(move)) {
+                cancelControlEvent(event);
+                return;
+            }
+            if (!beginControlInteraction(`move:${actionId}`, event)) return;
+            if (!isMoveReady(move)) return;
+            onInteraction?.("useMove", { id: actionId });
+        };
+    }
+
+    function cancelControlEvent(event) {
+        event?.preventDefault?.();
+        capturePointerEvent(event);
+    }
+
+    function beginControlInteraction(key, event) {
+        cancelControlEvent(event);
+        const timestamp = Date.now();
+        if (lastInteractionKey === key && timestamp - lastInteractionAt < 350) {
+            return false;
+        }
+        lastInteractionKey = key;
+        lastInteractionAt = timestamp;
+        return true;
+    }
+
+    function capturePointerEvent(event) {
+        event?.stopPropagation?.();
+    }
+
+    function useSwitchOption(option) {
+        return function(event) {
+            if (switchOptionDisabled(option)) {
+                cancelControlEvent(event);
+                return;
+            }
+            if (!beginControlInteraction(`switch:${option.slot}:${option.speciesId}`, event)) return;
+            onInteraction?.("switchLead", { id: String(option.slot), slot: option.slot, speciesId: option.speciesId });
+        };
+    }
+
+    mount(() => {
+        const timer = window.setInterval(() => {
+            now.set(Date.now());
+        }, 150);
+        return () => {
+            window.clearInterval(timer);
+        };
+    });
+</script>

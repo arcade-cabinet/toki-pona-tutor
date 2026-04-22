@@ -1,18 +1,18 @@
 ---
 title: Agent Teams Playbook
-updated: 2026-04-19
+updated: 2026-04-22
 status: current
 domain: ops
 ---
 
 # Running agent teams in this repo
 
-Toki Town is authored by a human orchestrator plus a small fleet of content-writing subagents running in parallel. This doc is the contract between the orchestrator and the teammates: how they isolate work, how they review, when they self-merge, when they escalate.
+poki soweli is authored by a human orchestrator plus a small fleet of content-writing subagents running in parallel. This doc is the contract between the orchestrator and the teammates: how they isolate work, how they review, when they self-merge, when they escalate.
 
 ## Ground truth on the Claude Code team primitives
 
-- `CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1` is set in `~/.claude/settings.json`. `TeamCreate`, `TeamDelete`, `SendMessage` are live.
-- **Known bug (#37549, still present on v2.1.114):** spawning an `Agent` with both `team_name` and `isolation: "worktree"` silently *ignores* the isolation flag. The teammate lands in the primary checkout on the current branch.
+- `CLAUDE_CODE_EXPERIMENTAL_AGENT_TEAMS=1` is set in `~/.claude/settings.json` on this machine. Verify `TeamCreate`, `TeamDelete`, and `SendMessage` are present in the active Claude Code session before starting a wave.
+- **Known bug (#37549, observed locally with Claude Code 2.1.98):** spawning an `Agent` with both `team_name` and `isolation: "worktree"` can silently *ignore* the isolation flag. The teammate may land in the primary checkout on the current branch. Re-test after Claude Code upgrades, but keep the worktree prologue mandatory unless the bug is proven fixed.
 - **Workaround (the policing model):** every teammate's brief opens with a worktree prologue they run before touching any files. The prologue creates a worktree from `origin/main` and `cd`s into it. The rest of the brief operates in that worktree.
 
 This is acceptable. The isolation responsibility shifts from the framework to the teammate's opening checklist, and that checklist goes in every brief.
@@ -29,7 +29,7 @@ Content is landed in waves. Each wave is a small set of PRs that can be authored
    - region-1: ma tomo lili — starter village, jan Sewi's ceremony
    - region-2: nasin wan — first route, tall-grass encounter table
    - items: poki variants, healing items
-3. **Wave 3 — Engine integration (orchestrator only).** Rewire Phaser scenes to read `generated/world.json`, wire catch mechanic, party, lipu soweli.
+3. **Wave 3 — Engine integration (orchestrator only).** Wire RPG.js modules to read `generated/world.json`, catch mechanics, party state, and `lipu soweli`.
 4. **Wave 4 — Content fanout (more teammates).** Regions 3–6, dialog polish, balance pass, gym-master fights.
 
 Max five teammates in flight at once. More than that strains context budgets, tangles the git remote, and multiplies review load.
@@ -68,7 +68,7 @@ Once the PR is open and CI is green, the agent runs through this before `gh pr m
 3. The agent has waited for 10 minutes of no new comments post-green-CI
 4. Self-review: re-read the diff, check against the original brief, check for stubs/TODOs/dead code
 5. Low-confidence flag? Post a comment tagging `@jbdevprimary`, add `needs-human-review` label, stop. Do not merge.
-6. High-confidence? `gh pr merge <pr> --squash --admin`, then back to the main checkout and `git worktree remove .worktrees/<branch>` to clean up.
+6. High-confidence? `gh pr merge <pr> --squash`, then back to the main checkout and `git worktree remove .worktrees/<branch>` to clean up.
 
 ## Stall detection heuristics
 
@@ -94,10 +94,10 @@ Self-review produces two outcomes. The agent picks and commits:
 1. `git checkout main && git pull` — fresh baseline
 2. `git worktree list` — confirm no orphans
 3. Pick the wave's teammate briefs from `docs/agent-briefs/*.md`
-4. `TeamCreate` a named team if one isn't active (name: `toki-town-wave-N`)
+4. `TeamCreate` a named team if one isn't active (name: `poki-soweli-wave-N`)
 5. For each brief: `Agent({subagent_type, team_name, name, isolation: "worktree", prompt: <brief-with-worktree-prologue>})`
 6. Watch PR URLs surface via SendMessage
-7. Between waves: `node scripts/worktree-janitor.mjs` to GC stragglers, `TeamDelete` the old team
+7. Between waves, after confirming no teammate has unmerged work: `node scripts/worktree-janitor.mjs` to remove `.worktrees/` entries older than 6 hours, then `TeamDelete` the old team
 
 ## Global rules in force
 

@@ -7,6 +7,7 @@
  *
  * See docs/build-time/MAP_AUTHORING.md § "The validator".
  */
+import { isMapBiome, isMapMusicTrack } from '../../../src/content/map-metadata';
 import type {
   MapSpec,
   ParsedTileset,
@@ -16,7 +17,7 @@ import type {
   PlacedTile,
   ObjectMarker,
 } from './types';
-import { tsxQualifiedKey, tsxStem } from './palette';
+import { hasLocalTileId, tsxQualifiedKey, tsxStem } from './palette';
 
 /**
  * A lookup function that returns a species record (or null) for a given id.
@@ -31,6 +32,21 @@ export async function validateSpec(
   speciesLookup: SpeciesLookup,
 ): Promise<ValidationReport> {
   const issues: ValidationIssue[] = [];
+
+  if (!isMapBiome(spec.biome)) {
+    issues.push({
+      severity: 'error',
+      code: 'invalid_biome',
+      message: `spec.biome "${String(spec.biome)}" is not a supported map biome`,
+    });
+  }
+  if (!isMapMusicTrack(spec.music_track)) {
+    issues.push({
+      severity: 'error',
+      code: 'invalid_music_track',
+      message: `spec.music_track "${String(spec.music_track)}" is not a supported ambient BGM track`,
+    });
+  }
 
   // Index available tilesets under both their bare stem and their
   // pack-qualified key so palette entries using either form resolve.
@@ -71,11 +87,11 @@ export async function validateSpec(
     }
     const ts = tsByKey.get(entry.tsx);
     if (!ts) continue; // already reported as tileset_not_loaded
-    if (entry.local_id < 0 || entry.local_id >= ts.tileCount) {
+    if (!hasLocalTileId(ts, entry.local_id)) {
       issues.push({
         severity: 'error',
         code: 'palette_local_id_oor',
-        message: `palette entry "${name}" has local_id ${entry.local_id} out of range [0, ${ts.tileCount}) for tileset "${entry.tsx}"`,
+        message: `palette entry "${name}" has local_id ${entry.local_id} out of range for tileset "${entry.tsx}"`,
       });
     }
   }

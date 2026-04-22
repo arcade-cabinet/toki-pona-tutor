@@ -15,7 +15,7 @@
  * out of the build-time test path.
  */
 
-import dictionaryRaw from '../content/dictionary.json';
+import dictionaryRaw from "../content/dictionary.json";
 
 type DictionaryEntry = {
     word: string;
@@ -24,9 +24,7 @@ type DictionaryEntry = {
 };
 
 const dictionary = dictionaryRaw as DictionaryEntry[];
-const byWord = new Map<string, DictionaryEntry>(
-    dictionary.map((e) => [e.word, e]),
-);
+const byWord = new Map<string, DictionaryEntry>(dictionary.map((e) => [e.word, e]));
 
 /** Raw "U+XXXX" string from the dictionary, or null if unknown. */
 export function ucsurCodepoint(word: string): string | null {
@@ -38,7 +36,7 @@ export function ucsurCodepoint(word: string): string | null {
 export function ucsurChar(word: string): string | null {
     const cp = ucsurCodepoint(word);
     if (!cp) return null;
-    const hex = cp.startsWith('U+') ? cp.slice(2) : cp;
+    const hex = cp.startsWith("U+") ? cp.slice(2) : cp;
     const n = parseInt(hex, 16);
     if (!Number.isFinite(n)) return null;
     return String.fromCodePoint(n);
@@ -61,7 +59,7 @@ export type GlyphOptions = {
  * doesn't produce spurious "null" text.
  */
 export function glyphForDisplay(word: string, opts: GlyphOptions = {}): string {
-    if (word === '') return '';
+    if (word === "") return "";
     const fontLoaded = opts.fontLoaded ?? true;
     if (fontLoaded) {
         const ucsur = ucsurChar(word);

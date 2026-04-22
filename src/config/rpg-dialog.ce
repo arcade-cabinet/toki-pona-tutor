@@ -1,0 +1,285 @@
+<DOMContainer width="100%" height="100%" controls={dialogControls}>
+    <div
+        class="rpg-ui-dialog-container"
+        data-position={dialogPosition()}
+        data-full-width={isFullWidth() ? "true" : "false"}
+        data-has-face={hasFace() ? "true" : "false"}
+        click={consumeClickEvent}
+        pointerdown={capturePointerEvent}
+        pointerup={capturePointerEvent}
+        mousedown={capturePointerEvent}
+        mouseup={capturePointerEvent}
+        touchstart={capturePointerEvent}
+        touchend={capturePointerEvent}
+    >
+        <div class="rpg-ui-dialog rpg-anim-fade-in">
+            <div class="rpg-ui-dialog-body">
+               <div>
+                    @if (speakerName()) {
+                        <div class="rpg-ui-dialog-speaker">{speakerName()}</div>
+                    }
+                    <div class="rpg-ui-dialog-content">
+                        {displayMessage()}
+                    </div>
+                    <div
+                        class="poki-dialog-sitelen"
+                        data-testid={sitelenOverlayTestId}
+                        data-visible={sitelenOverlayText() ? "true" : "false"}
+                    >{sitelenOverlayText()}</div>
+                    @if (hasChoices()) {
+                        <Navigation tabindex={selectedItem} controls={controls}>
+                            <div class="rpg-ui-dialog-choices">
+                                @for ((choice,index) of choices) {
+                                    <div
+                                        class="rpg-ui-dialog-choice"
+                                        class={{active: selectedItem() === index}}
+                                        tabindex={index}
+                                        data-choice-index={index}
+                                        pointerdown={capturePointerEvent}
+                                        pointerup={capturePointerEvent}
+                                        mousedown={capturePointerEvent}
+                                        mouseup={capturePointerEvent}
+                                        touchstart={capturePointerEvent}
+                                        touchend={capturePointerEvent}
+                                        click={selectChoice(index)}
+                                    >{{ choice.text }}</div>
+                                }
+                            </div>
+                        </Navigation>
+                    }
+               </div>
+                @if (hasFace()) {
+                    <div class="rpg-ui-dialog-face">
+                        <DOMSprite sheet={faceSheet(face.id, face.expression)} />
+                    </div>
+                }
+            </div>
+            @if (showIndicator) {
+                <div class="rpg-ui-dialog-indicator"></div>
+            }
+        </div>
+    </div>
+</DOMContainer>
+    
+<script>
+    import { effect, signal, computed, createTabindexNavigator, mount } from "canvasengine";
+    import { inject, RpgClientEngine } from "@rpgjs/client";
+    import { delay } from "@rpgjs/common";
+    import { DIALOG_UI_CONFIG } from "../content/gameplay";
+    import { getSitelenOverlay, getTextSpeed } from "../platform/persistence/settings";
+    import { sitelenOverlayForText } from "../styles/sitelen-overlay";
+    import { DEFAULT_TEXT_SPEED_CPS, typewriterIntervalMsForCps } from "./typewriter-speed";
+    import { playClientSfx } from "./client-sfx";
+
+    const engine = inject(RpgClientEngine);
+    const keyboardControls = engine.globalConfig.keyboardControls;
+
+    engine.stopProcessingInput = true;
+
+    const {
+        data,
+        onFinish,
+    } = defineProps();
+
+    const { message, choices, face, speaker, position, typewriterEffect } = data();
+    const fullWidth = computed(() => data().fullWidth || false);
+
+    const resolveProp = (value) => typeof value === "function" ? value() : value;
+
+    const speakerName = computed(() => {
+        const value = resolveProp(speaker);
+        return value ? String(value) : "";
+    });
+
+    const dialogPosition = computed(() => resolveProp(position) || DIALOG_UI_CONFIG.defaultPosition);
+    const sitelenOverlayTestId = DIALOG_UI_CONFIG.sitelenOverlayTestId;
+    const isFullWidth = computed(() => resolveProp(fullWidth) !== false);
+    const hasFace = computed(() => !!resolveProp(face));
+
+    const displayMessage = signal("");
+    const fullMessage = signal("");
+    const isTyping = signal(false);
+    const sitelenOverlayText = signal("");
+    let typewriterTimer = null;
+    let typewriterRunId = 0;
+    let sitelenOverlayRunId = 0;
+
+    const clearTypewriterTimer = () => {
+        if (typewriterTimer) clearInterval(typewriterTimer);
+        typewriterTimer = null;
+    };
+
+    const startTypewriter = async (text) => {
+        const runId = ++typewriterRunId;
+        clearTypewriterTimer();
+        displayMessage.set("");
+        if (!text) {
+            isTyping.set(false);
+            return;
+        }
+        isTyping.set(true);
+
+        let cps = DEFAULT_TEXT_SPEED_CPS;
+        try {
+            cps = await getTextSpeed();
+        } catch {
+            // Keep dialog readable if the platform preference backend fails.
+        }
+
+        if (runId !== typewriterRunId) return;
+
+        const intervalMs = typewriterIntervalMsForCps(cps);
+        if (intervalMs === null) {
+            displayMessage.set(text);
+            isTyping.set(false);
+            return;
+        }
+
+        let index = 0;
+        const timer = setInterval(() => {
+            if (runId !== typewriterRunId) {
+                clearInterval(timer);
+                if (typewriterTimer === timer) typewriterTimer = null;
+                return;
+            }
+            index += 1;
+            displayMessage.set(text.slice(0, index));
+            if (index >= text.length) {
+                clearInterval(timer);
+                if (typewriterTimer === timer) typewriterTimer = null;
+                isTyping.set(false);
+            }
+        }, intervalMs);
+        typewriterTimer = timer;
+    };
+
+    const finishTyping = () => {
+        typewriterRunId += 1;
+        clearTypewriterTimer();
+        displayMessage.set(fullMessage());
+        isTyping.set(false);
+    };
+
+    const refreshSitelenOverlay = async (text) => {
+        const runId = ++sitelenOverlayRunId;
+        sitelenOverlayText.set("");
+        let enabled = false;
+        try {
+            enabled = await getSitelenOverlay();
+        } catch {
+            // Dialog remains readable if preferences are unavailable.
+        }
+        if (runId === sitelenOverlayRunId) {
+            sitelenOverlayText.set(enabled ? sitelenOverlayForText(text) : "");
+        }
+    };
+
+    effect(() => {
+        const text = resolveProp(message) || "";
+        fullMessage.set(text);
+        void refreshSitelenOverlay(text);
+        const useTypewriter = resolveProp(typewriterEffect) !== false;
+        if (!useTypewriter) {
+            finishTyping();
+            return;
+        }
+        startTypewriter(text);
+    });
+
+    const hasChoices = computed(() => choices.length > 0);
+    const showIndicator = computed(() => !hasChoices() && !isTyping());
+    const selectedItem = signal(0);
+    const nav = createTabindexNavigator(selectedItem, { count: () => choices.length }, 'wrap');
+
+    function capturePointerEvent(event) {
+        event?.stopPropagation?.();
+    }
+
+    function consumeClickEvent(event) {
+        event?.preventDefault?.();
+        event?.stopPropagation?.();
+    }
+
+    function selectChoice(index) {
+        return function(event) {
+            consumeClickEvent(event);
+            selectedItem.set(index);
+            onSelect(index);
+        }
+    }
+
+    function finishDialog(value) {
+        if (onFinish) onFinish(value);
+    }
+
+    const onSelect = (index) => {
+        void playClientSfx(engine, DIALOG_UI_CONFIG.confirmSfxId);
+        finishDialog(index);
+    };
+
+    const controls = signal({
+        up: {
+            repeat: true,
+            bind: keyboardControls.up,
+            throttle: 150,
+            keyDown() {
+                if (!hasChoices()) return;
+                void playClientSfx(engine, DIALOG_UI_CONFIG.tickSfxId);
+                nav.next(-1);
+            }
+        },
+        down: {
+            repeat: true,
+            bind: keyboardControls.down,
+            throttle: 150,
+            keyDown() {
+                if (!hasChoices()) return;
+                void playClientSfx(engine, DIALOG_UI_CONFIG.tickSfxId);
+                nav.next(1);
+            }
+        },
+        action: {
+            bind: keyboardControls.action,
+            keyDown() {
+                if (isTyping()) {
+                    finishTyping();
+                    return;
+                }
+                if (!hasChoices()) return;
+                onSelect(selectedItem());
+            }
+        },
+        gamepad: {
+            enabled: true
+        }
+    });
+    
+    const dialogControls = signal({
+        action: {
+            bind: keyboardControls.action,
+            keyDown() {
+                if (isTyping()) {
+                    finishTyping();
+                    return;
+                }
+                if (hasChoices()) return;
+                finishDialog();
+            }
+        },
+    });
+
+    const faceSheet = (graphicId, animationName) => {
+        return {
+            definition: engine.getSpriteSheet(graphicId),
+            playing: animationName,
+        };
+    };
+
+    mount(() => {
+        return () => {
+            delay(() => {
+                engine.stopProcessingInput = false;
+            });
+        };
+    });
+</script>

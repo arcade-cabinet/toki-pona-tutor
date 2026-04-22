@@ -1,0 +1,10 @@
+{
+  "id": "jan_poki_lete_cold",
+  "npc_id": "jan_poki_lete",
+  "priority": 0,
+  "beats": [
+    { "text": { "en": "You seem well..." }, "mood": "happy", "glyph": "pona" },
+    { "text": { "en": "Let's go!" }, "mood": "excited", "glyph": "tawa" }
+  ],
+  "triggers": {}
+}

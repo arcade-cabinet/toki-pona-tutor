@@ -1,0 +1,43 @@
+{
+  "micro_game": {
+    "seed": 20260420,
+    "round_count": 3,
+    "action": { "label": "wan sitelen", "meta": "musi toki" },
+    "prompt_template": "{prompt}\n{round}/{total}",
+    "correct_template": "pona! {score}/{total}",
+    "wrong_template": "ala. {answer}\n{score}/{total}",
+    "complete_template": "pini: {score}/{total}",
+    "pool": [
+      {
+        "id": "fruit_health",
+        "prompt_tag": "🍎",
+        "tp": "kili sin li pona tawa sijelo."
+      },
+      {
+        "id": "color_choice",
+        "prompt_tag": "🎨",
+        "tp": "kule seme li pona tawa sina?"
+      },
+      {
+        "id": "animal_here",
+        "prompt_tag": "🐾",
+        "tp": "soweli li lon ni."
+      },
+      {
+        "id": "bird_flying",
+        "prompt_tag": "🐦",
+        "tp": "waso li tawa kon."
+      },
+      {
+        "id": "house_here",
+        "prompt_tag": "🏠",
+        "tp": "mi lon tomo."
+      },
+      {
+        "id": "strong_fire",
+        "prompt_tag": "🔥",
+        "tp": "seli li wawa."
+      }
+    ]
+  }
+}

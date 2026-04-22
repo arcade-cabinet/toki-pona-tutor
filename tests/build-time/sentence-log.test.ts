@@ -1,4 +1,5 @@
-import { describe, it, expect } from 'vitest';
+import { afterEach, beforeEach, describe, it, expect } from 'vitest';
+import type { RpgPlayer } from '@rpgjs/server';
 import {
     observe,
     buildIndex,
@@ -7,6 +8,14 @@ import {
     exportDump,
     type SentenceRecord,
 } from '../../src/modules/main/sentence-log';
+import { playDialog } from '../../src/modules/main/dialog';
+import { showSentenceLog } from '../../src/modules/main/vocabulary-screen';
+import {
+    getSentenceLogCount,
+    listSentenceLog,
+    recordSentenceLine,
+} from '../../src/platform/persistence/queries';
+import { resetPersistedRuntimeState } from '../../src/platform/persistence/runtime-state';
 
 const rec = (tp: string, overrides: Partial<SentenceRecord> = {}): SentenceRecord => ({
     tp,
@@ -143,5 +152,82 @@ describe('exportDump — TP-only newline-delimited', () => {
 
     it('empty input yields empty string', () => {
         expect(exportDump([])).toBe('');
+    });
+});
+
+describe('sentence log persistence and player surface', () => {
+    beforeEach(async () => {
+        await resetPersistedRuntimeState({ includeSaves: true });
+    });
+
+    afterEach(async () => {
+        await resetPersistedRuntimeState({ includeSaves: true });
+    });
+
+    it('records first and repeat sightings through the SQLite query layer', async () => {
+        await recordSentenceLine({
+            tp: 'mi moku',
+            en: 'I eat',
+            source: 'test',
+            now: '2026-04-20T00:00:00Z',
+        });
+        await recordSentenceLine({
+            tp: 'mi moku',
+            en: 'I eat again',
+            source: 'later',
+            now: '2026-04-20T01:00:00Z',
+        });
+
+        const entries = await listSentenceLog();
+        expect(entries).toHaveLength(1);
+        expect(entries[0]).toMatchObject({
+            tp: 'mi moku',
+            en: 'I eat',
+            first_seen: '2026-04-20T00:00:00Z',
+            sightings: 2,
+            source: 'test',
+        });
+    });
+
+    it('playDialog records generated TP beats but skips EN-only beats', async () => {
+        const spoken: string[] = [];
+        const player = {
+            showText: async (line: string) => {
+                spoken.push(line);
+            },
+        } as unknown as RpgPlayer;
+
+        await playDialog(player, 'jan_sewi_starter_intro');
+
+        expect(spoken).toContain('hello');
+        expect(await getSentenceLogCount()).toBe(2);
+        const logged = await listSentenceLog();
+        expect(logged.map((entry) => entry.tp)).toContain('kili sin li pona tawa sijelo.');
+        expect(logged.map((entry) => entry.tp)).toContain('kule seme li pona tawa sina?');
+        expect(logged.map((entry) => entry.tp)).not.toContain('hello');
+    });
+
+    it('showSentenceLog gives the player a TP-only tap-readable surface', async () => {
+        const lines: string[] = [];
+        const player = {
+            showText: async (line: string) => {
+                lines.push(line);
+            },
+        } as unknown as RpgPlayer;
+
+        await recordSentenceLine({
+            tp: 'mi moku',
+            en: 'secret english',
+            source: 'test',
+            now: '2026-04-20T00:00:00Z',
+        });
+
+        await showSentenceLog(player);
+
+        expect(lines).toHaveLength(1);
+        expect(lines[0]).toContain('lipu nasin: 1');
+        expect(lines[0]).toContain('mi moku');
+        expect(lines[0]).toContain('sightings=1');
+        expect(lines[0]).not.toContain('secret english');
     });
 });

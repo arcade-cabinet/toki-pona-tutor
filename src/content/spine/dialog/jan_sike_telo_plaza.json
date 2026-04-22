@@ -1,0 +1,10 @@
+{
+  "id": "jan_sike_telo_plaza",
+  "npc_id": "jan_sike_telo",
+  "priority": 0,
+  "beats": [
+    { "text": { "en": "The shop is open." }, "mood": "happy", "glyph": "open" },
+    { "text": { "en": "He likes fishing." }, "mood": "thinking", "glyph": "kala" }
+  ],
+  "triggers": {}
+}

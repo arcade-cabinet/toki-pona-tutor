@@ -1,5 +1,5 @@
 /**
- * Typed settings accessors — T3-06 + T5-11 + T8-04.
+ * Typed settings accessors — T3-06 + T5-11 + T5-12 + T8-04.
  *
  * The Capacitor Preferences layer only stores strings. This module
  * wraps it with typed getters / setters for the game's known settings,
@@ -12,14 +12,14 @@
  * — the pure helpers can be exercised with in-memory shims.
  */
 
-import { preferences, KEYS } from './preferences';
+import { preferences, KEYS } from "./preferences";
 
 // ─── helpers ────────────────────────────────────────────────────────
 
 /** Parse a stored "0" / "1" into a boolean. null / anything-else → default. */
 function parseBool(raw: string | null, defaultValue: boolean): boolean {
-    if (raw === '1') return true;
-    if (raw === '0') return false;
+    if (raw === "1") return true;
+    if (raw === "0") return false;
     return defaultValue;
 }
 
@@ -39,7 +39,7 @@ export async function getSitelenOverlay(): Promise<boolean> {
 }
 
 export async function setSitelenOverlay(on: boolean): Promise<void> {
-    await preferences.set(KEYS.sitelenOverlay, on ? '1' : '0');
+    await preferences.set(KEYS.sitelenOverlay, on ? "1" : "0");
 }
 
 // ─── text speed (T3-06) ─────────────────────────────────────────────
@@ -65,14 +65,19 @@ export async function getHighContrast(): Promise<boolean> {
 }
 
 export async function setHighContrast(on: boolean): Promise<void> {
-    await preferences.set(KEYS.highContrast, on ? '1' : '0');
-    // Re-apply brand classes so the toggle takes effect without reload.
-    // Dynamic import keeps the persistence module DOM-free and server-
-    // bundle-safe; brand-preferences only gets pulled in on the client.
-    if (typeof document !== 'undefined' && document.body) {
-        const { applyBrandClasses } = await import('../../styles/brand-preferences');
-        applyBrandClasses(document.body, { highContrast: on });
-    }
+    await preferences.set(KEYS.highContrast, on ? "1" : "0");
+    await applyBrandPreferenceClasses();
+}
+
+// ─── accessible mode (T5-12 / a11y) ────────────────────────────────
+
+export async function getAccessibleMode(): Promise<boolean> {
+    return parseBool(await preferences.get(KEYS.accessibleMode), false);
+}
+
+export async function setAccessibleMode(on: boolean): Promise<void> {
+    await preferences.set(KEYS.accessibleMode, on ? "1" : "0");
+    await applyBrandPreferenceClasses();
 }
 
 // ─── volumes (T5-01) ────────────────────────────────────────────────
@@ -100,3 +105,16 @@ export async function setSfxVolume(vol: number): Promise<void> {
 // ─── pure helpers exported for tests ────────────────────────────────
 
 export const _internals = { parseBool, parseNumber };
+
+async function applyBrandPreferenceClasses(): Promise<void> {
+    // Re-apply brand classes so toggles take effect without reload.
+    // Dynamic import keeps the persistence module DOM-free and server-
+    // bundle-safe; brand-preferences only gets pulled in on the client.
+    if (typeof document === "undefined" || !document.body) return;
+    const { applyBrandClasses } = await import("../../styles/brand-preferences");
+    const [highContrast, accessibleMode] = await Promise.all([
+        getHighContrast(),
+        getAccessibleMode(),
+    ]);
+    applyBrandClasses(document.body, { highContrast, accessibleMode });
+}

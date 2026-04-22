@@ -1,0 +1,49 @@
+<DOMContainer width="100%" height="100%">
+    @if (shouldShow()) {
+        <div class="poki-hud-menu-root" data-testid="hud-frame">
+            <button
+                type="button"
+                class="rpg-fab poki-hud-menu-toggle"
+                data-testid="hud-menu-toggle"
+                aria-label={menuAriaLabel}
+                pointerdown={capturePointerEvent}
+                pointerup={capturePointerEvent}
+                mousedown={capturePointerEvent}
+                mouseup={capturePointerEvent}
+                touchstart={capturePointerEvent}
+                touchend={capturePointerEvent}
+                click={openPauseMenu}
+            >
+                ≡
+            </button>
+        </div>
+    }
+</DOMContainer>
+
+<script>
+    import { computed } from "canvasengine";
+    import { inject } from "@rpgjs/client";
+    import { RpgClientEngine } from "@rpgjs/client";
+    import { RpgGui } from "@rpgjs/client";
+    import { HUD_MENU_CONFIG } from "../content/gameplay";
+    import { hasBlockingGui } from "./hud-gui-visibility";
+
+    const engine = inject(RpgClientEngine);
+    const guiService = inject(RpgGui);
+    const currentPlayer = engine.scene.currentPlayer;
+    const menuAriaLabel = HUD_MENU_CONFIG.ariaLabel;
+
+    const shouldShow = computed(() => {
+        return !!currentPlayer() && !hasBlockingGui(guiService);
+    });
+
+    function capturePointerEvent(event) {
+        event?.stopPropagation?.();
+    }
+
+    function openPauseMenu(event) {
+        event?.preventDefault?.();
+        capturePointerEvent(event);
+        engine.processAction({ action: "escape" });
+    }
+</script>

@@ -2,8 +2,6 @@
   "id": "game_over_revive",
   "npc_id": null,
   "priority": 10,
-  "beats": [
-    { "text": { "en": "You seem well..." }, "mood": "sad", "glyph": "pona" }
-  ],
+  "beats": [{ "text": { "en": "You seem well..." }, "mood": "sad", "glyph": "pona" }],
   "triggers": {}
 }

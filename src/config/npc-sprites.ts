@@ -21,43 +21,37 @@
  * they just show armoured characters.
  */
 
-import { Animation, Direction } from '@rpgjs/common';
+import { Animation, Direction } from "@rpgjs/common";
+import {
+    NPC_SPRITESHEET_CONFIGS,
+    spriteLayout,
+    type RuntimeSpritesheetConfig,
+} from "../content/gameplay";
+import { standFrames, walkFrames } from "./sprite-layout";
 
 /** Shared animation factory for any 64×496 / 16×16 / 4c×31r non-combat sheet. */
-function npcTextures() {
-    const stand = (direction: Direction) => {
-        const rowByDir: Partial<Record<Direction, number>> = {
-            [Direction.Down]: 1,
-            [Direction.Left]: 4,
-            [Direction.Right]: 7,
-            [Direction.Up]: 10,
-        };
-        return [{ time: 0, frameX: 1, frameY: rowByDir[direction] ?? 1 }];
-    };
-
-    const walk = (direction: Direction) => {
-        const rowByDir: Partial<Record<Direction, number>> = {
-            [Direction.Down]: 0,
-            [Direction.Left]: 3,
-            [Direction.Right]: 6,
-            [Direction.Up]: 9,
-        };
-        const row = rowByDir[direction] ?? 0;
-        return [
-            { time: 0,  frameX: 0, frameY: row },
-            { time: 10, frameX: 1, frameY: row },
-            { time: 20, frameX: 2, frameY: row },
-            { time: 30 },
-        ];
-    };
-
+function npcTextures(config: RuntimeSpritesheetConfig) {
+    const layout = spriteLayout(config.layoutId);
     return {
         textures: {
-            [Animation.Stand]: { animations: ({ direction }: { direction: Direction }) => [stand(direction)] },
-            [Animation.Walk]:  { animations: ({ direction }: { direction: Direction }) => [walk(direction)] },
+            idle: {
+                animations: ({ direction }: { direction: Direction }) => [
+                    standFrames(layout, direction),
+                ],
+            },
+            [Animation.Stand]: {
+                animations: ({ direction }: { direction: Direction }) => [
+                    standFrames(layout, direction),
+                ],
+            },
+            [Animation.Walk]: {
+                animations: ({ direction }: { direction: Direction }) => [
+                    walkFrames(layout, direction),
+                ],
+            },
         },
-        framesWidth: 4,
-        framesHeight: 31,
+        framesWidth: layout.framesWidth,
+        framesHeight: layout.framesHeight,
     };
 }
 
@@ -65,13 +59,13 @@ function npcTextures() {
 interface SpritesheetEntry {
     id: string;
     image: string;
-    textures: ReturnType<typeof npcTextures>['textures'];
+    textures: ReturnType<typeof npcTextures>["textures"];
     framesWidth: number;
     framesHeight: number;
 }
 
-function npcSheet(id: string, image: string): SpritesheetEntry {
-    return { id, image, ...npcTextures() };
+function npcSheet(config: RuntimeSpritesheetConfig): SpritesheetEntry {
+    return { id: config.id, image: config.image, ...npcTextures(config) };
 }
 
 /**
@@ -79,32 +73,4 @@ function npcSheet(id: string, image: string): SpritesheetEntry {
  * Import this array and spread it into the `spritesheets` array inside
  * `config.client.ts > provideClientModules`.
  */
-export const npcSpritesheets: SpritesheetEntry[] = [
-    // ── Guards ────────────────────────────────────────────────────────────
-    npcSheet('npc_guard_spear',        'assets/npcs/guards/guard-spearman.png'),
-    npcSheet('npc_guard_archer',       'assets/npcs/guards/guard-archer-non-combat.png'),
-    npcSheet('npc_guard_sword',        'assets/npcs/guards/guard-swordsman.png'),
-
-    // ── Villagers — Feminine ───────────────────────────────────────────────
-    npcSheet('npc_villager_fem_hana',  'assets/npcs/villagers-fem/hana/hana.png'),
-    npcSheet('npc_villager_fem_julz',  'assets/npcs/villagers-fem/julz/julz.png'),
-    npcSheet('npc_villager_fem_khali', 'assets/npcs/villagers-fem/khali/khali.png'),
-    npcSheet('npc_villager_fem_meza',  'assets/npcs/villagers-fem/meza/meza.png'),
-    npcSheet('npc_villager_fem_nel',   'assets/npcs/villagers-fem/nel/nel.png'),
-    npcSheet('npc_villager_fem_seza',  'assets/npcs/villagers-fem/seza/seza.png'),
-    npcSheet('npc_villager_fem_vash',  'assets/npcs/villagers-fem/vash/vash.png'),
-
-    // ── Villagers — Masculine ──────────────────────────────────────────────
-    npcSheet('npc_villager_masc_artun', 'assets/npcs/villagers-masc/artun/artun.png'),
-    npcSheet('npc_villager_masc_grym',  'assets/npcs/villagers-masc/grym/grym.png'),
-    npcSheet('npc_villager_masc_hark',  'assets/npcs/villagers-masc/hark/hark.png'),
-    npcSheet('npc_villager_masc_janik', 'assets/npcs/villagers-masc/janik/janik.png'),
-    npcSheet('npc_villager_masc_nyro',  'assets/npcs/villagers-masc/nyro/nyro.png'),
-    npcSheet('npc_villager_masc_reza',  'assets/npcs/villagers-masc/reza/reza.png'),
-    npcSheet('npc_villager_masc_serek', 'assets/npcs/villagers-masc/serek/serek.png'),
-
-    // ── Warriors ──────────────────────────────────────────────────────────
-    npcSheet('npc_warrior_archer',       'assets/npcs/warriors/archer-non-combat.png'),
-    npcSheet('npc_warrior_2h_sword',     'assets/npcs/warriors/2-handed-swordsman-non-combat.png'),
-    npcSheet('npc_warrior_sword_shield', 'assets/npcs/warriors/sword-and-shield-fighter-non-combat.png'),
-];
+export const npcSpritesheets: SpritesheetEntry[] = [...NPC_SPRITESHEET_CONFIGS.map(npcSheet)];

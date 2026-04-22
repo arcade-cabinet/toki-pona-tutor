@@ -12,6 +12,17 @@ const WORLD = JSON.parse(
     items: unknown[];
     dialog: unknown[];
     journey: { beats: unknown[] };
+    maps: Array<{
+        id: string;
+        objects: Array<{
+            layer: string;
+            name: string;
+            type: string;
+            x: number;
+            y: number;
+            properties: Record<string, unknown>;
+        }>;
+    }>;
     start_region_id: string;
 };
 
@@ -28,6 +39,7 @@ describe('T6-03: build-spine writes every expected key into world.json', () => {
         expect(Array.isArray(WORLD.dialog)).toBe(true);
         expect(WORLD.journey).toBeTypeOf('object');
         expect(Array.isArray(WORLD.journey.beats)).toBe(true);
+        expect(Array.isArray(WORLD.maps)).toBe(true);
         expect(typeof WORLD.start_region_id).toBe('string');
     });
 
@@ -54,20 +66,40 @@ describe('T6-03: build-spine writes every expected key into world.json', () => {
         }
     });
 
+    it('every species.item_drop references an existing inventory item', () => {
+        const itemIds = new Set((WORLD.items as { id: string }[]).map((item) => item.id));
+        for (const s of WORLD.species as { id: string; item_drop?: { item_id: string } }[]) {
+            if (!s.item_drop) continue;
+            expect(itemIds.has(s.item_drop.item_id), `${s.id} references missing item ${s.item_drop.item_id}`).toBe(true);
+        }
+    });
+
     it('every journey beat.map_id has a corresponding .tmx file reference', () => {
         const beats = WORLD.journey.beats as { map_id: string }[];
         expect(beats.length).toBe(7);
         for (const b of beats) {
             expect(b.map_id).toMatch(/^[a-z][a-z0-9_]*$/);
+            expect(WORLD.maps.some((map) => map.id === b.map_id), b.map_id).toBe(true);
         }
     });
 
-    it('expected content counts: 43 species, 17 moves, 4 items, 29 dialog, 7 beats', () => {
+    it('compiled maps expose the object-layer coordinates runtime events resolve from', () => {
+        expect(WORLD.maps).toHaveLength(7);
+        const starterMap = WORLD.maps.find((map) => map.id === 'ma_tomo_lili');
+        const routeMap = WORLD.maps.find((map) => map.id === 'nasin_wan');
+        expect(starterMap?.objects.some((object) => object.name === 'warp_east' && object.type === 'Warp'))
+            .toBe(true);
+        expect(routeMap?.objects.some((object) => object.properties.id === 'jan_ike'))
+            .toBe(true);
+    });
+
+    it('expected content counts: 43 species, 17 moves, 5 items, 46 dialog, 7 beats, 7 maps', () => {
         expect(WORLD.species).toHaveLength(43);
         expect(WORLD.moves).toHaveLength(17);
-        expect(WORLD.items).toHaveLength(4);
-        expect(WORLD.dialog).toHaveLength(29);
+        expect(WORLD.items).toHaveLength(5);
+        expect(WORLD.dialog).toHaveLength(46);
         expect(WORLD.journey.beats).toHaveLength(7);
+        expect(WORLD.maps).toHaveLength(7);
     });
 
     it('species.description.tp exists (build-spine resolved Tatoeba TP)', () => {

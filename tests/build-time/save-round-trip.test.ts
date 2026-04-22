@@ -18,11 +18,11 @@ import { describe, it, expect } from 'vitest';
 
 class InMemoryStrategy {
     private slots = new Map<string, Array<unknown | null>>();
-    private key(player: { id?: string }, namespace = 'default'): string {
-        return `${namespace}:${player.id ?? 'anonymous'}`;
+    private key(player: { id?: string; conn?: { id?: string } }, namespace = 'default'): string {
+        return `${namespace}:${player.conn?.id ?? player.id ?? 'anonymous'}`;
     }
 
-    async list(player: { id?: string }) {
+    async list(player: { id?: string; conn?: { id?: string } }) {
         const arr = this.slots.get(this.key(player)) ?? [];
         return arr.map((slot) => {
             if (!slot) return null;
@@ -31,13 +31,13 @@ class InMemoryStrategy {
         });
     }
 
-    async get(player: { id?: string }, index: number) {
+    async get(player: { id?: string; conn?: { id?: string } }, index: number) {
         if (!Number.isInteger(index) || index < 0) throw new RangeError();
         const arr = this.slots.get(this.key(player)) ?? [];
         return arr[index] ?? null;
     }
 
-    async save(player: { id?: string }, index: number, snapshot: string, meta: Record<string, unknown>) {
+    async save(player: { id?: string; conn?: { id?: string } }, index: number, snapshot: string, meta: Record<string, unknown>) {
         if (!Number.isInteger(index) || index < 0) throw new RangeError();
         const arr = this.slots.get(this.key(player)) ?? [];
         while (arr.length < index) arr.push(null);
@@ -45,7 +45,7 @@ class InMemoryStrategy {
         this.slots.set(this.key(player), arr);
     }
 
-    async delete(player: { id?: string }, index: number) {
+    async delete(player: { id?: string; conn?: { id?: string } }, index: number) {
         if (!Number.isInteger(index) || index < 0) throw new RangeError();
         const arr = this.slots.get(this.key(player)) ?? [];
         arr[index] = null;
@@ -131,6 +131,13 @@ describe('save-strategy round-trip (mirror of CapacitorSaveStorageStrategy)', ()
         await s.save({ id: 'bob' }, 0, 'BOB', {});
         expect(((await s.get({ id: 'alice' }, 0)) as Record<string, unknown>).snapshot).toBe('ALICE');
         expect(((await s.get({ id: 'bob' }, 0)) as Record<string, unknown>).snapshot).toBe('BOB');
+    });
+
+    it('stable connection ids survive regenerated player ids', async () => {
+        const s = new InMemoryStrategy();
+        await s.save({ id: 'first', conn: { id: 'player-client-id' } }, 0, 'SAVE', {});
+        expect(((await s.get({ id: 'second', conn: { id: 'player-client-id' } }, 0)) as Record<string, unknown>).snapshot)
+            .toBe('SAVE');
     });
 
     it('unknown player (no id) uses the anonymous slot and still round-trips', async () => {

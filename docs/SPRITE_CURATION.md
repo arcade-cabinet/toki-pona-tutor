@@ -1,6 +1,6 @@
 ---
 title: Sprite Curation Reference
-updated: 2026-04-20
+updated: 2026-04-22
 status: current
 domain: technical
 ---
@@ -10,6 +10,8 @@ domain: technical
 Every sprite sheet under `public/assets/{animals,creatures,bosses,combatants,npcs,effects}/` is hand-curated: **one human looks at one sheet and decides what each row means.** No scripting, no batch automation, no auto-grid-detection. Those miss details.
 
 This doc is the authoritative reference for how curation is done. It walks through one fully-curated species (`soweli_jaki` — the rat) and shows exactly what to produce for each sheet.
+
+Current runtime split: catchable creature sprites still live with authored species records under `src/content/spine/species/*.json`, while player/NPC/combatant/boss/effect registration data lives in validated gameplay JSON under `src/content/gameplay/visuals.json` and `src/content/gameplay/effects.json`. The curation process is the same; only the destination file differs by asset category.
 
 ## The rule
 

@@ -6,6 +6,17 @@ describe('brandBodyClasses — pref → class set', () => {
         expect(brandBodyClasses({ highContrast: true })).toEqual(new Set(['poki-high-contrast']));
     });
 
+    it('accessibleMode=true adds poki-accessible-mode', () => {
+        expect(brandBodyClasses({ highContrast: false, accessibleMode: true })).toEqual(new Set(['poki-accessible-mode']));
+    });
+
+    it('combines high-contrast and accessible mode classes', () => {
+        expect(brandBodyClasses({ highContrast: true, accessibleMode: true })).toEqual(new Set([
+            'poki-high-contrast',
+            'poki-accessible-mode',
+        ]));
+    });
+
     it('highContrast=false yields empty set', () => {
         expect(brandBodyClasses({ highContrast: false })).toEqual(new Set());
     });
@@ -39,10 +50,22 @@ describe('applyBrandClasses — idempotent DOM effect', () => {
         expect(el._classes).toContain('poki-high-contrast');
     });
 
+    it('adds poki-accessible-mode when turned on', () => {
+        const el = mockElement();
+        applyBrandClasses(el as unknown as HTMLElement, { highContrast: false, accessibleMode: true });
+        expect(el._classes).toContain('poki-accessible-mode');
+    });
+
     it('removes poki-high-contrast when turned off', () => {
         const el = mockElement(['poki-high-contrast']);
         applyBrandClasses(el as unknown as HTMLElement, { highContrast: false });
         expect(el._classes).not.toContain('poki-high-contrast');
+    });
+
+    it('removes poki-accessible-mode when turned off', () => {
+        const el = mockElement(['poki-accessible-mode']);
+        applyBrandClasses(el as unknown as HTMLElement, { highContrast: false, accessibleMode: false });
+        expect(el._classes).not.toContain('poki-accessible-mode');
     });
 
     it('preserves non-brand classes (never touches foreign class names)', () => {

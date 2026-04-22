@@ -83,12 +83,12 @@ describe('T6-02: every spine JSON parses against its Zod schema', () => {
         }
     });
 
-    it('expected total count: 43 species, 17 moves, 4 items', () => {
+    it('expected total count: 43 species, 17 moves, 5 items', () => {
         const speciesFiles = listJsonFiles(join(SPINE, 'species'));
         const moveFiles = listJsonFiles(join(SPINE, 'moves'));
         const itemFiles = listJsonFiles(join(SPINE, 'items'));
         expect(speciesFiles).toHaveLength(43);
         expect(moveFiles).toHaveLength(17);
-        expect(itemFiles).toHaveLength(4);
+        expect(itemFiles).toHaveLength(5);
     });
 });

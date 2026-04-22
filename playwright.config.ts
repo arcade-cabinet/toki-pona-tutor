@@ -1,5 +1,5 @@
-import type { PlaywrightTestConfig } from '@playwright/test';
-import { devices } from '@playwright/test';
+import type { PlaywrightTestConfig } from "@playwright/test";
+import { devices } from "@playwright/test";
 
 /**
  * Real-browser E2E suite for poki soweli.
@@ -23,19 +23,21 @@ import { devices } from '@playwright/test';
  */
 
 const isCI = !!process.env.CI;
+const e2ePort = process.env.E2E_PORT || "5173";
+const defaultBaseURL = `http://127.0.0.1:${e2ePort}`;
 
 // GPU-accelerated WebGL args for headless Chrome. `--use-angle=gl`
 // is the piece that makes WebGL actually render off-screen — without
 // it Pixi falls back to a software renderer that won't match prod.
 const GPU_ARGS = [
-    '--no-sandbox',
-    '--use-angle=gl',
-    '--enable-webgl',
-    '--ignore-gpu-blocklist',
-    '--mute-audio',
-    '--disable-background-timer-throttling',
-    '--disable-backgrounding-occluded-windows',
-    '--disable-renderer-backgrounding',
+    "--no-sandbox",
+    "--use-angle=gl",
+    "--enable-webgl",
+    "--ignore-gpu-blocklist",
+    "--mute-audio",
+    "--disable-background-timer-throttling",
+    "--disable-backgrounding-occluded-windows",
+    "--disable-renderer-backgrounding",
 ];
 
 const config: PlaywrightTestConfig = {
@@ -47,25 +49,22 @@ const config: PlaywrightTestConfig = {
     workers: 1,
     timeout: 90_000,
 
-    reporter: [
-        ['html', { open: isCI ? 'never' : 'on-failure' }],
-        ['list'],
-    ],
+    reporter: [["html", { open: isCI ? "never" : "on-failure" }], ["list"]],
 
     expect: {
         timeout: 15_000,
         toHaveScreenshot: {
             maxDiffPixels: 200,
             threshold: 0.2,
-            animations: 'disabled',
+            animations: "disabled",
         },
     },
 
     use: {
-        baseURL: process.env.BASE_URL || 'http://localhost:5173',
-        trace: isCI ? 'on-first-retry' : 'retain-on-failure',
-        screenshot: 'only-on-failure',
-        video: isCI ? 'retain-on-failure' : 'off',
+        baseURL: process.env.BASE_URL || defaultBaseURL,
+        trace: isCI ? "on-first-retry" : "retain-on-failure",
+        screenshot: "only-on-failure",
+        video: isCI ? "retain-on-failure" : "off",
         actionTimeout: 10_000,
         navigationTimeout: 60_000,
         viewport: { width: 1280, height: 720 },
@@ -88,15 +87,15 @@ const config: PlaywrightTestConfig = {
     // it's a boot/sanity invariant — smoke must stay fast.
     projects: [
         {
-            name: 'smoke',
-            testDir: './tests/e2e/smoke',
+            name: "smoke",
+            testDir: "./tests/e2e/smoke",
             use: {
-                ...devices['Desktop Chrome'],
+                ...devices["Desktop Chrome"],
                 // Use Playwright's bundled Chromium (installed via
                 // `playwright install chromium` in CI). `channel: 'chrome'`
                 // would require a system-installed Google Chrome and
                 // silently fail on minimal CI runners.
-                browserName: 'chromium',
+                browserName: "chromium",
                 headless: true,
                 launchOptions: {
                     args: GPU_ARGS,
@@ -105,16 +104,16 @@ const config: PlaywrightTestConfig = {
             },
         },
         {
-            name: 'full',
-            testDir: './tests/e2e',
-            testIgnore: '**/smoke/**',
+            name: "full",
+            testDir: "./tests/e2e",
+            testIgnore: "**/smoke/**",
             use: {
-                ...devices['Desktop Chrome'],
+                ...devices["Desktop Chrome"],
                 // Use Playwright's bundled Chromium (installed via
                 // `playwright install chromium` in CI). `channel: 'chrome'`
                 // would require a system-installed Google Chrome and
                 // silently fail on minimal CI runners.
-                browserName: 'chromium',
+                browserName: "chromium",
                 headless: true,
                 launchOptions: {
                     args: GPU_ARGS,
@@ -129,13 +128,15 @@ const config: PlaywrightTestConfig = {
     webServer: process.env.BASE_URL
         ? undefined
         : {
-            command: 'pnpm dev',
-            url: 'http://localhost:5173/poki-soweli/',
-            reuseExistingServer: !isCI,
-            timeout: 120_000,
-            stdout: 'ignore',
-            stderr: 'pipe',
-        },
+              command: `vite --host 127.0.0.1 --port ${e2ePort} --strictPort`,
+              // Local Vite dev serves at `/`; `/poki-soweli/` is the
+              // GitHub Pages subpath used only for GITHUB_PAGES builds.
+              url: `${defaultBaseURL}/`,
+              reuseExistingServer: process.env.PLAYWRIGHT_REUSE_SERVER === "true" && !isCI,
+              timeout: 120_000,
+              stdout: "ignore",
+              stderr: "pipe",
+          },
 };
 
 export default config;

@@ -1,0 +1,10 @@
+{
+  "id": "jan_suno_telo_last",
+  "npc_id": "jan_suno_telo",
+  "priority": 0,
+  "beats": [
+    { "text": { "en": "He likes fishing." }, "mood": "happy", "glyph": "kala" },
+    { "text": { "en": "Let's go!" }, "mood": "excited", "glyph": "tawa" }
+  ],
+  "triggers": {}
+}

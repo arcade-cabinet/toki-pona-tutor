@@ -1,24 +1,32 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-down"
      width="28" height="14" tilewidth="16" tileheight="16" infinite="0"
-     nextlayerid="4" nextobjectid="9">
- <tileset firstgid="1" source="../../public/assets/tilesets/core/Tiled/Tilesets/Tileset_Ground.tsx"/>
+     nextlayerid="4" nextobjectid="10">
+ <properties>
+   <property name="biome" value="water"/>
+   <property name="music_track" value="bgm_water"/>
+ </properties>
+ <tileset firstgid="1" source="../assets/tilesets/seasons/Tiled/Tilesets/Tileset_Ground_Seasons.tsx"/>
+ <tileset firstgid="4561" source="../assets/tilesets/seasons/Tiled/Tilesets/Tileset_Road.tsx"/>
+ <tileset firstgid="5569" source="../assets/tilesets/seasons/Tiled/Tilesets/Tileset_Sand.tsx"/>
+ <tileset firstgid="8449" source="../assets/tilesets/seasons/Tiled/Tilesets/Tileset_TallGrass.tsx"/>
+ <tileset firstgid="8749" source="../assets/tilesets/seasons/Tiled/Tilesets/Tileset_Water.tsx"/>
  <layer id="1" name="Below Player" width="28" height="14" visible="1" opacity="1">
   <data encoding="csv">
-1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
-1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
-1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
-1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
-1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
-1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
-1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
-1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
-1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
-1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
-1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
-1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
-1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,
-1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1,1
+57,57,57,57,57,57,57,57,57,57,57,57,57,57,57,57,57,57,57,5569,8775,8775,8775,8775,8775,8775,5569,5569,
+51,51,51,51,51,51,51,51,63,51,51,51,51,51,51,51,51,63,51,5569,8775,8775,8775,8775,8775,8775,5569,5569,
+51,51,51,51,51,51,51,63,51,51,51,51,51,51,51,51,63,51,51,5569,8775,8775,8775,8775,8775,8775,5569,5569,
+51,51,51,51,51,51,63,51,51,51,51,51,51,51,51,63,51,51,51,5569,8775,8775,8775,8775,8775,8775,5569,5569,
+51,51,51,51,51,63,51,51,51,51,51,51,51,51,63,51,51,51,51,5569,4581,4581,4581,4581,4581,4581,4581,4581,
+4581,4581,4581,4581,4581,4581,4581,4581,4581,4581,4581,4581,4581,4581,4581,4581,4581,4581,4581,4581,4581,4581,4581,4581,4581,4581,4581,4581,
+4581,4581,4581,4581,4581,4581,4581,4581,4581,4581,4581,4581,4581,4581,4581,4581,4581,4581,4581,4581,4581,4581,4581,4581,4581,4581,4581,4581,
+51,51,63,51,51,51,51,51,51,51,51,63,51,51,51,51,51,51,51,5569,4581,4581,4581,4581,4581,4581,4581,4581,
+51,63,51,51,51,51,51,51,51,51,63,51,51,51,51,51,51,51,51,5569,8775,8775,8775,8775,8775,8775,5569,5569,
+63,51,51,51,51,51,51,51,51,63,51,51,51,51,51,51,51,51,63,5569,8775,8775,8775,8775,8775,8775,5569,5569,
+51,51,51,51,8449,8449,8449,8449,8449,51,51,51,51,51,8449,8449,8449,8449,8449,8449,8775,8775,8775,8775,8775,8775,5569,5569,
+51,51,51,51,8449,8449,8449,8449,8449,51,51,51,51,51,8449,8449,8449,8449,8449,8449,8775,8775,8775,8775,8775,8775,5569,5569,
+51,51,51,51,8449,8449,8449,8449,8449,51,51,51,51,51,8449,8449,8449,8449,8449,8449,8775,8775,8775,8775,8775,8775,5569,5569,
+57,57,57,57,57,57,57,57,57,57,57,57,57,57,57,57,57,57,57,5569,8775,8775,8775,8775,8775,8775,5569,5569
   </data>
  </layer>
  <objectgroup id="2" name="Objects" visible="1" opacity="1">
@@ -47,7 +55,13 @@
      <property name="dialog_id" value="jan_olin_telo_quiet"/>
    </properties>
   </object>
-  <object id="6" name="final_boss_trigger" type="Trigger" x="416" y="80" width="32" height="48" visible="1" rotation="0">
+  <object id="6" name="jan-suno-telo" type="NPC" x="384" y="96" width="0" height="0" visible="1" rotation="0">
+   <properties>
+     <property name="id" value="jan_suno_telo"/>
+     <property name="dialog_id" value="jan_suno_telo_last"/>
+   </properties>
+  </object>
+  <object id="7" name="final_boss_trigger" type="Trigger" x="416" y="80" width="32" height="48" visible="1" rotation="0">
    <properties>
      <property name="target_event" value="green_dragon"/>
      <property name="required_flag" value="badges_all_four"/>
@@ -55,16 +69,16 @@
   </object>
  </objectgroup>
  <objectgroup id="3" name="Encounters" visible="1" opacity="1">
-  <object id="7" name="encounter_0" type="Encounter" x="64" y="160" width="80" height="48" visible="1" rotation="0">
+  <object id="8" name="encounter_0" type="Encounter" x="64" y="160" width="80" height="48" visible="1" rotation="0">
    <properties>
      <property name="species" value="{&quot;jan_moli&quot;:20,&quot;kon_moli&quot;:15,&quot;telo_jaki&quot;:15,&quot;kala_telo&quot;:15,&quot;kala_uta&quot;:15,&quot;kala_tomo&quot;:15,&quot;jan_moli_wawa&quot;:5}"/>
      <property name="level_min" type="int" value="7"/>
      <property name="level_max" type="int" value="10"/>
    </properties>
   </object>
-  <object id="8" name="encounter_1" type="Encounter" x="224" y="160" width="96" height="48" visible="1" rotation="0">
+  <object id="9" name="encounter_1" type="Encounter" x="224" y="160" width="96" height="48" visible="1" rotation="0">
    <properties>
-     <property name="species" value="{&quot;jan_moli&quot;:15,&quot;kon_moli&quot;:15,&quot;telo_jaki&quot;:15,&quot;kala_telo&quot;:15,&quot;kala_luka&quot;:15,&quot;kala_uta&quot;:15,&quot;seli_moli&quot;:5,&quot;akesi_suli&quot;:5}"/>
+     <property name="species" value="{&quot;jan_moli&quot;:14,&quot;kon_moli&quot;:14,&quot;telo_jaki&quot;:14,&quot;kala_telo&quot;:14,&quot;kala_luka&quot;:14,&quot;kala_uta&quot;:14,&quot;seli_moli&quot;:6,&quot;akesi_suli&quot;:4,&quot;akesi_sewi&quot;:2}"/>
      <property name="level_min" type="int" value="9"/>
      <property name="level_max" type="int" value="13"/>
    </properties>

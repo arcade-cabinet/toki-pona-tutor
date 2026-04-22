@@ -20,88 +20,88 @@
     /*
      * ─── Canonical palette ─── (warm cream + parchment, see BRAND.md)
      *
-     * Animal-Crossing / Stardew energy, not RPG-manual-in-a-cave energy.
-     * Ported from the Godot-era `theme/palette.gd` decision; the prior
+     * Cozy storybook energy, not RPG-manual-in-a-cave energy.
+     * Ported from an earlier prototype palette decision; the prior
      * dark-parchment palette (`#1b1510` ink etc.) is gone. When the
      * palette changes, it changes HERE and in docs/BRAND.md together.
      *
      * Warm neutrals — foundation
      */
-    --poki-cream:            #fdf6e3;  /* panel wash / parchment field */
-    --poki-parchment:        #f5e6c5;  /* dialog boxes, HUD backdrops, cards */
-    --poki-parchment-deep:   #e8d5a8;  /* hover / pressed parchment */
-    --poki-border:           #c8a96b;  /* panel + dialog-frame amber border */
-    --poki-ink:              #3d2e1e;  /* primary text — not pure black */
-    --poki-ink-soft:         #6b5940;  /* secondary text, labels */
+    --poki-cream: #fdf6e3; /* panel wash / parchment field */
+    --poki-parchment: #f5e6c5; /* dialog boxes, HUD backdrops, cards */
+    --poki-parchment-deep: #e8d5a8; /* hover / pressed parchment */
+    --poki-border: #c8a96b; /* panel + dialog-frame amber border */
+    --poki-ink: #3d2e1e; /* primary text — not pure black */
+    --poki-ink-soft: #6b5940; /* secondary text, labels */
 
     /* Brand accents — ma pona (the good land) */
-    --poki-emerald:          #4a9d5a;  /* primary action, kasi, health */
-    --poki-emerald-deep:     #327144;  /* pressed emerald, dialog glyph fill */
-    --poki-amber:            #e8a04a;  /* secondary action, highlights */
-    --poki-amber-deep:       #c87a26;  /* pressed amber */
-    --poki-peach:            #f4b995;  /* affection / cute highlight */
+    --poki-emerald: #4a9d5a; /* primary action, kasi, health */
+    --poki-emerald-deep: #327144; /* pressed emerald, dialog glyph fill */
+    --poki-amber: #e8a04a; /* secondary action, highlights */
+    --poki-amber-deep: #c87a26; /* pressed amber */
+    --poki-peach: #f4b995; /* affection / cute highlight */
 
     /* Type accents — five elements */
-    --poki-seli:             #e8553e;  /* fire — warm red-orange */
-    --poki-telo:             #4da3d4;  /* water — soft blue */
-    --poki-kasi:             #6fb35c;  /* plant — soft green */
-    --poki-lete:             #b8d4dc;  /* cold — pale icy cream-blue */
-    --poki-wawa:             #d4a84e;  /* lightning/strong — warm gold */
+    --poki-seli: #e8553e; /* fire — warm red-orange */
+    --poki-telo: #4da3d4; /* water — soft blue */
+    --poki-kasi: #6fb35c; /* plant — soft green */
+    --poki-lete: #b8d4dc; /* cold — pale icy cream-blue */
+    --poki-wawa: #d4a84e; /* lightning/strong — warm gold */
 
     /* Status */
-    --poki-joy:              #f2c158;  /* celebration (catch success, level up) */
-    --poki-caution:          #d98a3f;  /* hint toasts, warnings */
-    --poki-danger:           #c85a4a;  /* low HP, defeat — muted red */
+    --poki-joy: #f2c158; /* celebration (catch success, level up) */
+    --poki-caution: #d98a3f; /* hint toasts, warnings */
+    --poki-danger: #c85a4a; /* low HP, defeat — muted red */
 
     /* Sky tints — biome backdrops */
-    --poki-sky-day:          #a8d8e8;  /* grass biomes */
-    --poki-sky-peak:         #6b7a83;  /* mountain biomes */
-    --poki-sky-cold:         #c4d8e8;  /* ice biomes */
+    --poki-sky-day: #a8d8e8; /* grass biomes */
+    --poki-sky-peak: #6b7a83; /* mountain biomes */
+    --poki-sky-cold: #c4d8e8; /* ice biomes */
 
     /* ─── Semantic aliases ─── */
-    --background:    var(--poki-cream);
-    --surface:       var(--poki-parchment);       /* panels, dialog */
-    --surface-high:  var(--poki-parchment-deep);  /* hovered / pressed */
-    --border:        var(--poki-border);
-    --text:          var(--poki-ink);
-    --text-mute:     var(--poki-ink-soft);
-    --primary:       var(--poki-emerald);
-    --primary-deep:  var(--poki-emerald-deep);
-    --secondary:     var(--poki-amber);
-    --secondary-deep:var(--poki-amber-deep);
-    --success:       var(--poki-emerald);
-    --danger:        var(--poki-danger);
-    --info:          var(--poki-telo);
-    --accent:        var(--poki-amber);
+    --background: var(--poki-cream);
+    --surface: var(--poki-parchment); /* panels, dialog */
+    --surface-high: var(--poki-parchment-deep); /* hovered / pressed */
+    --border: var(--poki-border);
+    --text: var(--poki-ink);
+    --text-mute: var(--poki-ink-soft);
+    --primary: var(--poki-emerald);
+    --primary-deep: var(--poki-emerald-deep);
+    --secondary: var(--poki-amber);
+    --secondary-deep: var(--poki-amber-deep);
+    --success: var(--poki-emerald);
+    --danger: var(--poki-danger);
+    --info: var(--poki-telo);
+    --accent: var(--poki-amber);
 
     /* Back-compat: several components still reference `--poki-kasi-glow`
        and `--poki-moli` from the prior palette. Map them to the new
        tokens to avoid a flag day; remove once every consumer migrates. */
-    --poki-kasi-glow:        var(--poki-emerald);
-    --poki-moli:             var(--poki-amber-deep);
-    --poki-bark:             var(--poki-parchment);
-    --poki-wood:             var(--poki-parchment-deep);
-    --poki-parchment-mute:   var(--poki-ink-soft);
+    --poki-kasi-glow: var(--poki-emerald);
+    --poki-moli: var(--poki-amber-deep);
+    --poki-bark: var(--poki-parchment);
+    --poki-wood: var(--poki-parchment-deep);
+    --poki-parchment-mute: var(--poki-ink-soft);
 
     /* ─── Typography ─── (self-hosted via src/styles/fonts.css) */
-    --font-body:    'Nunito', system-ui, -apple-system, sans-serif;
-    --font-display: 'Fredoka', 'Nunito', system-ui, sans-serif;
-    --font-mono:    'JetBrains Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
-    --font-glyph:   'nasin-nanpa', 'Nunito', system-ui, sans-serif;
+    --font-body: "Nunito", system-ui, -apple-system, sans-serif;
+    --font-display: "Fredoka", "Nunito", system-ui, sans-serif;
+    --font-mono: "JetBrains Mono", ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    --font-glyph: "nasin-nanpa", "Nunito", system-ui, sans-serif;
 
     /* Back-compat alias — old name `--font-heading` still referenced in a
        few places. Remove once every consumer has migrated to --font-display. */
     --font-heading: var(--font-display);
 
     --text-body-desktop: 18px;
-    --text-body-mobile:  16px;
-    --text-hud:          16px;
-    --text-label:        14px;
-    --text-heading:      24px;
+    --text-body-mobile: 16px;
+    --text-hud: 16px;
+    --text-label: 14px;
+    --text-heading: 24px;
     --text-heading-mobile: 20px;
 
     --line-body: 1.45;
-    --line-hud:  1.15;
+    --line-hud: 1.15;
 
     /* ─── 8-point spacing grid ─── */
     --space-0: 0;
@@ -124,63 +124,515 @@
     --border-width-modal: 2px;
 
     /* ─── Shadows ─── (warm ink shadow, not pure black — BRAND.md §UI shape) */
-    --shadow-panel:  0 2px 8px rgba(61, 46, 30, 0.15);
-    --shadow-modal:  0 4px 12px rgba(61, 46, 30, 0.22);
-    --shadow-hover:  0 0 0 2px rgba(74, 157, 90, 0.30);
+    --shadow-panel: 0 2px 8px rgba(61, 46, 30, 0.15);
+    --shadow-modal: 0 4px 12px rgba(61, 46, 30, 0.22);
+    --shadow-hover: 0 0 0 2px rgba(74, 157, 90, 0.3);
 
     /* ─── Motion tokens ─── */
-    --duration-press:   120ms;
-    --duration-menu:    200ms;
-    --duration-tween:   400ms;
+    --duration-press: 120ms;
+    --duration-menu: 200ms;
+    --duration-tween: 400ms;
     --duration-victory: 300ms;
-    --ease-out:         ease-out;
-    --ease-in-out:      ease-in-out;
+    --ease-out: ease-out;
+    --ease-in-out: ease-in-out;
 
     /* ─── Touch target minimums (WCAG 2.1 AA) ─── */
-    --touch-min:        44px;
-    --touch-combat:     56px;
+    --touch-min: 44px;
+    --touch-combat: 56px;
 
     /* ─── @rpgjs/ui-css token overrides ─── */
     /* The library exposes --rpg-ui-* tokens which we remap to our
        canonical palette so every default component inherits the
        warm-cream brand without per-component overrides. */
-    --rpg-ui-bg:                var(--poki-cream);
-    --rpg-ui-body-bg:           var(--poki-cream);
-    --rpg-ui-surface:           var(--surface);
-    --rpg-ui-surface-light:     var(--surface-high);
-    --rpg-ui-surface-overlay:        rgba(61, 46, 30, 0.42);
+    --rpg-ui-bg: var(--poki-cream);
+    --rpg-ui-body-bg: var(--poki-cream);
+    --rpg-ui-surface: var(--surface);
+    --rpg-ui-surface-light: var(--surface-high);
+    --rpg-ui-surface-overlay: rgba(61, 46, 30, 0.42);
     --rpg-ui-surface-overlay-strong: rgba(61, 46, 30, 0.62);
-    --rpg-ui-border:            rgba(200, 169, 107, 0.55);
-    --rpg-ui-border-light:      rgba(244, 185, 149, 0.45);
-    --rpg-ui-border-dark:       rgba(61, 46, 30, 0.30);
-    --rpg-ui-text:              var(--text);
-    --rpg-ui-text-muted:        var(--text-mute);
-    --rpg-ui-accent:            var(--primary);
-    --rpg-ui-accent-hover:      var(--primary-deep);
-    --rpg-ui-accent-active:     var(--primary-deep);
-    --rpg-ui-success:           var(--success);
-    --rpg-ui-warning:           var(--poki-caution);
-    --rpg-ui-danger:            var(--danger);
-    --rpg-ui-info:              var(--info);
-    --rpg-ui-mana:              var(--info);
-    --rpg-ui-xp:                var(--poki-joy);
+    --rpg-ui-border: rgba(200, 169, 107, 0.55);
+    --rpg-ui-border-light: rgba(244, 185, 149, 0.45);
+    --rpg-ui-border-dark: rgba(61, 46, 30, 0.3);
+    --rpg-ui-text: var(--text);
+    --rpg-ui-text-muted: var(--text-mute);
+    --rpg-ui-accent: var(--primary);
+    --rpg-ui-accent-hover: var(--primary-deep);
+    --rpg-ui-accent-active: var(--primary-deep);
+    --rpg-ui-success: var(--success);
+    --rpg-ui-warning: var(--poki-caution);
+    --rpg-ui-danger: var(--danger);
+    --rpg-ui-info: var(--info);
+    --rpg-ui-mana: var(--info);
+    --rpg-ui-xp: var(--poki-joy);
 
-    --rpg-ui-health-gradient:   linear-gradient(90deg, var(--poki-emerald) 0%, var(--poki-emerald-deep) 100%);
-    --rpg-ui-mana-gradient:     linear-gradient(90deg, var(--poki-telo) 0%, #2f5a68 100%);
-    --rpg-ui-xp-gradient:       linear-gradient(90deg, var(--poki-joy) 0%, var(--poki-amber-deep) 100%);
+    --rpg-ui-health-gradient: linear-gradient(
+        90deg,
+        var(--poki-emerald) 0%,
+        var(--poki-emerald-deep) 100%
+    );
+    --rpg-ui-mana-gradient: linear-gradient(90deg, var(--poki-telo) 0%, #2f5a68 100%);
+    --rpg-ui-xp-gradient: linear-gradient(90deg, var(--poki-joy) 0%, var(--poki-amber-deep) 100%);
 
-    --rpg-ui-font:              var(--font-body);
-    --rpg-ui-font-size:         1rem;
-    --rpg-ui-font-weight:       500;
-    --rpg-ui-font-weight-bold:  700;
+    --rpg-ui-font: var(--font-body);
+    --rpg-ui-font-size: 1rem;
+    --rpg-ui-font-weight: 500;
+    --rpg-ui-font-weight-bold: 700;
 
-    --rpg-ui-radius-sm:         var(--radius-sm);
-    --rpg-ui-radius-md:         var(--radius-md);
-    --rpg-ui-radius-lg:         var(--radius-lg);
+    --rpg-ui-radius-sm: var(--radius-sm);
+    --rpg-ui-radius-md: var(--radius-md);
+    --rpg-ui-radius-lg: var(--radius-lg);
 
-    --rpg-ui-shadow-sm:         var(--shadow-panel);
-    --rpg-ui-shadow-md:         var(--shadow-modal);
-    --rpg-ui-shadow:            var(--shadow-modal);
+    --rpg-ui-shadow-sm: var(--shadow-panel);
+    --rpg-ui-shadow-md: var(--shadow-modal);
+    --rpg-ui-shadow: var(--shadow-modal);
+}
+
+.rpg-ui-title-screen:not(.poki-pause-screen) {
+    padding: max(var(--space-4), env(safe-area-inset-top))
+        max(var(--space-2), env(safe-area-inset-right))
+        max(var(--space-4), env(safe-area-inset-bottom))
+        max(var(--space-2), env(safe-area-inset-left));
+    background: radial-gradient(circle at 18% 18%, rgba(242, 193, 88, 0.36), transparent 26%),
+        radial-gradient(circle at 86% 12%, rgba(77, 163, 212, 0.28), transparent 28%),
+        radial-gradient(circle at 50% 94%, rgba(74, 157, 90, 0.26), transparent 38%),
+        linear-gradient(
+            180deg,
+            rgba(168, 216, 232, 0.78),
+            rgba(253, 246, 227, 0.94) 42%,
+            rgba(245, 230, 197, 0.98)
+        ),
+        var(--poki-cream);
+}
+
+.rpg-ui-title-screen:not(.poki-pause-screen)::before {
+    content: "";
+    position: fixed;
+    inset: auto 0 0;
+    height: min(32vh, 260px);
+    pointer-events: none;
+    background: radial-gradient(ellipse at 18% 100%, rgba(50, 113, 68, 0.34), transparent 52%),
+        radial-gradient(ellipse at 78% 100%, rgba(200, 169, 107, 0.42), transparent 58%);
+    opacity: 0.9;
+}
+
+.rpg-ui-title-screen:not(.poki-pause-screen) .rpg-ui-title-screen-header {
+    max-width: min(760px, 100%);
+    margin-inline: auto;
+    padding: var(--space-3);
+    border: var(--border-width-modal) solid rgba(200, 169, 107, 0.78);
+    border-radius: calc(var(--radius-lg) + 8px);
+    background: radial-gradient(circle at 14% 24%, rgba(244, 185, 149, 0.22), transparent 34%),
+        linear-gradient(135deg, rgba(253, 246, 227, 0.96), rgba(245, 230, 197, 0.9));
+    box-shadow: var(--shadow-modal);
+}
+
+.rpg-ui-title-screen:not(.poki-pause-screen) .rpg-ui-title-screen-title {
+    display: grid;
+    gap: 4px;
+    color: var(--poki-ink);
+    font-family: var(--font-display);
+    font-size: clamp(3rem, 12vmin, 7rem);
+    line-height: 0.9;
+    letter-spacing: -0.055em;
+    text-shadow:
+        0 3px 0 rgba(253, 246, 227, 0.9),
+        0 10px 22px rgba(61, 46, 30, 0.16);
+}
+
+.rpg-ui-title-screen:not(.poki-pause-screen) .rpg-ui-title-screen-title::after {
+    content: "o kama jo e jan pona";
+    color: var(--poki-emerald-deep);
+    font-family: var(--font-mono);
+    font-size: clamp(0.72rem, 2.4vmin, 0.98rem);
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    text-shadow: none;
+}
+
+.rpg-ui-title-screen:not(.poki-pause-screen) .rpg-ui-title-screen-menu {
+    width: min(420px, 100%);
+    margin-inline: auto;
+    gap: var(--space-1);
+}
+
+.rpg-ui-title-screen:not(.poki-pause-screen) .rpg-ui-menu-item {
+    min-height: var(--touch-min);
+    border: var(--border-width-modal) solid rgba(200, 169, 107, 0.74);
+    border-radius: 999px;
+    background: linear-gradient(180deg, rgba(253, 246, 227, 0.96), rgba(232, 213, 168, 0.9)),
+        var(--poki-parchment);
+    color: var(--poki-ink);
+    font-family: var(--font-display);
+    font-size: clamp(1rem, 3vmin, 1.18rem);
+    font-weight: 800;
+    box-shadow: var(--shadow-panel);
+    transition:
+        transform var(--duration-press) var(--ease-out),
+        border-color var(--duration-menu) var(--ease-out),
+        box-shadow var(--duration-menu) var(--ease-out);
+}
+
+.rpg-ui-title-screen:not(.poki-pause-screen) .rpg-ui-menu-item:hover,
+.rpg-ui-title-screen:not(.poki-pause-screen) .rpg-ui-menu-item:focus-visible {
+    border-color: var(--poki-emerald);
+    box-shadow: var(--shadow-hover), var(--shadow-panel);
+    transform: translateY(-1px);
+}
+
+.rpg-ui-title-screen:not(.poki-pause-screen) .rpg-ui-menu-item:active {
+    transform: scale(0.97);
+}
+
+.rpg-ui-dialog .rpg-ui-dialog-choices {
+    display: grid;
+    gap: var(--space-1);
+    margin-top: var(--space-2);
+}
+
+.rpg-ui-dialog .rpg-ui-dialog-choice {
+    min-height: var(--touch-min);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px 14px;
+    border: var(--border-width-modal) solid rgba(200, 169, 107, 0.72);
+    border-radius: 999px;
+    background: linear-gradient(180deg, rgba(253, 246, 227, 0.96), rgba(232, 213, 168, 0.92)),
+        var(--poki-parchment);
+    color: var(--poki-ink);
+    font-family: var(--font-display);
+    font-weight: 800;
+    line-height: 1.15;
+    text-align: center;
+    box-shadow: var(--shadow-panel);
+}
+
+.rpg-ui-dialog .rpg-ui-dialog-choice.active,
+.rpg-ui-dialog .rpg-ui-dialog-choice:hover,
+.rpg-ui-dialog .rpg-ui-dialog-choice:focus-visible {
+    border-color: var(--poki-emerald);
+    background: linear-gradient(180deg, rgba(232, 213, 168, 0.98), rgba(245, 230, 197, 0.96)),
+        var(--poki-parchment-deep);
+    box-shadow: var(--shadow-hover), var(--shadow-panel);
+}
+
+.rpg-ui-dialog .poki-dialog-sitelen {
+    margin-top: var(--space-1);
+    color: var(--poki-emerald-deep);
+    font-family: var(--font-glyph);
+    font-size: clamp(1.25rem, 5vmin, 2rem);
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    line-height: 1.25;
+    overflow-wrap: anywhere;
+    text-align: center;
+    text-shadow: 0 1px 0 rgba(253, 246, 227, 0.74);
+}
+
+.rpg-ui-dialog .poki-dialog-sitelen[data-visible="false"] {
+    display: none;
+}
+
+.poki-hud-menu-root {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+    z-index: 16;
+}
+
+.poki-hud-menu-root::before {
+    content: "";
+    position: fixed;
+    inset: max(6px, env(safe-area-inset-top)) max(6px, env(safe-area-inset-right))
+        max(6px, env(safe-area-inset-bottom)) max(6px, env(safe-area-inset-left));
+    border: 2px solid rgba(200, 169, 107, 0.38);
+    border-radius: clamp(18px, 5vmin, 34px);
+    box-shadow:
+        inset 0 0 0 1px rgba(253, 246, 227, 0.28),
+        inset 0 0 28px rgba(61, 46, 30, 0.1);
+    pointer-events: none;
+    z-index: 16;
+}
+
+.poki-hud-status {
+    position: absolute;
+    top: calc(env(safe-area-inset-top) + var(--space-2));
+    left: calc(env(safe-area-inset-left) + var(--space-2));
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    max-width: min(
+        320px,
+        calc(100vw - env(safe-area-inset-left) - env(safe-area-inset-right) - 96px)
+    );
+    padding: 10px 12px;
+    border: var(--border-width-modal) solid rgba(200, 169, 107, 0.82);
+    border-radius: calc(var(--radius-lg) + 2px);
+    background: linear-gradient(180deg, rgba(253, 246, 227, 0.96), rgba(245, 230, 197, 0.92)),
+        var(--poki-parchment);
+    box-shadow: var(--shadow-modal);
+    color: var(--poki-ink);
+    pointer-events: none;
+    z-index: 18;
+}
+
+.poki-hud-status-portrait {
+    width: clamp(40px, 10vmin, 48px);
+    height: clamp(40px, 10vmin, 48px);
+    flex: 0 0 auto;
+    display: grid;
+    place-items: center;
+    overflow: hidden;
+    border: var(--border-width) solid rgba(200, 169, 107, 0.82);
+    border-radius: 14px;
+    background: radial-gradient(
+            circle at 30% 25%,
+            rgba(253, 246, 227, 0.9),
+            rgba(232, 213, 168, 0.94)
+        ),
+        var(--poki-parchment-deep);
+    color: var(--poki-ink);
+    font-family: var(--font-display);
+    font-size: 0.85rem;
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+}
+
+.poki-hud-status-portrait-image {
+    width: 100%;
+    height: 100%;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    image-rendering: pixelated;
+}
+
+.poki-hud-status-portrait.has-image .poki-hud-status-portrait-fallback {
+    display: none;
+}
+
+.poki-hud-status-portrait:not(.has-image) .poki-hud-status-portrait-image {
+    display: none;
+}
+
+.poki-hud-status-copy {
+    min-width: 0;
+    display: flex;
+    flex: 1 1 auto;
+    flex-direction: column;
+    gap: 4px;
+}
+
+.poki-hud-status-heading {
+    display: flex;
+    align-items: baseline;
+    gap: var(--space-1);
+    min-width: 0;
+}
+
+.poki-hud-status-name {
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-family: var(--font-display);
+    font-size: clamp(0.95rem, 3.1vmin, 1.05rem);
+    font-weight: 700;
+    line-height: 1.1;
+}
+
+.poki-hud-status-level,
+.poki-hud-status-toki {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    flex: 0 0 auto;
+    min-height: 24px;
+    padding: 0 10px;
+    border: var(--border-width) solid rgba(200, 169, 107, 0.9);
+    border-radius: 999px;
+    background: rgba(253, 246, 227, 0.78);
+    font-family: var(--font-mono);
+    font-size: 0.73rem;
+    font-weight: 600;
+    line-height: 1;
+}
+
+.poki-hud-status-subtitle {
+    color: var(--poki-ink-soft);
+    font-size: 0.72rem;
+    line-height: 1.1;
+    letter-spacing: 0.02em;
+}
+
+.poki-hud-status-subtitle:empty {
+    display: none;
+}
+
+.poki-hud-status-metrics {
+    display: flex;
+    align-items: center;
+    gap: var(--space-1);
+}
+
+.poki-hud-status-hp {
+    flex: 1 1 auto;
+    min-width: 92px;
+}
+
+.poki-hud-status-hp-track {
+    width: 100%;
+    height: 12px;
+    overflow: hidden;
+    border: var(--border-width) solid rgba(61, 46, 30, 0.18);
+    border-radius: 999px;
+    background: rgba(61, 46, 30, 0.12);
+}
+
+.poki-hud-status-hp-fill {
+    height: 100%;
+    width: 0;
+    border-radius: inherit;
+    transition: width var(--duration-menu) var(--ease-out);
+}
+
+.poki-hud-menu-toggle {
+    position: absolute;
+    top: calc(env(safe-area-inset-top) + var(--space-2));
+    right: calc(env(safe-area-inset-right) + var(--space-2));
+    min-width: var(--touch-min);
+    min-height: var(--touch-min);
+    width: clamp(var(--touch-min), 8vmin, 56px);
+    height: clamp(var(--touch-min), 8vmin, 56px);
+    padding: 0;
+    border: var(--border-width-modal) solid var(--poki-border);
+    border-radius: 999px;
+    background: radial-gradient(
+            circle at 35% 30%,
+            rgba(253, 246, 227, 0.95),
+            rgba(245, 230, 197, 0.92) 70%
+        ),
+        var(--poki-parchment);
+    color: var(--poki-ink);
+    font-family: var(--font-display);
+    font-size: clamp(1.25rem, 3.5vmin, 1.6rem);
+    font-weight: 700;
+    line-height: 1;
+    box-shadow: var(--shadow-modal);
+    pointer-events: auto;
+    z-index: 20;
+    transition:
+        transform var(--duration-press) var(--ease-out),
+        box-shadow var(--duration-menu) var(--ease-out),
+        background var(--duration-menu) var(--ease-out);
+}
+
+.poki-hud-menu-toggle:hover,
+.poki-hud-menu-toggle:focus-visible {
+    outline: none;
+    box-shadow: var(--shadow-hover), var(--shadow-modal);
+    transform: translateY(-1px);
+}
+
+.poki-hud-menu-toggle:active {
+    transform: scale(0.96);
+    background: var(--poki-parchment-deep);
+}
+
+.poki-hud-hint-root {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+}
+
+.poki-hud-hint-glyph {
+    position: absolute;
+    transform: translate(-50%, -100%);
+    min-width: var(--touch-min);
+    min-height: var(--touch-min);
+    padding: 0 var(--space-2);
+    border: var(--border-width-modal) solid var(--poki-border);
+    border-radius: 999px;
+    background: linear-gradient(180deg, rgba(253, 246, 227, 0.98), rgba(245, 230, 197, 0.96)),
+        var(--poki-parchment);
+    color: var(--poki-ink);
+    font-family: var(--font-display);
+    font-size: clamp(0.85rem, 2.8vmin, 1rem);
+    font-weight: 700;
+    line-height: 1;
+    white-space: nowrap;
+    box-shadow: var(--shadow-modal);
+    pointer-events: auto;
+    z-index: 24;
+    transition:
+        transform var(--duration-press) var(--ease-out),
+        box-shadow var(--duration-menu) var(--ease-out),
+        opacity var(--duration-menu) var(--ease-out);
+}
+
+.poki-hud-hint-glyph:hover,
+.poki-hud-hint-glyph:focus-visible {
+    outline: none;
+    box-shadow: var(--shadow-hover), var(--shadow-modal);
+    transform: translate(-50%, -102%);
+}
+
+.poki-hud-hint-glyph:active {
+    transform: translate(-50%, -100%) scale(0.96);
+}
+
+body:has(.rpg-ui-title-screen) .poki-hud-menu-toggle,
+body:has(.rpg-ui-dialog) .poki-hud-menu-toggle,
+body:has(.rpg-ui-save-load) .poki-hud-menu-toggle,
+body:has(.rpg-ui-title-screen) .poki-hud-status,
+body:has(.rpg-ui-dialog) .poki-hud-status,
+body:has(.rpg-ui-save-load) .poki-hud-status,
+body:has(.rpg-ui-title-screen) .poki-hud-hint-glyph,
+body:has(.rpg-ui-dialog) .poki-hud-hint-glyph,
+body:has(.rpg-ui-save-load) .poki-hud-hint-glyph {
+    display: none;
+}
+
+@media (pointer: coarse) {
+    .poki-hud-status {
+        max-width: min(
+            340px,
+            calc(100vw - env(safe-area-inset-left) - env(safe-area-inset-right) - 88px)
+        );
+        padding: 12px;
+    }
+
+    .poki-hud-status-portrait {
+        width: max(44px, 10vmin);
+        height: max(44px, 10vmin);
+    }
+
+    .poki-hud-menu-toggle {
+        width: max(var(--touch-min), 56px);
+        height: max(var(--touch-min), 56px);
+    }
+
+    .poki-hud-hint-glyph {
+        min-width: max(var(--touch-min), 52px);
+        min-height: max(var(--touch-min), 52px);
+    }
+
+    .rpg-ui-dialog-choice {
+        min-height: var(--touch-min);
+        display: flex;
+        align-items: center;
+    }
+}
+
+@media (max-width: 640px) {
+    .poki-hud-status {
+        max-width: calc(100vw - env(safe-area-inset-left) - env(safe-area-inset-right) - 92px);
+    }
 }
 
 /* ─── High-contrast mode (T5-11) ───
@@ -194,6 +646,1375 @@ body.poki-high-contrast {
     --rpg-ui-health-gradient: var(--poki-emerald);
     --rpg-ui-mana-gradient: var(--poki-telo);
     --rpg-ui-xp-gradient: var(--poki-joy);
+}
+
+/* ─── Accessible mode (T5-12) ───
+   User opt-in for larger UI type and reduced motion, independent from
+   OS-level prefers-reduced-motion. */
+body.poki-accessible-mode {
+    --text-body-desktop: 20px;
+    --text-body-mobile: 18px;
+    --text-hud: 18px;
+    --text-label: 16px;
+    --text-heading: 28px;
+    --text-heading-mobile: 24px;
+    --duration-press: 0ms;
+    --duration-menu: 0ms;
+    --duration-tween: 0ms;
+    --duration-victory: 0ms;
+    --rpg-ui-font-size: 1.125rem;
+}
+
+body.poki-accessible-mode .rpg-ui-dialog,
+body.poki-accessible-mode .poki-dialog {
+    font-size: var(--text-body-desktop);
+    line-height: 1.55;
+}
+
+body.poki-accessible-mode .rpg-ui-dialog-choice,
+body.poki-accessible-mode .rpg-ui-menu-item {
+    min-height: max(var(--touch-min), 52px);
+}
+
+/* Action-battle chrome (T2-01/T2-02). The upstream CanvasEngine
+   action bar keeps the behavior; this layer makes the hotbar match
+   the poki soweli parchment/emerald brand and mobile target sizing. */
+.action-battle-actionbar {
+    left: max(12px, env(safe-area-inset-left));
+    right: max(12px, env(safe-area-inset-right));
+    bottom: max(12px, env(safe-area-inset-bottom));
+}
+
+.action-battle-actionbar-plate {
+    width: min(720px, 100%);
+    --rpg-ui-hotbar-gap: 8px;
+    --rpg-ui-hotbar-size: clamp(44px, 8.5vmin, var(--touch-combat));
+    --rpg-ui-hotbar-padding-x: 12px;
+    --rpg-ui-hotbar-padding-y: 10px;
+    --rpg-ui-hotbar-padding-bottom: 12px;
+    border: var(--border-width-modal) solid rgba(200, 169, 107, 0.9);
+    background: linear-gradient(180deg, rgba(253, 246, 227, 0.98), rgba(245, 230, 197, 0.94)),
+        var(--poki-parchment);
+    box-shadow: var(--shadow-modal);
+}
+
+.action-battle-actionbar-slot {
+    border-color: rgba(200, 169, 107, 0.78);
+    background: radial-gradient(
+            circle at 50% 25%,
+            rgba(253, 246, 227, 0.95),
+            rgba(232, 213, 168, 0.88) 74%
+        ),
+        var(--poki-parchment-deep);
+    color: var(--poki-ink);
+    transition:
+        transform var(--duration-press) var(--ease-out),
+        border-color var(--duration-menu) var(--ease-out),
+        box-shadow var(--duration-menu) var(--ease-out),
+        filter var(--duration-menu) var(--ease-out);
+}
+
+.action-battle-actionbar-slot:hover,
+.action-battle-actionbar-slot:focus-visible,
+.action-battle-actionbar-slot[data-selected="true"] {
+    outline: none;
+    border-color: var(--poki-emerald);
+    box-shadow:
+        inset 0 2px 0 rgba(253, 246, 227, 0.55),
+        0 0 0 3px rgba(74, 157, 90, 0.28),
+        var(--shadow-panel);
+    transform: translateY(-2px);
+}
+
+.action-battle-actionbar-slot:active {
+    transform: translateY(0) scale(0.96);
+}
+
+.action-battle-actionbar-slot[data-empty="true"] {
+    background: linear-gradient(180deg, rgba(107, 89, 64, 0.16), rgba(61, 46, 30, 0.12)),
+        rgba(253, 246, 227, 0.52);
+    border-style: dashed;
+}
+
+.action-battle-actionbar-slot[data-disabled="true"] {
+    filter: grayscale(0.65) saturate(0.75);
+    opacity: 0.62;
+}
+
+.action-battle-actionbar-key,
+.action-battle-actionbar-count {
+    background: rgba(253, 246, 227, 0.86);
+    color: var(--poki-ink-soft);
+    font-family: var(--font-mono);
+    text-shadow: none;
+}
+
+.action-battle-actionbar-key {
+    top: 4px;
+    left: 5px;
+    min-width: 14px;
+    min-height: 14px;
+    display: inline-grid;
+    place-items: center;
+    border: 1px solid rgba(200, 169, 107, 0.75);
+    border-radius: 999px;
+}
+
+.action-battle-actionbar-count {
+    right: 4px;
+    bottom: 4px;
+    border: 1px solid rgba(200, 169, 107, 0.75);
+    border-radius: 999px;
+}
+
+.action-battle-actionbar-text {
+    color: var(--poki-ink);
+    font-family: var(--font-display);
+    font-size: clamp(0.58rem, 2vmin, 0.7rem);
+    font-weight: 700;
+    text-shadow: none;
+}
+
+.poki-lead-movebar-root {
+    width: 100vw;
+    height: 100vh;
+    pointer-events: none;
+}
+
+.poki-lead-movebar {
+    position: fixed;
+    left: max(12px, env(safe-area-inset-left));
+    right: max(12px, env(safe-area-inset-right));
+    bottom: max(12px, env(safe-area-inset-bottom));
+    z-index: 28;
+    width: min(760px, calc(100vw - 24px));
+    margin-inline: auto;
+    display: grid;
+    gap: var(--space-1);
+    padding: 10px;
+    border: var(--border-width-modal) solid rgba(200, 169, 107, 0.9);
+    border-radius: calc(var(--radius-lg) + 6px);
+    background: radial-gradient(circle at 12% 18%, rgba(242, 193, 88, 0.28), transparent 32%),
+        linear-gradient(180deg, rgba(253, 246, 227, 0.98), rgba(245, 230, 197, 0.95)),
+        var(--poki-parchment);
+    box-shadow: var(--shadow-modal);
+    pointer-events: auto;
+}
+
+.poki-lead-movebar-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-1);
+    color: var(--text);
+    font-family: var(--font-display);
+    font-weight: 900;
+}
+
+.poki-lead-movebar-header div:first-child {
+    display: flex;
+    align-items: baseline;
+    gap: 6px;
+    min-width: 0;
+}
+
+.poki-lead-movebar-header span {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.poki-lead-movebar-actions {
+    display: flex;
+    align-items: center;
+    justify-content: end;
+    gap: var(--space-1);
+}
+
+.poki-lead-switch-toggle,
+.poki-lead-switch-close {
+    min-height: var(--touch-min);
+    appearance: none;
+    border: var(--border-width) solid rgba(200, 169, 107, 0.82);
+    border-radius: 999px;
+    background: linear-gradient(180deg, rgba(74, 157, 90, 0.18), rgba(253, 246, 227, 0.86)),
+        var(--surface-high);
+    color: var(--text);
+    font-family: var(--font-display);
+    font-size: clamp(0.78rem, 2.7vmin, 0.92rem);
+    font-weight: 900;
+    touch-action: manipulation;
+}
+
+.poki-lead-switch-toggle {
+    display: grid;
+    place-items: center;
+    padding: 7px 12px;
+}
+
+.poki-lead-switch-close {
+    cursor: pointer;
+    padding: 6px 10px;
+}
+
+.poki-lead-switch-toggle:hover,
+.poki-lead-switch-toggle:focus-visible,
+.poki-lead-switch-close:hover,
+.poki-lead-switch-close:focus-visible {
+    outline: none;
+    border-color: var(--poki-emerald);
+    box-shadow: 0 0 0 3px rgba(74, 157, 90, 0.22);
+}
+
+.poki-lead-movebar-header small,
+.poki-lead-movebar-energy,
+.poki-lead-movebar-meta,
+.poki-lead-movebar-cooldown {
+    color: var(--text-mute);
+    font-family: var(--font-mono);
+    font-size: clamp(0.68rem, 2.2vmin, 0.82rem);
+}
+
+.poki-lead-switch-panel {
+    display: grid;
+    gap: var(--space-1);
+    padding: var(--space-1);
+    border: var(--border-width) solid rgba(74, 157, 90, 0.48);
+    border-radius: var(--radius-md);
+    background: radial-gradient(circle at 15% 15%, rgba(74, 157, 90, 0.16), transparent 42%),
+        rgba(253, 246, 227, 0.88);
+}
+
+.poki-lead-switch-heading {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-1);
+    color: var(--text);
+    font-family: var(--font-display);
+    font-weight: 900;
+}
+
+.poki-lead-switch-empty {
+    min-height: var(--touch-min);
+    display: grid;
+    place-items: center;
+    color: var(--text-mute);
+    font-family: var(--font-mono);
+}
+
+.poki-lead-switch-list {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: var(--space-1);
+}
+
+.poki-lead-switch-option {
+    min-height: var(--touch-combat);
+    display: grid;
+    gap: 3px;
+    justify-items: start;
+    padding: 8px 10px;
+    border: var(--border-width) solid rgba(200, 169, 107, 0.82);
+    border-radius: 14px;
+    background: linear-gradient(180deg, rgba(253, 246, 227, 0.92), rgba(245, 230, 197, 0.86)),
+        var(--surface-high);
+    color: var(--text);
+    cursor: pointer;
+    font: inherit;
+    text-align: left;
+    touch-action: manipulation;
+}
+
+.poki-lead-switch-option:not(.disabled):hover,
+.poki-lead-switch-option:not(.disabled):focus-visible {
+    outline: none;
+    border-color: var(--poki-emerald);
+    box-shadow: 0 0 0 3px rgba(74, 157, 90, 0.22);
+}
+
+.poki-lead-switch-option.selected {
+    border-color: var(--poki-emerald);
+    background: linear-gradient(180deg, rgba(74, 157, 90, 0.18), rgba(253, 246, 227, 0.88)),
+        var(--surface-high);
+}
+
+.poki-lead-switch-option.disabled {
+    cursor: not-allowed;
+    opacity: 0.58;
+    filter: grayscale(0.35);
+}
+
+.poki-lead-switch-name {
+    max-width: 100%;
+    overflow: hidden;
+    color: var(--text);
+    font-family: var(--font-display);
+    font-size: clamp(0.82rem, 2.7vmin, 0.98rem);
+    font-weight: 900;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.poki-lead-switch-meta,
+.poki-lead-switch-hp small {
+    color: var(--text-mute);
+    font-family: var(--font-mono);
+    font-size: clamp(0.66rem, 2.2vmin, 0.8rem);
+}
+
+.poki-lead-switch-hp {
+    width: 100%;
+    display: grid;
+    grid-template-columns: minmax(42px, 1fr) auto;
+    gap: 6px;
+    align-items: center;
+}
+
+.poki-lead-switch-hp-track {
+    height: 7px;
+    border: 1px solid rgba(76, 58, 43, 0.42);
+    border-radius: 999px;
+    background: rgba(76, 58, 43, 0.16);
+    overflow: hidden;
+}
+
+.poki-lead-switch-hp-fill {
+    display: block;
+    height: 100%;
+    border-radius: inherit;
+}
+
+.poki-lead-movebar-target {
+    min-height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-1);
+    padding: 7px 10px;
+    border: var(--border-width) solid rgba(200, 169, 107, 0.72);
+    border-radius: 999px;
+    background: rgba(253, 246, 227, 0.72);
+    color: var(--text);
+    font-family: var(--font-display);
+    font-weight: 800;
+}
+
+.poki-lead-movebar-target small {
+    flex: 0 0 auto;
+    color: var(--text-mute);
+    font-family: var(--font-mono);
+    font-size: clamp(0.66rem, 2.2vmin, 0.8rem);
+}
+
+.poki-lead-movebar-target[data-in-range="true"] {
+    border-color: color-mix(in srgb, var(--poki-emerald), var(--poki-border) 35%);
+    background: linear-gradient(180deg, rgba(235, 248, 231, 0.88), rgba(253, 246, 227, 0.78)),
+        var(--poki-parchment);
+}
+
+.poki-lead-movebar-grid {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 8px;
+}
+
+.poki-lead-movebar-move {
+    min-height: var(--touch-combat);
+    display: grid;
+    gap: 2px;
+    justify-items: start;
+    padding: 8px 10px;
+    border: var(--border-width) solid rgba(200, 169, 107, 0.82);
+    border-radius: 18px 12px 18px 12px;
+    background: radial-gradient(circle at 28% 18%, rgba(253, 246, 227, 0.92), transparent 44%),
+        linear-gradient(180deg, rgba(232, 213, 168, 0.92), rgba(245, 230, 197, 0.86)),
+        var(--surface-high);
+    color: var(--text);
+    font: inherit;
+    text-align: left;
+    box-shadow: inset 0 2px 0 rgba(253, 246, 227, 0.48);
+    touch-action: manipulation;
+    transition:
+        transform var(--duration-press) var(--ease-out),
+        border-color var(--duration-menu) var(--ease-out),
+        box-shadow var(--duration-menu) var(--ease-out),
+        filter var(--duration-menu) var(--ease-out);
+}
+
+.poki-lead-movebar-move.ready:hover,
+.poki-lead-movebar-move.ready:focus-visible {
+    outline: none;
+    border-color: var(--poki-emerald);
+    box-shadow:
+        inset 0 2px 0 rgba(253, 246, 227, 0.58),
+        0 0 0 3px rgba(74, 157, 90, 0.24),
+        var(--shadow-panel);
+    transform: translateY(-2px);
+}
+
+.poki-lead-movebar-move.ready:active {
+    transform: translateY(0) scale(0.98);
+}
+
+.poki-lead-movebar-move.cooldown,
+.poki-lead-movebar-move:disabled {
+    cursor: not-allowed;
+    filter: grayscale(0.45) saturate(0.72);
+    opacity: 0.68;
+}
+
+.poki-lead-movebar-move[data-type="seli"] {
+    border-color: color-mix(in srgb, var(--poki-seli), var(--poki-border) 45%);
+}
+
+.poki-lead-movebar-move[data-type="telo"] {
+    border-color: color-mix(in srgb, var(--poki-telo), var(--poki-border) 42%);
+}
+
+.poki-lead-movebar-move[data-type="kasi"] {
+    border-color: color-mix(in srgb, var(--poki-kasi), var(--poki-border) 42%);
+}
+
+.poki-lead-movebar-move[data-type="lete"] {
+    border-color: color-mix(in srgb, var(--poki-lete), var(--poki-border) 35%);
+}
+
+.poki-lead-movebar-move[data-type="wawa"] {
+    border-color: color-mix(in srgb, var(--poki-wawa), var(--poki-border) 38%);
+}
+
+.poki-lead-movebar-name {
+    color: var(--text);
+    font-family: var(--font-display);
+    font-size: clamp(0.84rem, 2.8vmin, 1rem);
+    font-weight: 900;
+    line-height: 1.05;
+}
+
+.poki-lead-movebar-cooldown {
+    justify-self: end;
+    padding: 2px 7px;
+    border: 1px solid rgba(200, 169, 107, 0.72);
+    border-radius: 999px;
+    background: rgba(253, 246, 227, 0.78);
+}
+
+.poki-lead-movebar-move.ready .poki-lead-movebar-cooldown {
+    color: var(--poki-emerald-deep);
+}
+
+@media (max-width: 640px), (pointer: coarse) {
+    .poki-lead-movebar {
+        left: max(8px, env(safe-area-inset-left));
+        right: max(8px, env(safe-area-inset-right));
+        bottom: max(8px, env(safe-area-inset-bottom));
+        width: min(100vw - 16px, 520px);
+        padding: 9px;
+    }
+
+    .poki-lead-movebar-grid {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .poki-lead-switch-list {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .poki-lead-movebar-move {
+        min-height: max(var(--touch-combat), 64px);
+        padding: 9px 10px;
+    }
+}
+
+.poki-wild-battle-root {
+    pointer-events: none;
+}
+
+.poki-wild-battle {
+    position: fixed;
+    left: max(12px, env(safe-area-inset-left));
+    right: max(12px, env(safe-area-inset-right));
+    top: max(12px, env(safe-area-inset-top));
+    display: flex;
+    justify-content: center;
+    pointer-events: none;
+    z-index: 18;
+}
+
+.poki-wild-battle * {
+    pointer-events: none;
+}
+
+.poki-wild-battle-stage {
+    position: relative;
+    width: min(760px, 100%);
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+    gap: var(--space-2);
+    align-items: center;
+    padding: var(--space-2);
+    border: var(--border-width-modal) solid rgba(200, 169, 107, 0.84);
+    border-radius: var(--radius-lg);
+    background: radial-gradient(circle at 84% 8%, rgba(65, 137, 153, 0.24), transparent 34%),
+        radial-gradient(circle at 18% 20%, rgba(242, 193, 88, 0.28), transparent 38%),
+        linear-gradient(135deg, rgba(253, 246, 227, 0.96), rgba(245, 230, 197, 0.9)),
+        var(--poki-parchment);
+    box-shadow: var(--shadow-modal);
+}
+
+.poki-wild-combatant {
+    position: relative;
+    min-width: 0;
+    display: grid;
+    grid-template-columns: clamp(58px, 12vmin, 76px) minmax(0, 1fr);
+    gap: var(--space-2);
+    align-items: center;
+    padding: var(--space-1);
+    border: var(--border-width) solid rgba(200, 169, 107, 0.62);
+    border-radius: var(--radius-md);
+    background: rgba(253, 246, 227, 0.64);
+}
+
+.poki-wild-combatant.target {
+    background: linear-gradient(90deg, rgba(50, 113, 68, 0.12), rgba(253, 246, 227, 0.72)),
+        rgba(253, 246, 227, 0.64);
+}
+
+.poki-wild-combatant.missing {
+    opacity: 0.7;
+}
+
+.poki-wild-combatant-sprite {
+    width: clamp(58px, 12vmin, 76px);
+    height: clamp(58px, 12vmin, 76px);
+    display: grid;
+    place-items: center;
+    border: var(--border-width) solid rgba(76, 58, 43, 0.32);
+    border-radius: 22px 14px 22px 14px;
+    background: radial-gradient(
+            circle at 38% 30%,
+            rgba(253, 246, 227, 0.92),
+            rgba(232, 213, 168, 0.62) 62%
+        ),
+        var(--surface-high);
+    background-repeat: no-repeat;
+    image-rendering: pixelated;
+    color: var(--text-mute);
+    font-family: var(--font-display);
+    font-weight: 800;
+    overflow: hidden;
+}
+
+.poki-wild-combatant-sprite.has-image span {
+    opacity: 0;
+}
+
+.poki-wild-combatant-copy {
+    min-width: 0;
+    display: grid;
+    gap: 3px;
+}
+
+.poki-wild-combatant-heading {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: var(--space-1);
+    color: var(--text);
+    font-family: var(--font-display);
+    font-weight: 800;
+}
+
+.poki-wild-combatant-heading span {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.poki-wild-combatant-heading small,
+.poki-wild-combatant-type,
+.poki-wild-hp small {
+    color: var(--text-mute);
+    font-family: var(--font-mono);
+    font-size: clamp(0.68rem, 2.2vmin, 0.82rem);
+}
+
+.poki-wild-hp {
+    display: grid;
+    grid-template-columns: minmax(56px, 1fr) auto;
+    gap: var(--space-1);
+    align-items: center;
+}
+
+.poki-wild-hp-track {
+    height: 8px;
+    border: 1px solid rgba(76, 58, 43, 0.42);
+    border-radius: 999px;
+    background: rgba(76, 58, 43, 0.16);
+    overflow: hidden;
+}
+
+.poki-wild-hp-fill {
+    height: 100%;
+    border-radius: inherit;
+    transition: width var(--duration-tween) var(--ease-out);
+}
+
+.poki-wild-versus {
+    padding: 6px 10px;
+    border: var(--border-width) solid rgba(200, 169, 107, 0.72);
+    border-radius: 999px;
+    background: rgba(61, 46, 30, 0.84);
+    color: var(--poki-parchment);
+    font-family: var(--font-display);
+    font-size: clamp(0.74rem, 2.4vmin, 0.92rem);
+    font-weight: 800;
+    letter-spacing: 0.04em;
+}
+
+.poki-wild-capture {
+    position: absolute;
+    inset: var(--space-1);
+    z-index: 3;
+    display: grid;
+    place-items: center;
+    opacity: 0;
+    visibility: hidden;
+}
+
+.poki-wild-capture.visible {
+    opacity: 1;
+    visibility: visible;
+}
+
+.poki-wild-capture-arc {
+    position: relative;
+    width: min(55%, 360px);
+    height: clamp(54px, 12vmin, 96px);
+}
+
+.poki-wild-capture-orb {
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: clamp(22px, 5vmin, 34px);
+    height: clamp(22px, 5vmin, 34px);
+    border: 3px solid rgba(61, 46, 30, 0.78);
+    border-radius: 999px;
+    background: linear-gradient(
+        180deg,
+        var(--poki-danger) 0 44%,
+        rgba(61, 46, 30, 0.78) 44% 56%,
+        var(--surface-high) 56% 100%
+    );
+    box-shadow:
+        0 10px 22px rgba(61, 46, 30, 0.22),
+        inset 0 3px 0 rgba(253, 246, 227, 0.7);
+    transform: translate(-50%, -50%);
+}
+
+.poki-wild-capture.state-throw .poki-wild-capture-orb {
+    animation: poki-wild-capture-throw 560ms var(--ease-out) both;
+}
+
+.poki-wild-capture.state-caught .poki-wild-capture-orb {
+    animation: poki-wild-capture-caught 700ms var(--ease-out) both;
+}
+
+.poki-wild-capture.state-escaped .poki-wild-capture-orb {
+    animation: poki-wild-capture-escaped 560ms var(--ease-out) both;
+}
+
+.poki-wild-capture-label {
+    align-self: end;
+    padding: 5px 10px;
+    border: 2px solid rgba(61, 46, 30, 0.7);
+    border-radius: 999px;
+    background: rgba(253, 246, 227, 0.95);
+    color: var(--text);
+    font-family: var(--font-display);
+    font-size: clamp(0.82rem, 2.6vmin, 1rem);
+    font-weight: 900;
+    box-shadow: var(--shadow-panel);
+}
+
+.poki-wild-capture.state-caught .poki-wild-capture-label {
+    color: var(--poki-emerald);
+}
+
+.poki-wild-capture.state-escaped .poki-wild-capture-label {
+    color: var(--poki-danger);
+}
+
+.poki-wild-damage {
+    position: absolute;
+    left: clamp(42px, 10vmin, 68px);
+    top: -18px;
+    padding: 4px 8px;
+    border: 2px solid rgba(61, 46, 30, 0.7);
+    border-radius: 999px;
+    background: rgba(253, 246, 227, 0.94);
+    color: var(--poki-danger);
+    font-family: var(--font-display);
+    font-size: clamp(0.85rem, 3vmin, 1.05rem);
+    font-weight: 900;
+    opacity: 0;
+    visibility: hidden;
+    box-shadow: var(--shadow-panel);
+}
+
+.poki-wild-damage.visible {
+    opacity: 1;
+    visibility: visible;
+    animation: poki-wild-damage-pop 650ms var(--ease-out) both;
+}
+
+.poki-wild-damage.tone-super {
+    color: var(--poki-emerald);
+}
+
+.poki-wild-damage.tone-resisted {
+    color: var(--poki-caution);
+}
+
+.poki-wild-damage.tone-miss {
+    color: var(--text-mute);
+}
+
+/* Warp loading overlay (T3-07). Opened by the server warp event around
+   changeMap so mobile transitions feel intentional without blocking
+   non-browser integration fixtures if the GUI is unavailable. */
+.poki-warp-loading {
+    position: fixed;
+    inset: 0;
+    z-index: 9000;
+    display: grid;
+    place-items: center;
+    padding: max(var(--space-2), env(safe-area-inset-top))
+        max(var(--space-2), env(safe-area-inset-right))
+        max(var(--space-2), env(safe-area-inset-bottom))
+        max(var(--space-2), env(safe-area-inset-left));
+    background: radial-gradient(circle at 50% 42%, rgba(253, 246, 227, 0.25), transparent 34%),
+        linear-gradient(180deg, rgba(61, 46, 30, 0.58), rgba(61, 46, 30, 0.72));
+    color: var(--text);
+    animation: poki-warp-backdrop-in var(--duration-menu) var(--ease-out) both;
+}
+
+.poki-warp-loading-card {
+    width: min(88vw, 420px);
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    gap: var(--space-2);
+    align-items: center;
+    padding: var(--space-2);
+    border: var(--border-width-modal) solid rgba(200, 169, 107, 0.9);
+    border-radius: 24px 16px 24px 16px;
+    background: linear-gradient(135deg, rgba(253, 246, 227, 0.98), rgba(245, 230, 197, 0.96)),
+        var(--surface);
+    box-shadow: var(--shadow-modal);
+}
+
+.poki-warp-loading.phase-enter .poki-warp-loading-card {
+    animation: poki-warp-card-enter var(--duration-tween) var(--ease-out) both;
+}
+
+.poki-warp-loading.phase-settle .poki-warp-loading-card {
+    animation: poki-warp-card-settle var(--duration-tween) var(--ease-out) both;
+}
+
+.poki-warp-loading-sigil {
+    width: clamp(52px, 14vmin, 72px);
+    height: clamp(52px, 14vmin, 72px);
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 5px;
+    align-items: center;
+    justify-items: center;
+    padding: 10px;
+    border: var(--border-width) solid rgba(61, 46, 30, 0.32);
+    border-radius: 20px 12px 20px 12px;
+    background: radial-gradient(circle at 35% 30%, rgba(242, 193, 88, 0.45), transparent 48%),
+        rgba(232, 213, 168, 0.7);
+}
+
+.poki-warp-loading-sigil span {
+    width: clamp(9px, 2.6vmin, 13px);
+    height: clamp(9px, 2.6vmin, 13px);
+    border-radius: 999px;
+    background: var(--poki-emerald);
+    box-shadow: 0 4px 8px rgba(61, 46, 30, 0.18);
+    animation: poki-warp-dot 780ms var(--ease-in-out) infinite;
+}
+
+.poki-warp-loading-sigil span:nth-child(2) {
+    background: var(--poki-amber);
+    animation-delay: 120ms;
+}
+
+.poki-warp-loading-sigil span:nth-child(3) {
+    background: var(--poki-telo);
+    animation-delay: 240ms;
+}
+
+.poki-warp-loading-copy {
+    min-width: 0;
+    display: grid;
+    gap: 2px;
+}
+
+.poki-warp-loading-status {
+    color: var(--text-mute);
+    font-family: var(--font-mono);
+    font-size: clamp(0.76rem, 2.5vmin, 0.88rem);
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+}
+
+.poki-warp-loading-label {
+    color: var(--text);
+    font-family: var(--font-display);
+    font-size: clamp(1.35rem, 7vmin, 2.2rem);
+    font-weight: 900;
+    line-height: 1;
+}
+
+.poki-warp-loading-detail {
+    color: var(--text-mute);
+    font-family: var(--font-body);
+    font-size: clamp(0.88rem, 3vmin, 1.05rem);
+    font-weight: 800;
+}
+
+/* Defeat respawn overlay (T2-08). Opened by onDead around HP restore and
+   changeMap, then closed before the revive dialog appears. */
+.poki-defeat-screen {
+    position: fixed;
+    inset: 0;
+    z-index: 9100;
+    display: grid;
+    place-items: center;
+    padding: max(var(--space-2), env(safe-area-inset-top))
+        max(var(--space-2), env(safe-area-inset-right))
+        max(var(--space-2), env(safe-area-inset-bottom))
+        max(var(--space-2), env(safe-area-inset-left));
+    background: radial-gradient(circle at 50% 54%, rgba(245, 230, 197, 0.18), transparent 32%),
+        radial-gradient(circle at 50% 46%, rgba(185, 65, 57, 0.28), transparent 48%),
+        linear-gradient(180deg, rgba(43, 31, 28, 0.72), rgba(43, 31, 28, 0.9));
+    color: var(--surface);
+    animation: poki-defeat-backdrop-in 340ms var(--ease-out) both;
+}
+
+.poki-defeat-screen-card {
+    width: min(88vw, 460px);
+    display: grid;
+    grid-template-columns: auto minmax(0, 1fr);
+    gap: var(--space-2);
+    align-items: center;
+    padding: var(--space-2);
+    border: var(--border-width-modal) solid rgba(253, 246, 227, 0.72);
+    border-radius: 30px 16px 30px 16px;
+    background: linear-gradient(135deg, rgba(61, 46, 30, 0.96), rgba(112, 52, 45, 0.92)),
+        var(--poki-danger);
+    box-shadow: var(--shadow-modal);
+}
+
+.poki-defeat-screen.phase-fallen .poki-defeat-screen-card {
+    animation: poki-defeat-card-fallen 420ms var(--ease-out) both;
+}
+
+.poki-defeat-screen.phase-returning .poki-defeat-screen-card {
+    animation: poki-defeat-card-returning 360ms var(--ease-in-out) both;
+}
+
+.poki-defeat-screen-moon {
+    width: clamp(56px, 16vmin, 78px);
+    height: clamp(56px, 16vmin, 78px);
+    display: grid;
+    place-items: center;
+    border: var(--border-width) solid rgba(253, 246, 227, 0.52);
+    border-radius: 999px;
+    background: radial-gradient(
+            circle at 35% 32%,
+            rgba(253, 246, 227, 0.95),
+            rgba(242, 193, 88, 0.78) 42%,
+            transparent 44%
+        ),
+        rgba(43, 31, 28, 0.62);
+    box-shadow:
+        inset 0 0 22px rgba(253, 246, 227, 0.18),
+        0 8px 18px rgba(43, 31, 28, 0.28);
+}
+
+.poki-defeat-screen-moon span {
+    width: 42%;
+    height: 42%;
+    border-radius: 999px;
+    background: rgba(43, 31, 28, 0.64);
+    transform: translate(8%, -8%);
+    animation: poki-defeat-moon 780ms var(--ease-in-out) infinite alternate;
+}
+
+.poki-defeat-screen-copy {
+    min-width: 0;
+    display: grid;
+    gap: 2px;
+}
+
+.poki-defeat-screen-status {
+    color: var(--poki-amber);
+    font-family: var(--font-display);
+    font-size: clamp(1.5rem, 7vmin, 2.4rem);
+    font-weight: 900;
+    line-height: 1;
+}
+
+.poki-defeat-screen-message {
+    color: var(--surface);
+    font-family: var(--font-body);
+    font-size: clamp(1rem, 4vmin, 1.25rem);
+    font-weight: 900;
+}
+
+.poki-defeat-screen-label {
+    color: rgba(253, 246, 227, 0.82);
+    font-family: var(--font-mono);
+    font-size: clamp(0.78rem, 2.6vmin, 0.92rem);
+    font-weight: 800;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+}
+
+.poki-defeat-screen-detail {
+    color: rgba(253, 246, 227, 0.72);
+    font-family: var(--font-body);
+    font-size: clamp(0.86rem, 3vmin, 1rem);
+    font-weight: 800;
+}
+
+@keyframes poki-wild-damage-pop {
+    0% {
+        opacity: 0;
+        transform: translateY(8px) scale(0.82);
+    }
+    22% {
+        opacity: 1;
+        transform: translateY(-2px) scale(1.08);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(-10px) scale(1);
+    }
+}
+
+@keyframes poki-wild-capture-throw {
+    0% {
+        opacity: 0;
+        transform: translate(calc(-50% - 170px), 34px) rotate(-22deg) scale(0.75);
+    }
+    35% {
+        opacity: 1;
+        transform: translate(-50%, -70px) rotate(18deg) scale(1.08);
+    }
+    100% {
+        opacity: 1;
+        transform: translate(calc(-50% + 150px), -4px) rotate(360deg) scale(1);
+    }
+}
+
+@keyframes poki-wild-capture-caught {
+    0% {
+        transform: translate(-50%, -50%) scale(1.18);
+        filter: brightness(1.1);
+    }
+    38% {
+        transform: translate(-50%, -50%) scale(0.86);
+        filter: brightness(1.45);
+    }
+    68% {
+        transform: translate(-50%, -50%) scale(1.08);
+    }
+    100% {
+        transform: translate(-50%, -50%) scale(1);
+        filter: brightness(1);
+    }
+}
+
+@keyframes poki-wild-capture-escaped {
+    0%,
+    100% {
+        transform: translate(-50%, -50%) rotate(0deg);
+    }
+    18% {
+        transform: translate(calc(-50% - 12px), -50%) rotate(-12deg);
+    }
+    36% {
+        transform: translate(calc(-50% + 12px), -50%) rotate(12deg);
+    }
+    54% {
+        transform: translate(calc(-50% - 8px), -50%) rotate(-8deg);
+    }
+    72% {
+        transform: translate(calc(-50% + 8px), -50%) rotate(8deg);
+    }
+}
+
+@keyframes poki-warp-backdrop-in {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes poki-warp-card-enter {
+    from {
+        opacity: 0;
+        transform: translateY(18px) scale(0.96);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+@keyframes poki-warp-card-settle {
+    0% {
+        transform: translateY(0) scale(1);
+    }
+    45% {
+        transform: translateY(-6px) scale(1.02);
+    }
+    100% {
+        transform: translateY(0) scale(1);
+    }
+}
+
+@keyframes poki-warp-dot {
+    0%,
+    100% {
+        transform: translateY(0);
+        opacity: 0.6;
+    }
+    50% {
+        transform: translateY(-7px);
+        opacity: 1;
+    }
+}
+
+@keyframes poki-defeat-backdrop-in {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+@keyframes poki-defeat-card-fallen {
+    from {
+        opacity: 0;
+        transform: translateY(18px) scale(0.94);
+        filter: saturate(0.6);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+        filter: saturate(1);
+    }
+}
+
+@keyframes poki-defeat-card-returning {
+    0% {
+        transform: translateY(0) scale(1);
+    }
+    45% {
+        transform: translateY(-5px) scale(1.02);
+    }
+    100% {
+        transform: translateY(0) scale(1);
+    }
+}
+
+@keyframes poki-defeat-moon {
+    from {
+        transform: translate(10%, -10%) scale(0.9);
+        opacity: 0.78;
+    }
+    to {
+        transform: translate(2%, -2%) scale(1.08);
+        opacity: 1;
+    }
+}
+
+@media (max-width: 640px) {
+    .action-battle-actionbar-track {
+        overflow-x: auto;
+        grid-template-columns: repeat(10, minmax(var(--touch-min), 1fr));
+        scrollbar-width: none;
+    }
+
+    .action-battle-actionbar-track::-webkit-scrollbar {
+        display: none;
+    }
+}
+
+@media (max-width: 640px), (pointer: coarse) {
+    .poki-wild-battle {
+        top: max(8px, env(safe-area-inset-top));
+        left: max(8px, env(safe-area-inset-left));
+        right: max(8px, env(safe-area-inset-right));
+    }
+
+    .poki-wild-battle-stage {
+        grid-template-columns: 1fr;
+        gap: var(--space-1);
+        padding: var(--space-1);
+    }
+
+    .poki-wild-versus {
+        justify-self: center;
+        padding: 3px 10px;
+    }
+}
+
+.poki-pause-screen {
+    align-items: flex-end;
+    justify-content: center;
+    padding: max(var(--space-2), env(safe-area-inset-top))
+        max(var(--space-2), env(safe-area-inset-right))
+        max(var(--space-2), env(safe-area-inset-bottom))
+        max(var(--space-2), env(safe-area-inset-left));
+}
+
+.poki-pause-shell {
+    width: min(100%, 720px);
+    max-height: min(86vh, 720px);
+    display: grid;
+    grid-template-columns: minmax(112px, 0.34fr) minmax(0, 1fr);
+    grid-template-areas:
+        "routes panel"
+        "footer footer";
+    gap: var(--space-2);
+    padding: var(--space-2);
+    border: var(--border-width-modal) solid var(--border);
+    border-radius: var(--radius-lg);
+    background: linear-gradient(135deg, rgba(253, 246, 227, 0.98), rgba(245, 230, 197, 0.96)),
+        var(--surface);
+    box-shadow: var(--shadow-modal);
+}
+
+.poki-pause-routes {
+    grid-area: routes;
+    display: grid;
+    gap: var(--space-1);
+    align-content: start;
+}
+
+.poki-pause-route,
+.poki-pause-footer-item {
+    min-height: var(--touch-min);
+    appearance: none;
+    cursor: pointer;
+}
+
+.poki-pause-route[data-selected="true"] {
+    border-color: var(--poki-emerald);
+    background: linear-gradient(180deg, rgba(74, 157, 90, 0.22), rgba(50, 113, 68, 0.14)),
+        var(--surface-high);
+}
+
+.poki-pause-panel {
+    grid-area: panel;
+    min-height: 240px;
+    display: grid;
+    grid-template-rows: auto minmax(0, 1fr);
+    gap: var(--space-1);
+    padding: var(--space-2);
+    border: var(--border-width) solid var(--border);
+    border-radius: var(--radius-md);
+    background: rgba(253, 246, 227, 0.62);
+    overflow: hidden;
+}
+
+.poki-pause-panel-heading {
+    font-family: var(--font-display);
+    font-size: clamp(1rem, 3.4vmin, 1.25rem);
+    color: var(--text);
+}
+
+.poki-pause-panel-list {
+    display: grid;
+    gap: var(--space-1);
+    align-content: start;
+    overflow: auto;
+    padding-right: 2px;
+}
+
+.poki-pause-row {
+    min-height: var(--touch-min);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-2);
+    padding: var(--space-1) var(--space-2);
+    border: var(--border-width) solid rgba(200, 169, 107, 0.58);
+    border-radius: var(--radius-sm);
+    background: rgba(245, 230, 197, 0.58);
+    color: var(--text);
+    font-family: var(--font-body);
+}
+
+.poki-pause-row.actionable {
+    cursor: pointer;
+    border-color: var(--poki-amber);
+    background: rgba(232, 160, 74, 0.16);
+}
+
+.poki-pause-row.disabled,
+.poki-pause-footer-item.disabled {
+    cursor: default;
+    opacity: 0.58;
+    border-color: rgba(76, 58, 43, 0.18);
+    background: rgba(76, 58, 43, 0.06);
+}
+
+.poki-pause-row small {
+    color: var(--text-mute);
+    font-family: var(--font-mono);
+    font-size: clamp(0.72rem, 2.6vmin, 0.88rem);
+    text-align: right;
+}
+
+.poki-party-slot-row {
+    justify-content: flex-start;
+    align-items: stretch;
+    gap: var(--space-2);
+    padding: var(--space-1);
+}
+
+.poki-party-slot-row.selected {
+    border-color: var(--poki-emerald);
+    background: linear-gradient(90deg, rgba(74, 157, 90, 0.18), rgba(253, 246, 227, 0.72)),
+        rgba(245, 230, 197, 0.62);
+}
+
+.poki-party-portrait {
+    width: clamp(44px, 10vmin, 56px);
+    min-width: clamp(44px, 10vmin, 56px);
+    border: var(--border-width) solid var(--border);
+    border-radius: var(--radius-sm);
+    display: grid;
+    place-items: center;
+    overflow: hidden;
+    background: radial-gradient(circle at 30% 25%, rgba(242, 193, 88, 0.32), transparent 42%),
+        var(--surface-high);
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    color: var(--text-mute);
+    font-family: var(--font-display);
+    font-weight: 700;
+}
+
+.poki-party-portrait.has-image span {
+    opacity: 0;
+}
+
+.poki-party-slot-copy {
+    min-width: 0;
+    flex: 1;
+    display: grid;
+    gap: 2px;
+}
+
+.poki-party-slot-heading {
+    display: flex;
+    justify-content: space-between;
+    gap: var(--space-1);
+    align-items: baseline;
+}
+
+.poki-party-slot-name {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-family: var(--font-display);
+    font-size: clamp(0.95rem, 3.2vmin, 1.08rem);
+}
+
+.poki-party-slot-subtitle {
+    color: var(--text-mute);
+    font-size: clamp(0.72rem, 2.5vmin, 0.86rem);
+}
+
+.poki-party-hp {
+    display: grid;
+    grid-template-columns: minmax(56px, 1fr) auto;
+    gap: var(--space-1);
+    align-items: center;
+}
+
+.poki-party-hp-track {
+    height: 8px;
+    border: 1px solid rgba(76, 58, 43, 0.42);
+    border-radius: 999px;
+    background: rgba(76, 58, 43, 0.16);
+    overflow: hidden;
+}
+
+.poki-party-hp-fill {
+    height: 100%;
+    border-radius: inherit;
+    transition: width var(--duration-tween) var(--ease-out);
+}
+
+.poki-party-detail-card {
+    display: grid;
+    gap: 3px;
+    padding: var(--space-2);
+    border: var(--border-width) solid var(--poki-emerald);
+    border-radius: var(--radius-md);
+    background: linear-gradient(135deg, rgba(74, 157, 90, 0.16), rgba(242, 193, 88, 0.1)),
+        rgba(253, 246, 227, 0.84);
+    color: var(--text);
+    font-family: var(--font-body);
+}
+
+.poki-party-detail-title {
+    font-family: var(--font-display);
+    font-weight: 700;
+}
+
+.poki-party-detail-line {
+    color: var(--text-mute);
+    font-family: var(--font-mono);
+    font-size: clamp(0.76rem, 2.6vmin, 0.9rem);
+    overflow-wrap: anywhere;
+}
+
+.poki-pause-footer {
+    grid-area: footer;
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: var(--space-1);
+}
+
+@media (max-width: 640px), (pointer: coarse) {
+    .poki-pause-shell {
+        width: 100%;
+        max-height: 90vh;
+        grid-template-columns: 1fr;
+        grid-template-areas:
+            "routes"
+            "panel"
+            "footer";
+    }
+
+    .poki-pause-routes {
+        grid-template-columns: repeat(5, minmax(0, 1fr));
+    }
 }
 
 /* ─── Reduced-motion ─── */
@@ -210,16 +2031,25 @@ body.poki-high-contrast {
    Components set one of .hp-healthy / .hp-wounded / .hp-critical on
    their bar wrapper; the fill gets the threshold color. `.hp-critical`
    pulses via the brand motion token. */
-.hp-healthy > .hp-fill  { background: var(--poki-emerald); }
-.hp-wounded > .hp-fill  { background: var(--poki-caution); }
+.hp-healthy > .hp-fill {
+    background: var(--poki-emerald);
+}
+.hp-wounded > .hp-fill {
+    background: var(--poki-caution);
+}
 .hp-critical > .hp-fill {
     background: var(--poki-danger);
     animation: poki-hp-critical-pulse 1000ms ease-in-out infinite;
 }
 
 @keyframes poki-hp-critical-pulse {
-    0%, 100% { opacity: 1; }
-    50%      { opacity: 0.65; }
+    0%,
+    100% {
+        opacity: 1;
+    }
+    50% {
+        opacity: 0.65;
+    }
 }
 
 /* ─── Victory toast (brand §Chrome patterns) ───
@@ -238,8 +2068,14 @@ body.poki-high-contrast {
 }
 
 @keyframes poki-toast-in {
-    from { opacity: 0; transform: translateY(12px); }
-    to   { opacity: 1; transform: translateY(0); }
+    from {
+        opacity: 0;
+        transform: translateY(12px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 /* ─── Dialog bubble chrome (brand §Chrome patterns) ───
@@ -267,5 +2103,7 @@ body.poki-high-contrast {
 }
 
 @media (max-width: 768px) {
-    .poki-dialog { font-size: var(--text-body-mobile); }
+    .poki-dialog {
+        font-size: var(--text-body-mobile);
+    }
 }

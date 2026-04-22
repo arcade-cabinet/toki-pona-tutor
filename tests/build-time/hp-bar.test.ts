@@ -4,6 +4,7 @@ import {
     hpClassFor,
     hpTpLabel,
     HP_CRITICAL_THRESHOLD,
+    HP_TIERS,
     HP_WOUNDED_THRESHOLD,
     type HpClass,
 } from '../../src/styles/hp-bar';
@@ -97,6 +98,14 @@ describe('hpClassFor — threshold mapping', () => {
 });
 
 describe('threshold constants', () => {
+    it('loads tier thresholds and labels from gameplay JSON', () => {
+        expect(HP_TIERS).toEqual([
+            { className: 'hp-healthy', label: 'wawa', aboveRatio: 0.5 },
+            { className: 'hp-wounded', label: 'pakala', aboveRatio: 0.2 },
+            { className: 'hp-critical', label: 'moli', aboveRatio: undefined },
+        ]);
+    });
+
     it('HP_WOUNDED_THRESHOLD is 0.50', () => {
         expect(HP_WOUNDED_THRESHOLD).toBe(0.5);
     });

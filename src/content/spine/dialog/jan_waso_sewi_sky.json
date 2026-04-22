@@ -1,0 +1,10 @@
+{
+  "id": "jan_waso_sewi_sky",
+  "npc_id": "jan_waso_sewi",
+  "priority": 0,
+  "beats": [
+    { "text": { "en": "There is a bird here." }, "mood": "happy", "glyph": "waso" },
+    { "text": { "en": "Let's see!" }, "mood": "thinking", "glyph": "lukin" }
+  ],
+  "triggers": {}
+}

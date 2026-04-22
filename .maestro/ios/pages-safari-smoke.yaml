@@ -1,0 +1,37 @@
+appId: com.apple.mobilesafari
+name: iOS Safari Pages smoke
+tags:
+  - ios
+  - release-qa
+---
+- launchApp:
+    clearState: true
+- openLink: "https://arcade-cabinet.github.io/poki-soweli/"
+- extendedWaitUntil:
+    visible: "poki soweli"
+    timeout: 45000
+- assertVisible: "open sin"
+- assertVisible: "nasin"
+- assertVisible: "pini"
+- tapOn: "open sin"
+- extendedWaitUntil:
+    visible: "kili sin li pona tawa sijelo."
+    timeout: 30000
+- tapOn:
+    point: "50%,82%"
+- extendedWaitUntil:
+    visible: "kule seme li pona tawa sina?"
+    timeout: 10000
+- tapOn:
+    point: "30%,76%"
+- extendedWaitUntil:
+    visible: "≡"
+    timeout: 20000
+- tapOn: "≡"
+- extendedWaitUntil:
+    visible: "soweli"
+    timeout: 10000
+- assertVisible: "nasin"
+- assertVisible: "ijo"
+- assertVisible: "awen"
+- assertVisible: "pini"

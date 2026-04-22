@@ -1,0 +1,62 @@
+{
+  "bgm_files": {
+    "bgm_village": "/rpg/audio/bgm-village.ogg",
+    "bgm_forest": "/rpg/audio/bgm-forest.ogg",
+    "bgm_mountain": "/audio/bgm-lesson-kenney.ogg",
+    "bgm_water": "/rpg/audio/bgm-village.ogg",
+    "bgm_snow": "/audio/bgm-gameover-kenney.ogg",
+    "bgm_battle": "/audio/bgm-menu-kenney.ogg",
+    "bgm_gym": "/audio/bgm-lesson-kenney.ogg",
+    "bgm_boss": "/audio/bgm-gameover-kenney.ogg",
+    "bgm_lesson": "/audio/bgm-lesson-kenney.ogg",
+    "bgm_victory": "/audio/bgm-victory-kenney.ogg",
+    "bgm_gameover": "/audio/bgm-gameover-kenney.ogg",
+    "bgm_menu": "/audio/bgm-menu-kenney.ogg"
+  },
+  "bgm_selection": {
+    "default_combat_track": "bgm_battle",
+    "gym_combat_track": "bgm_gym",
+    "gym_map_prefixes": ["nena_", "ma_"],
+    "map_combat_overrides": {
+      "nasin_pi_telo": "bgm_boss"
+    }
+  },
+  "sfx": {
+    "sfx_menu_open": { "file": "/rpg/sfx/dialog-open.ogg", "base_volume": 0.55 },
+    "sfx_menu_tick": { "file": "/sfx/click.ogg", "base_volume": 0.3 },
+    "sfx_menu_confirm": { "file": "/sfx/confirm.ogg", "base_volume": 0.6 },
+    "sfx_footstep": { "file": "/rpg/sfx/footstep.ogg", "base_volume": 0.35 },
+    "sfx_warp": { "file": "/sfx/drop.ogg", "base_volume": 0.7 },
+    "sfx_encounter_appear": { "file": "/sfx/error.ogg", "base_volume": 0.75 },
+    "sfx_hit": { "file": "/sfx/drop.ogg", "base_volume": 0.75 },
+    "sfx_catch_throw": { "file": "/sfx/drop.ogg", "base_volume": 0.7 },
+    "sfx_catch_success": { "file": "/rpg/sfx/pickup.ogg", "base_volume": 0.95 },
+    "sfx_catch_fail": { "file": "/sfx/error.ogg", "base_volume": 0.65 },
+    "sfx_level_up": { "file": "/sfx/confirm.ogg", "base_volume": 0.9 },
+    "sfx_faint": { "file": "/sfx/error.ogg", "base_volume": 0.7 }
+  },
+  "sfx_cues": {
+    "menu_open": "sfx_menu_open",
+    "menu_confirm": "sfx_menu_confirm",
+    "battle_action": "sfx_hit",
+    "player_damage": "sfx_hit",
+    "warp": "sfx_warp",
+    "encounter_appear": "sfx_encounter_appear",
+    "catch_throw": "sfx_catch_throw",
+    "catch_success": "sfx_catch_success",
+    "catch_fail": "sfx_catch_fail",
+    "level_up": "sfx_level_up",
+    "trainer_faint": "sfx_faint"
+  },
+  "combat": {
+    "battle_action_audio_range": 52,
+    "monitor_ms": 200,
+    "active_ai_states": ["alert", "combat", "flee", "stunned"]
+  },
+  "runtime": {
+    "bgm_override_event": "poki-soweli:audio:bgm-override",
+    "bgm_crossfade_ms": 800,
+    "bgm_stop_delay_padding_ms": 50,
+    "footstep_min_interval_ms": 140
+  }
+}

@@ -1,9 +1,35 @@
-import { z } from 'zod';
-import { translatable } from './translatable';
-import { species } from './species';
-import { move } from './move';
-import { item } from './item';
-import { journey } from './journey';
+import { z } from "zod";
+import { translatable } from "./translatable";
+import { species } from "./species";
+import { move } from "./move";
+import { item } from "./item";
+import { journey } from "./journey";
+
+const mapObjectProperty = z.union([z.string(), z.number(), z.boolean()]);
+
+export const compiledMapObject = z.object({
+    layer: z.string(),
+    name: z.string(),
+    type: z.string(),
+    x: z.number(),
+    y: z.number(),
+    width: z.number(),
+    height: z.number(),
+    properties: z.record(z.string(), mapObjectProperty).default({}),
+});
+
+export type CompiledMapObject = z.infer<typeof compiledMapObject>;
+
+export const compiledMap = z.object({
+    id: z.string(),
+    width: z.number().int().positive(),
+    height: z.number().int().positive(),
+    tilewidth: z.number().int().positive(),
+    tileheight: z.number().int().positive(),
+    objects: z.array(compiledMapObject).default([]),
+});
+
+export type CompiledMap = z.infer<typeof compiledMap>;
 
 /**
  * The top-level game world — the compiled output of the content pipeline.
@@ -17,17 +43,20 @@ import { journey } from './journey';
  * reads `journey` here to drive scene loading and progression.
  */
 export const world = z.object({
-  schema_version: z.literal(1),
-  title: translatable,
-  /** The first beat's `map_id` is implicitly the start region — readers can
-   *  derive it as `world.journey.beats[0].map_id`. This explicit field is
-   *  retained for save-file backwards compatibility and the dev harness. */
-  start_region_id: z.string(),
-  species: z.array(species).min(1),
-  moves: z.array(move).min(1),
-  items: z.array(item).default([]),
-  /** The authored arc — see `src/content/spine/journey.json` and
-   *  `docs/JOURNEY.md`. Source of truth for the L4 interaction layer. */
-  journey,
+    schema_version: z.literal(1),
+    title: translatable,
+    /** The first beat's `map_id` is implicitly the start region — readers can
+     *  derive it as `world.journey.beats[0].map_id`. This explicit field is
+     *  retained for save-file backwards compatibility and the dev harness. */
+    start_region_id: z.string(),
+    species: z.array(species).min(1),
+    moves: z.array(move).min(1),
+    items: z.array(item).default([]),
+    /** The authored arc — see `src/content/spine/journey.json` and
+     *  `docs/JOURNEY.md`. Source of truth for the L4 interaction layer. */
+    journey,
+    /** Emitted map object layers from public/assets/maps/*.tmj. Runtime event
+     *  placement resolves from these objects so map specs own coordinates. */
+    maps: z.array(compiledMap).default([]),
 });
 export type World = z.infer<typeof world>;

@@ -1,0 +1,10 @@
+{
+  "id": "jan_lukin_nasin_watch",
+  "npc_id": "jan_lukin_nasin",
+  "priority": 0,
+  "beats": [
+    { "text": { "en": "Let's see!" }, "mood": "thinking", "glyph": "lukin" },
+    { "text": { "en": "I'm not." }, "mood": "sad", "glyph": "ala" }
+  ],
+  "triggers": {}
+}

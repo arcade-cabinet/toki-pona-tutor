@@ -1,0 +1,10 @@
+{
+  "id": "jan_nasin_sewi_path",
+  "npc_id": "jan_nasin_sewi",
+  "priority": 0,
+  "beats": [
+    { "text": { "en": "Let's go!" }, "mood": "excited", "glyph": "tawa" },
+    { "text": { "en": "You need to be strong to do that." }, "mood": "thinking", "glyph": "wawa" }
+  ],
+  "triggers": {}
+}

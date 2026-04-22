@@ -1,0 +1,21 @@
+{
+  "starter_level": 5,
+  "initial_items": [{ "item_id": "poki_lili", "count": 3 }],
+  "starters": [
+    {
+      "id": "kon_moli",
+      "label": "kon moli",
+      "mastered_words": ["kon", "moli", "poki"]
+    },
+    {
+      "id": "telo_jaki",
+      "label": "telo jaki",
+      "mastered_words": ["telo", "jaki", "poki"]
+    },
+    {
+      "id": "jan_ike_lili",
+      "label": "jan ike lili",
+      "mastered_words": ["jan", "ike", "lili", "poki"]
+    }
+  ]
+}

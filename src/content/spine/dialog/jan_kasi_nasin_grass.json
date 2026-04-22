@@ -1,0 +1,10 @@
+{
+  "id": "jan_kasi_nasin_grass",
+  "npc_id": "jan_kasi_nasin",
+  "priority": 0,
+  "beats": [
+    { "text": { "en": "Fresh fruit is good for the health." }, "mood": "happy", "glyph": "kasi" },
+    { "text": { "en": "There is a bird here." }, "mood": "thinking", "glyph": "waso" }
+  ],
+  "triggers": {}
+}

@@ -6,8 +6,9 @@
  *   1. Read every JSON under src/content/spine/.
  *   2. For every translatable string ({en, tp?} shape) inside content,
  *      resolve `tp` from the Tatoeba corpus. Single-word entries are exempt.
- *   3. Assemble a World object with shape
- *      { schema_version, title, start_region_id, species, moves, items, dialog, journey }
+ *   3. Read emitted TMJ map object layers.
+ *   4. Assemble a World object with shape
+ *      { schema_version, title, start_region_id, species, moves, items, dialog, journey, maps }
  *      and write it to src/content/generated/world.json.
  *
  * Region JSON files no longer exist. Per-region content (NPCs, warps,
@@ -28,6 +29,12 @@ const root = resolve(__dirname, '..');
 const spineDir = resolve(root, 'src/content/spine');
 const corpusPath = resolve(root, 'src/content/corpus/tatoeba.json');
 const outPath = resolve(root, 'src/content/generated/world.json');
+const mapsDir = resolve(root, 'public/assets/maps');
+const verbose = process.argv.includes('--verbose');
+
+function logVerbose(message) {
+  if (verbose) console.log(`[build-spine] ${message}`);
+}
 
 if (!existsSync(corpusPath)) {
   console.error('[build-spine] corpus missing — run scripts/fetch-tatoeba-corpus.mjs');
@@ -71,6 +78,53 @@ function listJsonRecursive(dir) {
   return out;
 }
 
+function listTmjFiles(dir) {
+  if (!existsSync(dir)) return [];
+  return readdirSync(dir)
+    .filter((file) => file.endsWith('.tmj'))
+    .map((file) => join(dir, file));
+}
+
+function propertiesToRecord(properties) {
+  const out = {};
+  if (!Array.isArray(properties)) return out;
+  for (const property of properties) {
+    if (!property || typeof property.name !== 'string') continue;
+    out[property.name] = property.value;
+  }
+  return out;
+}
+
+function collectCompiledMaps() {
+  return listTmjFiles(mapsDir)
+    .map((file) => {
+      const tmj = JSON.parse(readFileSync(file, 'utf8'));
+      const id = file.replace(/\\/g, '/').split('/').pop().replace(/\.tmj$/, '');
+      const objects = (tmj.layers ?? [])
+        .filter((layer) => layer.type === 'objectgroup')
+        .flatMap((layer) => (layer.objects ?? []).map((object) => ({
+          layer: layer.name,
+          name: object.name ?? '',
+          type: object.type ?? '',
+          x: object.x ?? 0,
+          y: object.y ?? 0,
+          width: object.width ?? 0,
+          height: object.height ?? 0,
+          properties: propertiesToRecord(object.properties),
+        })));
+      logVerbose(`map ${id}: ${objects.length} object(s) from ${relative(root, file).replace(/\\/g, '/')}`);
+      return {
+        id,
+        width: tmj.width,
+        height: tmj.height,
+        tilewidth: tmj.tilewidth,
+        tileheight: tmj.tileheight,
+        objects,
+      };
+    })
+    .sort((a, b) => a.id.localeCompare(b.id));
+}
+
 /**
  * Walk an object and fill every { en: string, tp?: string } shape whose tp
  * is missing by looking up en in the corpus. Pushes any miss into `misses`
@@ -107,6 +161,7 @@ if (spineFiles.length === 0) {
   console.error(`[build-spine] no spine files found under ${spineDir} — cannot build world.json`);
   process.exit(1);
 }
+logVerbose(`reading ${spineFiles.length} spine file(s) from ${relative(root, spineDir).replace(/\\/g, '/')}`);
 
 /** @typedef {{
  *   species: any[];
@@ -132,13 +187,25 @@ for (const file of spineFiles) {
   // Use path.relative + normalise separators so classification works on both
   // POSIX and Windows (file.replace(`${root}/`, '') breaks on Windows paths).
   const rel = relative(root, file).replace(/\\/g, '/');
-  if (rel.includes('/species/')) collected.species.push(body);
-  else if (rel.includes('/moves/')) collected.moves.push(body);
-  else if (rel.includes('/items/')) collected.items.push(body);
-  else if (rel.includes('/dialog/')) collected.dialog.push(body);
-  else if (rel.endsWith('/journey.json')) collected.journey = body;
-  else if (rel.endsWith('/world.json')) collected.world = body;
-  else {
+  if (rel.includes('/species/')) {
+    collected.species.push(body);
+    logVerbose(`${rel}: species 1`);
+  } else if (rel.includes('/moves/')) {
+    collected.moves.push(body);
+    logVerbose(`${rel}: move 1`);
+  } else if (rel.includes('/items/')) {
+    collected.items.push(body);
+    logVerbose(`${rel}: item 1`);
+  } else if (rel.includes('/dialog/')) {
+    collected.dialog.push(body);
+    logVerbose(`${rel}: dialog ${Array.isArray(body) ? body.length : 1}`);
+  } else if (rel.endsWith('/journey.json')) {
+    collected.journey = body;
+    logVerbose(`${rel}: journey ${Array.isArray(body?.beats) ? body.beats.length : 0} beat(s)`);
+  } else if (rel.endsWith('/world.json')) {
+    collected.world = body;
+    logVerbose(`${rel}: world metadata`);
+  } else {
     collected.unclassified.push(rel);
     console.warn(`[build-spine] unclassified spine file: ${rel}`);
   }
@@ -186,6 +253,18 @@ if (misses.length > 0) {
   if (misses.length > 20) console.error(`  ...and ${misses.length - 20} more`);
   console.error('\nRun `pnpm validate-tp` for suggestions on how to rewrite the English.');
   process.exit(1);
+}
+
+const itemIds = new Set(collected.items.map(item => item?.id).filter(Boolean));
+for (const entry of collected.species) {
+  const drop = entry?.item_drop;
+  if (!drop) continue;
+  if (!itemIds.has(drop.item_id)) {
+    console.error(
+      `[build-spine] species ${entry.id} item_drop references missing item: ${JSON.stringify(drop.item_id)}`,
+    );
+    process.exit(1);
+  }
 }
 
 // Enforce the green-dragon final-boss rule: the green dragon's species id
@@ -237,6 +316,7 @@ const output = {
   items: collected.items,
   dialog: collected.dialog,
   journey: collected.journey,
+  maps: collectCompiledMaps(),
 };
 
 mkdirSync(dirname(outPath), { recursive: true });

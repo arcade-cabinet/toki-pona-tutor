@@ -2,8 +2,6 @@
   "id": "jan_kala_suli_tuneup",
   "npc_id": "jan_kala_suli",
   "priority": 0,
-  "beats": [
-    { "text": { "en": "Let's see!" }, "mood": "excited", "glyph": "kala" }
-  ],
+  "beats": [{ "text": { "en": "Let's see!" }, "mood": "excited", "glyph": "kala" }],
   "triggers": {}
 }

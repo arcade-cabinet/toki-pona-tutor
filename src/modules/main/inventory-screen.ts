@@ -1,14 +1,13 @@
-import type { RpgPlayer } from '@rpgjs/server';
-import { getFlag, getParty } from '../../platform/persistence/queries';
-import { preferences, KEYS } from '../../platform/persistence/preferences';
-import { PARTY_SIZE_MAX } from '../../platform/persistence/constants';
-
-const BADGE_DEFINITIONS = [
-    { flag: 'badge_sewi', label: 'sewi', region: 'nena sewi' },
-    { flag: 'badge_telo', label: 'telo', region: 'ma telo' },
-    { flag: 'badge_lete', label: 'lete', region: 'ma lete' },
-    { flag: 'badge_suli', label: 'suli', region: 'nena suli' },
-] as const;
+import type { RpgPlayer } from "@rpgjs/server";
+import { getFlag, getParty, listInventoryItems } from "../../platform/persistence/queries";
+import { preferences, KEYS } from "../../platform/persistence/preferences";
+import { listQuestJournalLines } from "./quest-runtime";
+import {
+    BADGE_DEFINITIONS,
+    GAME_RULES_CONFIG,
+    INVENTORY_SCREEN_CONFIG,
+} from "../../content/gameplay";
+import { formatGameplayTemplate } from "../../content/gameplay/templates";
 
 /**
  * Second pause-menu screen — shows the player's progress:
@@ -16,10 +15,10 @@ const BADGE_DEFINITIONS = [
  *   - current journey beat pointer
  *   - party roster with level (max 6 slots)
  *
- * Uses plain showText rather than a custom GUI because v5's GUI
- * layer is Vue and the shell stays minimal. Bound to the 'inventory'
- * input action (mapped by the client default controls — falls
- * through if unavailable).
+ * Uses plain showText rather than a dedicated GUI because this legacy
+ * route still works through the shared dialog layer. Bound to the
+ * 'inventory' input action (mapped by the client default controls —
+ * falls through if unavailable).
  */
 export async function showInventory(player: RpgPlayer): Promise<void> {
     const earned = await Promise.all(
@@ -27,26 +26,72 @@ export async function showInventory(player: RpgPlayer): Promise<void> {
     );
     const held = earned.filter((b) => b.held);
     const party = await getParty();
+    const items = await listInventoryItems();
+    const questLines = await listQuestJournalLines();
     const beat = await preferences.get(KEYS.journeyBeat);
 
-    const header = `badges: ${held.length} / ${BADGE_DEFINITIONS.length}`;
+    const header = formatGameplayTemplate(INVENTORY_SCREEN_CONFIG.badgesHeaderTemplate, {
+        held: held.length,
+        total: BADGE_DEFINITIONS.length,
+    });
     const badgeLines = earned
-        .map((b) => `  ${b.held ? '✓' : '·'}  ${b.label}  (${b.region})`)
-        .join('\n');
+        .map((b) =>
+            formatGameplayTemplate(INVENTORY_SCREEN_CONFIG.badgeLineTemplate, {
+                state: b.held
+                    ? INVENTORY_SCREEN_CONFIG.badgeHeldState
+                    : INVENTORY_SCREEN_CONFIG.badgeMissingState,
+                label: b.label,
+                region: b.region,
+            }),
+        )
+        .join("\n");
     await player.showText(`${header}\n${badgeLines}`);
 
     if (beat) {
-        await player.showText(`beat: ${beat}`);
+        await player.showText(
+            formatGameplayTemplate(INVENTORY_SCREEN_CONFIG.beatTemplate, { beat }),
+        );
     }
 
+    const itemLines = items.length
+        ? items.map((item) => formatInventoryItemLine(item.item_id, item.count)).join("\n")
+        : INVENTORY_SCREEN_CONFIG.emptyLine;
+    await player.showText(`${INVENTORY_SCREEN_CONFIG.itemsTitle}\n${itemLines}`);
+
+    await player.showText(
+        `${INVENTORY_SCREEN_CONFIG.questsTitle}\n${
+            questLines.length ? questLines.join("\n") : INVENTORY_SCREEN_CONFIG.emptyLine
+        }`,
+    );
+
     if (party.length === 0) {
-        await player.showText('poki: (empty — catch some!)');
+        await player.showText(INVENTORY_SCREEN_CONFIG.emptyPartyText);
         return;
     }
 
-    const partyHeader = `poki: ${party.length} / ${PARTY_SIZE_MAX}`;
+    const partyHeader = formatGameplayTemplate(INVENTORY_SCREEN_CONFIG.partyHeaderTemplate, {
+        count: party.length,
+        max: GAME_RULES_CONFIG.partySizeMax,
+    });
     const partyLines = party
-        .map((p) => `  ${p.slot + 1}.  ${p.species_id.replace(/_/g, ' ')}  L${p.level}`)
-        .join('\n');
+        .map((p) =>
+            formatGameplayTemplate(INVENTORY_SCREEN_CONFIG.partyLineTemplate, {
+                slot: p.slot + 1,
+                species: formatInventoryItemName(p.species_id),
+                level: p.level,
+            }),
+        )
+        .join("\n");
     await player.showText(`${partyHeader}\n${partyLines}`);
+}
+
+export function formatInventoryItemLine(itemId: string, count: number): string {
+    return formatGameplayTemplate(INVENTORY_SCREEN_CONFIG.itemLineTemplate, {
+        item: formatInventoryItemName(itemId),
+        count,
+    });
+}
+
+function formatInventoryItemName(id: string): string {
+    return id.replace(/_/g, " ");
 }

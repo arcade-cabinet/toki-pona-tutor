@@ -1,0 +1,10 @@
+{
+  "id": "jan_palisa_nasin_sign",
+  "npc_id": "jan_palisa_nasin",
+  "priority": 0,
+  "beats": [
+    { "text": { "en": "Let's see!" }, "mood": "thinking", "glyph": "lukin" },
+    { "text": { "en": "Let's go!" }, "mood": "excited", "glyph": "tawa" }
+  ],
+  "triggers": {}
+}

@@ -11,8 +11,19 @@
     "validate": "pnpm validate-challenges && pnpm validate-tp && pnpm author:verify",
     "prebuild": "pnpm validate && pnpm build-spine && pnpm typecheck",
     "build": "vite build",
+    "postbuild": "node scripts/deploy/prune-deploy-assets.mjs",
     "preview": "vite preview",
-    "typecheck": "tsc --noEmit 2>&1 | grep -v 'node_modules/.*@rpgjs/common/src/rooms/WorldMaps.ts' | tee /dev/stderr | (! grep -qE '^(.+): error')",
+    "typecheck": "pnpm typecheck:src && pnpm typecheck:build-time",
+    "typecheck:src": "tsc --noEmit 2>&1 | grep -v 'node_modules/.*@rpgjs/common/src/rooms/WorldMaps.ts' | tee /dev/stderr | (! grep -qE '^(.+): error')",
+    "typecheck:build-time": "tsc --noEmit -p tsconfig.build-time.json 2>&1 | grep -v 'node_modules/.*@rpgjs/common/src/rooms/WorldMaps.ts' | tee /dev/stderr | (! grep -qE '^(.+): error')",
+    "format:src": "prettier --write \"src/**/*.{ts,tsx,js,jsx,json,css,md}\"",
+    "format:src:check": "prettier --check \"src/**/*.{ts,tsx,js,jsx,json,css,md}\"",
+    "workflow:check": "actionlint .github/workflows/*.yml && node scripts/check-workflow-shell.mjs",
+    "release:smoke-artifacts": "node scripts/deploy/smoke-release-artifacts.mjs",
+    "android:build-debug": "CAPACITOR=true pnpm build && (test -d android || pnpm exec cap add android) && pnpm exec cap sync android && cd android && ./gradlew assembleDebug",
+    "maestro:check": "find .maestro -name '*.yaml' -print -exec maestro check-syntax {} \\;",
+    "maestro:android": "maestro test --platform android .maestro/android/debug-apk-smoke.yaml",
+    "maestro:ios": "maestro test --platform ios .maestro/ios/pages-safari-smoke.yaml",
     "fetch-dictionary": "node scripts/fetch-dictionary.mjs",
     "fetch-corpus": "node scripts/fetch-tatoeba-corpus.mjs",
     "worktree-gc": "node scripts/worktree-janitor.mjs",
@@ -33,17 +44,18 @@
     "author:convert-tmx": "tsx scripts/map-authoring/cli/convert-tmx.ts",
     "author:inspect": "tsx scripts/map-authoring/cli/inspect.ts",
     "author:all": "tsx scripts/map-authoring/cli/all.ts",
-    "author:verify": "tsx scripts/map-authoring/cli/verify.ts"
+    "author:verify": "tsx scripts/map-authoring/cli/verify.ts",
+    "android:configure-release-signing": "node scripts/capacitor/configure-release-signing.mjs"
   },
   "dependencies": {
     "@canvasengine/presets": "2.0.0-beta.56",
+    "@canvasengine/tiled": "2.0.0-beta.56",
     "@capacitor-community/sqlite": "^8.1.0",
     "@capacitor/app": "^8.1.0",
     "@capacitor/cli": "^8.3.1",
     "@capacitor/core": "^8.3.1",
     "@capacitor/device": "^8.0.2",
     "@capacitor/preferences": "^8.0.1",
-    "@capacitor/screen-orientation": "^8.0.1",
     "@capacitor/status-bar": "^8.0.2",
     "@rpgjs/action-battle": "5.0.0-beta.1",
     "@rpgjs/client": "5.0.0-beta.1",
@@ -54,9 +66,9 @@
     "@rpgjs/vite": "5.0.0-beta.1",
     "@signe/di": "^2.9.0",
     "canvasengine": "2.0.0-beta.56",
-    "jeep-sqlite": "^2.7.11",
+    "jeep-sqlite": "2.8.0",
     "pixi.js": "^8.17.1",
-    "sql.js": "^1.12.0",
+    "sql.js": "1.11.0",
     "zod": "^4.3.6"
   },
   "devDependencies": {
@@ -76,6 +88,7 @@
     "path-browserify": "^1.0.1",
     "playwright": "^1.59.1",
     "pngjs": "^7.0.0",
+    "prettier": "3.3.3",
     "tsx": "^4.21.0",
     "typescript": "^6.0.3",
     "vite": "^8.0.9",
@@ -83,6 +96,9 @@
     "vitest-webgl-canvas-mock": "^1.1.0"
   },
   "pnpm": {
+    "overrides": {
+      "sql.js": "1.11.0"
+    },
     "onlyBuiltDependencies": [
       "esbuild",
       "@parcel/watcher",

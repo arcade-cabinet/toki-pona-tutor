@@ -10,7 +10,7 @@ GitHub Copilot should follow the same operating protocols as any other agent wor
 6. `docs/DESIGN.md` — product vision.
 7. `docs/BRAND.md` — palette + typography + chrome.
 8. `docs/UX.md` — HUD architecture + input model + `data-testid` contract.
-9. `docs/TESTING.md` — four-layer testing strategy + E2E-first policy.
+9. `docs/TESTING.md` — five-layer testing strategy + E2E-first policy.
 
 ## Critical constraints (do not violate)
 
@@ -21,7 +21,7 @@ GitHub Copilot should follow the same operating protocols as any other agent wor
 - **No `localStorage` / `IndexedDB` in feature code.** Use `src/platform/persistence/preferences.ts` or `src/platform/persistence/database.ts` only.
 - **No CDN at runtime.** Fonts, wasm, assets — all self-hosted under `public/assets/`.
 - **Mobile-first, tap-to-walk primary.** No persistent A/B/d-pad cluster. Keyboard is a desktop shortcut.
-- **No trademarked references.** The game is "poki soweli — a creature-catching RPG." Never name Pokemon / Pokedex / Pokeball / Final Fantasy / any other trademarked franchise.
+- **No trademarked references.** The game is "poki soweli — a creature-catching RPG." Never name, compare against, or derive terminology from any specific franchise.
 - **GitHub Actions pinned to exact SHAs.** Never `@vN` tags.
 - **Conventional Commits** always. Squash-merge.
 - **GUI is RPG.js-native.** Custom surfaces are `.ce` (CanvasEngine) components, not Vue / React / Solid.

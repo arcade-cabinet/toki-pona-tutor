@@ -1,0 +1,10 @@
+{
+  "id": "jan_poki_tomo_ready",
+  "npc_id": "jan_poki_tomo",
+  "priority": 0,
+  "beats": [
+    { "text": { "en": "Good choice!" }, "mood": "happy", "glyph": "pona" },
+    { "text": { "en": "Let's go!" }, "mood": "excited", "glyph": "tawa" }
+  ],
+  "triggers": {}
+}

@@ -1,6 +1,6 @@
 ---
 title: NPC Sprite Manifest
-updated: 2026-04-19
+updated: 2026-04-22
 status: current
 domain: technical
 ---
@@ -12,10 +12,16 @@ hand-inspected — frame dimensions, animation strips, and canonical IDs are rec
 below. Combat variants (`*-combat.png`) are documented for completeness but are not
 wired to ambient NPCs; they are reserved for future cutscene or combat-event use.
 
+Current runtime status: canonical NPC sprite IDs and image paths live in
+`src/content/gameplay/visuals.json`, are validated by
+`src/content/gameplay/schema.ts`, exported as `NPC_SPRITESHEET_CONFIGS`, and
+registered into RPG.js by `src/config/npc-sprites.ts`. Event/shop/starter JSON
+selects the graphic ID, and the runtime factories apply it with `setGraphic()`.
+
 ## Ground rules
 
-- Non-combat sheets drive ambient NPC appearance via `setGraphic()`.
-- Combat sheets are catalogued but not yet consumed by any event.
+- Non-combat sheets drive ambient NPC appearance via JSON-selected graphic IDs and `setGraphic()`.
+- NPC combat sheets are catalogued but not yet consumed by ambient events.
 - Animation names: `idle`, `walk` are mandatory. Guards may also have `watch`
   (stationary eyes-scanning pose) and `patrol` (slow walk variant).
 - No combat animations (`attack`, `hurt`, `death`) are wired for ambient NPCs.
@@ -548,17 +554,35 @@ Combat sheet (`sword-and-shield-fighter-combat.png`, 128 × 640, 32 × 32, 4 col
 | NPC id           | Map            | Canonical sprite ID              | Rationale |
 |------------------|----------------|----------------------------------|-----------|
 | `jan_sewi`       | ma_tomo_lili   | `npc_villager_fem_nel`           | Elder/distinguished elder; nel's purple robes read as wise authority |
+| `jan_pona_tomo`  | ma_tomo_lili   | `npc_villager_fem_nel`           | Welcoming home-village villager; reuses the soft elder silhouette |
+| `jan_telo_well`  | ma_tomo_lili   | `npc_villager_masc_reza`         | Water-well villager; reza's traveler palette reads calm and quiet |
+| `jan_poki_tomo`  | ma_tomo_lili   | `npc_villager_masc_artun`        | Starter-supplies villager; artun's youthful look fits readiness |
+| `jan_kili_tomo`  | ma_tomo_lili   | `npc_villager_fem_hana`          | Food/healing villager; hana's warm casual look suits starter-town flavor |
+| `jan_palisa_nasin` | nasin_wan    | `npc_villager_masc_janik`        | Route-marker walker; janik's artisan silhouette reads as a sign minder |
+| `jan_kasi_nasin` | nasin_wan      | `npc_villager_fem_vash`          | Grass-route villager; vash's outdoor gear fits forest edge flavor |
+| `jan_poki_nasin` | nasin_wan      | `npc_villager_masc_artun`        | Route-supplies walker; artun gives the first-route pack a friendly face |
+| `jan_lukin_nasin` | nasin_wan     | `npc_villager_masc_hark`         | Watcher near the rival route; hark's hooded ranger look fits patrol flavor |
+| `jan_kiwen`      | nena_sewi      | `npc_villager_masc_grym`         | Mountain rock villager; grym's heavy look fits highland stone |
 | `jan_kala`       | nena_sewi      | `npc_villager_masc_hark`         | Hiker on mountain pass; hark's hooded ranger look matches well |
+| `jan_waso_sewi`  | nena_sewi      | `npc_villager_fem_hana`          | High-bird watcher; hana keeps the mountain pass from feeling all-guard |
+| `jan_nasin_sewi` | nena_sewi      | `npc_villager_masc_janik`        | Path guide before the first gym; janik reads as a local route expert |
 | `jan_kala_lake`  | ma_telo        | `npc_villager_fem_vash`          | Lake fisher; vash's practical outdoor gear suits a shore-side angler |
 | `jan_moku`       | ma_telo        | `npc_villager_fem_seza`          | Food-stall cook; seza's apron/vendor look is a direct match |
+| `jan_olin_telo`  | ma_telo        | `npc_villager_masc_reza`         | Quiet lake-lover; reza's traveller look for a riverside contemplator |
+| `jan_sike_telo`  | ma_telo        | `npc_villager_fem_nel`           | Plaza villager; nel's rounded robe shape matches the central-town role |
 | `jan_anpa`       | ma_lete        | `npc_villager_masc_grym`         | Watchman in cold village; grym's heavy weathered look fits cold-region |
+| `jan_suno_lete`  | ma_lete        | `npc_villager_fem_hana`          | Cold-light villager; hana adds warmth against the snow palette |
+| `jan_poki_lete`  | ma_lete        | `npc_villager_masc_artun`        | Cold-route supply checker; artun fits a small pack/readiness role |
 | `jan_kasi`       | ma_lete        | `npc_villager_fem_vash`          | Garden-tender; vash's practical outdoors gear |
+| `jan_kiwen_suli` | nena_suli      | `npc_villager_masc_grym`         | Cave-stone villager; grym's heavy silhouette fits rock-wall flavor |
 | `jan_pi_kon`     | nena_suli      | `npc_villager_masc_nyro`         | Meditating figure on great peak; nyro's mystic robes fit perfectly |
+| `jan_pimeja_suli` | nena_suli     | `npc_villager_fem_seza`          | Torch-side cave villager; seza's apron shape reads clearly in low light |
 | `jan_pi_nasin`   | nena_suli      | `npc_villager_masc_janik`        | Trail-asking NPC; janik's distinguished artisan look |
 | `jan_kala_lili`  | nasin_pi_telo  | `npc_villager_fem_hana`          | Lighter-duty young fisher; hana's warm casual look |
 | `jan_moku_pona`  | nasin_pi_telo  | `npc_villager_masc_artun`        | Grillmaster; artun's youthful energetic look for a roadside cook |
 | `jan_kala_suli`  | nasin_pi_telo  | `npc_warrior_2h_sword`           | Veteran fisher — "suli" = big/veteran; heaviest warrior sprite |
 | `jan_olin_telo`  | nasin_pi_telo  | `npc_villager_masc_reza`         | Quiet lake-lover; reza's traveller look for a riverside contemplator |
+| `jan_suno_telo`  | nasin_pi_telo  | `npc_villager_fem_hana`          | Final riverbank villager; hana keeps the end route warm before the boss |
 
 ### Unbound NPCs (in server.ts but not ambient — excluded from this manifest)
 
@@ -567,5 +591,3 @@ Combat sheet (`sword-and-shield-fighter-combat.png`, 128 × 640, 32 × 32, 4 col
 | `jan_sewi` | Wired through `JanSewi()` event factory (not `AmbientNpc`); uses `'female'` graphic — overridden in this work to `npc_villager_fem_nel` |
 | `jan_ike`  | Rival combatant — handled by `JanIke()` factory; out of scope for NPC sprite curation |
 | `jan_wawa`, `jan_telo`, `jan_lete`, `jan_suli` | Gym leaders — handled by `GymLeader()` factory; out of scope |
-| `jan_pi_telo_villager` | Named in journey narrative but not yet placed in any spec |
-| `jan_pona` | Named in journey narrative comment but not yet placed in any spec |

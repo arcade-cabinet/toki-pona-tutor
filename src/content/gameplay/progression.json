@@ -1,0 +1,66 @@
+{
+  "badges": [
+    { "flag": "badge_sewi", "label": "sewi", "region": "nena sewi" },
+    { "flag": "badge_telo", "label": "telo", "region": "ma telo" },
+    { "flag": "badge_lete", "label": "lete", "region": "ma lete" },
+    { "flag": "badge_suli", "label": "suli", "region": "nena suli" }
+  ],
+  "gym_xp_curve": {
+    "badge_sewi": 120,
+    "badge_telo": 150,
+    "badge_lete": 180,
+    "badge_suli": 220
+  },
+  "level_curve": {
+    "min_level": 1,
+    "max_level": 50,
+    "exponent": 3
+  },
+  "game_rules": {
+    "party_size_max": 6,
+    "autosave_slot": 0,
+    "manual_save_slots": [1, 2, 3]
+  },
+  "new_game_plus": {
+    "required_cleared_flag": "game_cleared",
+    "level_reduction": 10,
+    "start_map_id": "ma_tomo_lili",
+    "start_journey_beat_id": "beat_01_ma_tomo_lili",
+    "reward_inventory": [{ "item_id": "poki_wawa", "count": 1 }],
+    "legendary_multiplier_base": 1,
+    "legendary_multiplier_per_clear": 1,
+    "legendary_multiplier_cap": 4
+  },
+  "daycare": {
+    "offspring_level": 1,
+    "default_child_suffix": "_lili",
+    "stat_jitter_fraction": 0.1,
+    "stat_min": 1,
+    "stat_max": 250,
+    "parent_inherited_move_level": 1,
+    "child_learnset_max_level": 5,
+    "type_inheritance": {
+      "dominant_types": ["wawa"],
+      "defer_to_other_types": ["lete"],
+      "pair_overrides": {
+        "seli_telo": "kasi",
+        "kasi_seli": "seli",
+        "kasi_telo": "telo"
+      }
+    }
+  },
+  "rematch": {
+    "cooldown_hours": 12,
+    "default_base_xp": 100,
+    "xp_multiplier_per_clear": 0.5,
+    "xp_multiplier_cap": 4,
+    "level_step": 10,
+    "level_cap": 50,
+    "rewards": [
+      { "clear_count": 1, "kind": "item", "item_id": "poki_wawa", "count": 1 },
+      { "clear_count": 2, "kind": "item", "item_id": "telo_pona", "count": 3 },
+      { "clear_count": 3, "kind": "item", "item_id": "species_egg", "count": 1 }
+    ],
+    "default_reward": { "kind": "flag", "flag_prefix": "trophy_" }
+  }
+}

@@ -8,6 +8,7 @@
  */
 import { describe, expect, it } from 'vitest';
 import { emitTmj } from '../../scripts/map-authoring/lib/emitter';
+import { emitTmx } from '../../scripts/map-authoring/lib/tmx-emitter';
 import type {
   MapSpec,
   ParsedTileset,
@@ -46,6 +47,8 @@ function mkTileset(
 function mkSpec(overrides: Partial<MapSpec> = {}): MapSpec {
   return {
     id: 'test_map',
+    biome: 'town',
+    music_track: 'bgm_village',
     width: 3,
     height: 2,
     tileSize: 16,
@@ -93,6 +96,19 @@ describe('emitTmj — minimum viable map', () => {
     expect(tmj.tilesets[0].source).toMatch(/Tileset_Ground\.tsx$/);
   });
 
+  it('emits runtime tileset URLs for .tmx output', () => {
+    const runtimeTileset = mkTileset('Tileset_Ground', {
+      absolutePath: '/repo/public/assets/tilesets/core/Tiled/Tilesets/Tileset_Ground.tsx',
+    });
+    const tmj = emitTmj(spec, [runtimeTileset], '/repo/src/tiled/test_map.tmx', {
+      tilesetSourceMode: 'runtime',
+    });
+
+    expect(tmj.tilesets[0].source).toBe(
+      '../assets/tilesets/core/Tiled/Tilesets/Tileset_Ground.tsx',
+    );
+  });
+
   it('emits a tile layer with correct data length', () => {
     const tmj = emitTmj(spec, [ground], '/output/test_map.tmj');
     const belowLayer = tmj.layers.find((l: TmjLayer) => l.name === 'Below Player');
@@ -101,6 +117,22 @@ describe('emitTmj — minimum viable map', () => {
     expect(belowLayer.data).toHaveLength(6); // 3 * 2
     // Every cell resolves to palette 'g' = firstgid(1) + local_id(5) = 6
     expect(belowLayer.data.every((v: number) => v === 6)).toBe(true);
+  });
+
+  it('emits biome and music_track as map-level Tiled properties', () => {
+    const tmj = emitTmj(spec, [ground], '/output/test_map.tmj');
+    expect(tmj.properties).toEqual([
+      { name: 'biome', type: 'string', value: 'town' },
+      { name: 'music_track', type: 'string', value: 'bgm_village' },
+    ]);
+  });
+
+  it('serializes map-level properties to TMX before tilesets', () => {
+    const tmj = emitTmj(spec, [ground], '/output/test_map.tmx');
+    const tmx = emitTmx(tmj);
+
+    expect(tmx).toMatch(/<properties>\s+<property name="biome" value="town"\/>\s+<property name="music_track" value="bgm_village"\/>\s+<\/properties>/);
+    expect(tmx.indexOf('<properties>')).toBeLessThan(tmx.indexOf('<tileset'));
   });
 });
 
@@ -292,6 +324,8 @@ describe('emitTmj — error cases', () => {
     const ground = mkTileset('Tileset_Ground');
     const spec: MapSpec = {
       id: 'bad_spec',
+      biome: 'town',
+      music_track: 'bgm_village',
       width: 2,
       height: 2,
       tileSize: 16,

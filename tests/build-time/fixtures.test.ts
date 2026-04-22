@@ -20,7 +20,7 @@ import { tmpdir } from 'node:os';
 import { spawnSync } from 'node:child_process';
 import { renderTmj } from '../../scripts/map-authoring/lib/renderer';
 import { parseTsx } from '../../scripts/map-authoring/lib/parser';
-import type { TmjMap } from '../../scripts/map-authoring/lib/types';
+import type { ParsedTileset, TmjMap } from '../../scripts/map-authoring/lib/types';
 
 const TILESETS_ROOT = resolve(__dirname, '../../public/assets/tilesets');
 const TILED_AVAILABLE = (() => {
@@ -107,7 +107,7 @@ describe.skipIf(!TILED_AVAILABLE)('Fan-tasy sample round-trip', () => {
 
       const tmj: TmjMap = JSON.parse(await readFile(tmjPath, 'utf-8'));
       // Load every tileset referenced by the .tmj
-      const tilesets = [];
+      const tilesets: ParsedTileset[] = [];
       for (const ref of tmj.tilesets) {
         // Tiled emits the source path relative to the .tmj; resolve it.
         const abs = resolve(tmpDir, ref.source);

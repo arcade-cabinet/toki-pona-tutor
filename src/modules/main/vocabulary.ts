@@ -1,5 +1,5 @@
-import dictionaryRaw from '../../content/dictionary.json';
-import { recordMasteredWord } from '../../platform/persistence/queries';
+import dictionaryRaw from "../../content/dictionary.json";
+import { recordMasteredWord } from "../../platform/persistence/queries";
 
 type DictionaryEntry = {
     word: string;
@@ -24,7 +24,7 @@ const wordMap = new Map<string, DictionaryEntry>(dictionary.map((e) => [e.word, 
 export function tokenize(tp: string): string[] {
     const cleaned = tp
         .toLowerCase()
-        .replace(/[^\p{L}\p{M}\s']+/gu, ' ')
+        .replace(/[^\p{L}\p{M}\s']+/gu, " ")
         .split(/\s+/)
         .filter(Boolean);
     return cleaned.filter((tok) => wordSet.has(tok));

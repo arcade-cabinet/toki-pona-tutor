@@ -1,0 +1,217 @@
+{
+  "maps": {
+    "ma_tomo_lili": [
+      {
+        "id": "jan-pona-tomo",
+        "kind": "ambient_npc",
+        "graphic": "npc_villager_fem_nel",
+        "dialog_id": "jan_pona_tomo_welcome"
+      },
+      {
+        "id": "jan-telo-well",
+        "kind": "ambient_npc",
+        "graphic": "npc_villager_masc_reza",
+        "dialog_id": "jan_telo_well_water"
+      },
+      { "id": "jan-sewi", "kind": "starter_mentor", "position_offset": { "x": 0, "y": 0 } },
+      {
+        "id": "jan-poki-tomo",
+        "kind": "ambient_npc",
+        "graphic": "npc_villager_masc_artun",
+        "dialog_id": "jan_poki_tomo_ready"
+      },
+      {
+        "id": "jan-kili-tomo",
+        "kind": "quest_npc",
+        "graphic": "npc_villager_fem_hana",
+        "dialog_id": "jan_kili_tomo_snack",
+        "quest_id": "quest_tomo_kili"
+      },
+      {
+        "id": "warp_east",
+        "kind": "warp",
+        "target_position_offset": { "x": 16, "y": 16 },
+        "gated_dialog_id": "jan_sewi_starter_intro"
+      }
+    ],
+    "nasin_wan": [
+      {
+        "id": "jan-palisa-nasin",
+        "kind": "ambient_npc",
+        "graphic": "npc_villager_masc_janik",
+        "dialog_id": "jan_palisa_nasin_sign"
+      },
+      {
+        "id": "jan-kasi-nasin",
+        "kind": "ambient_npc",
+        "graphic": "npc_villager_fem_vash",
+        "dialog_id": "jan_kasi_nasin_grass"
+      },
+      {
+        "id": "jan-poki-nasin",
+        "kind": "quest_npc",
+        "graphic": "npc_villager_masc_artun",
+        "dialog_id": "jan_poki_nasin_pack",
+        "quest_id": "quest_nasin_poki_pack"
+      },
+      {
+        "id": "jan-lukin-nasin",
+        "kind": "quest_npc",
+        "graphic": "npc_villager_masc_hark",
+        "dialog_id": "jan_lukin_nasin_watch",
+        "quest_id": "quest_nasin_forest_watch"
+      },
+      {
+        "id": "jan-ike",
+        "kind": "rival",
+        "position_offset": { "x": 0, "y": 8 },
+        "trainer_id": "jan_ike"
+      },
+      { "id": "warp_east", "kind": "warp" }
+    ],
+    "nena_sewi": [
+      {
+        "id": "jan-kiwen",
+        "kind": "ambient_npc",
+        "graphic": "npc_villager_masc_grym",
+        "dialog_id": "jan_kiwen_mountain"
+      },
+      {
+        "id": "jan-kala",
+        "kind": "ambient_npc",
+        "graphic": "npc_villager_masc_hark",
+        "dialog_id": "jan_kala_rest"
+      },
+      {
+        "id": "jan-waso-sewi",
+        "kind": "ambient_npc",
+        "graphic": "npc_villager_fem_hana",
+        "dialog_id": "jan_waso_sewi_sky"
+      },
+      {
+        "id": "jan-nasin-sewi",
+        "kind": "ambient_npc",
+        "graphic": "npc_villager_masc_janik",
+        "dialog_id": "jan_nasin_sewi_path"
+      },
+      { "id": "jan-wawa", "kind": "gym_leader", "trainer_id": "jan_wawa" },
+      { "id": "warp_north", "kind": "warp", "position_offset": { "x": 8, "y": 0 } }
+    ],
+    "ma_telo": [
+      {
+        "id": "jan-kala-lake",
+        "kind": "quest_npc",
+        "graphic": "npc_villager_fem_vash",
+        "dialog_id": "jan_kala_lake_quest",
+        "quest_id": "quest_telo_kili_delivery"
+      },
+      {
+        "id": "jan-olin-telo",
+        "kind": "ambient_npc",
+        "graphic": "npc_villager_masc_reza",
+        "dialog_id": "jan_olin_telo_quiet"
+      },
+      { "id": "jan-moku", "kind": "shop", "shop_id": "jan_moku" },
+      {
+        "id": "jan-sike-telo",
+        "kind": "ambient_npc",
+        "graphic": "npc_villager_fem_nel",
+        "dialog_id": "jan_sike_telo_plaza"
+      },
+      { "id": "jan-telo", "kind": "gym_leader", "trainer_id": "jan_telo" },
+      { "id": "warp_north", "kind": "warp", "position_offset": { "x": 8, "y": 0 } }
+    ],
+    "ma_lete": [
+      {
+        "id": "jan-anpa",
+        "kind": "ambient_npc",
+        "graphic": "npc_villager_masc_grym",
+        "dialog_id": "jan_anpa_watch"
+      },
+      {
+        "id": "jan-suno-lete",
+        "kind": "ambient_npc",
+        "graphic": "npc_villager_fem_hana",
+        "dialog_id": "jan_suno_lete_light"
+      },
+      {
+        "id": "jan-poki-lete",
+        "kind": "quest_npc",
+        "graphic": "npc_villager_masc_artun",
+        "dialog_id": "jan_poki_lete_cold",
+        "quest_id": "quest_lete_poki_pack"
+      },
+      {
+        "id": "jan-kasi",
+        "kind": "ambient_npc",
+        "graphic": "npc_villager_fem_vash",
+        "dialog_id": "jan_kasi_garden"
+      },
+      { "id": "jan-lete", "kind": "gym_leader", "trainer_id": "jan_lete" },
+      { "id": "warp_north", "kind": "warp", "position_offset": { "x": 8, "y": 0 } }
+    ],
+    "nena_suli": [
+      {
+        "id": "jan-kiwen-suli",
+        "kind": "ambient_npc",
+        "graphic": "npc_villager_masc_grym",
+        "dialog_id": "jan_kiwen_suli_cave"
+      },
+      {
+        "id": "jan-pi-kon",
+        "kind": "ambient_npc",
+        "graphic": "npc_villager_masc_nyro",
+        "dialog_id": "jan_pi_kon_meditate"
+      },
+      {
+        "id": "jan-pimeja-suli",
+        "kind": "quest_npc",
+        "graphic": "npc_villager_fem_seza",
+        "dialog_id": "jan_pimeja_suli_torch",
+        "quest_id": "quest_suli_torch"
+      },
+      {
+        "id": "jan-pi-nasin",
+        "kind": "ambient_npc",
+        "graphic": "npc_villager_masc_janik",
+        "dialog_id": "jan_pi_nasin_ask"
+      },
+      { "id": "jan-suli", "kind": "gym_leader", "trainer_id": "jan_suli" },
+      { "id": "warp_north", "kind": "warp", "position_offset": { "x": 8, "y": 0 } }
+    ],
+    "nasin_pi_telo": [
+      {
+        "id": "jan-kala-lili",
+        "kind": "ambient_npc",
+        "graphic": "npc_villager_fem_hana",
+        "dialog_id": "jan_kala_lili_flavor"
+      },
+      {
+        "id": "jan-moku-pona",
+        "kind": "ambient_npc",
+        "graphic": "npc_villager_masc_artun",
+        "dialog_id": "jan_moku_pona_grill"
+      },
+      {
+        "id": "jan-kala-suli",
+        "kind": "ambient_npc",
+        "graphic": "npc_warrior_2h_sword",
+        "dialog_id": "jan_kala_suli_tuneup"
+      },
+      {
+        "id": "jan-olin-telo",
+        "kind": "ambient_npc",
+        "graphic": "npc_villager_masc_reza",
+        "dialog_id": "jan_olin_telo_quiet"
+      },
+      {
+        "id": "jan-suno-telo",
+        "kind": "quest_npc",
+        "graphic": "npc_villager_fem_hana",
+        "dialog_id": "jan_suno_telo_last",
+        "quest_id": "quest_telo_last_light"
+      },
+      { "id": "green-dragon", "kind": "green_dragon" }
+    ]
+  }
+}

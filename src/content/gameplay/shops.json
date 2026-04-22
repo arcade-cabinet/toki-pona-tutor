@@ -1,0 +1,24 @@
+{
+  "coin_item_id": "ma",
+  "battle_coin_rewards": {
+    "janIke": 4,
+    "badge_sewi": 6,
+    "badge_telo": 8,
+    "badge_lete": 10,
+    "badge_suli": 12,
+    "greenDragon": 20
+  },
+  "shops": {
+    "jan_moku": {
+      "graphic": "npc_villager_fem_seza",
+      "dialog_id": "jan_moku_stall",
+      "delivery_npc_id": "jan_moku",
+      "stock": [
+        { "item_id": "poki_lili", "count": 1, "price": 2 },
+        { "item_id": "kili", "count": 1, "price": 1 },
+        { "item_id": "telo_pona", "count": 1, "price": 4 },
+        { "item_id": "poki_wawa", "count": 1, "price": 6 }
+      ]
+    }
+  }
+}

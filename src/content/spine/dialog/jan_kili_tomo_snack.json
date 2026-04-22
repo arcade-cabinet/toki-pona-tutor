@@ -1,0 +1,10 @@
+{
+  "id": "jan_kili_tomo_snack",
+  "npc_id": "jan_kili_tomo",
+  "priority": 0,
+  "beats": [
+    { "text": { "en": "Fresh fruit is good for the health." }, "mood": "happy", "glyph": "kili" },
+    { "text": { "en": "Ah. Good." }, "mood": "happy", "glyph": "pona" }
+  ],
+  "triggers": {}
+}

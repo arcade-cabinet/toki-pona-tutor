@@ -1,0 +1,10 @@
+{
+  "id": "jan_telo_well_water",
+  "npc_id": "jan_telo_well",
+  "priority": 0,
+  "beats": [
+    { "text": { "en": "Brr! This water's really cold!" }, "mood": "thinking", "glyph": "telo" },
+    { "text": { "en": "Ah. Good." }, "mood": "happy", "glyph": "pona" }
+  ],
+  "triggers": {}
+}

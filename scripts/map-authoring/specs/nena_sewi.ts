@@ -8,30 +8,105 @@
  * two-creature gym fight.
  *
  * 32×14 — slightly taller than nasin_wan to suggest vertical travel.
- * Grass base throughout for now; V9 can paint a proper stone path
- * once the palette gains a stone tile.
  */
 import { defineMap } from '../lib/spec-helpers';
-import { corePalette } from '../palettes/core';
+import { mountainPalette } from '../palettes/mountain';
 
-const g = 'g';
+const WIDTH = 32;
+const HEIGHT = 14;
+
+function paintRect(grid: string[][], rect: [number, number, number, number], tile: string): void {
+  const [x, y, w, h] = rect;
+  for (let yy = y; yy < y + h; yy++) {
+    for (let xx = x; xx < x + w; xx++) grid[yy][xx] = tile;
+  }
+}
+
+function fillHighland(grid: string[][], rect: [number, number, number, number]): void {
+  const [x0, y0, w, h] = rect;
+  for (let y = y0; y < y0 + h; y++) {
+    for (let x = x0; x < x0 + w; x++) grid[y][x] = (x + y) % 6 === 0 ? 'v' : 'g';
+  }
+}
+
+function mountainPassBase(): string[][] {
+  const grid = Array.from({ length: HEIGHT }, () => Array(WIDTH).fill('c'));
+
+  // Walkable highland shelves cut through otherwise blocked cliff paint.
+  fillHighland(grid, [0, 5, 12, 5]);
+  fillHighland(grid, [8, 3, 8, 5]);
+  fillHighland(grid, [13, 8, 9, 5]);
+  fillHighland(grid, [19, 4, 8, 5]);
+  fillHighland(grid, [22, 1, 6, 5]);
+
+  // West-to-north trail.
+  paintRect(grid, [0, 6, 12, 3], 'd');
+  paintRect(grid, [8, 5, 9, 2], 'd');
+  paintRect(grid, [16, 6, 8, 2], 'p');
+  paintRect(grid, [23, 2, 4, 4], 'p');
+  paintRect(grid, [23, 0, 3, 3], 'p');
+
+  // Encounter grass clumps from the authored encounter rectangles.
+  paintRect(grid, [4, 4, 4, 2], 'G');
+  paintRect(grid, [14, 10, 6, 3], 'G');
+
+  return grid;
+}
 
 export default defineMap({
   id: 'nena_sewi',
-  width: 32,
-  height: 14,
+  biome: 'peak',
+  music_track: 'bgm_mountain',
+  width: WIDTH,
+  height: HEIGHT,
   tileSize: 16,
-  tilesets: ['core/Tileset_Ground'],
-  palette: corePalette,
+  tilesets: [
+    'seasons/Tileset_Ground_Seasons',
+    'seasons/Tileset_Road',
+    'seasons/Tileset_TallGrass',
+    'seasons/Tileset_RockSlope_2_Gray',
+    'seasons/Objects_Rocks_Seasons',
+    'seasons/Objects_Trees_Seasons',
+  ],
+  palette: mountainPalette,
   layers: {
-    'Below Player': Array.from({ length: 14 }, () => Array(32).fill(g)),
+    'Below Player': mountainPassBase(),
+    World: [
+      { at: [2, 2], tile: 'tree_high' },
+      { at: [29, 8], tile: 'tree_low' },
+      { at: [6, 10], tile: 'bush_high' },
+      { at: [20, 10], tile: 'bush_high' },
+      { at: [13, 2], tile: 'rock_tall' },
+      { at: [18, 3], tile: 'rock_small' },
+      { at: [27, 6], tile: 'rock_tall' },
+      { at: [11, 10], tile: 'rock_grass' },
+      { at: [29, 2], tile: 'rock_small' },
+    ],
     Objects: [
       { type: 'SpawnPoint', name: 'from_nasin_wan', at: [1, 7] },
+      {
+        type: 'NPC',
+        name: 'jan-kiwen',
+        at: [4, 8],
+        props: { id: 'jan_kiwen', dialog_id: 'jan_kiwen_mountain' },
+      },
       {
         type: 'NPC',
         name: 'jan-kala',
         at: [10, 8],
         props: { id: 'jan_kala', dialog_id: 'jan_kala_rest' },
+      },
+      {
+        type: 'NPC',
+        name: 'jan-waso-sewi',
+        at: [16, 6],
+        props: { id: 'jan_waso_sewi', dialog_id: 'jan_waso_sewi_sky' },
+      },
+      {
+        type: 'NPC',
+        name: 'jan-nasin-sewi',
+        at: [22, 5],
+        props: { id: 'jan_nasin_sewi', dialog_id: 'jan_nasin_sewi_path' },
       },
       {
         type: 'NPC',
@@ -52,7 +127,7 @@ export default defineMap({
     ],
     Encounters: [
       { rect: [4, 4, 4, 2], species: { jan_wawa: 25, jan_wawa_linja: 20, sijelo_kiwen: 15, soweli_palisa: 15, waso_lape: 15, akesi_seli: 10 }, levelRange: [6, 8] },
-      { rect: [14, 10, 6, 3], species: { jan_wawa: 20, jan_wawa_linja: 20, sijelo_kiwen: 20, soweli_sewi: 15, waso_lape: 15, soweli_palisa: 10 }, levelRange: [7, 9] },
+      { rect: [14, 10, 6, 3], species: { jan_wawa: 18, jan_wawa_linja: 18, jan_wawa_jaki: 14, sijelo_kiwen: 18, soweli_sewi: 12, waso_lape: 12, soweli_palisa: 8 }, levelRange: [7, 9] },
     ],
   },
 });

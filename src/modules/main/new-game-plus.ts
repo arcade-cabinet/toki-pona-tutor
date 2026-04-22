@@ -4,9 +4,8 @@
  * Once the player beats the green dragon (akesi_sewi), a `game_cleared`
  * flag is set. Starting a New Game Plus carries forward:
  *
- * - The full party roster at reduced levels (capped at N-10 or 1, whichever
- *   is higher — so a level-35 creature comes back at level 25, a level-3
- *   one stays at 1).
+ * - The full party roster at configured reduced levels, floored at the
+ *   shared XP curve minimum.
  * - All mastered-word sightings (the language learning DOES carry over;
  *   that's the whole point of the game).
  * - A `ng_plus_count` counter so dialog can reference how many times
@@ -15,15 +14,16 @@
  * Cleared NG+:
  * - All flags (badges, quest-done, starter_chosen) cleared.
  * - All journey-beat progress cleared.
- * - Inventory cleared EXCEPT `poki_wawa` is granted as a clear reward.
- * - Encounter rates: legendaries are 2× more common on NG+ (driven by
- *   `ngPlusLegendaryMultiplier` which the encounter.ts hook consults
- *   when computing species weights).
+ * - Inventory cleared except the configured NG+ reward inventory.
+ * - Encounter rates: legendary weighting is driven by
+ *   `NEW_GAME_PLUS_CONFIG` and surfaced through `ngPlusLegendaryMultiplier`.
  *
  * This module is pure — it computes the NEW save payload from the OLD
  * save payload without touching storage. The caller swaps the payload
  * atomically into the save slot once the derivation completes.
  */
+import { NEW_GAME_PLUS_CONFIG } from "../../content/gameplay";
+import { MIN_LEVEL, xpForLevel } from "./xp-curve";
 
 export interface PartySlot {
     slot: number;
@@ -42,21 +42,16 @@ export interface SaveState {
     ngPlusCount?: number;
 }
 
-/** XP threshold formula from xp-curve: xpForLevel(n) = n^3. */
-function xpForLevel(n: number): number {
-    return Math.max(1, n) ** 3;
-}
-
 /**
- * Reduce a party member's level by up to 10, floor at 1. Recomputes
- * xp to the new level's threshold (so the bar starts fresh).
+ * Reduce a party member's level by the configured NG+ amount. Recomputes
+ * XP to the new level's threshold so the bar starts fresh.
  *
  * @example
  * reducePartyLevel({ slot: 0, species_id: 'kon_moli', level: 35, xp: 42875 })
  * // → { slot: 0, species_id: 'kon_moli', level: 25, xp: 15625 }
  */
 export function reducePartyLevel(member: PartySlot): PartySlot {
-    const newLevel = Math.max(1, member.level - 10);
+    const newLevel = Math.max(MIN_LEVEL, member.level - NEW_GAME_PLUS_CONFIG.levelReduction);
     return {
         slot: member.slot,
         species_id: member.species_id,
@@ -90,25 +85,29 @@ export function reducePartyLevel(member: PartySlot): PartySlot {
  * //   }
  */
 export function deriveNewGamePlus(old: SaveState): SaveState {
-    if (!old.flags.game_cleared) {
-        throw new Error('deriveNewGamePlus: cannot start NG+ before game_cleared flag is set');
+    if (!old.flags[NEW_GAME_PLUS_CONFIG.requiredClearedFlag]) {
+        throw new Error(
+            `deriveNewGamePlus: cannot start NG+ before ${NEW_GAME_PLUS_CONFIG.requiredClearedFlag} flag is set`,
+        );
     }
 
     return {
         party: old.party.map(reducePartyLevel),
         flags: {},
         masteredWords: { ...old.masteredWords },
-        inventory: { poki_wawa: 1 },
-        currentMapId: 'ma_tomo_lili',
-        journeyBeat: 'beat_01_ma_tomo_lili',
+        inventory: { ...NEW_GAME_PLUS_CONFIG.rewardInventory },
+        currentMapId: NEW_GAME_PLUS_CONFIG.startMapId,
+        journeyBeat: NEW_GAME_PLUS_CONFIG.startJourneyBeatId,
         ngPlusCount: (old.ngPlusCount ?? 0) + 1,
     };
 }
 
 /** Encounter weight multiplier for legendary-tier species on NG+. */
 export function ngPlusLegendaryMultiplier(ngPlusCount: number): number {
-    if (ngPlusCount <= 0) return 1;
-    // Doubles on first NG+, caps at 4× after three clears so we don't
-    // make legendaries trivial to farm.
-    return Math.min(4, 1 + ngPlusCount);
+    if (ngPlusCount <= 0) return NEW_GAME_PLUS_CONFIG.legendaryMultiplierBase;
+    return Math.min(
+        NEW_GAME_PLUS_CONFIG.legendaryMultiplierCap,
+        NEW_GAME_PLUS_CONFIG.legendaryMultiplierBase +
+            ngPlusCount * NEW_GAME_PLUS_CONFIG.legendaryMultiplierPerClear,
+    );
 }

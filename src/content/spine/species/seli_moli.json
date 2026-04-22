@@ -18,12 +18,19 @@
     "frame_width": 32,
     "frame_height": 32,
     "animations": {
-      "idle":    { "row": 0, "col_start": 0, "cols": 2, "fps": 4,  "loop": true  },
-      "walk":    { "row": 1, "col_start": 0, "cols": 2, "fps": 8,  "loop": true  },
-      "attack":  { "row": 2, "col_start": 0, "cols": 2, "fps": 10, "loop": false },
-      "hurt":    { "row": 3, "col_start": 0, "cols": 2, "fps": 8,  "loop": false },
-      "death":   { "row": 4, "col_start": 0, "cols": 2, "fps": 6,  "loop": false },
-      "special": { "src": "/assets/bosses/fire-skull/fireball.png", "row": 0, "col_start": 0, "cols": 12, "fps": 16, "loop": false }
+      "idle": { "row": 0, "col_start": 0, "cols": 2, "fps": 4, "loop": true },
+      "walk": { "row": 1, "col_start": 0, "cols": 2, "fps": 8, "loop": true },
+      "attack": { "row": 2, "col_start": 0, "cols": 2, "fps": 10, "loop": false },
+      "hurt": { "row": 3, "col_start": 0, "cols": 2, "fps": 8, "loop": false },
+      "death": { "row": 4, "col_start": 0, "cols": 2, "fps": 6, "loop": false },
+      "special": {
+        "src": "/assets/bosses/fire-skull/fireball.png",
+        "row": 0,
+        "col_start": 0,
+        "cols": 12,
+        "fps": 16,
+        "loop": false
+      }
     },
     "tier": "legendary"
   }

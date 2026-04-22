@@ -1,0 +1,10 @@
+{
+  "id": "jan_pimeja_suli_torch",
+  "npc_id": "jan_pimeja_suli",
+  "priority": 0,
+  "beats": [
+    { "text": { "en": "Let's see!" }, "mood": "thinking", "glyph": "lukin" },
+    { "text": { "en": "I want you to be quiet." }, "mood": "thinking", "glyph": "toki" }
+  ],
+  "triggers": {}
+}

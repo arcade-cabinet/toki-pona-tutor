@@ -1,0 +1,27 @@
+{
+  "day_length_minutes": 6,
+  "phase_tints": {
+    "day": { "r": 0, "g": 0, "b": 0, "a": 0 },
+    "dawn": { "r": 255, "g": 180, "b": 120, "a": 0.15 },
+    "dusk": { "r": 255, "g": 140, "b": 80, "a": 0.22 },
+    "night": { "r": 20, "g": 30, "b": 70, "a": 0.35 }
+  },
+  "biome_codes": {
+    "village": 1,
+    "kasi": 2,
+    "lete": 3,
+    "seli": 4,
+    "telo": 5,
+    "nena": 6,
+    "indoor": 7
+  },
+  "weather_tables": {
+    "kasi": { "clear": 0.6, "rain": 0.3, "fog": 0.1 },
+    "lete": { "clear": 0.4, "snow": 0.5, "fog": 0.1 },
+    "seli": { "clear": 0.9, "fog": 0.1 },
+    "telo": { "clear": 0.5, "rain": 0.4, "fog": 0.1 },
+    "nena": { "clear": 0.55, "rain": 0.2, "fog": 0.2, "snow": 0.05 },
+    "village": { "clear": 0.75, "rain": 0.15, "fog": 0.05, "snow": 0.05 },
+    "indoor": { "clear": 1 }
+  }
+}

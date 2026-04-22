@@ -2,8 +2,6 @@
   "id": "jan_pi_kon_meditate",
   "npc_id": "jan_pi_kon",
   "priority": 0,
-  "beats": [
-    { "text": { "en": "I'm getting tired." }, "mood": "thinking", "glyph": "kon" }
-  ],
+  "beats": [{ "text": { "en": "I'm getting tired." }, "mood": "thinking", "glyph": "kon" }],
   "triggers": {}
 }

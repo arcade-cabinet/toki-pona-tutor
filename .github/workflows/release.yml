@@ -4,8 +4,8 @@ name: release
 # commit history, opens or updates a release PR with an accumulated
 # CHANGELOG + version bump, and — when that PR merges — tags a
 # release. On the tagged release, this workflow builds the versioned
-# web bundle and the debug APK, attaches them to the GitHub Release.
-# cd.yml then consumes those artifacts to deploy to Pages.
+# web bundle and the debug APK as workflow artifacts. cd.yml then consumes
+# those artifacts to attach release assets and deploy Pages.
 #
 # Security: no user-text interpolation in run: blocks. release-please
 # reads commit messages, but that logic lives inside the action.
@@ -16,8 +16,8 @@ on:
 
 permissions:
   contents: write
+  issues: write
   pull-requests: write
-  packages: write
 
 jobs:
   release-please:
@@ -26,10 +26,13 @@ jobs:
     outputs:
       release_created: ${{ steps.rp.outputs.release_created }}
       tag_name: ${{ steps.rp.outputs.tag_name }}
+      version: ${{ steps.rp.outputs.version }}
+      sha: ${{ steps.rp.outputs.sha }}
     steps:
       - id: rp
         uses: googleapis/release-please-action@5c625bfb5d1ff62eadeeb3772007f7f66fdcf071 # v4.4.1
         with:
+          token: ${{ secrets.CI_GITHUB_TOKEN_PAT }}
           config-file: release-please-config.json
           manifest-file: .release-please-manifest.json
 
@@ -41,6 +44,7 @@ jobs:
     steps:
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
         with:
+          ref: ${{ needs.release-please.outputs.sha }}
           lfs: true
 
       - uses: pnpm/action-setup@fc06bc1257f339d1d5d8b3a19a8cae5388b55320 # v5.0.0
@@ -62,22 +66,31 @@ jobs:
           GITHUB_PAGES: 'true'
         run: pnpm build
 
-      - name: Package + attach web bundle to release
-        env:
-          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          TAG_NAME: ${{ needs.release-please.outputs.tag_name }}
-        run: |
-          tar -czf "poki-soweli-web-${TAG_NAME}.tar.gz" -C dist .
-          gh release upload "$TAG_NAME" "poki-soweli-web-${TAG_NAME}.tar.gz" --clobber
+      - name: Verify deployable Pages bundle
+        run: node scripts/deploy/verify-pages-bundle.mjs dist
 
-  build-release-apk:
-    name: build release APK
+      - name: Package web bundle
+        env:
+          TAG_NAME: ${{ needs.release-please.outputs.tag_name }}
+        run: tar -czf "poki-soweli-web-${TAG_NAME}.tar.gz" -C dist .
+
+      - name: Upload web bundle artifact
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: web-bundle-${{ needs.release-please.outputs.tag_name }}
+          path: poki-soweli-web-${{ needs.release-please.outputs.tag_name }}.tar.gz
+          retention-days: 14
+          if-no-files-found: error
+
+  build-debug-apk:
+    name: build debug APK
     runs-on: ubuntu-latest
     needs: release-please
     if: needs.release-please.outputs.release_created == 'true'
     steps:
       - uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
         with:
+          ref: ${{ needs.release-please.outputs.sha }}
           lfs: true
 
       - uses: pnpm/action-setup@fc06bc1257f339d1d5d8b3a19a8cae5388b55320 # v5.0.0
@@ -117,18 +130,69 @@ jobs:
         working-directory: android
         run: chmod +x gradlew
 
-      # TODO: swap to assembleRelease + signingConfig once the release
-      # keystore is provisioned (secrets.ANDROID_KEYSTORE_BASE64 +
-      # KEYSTORE_PASSWORD + KEY_ALIAS + KEY_PASSWORD). Debug-signed
-      # APK is what we ship until then.
-      - name: Assemble debug APK (pending release keystore)
+      - name: Assemble debug APK
         working-directory: android
+        env:
+          ANDROID_VERSION_CODE: ${{ github.run_number }}
+          ANDROID_VERSION_NAME: ${{ needs.release-please.outputs.version }}
         run: ./gradlew assembleDebug
 
-      - name: Attach APK to release
+      - name: Rename APK for release artifact flow
+        env:
+          TAG_NAME: ${{ needs.release-please.outputs.tag_name }}
+        run: cp android/app/build/outputs/apk/debug/app-debug.apk "poki-soweli-${TAG_NAME}-debug.apk"
+
+      - name: Upload Android debug APK artifact
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: android-debug-apk-${{ needs.release-please.outputs.tag_name }}
+          path: poki-soweli-${{ needs.release-please.outputs.tag_name }}-debug.apk
+          retention-days: 14
+          if-no-files-found: error
+
+  publish-release-metadata:
+    name: publish release metadata
+    runs-on: ubuntu-latest
+    needs:
+      - release-please
+      - build-web-bundle
+      - build-debug-apk
+    if: needs.release-please.outputs.release_created == 'true'
+    steps:
+      - name: Write release metadata artifact
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          GH_REPO: ${{ github.repository }}
           TAG_NAME: ${{ needs.release-please.outputs.tag_name }}
+          VERSION: ${{ needs.release-please.outputs.version }}
+          RELEASE_SHA: ${{ needs.release-please.outputs.sha }}
         run: |
-          cp android/app/build/outputs/apk/debug/app-debug.apk "poki-soweli-${TAG_NAME}.apk"
-          gh release upload "$TAG_NAME" "poki-soweli-${TAG_NAME}.apk" --clobber
+          mkdir -p release-metadata
+          gh release view "$TAG_NAME" --json body --jq .body > release-metadata/release-body.md
+          node <<'NODE'
+          const fs = require('node:fs');
+          const tag = process.env.TAG_NAME;
+          const body = fs.readFileSync('release-metadata/release-body.md', 'utf8');
+          const metadata = {
+            tag_name: tag,
+            version: process.env.VERSION,
+            sha: process.env.RELEASE_SHA,
+            body,
+            web_bundle_artifact: `web-bundle-${tag}`,
+            web_bundle_file: `poki-soweli-web-${tag}.tar.gz`,
+            android_debug_apk_artifact: `android-debug-apk-${tag}`,
+            android_debug_apk_file: `poki-soweli-${tag}-debug.apk`,
+          };
+          fs.writeFileSync(
+            'release-metadata/release.json',
+            JSON.stringify(metadata, null, 2) + '\n',
+          );
+          NODE
+
+      - name: Upload release metadata artifact
+        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+        with:
+          name: release-metadata
+          path: release-metadata/release.json
+          retention-days: 14
+          if-no-files-found: error

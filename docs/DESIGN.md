@@ -1,6 +1,6 @@
 ---
 title: Design
-updated: 2026-04-19
+updated: 2026-04-22
 status: current
 domain: product
 ---
@@ -11,13 +11,13 @@ What poki soweli **is**, what it **is not**, and the UX principles that settle t
 
 ## What it is
 
-**A cozy creature-catching RPG where the world is named in toki pona.** Players walk between villages, catch creatures (goblins, orcs, skellies, wraiths, slimes, dread-knights, the green dragon) with a **poki** (net), build a party of up to six, and beat seven **jan lawa** (region masters) to progress. Vocabulary accumulates diegetically — by the end of a playthrough, the player reads a dialog line in TP and understands it the way they'd understand a song lyric they've sung a hundred times: not translated, *known*. Warm cream + parchment chrome (see `docs/BRAND.md`); Animal-Crossing / Stardew / Spiritfarer energy, not edgy.
+**A cozy creature-catching RPG where the world is named in toki pona.** Players walk between villages, catch creatures (goblins, orcs, skellies, wraiths, slimes, dread-knights, the green dragon) with a **poki** (net), build a party of up to six, and beat the current four **jan lawa** (region masters) to reach the final boss. Vocabulary accumulates diegetically — by the end of a playthrough, the player reads a dialog line in TP and understands it the way they'd understand a song lyric they've sung a hundred times: not translated, *known*. Warm cream + parchment chrome (see `docs/BRAND.md`); cozy village-fable energy, not edgy.
 
 **It is for kids** learning language — roughly 7-to-12 — with a fierce-but-friendly tone. Dread-knight, not death-knight. The monsters are scary-cool (goblins in grass, skellies in crypts, a dragon at the peak), not gory. Clear palette, quick resolution on every interaction (no filibuster tutorials, no walls of English).
 
 **Every monster is catchable.** There is no "boss" / "wild creature" separation — the green dragon is simply the hardest, rarest catch. Bosses differ from common creatures by animation depth and catch difficulty, not by whether the poki works on them.
 
-**It is a single-player offline web + Android game** built on RPG.js v5 beta (Pixi 8 + CanvasEngine), authored with Fan-tasy tilesets + the organized creature/boss asset packs, shipped via GitHub Pages (web) and Capacitor (Android).
+**It is a single-player offline web + Android game** built on RPG.js v5 beta (Pixi 8 + CanvasEngine), authored with Fan-tasy tilesets + the organized creature/boss asset packs, and built for GitHub Pages (web) plus Capacitor (Android).
 
 ## What it is NOT
 
@@ -25,7 +25,7 @@ What poki soweli **is**, what it **is not**, and the UX principles that settle t
 - **Not a clone of any trademarked property.** The genre conventions (parties, types, catch nets, gym-like region masters) are conventions, not copies. The toki pona language frame + cozy dark-fantasy aesthetic + catch-and-befriend loop are what make this its own thing. Never reference any specific franchise by name in any doc, code comment, or asset.
 - **Not grindy.** Every encounter moves the story forward by either vocabulary, item, or region-gate progress. If a player is killing time for XP, something's wrong with the spec.
 - **Not combat-optimization-first.** The fun is exploration + language + catching, not min-maxing movesets. Combat needs to be *legible* and *fair*, not deep.
-- **Not an authoring platform.** Tile layouts are committed `.tmx` files; there's no in-game editor.
+- **Not an authoring platform.** Maps are authored as TypeScript specs that emit committed `.tmx` / `.tmj` artifacts; there's no in-game editor.
 
 ## Core loop
 
@@ -73,23 +73,22 @@ If the player can't tell what happened, the feature is broken regardless of corr
 
 When a naming call is close, pick the kid-friendly one. When a mechanic feels punishing, loosen it. When a text string sounds grim, rewrite. No permadeath. No stat trolling. No wasted time.
 
-## Success criteria (copied from ROADMAP § 1 — the definition of "done")
+## Success criteria (copied from ROADMAP § Definition of Done)
 
-These are the objective tests a 0.1.0 release must pass. See `docs/ROADMAP.md` for the full list; headlines:
+These are the objective tests the current v0.2 release-hardening milestone must pass. See `docs/ROADMAP.md` for the full list; headlines:
 
 1. **Full playthrough, softlock-free.** Boot → starter ceremony → walk → catch → warp → gym → next region → … → final boss. No dead-ends.
-2. **Catch count reachable.** ≥ 20 distinct captures across 17 species achievable without grinding.
+2. **Catch count reachable.** ≥ 20 distinct wild creatures across the 43-species roster achievable without grinding.
 3. **Combat is legible and fair.** Animated HP, damage numbers, visible type matchups, clear capture/defeat outcomes.
 4. **UI is themed and mobile-legible.** 44×44dp touch targets on 1080p phone. sitelen-pona renders in names.
 5. **Saves and resumes.** Autosave on region change, battle end, quit. `Continue` returns exactly where the player left.
 6. **Audio live.** Per-biome music. ≥ 12 SFX wired.
-7. **Exports green.** Web ≤ 30MB compressed, Android APK installable.
-8. **CI green.** Full validate + typecheck + test suite.
+7. **Exports green.** Web ≤ 10 MB gzip, Android debug APK installable, and the release flow publishes web + Android artifacts.
+8. **CI green.** Full validate + typecheck + unit + integration + smoke browser suite.
 
 ## Open design questions (not yet settled)
 
-- **Party management UI** — drag-to-reorder? Hotkeys? How does the player swap the lead? Needs a mockup pass.
-- **Save slot count** — single autosave only, or 3 named slots? Probably single autosave for v0.1.
+- **Full party-creature combat arena** — current v0.2 combat keeps RPG.js action-battle for set-pieces, with a browser-proven lead-creature body/stat/movebar bridge, configured-target cyan reticles, automatic next-creature send-out when a battle lead faints, in-combat bench switching, and dialog-based wild fights; V5-02 still tracks deeper full-party battle command UI and non-pointer input polish.
 - **Difficulty curve** — enemy level ramp across regions 1–7. Need to playtest before committing numbers.
 
-None block the Phase-1 slice.
+None block the current v0.2 release-hardening work.

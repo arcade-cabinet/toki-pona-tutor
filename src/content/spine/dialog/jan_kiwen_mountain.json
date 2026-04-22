@@ -1,0 +1,10 @@
+{
+  "id": "jan_kiwen_mountain",
+  "npc_id": "jan_kiwen",
+  "priority": 0,
+  "beats": [
+    { "text": { "en": "This thing is big." }, "mood": "thinking", "glyph": "suli" },
+    { "text": { "en": "I'm plenty strong!" }, "mood": "excited", "glyph": "wawa" }
+  ],
+  "triggers": {}
+}

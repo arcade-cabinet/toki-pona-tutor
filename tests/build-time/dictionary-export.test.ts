@@ -1,10 +1,21 @@
-import { describe, it, expect } from 'vitest';
+import { afterEach, beforeEach, describe, it, expect } from 'vitest';
+import type { RpgPlayer } from '@rpgjs/server';
+import { FINAL_BOSS_CONFIG } from '../../src/content/gameplay';
 import {
+    DICTIONARY_EXPORT_EVENT,
+    buildDictionaryExportSnapshot,
     exportTextCard,
     exportSvgCard,
+    isDictionaryExportPayload,
+    showDictionaryExport,
     type ExportSnapshot,
     type MasteredWord,
 } from '../../src/modules/main/dictionary-export';
+import {
+    recordMasteredWord,
+    setFlag,
+} from '../../src/platform/persistence/queries';
+import { resetPersistedRuntimeState } from '../../src/platform/persistence/runtime-state';
 
 const word = (tp: string, sightings: number, at = '2026-04-20T00:00:00Z'): MasteredWord => ({
     tp,
@@ -122,5 +133,59 @@ describe('exportSvgCard', () => {
         const svg = exportSvgCard(snap({ playerName: '<hack>&"' }));
         expect(svg).toContain('&lt;hack&gt;&amp;&quot;');
         expect(svg).not.toContain('<hack>&"');
+    });
+});
+
+describe('dictionary export runtime wiring', () => {
+    beforeEach(async () => {
+        await resetPersistedRuntimeState({ includeSaves: true });
+    });
+
+    afterEach(async () => {
+        await resetPersistedRuntimeState({ includeSaves: true });
+    });
+
+    it('builds a snapshot from persisted mastered words and clear flag', async () => {
+        await recordMasteredWord('soweli');
+        await recordMasteredWord('soweli');
+        await recordMasteredWord('soweli');
+        await recordMasteredWord('poki');
+        await recordMasteredWord('poki');
+        await setFlag(FINAL_BOSS_CONFIG.clearedFlag, '1');
+
+        const snapshot = await buildDictionaryExportSnapshot({
+            playerName: 'Sam',
+            exportedAt: '2026-04-20T12:00:00Z',
+        });
+
+        expect(snapshot.playerName).toBe('Sam');
+        expect(snapshot.journeyCleared).toBe(true);
+        expect(snapshot.words.map((entry) => entry.tp)).toEqual(['soweli']);
+        expect(snapshot.words[0]?.sightings).toBe(3);
+    });
+
+    it('emits an SVG payload and shows the text card in the dialog layer', async () => {
+        const emitted: Array<{ event: string; payload: unknown }> = [];
+        const shown: string[] = [];
+        const player = {
+            emit: (event: string, payload: unknown) => {
+                emitted.push({ event, payload });
+            },
+            showText: async (line: string) => {
+                shown.push(line);
+            },
+        } as unknown as RpgPlayer;
+        await recordMasteredWord('soweli');
+        await recordMasteredWord('soweli');
+        await recordMasteredWord('soweli');
+
+        const payload = await showDictionaryExport(player);
+
+        expect(emitted[0]?.event).toBe(DICTIONARY_EXPORT_EVENT);
+        expect(isDictionaryExportPayload(emitted[0]?.payload)).toBe(true);
+        expect(payload.filename).toBe('poki-soweli-lipu-nimi.svg');
+        expect(payload.textCard).toContain('soweli');
+        expect(payload.svgCard).toContain('<svg');
+        expect(shown[0]).toContain('lipu nimi');
     });
 });

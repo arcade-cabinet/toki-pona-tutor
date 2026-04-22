@@ -9,9 +9,10 @@
  * All functions are pure. Callers (gym-leader onDefeated, encounter catch
  * flow) compose them to award XP and trigger level-up toasts.
  */
+import { LEVEL_CURVE_CONFIG } from "../../content/gameplay";
 
-export const MIN_LEVEL = 1;
-export const MAX_LEVEL = 50;
+export const MIN_LEVEL = LEVEL_CURVE_CONFIG.minLevel;
+export const MAX_LEVEL = LEVEL_CURVE_CONFIG.maxLevel;
 
 /**
  * Total XP required to reach level `n` from level 0 (i.e. the threshold).
@@ -26,7 +27,16 @@ export const MAX_LEVEL = 50;
 export function xpForLevel(n: number): number {
     if (n < MIN_LEVEL) return 0;
     const clamped = Math.min(n, MAX_LEVEL);
-    return clamped ** 3;
+    return clamped ** LEVEL_CURVE_CONFIG.exponent;
+}
+
+/**
+ * Stored party rows may carry a level that is ahead of the persisted XP total
+ * (for example starters granted at level 5). XP awards must never demote that
+ * creature on the next write, so treat the stored level threshold as the floor.
+ */
+export function canonicalXpTotal(xp: number, level: number): number {
+    return Math.max(xp, xpForLevel(level));
 }
 
 /**
@@ -72,7 +82,10 @@ export type LevelUpEvent = {
  * //     { from: 4, to: 5, xpAtLevelUp: 125 },
  * //   ]}
  */
-export function gainXp(xp: number, gained: number): {
+export function gainXp(
+    xp: number,
+    gained: number,
+): {
     xp: number;
     levelUps: LevelUpEvent[];
 } {

@@ -32,6 +32,10 @@ export default defineConfig({
                     environment: 'node',
                     testTimeout: 30_000,
                     hookTimeout: 30_000,
+                    // Several build-time suites exercise shared content,
+                    // image, and persistence singletons. Serialize files so
+                    // `pnpm test:unit` matches CI deterministically.
+                    fileParallelism: false,
                 },
             },
             {

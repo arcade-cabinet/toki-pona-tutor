@@ -34,6 +34,8 @@ describe('renderTmj — output dimensions', () => {
     const ground = await parseTsx(resolve(CORE_TSX, 'Tileset_Ground.tsx'));
     const spec: MapSpec = {
       id: 'size_test',
+      biome: 'town',
+      music_track: 'bgm_village',
       width: 10,
       height: 6,
       tileSize: 16,
@@ -58,6 +60,8 @@ describe('renderTmj — tile placement', () => {
     const ground = await parseTsx(resolve(CORE_TSX, 'Tileset_Ground.tsx'));
     const spec: MapSpec = {
       id: 'fill_test',
+      biome: 'town',
+      music_track: 'bgm_village',
       width: 2,
       height: 2,
       tileSize: 16,
@@ -86,6 +90,8 @@ describe('renderTmj — tile placement', () => {
     const ground = await parseTsx(resolve(CORE_TSX, 'Tileset_Ground.tsx'));
     const spec: MapSpec = {
       id: 'sparse_test',
+      biome: 'town',
+      music_track: 'bgm_village',
       width: 2,
       height: 1,
       tileSize: 16,
@@ -113,6 +119,8 @@ describe('renderTmj — object-layer overlay', () => {
     const ground = await parseTsx(resolve(CORE_TSX, 'Tileset_Ground.tsx'));
     const spec: MapSpec = {
       id: 'overlay_test',
+      biome: 'town',
+      music_track: 'bgm_village',
       width: 3,
       height: 3,
       tileSize: 16,

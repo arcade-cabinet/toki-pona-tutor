@@ -2,6 +2,8 @@ import { describe, it, expect } from 'vitest';
 import { readFileSync } from 'node:fs';
 import { resolve, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import type { RpgPlayer } from '@rpgjs/server';
+import { playDialog } from '../../src/modules/main/dialog';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const WORLD = JSON.parse(
@@ -13,8 +15,8 @@ const WORLD = JSON.parse(
 /**
  * Cross-checks between code's dialog_id consumers and the shipped
  * content. If a module calls playDialog('foo_bar') and there's no
- * dialog node with id='foo_bar', the runtime will render "(foo_bar)"
- * as a placeholder (per dialog.ts fallback) — catchable here at
+ * dialog node with id='foo_bar', the runtime will render the configured
+ * missing-node placeholder from ui.json — catchable here at
  * build time.
  */
 
@@ -65,7 +67,7 @@ describe('dialog content — code references match shipped nodes', () => {
 
     it('reports which code-referenced dialog ids are missing from content', () => {
         const missing = DIALOG_IDS_REFERENCED_IN_CODE.filter((id) => !availableIds.has(id));
-        // Not a hard fail — the dialog.ts fallback surfaces missing ids to
+        // Not a hard fail — the configured dialog fallback surfaces missing ids to
         // the player, and some ids listed above may be legitimately
         // unimplemented (e.g. a jan lawa's victory line not yet authored).
         // Just print the report; the build-time test is informational.
@@ -78,6 +80,18 @@ describe('dialog content — code references match shipped nodes', () => {
         expect(availableIds.has('jan_sewi_starter_intro'), 'starter ceremony intro missing').toBe(true);
         expect(availableIds.has('wild_encounter_appear'), 'wild encounter intro missing').toBe(true);
         expect(availableIds.has('game_over_revive'), 'respawn dialog missing').toBe(true);
+    });
+
+    it('renders the missing dialog id when an authoring reference is absent', async () => {
+        const lines: string[] = [];
+        const player = {
+            showText: async (line: string) => {
+                lines.push(line);
+            },
+        } as unknown as RpgPlayer;
+
+        await expect(playDialog(player, 'dialog_not_found_probe')).resolves.toBe(false);
+        expect(lines).toEqual(['(dialog_not_found_probe)']);
     });
 
     it('every beat.text.en is non-empty', () => {

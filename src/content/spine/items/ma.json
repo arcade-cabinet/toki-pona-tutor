@@ -1,0 +1,8 @@
+{
+  "id": "ma",
+  "name": { "en": "ma" },
+  "description": { "en": "land" },
+  "kind": "flavor",
+  "stackable": true,
+  "sprite_frame": 96
+}

@@ -1,3 +1,6 @@
+import { VOCABULARY_SCREEN_CONFIG } from "../../content/gameplay";
+import { formatGameplayTemplate } from "../../content/gameplay/templates";
+
 /**
  * lipu nasin — personal sentence log — T8-01.
  *
@@ -9,7 +12,7 @@
  * Log entries are append-only with a `first_seen` timestamp. Re-encounters
  * bump a `sightings` counter but never overwrite the first-seen row. The
  * pure-logic here decides what to insert vs what to bump; the SQLite
- * table (`sentence_log` — a v3→v4 migration in `database.ts`) is the
+ * table (`sentence_log` — a v5→v6 migration in `database.ts`) is the
  * caller's responsibility.
  *
  * The log is NOT an EN-gloss tool. We log the TP line the player heard;
@@ -103,7 +106,11 @@ export function mostSighted(entries: SentenceRecord[], limit = 10): SentenceReco
  * All entries first seen within the last N real-time hours, sorted
  * first-seen desc. Powers a "recent" panel.
  */
-export function recentEntries(entries: SentenceRecord[], now: string, withinHours: number): SentenceRecord[] {
+export function recentEntries(
+    entries: SentenceRecord[],
+    now: string,
+    withinHours: number,
+): SentenceRecord[] {
     const nowMs = Date.parse(now);
     const windowMs = withinHours * 3600 * 1000;
     return [...entries]
@@ -120,6 +127,12 @@ export function recentEntries(entries: SentenceRecord[], now: string, withinHour
 export function exportDump(entries: SentenceRecord[]): string {
     return [...entries]
         .sort((a, b) => a.tp.localeCompare(b.tp))
-        .map((e) => `${e.tp}    // sightings=${e.sightings}    first=${e.first_seen}`)
-        .join('\n');
+        .map((e) =>
+            formatGameplayTemplate(VOCABULARY_SCREEN_CONFIG.sentenceDumpLineTemplate, {
+                tp: e.tp,
+                sightings: e.sightings,
+                first_seen: e.first_seen,
+            }),
+        )
+        .join("\n");
 }

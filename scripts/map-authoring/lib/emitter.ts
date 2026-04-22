@@ -25,14 +25,28 @@ import type {
 import { assignFirstGids, resolvePaletteName, tsxQualifiedKey, tsxStem } from './palette';
 
 const TILED_VERSION = '1.11.2';
+const PUBLIC_DIR_SEGMENT = '/public/';
 
 const LAYER_ORDER = ['Below Player', 'World', 'Above Player'] as const;
+
+export interface EmitTmjOptions {
+  /**
+   * `filesystem` emits on-disk relative paths from the output file to the
+   * tileset source and is used for the archived `.tmj`.
+   *
+   * `runtime` emits URLs that work when the generated `.tmx` is served from
+   * `/map/*.tmx` in dev and production builds.
+   */
+  tilesetSourceMode?: 'filesystem' | 'runtime';
+}
 
 export function emitTmj(
   spec: MapSpec,
   tilesets: ParsedTileset[],
   outputPath: string,
+  options: EmitTmjOptions = {},
 ): TmjMap {
+  const tilesetSourceMode = options.tilesetSourceMode ?? 'filesystem';
   const referenced = spec.tilesets.map((name) => {
     const ts = tilesets.find(
       (t) => tsxQualifiedKey(t) === name || tsxStem(t) === name,
@@ -49,13 +63,12 @@ export function emitTmj(
 
   const tilesetRefs: TmjTilesetRef[] = referenced.map((ts) => {
     const firstgid = firstGids.get(tsxQualifiedKey(ts))!;
-    // Tiled's TMJ format expects POSIX-style forward slashes in source paths
-    // regardless of the authoring OS. `node:path.relative` emits whatever the
-    // host platform uses (backslashes on Windows), so normalize here.
-    const rel = relative(dirname(outputPath), ts.absolutePath).replace(/\\/g, '/');
     return {
       firstgid,
-      source: rel,
+      source:
+        tilesetSourceMode === 'runtime'
+          ? toRuntimeTilesetSource(ts.absolutePath)
+          : toFilesystemRelativeSource(outputPath, ts.absolutePath),
     };
   });
 
@@ -129,9 +142,32 @@ export function emitTmj(
     compressionlevel: -1,
     nextlayerid: nextLayerId,
     nextobjectid: nextObjectId,
+    properties: mapPropsToTmj({
+      biome: spec.biome,
+      music_track: spec.music_track,
+    }),
     tilesets: tilesetRefs,
     layers,
   };
+}
+
+function toFilesystemRelativeSource(outputPath: string, absolutePath: string): string {
+  // Tiled's TMJ format expects POSIX-style forward slashes in source paths
+  // regardless of the authoring OS. `node:path.relative` emits whatever the
+  // host platform uses (backslashes on Windows), so normalize here.
+  return relative(dirname(outputPath), absolutePath).replace(/\\/g, '/');
+}
+
+function toRuntimeTilesetSource(absolutePath: string): string {
+  const normalized = absolutePath.replace(/\\/g, '/');
+  const publicIndex = normalized.lastIndexOf(PUBLIC_DIR_SEGMENT);
+  if (publicIndex === -1) {
+    throw new Error(
+      `emit: runtime tileset source for "${absolutePath}" must live under public/`,
+    );
+  }
+
+  return `../${normalized.slice(publicIndex + PUBLIC_DIR_SEGMENT.length)}`;
 }
 
 function renderTileLayer(

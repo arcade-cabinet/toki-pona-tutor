@@ -1,0 +1,273 @@
+<DOMContainer width="100%" height="100%">
+    <div class="rpg-ui-title-screen poki-pause-screen rpg-anim-fade-in" data-testid="pause-overlay">
+        <div class="rpg-ui-title-screen-header rpg-anim-float">
+            <div class="rpg-ui-title-screen-title">{titleText()}</div>
+        </div>
+        <div class="poki-pause-shell rpg-anim-slide-up">
+            <Navigation tabindex={selectedEntry} controls={controls}>
+                <div class="poki-pause-routes" aria-label={routesAriaLabel}>
+                    @for ((route,index) of routeList()) {
+                        <button
+                            type="button"
+                            class="rpg-ui-menu-item poki-pause-route"
+                            data-selected={activeRouteId() === routeKey(route) ? "true" : "false"}
+                            data-testid={route.testId}
+                            tabindex={index}
+                            click={selectEntry(index)}
+                        >{route.label}</button>
+                    }
+                </div>
+                <div class="poki-pause-panel">
+                    <div class="poki-pause-panel-heading">{contentTitleText()}</div>
+                    <div class="poki-pause-panel-list">
+                        @for ((row,rowIndex) of contentRows()) {
+                            @if (row.kind === "party-slot") {
+                                <div
+                                    class={{
+                                        "poki-pause-row": true,
+                                        "poki-party-slot-row": true,
+                                        actionable: !!row.id,
+                                        disabled: isEntryDisabled(row),
+                                        selected: !!row.selected
+                                    }}
+                                    data-testid={row.testId || ""}
+                                    aria-label={row.hpLabel || row.label}
+                                    click={row.id ? selectEntry(routeList().length + rowIndex) : undefined}
+                                >
+                                    <div class={{"poki-party-portrait": true, "has-image": !!row.portraitSrc}} style={partyPortraitStyle(row)}>
+                                        <span>{row.portraitFallback || partyPortraitFallback}</span>
+                                    </div>
+                                    <div class="poki-party-slot-copy">
+                                        <div class="poki-party-slot-heading">
+                                            <span class="poki-party-slot-name">{row.label}</span>
+                                            <small>{row.levelLabel || row.meta}</small>
+                                        </div>
+                                        <div class="poki-party-slot-subtitle">{row.secondaryLabel || row.typeLabel || ""}</div>
+                                        <div class={["poki-party-hp", row.hpClass || "hp-healthy"]}>
+                                            <div class="poki-party-hp-track">
+                                                <div class="poki-party-hp-fill hp-fill" style={partyHpStyle(row)}></div>
+                                            </div>
+                                            <small>{row.hpLabel}</small>
+                                        </div>
+                                    </div>
+                                </div>
+                            }
+                            @else if (row.kind === "party-detail") {
+                                <div class="poki-party-detail-card" data-testid={row.testId || ""}>
+                                    <div class="poki-party-detail-title">{row.label}</div>
+                                    @for (line of detailLines(row)) {
+                                        <div class="poki-party-detail-line">{line}</div>
+                                    }
+                                </div>
+                            }
+                            @else {
+                                <div
+                                    class={{
+                                        "poki-pause-row": true,
+                                        actionable: !!row.id,
+                                        disabled: isEntryDisabled(row)
+                                    }}
+                                    data-testid={row.testId || ""}
+                                    click={row.id ? selectEntry(routeList().length + rowIndex) : undefined}
+                                >
+                                    <span>{row.label}</span>
+                                    @if (row.meta) {
+                                        <small>{row.meta}</small>
+                                    }
+                                </div>
+                            }
+                        }
+                    </div>
+                </div>
+                <div class="poki-pause-footer">
+                    @for ((entry,index) of footerList()) {
+                        <button
+                            type="button"
+                            class="rpg-ui-menu-item poki-pause-footer-item"
+                            class={{disabled: isEntryDisabled(entry)}}
+                            data-selected={selectedEntry() === routeList().length + contentRows().length + index ? "true" : "false"}
+                            data-testid={entry.testId || ""}
+                            tabindex={routeList().length + contentRows().length + index}
+                            click={selectEntry(routeList().length + contentRows().length + index)}
+                        >{entry.label}</button>
+                    }
+                </div>
+            </Navigation>
+        </div>
+    </div>
+</DOMContainer>
+
+<script>
+    import { signal, computed, effect } from "canvasengine";
+    import { inject, RpgClientEngine } from "@rpgjs/client";
+    import { PAUSE_MENU_CONFIG, PARTY_PANEL_CONFIG } from "../content/gameplay";
+    import { playClientSfx } from "./client-sfx";
+
+    const engine = inject(RpgClientEngine);
+    const keyboardControls = engine.globalConfig.keyboardControls;
+    const routesAriaLabel = PAUSE_MENU_CONFIG.routesAriaLabel;
+    const partyPortraitFallback = PARTY_PANEL_CONFIG.missingPortraitFallback;
+
+    const { data, onInteraction } = defineProps({
+        entries: {
+            default: () => []
+        },
+        routes: {
+            default: () => []
+        },
+        contentTitle: {
+            default: ''
+        },
+        contentRows: {
+            default: () => []
+        },
+        footerEntries: {
+            default: () => []
+        },
+        activeRoute: {
+            default: PAUSE_MENU_CONFIG.defaultRouteId
+        },
+        title: {
+            default: PAUSE_MENU_CONFIG.title
+        }
+    });
+
+    const { entries, routes, contentTitle, contentRows: rows, footerEntries, activeRoute, title } = data();
+
+    const resolveProp = (value) => typeof value === "function" ? value() : value;
+    const titleText = computed(() => resolveProp(title) || PAUSE_MENU_CONFIG.title);
+
+    const legacyEntries = computed(() => {
+        const list = resolveProp(entries);
+        return Array.isArray(list) ? list : [];
+    });
+
+    const routeList = computed(() => {
+        const list = resolveProp(routes);
+        return Array.isArray(list) ? list : [];
+    });
+
+    const contentRows = computed(() => {
+        const list = resolveProp(rows);
+        return Array.isArray(list) ? list : [];
+    });
+
+    const footerList = computed(() => {
+        const list = resolveProp(footerEntries);
+        const footer = Array.isArray(list) ? list : [];
+        return footer.length ? footer : legacyEntries();
+    });
+
+    const contentTitleText = computed(() => resolveProp(contentTitle) || "");
+    const activeRouteId = computed(() => resolveProp(activeRoute) || PAUSE_MENU_CONFIG.defaultRouteId);
+    const routeKey = (route) => String(route?.id || "").replace(/^route:/, "");
+    const detailLines = (row) => {
+        const lines = resolveProp(row?.detailLines);
+        return Array.isArray(lines) ? lines : [];
+    };
+    const partyPortraitStyle = (row) => {
+        const src = row?.portraitSrc;
+        if (!src) return {};
+        return {
+            backgroundImage: `url(${src})`
+        };
+    };
+    const partyHpStyle = (row) => `width: ${Number(row?.hpPercent ?? 0)}%`;
+
+    const entryList = computed(() => [
+        ...routeList(),
+        ...contentRows(),
+        ...footerList(),
+    ]);
+
+    const isEntryDisabled = (entry) => {
+        if (!entry) return true;
+        if (!entry.id) return true;
+        if (entry.disabled) return true;
+        if (entry.enabled === false) return true;
+        return false;
+    };
+
+    const selectedEntry = signal(0);
+    const selectableIndexes = computed(() => {
+        const list = entryList();
+        return list
+            .map((entry, index) => (isEntryDisabled(entry) ? null : index))
+            .filter((value) => value !== null);
+    });
+
+    effect(() => {
+        const available = selectableIndexes();
+        if (!available.length) return;
+        const current = selectedEntry();
+        if (!available.includes(current)) {
+            selectedEntry.set(available[0]);
+        }
+    });
+
+    const moveSelection = (delta) => {
+        const available = selectableIndexes();
+        if (!available.length) return;
+        const current = selectedEntry();
+        const currentIndex = Math.max(0, available.indexOf(current));
+        const nextIndex = (currentIndex + delta + available.length) % available.length;
+        if (available[nextIndex] !== current) {
+            void playClientSfx(engine, "sfx_menu_tick");
+        }
+        selectedEntry.set(available[nextIndex]);
+    };
+
+    const triggerSelect = (index) => {
+        const list = entryList();
+        const entry = list[index];
+        if (!entry || isEntryDisabled(entry)) return;
+        void playClientSfx(engine, "sfx_menu_confirm");
+        if (onInteraction) {
+            onInteraction("select", { id: entry.id, index, entry });
+        }
+    };
+
+    function selectEntry(index) {
+        return function() {
+            selectedEntry.set(index);
+            triggerSelect(index);
+        };
+    }
+
+    const controls = signal({
+        up: {
+            repeat: true,
+            bind: keyboardControls.up,
+            throttle: 150,
+            keyDown() {
+                moveSelection(-1);
+            }
+        },
+        down: {
+            repeat: true,
+            bind: keyboardControls.down,
+            throttle: 150,
+            keyDown() {
+                moveSelection(1);
+            }
+        },
+        action: {
+            bind: keyboardControls.action,
+            keyDown() {
+                triggerSelect(selectedEntry());
+            }
+        },
+        escape: {
+            bind: keyboardControls.escape,
+            keyDown() {
+                const resumeIndex = entryList().findIndex((entry) => entry?.id === 'resume');
+                if (resumeIndex >= 0) {
+                    triggerSelect(resumeIndex);
+                }
+            }
+        },
+        gamepad: {
+            enabled: true
+        }
+    });
+</script>

@@ -1,11 +1,12 @@
 /**
- * pnpm author:all <map-id>
+ * pnpm author:all <map-id> [--dry-run]
  * Runs validate → build → render for one map (or every spec with --all).
  */
 import { dirname, resolve, join, basename } from 'node:path';
 import { fileURLToPath, pathToFileURL } from 'node:url';
-import { readdir, mkdir, writeFile } from 'node:fs/promises';
+import { readdir, mkdir, mkdtemp, rm, writeFile } from 'node:fs/promises';
 import { existsSync } from 'node:fs';
+import { tmpdir } from 'node:os';
 import { PNG } from 'pngjs';
 import {
   emitTmj,
@@ -34,27 +35,32 @@ const speciesDir = join(worktreeRoot, 'src', 'content', 'spine', 'species');
 
 async function main(): Promise<void> {
   const args = process.argv.slice(2);
+  const dryRun = args.includes('--dry-run');
+  const allSpecs = args.includes('--all');
+  const requestedSpecs = args.filter((a) => !a.startsWith('--'));
   const specs =
-    args[0] === '--all'
+    allSpecs
       ? (await readdir(specsDir))
           .filter((f) => f.endsWith('.ts'))
           .map((f) => basename(f, '.ts'))
-      : args.filter((a) => !a.startsWith('--'));
+      : requestedSpecs;
   if (specs.length === 0) {
-    console.error('usage: pnpm author:all <map-id> [<map-id>...] | --all');
+    console.error('usage: pnpm author:all <map-id> [<map-id>...] [--dry-run] | --all [--dry-run]');
     process.exit(1);
   }
   for (const id of specs) assertSafeMapId(id);
 
-  await mkdir(mapsDir, { recursive: true });
-  await mkdir(tiledDir, { recursive: true });
+  if (!dryRun) {
+    await mkdir(mapsDir, { recursive: true });
+    await mkdir(tiledDir, { recursive: true });
+  }
   let hadError = false;
 
   for (const id of specs) {
     console.log(`\n── ${id} ─────────────────────`);
     try {
-      await processOne(id);
-      console.log(`  ✓ done`);
+      await processOne(id, { dryRun });
+      console.log(dryRun ? `  ✓ dry-run done` : `  ✓ done`);
     } catch (err) {
       console.error(`  ✗ ${id} failed: ${(err as Error).message}`);
       hadError = true;
@@ -65,7 +71,7 @@ async function main(): Promise<void> {
   process.exit(hadError ? 1 : 0);
 }
 
-async function processOne(id: string): Promise<void> {
+async function processOne(id: string, options: { dryRun: boolean }): Promise<void> {
   const specPath = join(specsDir, `${id}.ts`);
   // ESM dynamic import requires a file:// URL on Windows.
   const mod = (await import(pathToFileURL(specPath).href)) as { default?: MapSpec };
@@ -96,20 +102,47 @@ async function processOne(id: string): Promise<void> {
   // Build .tmj (human-editable archive under public/assets/maps/)
   const tmjPath = join(mapsDir, `${spec.id}.tmj`);
   const tmj = emitTmj(spec, tilesets, tmjPath);
-  await writeFile(tmjPath, JSON.stringify(tmj, null, 2) + '\n', 'utf-8');
-  console.log(`  ✓ built ${basename(tmjPath)}`);
+  const tmjJson = JSON.stringify(tmj, null, 2) + '\n';
+  if (!options.dryRun) {
+    await writeFile(tmjPath, tmjJson, 'utf-8');
+  }
+  console.log(`  ✓ ${options.dryRun ? 'would build' : 'built'} ${basename(tmjPath)}`);
 
   // Build .tmx (consumed by RPG.js v5 tiledMapFolderPlugin)
   const tmxPath = join(tiledDir, `${spec.id}.tmx`);
-  const tmjForTmx = emitTmj(spec, tilesets, tmxPath);
-  await writeFile(tmxPath, emitTmx(tmjForTmx), 'utf-8');
-  console.log(`  ✓ built src/tiled/${basename(tmxPath)}`);
+  const tmjForTmx = emitTmj(spec, tilesets, tmxPath, {
+    tilesetSourceMode: 'runtime',
+  });
+  const tmxXml = emitTmx(tmjForTmx);
+  if (!options.dryRun) {
+    await writeFile(tmxPath, tmxXml, 'utf-8');
+  }
+  console.log(`  ✓ ${options.dryRun ? 'would build' : 'built'} src/tiled/${basename(tmxPath)}`);
 
   // Render
-  const png = await renderTmj(tmjPath, tilesets, { overlay: true });
   const pngPath = join(mapsDir, `${spec.id}.preview.png`);
-  await writeFile(pngPath, PNG.sync.write(png));
-  console.log(`  ✓ rendered ${basename(pngPath)} (${png.width}×${png.height})`);
+  const png = options.dryRun
+    ? await renderDryRunPreview(spec.id, tmjJson, tilesets)
+    : await renderTmj(tmjPath, tilesets, { overlay: true });
+  if (!options.dryRun) {
+    await writeFile(pngPath, PNG.sync.write(png));
+  }
+  console.log(`  ✓ ${options.dryRun ? 'would render' : 'rendered'} ${basename(pngPath)} (${png.width}×${png.height})`);
+}
+
+async function renderDryRunPreview(
+  id: string,
+  tmjJson: string,
+  tilesets: Awaited<ReturnType<typeof loadTilesetsForSpec>>,
+): Promise<PNG> {
+  const scratchDir = await mkdtemp(join(tmpdir(), `poki-author-${id}-`));
+  try {
+    const scratchTmjPath = join(scratchDir, `${id}.tmj`);
+    await writeFile(scratchTmjPath, tmjJson, 'utf-8');
+    return await renderTmj(scratchTmjPath, tilesets, { overlay: true });
+  } finally {
+    await rm(scratchDir, { recursive: true, force: true });
+  }
 }
 
 function printIssue(issue: ValidationIssue): void {

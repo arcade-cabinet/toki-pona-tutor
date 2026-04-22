@@ -1,6 +1,6 @@
 ---
 title: Combatant Sprites
-updated: 2026-04-19
+updated: 2026-04-22
 status: current
 domain: technical
 ---
@@ -11,8 +11,12 @@ Human trainer sprites for rivals and gym leaders (jan Ike, jan Wawa, jan Telo, j
 Located in `public/assets/combatants/` under three sub-packs: `mages/`, `rogues/`, `warriors/`.
 
 Combatants are **NOT catchable creatures**. They do not appear in `src/content/spine/species/`.
-Their sprites are registered in `src/config/combatant-sprites.ts` and used only via `setGraphic`
-in NPC factory calls (`src/modules/main/jan-ike.ts`, `src/modules/main/gym-leader.ts`).
+Their canonical spritesheet records live in `src/content/gameplay/visuals.json`; trainer
+bindings live in `src/content/gameplay/trainers.json`; `src/config/combatant-sprites.ts`
+registers those JSON records into RPG.js and the trainer factories apply them via
+`setGraphic()`. The client registration maps explicit `stand`, `walk`, `attack`,
+`skill`, `defense`, and `hurt` textures from the full 31-row overworld sheets so
+action-battle trainers do not fall back to a walk-only preset.
 
 ## Sprite naming convention
 

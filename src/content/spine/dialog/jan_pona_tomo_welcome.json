@@ -1,0 +1,10 @@
+{
+  "id": "jan_pona_tomo_welcome",
+  "npc_id": "jan_pona_tomo",
+  "priority": 0,
+  "beats": [
+    { "text": { "en": "Ah. Good." }, "mood": "happy", "glyph": "pona" },
+    { "text": { "en": "Let's go!" }, "mood": "excited", "glyph": "tawa" }
+  ],
+  "triggers": {}
+}

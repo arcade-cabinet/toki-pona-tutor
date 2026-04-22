@@ -17,12 +17,12 @@
     "frame_width": 64,
     "frame_height": 64,
     "animations": {
-      "walk":   { "row": 0, "col_start": 0, "cols": 8, "fps": 10, "loop": true  },
-      "flee":   { "row": 1, "col_start": 0, "cols": 7, "fps": 12, "loop": true  },
-      "taunt":  { "row": 2, "col_start": 0, "cols": 8, "fps": 6,  "loop": false },
+      "walk": { "row": 0, "col_start": 0, "cols": 8, "fps": 10, "loop": true },
+      "flee": { "row": 1, "col_start": 0, "cols": 7, "fps": 12, "loop": true },
+      "taunt": { "row": 2, "col_start": 0, "cols": 8, "fps": 6, "loop": false },
       "attack": { "row": 3, "col_start": 0, "cols": 5, "fps": 12, "loop": false },
-      "sneak":  { "row": 4, "col_start": 0, "cols": 3, "fps": 6,  "loop": true  },
-      "death":  { "row": 5, "col_start": 0, "cols": 3, "fps": 6,  "loop": false }
+      "sneak": { "row": 4, "col_start": 0, "cols": 3, "fps": 6, "loop": true },
+      "death": { "row": 5, "col_start": 0, "cols": 3, "fps": 6, "loop": false }
     },
     "tier": "uncommon"
   }

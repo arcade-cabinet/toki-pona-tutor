@@ -5,6 +5,7 @@
  * Types here are the public surface of the lib/ modules; tests under
  * tests/build-time/ pin them against expected behavior.
  */
+import type { MapBiome, MapMusicTrack } from '../../../src/content/map-metadata';
 
 /**
  * A single Tiled tileset definition, parsed from `.tsx` XML.
@@ -144,6 +145,10 @@ export interface EncounterZone {
  */
 export interface MapSpec {
   id: string;
+  /** Visual/content biome. Emitted as a Tiled map-level custom property. */
+  biome: MapBiome;
+  /** Ambient BGM track for this map. Emitted as `music_track`. */
+  music_track: MapMusicTrack;
   width: number;
   height: number;
   tileSize: number;
@@ -172,7 +177,7 @@ export interface PlacedTile {
 
 /**
  * The Tiled 1.10 JSON (TMJ) shape we emit. This is a subset; we only
- * write the fields Phaser's tilemapTiledJSON loader consumes.
+ * write the fields Tiled JSON consumers and our runtime archive tooling need.
  */
 export interface TmjMap {
   type: 'map';
@@ -188,6 +193,7 @@ export interface TmjMap {
   compressionlevel: number;
   nextlayerid: number;
   nextobjectid: number;
+  properties?: TmjProperty[];
   tilesets: TmjTilesetRef[];
   layers: TmjLayer[];
 }

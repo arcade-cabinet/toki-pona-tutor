@@ -1,6 +1,6 @@
 ---
 title: poki soweli — Extended Operating Protocols
-updated: 2026-04-20
+updated: 2026-04-22
 status: current
 ---
 
@@ -44,11 +44,15 @@ src/content/spine/<kind>/<id>.json   (hand-authored, EN strings tagged for TP re
 
 Authors edit `spine/`, never `generated/`. `pnpm prebuild` runs the full pipeline and gates `pnpm build`. CI enforces it on every PR via `ci.yml` under the `unit` job.
 
+Runtime gameplay catalogs live in `src/content/gameplay/*.json` and are validated by `src/content/gameplay/schema.ts`. Do not hardcode authored tables in RPG.js modules for map labels/safe spawns, runtime map events, starters, badges, party/save-slot limits, shop stock/NPC graphic/dialog/delivery target, battle rewards, level curves, trainer/final-boss battle stats/AI/rewards/death visuals, NG+ reset/scaling, daycare offspring tuning, gym XP/rematch tuning, type matchups, status-effect rules, wild-combat formulas, encounter timing, side quests, item-drop defaults, ambient weather/tint tables, combat chrome values, HP tiers/colors/labels, HUD/tap/combat UI IDs/timing/copy/retry tuning, lead movebar SP/cooldown/range tuning/copy/templates, sprite layouts, player/NPC/trainer/boss/effect manifests, BGM/SFX paths/volumes/selection/runtime timing/cue mapping, title/starter/pause/settings/inventory/save/vocabulary/party-panel/bestiary/quest journal/dialog fallback/defaults/SFX/shop/wild-encounter copy/choices/templates/dialog IDs, defeat/warp overlay ARIA/default phase copy, defeat revive dialog IDs, dictionary export text/SVG layout, notification templates/durations, save-position snap timing, or credits. TypeScript modules should consume the normalized exports from `src/content/gameplay/index.ts` and keep behavior separate from authored data.
+
+Runtime event coordinates and warp target positions come from the compiled map-object layer in `src/content/generated/world.json`, not from hand-copied numbers in `server.ts` or `events.json`. If placement is wrong, fix the map spec or the intentional offset in `events.json`, then rebuild.
+
 ## Maps are build artifacts
 
-The only way a map enters the repo is via a TypeScript spec in `scripts/map-authoring/specs/<id>.ts` built by `pnpm author:build <id>` (or `pnpm author:all`). Both `src/tiled/<id>.tmx` (runtime) and `public/assets/maps/<id>.tmj` (archive) regenerate from one spec.
+The only way a map enters the repo is via a TypeScript spec in `scripts/map-authoring/specs/<id>.ts` built by `pnpm author:build <id>` (or `pnpm author:all`). `src/tiled/<id>.tmx` (runtime), `public/assets/maps/<id>.tmj` (archive), and `public/assets/maps/<id>.preview.png` (review PNG) regenerate from one spec.
 
-`pnpm author:verify` runs in `pnpm validate` → `pnpm prebuild` → CI and fails on any hand-edited, orphaned, or drifted `.tmx`. **Never edit a `.tmx` by hand.** If the preview is wrong, edit the spec and rebuild.
+`pnpm author:verify` runs in `pnpm validate` → `pnpm prebuild` → CI and fails on any hand-edited, orphaned, missing, or drifted `.tmx`/`.tmj`; `tests/build-time/map-preview-regression.test.ts` pixel-diffs preview PNG drift. **Never edit map artifacts by hand.** If the preview is wrong, edit the spec and rebuild.
 
 ## Asset pipeline
 
@@ -57,7 +61,7 @@ Every sprite in the game comes from the Fan-tasy tileset family. Mixing outside 
 | Category | Where |
 |---|---|
 | Tilesets (6 biomes) | `public/assets/tilesets/{core,seasons,snow,desert,fortress,indoor}/` |
-| Player | `public/assets/player/` |
+| Player runtime sheets | `public/spritesheets/` |
 | Bosses (animated, 1-of-a-kind) | `public/assets/bosses/` |
 | Creatures (static, wild encounters) | `public/assets/creatures/` |
 | NPCs (villagers, guards, warriors) | `public/assets/npcs/` |
@@ -69,12 +73,12 @@ Tiled `.tmx`/`.tsx` relative paths inside each tileset pack are preserved — op
 
 ## Testing strategy
 
-Four layers, each doing one job well. Full spec in `docs/TESTING.md`.
+Five CI-gated layers plus the local full-browser suite, each doing one job well. Full spec in `docs/TESTING.md`.
 
 | Layer | Lives in | Gate | Runtime |
 |-------|----------|------|---------|
 | Content pipeline | `scripts/validate-*.mjs`, `author:verify` | `pnpm validate` | Node |
-| Type surface | `tsc --noEmit` | `pnpm typecheck` | Node |
+| Type surface | split `tsc --noEmit` configs | `pnpm typecheck` | Node |
 | Unit (pure logic) | `tests/build-time/`, vitest `unit` project | `pnpm test:unit` + coverage | Node |
 | Integration (real engine) | `tests/integration/`, vitest `integration` project | `pnpm test:integration` | happy-dom + `@rpgjs/testing` |
 | E2E smoke (real browser) | `tests/e2e/smoke/`, Playwright | `pnpm test:e2e:smoke` (CI) | Chromium + xvfb + GPU-ANGLE |
@@ -119,10 +123,10 @@ Every CI build step that produces a deployable artifact sets the right env. See 
 
 ## When something fights you
 
-- **`pnpm author:verify` fails** — the `.tmx` on disk drifted from the spec (or is orphaned, or missing). DO NOT edit the `.tmx` directly. Edit the spec under `scripts/map-authoring/specs/` and re-run `pnpm author:build <id>`. If orphaned, remove the `.tmx`/`.tmj` or add the matching spec.
+- **`pnpm author:verify` fails** — the `.tmx`/`.tmj` on disk drifted from the spec (or is orphaned, or missing). DO NOT edit artifacts directly. Edit the spec under `scripts/map-authoring/specs/` and re-run `pnpm author:build <id>`. If orphaned, remove the `.tmx`/`.tmj` or add the matching spec.
 - **`pnpm validate-tp` rejects a line** — rewrite the EN, never hand-author TP. See `docs/WRITING_RULES.md`.
 - **`tsc` fails on a `@rpgjs/*` type** — upstream ships named exports as `default` only in several packages. Add a shim under `src/types/rpgjs-*.d.ts` mirroring the runtime surface. The typecheck script already filters one known upstream bug (`@rpgjs/common/rooms/WorldMaps.ts`) via pipefail grep.
-- **Dev server shows blank canvas / tilemap doesn't render** — check the vite `base` matches how you're requesting the URL (dev = `/poki-soweli/`, not `/`). The tilemap plugin prefixes requests with `${base}map`.
+- **Dev server shows blank canvas / tilemap doesn't render** — check the vite `base` matches how you're requesting the URL (dev = `/`, not `/poki-soweli/`). The tilemap plugin prefixes requests with `${base}map`.
 - **Font 404 on deployed Pages** — make sure the CI build step has `GITHUB_PAGES=true` so vite rewrites `/assets/fonts/...` to `/poki-soweli/assets/fonts/...`.
 - **Integration test hangs** — waiting for a map change or tick that never fires. Lower the `waitForMapChange` timeout to get a clean error, then call `fixture.nextTick()` explicitly. The engine doesn't tick on its own in tests.
 
@@ -132,7 +136,7 @@ Every CI build step that produces a deployable artifact sets the right env. See 
 - **Five creature types**: seli (fire) / telo (water) / kasi (plant) / lete (ice) / wawa (strong). Each has specific matchup multipliers; wawa is the neutral bruiser.
 - **Every monster is catchable.** Tiering is rarity + catch difficulty + animation depth — not whether the poki works.
 - **No translation UI.** Vocabulary is picked up diegetically through play. The player never sees an English gloss dictionary.
-- **Seven regions → seven `jan lawa` → one final boss (green dragon).** Green dragon is the only creature with a dedicated death animation (plays on defeat OR capture).
+- **Seven regions → four current `jan lawa` → one final boss (green dragon).** Green dragon is the only creature with a dedicated death animation; the final-boss defeat path plays it, and the species is also a rare final-route catch.
 - **Kid audience.** "Dread knight" > "death knight". Tone is fierce-but-friendly, never punishing, no permadeath.
 - **Mobile-first.** Tap-to-walk primary, keyboard as desktop shortcut, no orientation lock, responsive via container queries, safe-area-aware.
 - **No trademarked references** in any doc, code, comment, or asset. The game is a "creature-catching RPG" — never compared to any specific franchise by name.

@@ -50,16 +50,16 @@ describe('SFX_EVENTS', () => {
 });
 
 describe('sfxFile', () => {
-    it('returns /audio/sfx/<id>.ogg path', () => {
-        expect(sfxFile('sfx_menu_open')).toBe('/audio/sfx/menu-open.ogg');
+    it('returns the shipped source asset path for an event', () => {
+        expect(sfxFile('sfx_menu_open')).toBe('/rpg/sfx/dialog-open.ogg');
     });
 
-    it('strips the sfx_ prefix and kebabs the rest', () => {
-        expect(sfxFile('sfx_catch_success')).toBe('/audio/sfx/catch-success.ogg');
+    it('allows event ids to alias shared source files until dedicated SFX land', () => {
+        expect(sfxFile('sfx_catch_success')).toBe('/rpg/sfx/pickup.ogg');
     });
 
-    it('handles multi-word events', () => {
-        expect(sfxFile('sfx_encounter_appear')).toBe('/audio/sfx/encounter-appear.ogg');
+    it('uses the error cue for failed/high-alert moments', () => {
+        expect(sfxFile('sfx_encounter_appear')).toBe('/sfx/error.ogg');
     });
 });
 
@@ -123,7 +123,7 @@ describe('effectiveSfxVolume — bus × event', () => {
 describe('exhaustiveness', () => {
     it('every event has a file path and a base volume (no missing cases)', () => {
         for (const id of SFX_EVENTS as ReadonlyArray<SfxEvent>) {
-            expect(sfxFile(id)).toMatch(/^\/audio\/sfx\/[a-z-]+\.ogg$/);
+            expect(sfxFile(id)).toMatch(/^\/(?:rpg\/)?sfx\/[a-z-]+\.ogg$/);
             expect(Number.isFinite(sfxBaseVolume(id))).toBe(true);
         }
     });

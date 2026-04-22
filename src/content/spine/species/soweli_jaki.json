@@ -11,6 +11,7 @@
   ],
   "catch_rate": 0.48,
   "xp_yield": 48,
+  "item_drop": { "item_id": "kili", "chance": 0.15, "count": 1 },
   "sprite": {
     "src": "/assets/animals/rat.png",
     "frame_width": 32,

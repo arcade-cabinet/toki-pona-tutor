@@ -1,0 +1,67 @@
+{
+  "quests": [
+    {
+      "id": "quest_tomo_kili",
+      "giver_npc_id": "jan_kili_tomo",
+      "map_id": "ma_tomo_lili",
+      "title": "pali kili",
+      "summary": "Catch one soweli_kili for the starter-village snack helper.",
+      "goal": { "kind": "catch_count", "species_id": "soweli_kili", "target": 1 },
+      "reward": { "xp": 30, "item_id": "kili", "item_count": 2, "reward_word": "kili" }
+    },
+    {
+      "id": "quest_nasin_forest_watch",
+      "giver_npc_id": "jan_lukin_nasin",
+      "map_id": "nasin_wan",
+      "title": "pali lukin nasin",
+      "summary": "Defeat jan Ike and report back to the forest-route watcher.",
+      "goal": { "kind": "defeat_trainer", "npc_id": "jan_ike" },
+      "reward": { "xp": 45, "item_id": "ma", "item_count": 3, "reward_word": "utala" }
+    },
+    {
+      "id": "quest_nasin_poki_pack",
+      "giver_npc_id": "jan_poki_nasin",
+      "map_id": "nasin_wan",
+      "title": "pali poki",
+      "summary": "Catch two creatures on the forest route to earn a stronger poki.",
+      "goal": { "kind": "catch_any_in_biome", "biome": "forest", "target": 2 },
+      "reward": { "xp": 50, "item_id": "poki_wawa", "item_count": 1, "reward_word": "poki" }
+    },
+    {
+      "id": "quest_telo_kili_delivery",
+      "giver_npc_id": "jan_kala_lake",
+      "map_id": "ma_telo",
+      "title": "pali pana kili",
+      "summary": "Carry one kili to jan Moku at the lake stall.",
+      "goal": { "kind": "deliver_item", "item_id": "kili", "to_npc_id": "jan_moku" },
+      "reward": { "xp": 55, "item_id": "telo_pona", "item_count": 2, "reward_word": "telo" }
+    },
+    {
+      "id": "quest_lete_poki_pack",
+      "giver_npc_id": "jan_poki_lete",
+      "map_id": "ma_lete",
+      "title": "pali lete",
+      "summary": "Catch two cold-land creatures for jan Poki Lete.",
+      "goal": { "kind": "catch_any_in_biome", "biome": "ice", "target": 2 },
+      "reward": { "xp": 65, "item_id": "poki_wawa", "item_count": 1, "reward_word": "lete" }
+    },
+    {
+      "id": "quest_suli_torch",
+      "giver_npc_id": "jan_pimeja_suli",
+      "map_id": "nena_suli",
+      "title": "pali pimeja",
+      "summary": "Catch two cave creatures near the great-peak torch path.",
+      "goal": { "kind": "catch_any_in_biome", "biome": "cave", "target": 2 },
+      "reward": { "xp": 80, "item_id": "telo_pona", "item_count": 2, "reward_word": "pimeja" }
+    },
+    {
+      "id": "quest_telo_last_light",
+      "giver_npc_id": "jan_suno_telo",
+      "map_id": "nasin_pi_telo",
+      "title": "pali suno",
+      "summary": "Catch one water-route creature before the final dragon approach.",
+      "goal": { "kind": "catch_any_in_biome", "biome": "water", "target": 1 },
+      "reward": { "xp": 90, "item_id": "poki_wawa", "item_count": 2, "reward_word": "suno" }
+    }
+  ]
+}

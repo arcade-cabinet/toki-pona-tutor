@@ -2,10 +2,9 @@
 /**
  * GC orphaned worktrees under `.worktrees/`. Runs between agent waves.
  *
- * A worktree is considered orphaned if:
- *   - its mtime is older than 6 hours, AND
- *   - its branch has already been merged to main (squash-merge leaves the
- *     branch orphaned), OR the branch no longer exists.
+ * A worktree is considered stale if its mtime is older than 6 hours.
+ * This script does not infer PR/merge state; run it only after confirming
+ * teammates have no unmerged work left in `.worktrees/`.
  *
  * Safe to run repeatedly. Never touches the primary checkout.
  *

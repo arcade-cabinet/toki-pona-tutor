@@ -5,6 +5,7 @@ import {
     emojiFallback,
     glyphForDisplay,
 } from '../../src/styles/sitelen-glyph';
+import { sitelenOverlayForText } from '../../src/styles/sitelen-overlay';
 
 /**
  * T8-03: sitelen-pona glyph helper.
@@ -99,5 +100,23 @@ describe('glyphForDisplay — tier selection', () => {
 
     it('handles empty string by returning the empty string', () => {
         expect(glyphForDisplay('', { fontLoaded: true })).toBe('');
+    });
+});
+
+describe('sitelenOverlayForText', () => {
+    it('maps known TP words to glyphs and skips unknown text', () => {
+        expect(sitelenOverlayForText('kili sin li pona tawa sijelo.')).toBe([
+            glyphForDisplay('kili'),
+            glyphForDisplay('sin'),
+            glyphForDisplay('li'),
+            glyphForDisplay('pona'),
+            glyphForDisplay('tawa'),
+            glyphForDisplay('sijelo'),
+        ].join(' '));
+        expect(sitelenOverlayForText('hello')).toBe('');
+    });
+
+    it('can use emoji fallback for clients without the glyph font loaded', () => {
+        expect(sitelenOverlayForText('akesi ala', { fontLoaded: false })).toBe('🦎 ❌');
     });
 });

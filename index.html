@@ -7,6 +7,22 @@
       content="width=device-width, initial-scale=1.0, viewport-fit=cover"
     />
     <meta name="theme-color" content="#fdf6e3" />
+    <meta
+      name="description"
+      content="poki soweli is a mobile-first creature-catching RPG for learning toki pona through play."
+    />
+    <meta name="application-name" content="poki soweli" />
+    <meta property="og:title" content="poki soweli" />
+    <meta
+      property="og:description"
+      content="A mobile-first creature-catching RPG for learning toki pona through play."
+    />
+    <meta property="og:type" content="website" />
+    <link rel="manifest" href="%BASE_URL%manifest.json" />
+    <link rel="icon" type="image/png" sizes="16x16" href="%BASE_URL%icons/poki-soweli-16.png" />
+    <link rel="icon" type="image/png" sizes="32x32" href="%BASE_URL%icons/poki-soweli-32.png" />
+    <link rel="icon" type="image/png" sizes="48x48" href="%BASE_URL%icons/poki-soweli-48.png" />
+    <link rel="apple-touch-icon" sizes="192x192" href="%BASE_URL%icons/poki-soweli-192.png" />
     <title>poki soweli</title>
 
     <!--
@@ -36,7 +52,9 @@
        * the fallback stack stays rounded + warm so the pre-font-load
        * paint doesn't look like a different game.
        */
+      html,
       body,
+      #game-shell,
       #rpg {
         margin: 0;
         padding: 0;
@@ -50,7 +68,9 @@
     </style>
   </head>
   <body>
-    <div id="rpg"></div>
+    <main id="game-shell" aria-label="poki soweli game">
+      <div id="rpg" role="application" aria-label="poki soweli game canvas"></div>
+    </main>
     <script type="module" src="/src/standalone.ts"></script>
   </body>
 </html>

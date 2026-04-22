@@ -3,17 +3,18 @@ import { rpgjs, tiledMapFolderPlugin } from '@rpgjs/vite';
 import { copyFileSync, mkdirSync } from 'node:fs';
 import { resolve, dirname } from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { createRequire } from 'node:module';
 import serverConfig from './src/server';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
+const require = createRequire(import.meta.url);
 
-// Three deploy targets, three base paths. Same pattern kings-road
-// uses — Capacitor bundles want relative URLs (`./assets/...`) so
-// the WebView finds them regardless of how it resolves the shell;
-// GitHub Pages serves under `/<repo>/` per-project; local dev is
-// `/`. vite rewrites every public-tree `/assets/...` URL in CSS /
-// HTML to `${base}/assets/...` at build time, so fonts + tilemap
-// data resolve correctly in all three environments.
+// Three deploy targets, three base paths. Capacitor bundles want relative
+// URLs (`./assets/...`) so the WebView finds them regardless of how it
+// resolves the shell; GitHub Pages serves under `/<repo>/` per-project;
+// local dev is `/`. vite rewrites every public-tree `/assets/...` URL in
+// CSS / HTML to `${base}/assets/...` at build time, so fonts + tilemap data
+// resolve correctly in all three environments.
 const resolveBase = () => {
     if (process.env.CAPACITOR === 'true') return './';
     if (process.env.GITHUB_PAGES === 'true') return '/poki-soweli/';
@@ -32,7 +33,9 @@ function copyWasmPlugin() {
     buildStart() {
       const dest = resolve(__dirname, 'public/assets');
       mkdirSync(dest, { recursive: true });
-      const sqlDist = resolve(__dirname, 'node_modules/sql.js/dist');
+      const jeepSqliteRoot = dirname(require.resolve('jeep-sqlite/package.json'));
+      const sqlJsRoot = dirname(require.resolve('sql.js/package.json', { paths: [jeepSqliteRoot] }));
+      const sqlDist = resolve(sqlJsRoot, 'dist');
       copyFileSync(resolve(sqlDist, 'sql-wasm.wasm'), resolve(dest, 'sql-wasm.wasm'));
       copyFileSync(resolve(sqlDist, 'sql-wasm.js'), resolve(dest, 'sql-wasm.js'));
     },
@@ -46,10 +49,11 @@ export default defineConfig({
     tiledMapFolderPlugin({
       sourceFolder: './src/tiled',
       // Prefix with base so map requests resolve correctly when deployed under
-      // a subpath (e.g. GitHub Pages). Without this, requests go to /map
-      // instead of /poki-soweli/map.
+      // a subpath (e.g. GitHub Pages). Runtime .tmx files are emitted with
+      // tileset sources relative to `/map/*.tmx`, so build output must also
+      // land under `map/` rather than a separate data directory.
       publicPath: `${base}map`,
-      buildOutputPath: 'assets/data',
+      buildOutputPath: 'map',
     }),
     ...rpgjs({
       server: serverConfig,

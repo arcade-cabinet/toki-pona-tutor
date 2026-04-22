@@ -11,6 +11,7 @@ import { resolve } from 'node:path';
 import { parseTsx } from '../../scripts/map-authoring/lib/parser';
 
 const CORE = resolve(__dirname, '../../public/assets/tilesets/core/Tiled/Tilesets');
+const SEASONS = resolve(__dirname, '../../public/assets/tilesets/seasons/Tiled/Tilesets');
 
 describe('parseTsx — Tileset_Ground', () => {
   const path = resolve(CORE, 'Tileset_Ground.tsx');
@@ -104,6 +105,16 @@ describe('parseTsx — tiles with custom properties', () => {
     for (const [, p] of withSortingLayer) {
       expect(typeof p['unity:sortingLayer']).toBe('string');
     }
+  });
+});
+
+describe('parseTsx — sparse image-collection tilesets', () => {
+  it('preserves sparse local tile ids from Objects_Buildings_Seasons', async () => {
+    const t = await parseTsx(resolve(SEASONS, 'Objects_Buildings_Seasons.tsx'));
+    expect(t.isCollection).toBe(true);
+    expect(t.tileCount).toBe(44);
+    expect(t.perTileImages[271]?.source).toMatch(/House_Hay_1\.png$/);
+    expect(t.perTileImages[282]?.source).toMatch(/MarketStand_1_Red\.png$/);
   });
 });
 

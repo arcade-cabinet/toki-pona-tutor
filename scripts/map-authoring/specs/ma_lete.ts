@@ -10,19 +10,85 @@
  * encounters + story + gym.
  */
 import { defineMap } from '../lib/spec-helpers';
-import { corePalette } from '../palettes/core';
+import { icePalette } from '../palettes/ice';
 
-const g = 'g';
+const WIDTH = 22;
+const HEIGHT = 16;
+
+function paintRect(grid: string[][], rect: [number, number, number, number], tile: string): void {
+  const [x, y, w, h] = rect;
+  for (let yy = y; yy < y + h; yy++) {
+    for (let xx = x; xx < x + w; xx++) grid[yy][xx] = tile;
+  }
+}
+
+function coldVillageBase(): string[][] {
+  const grid = Array.from({ length: HEIGHT }, () => Array(WIDTH).fill('s'));
+
+  // Main packed snow/ice village shelf.
+  for (let y = 2; y <= 12; y++) {
+    for (let x = 2; x <= 19; x++) grid[y][x] = (x + y) % 7 === 0 ? 'j' : 'i';
+  }
+
+  // West entry from ma_telo and north gated path to nena_suli.
+  paintRect(grid, [0, 5, 10, 3], 'd');
+  paintRect(grid, [9, 4, 10, 4], 'r');
+  paintRect(grid, [16, 0, 3, 5], 'r');
+
+  // Garden shelf around jan Kasi.
+  paintRect(grid, [13, 9, 6, 3], 'i');
+  paintRect(grid, [13, 9, 6, 1], 'r');
+
+  // Cold encounter grass fields below the village shelf.
+  paintRect(grid, [4, 12, 5, 3], 'G');
+  paintRect(grid, [12, 12, 6, 3], 'G');
+
+  return grid;
+}
 
 export default defineMap({
   id: 'ma_lete',
-  width: 22,
-  height: 16,
+  biome: 'ice',
+  music_track: 'bgm_snow',
+  width: WIDTH,
+  height: HEIGHT,
   tileSize: 16,
-  tilesets: ['core/Tileset_Ground'],
-  palette: corePalette,
+  tilesets: [
+    'snow/Tileset_Ground_Snow',
+    'snow/Tileset_Road',
+    'snow/Tileset_Snow',
+    'snow/Tileset_TallGrass',
+    'snow/Tileset_Fence_1_Snow',
+    'snow/Objects_Buildings_Snow',
+    'snow/Objects_Props_Snow',
+    'snow/Objects_Rocks_Snow',
+    'snow/Objects_Trees_Snow',
+  ],
+  palette: icePalette,
   layers: {
-    'Below Player': Array.from({ length: 16 }, () => Array(22).fill(g)),
+    'Below Player': coldVillageBase(),
+    World: [
+      { at: [0, 0], tile: 'house_blue' },
+      { at: [6, 0], tile: 'house_red' },
+      { at: [11, 6], tile: 'well_snow' },
+      { at: [13, 9], tile: 'fence_h' },
+      { at: [14, 9], tile: 'fence_h' },
+      { at: [15, 9], tile: 'fence_h' },
+      { at: [16, 9], tile: 'fence_h' },
+      { at: [17, 9], tile: 'fence_h' },
+      { at: [18, 9], tile: 'fence_h' },
+      { at: [13, 10], tile: 'fence_v' },
+      { at: [18, 10], tile: 'fence_v' },
+      { at: [14, 10], tile: 'crate_snow' },
+      { at: [1, 12], tile: 'tree_snow' },
+      { at: [20, 12], tile: 'tree_winter' },
+      { at: [1, 3], tile: 'tree_winter' },
+      { at: [20, 3], tile: 'tree_snow' },
+      { at: [4, 9], tile: 'bush_snow' },
+      { at: [10, 11], tile: 'bush_winter' },
+      { at: [19, 8], tile: 'rock_ice' },
+      { at: [3, 10], tile: 'rock_snow' },
+    ],
     Objects: [
       { type: 'SpawnPoint', name: 'from_ma_telo', at: [2, 6] },
       {
@@ -30,6 +96,18 @@ export default defineMap({
         name: 'jan-anpa',
         at: [6, 4],
         props: { id: 'jan_anpa', dialog_id: 'jan_anpa_watch' },
+      },
+      {
+        type: 'NPC',
+        name: 'jan-suno-lete',
+        at: [9, 6],
+        props: { id: 'jan_suno_lete', dialog_id: 'jan_suno_lete_light' },
+      },
+      {
+        type: 'NPC',
+        name: 'jan-poki-lete',
+        at: [4, 8],
+        props: { id: 'jan_poki_lete', dialog_id: 'jan_poki_lete_cold' },
       },
       {
         type: 'NPC',

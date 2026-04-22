@@ -1,0 +1,43 @@
+{
+  "maps": {
+    "ma_tomo_lili": {
+      "label": "ma tomo lili",
+      "biome": "town",
+      "music_track": "bgm_village",
+      "safe_spawn": { "x": 128, "y": 128 }
+    },
+    "nasin_wan": {
+      "label": "nasin wan",
+      "biome": "forest",
+      "music_track": "bgm_forest"
+    },
+    "nena_sewi": {
+      "label": "nena sewi",
+      "biome": "peak",
+      "music_track": "bgm_mountain"
+    },
+    "ma_telo": {
+      "label": "ma telo",
+      "biome": "town",
+      "music_track": "bgm_village",
+      "safe_spawn": { "x": 32, "y": 96 }
+    },
+    "ma_lete": {
+      "label": "ma lete",
+      "biome": "ice",
+      "music_track": "bgm_snow",
+      "safe_spawn": { "x": 32, "y": 96 }
+    },
+    "nena_suli": {
+      "label": "nena suli",
+      "biome": "cave",
+      "music_track": "bgm_mountain"
+    },
+    "nasin_pi_telo": {
+      "label": "nasin pi telo",
+      "biome": "water",
+      "music_track": "bgm_water"
+    }
+  },
+  "default_respawn": { "map_id": "ma_tomo_lili", "x": 128, "y": 128 }
+}

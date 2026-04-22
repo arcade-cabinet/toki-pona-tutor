@@ -15,6 +15,10 @@
  * pick, it reports correct/incorrect + a running score.
  */
 
+import type { RpgPlayer } from "@rpgjs/server";
+import { MICRO_GAME_CONFIG } from "../../content/gameplay";
+import { formatGameplayTemplate } from "../../content/gameplay/templates";
+
 export interface SentencePrompt {
     /** Stable id — species id, dialog id, or event tag. */
     id: string;
@@ -36,6 +40,22 @@ export interface Round {
 export interface GameResult {
     correct: boolean;
     score: number;
+}
+
+export interface MicroGameRuntimeConfig {
+    seed: number;
+    roundCount: number;
+    promptTemplate: string;
+    correctTemplate: string;
+    wrongTemplate: string;
+    completeTemplate: string;
+    pool: readonly SentencePrompt[];
+}
+
+export interface MicroGamePlayResult {
+    completed: boolean;
+    score: number;
+    total: number;
 }
 
 /** Linear-congruential PRNG — deterministic, same seed → same stream. */
@@ -109,7 +129,11 @@ export function buildRound(
  * pool always produces the same rounds — suitable for a "daily
  * challenge" that every player sees in sync.
  */
-export function buildSequence(pool: readonly SentencePrompt[], count: number, seed: number): Round[] {
+export function buildSequence(
+    pool: readonly SentencePrompt[],
+    count: number,
+    seed: number,
+): Round[] {
     if (pool.length < 4) {
         throw new Error(`buildSequence: pool of ${pool.length} cannot produce rounds`);
     }
@@ -128,4 +152,45 @@ export function gradePick(round: Round, pickedIndex: number, previousScore: numb
         correct,
         score: correct ? previousScore + 1 : previousScore,
     };
+}
+
+export async function playMicroGame(
+    player: RpgPlayer,
+    config: MicroGameRuntimeConfig = MICRO_GAME_CONFIG,
+): Promise<MicroGamePlayResult> {
+    const total = Math.min(config.roundCount, config.pool.length);
+    const rounds = buildSequence(config.pool, total, config.seed);
+    let score = 0;
+
+    for (let index = 0; index < rounds.length; index += 1) {
+        const round = rounds[index];
+        if (!round) continue;
+
+        const choice = await player.showChoices(
+            formatGameplayTemplate(config.promptTemplate, {
+                prompt: round.prompt.prompt_tag,
+                round: index + 1,
+                total,
+            }),
+            round.options.map((option, optionIndex) => ({
+                text: option,
+                value: String(optionIndex),
+            })),
+        );
+        if (!choice) return { completed: false, score, total };
+
+        const pickedIndex = Number(choice.value);
+        const result = gradePick(round, pickedIndex, score);
+        score = result.score;
+        await player.showText(
+            formatGameplayTemplate(result.correct ? config.correctTemplate : config.wrongTemplate, {
+                answer: round.prompt.tp,
+                score,
+                total,
+            }),
+        );
+    }
+
+    await player.showText(formatGameplayTemplate(config.completeTemplate, { score, total }));
+    return { completed: true, score, total };
 }

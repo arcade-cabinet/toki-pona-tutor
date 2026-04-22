@@ -1,17 +1,23 @@
 import { describe, it, expect } from 'vitest';
-import { bgmFile, bgmForContext, effectiveVolume } from '../../src/modules/main/audio';
+import { AUDIO_BGM_OVERRIDE_EVENT, bgmFile, bgmForContext, effectiveVolume } from '../../src/modules/main/audio';
+
+describe('AUDIO_BGM_OVERRIDE_EVENT', () => {
+    it('uses the configured socket event contract', () => {
+        expect(AUDIO_BGM_OVERRIDE_EVENT).toBe('poki-soweli:audio:bgm-override');
+    });
+});
 
 describe('bgmFile — canonical file path', () => {
-    it('bgm_village → /audio/bgm-village.ogg', () => {
-        expect(bgmFile('bgm_village')).toBe('/audio/bgm-village.ogg');
+    it('bgm_village → shipped village loop', () => {
+        expect(bgmFile('bgm_village')).toBe('/rpg/audio/bgm-village.ogg');
     });
 
-    it('bgm_lesson → /audio/bgm-lesson.ogg', () => {
-        expect(bgmFile('bgm_lesson')).toBe('/audio/bgm-lesson.ogg');
+    it('bgm_lesson → Kenney lesson loop', () => {
+        expect(bgmFile('bgm_lesson')).toBe('/audio/bgm-lesson-kenney.ogg');
     });
 
-    it('bgm_gameover → /audio/bgm-gameover.ogg', () => {
-        expect(bgmFile('bgm_gameover')).toBe('/audio/bgm-gameover.ogg');
+    it('bgm_gameover → Kenney gameover loop', () => {
+        expect(bgmFile('bgm_gameover')).toBe('/audio/bgm-gameover-kenney.ogg');
     });
 });
 
@@ -40,8 +46,8 @@ describe('bgmForContext — context → BGM resolver', () => {
         expect(bgmForContext({ mapId: 'nena_suli', inCombat: false })).toBe('bgm_mountain');
     });
 
-    it('nasin_pi_telo (riverside) → bgm_snow (endgame-cold variant)', () => {
-        expect(bgmForContext({ mapId: 'nasin_pi_telo', inCombat: false })).toBe('bgm_snow');
+    it('nasin_pi_telo (riverside) → bgm_water', () => {
+        expect(bgmForContext({ mapId: 'nasin_pi_telo', inCombat: false })).toBe('bgm_water');
     });
 
     it('unknown map → bgm_menu fallback', () => {
@@ -56,7 +62,7 @@ describe('bgmForContext — context → BGM resolver', () => {
         expect(bgmForContext({ mapId: 'nena_sewi', inCombat: true })).toBe('bgm_gym');
     });
 
-    it('inCombat on nasin_pi_telo → bgm_boss (final boss only here)', () => {
+    it('inCombat on nasin_pi_telo → configured boss override', () => {
         expect(bgmForContext({ mapId: 'nasin_pi_telo', inCombat: true })).toBe('bgm_boss');
     });
 

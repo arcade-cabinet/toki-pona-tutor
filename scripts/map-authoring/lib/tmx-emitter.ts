@@ -84,6 +84,8 @@ export function emitTmx(tmj: TmjMap): string {
     parts.push(
         `<map version="${tmj.version}" tiledversion="${tmj.tiledversion}" orientation="${tmj.orientation}" renderorder="${tmj.renderorder}"\n     width="${tmj.width}" height="${tmj.height}" tilewidth="${tmj.tilewidth}" tileheight="${tmj.tileheight}" infinite="${tmj.infinite ? 1 : 0}"\n     nextlayerid="${tmj.nextlayerid}" nextobjectid="${tmj.nextobjectid}">`,
     );
+    const mapProperties = emitProperties(tmj.properties, ' ');
+    if (mapProperties) parts.push(mapProperties.trimEnd());
     for (const ts of tmj.tilesets) {
         parts.push(` <tileset firstgid="${ts.firstgid}" source="${escapeXml(ts.source)}"/>`);
     }

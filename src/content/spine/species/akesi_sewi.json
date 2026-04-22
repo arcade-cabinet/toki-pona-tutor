@@ -18,14 +18,63 @@
     "frame_width": 96,
     "frame_height": 96,
     "animations": {
-      "idle":       { "row": 0, "col_start": 0, "cols": 32, "fps": 6,  "loop": true  },
-      "walk":       { "src": "/assets/bosses/green-dragon/walk-green.png",       "row": 0, "col_start": 0, "cols": 24, "fps": 10, "loop": true  },
-      "fly":        { "src": "/assets/bosses/green-dragon/fly-green.png",         "row": 0, "col_start": 0, "cols": 24, "fps": 10, "loop": true  },
-      "hover":      { "src": "/assets/bosses/green-dragon/hover-green.png",       "row": 0, "col_start": 0, "cols": 24, "fps": 6,  "loop": true  },
-      "launch":     { "src": "/assets/bosses/green-dragon/launch-green.png",      "row": 0, "col_start": 0, "cols": 32, "fps": 10, "loop": false },
-      "attack":     { "src": "/assets/bosses/green-dragon/melee-green.png",       "row": 0, "col_start": 0, "cols": 24, "fps": 12, "loop": false },
-      "special":    { "src": "/assets/bosses/green-dragon/firebreath-green.png",  "row": 0, "col_start": 0, "cols": 64, "fps": 12, "loop": false },
-      "death":      { "src": "/assets/bosses/green-dragon/death-animation.png",   "row": 0, "col_start": 0, "cols": 9,  "fps": 5,  "loop": false }
+      "idle": { "row": 0, "col_start": 0, "cols": 32, "fps": 6, "loop": true },
+      "walk": {
+        "src": "/assets/bosses/green-dragon/walk-green.png",
+        "row": 0,
+        "col_start": 0,
+        "cols": 24,
+        "fps": 10,
+        "loop": true
+      },
+      "fly": {
+        "src": "/assets/bosses/green-dragon/fly-green.png",
+        "row": 0,
+        "col_start": 0,
+        "cols": 24,
+        "fps": 10,
+        "loop": true
+      },
+      "hover": {
+        "src": "/assets/bosses/green-dragon/hover-green.png",
+        "row": 0,
+        "col_start": 0,
+        "cols": 24,
+        "fps": 6,
+        "loop": true
+      },
+      "launch": {
+        "src": "/assets/bosses/green-dragon/launch-green.png",
+        "row": 0,
+        "col_start": 0,
+        "cols": 32,
+        "fps": 10,
+        "loop": false
+      },
+      "attack": {
+        "src": "/assets/bosses/green-dragon/melee-green.png",
+        "row": 0,
+        "col_start": 0,
+        "cols": 24,
+        "fps": 12,
+        "loop": false
+      },
+      "special": {
+        "src": "/assets/bosses/green-dragon/firebreath-green.png",
+        "row": 0,
+        "col_start": 0,
+        "cols": 64,
+        "fps": 12,
+        "loop": false
+      },
+      "death": {
+        "src": "/assets/bosses/green-dragon/death-animation.png",
+        "row": 0,
+        "col_start": 0,
+        "cols": 9,
+        "fps": 5,
+        "loop": false
+      }
     },
     "tier": "legendary"
   }

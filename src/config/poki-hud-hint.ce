@@ -1,0 +1,95 @@
+<DOMContainer width="0" height="0">
+    @if (shouldShow() && hintData()) {
+        <button
+            type="button"
+            class="poki-hud-hint-glyph"
+            data-testid="hint-glyph"
+            aria-label={hintAriaLabel()}
+            style={hintStyle()}
+            pointerdown={capturePointerEvent}
+            pointerup={capturePointerEvent}
+            mousedown={capturePointerEvent}
+            mouseup={capturePointerEvent}
+            touchstart={capturePointerEvent}
+            touchend={capturePointerEvent}
+            click={activateHint}
+        >
+            {hintText()}
+        </button>
+    }
+</DOMContainer>
+
+<script>
+    import { computed, mount, signal } from "canvasengine";
+    import { inject } from "@rpgjs/client";
+    import { RpgClientEngine } from "@rpgjs/client";
+    import { RpgGui } from "@rpgjs/client";
+    import { HUD_HINT_CONFIG } from "../content/gameplay";
+    import { formatGameplayTemplate } from "../content/gameplay/templates";
+    import { hasBlockingGui } from "./hud-gui-visibility";
+    import { getInteractionHintForPlayer, triggerInteractionHint } from "./interaction-hint";
+
+    const engine = inject(RpgClientEngine);
+    const guiService = inject(RpgGui);
+    const currentPlayer = engine.scene.currentPlayer;
+    const refreshVersion = signal(0);
+
+    const hintData = computed(() => {
+        refreshVersion();
+        engine.scene.data();
+        engine.sceneMap.events();
+        const player = currentPlayer();
+        if (!player) return null;
+        player.x();
+        player.y();
+        if (hasBlockingGui(guiService)) return null;
+        return getInteractionHintForPlayer(engine, player);
+    });
+    const shouldShow = computed(() => {
+        return !!currentPlayer() && !!hintData() && !hasBlockingGui(guiService);
+    });
+    const hintText = computed(() => hintData()?.glyph ?? "");
+    const hintAriaLabel = computed(() => {
+        const value = hintText();
+        return value
+            ? formatGameplayTemplate(HUD_HINT_CONFIG.ariaLabelTemplate, { glyph: value })
+            : HUD_HINT_CONFIG.emptyAriaLabel;
+    });
+    const hintStyle = computed(() => {
+        const player = currentPlayer();
+        const value = hintData();
+        const mapData = engine.scene.data?.();
+        const viewport = engine.canvasElement?.props?.context?.viewport;
+        if (!player || !value || !viewport) {
+            return "";
+        }
+
+        const tileWidth = Number(mapData?.tiled?.tilewidth ?? 16);
+        const screen = viewport.toScreen(
+            player.x() + tileWidth / 2,
+            player.y(),
+        );
+        return `position: fixed; left: ${screen.x}px; top: ${screen.y + HUD_HINT_CONFIG.offsetY}px;`;
+    });
+
+    function capturePointerEvent(event) {
+        event?.stopPropagation?.();
+    }
+
+    function activateHint(event) {
+        event?.preventDefault?.();
+        capturePointerEvent(event);
+        const value = hintData();
+        if (!value) return;
+        triggerInteractionHint(engine, value);
+    }
+
+    mount(() => {
+        const pollId = window.setInterval(() => {
+            refreshVersion.set(refreshVersion() + 1);
+        }, HUD_HINT_CONFIG.pollMs);
+        return () => {
+            window.clearInterval(pollId);
+        };
+    });
+</script>

@@ -1,5 +1,5 @@
-import { type EventDefinition, RpgPlayer } from '@rpgjs/server';
-import { playDialog } from './dialog';
+import { type EventDefinition, RpgPlayer } from "@rpgjs/server";
+import { playDialog } from "./dialog";
 
 /**
  * Shared factory for NPCs that only show flavour dialog — no combat,

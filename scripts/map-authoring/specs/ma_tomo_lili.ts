@@ -6,9 +6,8 @@
  * points at nasin_wan but is gated on the `starter_chosen` flag by the
  * runtime Warp() event (src/modules/main/warp.ts).
  *
- * The journey narrative (docs/JOURNEY.md beat 1) calls for two more
- * NPCs (jan Pona in the upper plaza, jan Telo at the well) — they'll
- * land when their dialog spines are authored.
+ * The village now carries the T4-15 floor of five authored NPCs:
+ * jan Sewi plus four ambient villagers around the home plot.
  */
 import { defineMap } from '../lib/spec-helpers';
 import { corePalette } from '../palettes/core';
@@ -17,6 +16,8 @@ const g = 'g';
 
 export default defineMap({
   id: 'ma_tomo_lili',
+  biome: 'town',
+  music_track: 'bgm_village',
   width: 16,
   height: 12,
   tileSize: 16,
@@ -28,9 +29,33 @@ export default defineMap({
       { type: 'SpawnPoint', name: 'default', at: [7, 5] },
       {
         type: 'NPC',
+        name: 'jan-pona-tomo',
+        at: [4, 4],
+        props: { id: 'jan_pona_tomo', dialog_id: 'jan_pona_tomo_welcome' },
+      },
+      {
+        type: 'NPC',
+        name: 'jan-telo-well',
+        at: [3, 8],
+        props: { id: 'jan_telo_well', dialog_id: 'jan_telo_well_water' },
+      },
+      {
+        type: 'NPC',
         name: 'jan-sewi',
         at: [10, 6],
         props: { id: 'jan_sewi', dialog_id: 'jan_sewi_starter_intro' },
+      },
+      {
+        type: 'NPC',
+        name: 'jan-poki-tomo',
+        at: [3, 5],
+        props: { id: 'jan_poki_tomo', dialog_id: 'jan_poki_tomo_ready' },
+      },
+      {
+        type: 'NPC',
+        name: 'jan-kili-tomo',
+        at: [6, 9],
+        props: { id: 'jan_kili_tomo', dialog_id: 'jan_kili_tomo_snack' },
       },
       {
         type: 'Warp',

@@ -10,12 +10,12 @@
  * Hand-authored TP is banned. Every multi-word TP field must round-trip
  * through Tatoeba. Single-word TP (entries from the dictionary) is exempt.
  */
-export * from './translatable';
-export * from './types';
-export * from './move';
-export * from './species';
-export * from './item';
-export * from './npc';
-export * from './dialog';
-export * from './journey';
-export * from './world';
+export * from "./translatable";
+export * from "./types";
+export * from "./move";
+export * from "./species";
+export * from "./item";
+export * from "./npc";
+export * from "./dialog";
+export * from "./journey";
+export * from "./world";
