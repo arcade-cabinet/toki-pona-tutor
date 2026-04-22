@@ -29,23 +29,23 @@ Opening Tiled manually and hand-painting 7+ maps is a human-studio workflow, not
 
 Map-authoring scripts plus helpers. All run as `pnpm author:*` scripts:
 
-| Script | Purpose |
-|---|---|
-| `pnpm author:build <map-id>` | Read `scripts/map-authoring/specs/<map-id>.ts`, emit `src/tiled/<map-id>.tmx` and `public/assets/maps/<map-id>.tmj` |
-| `pnpm author:render <map-id>` | Composite tilesets onto a canvas, emit `public/assets/maps/<map-id>.preview.png` |
-| `pnpm author:validate <map-id>` | Check firstgid ranges, tile-id validity, object-layer schema, palette references |
-| `pnpm author:all <map-id>` | Run validate → build → render as one pipeline |
-| `pnpm author:verify` | Regenerate TMX/TMJ in memory and fail on missing, orphaned, or drifted map artifacts |
-| `pnpm author:inspect <tileset> <sample>` | Inspect an upstream sample map to harvest local tile IDs for palette entries |
-| `pnpm author:convert-tmx <source.tmx> [out.tmj]` | Convert a Tiled TMX sample to TMJ for fixture/debug work |
+| Script                                           | Purpose                                                                                                             |
+| ------------------------------------------------ | ------------------------------------------------------------------------------------------------------------------- |
+| `pnpm author:build <map-id>`                     | Read `scripts/map-authoring/specs/<map-id>.ts`, emit `src/tiled/<map-id>.tmx` and `public/assets/maps/<map-id>.tmj` |
+| `pnpm author:render <map-id>`                    | Composite tilesets onto a canvas, emit `public/assets/maps/<map-id>.preview.png`                                    |
+| `pnpm author:validate <map-id>`                  | Check firstgid ranges, tile-id validity, object-layer schema, palette references                                    |
+| `pnpm author:all <map-id>`                       | Run validate → build → render as one pipeline                                                                       |
+| `pnpm author:verify`                             | Regenerate TMX/TMJ in memory and fail on missing, orphaned, or drifted map artifacts                                |
+| `pnpm author:inspect <tileset> <sample>`         | Inspect an upstream sample map to harvest local tile IDs for palette entries                                        |
+| `pnpm author:convert-tmx <source.tmx> [out.tmj]` | Convert a Tiled TMX sample to TMJ for fixture/debug work                                                            |
 
 Plus:
 
-- `scripts/map-authoring/palettes/` — per-tileset palettes: `{ name: 'grass', tsx: 'Tileset_Ground', local_id: 47 }` entries that let specs reference tiles by human name instead of firstgid arithmetic.
-- `scripts/map-authoring/specs/<map-id>.ts` — my authored map specs, TypeScript, high-level.
-- `scripts/map-authoring/lib/` — shared implementation: TSX parser, TMJ emitter, renderer, palette resolver, validator.
-- Current biome palettes include `forest.ts` for `nasin_wan`, `water.ts` for `nasin_pi_telo`, `lake-town.ts` for `ma_telo`, `ice.ts` for `ma_lete`, `mountain.ts` for `nena_sewi`, and `cave.ts` for `nena_suli`; water, lake, mountain, and cave palettes deliberately point at Fan-tasy tiles that carry Tiled collision objects when the gameplay contract says terrain is blocked.
-- The current seven-map arc now carries the T4-15 NPC floor: every shipped spec has at least five `NPC` objects, each backed by a runtime event factory payload in `src/content/gameplay/events.json` and a dialog node under `src/content/spine/dialog/`. Runtime placement resolves from the emitted object coordinates compiled into `world.json`.
+-   `scripts/map-authoring/palettes/` — per-tileset palettes: `{ name: 'grass', tsx: 'Tileset_Ground', local_id: 47 }` entries that let specs reference tiles by human name instead of firstgid arithmetic.
+-   `scripts/map-authoring/specs/<map-id>.ts` — my authored map specs, TypeScript, high-level.
+-   `scripts/map-authoring/lib/` — shared implementation: TSX parser, TMJ emitter, renderer, palette resolver, validator.
+-   Current biome palettes include `forest.ts` for `nasin_wan`, `water.ts` for `nasin_pi_telo`, `lake-town.ts` for `ma_telo`, `ice.ts` for `ma_lete`, `mountain.ts` for `nena_sewi`, and `cave.ts` for `nena_suli`; water, lake, mountain, and cave palettes deliberately point at Fan-tasy tiles that carry Tiled collision objects when the gameplay contract says terrain is blocked.
+-   The current seven-map arc now carries the T4-15 NPC floor: every shipped spec has at least five `NPC` objects, each backed by a runtime event factory payload in `src/content/gameplay/events.json` and a dialog node under `src/content/spine/dialog/`. Runtime placement resolves from the emitted object coordinates compiled into `world.json`.
 
 ## Spec format — what I actually write
 
@@ -53,46 +53,43 @@ A map spec is a TypeScript module exporting a `MapSpec` object. The spec compile
 
 ```typescript
 // scripts/map-authoring/specs/ma_tomo_lili.ts
-import { defineMap, paint, place } from '../lib';
-import { corePalette } from '../palettes/core';
+import { defineMap, paint, place } from "../lib";
+import { corePalette } from "../palettes/core";
 
 export default defineMap({
-  id: 'ma_tomo_lili',
-  biome: 'town',
-  music_track: 'bgm_village',
-  width: 30,
-  height: 20,
-  tileSize: 16,
-  tilesets: ['Tileset_Ground', 'Tileset_Water', 'Objects_Buildings', 'Objects_Trees'],
-  palette: corePalette,
+    id: "ma_tomo_lili",
+    biome: "town",
+    music_track: "bgm_village",
+    width: 30,
+    height: 20,
+    tileSize: 16,
+    tilesets: ["Tileset_Ground", "Tileset_Water", "Objects_Buildings", "Objects_Trees"],
+    palette: corePalette,
 
-  layers: {
-    'Below Player': paint`
+    layers: {
+        "Below Player": paint`
       g g g g g g g g g g g g g g g g g g g g g g g g g g g g g g
       g G G G g g g g g g g g w w w w w w w w w w w w g g g g g g
-      ...`.grid(),  // each char or pair maps to a palette name (g=grass, G=grass-tall, w=water, .=empty)
+      ...`.grid(), // each char or pair maps to a palette name (g=grass, G=grass-tall, w=water, .=empty)
 
-    'World': place([
-      { at: [5, 5],  tile: 'house_wood_red_small' },
-      { at: [12, 8], tile: 'tree_oak_summer' },
-    ]),
+        World: place([
+            { at: [5, 5], tile: "house_wood_red_small" },
+            { at: [12, 8], tile: "tree_oak_summer" },
+        ]),
 
-    'Above Player': place([
-      { at: [5, 4],  tile: 'house_wood_red_roof' },   // roof draws over player
-    ]),
+        "Above Player": place([
+            { at: [5, 4], tile: "house_wood_red_roof" }, // roof draws over player
+        ]),
 
-    'Objects': [
-      { type: 'SpawnPoint', at: [15, 12], name: 'default' },
-      { type: 'Sign',       at: [14, 12], name: 'welcome',
-                            props: { text: 'ma tomo lili' } },
-      { type: 'NPC',        at: [16, 10], name: 'jan_sewi',
-                            props: { id: 'jan_sewi', dialog_id: 'jan_sewi_intro' } },
-      { type: 'Warp',       rect: [29, 10, 1, 4], name: 'to_nasin_wan',
-                            props: { target_map: 'nasin_wan', target_spawn: 'from_ma_tomo_lili' } },
-    ],
+        Objects: [
+            { type: "SpawnPoint", at: [15, 12], name: "default" },
+            { type: "Sign", at: [14, 12], name: "welcome", props: { text: "ma tomo lili" } },
+            { type: "NPC", at: [16, 10], name: "jan_sewi", props: { id: "jan_sewi", dialog_id: "jan_sewi_intro" } },
+            { type: "Warp", rect: [29, 10, 1, 4], name: "to_nasin_wan", props: { target_map: "nasin_wan", target_spawn: "from_ma_tomo_lili" } },
+        ],
 
-    'Encounters': [],  // ma_tomo_lili is a safe village — no encounters
-  },
+        Encounters: [], // ma_tomo_lili is a safe village — no encounters
+    },
 });
 ```
 
@@ -180,20 +177,20 @@ Responsibilities:
 
 1. Read a `.tmj`.
 2. For each tile layer, in order:
-   - For each non-zero cell, look up `firstgid + local_id` → owning tileset + local tile index.
-   - Load the tileset's PNG (`node-canvas`), compute source rect from tile index + spacing/margin.
-   - Draw source rect to output canvas at `(x * tileSize, y * tileSize)`.
+    - For each non-zero cell, look up `firstgid + local_id` → owning tileset + local tile index.
+    - Load the tileset's PNG (`node-canvas`), compute source rect from tile index + spacing/margin.
+    - Draw source rect to output canvas at `(x * tileSize, y * tileSize)`.
 3. Overlay `Above Player` after player-layer markers (render-order visualization).
 4. Render object-layer markers as semi-transparent colored overlays:
-   - `SpawnPoint` — green 16×16 square with "S" label
-   - `Sign` — yellow 16×16 with "!" label + text tooltip on hover (only if interactive mode)
-   - `NPC` — blue 16×16 with NPC id label
-   - `Warp` — red rectangle spanning `rect` with "→ target_map" label
-   - `Trigger` — purple rectangle
+    - `SpawnPoint` — green 16×16 square
+    - `Sign` — yellow 16×16 square
+    - `NPC` — blue 16×16 square
+    - `Warp` — red rectangle spanning `rect`
+    - `Trigger` — purple rectangle
 5. Optional grid overlay (toggle via `--grid`) for cell alignment review.
 6. Emit `public/assets/maps/<map-id>.preview.png` at native tile resolution (1 map px = 1 PNG px).
 
-**Implementation**: `node-canvas` for compositing, `pngjs` as fallback. Own the ~200 LOC rather than wrapping a library — I will need to add object-layer labels, grid overlays, animation frame previews, and other features incrementally; wrapping a library means fighting its assumptions every time.
+**Implementation**: `node-canvas` for compositing, `pngjs` as fallback. Text labels are intentionally omitted from committed previews because `node-canvas` font fallback differs across macOS/Linux and breaks exact-pixel CI regression. Object identity still lives in the TMJ/TMX object layer; the preview is for geometry, palette, collision, and region-layout review.
 
 **Performance note**: renderer caches parsed `.tsx` + loaded PNGs across maps in a single run. Rendering all 7 maps from cold should take < 10s on a laptop.
 
@@ -244,10 +241,10 @@ The preview PNG is checked into git alongside the spec + emitted map artifacts. 
 
 ## What this is NOT
 
-- **Not a runtime thing.** Game code never imports from `scripts/map-authoring/`.
-- **Not a replacement for Tiled.** Humans can inspect the emitted `.tmj`/`.tmx` in Tiled, but source edits still belong in `scripts/map-authoring/specs/`; `author:verify` rejects artifact drift.
-- **Not a map editor UI.** No in-browser interactivity, no drag-to-place. I write code; the toolchain emits + renders; I read the PNG; I adjust.
-- **Not smart.** It's deterministic transform + pixel composition. No AI layout, no autotiling. If Tiled inspection is needed, inspect there, then encode the source change back in `scripts/map-authoring/specs/` and regenerate artifacts from the spec.
+-   **Not a runtime thing.** Game code never imports from `scripts/map-authoring/`.
+-   **Not a replacement for Tiled.** Humans can inspect the emitted `.tmj`/`.tmx` in Tiled, but source edits still belong in `scripts/map-authoring/specs/`; `author:verify` rejects artifact drift.
+-   **Not a map editor UI.** No in-browser interactivity, no drag-to-place. I write code; the toolchain emits + renders; I read the PNG; I adjust.
+-   **Not smart.** It's deterministic transform + pixel composition. No AI layout, no autotiling. If Tiled inspection is needed, inspect there, then encode the source change back in `scripts/map-authoring/specs/` and regenerate artifacts from the spec.
 
 ## Tests (what `tests/build-time/` proves)
 
@@ -294,18 +291,18 @@ Fan-tasy's tileset author ships sample `.tmx` maps inside each pack — `Village
 
 ### Why fixtures, not runtime
 
-- **Runtime maps must be poki-soweli-specific.** `ma_tomo_lili`, `nasin_wan`, etc. are narrative beats from `docs/LORE.md` and need layouts that serve *those* stories — jan Sewi at a specific shrine, tall grass on a specific path, a specific warp to region 2. Vendor sample layouts don't encode any of that.
-- **Tonal coherence comes from the tileset, not the layout.** If my toolchain correctly paints any Fan-tasy tile, a hand-authored `ma_tomo_lili.tmj` using Fan-tasy's `core` pack will look as coherent as `Village Bridge.tmx` does. The risk was sprite mismatch (Kenney next to Lonesome Forest); that's a tileset-mixing problem, not a layout problem.
-- **The game's identity is in its authoring.** Using sample layouts would bake vendor-specific aesthetic choices (cobblestone paths arranged *their* way, buildings grouped *their* way) into our story locations. We'd lose the argument for "this is poki soweli's world, not a Fan-tasy demo."
+-   **Runtime maps must be poki-soweli-specific.** `ma_tomo_lili`, `nasin_wan`, etc. are narrative beats from `docs/LORE.md` and need layouts that serve _those_ stories — jan Sewi at a specific shrine, tall grass on a specific path, a specific warp to region 2. Vendor sample layouts don't encode any of that.
+-   **Tonal coherence comes from the tileset, not the layout.** If my toolchain correctly paints any Fan-tasy tile, a hand-authored `ma_tomo_lili.tmj` using Fan-tasy's `core` pack will look as coherent as `Village Bridge.tmx` does. The risk was sprite mismatch (Kenney next to Lonesome Forest); that's a tileset-mixing problem, not a layout problem.
+-   **The game's identity is in its authoring.** Using sample layouts would bake vendor-specific aesthetic choices (cobblestone paths arranged _their_ way, buildings grouped _their_ way) into our story locations. We'd lose the argument for "this is poki soweli's world, not a Fan-tasy demo."
 
 ### Where they earn their keep — the test suite
 
 Each pack ships ≥ 1 sample map; each sample is an upstream fixture:
 
-- **Parser coverage**: my `.tsx` parser runs against every tileset that pack's samples reference. If any tileset fails to parse, a sample fails to round-trip, and I see it.
-- **Tileset coverage**: if the sample uses tile ID 1847 of `Tileset_Ground`, my palette inspector can pull that ID and I know what tile ID 1847 *is* — the sample is a visual decoder ring for the tileset.
-- **Renderer smoke validation**: with `tiled` available, I convert the `.tmx` → temporary `.tmj` via `tiled --export-map json`, render my `.tmj` through my compositor, and assert correct dimensions plus non-trivial drawn pixels. Exact-pixel regression coverage belongs to the committed poki-soweli preview PNGs, not the vendor samples.
-- **Per-pack completeness**: a test asserts every pack has at least one sample fixture; with `tiled` installed, the same file also renders one converted sample per pack. This means whenever a new pack lands (or we update a pack), the test suite catches parser and renderer smoke regressions immediately.
+-   **Parser coverage**: my `.tsx` parser runs against every tileset that pack's samples reference. If any tileset fails to parse, a sample fails to round-trip, and I see it.
+-   **Tileset coverage**: if the sample uses tile ID 1847 of `Tileset_Ground`, my palette inspector can pull that ID and I know what tile ID 1847 _is_ — the sample is a visual decoder ring for the tileset.
+-   **Renderer smoke validation**: with `tiled` available, I convert the `.tmx` → temporary `.tmj` via `tiled --export-map json`, render my `.tmj` through my compositor, and assert correct dimensions plus non-trivial drawn pixels. Exact-pixel regression coverage belongs to the committed poki-soweli preview PNGs, not the vendor samples.
+-   **Per-pack completeness**: a test asserts every pack has at least one sample fixture; with `tiled` installed, the same file also renders one converted sample per pack. This means whenever a new pack lands (or we update a pack), the test suite catches parser and renderer smoke regressions immediately.
 
 The fixtures themselves are not vendored separately. `tests/build-time/fixtures.test.ts` reads the already-present samples under `public/assets/tilesets/<pack>/Tiled/Tilemaps/` and writes any converted TMJ files to temporary directories that are removed after the test.
 
@@ -327,6 +324,6 @@ Wraps `tiled --export-map json`. Not used for runtime maps — runtime maps are 
 
 ## Open questions (deferred)
 
-- Animated tilesets (candles, flowers, waterfall). Tiled supports these natively in `.tsx`; the preview renderer currently renders frame 0 only. Good enough unless I start seeing positioning bugs that need frame-N review.
-- Autotile / wang-tile support. Fan-tasy has wang rulesets in `Rules/*.tmx`. I'm going to skip autotiling for now and manually pick tiles — if I end up authoring enough maps to miss autotiling, I'll revisit. For Phase-1 slice it's not needed.
-- Layered object collision. `collides: true` property is per-tile in the tileset `.tsx`, not per-layer in the map. I don't need map-authoring to express this; it's already in the tilesets.
+-   Animated tilesets (candles, flowers, waterfall). Tiled supports these natively in `.tsx`; the preview renderer currently renders frame 0 only. Good enough unless I start seeing positioning bugs that need frame-N review.
+-   Autotile / wang-tile support. Fan-tasy has wang rulesets in `Rules/*.tmx`. I'm going to skip autotiling for now and manually pick tiles — if I end up authoring enough maps to miss autotiling, I'll revisit. For Phase-1 slice it's not needed.
+-   Layered object collision. `collides: true` property is per-tile in the tileset `.tsx`, not per-layer in the map. I don't need map-authoring to express this; it's already in the tilesets.
