@@ -8,7 +8,7 @@ import {
     rmSync,
     statSync,
 } from "node:fs";
-import { dirname, extname, join, normalize, relative, resolve, sep } from "node:path";
+import { dirname, extname, isAbsolute, join, normalize, relative, resolve, sep } from "node:path";
 import { pathToFileURL } from "node:url";
 
 const repoRoot = process.cwd();
@@ -59,12 +59,16 @@ function resolvePublicTilesetPath(source, publicDir) {
     return resolve(publicDir, publicRelative);
 }
 
-function copyPublicFile(sourcePath, copied, { publicDir, distDir }) {
-    const publicRelative = relative(publicDir, sourcePath);
-    if (publicRelative.startsWith("..")) {
-        throw new Error(`[prune-deploy-assets] refusing to copy non-public file: ${sourcePath}`);
+function publicRelativePath(publicDir, filePath, description) {
+    const publicRelative = relative(publicDir, filePath);
+    if (publicRelative.startsWith("..") || isAbsolute(publicRelative)) {
+        throw new Error(`[prune-deploy-assets] ${description} is outside public/: ${filePath}`);
     }
+    return publicRelative;
+}
 
+function copyPublicFile(sourcePath, copied, { publicDir, distDir }) {
+    const publicRelative = publicRelativePath(publicDir, sourcePath, "runtime asset");
     const dest = resolve(distDir, publicRelative);
     mkdirSync(dirname(dest), { recursive: true });
     copyFileSync(sourcePath, dest);
@@ -85,7 +89,12 @@ export function collectRuntimeTilesetAssets({ mapDir = tiledRoot, publicDir = pu
             const tilesetXml = readFileSync(tilesetPath, "utf8");
             for (const imageSource of extractSources(tilesetXml, imageSourcePattern)) {
                 const imagePath = resolve(dirname(tilesetPath), imageSource);
-                assets.add(posixPath(relative(publicDir, imagePath)));
+                const imageRelative = publicRelativePath(
+                    publicDir,
+                    imagePath,
+                    `tileset image ${imageSource} from ${tilesetPath}`,
+                );
+                assets.add(posixPath(imageRelative));
             }
         }
     }
@@ -103,10 +112,17 @@ export function pruneDeployTilesets({
         return { copied: [], pruned: false };
     }
 
+    const runtimeAssets = collectRuntimeTilesetAssets({ mapDir, publicDir });
+    for (const asset of runtimeAssets) {
+        const sourcePath = resolve(publicDir, asset);
+        if (!existsSync(sourcePath)) {
+            throw new Error(`[prune-deploy-assets] missing runtime asset: ${asset}`);
+        }
+    }
+
     const distTilesets = resolve(distDir, "assets/tilesets");
     rmSync(distTilesets, { recursive: true, force: true });
 
-    const runtimeAssets = collectRuntimeTilesetAssets({ mapDir, publicDir });
     const copied = new Set();
     for (const asset of runtimeAssets) {
         copyPublicFile(resolve(publicDir, asset), copied, { publicDir, distDir });

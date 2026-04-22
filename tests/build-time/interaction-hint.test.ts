@@ -74,7 +74,7 @@ describe("interaction hint detection", () => {
     it("returns toki for a talkable npc within the mobile landing tolerance", () => {
         const { engine } = createEngine({
             player: {
-                x: () => 144,
+                x: () => 160,
                 y: () => 128,
             },
             events: {
@@ -95,7 +95,7 @@ describe("interaction hint detection", () => {
     it("returns utala for a gym-leader event in range", () => {
         const { engine } = createEngine({
             player: {
-                x: () => 144,
+                x: () => 160,
                 y: () => 128,
             },
             events: {
@@ -180,6 +180,23 @@ describe("interaction hint detection", () => {
             targetId: "jan-near",
             interaction: { kind: "action" },
         });
+    });
+
+    it("ignores diagonal events when choosing front-facing targets", () => {
+        const { engine } = createEngine({
+            player: {
+                x: () => 144,
+                y: () => 128,
+            },
+            events: {
+                "jan-diagonal": {
+                    x: () => 160,
+                    y: () => 96,
+                },
+            },
+        });
+
+        expect(getInteractionHintForPlayer(engine, engine.getCurrentPlayer())).toBeNull();
     });
 });
 

@@ -25,6 +25,10 @@ import { devices } from "@playwright/test";
 const isCI = !!process.env.CI;
 const e2ePort = process.env.E2E_PORT || "5173";
 const defaultBaseURL = `http://127.0.0.1:${e2ePort}`;
+const reuseExistingServer =
+    process.env.PLAYWRIGHT_REUSE_SERVER == null
+        ? !isCI
+        : process.env.PLAYWRIGHT_REUSE_SERVER === "true";
 
 // GPU-accelerated WebGL args for real Chromium. CI provides the display
 // with xvfb-run; local runs use the host compositor.
@@ -131,7 +135,7 @@ const config: PlaywrightTestConfig = {
               // Local Vite dev serves at `/`; `/poki-soweli/` is the
               // GitHub Pages subpath used only for GITHUB_PAGES builds.
               url: `${defaultBaseURL}/`,
-              reuseExistingServer: process.env.PLAYWRIGHT_REUSE_SERVER === "true" && !isCI,
+              reuseExistingServer,
               timeout: 120_000,
               stdout: "ignore",
               stderr: "pipe",

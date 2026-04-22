@@ -2,8 +2,9 @@ import type { RpgClientEngine } from "@rpgjs/client";
 import { Direction } from "@rpgjs/common";
 import { INTERACTION_HINT_CONFIG } from "../content/gameplay";
 import {
+    getTiledObjectTiles,
+    isEncounterObject,
     manhattanDistance,
-    readTiledObjectType,
     tilesEqual,
     type TiledObjectLike,
     type TilePoint,
@@ -113,7 +114,7 @@ function getEncounterHint(map: TiledMapLike, currentTile: TilePoint): Interactio
     for (const object of objects) {
         if (!isEncounterObject(object)) continue;
 
-        for (const tile of getObjectTiles(map, object)) {
+        for (const tile of getTiledObjectTiles(map, object)) {
             if (tilesEqual(tile, currentTile)) {
                 continue;
             }
@@ -132,34 +133,6 @@ function getEncounterHint(map: TiledMapLike, currentTile: TilePoint): Interactio
     }
 
     return null;
-}
-
-function isEncounterObject(object: TiledObjectLike): boolean {
-    const type = readTiledObjectType(object);
-    const name = String(object.name ?? "");
-    return type === "Encounter" || name.startsWith("encounter_");
-}
-
-function getObjectTiles(map: TiledMapLike, object: TiledObjectLike): TilePoint[] {
-    const x = Number(object.x ?? 0);
-    const y = Number(object.y ?? 0);
-    const width = Math.max(1, Number(object.width ?? map.tilewidth));
-    const height = Math.max(1, Number(object.height ?? map.tileheight));
-
-    const startTile = clampTile(map, toTilePoint(map, x, y));
-    const endTile = clampTile(
-        map,
-        toTilePoint(map, Math.max(x + width - 1, x), Math.max(y + height - 1, y)),
-    );
-
-    const tiles: TilePoint[] = [];
-    for (let tileY = startTile.y; tileY <= endTile.y; tileY += 1) {
-        for (let tileX = startTile.x; tileX <= endTile.x; tileX += 1) {
-            tiles.push({ x: tileX, y: tileY });
-        }
-    }
-
-    return tiles;
 }
 
 function getEventAtTile(
@@ -230,25 +203,23 @@ function directionToEvent(
 ): Direction | null {
     const dx = event.x() - player.x();
     const dy = event.y() - player.y();
-    const horizontalTolerance = Math.max(map.tilewidth, 16);
-    const verticalTolerance = Math.max(map.tileheight, 16);
-    const horizontalReach = Math.max(map.tilewidth * 2, 32);
-    const verticalReach = Math.max(map.tileheight * 2, 32);
+    const tileDx = Math.round(dx / map.tilewidth);
+    const tileDy = Math.round(dy / map.tileheight);
+    const horizontalReachTiles = Math.max(
+        1,
+        Math.round(Math.max(map.tilewidth * 2, 32) / map.tilewidth),
+    );
+    const verticalReachTiles = Math.max(
+        1,
+        Math.round(Math.max(map.tileheight * 2, 32) / map.tileheight),
+    );
 
-    if (
-        Math.abs(dx) <= horizontalTolerance &&
-        Math.abs(dy) <= verticalReach &&
-        Math.abs(dy) >= map.tileheight
-    ) {
-        return dy < 0 ? Direction.Up : Direction.Down;
+    if (tileDx === 0 && Math.abs(tileDy) >= 1 && Math.abs(tileDy) <= verticalReachTiles) {
+        return tileDy < 0 ? Direction.Up : Direction.Down;
     }
 
-    if (
-        Math.abs(dy) <= verticalTolerance &&
-        Math.abs(dx) <= horizontalReach &&
-        Math.abs(dx) >= map.tilewidth
-    ) {
-        return dx < 0 ? Direction.Left : Direction.Right;
+    if (tileDy === 0 && Math.abs(tileDx) >= 1 && Math.abs(tileDx) <= horizontalReachTiles) {
+        return tileDx < 0 ? Direction.Left : Direction.Right;
     }
 
     return null;

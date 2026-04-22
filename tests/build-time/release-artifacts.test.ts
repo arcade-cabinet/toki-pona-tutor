@@ -1,4 +1,4 @@
-import { mkdtempSync, mkdirSync, readFileSync, rmSync, writeFileSync } from "node:fs";
+import { existsSync, mkdtempSync, mkdirSync, readFileSync, rmSync, writeFileSync } from "node:fs";
 import { tmpdir } from "node:os";
 import { join } from "node:path";
 import { afterEach, describe, expect, it } from "vitest";
@@ -33,6 +33,13 @@ const pagesBundle = (await import("../../scripts/deploy/verify-pages-bundle.mjs"
         requiredFiles: string[];
     };
 };
+const pruneAssets = (await import("../../scripts/deploy/prune-deploy-assets.mjs")) as {
+    collectRuntimeTilesetAssets(input?: { mapDir?: string; publicDir?: string }): string[];
+    pruneDeployTilesets(input?: { distDir?: string; publicDir?: string; mapDir?: string }): {
+        copied: string[];
+        pruned: boolean;
+    };
+};
 
 const tempRoots: string[] = [];
 
@@ -64,6 +71,19 @@ function writeRequiredWebBundleFiles(root: string, skipFile?: string) {
         if (file === skipFile) continue;
         writeFileSync(join(root, "dist", file), "{}\n");
     }
+}
+
+function writeRuntimeTilesetFixture(root: string, imageSource: string) {
+    mkdirSync(join(root, "src/tiled"), { recursive: true });
+    mkdirSync(join(root, "public/assets/tilesets/test"), { recursive: true });
+    writeFileSync(
+        join(root, "src/tiled/test.tmx"),
+        '<map><tileset firstgid="1" source="../assets/tilesets/test/test.tsx"/></map>\n',
+    );
+    writeFileSync(
+        join(root, "public/assets/tilesets/test/test.tsx"),
+        `<tileset><image source="${imageSource}"/></tileset>\n`,
+    );
 }
 
 describe("release artifact handoff contract", () => {
@@ -261,5 +281,33 @@ describe("release artifact handoff contract", () => {
                 sha: "local",
             }),
         ).toThrow(/output directory already exists/);
+    });
+
+    it("rejects tileset image paths outside public with tileset context", () => {
+        const root = tempRoot();
+        writeRuntimeTilesetFixture(root, "../../../../outside.png");
+
+        expect(() =>
+            pruneAssets.collectRuntimeTilesetAssets({
+                mapDir: join(root, "src/tiled"),
+                publicDir: join(root, "public"),
+            }),
+        ).toThrow(/tileset image .*outside\.png.*outside public/);
+    });
+
+    it("preflights runtime assets before pruning the deploy tileset directory", () => {
+        const root = tempRoot();
+        writeRuntimeTilesetFixture(root, "missing.png");
+        mkdirSync(join(root, "dist/assets/tilesets"), { recursive: true });
+        writeFileSync(join(root, "dist/assets/tilesets/sentinel.txt"), "keep\n");
+
+        expect(() =>
+            pruneAssets.pruneDeployTilesets({
+                distDir: join(root, "dist"),
+                publicDir: join(root, "public"),
+                mapDir: join(root, "src/tiled"),
+            }),
+        ).toThrow(/missing runtime asset: assets\/tilesets\/test\/missing\.png/);
+        expect(existsSync(join(root, "dist/assets/tilesets/sentinel.txt"))).toBe(true);
     });
 });

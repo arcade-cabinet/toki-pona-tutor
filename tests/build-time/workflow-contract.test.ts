@@ -24,6 +24,7 @@ describe("GitHub Actions run/release/deploy contract", () => {
     const release = workflow("release.yml");
     const cd = workflow("cd.yml");
     const releasePleaseConfig = jsonFile<Record<string, unknown>>("release-please-config.json");
+    const packageJson = jsonFile<{ scripts: Record<string, string> }>("package.json");
 
     it("keeps ci.yml as the PR gate with reviewer artifacts after validation", () => {
         expect(ci).toMatch(/^on:\n\s+pull_request:/m);
@@ -35,6 +36,17 @@ describe("GitHub Actions run/release/deploy contract", () => {
         expect(ci).toContain("pnpm exec cap sync android");
         expect(ci).toContain("./gradlew assembleDebug");
         expect(ci).toContain("poki-soweli-debug-apk-${{ github.event.pull_request.number }}");
+    });
+
+    it("keeps browser E2E headed, with xvfb only providing the CI display", () => {
+        const playwrightConfig = readFileSync(resolve(root, "playwright.config.ts"), "utf8");
+
+        expect(playwrightConfig.match(/headless:\s*false/g)).toHaveLength(2);
+        expect(packageJson.scripts["test:e2e"]).toContain("--headed");
+        expect(packageJson.scripts["test:e2e:smoke"]).toContain("--headed");
+        expect(packageJson.scripts["test:e2e:full"]).toContain("--headed");
+        expect(ci).toContain("xvfb-run");
+        expect(`${ci}\n${JSON.stringify(packageJson.scripts)}`).not.toContain("--headless");
     });
 
     it("keeps release.yml on release-please PAT plus versioned workflow artifacts", () => {
