@@ -164,12 +164,17 @@ The smoke suite exists because some failures only show up in a real browser: wro
 
 ## Visual verification
 
-Tests prove behavior didn't regress. They don't automatically prove the game looks right. `tests/e2e/full/visual-audit.spec.ts` captures Playwright PNG artifacts for the high-risk UI shells, starter-map canvas, and all seven authored map canvases; curated copies live under `docs/screenshots/visual-audit/`. The map-canvas audit also rejects idle screenshots that contain combat target-reticle pixels while the lead movebar is closed. Inspect those artifacts before accepting UI/tile-placement changes. Before marking any UI-touching PR ready for review:
+Tests prove behavior didn't regress. They don't automatically prove the game looks right. `tests/e2e/full/visual-audit.spec.ts` captures Playwright PNG artifacts for the high-risk UI shells, starter-map canvas, and all seven authored map canvases; curated copies live under `docs/screenshots/visual-audit/`. The map-canvas audit also rejects idle screenshots that contain combat target-reticle pixels while the lead movebar is closed.
+
+`tests/e2e/full/journey-golden-path.spec.ts` also captures periodic golden-path checkpoints from title screen through credits. Each checkpoint attaches a composited PNG screenshot, a JSON diagnostic dump, and a Markdown review checklist. The dump includes current/server map IDs, player position, movement-tile collision, adjacent collision samples, 3x3 tile context around the player, TMJ tileset families/sources, visible HUD/dialog state, screenshot color/dark-matte stats, estimated tile screen size, and estimated map viewport coverage. These diagnostics are intentionally allowed to warn on presentation quality, for example maps rendered at 1x with excessive black stage matte, while still failing on hard regressions such as player collision, missing canvas, wrong map, stale combat HUD, missing expected overlays, or non-allowlisted tileset families.
+
+Inspect those artifacts before accepting UI/tile-placement changes. Before marking any UI-touching PR ready for review:
 
 1. Run `pnpm exec playwright test tests/e2e/full/visual-audit.spec.ts --project=full`.
-2. Inspect the generated PNG artifacts under `test-results/`; if the visual output is intentionally changed, refresh the relevant curated copies under `docs/screenshots/visual-audit/`.
-3. Run `pnpm dev` and click through any feature-specific path the visual audit does not cover.
-4. Paste relevant screenshots in the PR description with a one-sentence description of what changed visually.
+2. Run `pnpm exec playwright test tests/e2e/full/journey-golden-path.spec.ts --project=full --headed`.
+3. Inspect the generated PNG, JSON, and Markdown artifacts under `test-results/`; if the visual output is intentionally changed, refresh the relevant curated copies under `docs/screenshots/visual-audit/`.
+4. Run `pnpm dev` and click through any feature-specific path the audits do not cover.
+5. Paste relevant screenshots in the PR description with a one-sentence description of what changed visually.
 
 The unit tests, the integration suite, and the smoke browser gate have no opinion on whether the HP bar color gradient pleases the eye. You do.
 
