@@ -822,6 +822,7 @@ export const uiConfigSchema = z.object({
     hud: z.object({
         gui_ids: z.object({
             status: idSchema,
+            goal: idSchema,
             hint: idSchema,
             menu: idSchema,
         }),
@@ -830,6 +831,15 @@ export const uiConfigSchema = z.object({
             mastered_label_template: idSchema,
             hp_label_template: idSchema,
             missing_portrait_fallback: idSchema,
+        }),
+        goal: z.object({
+            aria_label: idSchema,
+            party_label_template: idSchema,
+            heading_pre_starter: idSchema,
+            heading_post_starter: idSchema,
+            objective_pre_starter: idSchema,
+            objective_post_starter: idSchema,
+            poll_ms: positiveIntSchema,
         }),
         menu: z.object({
             aria_label: idSchema,

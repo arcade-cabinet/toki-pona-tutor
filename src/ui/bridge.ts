@@ -77,6 +77,15 @@ export type RiversUiHudMenuState = {
     onOpen: () => void;
 };
 
+export type RiversUiHudGoalState = {
+    ariaLabel: string;
+    heading: string;
+    objective: string;
+    partyLabel: string;
+    partyCurrent: number;
+    partyMax: number;
+};
+
 export type RiversUiHudHintState = {
     glyph: string;
     ariaLabel: string;
@@ -106,6 +115,7 @@ export type RiversUiState = {
     dialog: RiversUiDialogState | null;
     pause: RiversUiPauseState | null;
     hudStatus: RiversUiHudStatusState | null;
+    hudGoal: RiversUiHudGoalState | null;
     hudMenu: RiversUiHudMenuState | null;
     hudHint: RiversUiHudHintState | null;
     wildBattle: any | null;
@@ -122,6 +132,7 @@ const initialState: RiversUiState = {
     dialog: null,
     pause: null,
     hudStatus: null,
+    hudGoal: null,
     hudMenu: null,
     hudHint: null,
     wildBattle: null,

@@ -777,6 +777,15 @@ export const HUD_STATUS_CONFIG = {
 export const HUD_MENU_CONFIG = {
     ariaLabel: uiConfig.hud.menu.aria_label,
 };
+export const HUD_GOAL_CONFIG = {
+    ariaLabel: uiConfig.hud.goal.aria_label,
+    partyLabelTemplate: uiConfig.hud.goal.party_label_template,
+    headingPreStarter: uiConfig.hud.goal.heading_pre_starter,
+    headingPostStarter: uiConfig.hud.goal.heading_post_starter,
+    objectivePreStarter: uiConfig.hud.goal.objective_pre_starter,
+    objectivePostStarter: uiConfig.hud.goal.objective_post_starter,
+    pollMs: uiConfig.hud.goal.poll_ms,
+};
 export const HUD_HINT_CONFIG = {
     ariaLabelTemplate: uiConfig.hud.hint.aria_label_template,
     emptyAriaLabel: uiConfig.hud.hint.empty_aria_label,
