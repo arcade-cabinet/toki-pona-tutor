@@ -10,6 +10,13 @@ All notable changes to poki soweli. Format based on [Keep a Changelog](https://k
 
 This branch (`feat/rpgjs-v5-pivot`) descends from commit `0a582e0` — the pre-Godot tip. The Godot era between `1d924fe` (pivot) and `0edfe61` (feat/anchor-to-template) lives on `main` and is not represented here. Release-please releases `v0.1.0`…`v0.1.3` tagged on `main` cover the Godot build and do not apply to this branch.
 
+## [0.7.0](https://github.com/arcade-cabinet/poki-soweli/compare/v0.6.0...v0.7.0) (2026-04-23)
+
+
+### Added
+
+* **opening:** scripted opening scene + keep-on-task Stop hook ([#126](https://github.com/arcade-cabinet/poki-soweli/issues/126)) ([43b1c5b](https://github.com/arcade-cabinet/poki-soweli/commit/43b1c5b3160a7f3682d7fcd84f17cbe8e3b0d4ee))
+
 ## [0.6.0](https://github.com/arcade-cabinet/poki-soweli/compare/v0.5.4...v0.6.0) (2026-04-23)
 
 
