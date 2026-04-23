@@ -158,8 +158,7 @@ tests/e2e/__screenshots__/
 
 # .claude/ project config — commit settings.json + hooks/ so the agentic
 # env is shared with teammates. Ignore only transient/per-user/per-run data.
-.claude/state/task-batch/*.json
-.claude/state/task-batch/.last-compaction
+.claude/state/
 .claude/logs/
 .claude/tasks/
 .claude/metadata/
@@ -176,6 +175,7 @@ tests/e2e/__screenshots__/
 
 # Godot-era leftovers (archived in bundle at /Volumes/home/src/backups/arcade-cabinet/
 # and in tag archive/godot-era; no longer tracked on main)
+project.godot
 .godot/
 .ralph-tui/
 android/
