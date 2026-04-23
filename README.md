@@ -1,6 +1,6 @@
 ---
 title: Rivers Reckoning
-updated: 2026-04-22
+updated: 2026-04-23
 status: current
 ---
 
@@ -18,11 +18,17 @@ Cozy village-fable energy. Kid-safe, no permadeath, no punishing mechanics. Warm
 
 ## Visual snapshot
 
-| Title                                                                                                       | Mobile HUD                                                                                            | Endgame Route                                                                                                         |
-| ----------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------- |
+| Title                                                                                                       | Mobile HUD                                                                                            | Endgame Route                                                                                                              |
+| ----------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------- |
 | <img src="docs/screenshots/visual-audit/desktop-title-choices.png" alt="Desktop title choices" width="280"> | <img src="docs/screenshots/visual-audit/mobile-pause-overlay.png" alt="Mobile pause HUD" width="180"> | <img src="docs/screenshots/visual-audit/map-rivergate_approach.png" alt="Endgame water route live map canvas" width="280"> |
 
 Curated Playwright captures live in `docs/screenshots/visual-audit/`; the source audit also captures every authored map canvas for tile-placement review.
+
+## Current release surfaces
+
+-   GitHub Pages: `https://arcade-cabinet.github.io/poki-soweli/`
+-   Latest verified release: `v0.3.1`
+-   Release assets: Pages web tarball + Android debug APK
 
 ## Run it
 
@@ -103,6 +109,7 @@ pnpm maestro:ios          # run iOS Safari Pages smoke on a booted simulator
 
 ## Contributing
 
+-   Read `docs/README.md` for the documentation map and `docs/PRODUCTION.md` for the remaining-work tracker.
 -   Read `CLAUDE.md`, `AGENTS.md`, and at minimum `docs/STATE.md` + `docs/ROADMAP.md` before making changes.
 -   Work on a feature branch, open a PR against `main`. Never push to `main`.
 -   CI must be green before merge; address every review comment.

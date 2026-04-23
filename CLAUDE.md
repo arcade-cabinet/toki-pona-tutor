@@ -1,6 +1,6 @@
 ---
 title: Rivers Reckoning — Agent Entry Point
-updated: 2026-04-22
+updated: 2026-04-23
 status: current
 ---
 
@@ -14,13 +14,15 @@ Repo path: clone-dependent; use `git rev-parse --show-toplevel` instead of assum
 
 Before touching code, read these in order:
 
-1. `docs/STATE.md` — branch state, running commands, hard rules, known limits.
-2. `docs/ROADMAP.md` — single source of truth for what's done (✅), partial (🟡), open (⬜). Every task has a stable `T<phase>-<n>` ID.
-3. `docs/ARCHITECTURE.md` — stack layout + the three layers (content pipeline → pure game modules → runtime wiring).
-4. `docs/DESIGN.md` — product vision (what the game IS and IS NOT).
-5. `docs/BRAND.md` — palette, typography, chrome patterns. Every UI surface draws from these tokens.
-6. `docs/UX.md` — rr-ui bridge architecture, tap-to-walk input model, mobile HUD, data-testid naming.
-7. `docs/TESTING.md` — five-layer testing strategy + integration first for player-visible behavior, then E2E, then unit coverage for pure logic.
+1. `docs/README.md` — documentation map by logical domain.
+2. `docs/STATE.md` — current verified release/build/test state.
+3. `docs/PRODUCTION.md` — pillar-level remaining work.
+4. `docs/ROADMAP.md` — stable task IDs and phase status.
+5. `docs/ARCHITECTURE.md` — stack layout + the three layers (content pipeline → pure game modules → runtime wiring).
+6. `docs/DESIGN.md` — product vision (what the game IS and IS NOT).
+7. `docs/BRAND.md` — palette, typography, chrome patterns. Every UI surface draws from these tokens.
+8. `docs/UX.md` — rr-ui bridge architecture, tap-to-walk input model, mobile HUD, data-testid naming.
+9. `docs/TESTING.md` — five-layer testing strategy + integration first for player-visible behavior, then E2E, then unit coverage for pure logic.
 
 Then: `git status && git log --oneline -10 && gh pr list`.
 
@@ -122,4 +124,5 @@ tests/
 
 ## Active context
 
-See `docs/STATE.md` — updated per session. Read it before assuming anything about what's landed.
+Start with `docs/STATE.md` for shipped truth, `docs/PRODUCTION.md` for remaining
+work, and `docs/RELEASE.md` if the task touches the release/deploy chain.

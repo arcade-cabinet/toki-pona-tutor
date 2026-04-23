@@ -1,13 +1,16 @@
 ---
 title: Release QA
-updated: 2026-04-22
+updated: 2026-04-23
 status: current
 domain: quality
 ---
 
 # Release QA
 
-Manual smoke checklist for the current v0.2 release-hardening gate. This checklist validates the artifacts produced by `release.yml` and consumed by `cd.yml`; it does not cover signed release APK production, which is still deferred in `docs/ROADMAP.md` as T6-11.
+Manual smoke checklist for the current public-playtest release flow. This
+checklist validates the artifacts produced by `release.yml` and consumed by
+`cd.yml`; it does not cover signed release APK production, which is still
+deferred in `docs/ROADMAP.md`.
 
 ## Inputs
 
@@ -26,7 +29,7 @@ adb install -r "$APK_FILE"
 ```
 
 1. Launch the app and confirm it reaches the title screen without a blank canvas.
-2. Start a new game, pick a starter, walk to `greenwood_road`, trigger one wild encounter, use `utala`, then use `tawa`.
+2. Start a new game, pick a starter, walk to `greenwood_road`, trigger one wild encounter, use one attack, then exit the encounter safely.
 3. Open the HUD menu and verify Party, Items, Settings, and Quit-to-title routes respond to touch.
 4. Quit to title, choose Continue, and verify the save resumes on the expected map.
 5. Rotate the device once each direction and verify the app remains playable with no orientation lock.
