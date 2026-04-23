@@ -12,6 +12,7 @@ import {
     SAVE_RUNTIME_STATE_KEY,
 } from "../../platform/persistence/runtime-state";
 import { showTitleMenu, startFreshGame } from "./title-menu";
+import { applyPlayerNameTag } from "./player-identity";
 import { cancelTapRoute, registerTapRouteListener } from "./tap-route";
 import {
     cueBattleActionAudio,
@@ -64,6 +65,7 @@ async function runTitleMenu(player: RpgPlayer): Promise<void> {
     } catch {
         player.initializeDefaultStats();
         player.setGraphic(PLAYER_CONFIG.defaultGraphic);
+        applyPlayerNameTag(player);
     }
 
     const currentMapId = player.getCurrentMap()?.id;
@@ -91,11 +93,16 @@ async function autosave(player: RpgPlayer): Promise<void> {
 export const player: MainPlayerHooks = {
     async onConnected(player: RpgPlayer) {
         player.setGraphic(PLAYER_CONFIG.defaultGraphic);
+        applyPlayerNameTag(player);
         player.initializeDefaultStats();
         await player.changeMap(TITLE_START.mapId, TITLE_START.spawn);
     },
     async onJoinMap(player: RpgPlayer) {
         cancelTapRoute(player);
+        // Re-apply the name tag on every map transition. Some engine
+        // overlays reset across warps; the tag is cheap to re-attach
+        // and guarantees the PC is always labeled as Rivers.
+        applyPlayerNameTag(player);
         await restoreLeadBattleAvatar(player);
         registerTapRouteListener(player);
         registerCombatAudioMonitor(player);

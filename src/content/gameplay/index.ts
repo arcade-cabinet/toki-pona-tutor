@@ -687,6 +687,14 @@ export const TITLE_START = {
 };
 export const PLAYER_CONFIG = {
     defaultGraphic: uiConfig.title.player_default_graphic,
+    nameTag: {
+        text: uiConfig.title.player_name_tag.text,
+        fill: uiConfig.title.player_name_tag.fill,
+        stroke: uiConfig.title.player_name_tag.stroke,
+        fontSize: uiConfig.title.player_name_tag.font_size,
+        fontWeight: uiConfig.title.player_name_tag.font_weight,
+        marginBottom: uiConfig.title.player_name_tag.margin_bottom,
+    },
 };
 export const TITLE_MENU_CONFIG = {
     guiId: uiConfig.title.gui_id,
