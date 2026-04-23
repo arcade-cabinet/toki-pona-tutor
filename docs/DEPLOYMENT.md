@@ -88,9 +88,10 @@ adb install app-debug.apk
 
 Runs on `pull_request_target` for bot PRs only. Dependabot minor and patch
 updates are approved and enrolled in squash auto-merge; semver-major updates
-stay manual. Release-please PRs from `github-actions[bot]` are also approved
-and enrolled in squash auto-merge so the release chain can move once required
-checks and branch protection are satisfied.
+stay manual. Release-please PRs are approved and enrolled in squash auto-merge
+only when they come from this repository, use a `release-please--*` branch, and
+are authored by a trusted release account: `github-actions[bot]`,
+`jbdevprimary`, or the optional `RELEASE_PLEASE_PAT_OWNER` repository variable.
 
 ### `release.yml` — release-please + versioned build artifacts
 
