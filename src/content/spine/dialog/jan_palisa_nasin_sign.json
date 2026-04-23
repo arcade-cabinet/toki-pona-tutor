@@ -5,17 +5,24 @@
   "beats": [
     {
       "text": {
-        "en": "Greenwood Road: stay on the path unless you want a fight."
+        "en": "Greenwood Road runs thick with wild creatures this season."
       },
       "mood": "thinking",
       "glyph": "wild-signs"
     },
     {
       "text": {
-        "en": "New trainers should keep capture pods ready."
+        "en": "Every bonded forest creature tells us something about what's moving through the trees."
+      },
+      "mood": "thinking",
+      "glyph": "wild-signs"
+    },
+    {
+      "text": {
+        "en": "Catch two from the forest biome and I'll read their signs with you."
       },
       "mood": "excited",
-      "glyph": "greenwood-watch"
+      "glyph": "wild-signs"
     }
   ],
   "triggers": {}

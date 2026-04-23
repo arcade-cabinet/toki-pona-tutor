@@ -5,10 +5,24 @@
   "beats": [
     {
       "text": {
-        "en": "Lakehaven listens better than it speaks."
+        "en": "Lakehaven listens better than it speaks. Sit by the water long enough and you'll hear it too."
       },
       "mood": "thinking",
-      "glyph": "companion-bond"
+      "glyph": "water-edge"
+    },
+    {
+      "text": {
+        "en": "The lake remembers every creature that comes to drink. Bond with two of them and it'll remember you too."
+      },
+      "mood": "thinking",
+      "glyph": "water-edge"
+    },
+    {
+      "text": {
+        "en": "Catch two water creatures and come sit with me again."
+      },
+      "mood": "excited",
+      "glyph": "water-edge"
     }
   ],
   "triggers": {}

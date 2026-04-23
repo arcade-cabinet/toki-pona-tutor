@@ -4319,9 +4319,23 @@
       "beats": [
         {
           "text": {
-            "en": "Small fish gather where the current bends."
+            "en": "Rivers, you're standing at the Rivergate Approach. The dragon isn't far."
           },
-          "mood": "happy",
+          "mood": "thinking",
+          "glyph": "companion-bond"
+        },
+        {
+          "text": {
+            "en": "A companion you've truly bonded with can do more than fight — it can read what you're about to do before you do it."
+          },
+          "mood": "thinking",
+          "glyph": "companion-bond"
+        },
+        {
+          "text": {
+            "en": "Bond with one more water creature here. You'll want the proof before the dragon."
+          },
+          "mood": "excited",
           "glyph": "companion-bond"
         }
       ],
@@ -4364,10 +4378,24 @@
       "beats": [
         {
           "text": {
-            "en": "The garden herbs make the best healing fruit."
+            "en": "A Snowbird circled my garden at dawn — first one in a decade."
           },
-          "mood": "happy",
-          "glyph": "forest-cover"
+          "mood": "excited",
+          "glyph": "frost-type"
+        },
+        {
+          "text": {
+            "en": "The elders say a bonded Snowbird tells the sky when the frost is coming. Frostvale needs warning this year."
+          },
+          "mood": "thinking",
+          "glyph": "frost-type"
+        },
+        {
+          "text": {
+            "en": "Catch one Snowbird and Frostvale keeps its garden through winter."
+          },
+          "mood": "excited",
+          "glyph": "frost-type"
         }
       ],
       "triggers": {}
@@ -4423,17 +4451,24 @@
       "beats": [
         {
           "text": {
-            "en": "Stone paths break careless boots."
+            "en": "The old shrine at the summit is missing its stones."
           },
           "mood": "thinking",
-          "glyph": "dreadpeak-proof"
+          "glyph": "stone-type"
         },
         {
           "text": {
-            "en": "Strong companions can push through the pass."
+            "en": "Only Pebbleback keeps shrine stones in its shell. Other stone-types leave them scattered."
+          },
+          "mood": "thinking",
+          "glyph": "stone-type"
+        },
+        {
+          "text": {
+            "en": "Catch two Pebblebacks and the shrine will know your name."
           },
           "mood": "excited",
-          "glyph": "battle-ready"
+          "glyph": "stone-type"
         }
       ],
       "triggers": {}
@@ -4445,17 +4480,24 @@
       "beats": [
         {
           "text": {
-            "en": "The cave walls still remember old battles."
+            "en": "Something's been moving in the shadow at the back of the cavern."
           },
           "mood": "thinking",
-          "glyph": "dreadpeak-proof"
+          "glyph": "cave-shadow"
         },
         {
           "text": {
-            "en": "Bring a brave lead creature."
+            "en": "Two cave-dwellers will tell us what it is — they see in the dark the way Rivers sees maps."
+          },
+          "mood": "thinking",
+          "glyph": "cave-shadow"
+        },
+        {
+          "text": {
+            "en": "Catch two cave creatures and bring them back. We'll read the shadow together."
           },
           "mood": "excited",
-          "glyph": "battle-ready"
+          "glyph": "cave-shadow"
         }
       ],
       "triggers": {}
@@ -4569,17 +4611,24 @@
       "beats": [
         {
           "text": {
-            "en": "The high trail opens north."
+            "en": "A hiker passed through yesterday — didn't come back down."
           },
-          "mood": "excited",
-          "glyph": "greenwood-watch"
+          "mood": "sad",
+          "glyph": "torch-path"
         },
         {
           "text": {
-            "en": "You'll need a stronger party before the summit."
+            "en": "She was headed to jan Kala Lake in Lakehaven. Said she'd bring a torch-path token as payment."
           },
           "mood": "thinking",
-          "glyph": "battle-ready"
+          "glyph": "torch-path"
+        },
+        {
+          "text": {
+            "en": "If you find her pack, carry what's inside to jan Kala Lake. She needs the delivery done."
+          },
+          "mood": "excited",
+          "glyph": "torch-path"
         }
       ],
       "triggers": {}
@@ -4591,10 +4640,24 @@
       "beats": [
         {
           "text": {
-            "en": "Lakehaven listens better than it speaks."
+            "en": "Lakehaven listens better than it speaks. Sit by the water long enough and you'll hear it too."
           },
           "mood": "thinking",
-          "glyph": "companion-bond"
+          "glyph": "water-edge"
+        },
+        {
+          "text": {
+            "en": "The lake remembers every creature that comes to drink. Bond with two of them and it'll remember you too."
+          },
+          "mood": "thinking",
+          "glyph": "water-edge"
+        },
+        {
+          "text": {
+            "en": "Catch two water creatures and come sit with me again."
+          },
+          "mood": "excited",
+          "glyph": "water-edge"
         }
       ],
       "triggers": {}
@@ -4606,17 +4669,24 @@
       "beats": [
         {
           "text": {
-            "en": "Greenwood Road: stay on the path unless you want a fight."
+            "en": "Greenwood Road runs thick with wild creatures this season."
           },
           "mood": "thinking",
           "glyph": "wild-signs"
         },
         {
           "text": {
-            "en": "New trainers should keep capture pods ready."
+            "en": "Every bonded forest creature tells us something about what's moving through the trees."
+          },
+          "mood": "thinking",
+          "glyph": "wild-signs"
+        },
+        {
+          "text": {
+            "en": "Catch two from the forest biome and I'll read their signs with you."
           },
           "mood": "excited",
-          "glyph": "greenwood-watch"
+          "glyph": "wild-signs"
         }
       ],
       "triggers": {}
@@ -4746,17 +4816,24 @@
       "beats": [
         {
           "text": {
-            "en": "Rivers, the road is waiting."
+            "en": "Rivers! Glad the village is still here when you came home."
           },
           "mood": "happy",
           "glyph": "companion-bond"
         },
         {
           "text": {
-            "en": "Check on your companion before you leave."
+            "en": "Have you heard the old story of the reedfrog? A bonded Reedfrog is what makes a house feel safe."
+          },
+          "mood": "thinking",
+          "glyph": "safe-house"
+        },
+        {
+          "text": {
+            "en": "Bring one back and I'll make the spare room yours for good."
           },
           "mood": "excited",
-          "glyph": "greenwood-watch"
+          "glyph": "safe-house"
         }
       ],
       "triggers": {}

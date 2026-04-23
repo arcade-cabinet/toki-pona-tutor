@@ -5,10 +5,24 @@
   "beats": [
     {
       "text": {
-        "en": "The garden herbs make the best healing fruit."
+        "en": "A Snowbird circled my garden at dawn — first one in a decade."
       },
-      "mood": "happy",
-      "glyph": "forest-cover"
+      "mood": "excited",
+      "glyph": "frost-type"
+    },
+    {
+      "text": {
+        "en": "The elders say a bonded Snowbird tells the sky when the frost is coming. Frostvale needs warning this year."
+      },
+      "mood": "thinking",
+      "glyph": "frost-type"
+    },
+    {
+      "text": {
+        "en": "Catch one Snowbird and Frostvale keeps its garden through winter."
+      },
+      "mood": "excited",
+      "glyph": "frost-type"
     }
   ],
   "triggers": {}

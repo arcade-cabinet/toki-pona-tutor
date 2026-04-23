@@ -5,17 +5,24 @@
   "beats": [
     {
       "text": {
-        "en": "The high trail opens north."
+        "en": "A hiker passed through yesterday — didn't come back down."
       },
-      "mood": "excited",
-      "glyph": "greenwood-watch"
+      "mood": "sad",
+      "glyph": "torch-path"
     },
     {
       "text": {
-        "en": "You'll need a stronger party before the summit."
+        "en": "She was headed to jan Kala Lake in Lakehaven. Said she'd bring a torch-path token as payment."
       },
       "mood": "thinking",
-      "glyph": "battle-ready"
+      "glyph": "torch-path"
+    },
+    {
+      "text": {
+        "en": "If you find her pack, carry what's inside to jan Kala Lake. She needs the delivery done."
+      },
+      "mood": "excited",
+      "glyph": "torch-path"
     }
   ],
   "triggers": {}
