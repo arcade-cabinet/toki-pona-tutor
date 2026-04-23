@@ -12,6 +12,7 @@ import {
     isRiversUiBlocking,
     type RiversUiDialogState,
     type RiversUiFaceState,
+    type RiversUiHudGoalState,
     type RiversUiHudStatusState,
     type RiversUiPauseEntry,
     type RiversUiPauseState,
@@ -135,6 +136,7 @@ export function RiversUiApp() {
             <RiversSvgFilters />
             <div className="rr-frame-vignette" aria-hidden="true" />
             {state.hudStatus && !blocking ? <HudStatus status={state.hudStatus} /> : null}
+            {state.hudGoal && !blocking ? <HudGoal goal={state.hudGoal} /> : null}
             {state.hudMenu && !blocking ? (
                 <div className="rr-hud-frame" data-testid="hud-frame">
                     <button
@@ -452,6 +454,29 @@ function DialogSurface({ state }: { state: RiversUiDialogState }) {
                 </div>
             </article>
         </motion.section>
+    );
+}
+
+function HudGoal({ goal }: { goal: RiversUiHudGoalState }) {
+    return (
+        <aside
+            className="rr-hud-goal"
+            data-testid="hud-goal"
+            aria-label={goal.ariaLabel}
+        >
+            <div className="rr-hud-goal-heading">{goal.heading}</div>
+            <div className="rr-hud-goal-objective" data-testid="hud-goal-objective">
+                {goal.objective}
+            </div>
+            <div
+                className="rr-hud-goal-party"
+                data-testid="hud-goal-party"
+                data-party-current={goal.partyCurrent}
+                data-party-max={goal.partyMax}
+            >
+                {goal.partyLabel}
+            </div>
+        </aside>
     );
 }
 

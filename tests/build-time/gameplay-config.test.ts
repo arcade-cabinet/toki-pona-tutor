@@ -343,6 +343,7 @@ describe('gameplay JSON config', () => {
         expect(itemIds.has(PARTY_PANEL_HEAL_ITEM_ID)).toBe(true);
         expect(HUD_GUI_IDS).toEqual({
             status: 'poki-hud-status',
+            goal: 'poki-hud-goal',
             hint: 'poki-hud-hint',
             menu: 'poki-hud-menu-toggle',
         });

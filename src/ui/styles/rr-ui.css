@@ -715,6 +715,45 @@ body.rr-title-dismissed .rr-title-screen {
     animation: rr-ink-pulse 900ms ease-in-out infinite;
 }
 
+.rr-hud-goal {
+    position: fixed;
+    top: var(--rr-safe-top);
+    right: var(--rr-safe-right, var(--rr-safe-left));
+    width: min(260px, calc(100vw - 96px));
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    padding: 9px 14px;
+    border: 2px solid var(--rr-border);
+    border-radius: 14px 24px 14px 24px;
+    background: linear-gradient(135deg, rgba(255, 246, 223, 0.95), rgba(234, 211, 164, 0.88));
+    box-shadow: var(--rr-shadow-soft);
+    pointer-events: none;
+    font-family: var(--rr-font-display);
+    color: var(--rr-ink-soft);
+    text-align: right;
+}
+
+.rr-hud-goal-heading {
+    font-size: 11px;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    opacity: 0.72;
+}
+
+.rr-hud-goal-objective {
+    font-size: 15px;
+    font-weight: 700;
+    line-height: 1.2;
+    color: var(--rr-ink, #2a1b08);
+}
+
+.rr-hud-goal-party {
+    font-size: 12px;
+    font-weight: 600;
+    opacity: 0.82;
+}
+
 .rr-hud-status {
     position: fixed;
     top: var(--rr-safe-top);

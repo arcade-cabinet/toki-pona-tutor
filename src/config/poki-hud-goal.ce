@@ -1,0 +1,99 @@
+<DOMContainer width="0" height="0"></DOMContainer>
+
+<script>
+    import { computed, effect, mount, signal } from "canvasengine";
+    import { inject, RpgClientEngine, RpgGui } from "@rpgjs/client";
+    import { PERSISTENCE_CHANGED_EVENT } from "../platform/persistence/database";
+    import { getFlag, getParty } from "../platform/persistence/queries";
+    import { PARTY_SIZE_MAX } from "../platform/persistence/constants";
+    import { HUD_GOAL_CONFIG } from "../content/gameplay";
+    import { hasBlockingGui } from "./hud-gui-visibility";
+    import { buildHudGoal } from "./hud-goal";
+    import { riversUiBridge } from "../ui/bridge";
+
+    const engine = inject(RpgClientEngine);
+    const guiService = inject(RpgGui);
+    const currentPlayer = engine.scene.currentPlayer;
+    const snapshot = signal(null);
+    const refreshVersion = signal(0);
+    let refreshToken = 0;
+
+    const goalState = computed(() => {
+        const baseSnapshot = snapshot();
+        if (!baseSnapshot) return null;
+        return buildHudGoal({
+            partySize: baseSnapshot.partySize,
+            partyMax: PARTY_SIZE_MAX,
+            starterChosen: baseSnapshot.starterChosen,
+        });
+    });
+
+    const shouldShow = computed(
+        () => !!currentPlayer() && !!goalState() && !hasBlockingGui(guiService),
+    );
+
+    effect(() => {
+        currentPlayer();
+        engine.scene.data();
+        refreshVersion();
+        void refreshSnapshot();
+    });
+
+    effect(() => {
+        const goal = goalState();
+        if (!shouldShow() || !goal) {
+            riversUiBridge.update({ hudGoal: null });
+            return;
+        }
+        riversUiBridge.update({
+            hudGoal: {
+                ariaLabel: HUD_GOAL_CONFIG.ariaLabel,
+                heading: goal.heading,
+                objective: goal.objective,
+                partyLabel: goal.partyLabel,
+                partyCurrent: goal.partyCurrent,
+                partyMax: goal.partyMax,
+            },
+        });
+    });
+
+    async function refreshSnapshot() {
+        const player = currentPlayer();
+        if (!player) {
+            snapshot.set(null);
+            return;
+        }
+
+        const token = refreshToken + 1;
+        refreshToken = token;
+        const [party, starterFlag] = await Promise.all([
+            getParty(),
+            getFlag("starter_chosen"),
+        ]);
+        if (refreshToken !== token) return;
+
+        snapshot.set({
+            partySize: party.length,
+            starterChosen: Boolean(starterFlag),
+        });
+    }
+
+    mount(() => {
+        const onPersistenceChanged = () => {
+            refreshVersion.set(refreshVersion() + 1);
+        };
+        // The goal HUD polls on a slower cadence than status HUD — it
+        // only changes when flags/party move, which is rare relative
+        // to HP/XP. Faster polling would waste work without changing
+        // what the player sees.
+        const pollId = window.setInterval(() => {
+            refreshVersion.set(refreshVersion() + 1);
+        }, HUD_GOAL_CONFIG.pollMs);
+        window.addEventListener(PERSISTENCE_CHANGED_EVENT, onPersistenceChanged);
+        return () => {
+            window.clearInterval(pollId);
+            window.removeEventListener(PERSISTENCE_CHANGED_EVENT, onPersistenceChanged);
+            riversUiBridge.update({ hudGoal: null });
+        };
+    });
+</script>

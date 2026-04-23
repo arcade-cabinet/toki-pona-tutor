@@ -1,6 +1,7 @@
 import type { RpgClient } from "@rpgjs/client";
 import { inject, RpgClientEngine } from "@rpgjs/client";
 import { createModule, defineModule } from "@rpgjs/common";
+import HudGoalComponent from "./poki-hud-goal.ce";
 import HudHintComponent from "./poki-hud-hint.ce";
 import HudMenuToggleComponent from "./poki-hud-menu-toggle.ce";
 import HudStatusComponent from "./poki-hud-status.ce";
@@ -16,6 +17,12 @@ const hudMenuClientModule = defineModule<RpgClient>({
         {
             id: HUD_GUI_IDS.status,
             component: HudStatusComponent,
+            autoDisplay: true,
+            dependencies: currentPlayerDependencies,
+        },
+        {
+            id: HUD_GUI_IDS.goal,
+            component: HudGoalComponent,
             autoDisplay: true,
             dependencies: currentPlayerDependencies,
         },

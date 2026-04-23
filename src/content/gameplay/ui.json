@@ -91,6 +91,7 @@
   "hud": {
     "gui_ids": {
       "status": "poki-hud-status",
+      "goal": "poki-hud-goal",
       "hint": "poki-hud-hint",
       "menu": "poki-hud-menu-toggle"
     },
@@ -99,6 +100,15 @@
       "mastered_label_template": "clues: {count}",
       "hp_label_template": "HP {current} / {max}",
       "missing_portrait_fallback": "?"
+    },
+    "goal": {
+      "aria_label": "Current objective",
+      "party_label_template": "party {current} / {max}",
+      "heading_pre_starter": "next step",
+      "heading_post_starter": "on your path",
+      "objective_pre_starter": "Speak with jan Sewi",
+      "objective_post_starter": "Explore beyond the village",
+      "poll_ms": 500
     },
     "menu": {
       "aria_label": "Pause menu"
@@ -111,6 +121,7 @@
     },
     "non_blocking_gui_ids": [
       "poki-hud-status",
+      "poki-hud-goal",
       "poki-hud-hint",
       "poki-hud-menu-toggle",
       "notification",
