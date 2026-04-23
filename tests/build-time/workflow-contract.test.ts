@@ -68,7 +68,9 @@ describe("GitHub Actions run/release/deploy contract", () => {
             "RELEASE_AUTOMERGE_TOKEN: ${{ secrets.CI_GITHUB_TOKEN_PAT || secrets.CI_GITHUB_TOKEN }}",
         );
         expect(automerge).toContain("Configure CI_GITHUB_TOKEN_PAT or CI_GITHUB_TOKEN");
-        expect(automerge).toContain("GH_TOKEN: ${{ env.RELEASE_AUTOMERGE_TOKEN }}");
+        expect(automerge).toContain(
+            "GH_TOKEN: ${{ secrets.CI_GITHUB_TOKEN_PAT || secrets.CI_GITHUB_TOKEN }}",
+        );
         expect(automerge).toContain("gh pr merge --auto --squash");
     });
 

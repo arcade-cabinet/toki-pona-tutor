@@ -56,17 +56,15 @@ jobs:
         )
       )
     runs-on: ubuntu-latest
-    env:
-      # The auto-merge must be enabled with a real PAT so the eventual
-      # squash-merge push triggers release.yml. A GITHUB_TOKEN-authored
-      # merge can suppress downstream workflow runs.
-      RELEASE_AUTOMERGE_TOKEN: ${{ secrets.CI_GITHUB_TOKEN_PAT || secrets.CI_GITHUB_TOKEN }}
     steps:
       - name: Assert release automerge token is configured
-        if: env.RELEASE_AUTOMERGE_TOKEN == ''
+        env:
+          RELEASE_AUTOMERGE_TOKEN: ${{ secrets.CI_GITHUB_TOKEN_PAT || secrets.CI_GITHUB_TOKEN }}
         run: |
-          echo "::error::Configure CI_GITHUB_TOKEN_PAT or CI_GITHUB_TOKEN for release-please automerge."
-          exit 1
+          if [ -z "$RELEASE_AUTOMERGE_TOKEN" ]; then
+            echo "::error::Configure CI_GITHUB_TOKEN_PAT or CI_GITHUB_TOKEN for release-please automerge."
+            exit 1
+          fi
 
       - name: Approve PR
         env:
@@ -76,6 +74,9 @@ jobs:
 
       - name: Enable auto-merge
         env:
-          GH_TOKEN: ${{ env.RELEASE_AUTOMERGE_TOKEN }}
+          # The auto-merge must be enabled with a real PAT so the eventual
+          # squash-merge push triggers release.yml. A GITHUB_TOKEN-authored
+          # merge can suppress downstream workflow runs.
+          GH_TOKEN: ${{ secrets.CI_GITHUB_TOKEN_PAT || secrets.CI_GITHUB_TOKEN }}
           PR_URL: ${{ github.event.pull_request.html_url }}
         run: gh pr merge --auto --squash "$PR_URL"
