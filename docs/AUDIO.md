@@ -68,7 +68,7 @@ Target count for v1: **>=12 distinct SFX**, all with clear game-state mapping.
 Every audio asset in `public/audio/` and `public/sfx/` must carry one of these four licenses, recorded in this doc:
 
 1. **CC0** (public domain dedication) — no attribution required. Kenney.nl tracks currently in-repo are CC0; see `public/audio/KENNEY-LICENSE.txt`.
-2. **CC-BY** — credit required. Credit line belongs in `docs/CREDITS.md` (create when first needed) and in the in-game credits screen.
+2. **CC-BY** — credit required. Credit line belongs in a new credits file at docs/CREDITS.md (create when first needed) and in the in-game credits screen.
 3. **Commissioned** — a one-off contract with a composer. Contract + deliverable checksum stored out-of-repo; license terms summarized here.
 4. **Original** — created by the project team. "Original" means we wrote it and we own it.
 
@@ -83,7 +83,7 @@ Every audio asset in `public/audio/` and `public/sfx/` must carry one of these f
 | Kenney music loops (menu, lesson, victory, gameover) | Kenney.nl "Music Loops 1.1" | CC0 | `public/audio/bgm-*-kenney.ogg` + `.mp3` |
 | Base UI SFX (click, confirm, drop, error) | TBD - likely Kenney or similar CC0 | **Needs license verification** | `public/sfx/*.ogg` + `.mp3` |
 
-Before v1 release, every entry above needs a specific citation (Kenney pack name + version) in a new `docs/CREDITS.md` + in-game credits screen.
+Before v1 release, every entry above needs a specific citation (Kenney pack name + version) in a new a new credits file at docs/CREDITS.md + in-game credits screen.
 
 ## V1 Gap Summary
 
@@ -93,14 +93,14 @@ Before v1 release, every entry above needs a specific citation (Kenney pack name
 3. Replace **`sfx_encounter_appear`** — the current error tone is wrong.
 4. Source or commission **4 new SFX**: warp, catch_throw (whoosh), level_up (chime), tall_grass_rustle.
 5. Add **4 new SFX slots** in the catalog: tall_grass_rustle, critical_hit, shop_buy, quest_accept.
-6. Create **`docs/CREDITS.md`** and verify every existing asset's license.
+6. Create **a new credits file at docs/CREDITS.md** and verify every existing asset's license.
 7. Update in-game credits screen to reference CREDITS.md entries.
 
 **Acceptance bar for v1 audio:**
 - Every biome (7) has a distinct BGM during normal overworld.
 - Every combat context (wild / region master / boss) has a distinct BGM.
 - 12+ SFX wired with no asset used for more than one game-state cue.
-- `docs/CREDITS.md` covers every shipped audio asset with source + license.
+- a new credits file at docs/CREDITS.md covers every shipped audio asset with source + license.
 - No asset's name, filename, or mood references a named franchise.
 
 ## Runtime Behavior (unchanged)
