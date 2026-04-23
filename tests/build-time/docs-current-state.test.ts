@@ -242,9 +242,9 @@ describe("current-state documentation drift guards", () => {
     it("keeps the documented full-browser test inventory aligned with Playwright files", () => {
         const source = doc("docs/STATE.md");
 
-        expect(countSpecFiles("tests/e2e/full")).toBe(16);
-        expect(source).toContain("28 full browser tests across 16 files");
-        expect(source).not.toContain("28 full browser specs");
+        expect(countSpecFiles("tests/e2e/full")).toBe(17);
+        expect(source).toContain("29 full browser tests across 17 files");
+        expect(source).not.toContain("29 full browser specs");
     });
 
     it("keeps UX selector docs aligned with the dialog component contract", () => {

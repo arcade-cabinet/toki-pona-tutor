@@ -23,6 +23,7 @@ The project has pivoted to native-English Rivers Reckoning. The old language-lea
 | 8     | Release Proof      | Prove Pages, release artifacts, and debug APKs             |   5 |   0 |   1 |
 | 9     | Docs And QA        | Keep docs honest and acceptance artifacts reviewable       |   3 |   0 |   1 |
 | 10    | V1 Polish          | Finish audio, post-clear loop, and final product QA        |   1 |   1 |   3 |
+| 11    | Onboarding + Opening Scene | Story is the asset that lasts — close the landing→gameplay cliff and script the first 30 seconds |   0 |   0 |  11 |
 
 ## Phase 1: Stabilize
 
@@ -129,6 +130,24 @@ The project has pivoted to native-English Rivers Reckoning. The old language-lea
 | T10-03 | Physical Android debug APK QA                      | ⬜     | Must use release-attached artifact, not local rebuild.                                                                 |
 | T10-04 | Final docs accuracy pass                           | ✅     | Current-state, production, release, QA, and root agent docs now reflect the shipped `v0.3.1` state and remaining work. |
 | T10-05 | V1 release candidate checklist                     | ⬜     | Requires all prior phases to be green or explicitly scoped out.                                                        |
+
+## Phase 11: Onboarding And Opening Scene (v1 blocker)
+
+North-star: Pokémon Blue, Final Fantasy VI, Chrono Trigger — **story is the asset that lasts**. The opening 30 seconds of a 16-bit RPG *is* the world in miniature. Our current opening drops the player onto a map with no scripted moment, no visible protagonist, and no HUD. Every row below is a v1 blocker surfaced by `docs/screenshots/visual-audit/1.0-onboarding/NOTES.md` (automated capture via `tests/e2e/full/onboarding-capture.spec.ts`).
+
+| ID     | Task                                                                      | Status | Notes                                                                                                                         |
+| ------ | ------------------------------------------------------------------------- | ------ | ----------------------------------------------------------------------------------------------------------------------------- |
+| T11-01  | Close the landing→gameplay quality cliff                                  | ⬜     | Premium landing, raw-placeholder gameplay. Polish the gameplay canvas to the same visual bar before anything else ships. **P0.** |
+| T11-02  | Distinguish the player sprite from NPCs                                   | ⬜     | Name plate, outline, directional indicator, or dedicated palette so a new player can locate themselves. **P0.**               |
+| T11-03  | Fix black rectangle placeholders on `riverside_home`                      | ⬜     | Tree/rock sprites render as raw black boxes. Trace: spec, tileset, or runtime fetch. **P0.**                                  |
+| T11-04  | Label or remove the unexplained brown square in the starter village      | ⬜     | Make it a signpost / well / chest, or remove it. **P1.**                                                                      |
+| T11-05  | Bring HUD chrome onto gameplay surfaces                                   | ⬜     | Goal / quest / party / region indicators must render during play, not only in pause. Reuse the landing-page UI language. **P0.** |
+| T11-06  | Wire New Game click to fire the starter ceremony                          | ⬜     | Clicking New Game should trigger jan Sewi's dialog, not drop the player on an empty map. Integration test. **P0.**            |
+| T11-07  | Ensure starter grant populates party to 1/6                               | ⬜     | Pause overlay shows 0/6 after supposedly choosing a starter. Trace the grant → persistence → overlay read. **P0.**             |
+| T11-08  | Movement input must visibly change the canvas                             | ⬜     | Arrow/WASD had no visible effect between consecutive captures. Diagnose. **P0.**                                              |
+| T11-09  | Populate the pause-overlay right pane with a glance dashboard             | ⬜     | Active goal, current quest progress, next region gate, recent catches. **P1.**                                                |
+| T11-10  | Add diegetic first-play cue to jan Sewi                                   | ⬜     | A visible "!" / glow / pulse on the starter mentor until first interacted with. **P0.**                                       |
+| T11-11  | Author the scripted opening scene                                         | ⬜     | New `src/modules/main/opening-scene.ts` using RPG.js primitives (camera pan, locked input, dialog, auto-trigger). Establishes why Rivers is here, why they care, why the player wants to go on. The 30-seconds-in-the-world opener from the 16-bit playbook. **P0.** |
 
 ## Definition Of Done For V1
 

@@ -117,7 +117,7 @@ describe("ROADMAP inventory integrity", () => {
         const inventory = parsePhaseInventory();
         const { phaseCounts } = parseTaskRows();
 
-        expect([...inventory.keys()]).toEqual(["1", "2", "3", "4", "5", "6", "7", "8", "9", "10"]);
+        expect([...inventory.keys()]).toEqual(["1", "2", "3", "4", "5", "6", "7", "8", "9", "10", "11"]);
 
         for (const [phase, expected] of inventory) {
             expect(phaseCounts.get(phase) ?? emptyCounts(), `Phase ${phase}`).toEqual(expected);
