@@ -18,6 +18,10 @@
     --rr-umber: #72472c;
     --rr-danger: #ad4e3f;
     --rr-ice: #b8dfdf;
+    --rr-night: #172419;
+    --rr-mist: #e9f2df;
+    --rr-river-glow: #8ecbd0;
+    --rr-copper: #9f6240;
 
     --rr-surface: color-mix(in srgb, var(--rr-vellum) 86%, var(--rr-parchment));
     --rr-surface-raised: color-mix(in srgb, var(--rr-vellum) 74%, white);

@@ -7,6 +7,17 @@
     }
 }
 
+@keyframes rr-title-aurora {
+    0% {
+        transform: translate3d(-2%, -1%, 0) rotate(-2deg) scale(1);
+        opacity: 0.72;
+    }
+    100% {
+        transform: translate3d(2%, 1%, 0) rotate(2deg) scale(1.04);
+        opacity: 0.95;
+    }
+}
+
 @keyframes rr-panel-in {
     from {
         opacity: 0;

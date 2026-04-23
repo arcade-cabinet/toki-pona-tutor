@@ -1,5 +1,4 @@
 import "@rpgjs/ui-css/reset.css";
-import "@fontsource-variable/fraunces/wght.css";
 import "./styles/fonts.css";
 import "./styles/brand.css";
 import "./ui/styles/rr-tokens.css";

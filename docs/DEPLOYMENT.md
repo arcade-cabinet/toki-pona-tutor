@@ -53,10 +53,9 @@ Current release automation is configured to publish a debug APK only. Signed rel
 
 ## CI pipelines
 
-Three release/deploy workflows in `.github/workflows/` carry the app
-handoff. The directory also contains `commitlint.yml` and
-`dependabot-automerge.yml`, and `pnpm workflow:check` validates all five
-workflow files.
+Four workflows in `.github/workflows/` carry the app handoff:
+`automerge.yml`, `ci.yml`, `release.yml`, and `cd.yml`. `pnpm
+workflow:check` validates all four workflow files.
 
 Before editing any workflow, run `pnpm workflow:check` locally. It combines `actionlint` with `shellcheck` over every workflow `run:` block. The unit guards `tests/build-time/workflow-contract.test.ts` and `tests/build-time/release-artifacts.test.ts` pin the release/CD handoff, debug-APK-only release output, full-SHA action pinning, and release metadata/file-name contract.
 
@@ -64,11 +63,12 @@ Before editing any workflow, run `pnpm workflow:check` locally. It combines `act
 
 Runs on every PR:
 
-1. `unit` job: `validate-challenges`, `author:verify`, `build-spine`, `typecheck`, and `test:coverage`
-2. `integration` job: `pnpm test:integration`
-3. `e2e-smoke` job: Playwright boot smoke in headed Chromium under `xvfb`
-4. `build` job: `GITHUB_PAGES=true pnpm build` plus the web-size audit
-5. `android-debug-apk` job: `CAPACITOR=true pnpm build`, `cap add android` if needed, `cap sync android`, `./gradlew assembleDebug`
+1. `conventional-commits` job: validates the PR title and branch commit subjects for release-please-safe squash merges
+2. `unit` job: `validate-challenges`, `author:verify`, `build-spine`, `typecheck`, and `test:coverage`
+3. `integration` job: `pnpm test:integration`
+4. `e2e-smoke` job: Playwright boot smoke in headed Chromium under `xvfb`
+5. `build` job: `GITHUB_PAGES=true pnpm build` plus the web-size audit
+6. `android-debug-apk` job: `CAPACITOR=true pnpm build`, `cap add android` if needed, `cap sync android`, `./gradlew assembleDebug`
 
 `pnpm build` runs `scripts/deploy/prune-deploy-assets.mjs` after Vite finishes. The source Fan-tasy packs stay under `public/assets/tilesets/` for authoring and map-renderer validation, but deployable `dist/assets/tilesets/` is rebuilt as a runtime allowlist derived from `src/tiled/*.tmx`. This keeps Pages and Capacitor bundles under the 10 MB gzip target without deleting authoring fixtures.
 
@@ -83,6 +83,14 @@ Reviewers sideload the APK to test on a device:
 ```sh
 adb install app-debug.apk
 ```
+
+### `automerge.yml` — bot PR auto-merge
+
+Runs on `pull_request_target` for bot PRs only. Dependabot minor and patch
+updates are approved and enrolled in squash auto-merge; semver-major updates
+stay manual. Release-please PRs from `github-actions[bot]` are also approved
+and enrolled in squash auto-merge so the release chain can move once required
+checks and branch protection are satisfied.
 
 ### `release.yml` — release-please + versioned build artifacts
 

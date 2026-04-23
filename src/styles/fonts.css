@@ -14,14 +14,23 @@
  * / `--font-glyph`) resolve to the family names declared below.
  *
  * Family choices (locked in docs/BRAND.md §Typography):
+ *   Fraunces      title + major headings + field-kit labels
  *   Nunito         body + dialog + descriptions (weight 200–900)
- *   Fredoka        display + headings + toasts (weight 300–700, wdth 75–125%)
+ *   Fredoka        legacy rounded display fallback (weight 300–700, wdth 75–125%)
  *   JetBrains Mono numbers + HP/XP/level (tabular-nums, weight 100–800)
  *   nasin-nanpa    legacy clue-glyph font fallback
  *
- * Licenses: all four ship under SIL Open Font License 1.1; each
+ * Licenses: all five ship under SIL Open Font License 1.1; each
  * family directory retains its original OFL.txt.
  */
+
+@font-face {
+    font-family: "Fraunces Variable";
+    src: url("/assets/fonts/fraunces/Fraunces-VariableFont.woff2") format("woff2");
+    font-weight: 100 900;
+    font-style: normal;
+    font-display: swap;
+}
 
 @font-face {
     font-family: "Nunito";

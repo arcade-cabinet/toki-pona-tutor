@@ -21,6 +21,7 @@ function workflowNames() {
 
 describe("GitHub Actions run/release/deploy contract", () => {
     const ci = workflow("ci.yml");
+    const automerge = workflow("automerge.yml");
     const release = workflow("release.yml");
     const cd = workflow("cd.yml");
     const releasePleaseConfig = jsonFile<Record<string, unknown>>("release-please-config.json");
@@ -29,6 +30,7 @@ describe("GitHub Actions run/release/deploy contract", () => {
     it("keeps ci.yml as the PR gate with reviewer artifacts after validation", () => {
         expect(ci).toMatch(/^on:\n\s+pull_request:/m);
         expect(ci).not.toMatch(/^on:\n\s+push:/m);
+        expect(ci).toContain("node scripts/check-conventional-commits.mjs");
         expect(ci).toContain("needs:\n      - unit\n      - integration\n      - e2e-smoke");
         expect(ci).toMatch(/GITHUB_PAGES:\s+['"]true['"]/);
         expect(ci).toContain("node scripts/deploy/verify-pages-bundle.mjs dist");
@@ -36,6 +38,22 @@ describe("GitHub Actions run/release/deploy contract", () => {
         expect(ci).toContain("pnpm exec cap sync android");
         expect(ci).toContain("./gradlew assembleDebug");
         expect(ci).toContain("rivers-reckoning-debug-apk-${{ github.event.pull_request.number }}");
+    });
+
+    it("keeps workflow names aligned with the shared release shape", () => {
+        expect(workflowNames()).toEqual(["automerge.yml", "cd.yml", "ci.yml", "release.yml"]);
+    });
+
+    it("keeps bot automerge scoped to Dependabot and release-please PRs", () => {
+        expect(automerge).toMatch(/^name:\s+Automerge/m);
+        expect(automerge).toContain("github.actor == 'dependabot[bot]'");
+        expect(automerge).toContain(
+            "steps.meta.outputs.update-type != 'version-update:semver-major'",
+        );
+        expect(automerge).toContain(
+            "startsWith(github.event.pull_request.head.ref, 'release-please--')",
+        );
+        expect(automerge).toContain("gh pr merge --auto --squash");
     });
 
     it("keeps browser E2E headed, with xvfb only providing the CI display", () => {

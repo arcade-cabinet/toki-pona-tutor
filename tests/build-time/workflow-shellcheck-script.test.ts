@@ -53,10 +53,9 @@ jobs:
 
     it("lists workflow files deterministically", () => {
         expect(workflowShell.workflowFiles().map((file) => file.split("/").at(-1))).toEqual([
+            "automerge.yml",
             "cd.yml",
             "ci.yml",
-            "commitlint.yml",
-            "dependabot-automerge.yml",
             "release.yml",
         ]);
     });

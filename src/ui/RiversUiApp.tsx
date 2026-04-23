@@ -12,7 +12,14 @@ import {
     type RiversUiTitleEntry,
     type RiversUiTitleState,
 } from "./bridge";
-import { ClueMarkIcon, CompassRoseIcon, PanelCornerSvg, RiverKnotIcon, RiversSvgFilters, RouteIcon } from "./icons";
+import {
+    ClueMarkIcon,
+    CompassRoseIcon,
+    PanelCornerSvg,
+    RiverKnotIcon,
+    RiversSvgFilters,
+    RouteIcon,
+} from "./icons";
 import { publicAssetPath } from "../config/asset-paths";
 import { CREATURE_SPRITESHEETS } from "../config/creature-sprites";
 import { DEFAULT_TEXT_SPEED_CPS, typewriterIntervalMsForCps } from "../config/typewriter-speed";
@@ -40,7 +47,9 @@ function slug(value: unknown): string {
         .replace(/^-+|-+$/g, "");
 }
 
-function isEntryDisabled(entry: { id?: unknown; disabled?: unknown; enabled?: unknown } | null | undefined): boolean {
+function isEntryDisabled(
+    entry: { id?: unknown; disabled?: unknown; enabled?: unknown } | null | undefined,
+): boolean {
     if (!entry) return true;
     if (!entry.id) return true;
     if (entry.disabled) return true;
@@ -48,7 +57,10 @@ function isEntryDisabled(entry: { id?: unknown; disabled?: unknown; enabled?: un
     return false;
 }
 
-function labelOf(entry: { label?: unknown; id?: unknown } | null | undefined, fallback = ""): string {
+function labelOf(
+    entry: { label?: unknown; id?: unknown } | null | undefined,
+    fallback = "",
+): string {
     const label = entry?.label ?? entry?.id ?? fallback;
     return String(label ?? fallback);
 }
@@ -145,7 +157,9 @@ export function RiversUiApp() {
             ) : null}
             <AnimatePresence>
                 {state.title ? <TitleSurface key="title" state={state.title} /> : null}
-                {state.dialog && !suppressDialog ? <DialogSurface key="dialog" state={state.dialog} /> : null}
+                {state.dialog && !suppressDialog ? (
+                    <DialogSurface key="dialog" state={state.dialog} />
+                ) : null}
                 {state.pause ? <PauseSurface key="pause" state={state.pause} /> : null}
                 {state.defeat ? <DefeatSurface key="defeat" state={state.defeat} /> : null}
                 {state.warpLoading ? <WarpSurface key="warp" state={state.warpLoading} /> : null}
@@ -164,24 +178,64 @@ function TitleSurface({ state }: { state: RiversUiTitleState }) {
     }, [state.nonce]);
 
     return (
-        <motion.section className="rr-title-screen" data-testid="rr-title-screen" {...panelMotion(reducedMotion)}>
-            <div className="rr-title-sky" aria-hidden="true">
+        <motion.section
+            className="rr-title-screen"
+            data-testid="rr-title-screen"
+            {...panelMotion(reducedMotion)}
+        >
+            <div className="rr-title-sky rr-title-shader" aria-hidden="true">
+                <span className="rr-title-glow rr-title-glow-a" />
+                <span className="rr-title-glow rr-title-glow-b" />
+                <span className="rr-title-starfield" />
                 <span className="rr-title-river rr-title-river-a" />
                 <span className="rr-title-river rr-title-river-b" />
                 <span className="rr-title-hill rr-title-hill-a" />
                 <span className="rr-title-hill rr-title-hill-b" />
             </div>
-            <div className="rr-title-card">
-                <RiverKnotIcon className="rr-title-mark" />
-                <h1 className="rr-title-title" data-testid="rr-title-title">
-                    {state.title}
-                </h1>
-                <p className="rr-title-kicker">A fantasy field journal adventure</p>
-                <Separator.Root className="rr-separator" decorative />
-                <div className="rr-title-menu" role="menu" aria-label="Title menu">
-                    {state.entries.map((entry, index) => (
-                        <TitleButton key={`${entry.id}-${index}`} entry={entry} index={index} onSelect={state.onSelect} />
-                    ))}
+            <div className="rr-title-shell">
+                <div className="rr-title-copy">
+                    <div className="rr-title-badge">
+                        <RiverKnotIcon aria-hidden="true" />
+                        <span>Rivergate case file</span>
+                    </div>
+                    <h1 className="rr-title-title" data-testid="rr-title-title">
+                        {state.title}
+                    </h1>
+                    <p className="rr-title-subtitle">
+                        Catch strange companions, follow old clues, and uncover the green dragon's
+                        trail across a hand-built fantasy frontier.
+                    </p>
+                    <div className="rr-title-pill-row" aria-label="Adventure pillars">
+                        <span className="rr-title-pill">Creature catching</span>
+                        <span className="rr-title-pill">Mystery quests</span>
+                        <span className="rr-title-pill">Tap-first play</span>
+                    </div>
+                </div>
+                <div className="rr-title-card">
+                    <div className="rr-title-card-heading">
+                        <CompassRoseIcon aria-hidden="true" />
+                        <div>
+                            <p className="rr-title-kicker">Field kit ready</p>
+                            <p className="rr-title-card-copy">
+                                Pick up the trail and choose your next move.
+                            </p>
+                        </div>
+                    </div>
+                    <Separator.Root className="rr-separator" decorative />
+                    <div className="rr-title-menu" role="menu" aria-label="Title menu">
+                        {state.entries.map((entry, index) => (
+                            <TitleButton
+                                key={`${entry.id}-${index}`}
+                                entry={entry}
+                                index={index}
+                                onSelect={state.onSelect}
+                            />
+                        ))}
+                    </div>
+                    <div className="rr-title-card-footer">
+                        <ClueMarkIcon aria-hidden="true" />
+                        <span>Built for mouse, keyboard shortcuts, and touch.</span>
+                    </div>
                 </div>
             </div>
         </motion.section>
@@ -289,7 +343,11 @@ function DialogSurface({ state }: { state: RiversUiDialogState }) {
 
     return (
         <motion.section
-            className={cx("rr-dialog-stage", `position-${state.position}`, state.fullWidth && "full-width")}
+            className={cx(
+                "rr-dialog-stage",
+                `position-${state.position}`,
+                state.fullWidth && "full-width",
+            )}
             data-testid="rr-dialog-stage"
             onClick={continueOrFinish}
             onKeyDown={(event) => {
@@ -316,7 +374,9 @@ function DialogSurface({ state }: { state: RiversUiDialogState }) {
                     </div>
                 ) : null}
                 <div className="rr-dialog-copy">
-                    {state.speaker ? <div className="rr-dialog-speaker">{state.speaker}</div> : null}
+                    {state.speaker ? (
+                        <div className="rr-dialog-speaker">{state.speaker}</div>
+                    ) : null}
                     <div className="rr-dialog-content" data-testid="rr-dialog-content">
                         {display}
                     </div>
@@ -359,7 +419,10 @@ function HudStatus({ status }: { status: RiversUiHudStatusState }) {
     const style = status.portraitStyle ?? {};
     return (
         <aside className="rr-hud-status" data-testid="hud-status" aria-label={status.hpLabel}>
-            <div className={cx("rr-hud-portrait", status.hasPortraitImage && "has-image")} aria-hidden="true">
+            <div
+                className={cx("rr-hud-portrait", status.hasPortraitImage && "has-image")}
+                aria-hidden="true"
+            >
                 <span className="rr-hud-portrait-image" style={style} />
                 <span className="rr-hud-portrait-fallback">{status.portraitFallback}</span>
             </div>
@@ -368,7 +431,9 @@ function HudStatus({ status }: { status: RiversUiHudStatusState }) {
                     <strong>{status.primaryLabel}</strong>
                     <small>{status.levelLabel}</small>
                 </div>
-                {status.secondaryLabel ? <div className="rr-hud-subtitle">{status.secondaryLabel}</div> : null}
+                {status.secondaryLabel ? (
+                    <div className="rr-hud-subtitle">{status.secondaryLabel}</div>
+                ) : null}
                 <div className="rr-hud-metrics">
                     <HpBar value={status.hpPercent} label={status.hpLabel} tone={status.hpClass} />
                     <span>{status.masteredLabel}</span>
@@ -383,7 +448,11 @@ function PauseSurface({ state }: { state: RiversUiPauseState }) {
     const routeCount = state.routes.length;
     const rowCount = state.contentRows.length;
     return (
-        <motion.section className="rr-pause-screen" data-testid="pause-overlay" {...panelMotion(reducedMotion)}>
+        <motion.section
+            className="rr-pause-screen"
+            data-testid="pause-overlay"
+            {...panelMotion(reducedMotion)}
+        >
             <div className="rr-pause-card rr-carved-panel">
                 <PanelCornerSvg />
                 <header className="rr-pause-header">
@@ -400,7 +469,9 @@ function PauseSurface({ state }: { state: RiversUiPauseState }) {
                                 type="button"
                                 className="rr-pause-route rr-command-button"
                                 data-selected={state.activeRoute === routeId ? "true" : "false"}
-                                data-testid={slug(route.testId || `pause-route-${routeId || index}`)}
+                                data-testid={slug(
+                                    route.testId || `pause-route-${routeId || index}`,
+                                )}
                                 disabled={isEntryDisabled(route)}
                                 onClick={() => state.onSelect(route, index)}
                             >
@@ -478,7 +549,10 @@ function PauseRow({
                 disabled={isEntryDisabled(row)}
                 onClick={() => onSelect(row, index)}
             >
-                <span className={cx("rr-party-portrait", portraitFrame?.src && "has-image")} aria-hidden="true">
+                <span
+                    className={cx("rr-party-portrait", portraitFrame?.src && "has-image")}
+                    aria-hidden="true"
+                >
                     <span className="rr-party-portrait-image" style={spriteStyle(portraitFrame)} />
                     <span>{String(row.portraitFallback || "?")}</span>
                 </span>
@@ -489,7 +563,11 @@ function PauseRow({
                     </span>
                     <span>{String(row.secondaryLabel || row.typeLabel || "")}</span>
                     <span className="rr-party-hp-line">
-                        <HpBar value={row.hpPercent} label={String(row.hpLabel || "HP")} tone={String(row.hpClass || "hp-healthy")} />
+                        <HpBar
+                            value={row.hpPercent}
+                            label={String(row.hpLabel || "HP")}
+                            tone={String(row.hpClass || "hp-healthy")}
+                        />
                         <small>{String(row.hpLabel || "")}</small>
                     </span>
                 </span>
@@ -536,12 +614,20 @@ function WildBattleSurface({ view }: { view: any }) {
     return (
         <section className="rr-wild-battle" data-testid="wild-battle" aria-label={ariaLabel}>
             <div className="rr-wild-stage">
-                {lead ? <WildCombatant combatant={lead} testId="wild-battle-lead" role="lead" /> : <MissingLead />}
+                {lead ? (
+                    <WildCombatant combatant={lead} testId="wild-battle-lead" role="lead" />
+                ) : (
+                    <MissingLead />
+                )}
                 <div className="rr-wild-versus" aria-hidden="true">
                     {copy.versusLabel}
                 </div>
                 <div
-                    className={cx("rr-wild-capture", capture && "visible", capture && `state-${capture.state}`)}
+                    className={cx(
+                        "rr-wild-capture",
+                        capture && "visible",
+                        capture && `state-${capture.state}`,
+                    )}
                     data-testid="wild-battle-capture"
                     aria-hidden={capture ? "false" : "true"}
                 >
@@ -549,7 +635,12 @@ function WildBattleSurface({ view }: { view: any }) {
                     <strong>{capture?.label || ""}</strong>
                 </div>
                 {target ? (
-                    <WildCombatant combatant={target} testId="wild-battle-target" role="target" damage={damage} />
+                    <WildCombatant
+                        combatant={target}
+                        testId="wild-battle-target"
+                        role="target"
+                        damage={damage}
+                    />
                 ) : null}
             </div>
         </section>
@@ -582,15 +673,25 @@ function WildCombatant({
 }) {
     return (
         <div className={cx("rr-wild-combatant", role)} data-testid={testId}>
-            <span className={cx("rr-wild-sprite", combatant.sprite?.src && "has-image")} style={spriteStyle(combatant.sprite)}>
+            <span
+                className={cx("rr-wild-sprite", combatant.sprite?.src && "has-image")}
+                style={spriteStyle(combatant.sprite)}
+            >
                 {combatant.fallback}
             </span>
             {damage ? (
-                <span className={cx("rr-wild-damage", "visible", `tone-${damage.tone}`)} data-testid="wild-battle-damage">
+                <span
+                    className={cx("rr-wild-damage", "visible", `tone-${damage.tone}`)}
+                    data-testid="wild-battle-damage"
+                >
                     {damage.label}
                 </span>
             ) : role === "target" ? (
-                <span className="rr-wild-damage" data-testid="wild-battle-damage" aria-hidden="true" />
+                <span
+                    className="rr-wild-damage"
+                    data-testid="wild-battle-damage"
+                    aria-hidden="true"
+                />
             ) : null}
             <div className="rr-wild-copy">
                 <div className="rr-wild-heading">
@@ -599,7 +700,11 @@ function WildCombatant({
                 </div>
                 <small>{combatant.typeLabel}</small>
                 <div className="rr-wild-hp-line">
-                    <HpBar value={combatant.hpPercent} label={combatant.hpLabel} tone={combatant.hpClass} />
+                    <HpBar
+                        value={combatant.hpPercent}
+                        label={combatant.hpLabel}
+                        tone={combatant.hpClass}
+                    />
                     <small>{combatant.hpLabel}</small>
                 </div>
             </div>
@@ -631,18 +736,26 @@ function LeadMoveBarSurface({ view }: { view: any }) {
     function cooldownLabel(move: any): string {
         const remaining = Number(move?.readyAt || 0) - now;
         if (remaining <= 0) return copy.readyLabel;
-        return formatGameplayTemplate(copy.cooldownLabelTemplate, { seconds: Math.ceil(remaining / 1000) });
+        return formatGameplayTemplate(copy.cooldownLabelTemplate, {
+            seconds: Math.ceil(remaining / 1000),
+        });
     }
 
     return (
-        <section className="rr-lead-movebar" data-testid="lead-movebar" aria-label={view?.leadLabel || copy.emptyAriaLabel}>
+        <section
+            className="rr-lead-movebar"
+            data-testid="lead-movebar"
+            aria-label={view?.leadLabel || copy.emptyAriaLabel}
+        >
             <header className="rr-lead-header">
                 <div>
                     <strong>{view?.leadLabel || ""}</strong>
                     <small>{view?.levelLabel || ""}</small>
                 </div>
                 <div>
-                    <span data-testid="lead-switch-label">{switchInfo?.actionLabel || copy.switchActionLabel}</span>
+                    <span data-testid="lead-switch-label">
+                        {switchInfo?.actionLabel || copy.switchActionLabel}
+                    </span>
                     <small>{view?.energyLabel || ""}</small>
                 </div>
             </header>
@@ -655,15 +768,24 @@ function LeadMoveBarSurface({ view }: { view: any }) {
                                 <button
                                     key={`${option.slot}-${option.speciesId}`}
                                     type="button"
-                                    className={cx("rr-lead-switch-option", option.selected && "selected")}
+                                    className={cx(
+                                        "rr-lead-switch-option",
+                                        option.selected && "selected",
+                                    )}
                                     data-testid={`lead-switch-slot-${option.slot ?? "unknown"}`}
                                     disabled={!option || !!option.disabled}
                                     aria-disabled={!option || option.disabled ? "true" : "false"}
                                     onClick={() => view.onSwitchLead?.(option)}
                                 >
                                     <span>{option.label}</span>
-                                    <small>{option.levelLabel} - {option.meta}</small>
-                                    <HpBar value={option.hpPercent} label={option.hpLabel} tone={option.hpClass || "hp-healthy"} />
+                                    <small>
+                                        {option.levelLabel} - {option.meta}
+                                    </small>
+                                    <HpBar
+                                        value={option.hpPercent}
+                                        label={option.hpLabel}
+                                        tone={option.hpClass || "hp-healthy"}
+                                    />
                                 </button>
                             ))}
                         </div>
@@ -672,7 +794,11 @@ function LeadMoveBarSurface({ view }: { view: any }) {
                     )}
                 </div>
             ) : null}
-            <div className="rr-lead-target" data-testid="lead-movebar-target" data-in-range={target?.inRange ? "true" : "false"}>
+            <div
+                className="rr-lead-target"
+                data-testid="lead-movebar-target"
+                data-in-range={target?.inRange ? "true" : "false"}
+            >
                 <span>{target?.label || copy.defaultTargetLabel}</span>
                 <small>{target?.statusLabel || copy.defaultTargetStatus}</small>
             </div>
@@ -720,7 +846,12 @@ function WarpSurface({ state }: { state: any }) {
             label,
         });
     return (
-        <motion.section className={cx("rr-warp-loading", `phase-${phase}`)} data-testid="warp-loading" data-phase={phase} aria-label={ariaLabel}>
+        <motion.section
+            className={cx("rr-warp-loading", `phase-${phase}`)}
+            data-testid="warp-loading"
+            data-phase={phase}
+            aria-label={ariaLabel}
+        >
             <div className="rr-overlay-card rr-carved-panel">
                 <PanelCornerSvg />
                 <CompassRoseIcon />
@@ -749,7 +880,12 @@ function DefeatSurface({ state }: { state: any }) {
             label,
         });
     return (
-        <motion.section className={cx("rr-defeat-screen", `phase-${phase}`)} data-testid="defeat-screen" data-phase={phase} aria-label={ariaLabel}>
+        <motion.section
+            className={cx("rr-defeat-screen", `phase-${phase}`)}
+            data-testid="defeat-screen"
+            data-phase={phase}
+            aria-label={ariaLabel}
+        >
             <div className="rr-overlay-card rr-defeat-card rr-carved-panel">
                 <PanelCornerSvg />
                 <RiverKnotIcon />
@@ -764,7 +900,17 @@ function DefeatSurface({ state }: { state: any }) {
     );
 }
 
-function NotificationStack({ notifications }: { notifications: Array<{ id: string; message: string; type: string; opacity?: number; offsetY?: number }> }) {
+function NotificationStack({
+    notifications,
+}: {
+    notifications: Array<{
+        id: string;
+        message: string;
+        type: string;
+        opacity?: number;
+        offsetY?: number;
+    }>;
+}) {
     if (!notifications.length) return null;
     return (
         <div className="rr-notifications" data-testid="rr-notifications">

@@ -18,7 +18,7 @@
      * ─── Canonical palette ─── (warm cream + parchment, see BRAND.md)
      *
      * Cozy storybook energy, not RPG-manual-in-a-cave energy.
-     * Ported from an earlier prototype palette decision; the prior
+     * Preserved from the earlier palette transition; the prior
      * dark-parchment palette (`#1b1510` ink etc.) is gone. When the
      * palette changes, it changes HERE and in docs/BRAND.md together.
      *
@@ -136,7 +136,6 @@
     /* ─── Touch target minimums (WCAG 2.1 AA) ─── */
     --touch-min: 44px;
     --touch-combat: 56px;
-
 }
 
 .poki-hud-menu-root {
@@ -413,7 +412,8 @@
     .poki-hud-hint-glyph {
         min-width: max(var(--touch-min), 52px);
         min-height: max(var(--touch-min), 52px);
-    }}
+    }
+}
 
 @media (max-width: 640px) {
     .poki-hud-status {
