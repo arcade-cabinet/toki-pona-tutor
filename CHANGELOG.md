@@ -10,6 +10,13 @@ All notable changes to poki soweli. Format based on [Keep a Changelog](https://k
 
 This branch (`feat/rpgjs-v5-pivot`) descends from commit `0a582e0` — the pre-Godot tip. The Godot era between `1d924fe` (pivot) and `0edfe61` (feat/anchor-to-template) lives on `main` and is not represented here. Release-please releases `v0.1.0`…`v0.1.3` tagged on `main` cover the Godot build and do not apply to this branch.
 
+## [0.10.1](https://github.com/arcade-cabinet/poki-soweli/compare/v0.10.0...v0.10.1) (2026-04-23)
+
+
+### Fixed
+
+* **map:** remove unexplained brown plot on riverside_home (T11-04) ([#142](https://github.com/arcade-cabinet/poki-soweli/issues/142)) ([0e93aed](https://github.com/arcade-cabinet/poki-soweli/commit/0e93aed89aa13afb658e647936cb9efc6573bd4f))
+
 ## [0.10.0](https://github.com/arcade-cabinet/poki-soweli/compare/v0.9.1...v0.10.0) (2026-04-23)
 
 
