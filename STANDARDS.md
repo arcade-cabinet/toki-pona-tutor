@@ -1,6 +1,6 @@
 ---
 title: Rivers Reckoning — Standards
-updated: 2026-04-22
+updated: 2026-04-23
 status: current
 ---
 
@@ -119,15 +119,15 @@ When feature scope crosses layers, add or update checks in this order: docs acce
 
 Every sprite in the game comes from one of these:
 
-| Category                      | Source                   | Path                                                                 |
-| ----------------------------- | ------------------------ | -------------------------------------------------------------------- |
-| Tilesets                      | Fan-tasy family          | `public/assets/tilesets/{core,seasons,snow,desert,fortress,indoor}/` |
-| Player                        | Fan-tasy Main Character  | `public/assets/player/`                                              |
-| Bosses (animated)             | Various                  | `public/assets/bosses/`                                              |
-| Creatures (static wild)       | Creature Extended        | `public/assets/creatures/`                                           |
-| NPCs                          | Citizens-Guards-Warriors | `public/assets/npcs/`                                                |
+| Category                            | Source                   | Path                                                                 |
+| ----------------------------------- | ------------------------ | -------------------------------------------------------------------- |
+| Tilesets                            | Fan-tasy family          | `public/assets/tilesets/{core,seasons,snow,desert,fortress,indoor}/` |
+| Player                              | Fan-tasy Main Character  | `public/assets/player/`                                              |
+| Bosses (animated)                   | Various                  | `public/assets/bosses/`                                              |
+| Creatures (static wild)             | Creature Extended        | `public/assets/creatures/`                                           |
+| NPCs                                | Citizens-Guards-Warriors | `public/assets/npcs/`                                                |
 | Combatants (rivals, region masters) | warriors_rogues_mages    | `public/assets/combatants/`                                          |
-| Effects                       | warriors_rogues_mages    | `public/assets/effects/`                                             |
+| Effects                             | warriors_rogues_mages    | `public/assets/effects/`                                             |
 
 See `docs/SPRITE_CURATION.md` for curation rules, with runtime catalog details in
 `docs/NPC_SPRITES.md`, `docs/COMBATANT_SPRITES.md`, and
@@ -136,7 +136,7 @@ See `docs/SPRITE_CURATION.md` for curation rules, with runtime catalog details i
 ## CI and release
 
 -   Every PR runs validation, typecheck, unit coverage, integration, smoke E2E, Pages build, and debug APK artifact jobs. Failing any gate blocks merge.
--   Release-please tags semver; `release.yml` builds versioned web/debug APK workflow artifacts, and `cd.yml` consumes the completed release run to attach release assets and deploy Pages. Remote end-to-end proof remains a release-hardening gate in `docs/ROADMAP.md`.
+-   Release-please tags semver; `release.yml` builds versioned web/debug APK workflow artifacts, and `cd.yml` consumes the completed release run to attach release assets and deploy Pages. The remote chain is proven on `v0.3.1`; keep it proven as workflows evolve.
 -   Never force-push to main. Never bypass CI.
 
 ## When you see a violation

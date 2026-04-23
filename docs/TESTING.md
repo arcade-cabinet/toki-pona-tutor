@@ -1,6 +1,6 @@
 ---
 title: Testing Strategy
-updated: 2026-04-22
+updated: 2026-04-23
 status: current
 domain: quality
 ---
@@ -11,24 +11,24 @@ Unit tests guard pure contracts. Integration and headed browser tests prove the 
 
 ## Gate Matrix
 
-| Layer | Command | Purpose |
-| --- | --- | --- |
-| Content/map validation | `pnpm validate` | challenge clue references and generated map artifact drift |
-| Spine build | `pnpm build-spine` | Zod validation and generated world output |
-| Type surface | `pnpm typecheck` | source, build tooling, and tests |
-| Unit | `pnpm test:unit` | pure logic, generated contracts, docs/workflow guards |
-| Integration | `pnpm test:integration` | real RPG.js engine in Node/happy-dom |
-| Browser smoke | `pnpm test:e2e:smoke` | headed Chromium boot path under xvfb in CI |
-| Full browser | `pnpm test:e2e:full` | local progression, mobile, visual, and golden-path coverage |
-| Pages build | `GITHUB_PAGES=true pnpm build` | deployable web bundle with `/poki-soweli/` base |
-| Android debug | `pnpm android:build-debug` | Capacitor bundle, sync, and debug APK |
+| Layer                  | Command                        | Purpose                                                     |
+| ---------------------- | ------------------------------ | ----------------------------------------------------------- |
+| Content/map validation | `pnpm validate`                | challenge clue references and generated map artifact drift  |
+| Spine build            | `pnpm build-spine`             | Zod validation and generated world output                   |
+| Type surface           | `pnpm typecheck`               | source, build tooling, and tests                            |
+| Unit                   | `pnpm test:unit`               | pure logic, generated contracts, docs/workflow guards       |
+| Integration            | `pnpm test:integration`        | real RPG.js engine in Node/happy-dom                        |
+| Browser smoke          | `pnpm test:e2e:smoke`          | headed Chromium boot path under xvfb in CI                  |
+| Full browser           | `pnpm test:e2e:full`           | local progression, mobile, visual, and golden-path coverage |
+| Pages build            | `GITHUB_PAGES=true pnpm build` | deployable web bundle with `/poki-soweli/` base             |
+| Android debug          | `pnpm android:build-debug`     | Capacitor bundle, sync, and debug APK                       |
 
 ## Content And Map Validation
 
 `pnpm validate` runs:
 
-- `pnpm validate-challenges` against `src/content/challenges.json` and `src/content/clues.json`.
-- `pnpm author:verify` against emitted `.tmx`, `.tmj`, and preview artifacts.
+-   `pnpm validate-challenges` against `src/content/challenges.json` and `src/content/clues.json`.
+-   `pnpm author:verify` against emitted `.tmx`, `.tmj`, and preview artifacts.
 
 `pnpm build-spine` compiles authored spine JSON and generated map-object data into `src/content/generated/world.json`.
 
@@ -44,15 +44,15 @@ Integration tests live under `tests/integration/` and boot the real RPG.js graph
 
 They cover:
 
-- boot and initial map placement
-- starter ceremony
-- wild encounter actions
-- capture/bestiary writes
-- rival and region-master progression
-- badge gates
-- final route and green-dragon state
-- respawn
-- save/load round trip
+-   boot and initial map placement
+-   starter ceremony
+-   wild encounter actions
+-   capture/bestiary writes
+-   rival and region-master progression
+-   badge gates
+-   final route and green-dragon state
+-   respawn
+-   save/load round trip
 
 Use integration first for player-visible server/runtime behavior.
 
@@ -87,11 +87,15 @@ pnpm maestro:android
 pnpm maestro:ios
 ```
 
-- `maestro:check` syntax-checks flows without a device.
-- `maestro:android` targets the installed debug APK package `com.riversreckoning.game`.
-- `maestro:ios` opens deployed GitHub Pages in Mobile Safari until a native iOS target exists.
+-   `maestro:check` syntax-checks flows without a device.
+-   `maestro:android` targets the installed debug APK package `com.riversreckoning.game`.
+-   `maestro:ios` opens deployed GitHub Pages in Mobile Safari until a native iOS target exists.
 
-Maestro is scaffolded, not device-proven yet. Closing release QA still requires actual Android emulator execution, iOS simulator Pages execution, and at least one physical-device debug APK smoke.
+Current proof status:
+
+-   Android emulator smoke is locally proven on `Maestro_ANDROID_pixel_6_android-33`.
+-   iOS Pages flow is syntax-checked but not yet simulator-proven.
+-   Physical-device release-artifact QA is still open.
 
 ## Workflow And Release Tests
 
@@ -108,8 +112,8 @@ pnpm release:smoke-artifacts "$RELEASE_TAG"
 
 ## Failure Guidance
 
-- If map verification fails, edit the spec and regenerate. Do not patch emitted maps.
-- If config validation fails, fix the authored JSON or schema deliberately.
-- If integration hangs, lower the wait timeout and advance the fixture with explicit ticks.
-- If browser smoke fails, inspect page errors and asset/base-path requests before changing tests.
-- If visual diagnostics warn, decide whether the warning is acceptable product debt or a required map/art fix.
+-   If map verification fails, edit the spec and regenerate. Do not patch emitted maps.
+-   If config validation fails, fix the authored JSON or schema deliberately.
+-   If integration hangs, lower the wait timeout and advance the fixture with explicit ticks.
+-   If browser smoke fails, inspect page errors and asset/base-path requests before changing tests.
+-   If visual diagnostics warn, decide whether the warning is acceptable product debt or a required map/art fix.

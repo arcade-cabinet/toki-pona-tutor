@@ -1,6 +1,6 @@
 ---
 title: Mobile QA
-updated: 2026-04-22
+updated: 2026-04-23
 status: current
 domain: quality
 ---
@@ -72,8 +72,8 @@ Safari, sets landscape orientation, verifies the title menu, starts a new game,
 uses the same point-tap starter-mentor path, advances the starter ceremony,
 opens the HUD menu, and checks the same touch route labels.
 
-This iOS flow is syntax-checked but not yet simulator-proven in this branch
-because it must run against the deployed Pages artifact.
+This iOS flow is syntax-checked but not yet simulator-proven because it must run
+against the deployed Pages artifact.
 
 ## Manual Checks Still Required
 

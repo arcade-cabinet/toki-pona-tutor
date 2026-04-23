@@ -1,12 +1,18 @@
 ---
 title: Rivers Reckoning — Extended Operating Protocols
-updated: 2026-04-22
+updated: 2026-04-23
 status: current
 ---
 
 # Operating protocols for agents working on Rivers Reckoning
 
 Companion to `CLAUDE.md`. CLAUDE.md is the quick-orient entry point; this file is the extended reference for how work happens here.
+
+Current release reality:
+
+-   latest verified release: `v0.3.1`
+-   latest verified Pages deploy: `https://arcade-cabinet.github.io/poki-soweli/`
+-   remaining work is owned by `docs/PRODUCTION.md`, not by guesswork or stale PR notes
 
 ## Docs → Tests → Code (the one rule that matters most)
 
@@ -57,16 +63,16 @@ The only way a map enters the repo is via a TypeScript spec in `scripts/map-auth
 
 Every sprite in the game comes from the Fan-tasy tileset family. Mixing outside the allowlist introduces the tonal inconsistency that sank the previous playthrough.
 
-| Category | Where |
-|---|---|
-| Tilesets (6 biomes) | `public/assets/tilesets/{core,seasons,snow,desert,fortress,indoor}/` |
-| Player runtime sheets | `public/spritesheets/` |
-| Bosses (animated, 1-of-a-kind) | `public/assets/bosses/` |
-| Creatures (static, wild encounters) | `public/assets/creatures/` |
-| NPCs (villagers, guards, warriors) | `public/assets/npcs/` |
-| Combatants (rivals, gym leaders) | `public/assets/combatants/` |
-| Effects | `public/assets/effects/` |
-| Fonts | `public/assets/fonts/` |
+| Category                            | Where                                                                |
+| ----------------------------------- | -------------------------------------------------------------------- |
+| Tilesets (6 biomes)                 | `public/assets/tilesets/{core,seasons,snow,desert,fortress,indoor}/` |
+| Player runtime sheets               | `public/spritesheets/`                                               |
+| Bosses (animated, 1-of-a-kind)      | `public/assets/bosses/`                                              |
+| Creatures (static, wild encounters) | `public/assets/creatures/`                                           |
+| NPCs (villagers, guards, warriors)  | `public/assets/npcs/`                                                |
+| Combatants (rivals, gym leaders)    | `public/assets/combatants/`                                          |
+| Effects                             | `public/assets/effects/`                                             |
+| Fonts                               | `public/assets/fonts/`                                               |
 
 Tiled `.tmx`/`.tsx` relative paths inside each tileset pack are preserved — open any source pack in the Tiled editor and it loads unchanged.
 
@@ -74,26 +80,26 @@ Tiled `.tmx`/`.tsx` relative paths inside each tileset pack are preserved — op
 
 Five CI-gated layers plus the local full-browser suite, each doing one job well. Full spec in `docs/TESTING.md`.
 
-| Layer | Lives in | Gate | Runtime |
-|-------|----------|------|---------|
-| Content pipeline | `scripts/validate-*.mjs`, `author:verify` | `pnpm validate` | Node |
-| Type surface | split `tsc --noEmit` configs | `pnpm typecheck` | Node |
-| Unit (pure logic) | `tests/build-time/`, vitest `unit` project | `pnpm test:unit` + coverage | Node |
-| Integration (real engine) | `tests/integration/`, vitest `integration` project | `pnpm test:integration` | happy-dom + `@rpgjs/testing` |
-| E2E smoke (real browser) | `tests/e2e/smoke/`, Playwright | `pnpm test:e2e:smoke` (CI) | Chromium + xvfb + GPU-ANGLE |
-| E2E full (real browser) | `tests/e2e/`, Playwright | `pnpm test:e2e:full` (local) | Chromium + xvfb + GPU-ANGLE |
+| Layer                     | Lives in                                           | Gate                         | Runtime                      |
+| ------------------------- | -------------------------------------------------- | ---------------------------- | ---------------------------- |
+| Content pipeline          | `scripts/validate-*.mjs`, `author:verify`          | `pnpm validate`              | Node                         |
+| Type surface              | split `tsc --noEmit` configs                       | `pnpm typecheck`             | Node                         |
+| Unit (pure logic)         | `tests/build-time/`, vitest `unit` project         | `pnpm test:unit` + coverage  | Node                         |
+| Integration (real engine) | `tests/integration/`, vitest `integration` project | `pnpm test:integration`      | happy-dom + `@rpgjs/testing` |
+| E2E smoke (real browser)  | `tests/e2e/smoke/`, Playwright                     | `pnpm test:e2e:smoke` (CI)   | Chromium + xvfb + GPU-ANGLE  |
+| E2E full (real browser)   | `tests/e2e/`, Playwright                           | `pnpm test:e2e:full` (local) | Chromium + xvfb + GPU-ANGLE  |
 
 **Integration + E2E carry the weight.** Unit tests are reserved for pure-logic/math/formulas — algorithms that are expressible without the engine. Every feature that touches player-visible behavior ships with an integration test first, then E2E, then unit tests for any math that fell out along the way.
 
 ## Branching + PR discipline
 
-- Work on feature branches; PR to `main`. Never push to `main`.
-- Branch names are ephemeral — check `git branch --show-current` rather than assuming.
-- Conventional Commits always (`feat:`, `fix:`, `chore:`, `docs:`, `refactor:`, `test:`, `ci:`, `build:`, `perf:`).
-- Squash-merge PRs.
-- CI must be green before merge. Address every review comment.
-- Never merge with `--admin`. Never bypass required-status-checks. Address all review-thread resolution.
-- GitHub Actions are pinned to exact commit SHAs (latest stable). Dependabot-proposed `@vN` tag bumps get closed in favor of SHA pins.
+-   Work on feature branches; PR to `main`. Never push to `main`.
+-   Branch names are ephemeral — check `git branch --show-current` rather than assuming.
+-   Conventional Commits always (`feat:`, `fix:`, `chore:`, `docs:`, `refactor:`, `test:`, `ci:`, `build:`, `perf:`).
+-   Squash-merge PRs.
+-   CI must be green before merge. Address every review comment.
+-   Never merge with `--admin`. Never bypass required-status-checks. Address all review-thread resolution.
+-   GitHub Actions are pinned to exact commit SHAs (latest stable). Dependabot-proposed `@vN` tag bumps get closed in favor of SHA pins.
 
 ## Deploy targets (three bases)
 
@@ -109,32 +115,32 @@ Every CI build step that produces a deployable artifact sets the right env. See 
 
 ## Persistence rules
 
-- **Never `localStorage` or `IndexedDB` in feature code.** Use `src/platform/persistence/preferences.ts` (typed KV) or `src/platform/persistence/database.ts` (structured SQLite) — Capacitor-backed with web shims inside the wrapper only.
-- **Save schema changes bump `DB_VERSION`** in `database.ts` and add a migration step in `migrateSchema()`. `PRAGMA user_version` is the canonical version source.
-- **Autosave** fires on map change, combat end, and quit intent. Manual save (slots 1-3) lands via the pause-menu Save row.
+-   **Never `localStorage` or `IndexedDB` in feature code.** Use `src/platform/persistence/preferences.ts` (typed KV) or `src/platform/persistence/database.ts` (structured SQLite) — Capacitor-backed with web shims inside the wrapper only.
+-   **Save schema changes bump `DB_VERSION`** in `database.ts` and add a migration step in `migrateSchema()`. `PRAGMA user_version` is the canonical version source.
+-   **Autosave** fires on map change, combat end, and quit intent. Manual save (slots 1-3) lands via the pause-menu Save row.
 
 ## Languages + formats
 
-- **TypeScript strict** for all game code.
-- **`.ce`** only for RPG.js GUI bridge adapters. Player-facing UI lives in `src/ui/` React components. See `docs/UX.md` + https://canvasengine.net/llms.txt for adapter conventions.
-- **JSON** for content (Zod-validated).
-- **Tiled `.tmx`/`.tsx`** for tilemaps — but `.tmx` under `src/tiled/` and `.tmj` under `public/assets/maps/` are **emitted artifacts**, never hand-edited.
+-   **TypeScript strict** for all game code.
+-   **`.ce`** only for RPG.js GUI bridge adapters. Player-facing UI lives in `src/ui/` React components. See `docs/UX.md` + https://canvasengine.net/llms.txt for adapter conventions.
+-   **JSON** for content (Zod-validated).
+-   **Tiled `.tmx`/`.tsx`** for tilemaps — but `.tmx` under `src/tiled/` and `.tmj` under `public/assets/maps/` are **emitted artifacts**, never hand-edited.
 
 ## When something fights you
 
-- **`pnpm author:verify` fails** — the `.tmx`/`.tmj` on disk drifted from the spec (or is orphaned, or missing). DO NOT edit artifacts directly. Edit the spec under `scripts/map-authoring/specs/` and re-run `pnpm author:build <id>`. If orphaned, remove the `.tmx`/`.tmj` or add the matching spec.
-- **`tsc` fails on a `@rpgjs/*` type** — upstream ships named exports as `default` only in several packages. Add a shim under `src/types/rpgjs-*.d.ts` mirroring the runtime surface. The typecheck script already filters one known upstream bug (`@rpgjs/common/rooms/WorldMaps.ts`) via pipefail grep.
-- **Dev server shows blank canvas / tilemap doesn't render** — check the vite `base` matches how you're requesting the URL (dev = `/`, not `/poki-soweli/`). The tilemap plugin prefixes requests with `${base}map`.
-- **Font 404 on deployed Pages** — make sure the CI build step has `GITHUB_PAGES=true` so vite rewrites `/assets/fonts/...` to `/poki-soweli/assets/fonts/...`.
-- **Integration test hangs** — waiting for a map change or tick that never fires. Lower the `waitForMapChange` timeout to get a clean error, then call `fixture.nextTick()` explicitly. The engine doesn't tick on its own in tests.
+-   **`pnpm author:verify` fails** — the `.tmx`/`.tmj` on disk drifted from the spec (or is orphaned, or missing). DO NOT edit artifacts directly. Edit the spec under `scripts/map-authoring/specs/` and re-run `pnpm author:build <id>`. If orphaned, remove the `.tmx`/`.tmj` or add the matching spec.
+-   **`tsc` fails on a `@rpgjs/*` type** — upstream ships named exports as `default` only in several packages. Add a shim under `src/types/rpgjs-*.d.ts` mirroring the runtime surface. The typecheck script already filters one known upstream bug (`@rpgjs/common/rooms/WorldMaps.ts`) via pipefail grep.
+-   **Dev server shows blank canvas / tilemap doesn't render** — check the vite `base` matches how you're requesting the URL (dev = `/`, not `/poki-soweli/`). The tilemap plugin prefixes requests with `${base}map`.
+-   **Font 404 on deployed Pages** — make sure the CI build step has `GITHUB_PAGES=true` so vite rewrites `/assets/fonts/...` to `/poki-soweli/assets/fonts/...`.
+-   **Integration test hangs** — waiting for a map change or tick that never fires. Lower the `waitForMapChange` timeout to get a clean error, then call `fixture.nextTick()` explicitly. The engine doesn't tick on its own in tests.
 
 ## What's unique about this game (design constraints)
 
-- **Player has no stats.** The party of ≤ 6 creatures is the character sheet.
-- **Five creature types**: seli (fire) / telo (water) / kasi (plant) / lete (ice) / wawa (strong). Each has specific matchup multipliers; wawa is the neutral bruiser.
-- **Every monster is catchable.** Tiering is rarity + catch difficulty + animation depth — not whether the capture pod works.
-- **Native-English story.** The former corpus/translation layer is removed; use richer English writing and curated clues instead.
-- **Seven regions → four current region masters → one final boss (green dragon).** Green dragon is the only creature with a dedicated death animation; the final-boss defeat path plays it, and the species is also a rare final-route catch.
-- **Kid audience.** "Dread knight" > "death knight". Tone is fierce-but-friendly, never punishing, no permadeath.
-- **Mobile-first.** Tap-to-walk primary, keyboard as desktop shortcut, no orientation lock, responsive via container queries, safe-area-aware.
-- **No trademarked references** in any doc, code, comment, or asset. The game is a "creature-catching RPG" — never compared to any specific franchise by name.
+-   **Player has no stats.** The party of ≤ 6 creatures is the character sheet.
+-   **Five creature types**: seli (fire) / telo (water) / kasi (plant) / lete (ice) / wawa (strong). Each has specific matchup multipliers; wawa is the neutral bruiser.
+-   **Every monster is catchable.** Tiering is rarity + catch difficulty + animation depth — not whether the capture pod works.
+-   **Native-English story.** The former corpus/translation layer is removed; use richer English writing and curated clues instead.
+-   **Seven regions → four current region masters → one final boss (green dragon).** Green dragon is the only creature with a dedicated death animation; the final-boss defeat path plays it, and the species is also a rare final-route catch.
+-   **Kid audience.** "Dread knight" > "death knight". Tone is fierce-but-friendly, never punishing, no permadeath.
+-   **Mobile-first.** Tap-to-walk primary, keyboard as desktop shortcut, no orientation lock, responsive via container queries, safe-area-aware.
+-   **No trademarked references** in any doc, code, comment, or asset. The game is a "creature-catching RPG" — never compared to any specific franchise by name.

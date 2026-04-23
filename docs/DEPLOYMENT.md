@@ -1,11 +1,19 @@
 ---
 title: Deployment
-updated: 2026-04-22
+updated: 2026-04-23
 status: current
 domain: ops
 ---
 
 # Deployment
+
+As of 2026-04-23, the remote release/deploy chain is proven on `v0.3.1`:
+
+-   release merge commit `a546843137137a57dc782fb4f99e32123a661d36` landed on `main`
+-   artifact-producing `release.yml` run `24819206623` succeeded
+-   consuming `cd.yml` run `24819295738` succeeded
+-   Pages served the deployed build at `https://arcade-cabinet.github.io/poki-soweli/`
+-   the release attached both the web tarball and the debug APK
 
 ## Targets
 
@@ -153,10 +161,10 @@ pnpm maestro:ios
 ## Release QA
 
 After a remote release proves the `release.yml` → `cd.yml` artifact handoff, run
-the manual checklist in `docs/RELEASE_QA.md` and the Maestro emulator/simulator
-flows in `docs/MOBILE_QA.md`. Those checks intentionally test the
-release-attached debug APK and deployed Pages URL, not a locally rebuilt APK or
-local preview server.
+the manual checklist in `docs/RELEASE_QA.md`, the broader readiness sweep in
+`docs/LAUNCH_READINESS.md`, and the Maestro emulator/simulator flows in
+`docs/MOBILE_QA.md`. Those checks intentionally test the release-attached debug
+APK and deployed Pages URL, not a locally rebuilt APK or local preview server.
 
 ## Deferred: signed release APK
 
