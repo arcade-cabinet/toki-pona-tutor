@@ -1122,6 +1122,11 @@ export const SETTINGS_CONFIG = {
     choices: uiConfig.settings.choices,
 };
 export const CREDITS_PAGES = uiConfig.credits_pages.map((page) => page.join("\n"));
+export const OPENING_SCENE_CONFIG = {
+    flagId: uiConfig.opening_scene.flag_id,
+    postSceneDialogId: uiConfig.opening_scene.post_scene_dialog_id,
+    beats: uiConfig.opening_scene.beats,
+} as const;
 export const PIXI_GUARDED_FX_ALIASES = visualsConfig.pixi.guarded_fx_aliases;
 
 export const SIDE_QUEST_CONFIGS: RuntimeQuest[] = questsConfig.quests.map(normalizeQuest);

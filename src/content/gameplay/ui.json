@@ -559,5 +559,16 @@
     ["Rivers Reckoning", "", "thanks for playing."],
     ["game / code / maps", "project team", "", "engine", "RPGJS / CanvasEngine / Pixi"],
     ["art / tiles / creatures", "Fan-tasy asset family", "", "special thanks", "Rivers"]
-  ]
+  ],
+  "opening_scene": {
+    "flag_id": "opening_scene_complete",
+    "post_scene_dialog_id": "jan_sewi_starter_intro",
+    "beats": [
+      "The sun comes through the shutters. The river runs past the well outside.",
+      "You are Rivers. Today is the day Elder Selby finally lets you leave the home road.",
+      "Selby is waiting for you on the green. She has three capture pods on the table.",
+      "Something has changed upstream. The fish have been moving inland. The old stories are not staying stories.",
+      "Walk to Selby. Choose your first companion. The road east opens after."
+    ]
+  }
 }
