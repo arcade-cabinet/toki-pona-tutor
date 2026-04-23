@@ -323,8 +323,9 @@ describe('gameplay JSON config', () => {
         expect(PAUSE_MENU_CONFIG.guiId).toBe('poki-pause-screen');
         expect(PAUSE_MENU_CONFIG.title).toBe('Menu');
         expect(PAUSE_MENU_CONFIG.routesAriaLabel).toBe('Pause routes');
-        expect(PAUSE_MENU_CONFIG.defaultRouteId).toBe('party');
+        expect(PAUSE_MENU_CONFIG.defaultRouteId).toBe('glance');
         expect(PAUSE_ROUTES_CONFIG.map((route) => route.id)).toEqual([
+            'glance',
             'party',
             'vocab',
             'inventory',

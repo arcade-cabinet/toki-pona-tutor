@@ -244,6 +244,8 @@ async function buildRouteContent(
     selectedPartySlot: number | null,
 ): Promise<{ title: string; rows: PauseEntry[] }> {
     switch (route) {
+        case "glance":
+            return buildGlanceContent();
         case "party":
             return buildPartyContent(player, selectedPartySlot);
         case "vocab":
@@ -255,6 +257,93 @@ async function buildRouteContent(
         case "settings":
             return buildSettingsContent();
     }
+}
+
+/**
+ * T11-09 — glance dashboard.
+ *
+ * Read-only snapshot that the player sees first when they open the
+ * pause menu. The row set stays the same regardless of game state
+ * (party empty or full, clues zero or mastered, starter chosen or
+ * not) — the widget's job is to tell the player "here's where you
+ * are, here's what's next" in four lines. Other routes do the
+ * interactive work.
+ */
+async function buildGlanceContent(): Promise<{ title: string; rows: PauseEntry[] }> {
+    const copy = PAUSE_MENU_CONFIG.glance;
+    const [party, mastered, bestiary, starterFlag] = await Promise.all([
+        getPartyWithHealth(),
+        listMasteredWords(VOCABULARY_SCREEN_CONFIG.masteryThreshold),
+        getBestiaryState(),
+        getFlag("starter_chosen"),
+    ]);
+    const partyMax = GAME_RULES_CONFIG.partySizeMax;
+    const lead = party[0];
+    // BestiaryState is a keyed record; split entries into seen-only
+    // vs caught. An entry with caughtAt counts as caught (and is no
+    // longer "just seen"), matching how the bestiary panel displays
+    // tier progression.
+    let seenCount = 0;
+    let caughtCount = 0;
+    for (const rec of Object.values(bestiary)) {
+        if (rec.caughtAt) caughtCount++;
+        else if (rec.seenAt) seenCount++;
+    }
+    const totalSpecies = seenCount + caughtCount;
+
+    const rows: PauseEntry[] = [
+        {
+            id: "glance-party",
+            label: formatGameplayTemplate(copy.partyRowLabelTemplate, {
+                count: party.length,
+                max: partyMax,
+            }),
+            meta: lead
+                ? formatGameplayTemplate(copy.partyRowMetaLeadTemplate, {
+                      name: lead.species_id,
+                  })
+                : copy.partyRowMetaEmpty,
+            testId: "glance-party",
+            disabled: true,
+        },
+        {
+            id: "glance-clues",
+            label: formatGameplayTemplate(copy.cluesRowLabelTemplate, {
+                count: mastered.length,
+            }),
+            meta:
+                mastered.length === 0
+                    ? copy.cluesRowMetaEmpty
+                    : formatGameplayTemplate(copy.cluesRowMetaTemplate, {
+                          count: mastered.length,
+                      }),
+            testId: "glance-clues",
+            disabled: true,
+        },
+        {
+            id: "glance-bestiary",
+            label: formatGameplayTemplate(copy.bestiaryRowLabelTemplate, {
+                seen: seenCount,
+                caught: caughtCount,
+            }),
+            meta: formatGameplayTemplate(copy.bestiaryRowMetaTotalTemplate, {
+                total: totalSpecies,
+            }),
+            testId: "glance-bestiary",
+            disabled: true,
+        },
+        {
+            id: "glance-objective",
+            label: starterFlag
+                ? copy.objectiveRowLabelPostStarter
+                : copy.objectiveRowLabelPreStarter,
+            meta: copy.objectiveRowMeta,
+            testId: "glance-objective",
+            disabled: true,
+        },
+    ];
+
+    return { title: copy.title, rows };
 }
 
 async function buildPartyContent(

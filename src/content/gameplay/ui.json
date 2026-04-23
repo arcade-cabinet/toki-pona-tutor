@@ -39,8 +39,9 @@
     "gui_id": "poki-pause-screen",
     "title": "Menu",
     "routes_aria_label": "Pause routes",
-    "default_route_id": "party",
+    "default_route_id": "glance",
     "routes": [
+      { "id": "glance", "label": "Glance", "test_id": "pause-glance" },
       { "id": "party", "label": "Party", "test_id": "pause-party" },
       { "id": "vocab", "label": "Clues", "test_id": "pause-vocab" },
       { "id": "inventory", "label": "Gear", "test_id": "pause-inventory" },
@@ -53,6 +54,20 @@
       { "id": "title", "label": "Title", "test_id": "pause-title" }
     ],
     "party_panel_heal_item_id": "kili",
+    "glance": {
+      "title": "At a Glance",
+      "party_row_label_template": "Party {count} / {max}",
+      "party_row_meta_lead_template": "lead: {name}",
+      "party_row_meta_empty": "no companions yet",
+      "clues_row_label_template": "Clues {count}",
+      "clues_row_meta_empty": "talk and explore",
+      "clues_row_meta_template": "{count} mastered",
+      "bestiary_row_label_template": "Seen {seen} | Caught {caught}",
+      "bestiary_row_meta_total_template": "{total} known species",
+      "objective_row_label_pre_starter": "Next: Speak with jan Sewi",
+      "objective_row_label_post_starter": "Next: Explore beyond the village",
+      "objective_row_meta": "your current goal"
+    },
     "party": {
       "title_template": "Party {count} / {max}",
       "empty": { "label": "Party: empty", "meta": "Catch a companion" },
