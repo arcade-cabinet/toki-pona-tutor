@@ -13,11 +13,11 @@ Rivers Reckoning is moving from a technically proven `v0.3.1` release toward a p
 
 The visual strategy is **Fan-tasy family, full v1 stack**. The shipped Fan-tasy packs (core + seasons + snow + desert + fortress + indoor) cover the first five regions; the Fan-tasy packs already extracted under `pending/extracted/` (Castles and Fortresses, Desert Oasis, Medieval Interiors, Snow Adventures, Turning of the Seasons, Premium) close the remaining gaps. This is the lowest-risk, highest-cohesion choice because every candidate inside the Fan-tasy family shares outline weight, saturation band, and grid alignment.
 
-Alternative families evaluated and **rejected for v1**:
+Alternative families evaluated and **rejected for v1** (no exceptions — any single-tile promotion from a rejected pack is a post-v1 decision):
 
--   **Lonesome Forest** (SUMMER + WINTER + Extra Trees) — beautiful but the tree volumes and ground tone fight the existing Fan-tasy grass. Mixing would trigger the same cohesion break that sank the previous playthrough. Individual Extra Trees tiles may still be promoted if they pass the micro audit.
+-   **Lonesome Forest** (SUMMER + WINTER + Extra Trees) — beautiful but the tree volumes and ground tone fight the existing Fan-tasy grass. Mixing would trigger the same cohesion break that sank the previous playthrough.
 -   **Old Town** (Exteriors + Interiors) — the perspective is slightly higher than Fan-tasy's and the stone palette is cooler. Rejected for cohesion.
--   **Classic Dungeons** — duplicative with Fan-tasy Castles + Fortresses, with a slightly different lighting model. Fan-tasy wins on internal consistency.
+-   **Classic Dungeons** — duplicative with Fan-tasy Castles and Fortresses, with a slightly different lighting model. Fan-tasy wins on internal consistency.
 -   **Natural Interior Tilesets** — covered by Fan-tasy Medieval Interiors in-family.
 
 Adopting a non-Fan-tasy family remains allowed as a post-v1 visual refresh, tracked separately from this plan.
@@ -27,14 +27,16 @@ Adopting a non-Fan-tasy family remains allowed as a post-v1 visual refresh, trac
 | Region | Role | Primary pack |
 | --- | --- | --- |
 | `riverside_home` | home village, warm | Fan-tasy core + seasons |
-| `greenwood_road` | first route, forest | Fan-tasy seasons (+ selected Lonesome Forest Extra Trees only if each tile passes the micro audit) |
+| `greenwood_road` | first route, forest | Fan-tasy seasons |
 | `highridge_pass` | mountain pass, shrine | Fan-tasy seasons + Fan-tasy Castles and Fortresses |
 | `lakehaven` | lake village | Fan-tasy seasons + Fan-tasy Medieval Interiors |
 | `frostvale` | snow village | Fan-tasy snow + Fan-tasy Medieval Interiors |
 | `dreadpeak_cavern` | endgame cavern | Fan-tasy Castles and Fortresses (cave + shrine surfaces) |
 | `rivergate_approach` | endgame river route + dragon encounter | Fan-tasy seasons + Fan-tasy Castles and Fortresses (gate architecture) |
 
-The manifest at `src/content/art/tilesets.json` remains the curation boundary. Palette code should refer to curated IDs through `curatedTile(...)` for direct non-generated tiles. Generated atlases and generated derived tilesets may still own their output local IDs, but their source assets must be audited before promotion.
+Fan-tasy family packs not yet mapped to a specific region but approved for v1 as supporting inventory: **Desert Oasis**, **Snow Adventures**, **Turning of the Seasons**, **Premium**. These may be pulled from during promotion when the region-specific pack lacks a needed tile role, as long as the tile passes the micro audit.
+
+The manifest at `src/content/art/tilesets.json` remains the curation boundary (`strategy: "fan_tasy_v1"`). Palette code should refer to curated IDs through `curatedTile(...)` for direct non-generated tiles. Generated atlases and generated derived tilesets may still own their output local IDs, but their source assets must be audited before promotion. Pending Fan-tasy packs carry `status: "approved_pending_promote"` until their tiles are imported into `public/assets/tilesets/` and referenced by a map spec.
 
 ## Tile Roles
 

@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "strategy": "open_pivot",
+  "strategy": "fan_tasy_v1",
   "roles": [
     "solid_fill",
     "transparent_overlay",
@@ -14,26 +14,43 @@
     {
       "id": "fan_tasy_current",
       "source": "public/assets/tilesets",
-      "style": "current shipped Fan-tasy family",
-      "status": "baseline"
+      "style": "current shipped Fan-tasy family (core/seasons/snow/desert/fortress/indoor)",
+      "status": "approved"
+    },
+    {
+      "id": "fan_tasy_castles_fortresses",
+      "source": "pending/extracted/The Fan-tasy Tileset - Castles and Fortresses",
+      "style": "in-family Castles and Fortresses pack for shrine/cave/endgame",
+      "status": "approved_pending_promote",
+      "region_roles": ["highridge_pass", "dreadpeak_cavern", "rivergate_approach"]
+    },
+    {
+      "id": "fan_tasy_medieval_interiors",
+      "source": "pending/extracted/The Fan-tasy Tileset - Medieval Interiors",
+      "style": "in-family Medieval Interiors pack for lake/frost/indoor surfaces",
+      "status": "approved_pending_promote",
+      "region_roles": ["lakehaven", "frostvale"]
     },
     {
       "id": "lonesome_grand_forests",
       "source": "pending/Lonesome Forest*, pending/Grand Forests - Files.zip",
       "style": "denser forest identity candidate",
-      "status": "candidate"
+      "status": "rejected_for_v1",
+      "rejection_reason": "outline weight + ground tone clash with Fan-tasy grass; post-v1 visual refresh material"
     },
     {
       "id": "natural_dungeons",
       "source": "pending/Natural Interior Tilesets.zip, pending/Dungeons - Files.zip",
       "style": "interior and cave identity candidate",
-      "status": "candidate"
+      "status": "rejected_for_v1",
+      "rejection_reason": "covered by Fan-tasy Medieval Interiors and Castles and Fortresses"
     },
     {
       "id": "old_town",
       "source": "pending/Old Town*.rar",
       "style": "town exterior/interior identity candidate",
-      "status": "candidate"
+      "status": "rejected_for_v1",
+      "rejection_reason": "perspective differs from Fan-tasy; cooler stone palette"
     },
     {
       "id": "creature_combat_pending",

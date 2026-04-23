@@ -22,7 +22,7 @@ const SHIPPED_SPECS = [
 
 describe("v1 art curation manifest", () => {
     it("classifies the current and pending art direction inputs", () => {
-        expect(artManifest.strategy).toBe("open_pivot");
+        expect(artManifest.strategy).toBe("fan_tasy_v1");
         expect(artManifest.roles).toEqual(
             expect.arrayContaining([
                 "solid_fill",
@@ -37,12 +37,23 @@ describe("v1 art curation manifest", () => {
         expect(artManifest.candidate_packs.map((pack) => pack.id)).toEqual(
             expect.arrayContaining([
                 "fan_tasy_current",
+                "fan_tasy_castles_fortresses",
+                "fan_tasy_medieval_interiors",
                 "lonesome_grand_forests",
                 "natural_dungeons",
                 "old_town",
                 "creature_combat_pending",
             ]),
         );
+
+        // Non-Fan-tasy packs are rejected for v1; Fan-tasy packs are approved.
+        const byId = new Map(artManifest.candidate_packs.map((p) => [p.id, p]));
+        expect(byId.get("fan_tasy_current")?.status).toBe("approved");
+        expect(byId.get("fan_tasy_castles_fortresses")?.status).toBe("approved_pending_promote");
+        expect(byId.get("fan_tasy_medieval_interiors")?.status).toBe("approved_pending_promote");
+        expect(byId.get("lonesome_grand_forests")?.status).toBe("rejected_for_v1");
+        expect(byId.get("natural_dungeons")?.status).toBe("rejected_for_v1");
+        expect(byId.get("old_town")?.status).toBe("rejected_for_v1");
     });
 
     it("records known bad encounter tiles as rejected, not merely unused", () => {
