@@ -1,7 +1,8 @@
 import { describe, expect, it } from "vitest";
 import { existsSync, readFileSync } from "node:fs";
 import { resolve } from "node:path";
-import { shouldSkipPixiAssetAdd } from "../../src/config/pixi-assets";
+import { publicAssetPath } from "../../src/config/asset-paths";
+import { normalizePixiFxAssetSource, shouldSkipPixiAssetAdd } from "../../src/config/pixi-assets";
 
 const ROOT = resolve(__dirname, "../..");
 
@@ -34,6 +35,37 @@ describe("pixi fx alias guard", () => {
                 (alias) => alias === "fx_settings",
             ),
         ).toBe(false);
+    });
+
+    it("resolves CanvasEngine's hardcoded RevoltFX assets through the deployed base path", () => {
+        expect(publicAssetPath("/default-bundle.json", "/poki-soweli/")).toBe(
+            "/poki-soweli/default-bundle.json",
+        );
+        expect(publicAssetPath("revoltfx-spritesheet.json", "./")).toBe(
+            "./revoltfx-spritesheet.json",
+        );
+
+        expect(
+            normalizePixiFxAssetSource(
+                { alias: "fx_settings", src: "/default-bundle.json" },
+                "/poki-soweli/",
+            ),
+        ).toEqual({ alias: "fx_settings", src: "/poki-soweli/default-bundle.json" });
+        expect(
+            normalizePixiFxAssetSource(
+                { alias: "fx_spritesheet", src: "/revoltfx-spritesheet.json" },
+                "/poki-soweli/",
+            ),
+        ).toEqual({
+            alias: "fx_spritesheet",
+            src: "/poki-soweli/revoltfx-spritesheet.json",
+        });
+    });
+
+    it("leaves unrelated Pixi assets unchanged", () => {
+        const asset = { alias: "green_dragon_idle", src: "/assets/bosses/green-dragon/idle.png" };
+
+        expect(normalizePixiFxAssetSource(asset, "/poki-soweli/")).toBe(asset);
     });
 
     it("ships the RevoltFX placeholder assets fetched by CanvasEngine boot", () => {
