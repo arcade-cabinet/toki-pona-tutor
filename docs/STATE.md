@@ -137,6 +137,23 @@ These artifacts are acceptance inputs, not decorative output. For any UI/map/til
 -   **RPG.js v5 is beta.** Package API churn remains possible.
 -   **The upstream release-please action still carries a Node 20 deprecation warning.** The flow works today, but the action needs an upgrade path before GitHub's forced Node 24 cutoff.
 
+## Residual Naming
+
+The product is Rivers Reckoning. The following legacy `poki` / `poki_soweli` identifiers are intentional residuals — renaming them is either a breaking change or pure churn with no player-facing benefit, so they stay until a planned migration lands (tracked as `T1-05` in ROADMAP).
+
+| Identifier | Where | Why it stays |
+| --- | --- | --- |
+| GitHub repo slug `arcade-cabinet/poki-soweli` | remote URL, Pages base `/poki-soweli/` | Renaming the repo rewrites every clone URL, release asset URL, and Pages deploy path. Scoped post-v1. |
+| Icon filenames `public/icons/poki-soweli-*.png` | `index.html`, `public/manifest.json` | Referenced from manifest; rename requires coordinated asset + manifest + index update. Low player-facing value (files only surface in DevTools). Post-v1. |
+| `DB_NAME = "poki_soweli"` | `src/platform/persistence/database.ts` | Changing breaks every existing save. Migration requires a versioned rename + shim read path. Scoped as `T1-05`. |
+| `"poki:persistence-changed"` event | `src/platform/persistence/database.ts` | Same migration constraint as `DB_NAME`. |
+| `poki-high-contrast` / `poki-accessible-mode` CSS classes | `src/styles/brand-preferences.ts` + `src/styles/brand.css` | Internal CSS namespace. No player impact. Post-v1 rename if we do a CSS refresh. |
+| `window.__POKI__` test harness global | `src/standalone.ts`, `src/types/poki-debug.d.ts`, all E2E specs | Changing requires updating every E2E spec in one atomic PR. Scoped when we next touch the harness shape. |
+| `jan_lawa` NPC type literal | `src/content/schema/npc.ts` | Zod enum member; every NPC in the spine JSON uses this literal. Product-facing label is "Region Master". Renaming requires a spine migration. Scoped as `T1-05`. |
+| `lupa_jan_lawa` map identifier | `src/modules/main/rematch.ts` | Rematch chamber map id. Same migration constraint — save-compat bound. |
+
+Player-facing copy, UI labels, dialog, and documentation all say "Rivers Reckoning". Any new leak of legacy naming into player-facing surfaces is a bug.
+
 ## Current Emphasis
 
 The immediate priority is product completion, not further platform plumbing. The release flow is proven enough to support public playtesting. The main remaining work is map/art cohesion, deeper story and quest density, combat/economy tuning, final audio/presentation polish, and broader device QA.
