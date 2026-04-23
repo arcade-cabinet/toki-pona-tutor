@@ -10,6 +10,13 @@ All notable changes to poki soweli. Format based on [Keep a Changelog](https://k
 
 This branch (`feat/rpgjs-v5-pivot`) descends from commit `0a582e0` — the pre-Godot tip. The Godot era between `1d924fe` (pivot) and `0edfe61` (feat/anchor-to-template) lives on `main` and is not represented here. Release-please releases `v0.1.0`…`v0.1.3` tagged on `main` cover the Godot build and do not apply to this branch.
 
+## [0.7.3](https://github.com/arcade-cabinet/poki-soweli/compare/v0.7.2...v0.7.3) (2026-04-23)
+
+
+### Fixed
+
+* **ui:** dialog advances on Enter/Space on desktop (T11-08) ([#132](https://github.com/arcade-cabinet/poki-soweli/issues/132)) ([82d298c](https://github.com/arcade-cabinet/poki-soweli/commit/82d298cf74ae0d5fa00de069ab43eec4824914c6))
+
 ## [0.7.2](https://github.com/arcade-cabinet/poki-soweli/compare/v0.7.1...v0.7.2) (2026-04-23)
 
 
