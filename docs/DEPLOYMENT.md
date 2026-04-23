@@ -96,7 +96,7 @@ checks and branch protection are satisfied.
 
 Runs on `push: main`.
 
-1. `release-please` runs with `secrets.CI_GITHUB_TOKEN_PAT`
+1. `release-please` runs with `secrets.CI_GITHUB_TOKEN_PAT`, falling back to the shared `secrets.CI_GITHUB_TOKEN` secret used by sibling arcade-cabinet repositories
 2. when `release_created == true`, the workflow checks out the released SHA, not moving `main`
 3. it builds:
     - `rivers-reckoning-web-<tag>.tar.gz` with `GITHUB_PAGES=true`
