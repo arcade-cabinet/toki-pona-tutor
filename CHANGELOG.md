@@ -10,6 +10,13 @@ All notable changes to poki soweli. Format based on [Keep a Changelog](https://k
 
 This branch (`feat/rpgjs-v5-pivot`) descends from commit `0a582e0` — the pre-Godot tip. The Godot era between `1d924fe` (pivot) and `0edfe61` (feat/anchor-to-template) lives on `main` and is not represented here. Release-please releases `v0.1.0`…`v0.1.3` tagged on `main` cover the Godot build and do not apply to this branch.
 
+## [0.3.9](https://github.com/arcade-cabinet/poki-soweli/compare/v0.3.8...v0.3.9) (2026-04-23)
+
+
+### Documentation
+
+* **story:** add Rivers Reckoning story bible ([#96](https://github.com/arcade-cabinet/poki-soweli/issues/96)) ([b415b60](https://github.com/arcade-cabinet/poki-soweli/commit/b415b60a46d8291370c6512e13bd1d91e626af1f))
+
 ## [0.3.8](https://github.com/arcade-cabinet/poki-soweli/compare/v0.3.7...v0.3.8) (2026-04-23)
 
 
