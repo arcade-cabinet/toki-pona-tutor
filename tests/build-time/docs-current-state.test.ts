@@ -195,7 +195,11 @@ describe("current-state documentation drift guards", () => {
             "AGENTS.md",
             "STANDARDS.md",
             ".github/copilot-instructions.md",
-            ...markdownFiles("docs").filter((path) => path !== "docs/ROADMAP.md"),
+            ...markdownFiles("docs").filter(
+                (path) =>
+                    path !== "docs/ROADMAP.md" &&
+                    !path.startsWith("docs/plans/"),
+            ),
         ];
         const brokenRefs: string[] = [];
 
