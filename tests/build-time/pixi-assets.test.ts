@@ -1,11 +1,8 @@
 import { describe, expect, it } from "vitest";
 import { existsSync, readFileSync } from "node:fs";
 import { resolve } from "node:path";
-import {
-    normalizePixiFxAssetSource,
-    publicAssetUrl,
-    shouldSkipPixiAssetAdd,
-} from "../../src/config/pixi-assets";
+import { publicAssetPath } from "../../src/config/asset-paths";
+import { normalizePixiFxAssetSource, shouldSkipPixiAssetAdd } from "../../src/config/pixi-assets";
 
 const ROOT = resolve(__dirname, "../..");
 
@@ -41,10 +38,10 @@ describe("pixi fx alias guard", () => {
     });
 
     it("resolves CanvasEngine's hardcoded RevoltFX assets through the deployed base path", () => {
-        expect(publicAssetUrl("/default-bundle.json", "/poki-soweli/")).toBe(
+        expect(publicAssetPath("/default-bundle.json", "/poki-soweli/")).toBe(
             "/poki-soweli/default-bundle.json",
         );
-        expect(publicAssetUrl("revoltfx-spritesheet.json", "./")).toBe(
+        expect(publicAssetPath("revoltfx-spritesheet.json", "./")).toBe(
             "./revoltfx-spritesheet.json",
         );
 

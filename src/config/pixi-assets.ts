@@ -1,5 +1,6 @@
 import { Assets } from "pixi.js";
 import { PIXI_GUARDED_FX_ALIASES } from "../content/gameplay";
+import { publicAssetPath } from "./asset-paths";
 
 const GUARDED_FX_ALIASES = new Set(PIXI_GUARDED_FX_ALIASES);
 
@@ -33,17 +34,6 @@ function guardedFxSource(alias: string): string | undefined {
     }
 }
 
-export function publicAssetUrl(relativePath: string, baseUrl = import.meta.env.BASE_URL): string {
-    const normalizedPath = relativePath.replace(/^\/+/, "");
-    const normalizedBase = baseUrl || "/";
-
-    if (normalizedBase === "./") {
-        return `./${normalizedPath}`;
-    }
-
-    return `${normalizedBase.endsWith("/") ? normalizedBase : `${normalizedBase}/`}${normalizedPath}`;
-}
-
 export function normalizePixiFxAssetSource(
     asset: unknown,
     baseUrl = import.meta.env.BASE_URL,
@@ -66,7 +56,7 @@ export function normalizePixiFxAssetSource(
 
     return {
         ...candidate,
-        src: publicAssetUrl(guardedSource, baseUrl),
+        src: publicAssetPath(guardedSource, baseUrl),
     };
 }
 
