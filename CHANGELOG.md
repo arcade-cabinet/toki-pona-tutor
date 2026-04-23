@@ -10,6 +10,13 @@ All notable changes to poki soweli. Format based on [Keep a Changelog](https://k
 
 This branch (`feat/rpgjs-v5-pivot`) descends from commit `0a582e0` — the pre-Godot tip. The Godot era between `1d924fe` (pivot) and `0edfe61` (feat/anchor-to-template) lives on `main` and is not represented here. Release-please releases `v0.1.0`…`v0.1.3` tagged on `main` cover the Godot build and do not apply to this branch.
 
+## [0.8.0](https://github.com/arcade-cabinet/poki-soweli/compare/v0.7.3...v0.8.0) (2026-04-23)
+
+
+### Added
+
+* **ux:** diegetic first-play cue on jan Sewi (T11-10) ([#134](https://github.com/arcade-cabinet/poki-soweli/issues/134)) ([c7635d4](https://github.com/arcade-cabinet/poki-soweli/commit/c7635d4b4b695ec2c96f8f8e0e515a62417caeb9))
+
 ## [0.7.3](https://github.com/arcade-cabinet/poki-soweli/compare/v0.7.2...v0.7.3) (2026-04-23)
 
 
