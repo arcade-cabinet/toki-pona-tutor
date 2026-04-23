@@ -10,6 +10,13 @@ All notable changes to poki soweli. Format based on [Keep a Changelog](https://k
 
 This branch (`feat/rpgjs-v5-pivot`) descends from commit `0a582e0` — the pre-Godot tip. The Godot era between `1d924fe` (pivot) and `0edfe61` (feat/anchor-to-template) lives on `main` and is not represented here. Release-please releases `v0.1.0`…`v0.1.3` tagged on `main` cover the Godot build and do not apply to this branch.
 
+## [0.9.1](https://github.com/arcade-cabinet/poki-soweli/compare/v0.9.0...v0.9.1) (2026-04-23)
+
+
+### Fixed
+
+* **map:** riverside_home scenic decor (T11-03) ([#138](https://github.com/arcade-cabinet/poki-soweli/issues/138)) ([c1e56d8](https://github.com/arcade-cabinet/poki-soweli/commit/c1e56d8d824a951638d519e3e617691040788303))
+
 ## [0.9.0](https://github.com/arcade-cabinet/poki-soweli/compare/v0.8.0...v0.9.0) (2026-04-23)
 
 
