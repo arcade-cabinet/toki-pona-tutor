@@ -81,10 +81,19 @@ export function GreenDragon(): EventDefinition {
                                 // Best-effort; if the event is already gone the
                                 // flag/dialog work below still runs.
                             }
+                            // First-clear vs re-fight (T14 free-exploration loop):
+                            // check clearedFlag BEFORE writing to distinguish.
+                            const wasClearedBefore = Boolean(
+                                await getFlag(config.clearedFlag),
+                            );
                             await setFlag(config.defeatedFlag, "1");
                             await setFlag(config.clearedFlag, "1");
-                            await recordClue(config.rewardClue);
-                            await preferences.set(KEYS.journeyBeat, config.endingBeatId);
+                            if (!wasClearedBefore) {
+                                // First clear only: record the story clue and
+                                // move the journey pointer to the ending beat.
+                                await recordClue(config.rewardClue);
+                                await preferences.set(KEYS.journeyBeat, config.endingBeatId);
+                            }
                             if (attacker) {
                                 await cueSfx(attacker, SFX_CUE_CONFIG.trainerFaint);
                                 await cueAmbientBgm(attacker);
@@ -96,7 +105,11 @@ export function GreenDragon(): EventDefinition {
                                     ] ?? 0,
                                 );
                                 await playDialog(attacker, `${config.dialogBase}_victory`);
-                                await showCredits(attacker);
+                                if (!wasClearedBefore) {
+                                    // Credits roll once, on the first clear.
+                                    // Re-fights skip straight back to exploration.
+                                    await showCredits(attacker);
+                                }
                             }
                             if (attacker) {
                                 const save = (
@@ -123,10 +136,20 @@ export function GreenDragon(): EventDefinition {
             void ensureBattleAi(this as never);
         },
         async onAction(player: RpgPlayer) {
-            const done = await getFlag(config.defeatedFlag);
-            if (done) {
+            const [done, cleared] = await Promise.all([
+                getFlag(config.defeatedFlag),
+                getFlag(config.clearedFlag),
+            ]);
+            if (done && !cleared) {
+                // Pre-clear with defeatedFlag set should not happen (credits
+                // roll sets both). Defensive: surface victory dialog.
                 await playDialog(player, `${config.dialogBase}_victory`);
                 return;
+            }
+            if (done && cleared) {
+                // Post-clear re-fight — clear defeatedFlag so onDefeated fires
+                // again. clearedFlag stays; credits do not re-roll.
+                await setFlag(config.defeatedFlag, "");
             }
             await playDialog(player, `${config.dialogBase}_intro`);
             await activateLeadBattleAvatar(player);
@@ -135,17 +158,62 @@ export function GreenDragon(): EventDefinition {
     };
 }
 
+export type FinalBossTriggerDecision =
+    | "not_ready" // badges missing; trigger is silent
+    | "start_fight" // first-time fight (pre-clear)
+    | "restart_fight" // post-clear re-fight; defeatedFlag must be cleared first
+    | "blocked_defeated_pre_clear"; // defeatedFlag set but clearedFlag not — defensive
+
+/**
+ * Pure decision for handleFinalBossTrigger — given the three flag reads,
+ * returns what the trigger should do. Separated from the RPG.js shape
+ * handler so the state machine can be unit-tested without an engine.
+ */
+export function decideFinalBossTrigger(flags: {
+    defeated: boolean;
+    cleared: boolean;
+    badgesEarned: boolean;
+}): FinalBossTriggerDecision {
+    if (!flags.badgesEarned) return "not_ready";
+    if (flags.defeated && flags.cleared) return "restart_fight";
+    if (flags.defeated && !flags.cleared) return "blocked_defeated_pre_clear";
+    return "start_fight";
+}
+
 /**
  * Shape handler — the `final_boss_trigger` Tiled Trigger object on
  * rivergate_approach fires when the player walks onto it. Gated by the
  * four-badge check; if any badge is missing, the trigger is silent
  * (the player can still explore the rest of the route).
+ *
+ * Post-clear re-fight (T14 — free exploration loop): once `clearedFlag`
+ * is set and credits have rolled, the `defeatedFlag` no longer blocks
+ * re-entering the fight. This is the post-clear loop named in
+ * docs/STORY.md — the player can come back to catch the dragon, top up
+ * their bestiary, or just replay the fight. The `clearedFlag` stays set
+ * so credits do not roll again on subsequent wins.
  */
 export async function handleFinalBossTrigger(player: RpgPlayer): Promise<void> {
-    const done = await getFlag(FINAL_BOSS_CONFIG.defeatedFlag);
-    if (done) return;
-    const ready = await allBadgesEarned();
-    if (!ready) return;
+    const [defeatedFlag, clearedFlag, badgesEarned] = await Promise.all([
+        getFlag(FINAL_BOSS_CONFIG.defeatedFlag),
+        getFlag(FINAL_BOSS_CONFIG.clearedFlag),
+        allBadgesEarned(),
+    ]);
+    const decision = decideFinalBossTrigger({
+        defeated: Boolean(defeatedFlag),
+        cleared: Boolean(clearedFlag),
+        badgesEarned,
+    });
+    switch (decision) {
+        case "not_ready":
+        case "blocked_defeated_pre_clear":
+            return;
+        case "restart_fight":
+            await setFlag(FINAL_BOSS_CONFIG.defeatedFlag, "");
+            break;
+        case "start_fight":
+            break;
+    }
     await playDialog(player, `${FINAL_BOSS_CONFIG.dialogBase}_intro`);
     await activateLeadBattleAvatar(player);
     await cueCombatBgm(player);
