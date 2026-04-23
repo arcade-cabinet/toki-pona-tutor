@@ -100,40 +100,51 @@ Cross-region payoff: The four proofs in inventory unlock the Rivergate Approach 
 
 Each side quest must have: a start NPC, a gameplay trigger, a clue row (from `src/content/clues.json` or new), and a payoff that either unlocks a party/item upgrade or drops a piece of the green-dragon mystery.
 
+The entries below describe the **shipped** quest behavior — the JSON in `src/content/gameplay/quests.json` is the source of truth. Proposed future redesigns are marked explicitly with **[future]** so writers know what's live vs what's aspirational.
+
 ### Riverside Home
 
-- **The Orchard Favor** — help an orchard keeper catch a common creature that's been taking fruit. Rewards `orchard-fruit` clue + a healing item. Teaches capture mechanic safely.
-- **Selby's Letter** — Elder Selby asks Rivers to carry a letter upstream. The recipient appears in the Rivergate Approach only at endgame — deliverable only after the Rivergate opens. First cross-region seed.
+- **Orchard Helper** (`quest_tomo_kili` → `orchard-fruit` clue) — catch one Applepup for the Riverside snack keeper. Teaches capture mechanic safely.
+- **Safe House** (`quest_tomo_safe_house` → `safe-house` clue) — catch one Reedfrog near the riverside pond to prove the area is safe for coming-of-age departures.
 
 ### Greenwood Road
 
-- **Greenwood Watch** (existing `greenwood-watch` clue) — a forest watcher asks Rivers to scout three points on the road. Each reveals a different encounter zone. Rewards map knowledge + one rare catch.
-- **Rival's Shortcut** — the Rival bets Rivers they can't reach the Highridge entrance first. Racing path gives `forest-cover` clue and a small party-XP bonus.
+- **Greenwood Watch** (`quest_nasin_forest_watch` → `battle-ready` clue) — defeat the rival on Greenwood Road and report back to the route watcher. First forced rival encounter, with XP + trail-token reward.
+- **Field Notes** (`quest_nasin_poki_pack` → `capture-pods` clue) — catch two Greenwood creatures to earn a stronger capture pod from the forest-route pod keeper.
+- **Wild Signs** (`quest_nasin_wild_signs` → `wild-signs` clue) — catch two forest creatures and bring back what you notice about their tracks. First seed of the dragon mystery for the player.
 
 ### Highridge Pass
 
-- **Shrine Stones** — restore three weathered shrine stones scattered along the pass. Rewards `stone-type` clue + an upgrade item.
-- **Lost Hiker** — guide an NPC down from a ledge. Gives an item at Lakehaven if the player revisits.
+- **Shrine Stones** (`quest_sewi_shrine_stones` → `stone-type` clue) — catch two Pebblebacks for the shrine keeper's stone-count ritual.
+- **Lost Hiker** (`quest_sewi_lost_hiker` → `torch-path` clue) — carry a trail token down to the lake-village fisher to call a rescue. **Cross-region delivery** to `jan_kala_lake` in Lakehaven.
 
 ### Lakehaven
 
-- **Lake Delivery** (existing `lake-delivery` clue) — deliver a fisher's catch to Frostvale. Rewards `water-edge` clue + a fast-travel unlock.
-- **Frog Count** — count and report the Reedfrog population at three lakeshore spots. Rewards Bestiary data + a modest gold payout.
+- **Lake Delivery** (`quest_telo_kili_delivery` → `lake-delivery` clue) — deliver Orchard Fruit to the Lakehaven stall keeper. First full quest chain the player can actually complete when they reach the lake.
+- **Water Edge** (`quest_telo_water_edge` → `water-edge` clue) — catch two lakeside creatures for the well-tender's field count.
 
 ### Frostvale
 
-- **Cold Hands** (existing `cold-hands` clue) — earn winter gear by gathering three items scattered in the snow. Gates Frostvale Master access.
-- **The Owl Sighting** — an elder saw a Drowsy Owl in the wrong season. Rivers scouts for it. Rewards first tier-2 uncommon catch.
+- **Cold Hands** (`quest_lete_poki_pack` → `cold-hands` clue) — catch two Frostvale creatures for the cold-weather pod keeper. Confirms Rivers can handle the snowfields. **[future]** redesign would gate Frostvale Master access on physical warm gear; current shipped version is a biome-catch count.
+- **Snowbird Sighting** (`quest_lete_snowbird` → `frost-type` clue) — catch one Snowbird so the frost botanist can confirm the cold-season roster.
 
 ### Dreadpeak Cavern
 
-- **Torch Path** (existing `torch-path` clue) — light the cavern's guide torches. Rewards `cave-shadow` clue + safe passage to the final chamber.
-- **Echo Chamber** — an old recorder in the cavern's ante-room plays an echo puzzle. Solving it gives a boss-prep item.
+- **Torch Path Survey** (`quest_suli_torch` → `torch-path` clue) — catch two cave creatures near the Dreadpeak torch path. **[future]** redesign would turn this into a torch-lighting puzzle gating the final chamber; current shipped version is a biome-catch count.
+- **Cave Shadow** (`quest_suli_cave_shadow` → `cave-shadow` clue) — catch two more cave creatures beyond the torch path to map the shadows.
 
 ### Rivergate Approach
 
-- **Last Light** (existing `last-light` clue) — plant the Frostvale lantern at a marker; trail leads to the dragon. Gates the final fight.
-- **Rival's Farewell** — the Rival gives Rivers the personal letter from Selby here; optional but always rewarded with a unique dialog beat on credits.
+- **Last Light** (`quest_telo_last_light` → `last-light` clue) — catch one river-route creature before the final dragon approach. **[future]** redesign would have Rivers plant the Frostvale lantern at a marker to light the trail to the dragon; current shipped version is a biome-catch count.
+- **Companion Bond** (`quest_telo_companion_bond` → `companion-bond` clue) — catch one more river creature so the party is ready for the green dragon.
+
+### [future] planned quest redesigns
+
+These quest ideas are in the bible to capture narrative intent but are NOT currently implemented. They are written here so the eventual implementation PR has a clear brief.
+
+- **Selby's Letter** — Elder Selby asks Rivers to carry a letter upstream to a recipient in the Rivergate Approach. Cross-region seed, delivery unlocks only at endgame. Requires a new `selby-letter` clue and a new deliver_item quest; not in current `quests.json`.
+- **Rival's Farewell** — At the Rivergate Approach entry, the Rival hands Rivers a personal note from Selby. Would replace Selby's Letter's direct delivery with a Rival handoff so the two plot threads merge. Not currently shipped.
+- **Frog Count**, **Shrine Stones (restore)**, **Owl Sighting**, **Echo Chamber**, **Torch Path (relight)**, **Lost Hiker (rescue)** — richer narrative versions of the shipped biome-catch quests above. Each would need new goal kinds (`survey_points`, `restore_objects`, `solve_puzzle`, `escort_npc`) which don't exist in the current schema.
 
 ## Recurring NPCs
 
@@ -144,9 +155,11 @@ Each side quest must have: a start NPC, a gameplay trigger, a clue row (from `sr
 
 ## Post-clear loop — free exploration
 
-After credits Rivers walks home. The world stays open. Every side quest remains live until completed. The Bestiary shows catch progress. The Rival's rematch appears at Lakehaven. No NG+ reset; instead, the final-route entrance stays open so the player can re-fight or re-capture the green dragon as many times as they like. This rewards players who want to complete the Bestiary without punishing a straight-shot player.
+After credits Rivers walks home. The world stays open. Every side quest remains live until completed. The Bestiary shows catch progress. The Rival's rematch appears at Lakehaven. For v1, there is no player-facing NG+ reset; instead, the final-route entrance stays open so the player can re-fight or re-capture the green dragon as many times as they like (implemented by T14 / PR #113 — `decideFinalBossTrigger` clears `defeatedFlag` on re-entry while keeping `clearedFlag` set so credits do not re-roll). This rewards players who want to complete the Bestiary without punishing a straight-shot player.
 
-Rationale: the four other post-clear choices considered were NG+, full rematches, collection-completion reward, and after-credits story epilogue. Free exploration wins because:
+NG+ scaffolding already exists in code (`src/modules/main/new-game-plus.ts`) and config (`src/content/gameplay/progression.json → new_game_plus`) keyed off the `game_cleared` flag. It is intentionally not exposed in the shipped v1 post-clear loop. Re-enabling NG+ would be a player-facing toggle on the Title screen, tracked as a future row.
+
+Rationale: the four other post-clear choices considered for the shipped v1 loop were exposing NG+, full rematches, collection-completion reward, and after-credits story epilogue. Free exploration wins because:
 - It respects the time of straight-shot players (they get credits and can stop).
 - It respects the time of completionists (no artificial reset tax).
 - It has the lowest implementation risk — the world already stays in memory, we just leave the gate open.
@@ -163,6 +176,6 @@ Rationale: the four other post-clear choices considered were NG+, full rematches
 
 ## What this bible is NOT
 
-- Not a dialog script. Actual dialog lives in `src/content/gameplay/*.json` (or wherever the current quest-content home is). This bible defines *what* a quest does; the JSON authors *the words*.
+- Not a dialog script. Authored dialog nodes live in `src/content/spine/dialog/*.json` and compile into `src/content/generated/world.json`; quest configuration lives in `src/content/gameplay/quests.json`; NPC placement + event kind live in `src/content/gameplay/events.json`. This bible defines *what* a quest does; the JSON authors *the words*.
 - Not a mechanical spec. Stats, damage numbers, and move data live in `src/content/spine/species/` and `src/content/spine/moves/`.
 - Not permanent. Playtests will expose quest beats that don't land; rewrite this bible first, then the JSON, then the code.
