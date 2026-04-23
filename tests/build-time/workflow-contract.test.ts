@@ -96,9 +96,14 @@ describe("GitHub Actions run/release/deploy contract", () => {
         expect(viteConfig).toContain("sql-wasm.js");
     });
 
-    it("keeps release.yml on release-please PAT plus versioned workflow artifacts", () => {
+    it("keeps release.yml on a configured release-please token plus versioned workflow artifacts", () => {
         expect(release).toMatch(/^on:\n\s+push:\n\s+branches:\n\s+- main/m);
-        expect(release).toContain("token: ${{ secrets.CI_GITHUB_TOKEN_PAT }}");
+        expect(release).toContain(
+            "RELEASE_PLEASE_TOKEN: ${{ secrets.CI_GITHUB_TOKEN_PAT || secrets.CI_GITHUB_TOKEN }}",
+        );
+        expect(release).toContain("Configure CI_GITHUB_TOKEN_PAT or CI_GITHUB_TOKEN");
+        expect(release).toContain("token: ${{ env.RELEASE_PLEASE_TOKEN }}");
+        expect(release).not.toContain("token: ${{ secrets.CI_GITHUB_TOKEN_PAT }}");
         expect(release).toContain("ref: ${{ needs.release-please.outputs.sha }}");
         expect(release).toMatch(/GITHUB_PAGES:\s+['"]true['"]/);
         expect(release).toContain("node scripts/deploy/verify-pages-bundle.mjs dist");

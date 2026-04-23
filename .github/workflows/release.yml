@@ -23,16 +23,26 @@ jobs:
   release-please:
     name: release-please
     runs-on: ubuntu-latest
+    env:
+      # Prefer the project-specific PAT name, but accept the shared
+      # arcade-cabinet secret name used by sibling games such as mean-streets.
+      RELEASE_PLEASE_TOKEN: ${{ secrets.CI_GITHUB_TOKEN_PAT || secrets.CI_GITHUB_TOKEN }}
     outputs:
       release_created: ${{ steps.rp.outputs.release_created }}
       tag_name: ${{ steps.rp.outputs.tag_name }}
       version: ${{ steps.rp.outputs.version }}
       sha: ${{ steps.rp.outputs.sha }}
     steps:
+      - name: Assert release token is configured
+        if: env.RELEASE_PLEASE_TOKEN == ''
+        run: |
+          echo "::error::Configure CI_GITHUB_TOKEN_PAT or CI_GITHUB_TOKEN for release-please."
+          exit 1
+
       - id: rp
         uses: googleapis/release-please-action@5c625bfb5d1ff62eadeeb3772007f7f66fdcf071 # v4.4.1
         with:
-          token: ${{ secrets.CI_GITHUB_TOKEN_PAT }}
+          token: ${{ env.RELEASE_PLEASE_TOKEN }}
           config-file: release-please-config.json
           manifest-file: .release-please-manifest.json
 
