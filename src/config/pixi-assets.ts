@@ -5,7 +5,13 @@ const GUARDED_FX_ALIASES = new Set(PIXI_GUARDED_FX_ALIASES);
 
 type PixiAssetLike = {
     alias?: string | string[];
+    src?: unknown;
 };
+
+const GUARDED_FX_SOURCES = {
+    fx_settings: "default-bundle.json",
+    fx_spritesheet: "revoltfx-spritesheet.json",
+} as const;
 
 export function shouldSkipPixiAssetAdd(
     asset: unknown,
@@ -21,11 +27,53 @@ export function shouldSkipPixiAssetAdd(
     return rawAliases.every((alias) => hasKey(alias));
 }
 
+export function publicAssetUrl(relativePath: string, baseUrl = import.meta.env.BASE_URL): string {
+    const normalizedPath = relativePath.replace(/^\/+/, "");
+    const normalizedBase = baseUrl || "/";
+
+    if (normalizedBase === "./") {
+        return `./${normalizedPath}`;
+    }
+
+    return `${normalizedBase.endsWith("/") ? normalizedBase : `${normalizedBase}/`}${normalizedPath}`;
+}
+
+export function normalizePixiFxAssetSource(
+    asset: unknown,
+    baseUrl = import.meta.env.BASE_URL,
+): unknown {
+    if (!asset || typeof asset !== "object") {
+        return asset;
+    }
+
+    const candidate = asset as PixiAssetLike;
+    const aliases = Array.isArray(candidate.alias)
+        ? candidate.alias
+        : typeof candidate.alias === "string"
+          ? [candidate.alias]
+          : [];
+    const guardedAlias = aliases.find(
+        (alias): alias is keyof typeof GUARDED_FX_SOURCES => alias in GUARDED_FX_SOURCES,
+    );
+
+    if (!guardedAlias) {
+        return asset;
+    }
+
+    return {
+        ...candidate,
+        src: publicAssetUrl(GUARDED_FX_SOURCES[guardedAlias], baseUrl),
+    };
+}
+
 /**
  * CanvasEngine presets currently re-add the same RevoltFX aliases on every
  * client boot, which makes Pixi warn loudly in dev/test runs. The underlying
  * assets are static, so once those aliases exist we can safely skip the
- * duplicate registration instead of re-overwriting them.
+ * duplicate registration instead of re-overwriting them. The same preset also
+ * hardcodes root-relative JSON URLs; normalize those through Vite's base so
+ * GitHub Pages and Capacitor load the placeholder bundle from the deployed app
+ * root instead of the domain root.
  */
 export function installPixiFxAliasGuard(): void {
     const guardedAssets = Assets as typeof Assets & {
@@ -39,7 +87,9 @@ export function installPixiFxAliasGuard(): void {
     const originalAdd = Assets.add.bind(Assets);
 
     guardedAssets.add = ((input: unknown) => {
-        const assets = Array.isArray(input) ? input : [input];
+        const assets = (Array.isArray(input) ? input : [input]).map((asset) =>
+            normalizePixiFxAssetSource(asset),
+        );
         const filtered = assets.filter(
             (asset) =>
                 !shouldSkipPixiAssetAdd(asset as PixiAssetLike, (alias) =>
@@ -51,7 +101,9 @@ export function installPixiFxAliasGuard(): void {
             return;
         }
 
-        return originalAdd(Array.isArray(input) ? filtered : filtered[0]);
+        const normalizedInput = Array.isArray(input) ? filtered : filtered[0];
+
+        return originalAdd(normalizedInput as Parameters<typeof Assets.add>[0]);
     }) as typeof Assets.add;
 
     guardedAssets.__pokiFxAliasGuardInstalled = true;
