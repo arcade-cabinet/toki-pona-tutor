@@ -137,7 +137,7 @@ Every CI build step that produces a deployable artifact sets the right env. See 
 ## What's unique about this game (design constraints)
 
 -   **Player has no stats.** The party of ≤ 6 creatures is the character sheet.
--   **Five creature types**: seli (fire) / telo (water) / kasi (plant) / lete (ice) / wawa (strong). Each has specific matchup multipliers; wawa is the neutral bruiser.
+-   **Five creature types**: seli (fire) / telo (water) / kasi (wild) / lete (ice) / wawa (stone). Each has specific matchup multipliers; `wawa` remains the neutral bruiser role in current balance.
 -   **Every monster is catchable.** Tiering is rarity + catch difficulty + animation depth — not whether the capture pod works.
 -   **Native-English story.** The former corpus/translation layer is removed; use richer English writing and curated clues instead.
 -   **Seven regions → four current region masters → one final boss (green dragon).** Green dragon is the only creature with a dedicated death animation; the final-boss defeat path plays it, and the species is also a rare final-route catch.

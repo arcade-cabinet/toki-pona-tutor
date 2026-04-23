@@ -104,6 +104,8 @@ Minimum post-release verification:
 -   Pages responds from `https://arcade-cabinet.github.io/poki-soweli/`
 -   the deployed Pages build does not request root-level `/default-bundle.json` or
     `/revoltfx-spritesheet.json`
+    because those root requests indicate a fallback to engine-default RevoltFX
+    asset URLs instead of the app's Pages-base-aware asset paths
 -   the release-attached debug APK downloads and unzips with the expected web
     payload under `assets/public/`
 

@@ -13,10 +13,10 @@ Rivers Reckoning currently has two combat paths.
 
 Wild encounters are dialog-driven creature fights launched from encounter zones. The player can:
 
-- fight
-- throw a capture pod
-- use an item
-- run
+-   fight
+-   throw a capture pod
+-   use an item
+-   run
 
 Wild encounters award clue sightings, bestiary seen/caught records, drops, XP, and party additions when captured.
 
@@ -26,21 +26,21 @@ Rival, region-master, and green-dragon fights use RPG.js action battle. The curr
 
 The set-piece path lives mainly in:
 
-- `src/modules/main/jan-ike.ts`
-- `src/modules/main/gym-leader.ts`
-- `src/modules/main/green-dragon.ts`
-- `src/modules/main/lead-battle-avatar.ts`
-- `src/modules/main/lead-battle-skills.ts`
+-   `src/modules/main/jan-ike.ts`
+-   `src/modules/main/gym-leader.ts`
+-   `src/modules/main/green-dragon.ts`
+-   `src/modules/main/lead-battle-avatar.ts`
+-   `src/modules/main/lead-battle-skills.ts`
 
 ## Combat Types
 
 Internal IDs remain stable for formulas and saves:
 
-- `seli` = fire
-- `telo` = water
-- `kasi` = plant
-- `lete` = ice
-- `wawa` = force / neutral bruiser
+-   `seli` = fire
+-   `telo` = water
+-   `kasi` = wild
+-   `lete` = ice
+-   `wawa` = stone / neutral bruiser
 
 Player-facing copy should use English labels where practical.
 
@@ -48,22 +48,22 @@ Player-facing copy should use English labels where practical.
 
 Wins/catches can grant:
 
-- creature XP and level-ups
-- learned moves
-- coins/items
-- clue IDs
-- badge/proof flags
-- quest progress
+-   creature XP and level-ups
+-   learned moves
+-   coins/items
+-   clue IDs
+-   badge/proof flags
+-   quest progress
 
 ## Acceptance
 
 Combat is acceptable only when the player can tell:
 
-- who is acting
-- who is damaged
-- whether HP changed
-- whether capture succeeded
-- why the fight ended
-- what reward was gained
+-   who is acting
+-   who is damaged
+-   whether HP changed
+-   whether capture succeeded
+-   why the fight ended
+-   what reward was gained
 
 The remaining v1 work is not "add more effects" in isolation. It is tuning encounter frequency, catch odds, party switching, item economy, XP curve, move variety, and boss escalation through repeated playtests.
