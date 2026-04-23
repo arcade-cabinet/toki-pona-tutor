@@ -16,7 +16,7 @@ The project has pivoted to native-English Rivers Reckoning. The old language-lea
 | 1     | Stabilize          | Keep the pivot runnable/buildable                          |   3 |   1 |   1 |
 | 2     | English Content    | Replace product-facing language mechanics with clues/story |   4 |   1 |   0 |
 | 3     | Art Direction      | Choose and enforce a cohesive v1 visual stack              |   4 |   1 |   1 |
-| 4     | Map Rebuild        | Recompose maps for density, transitions, and tap space     |   1 |   2 |   5 |
+| 4     | Map Rebuild        | Recompose maps for density, transitions, and tap space     |   2 |   2 |   4 |
 | 5     | Journey            | Expand the complete beginning-to-end game                  |   5 |   0 |   0 |
 | 6     | Combat And Economy | Tune repeated play for fun and fairness                    |   2 |   2 |   2 |
 | 7     | Mobile UX          | Make tap/mouse the complete control surface                |   2 |   3 |   1 |
@@ -67,7 +67,7 @@ The project has pivoted to native-English Rivers Reckoning. The old language-lea
 | T4-05 | Expand map scale/density for polished v1 feel            | ⬜     | Current maps are playable but still proof-path dense.                  |
 | T4-06 | Transition-aware map painting                            | ⬜     | Salvage from closed PR #81: map painter should route biome transitions through a shared helper rather than per-spec inline tile arrays. Fresh PR. |
 | T4-07 | Buffer water-route seams                                 | ⬜     | Salvage from closed PR #81: `nasin_pi_telo` + `lakehaven` water edges had visible seams; add a shore-tile buffer pass to the painter. Fresh PR. |
-| T4-08 | Enforce map surface metadata                             | ⬜     | Salvage from closed PR #81: every tile in every spec must declare surface kind (walkable/blocker/warp/encounter) via metadata, asserted by a build-time test. |
+| T4-08 | Enforce map surface metadata                             | ✅     | `tests/build-time/map-surface-metadata.test.ts` asserts every curated tile has `surface` + `walkable`, walkable-surface consistency, and that every shipped map spec's palette resolves to a surfaced curated entry. |
 
 ## Phase 5: Journey
 
