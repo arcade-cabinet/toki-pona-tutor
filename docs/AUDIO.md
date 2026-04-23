@@ -33,7 +33,13 @@ Runtime authoritative source is `src/content/gameplay/audio.json`. The schema li
 | `bgm_gameover` | Faint / loss screen | **Kenney `bgm-gameover`** | Works. Keep for v1. |
 | `bgm_menu` | Title + pause | **Kenney `bgm-menu`** | Works. Keep for v1. |
 
-Target count for v1: **10 distinct tracks** (village, forest, mountain, water, snow, battle, gym, boss, victory, menu/title). Credits can reuse menu. Lesson can reuse battle for v1 if need be.
+Target count for v1: **10 distinct tracks** split as:
+
+- **5 biome overworld tracks** (village, forest, mountain, water, snow) — these are the five values in `mapMusicTrackSchema` and `highridge_pass`/`rivergate_approach` both map to `bgm_mountain` + `bgm_water`/biome respectively; there is not a 1:1 region→track relationship.
+- **3 combat tracks** (default battle, gym, boss)
+- **2 menu/sting tracks** (menu/title, victory) — gameover can reuse menu for v1; lesson can reuse battle.
+
+This matches the `bgm_files` keys in `src/content/gameplay/audio.json`. Credits page can reuse `bgm_menu` for v1.
 
 ## SFX Catalog
 
@@ -65,9 +71,9 @@ Target count for v1: **>=12 distinct SFX**, all with clear game-state mapping.
 
 ## Licensing Policy
 
-Every audio asset in `public/audio/` and `public/sfx/` must carry one of these four licenses, recorded in this doc:
+Every audio asset shipped in the bundle — anywhere under `public/audio/`, `public/sfx/`, `public/rpg/audio/`, or `public/rpg/sfx/` — must carry one of these four licenses, recorded in this doc:
 
-1. **CC0** (public domain dedication) — no attribution required. Kenney.nl tracks currently in-repo are CC0; see `public/audio/KENNEY-LICENSE.txt`.
+1. **CC0** (public domain dedication) — no attribution required. Kenney.nl tracks currently in-repo are CC0; see `public/audio/KENNEY-LICENSE.txt` and `public/rpg/audio/LICENSE.txt`.
 2. **CC-BY** — credit required. Credit line belongs in a new credits file at docs/CREDITS.md (create when first needed) and in the in-game credits screen.
 3. **Commissioned** — a one-off contract with a composer. Contract + deliverable checksum stored out-of-repo; license terms summarized here.
 4. **Original** — created by the project team. "Original" means we wrote it and we own it.
@@ -80,10 +86,12 @@ Every audio asset in `public/audio/` and `public/sfx/` must carry one of these f
 
 | Asset family | Source | License | In-repo path |
 | --- | --- | --- | --- |
-| Kenney music loops (menu, lesson, victory, gameover) | Kenney.nl "Music Loops 1.1" | CC0 | `public/audio/bgm-*-kenney.ogg` + `.mp3` |
-| Base UI SFX (click, confirm, drop, error) | TBD - likely Kenney or similar CC0 | **Needs license verification** | `public/sfx/*.ogg` + `.mp3` |
+| Kenney music loops (menu, lesson, victory, gameover) | Kenney.nl "Music Loops 1.1" | CC0 (verified via `public/audio/KENNEY-LICENSE.txt`) | `public/audio/bgm-*-kenney.ogg` + `.mp3` |
+| RPG placeholder biome BGM (village, forest) | Kenney.nl Music Loops family | CC0 (verified via `public/rpg/audio/LICENSE.txt`) | `public/rpg/audio/bgm-village.ogg`, `public/rpg/audio/bgm-forest.ogg` |
+| RPG runtime SFX (dialog-open, footstep, pickup) | TBD — pack source needs confirmation | **Needs license verification** | `public/rpg/sfx/*.ogg` |
+| Base UI SFX (click, confirm, drop, error) | TBD — likely Kenney or similar CC0 | **Needs license verification** | `public/sfx/*.ogg` + `.mp3` |
 
-Before v1 release, every entry above needs a specific citation (Kenney pack name + version) in a new a new credits file at docs/CREDITS.md + in-game credits screen.
+Before v1 release, every entry above needs a specific pack name + version in a new credits file at docs/CREDITS.md + an in-game credits screen entry. Any row with "Needs license verification" is a v1 blocker: verify the source or replace the asset.
 
 ## V1 Gap Summary
 
@@ -91,21 +99,28 @@ Before v1 release, every entry above needs a specific citation (Kenney pack name
 1. Source or commission **5 new BGM tracks**: village, forest, water, snow, gym (distinct from default battle). Each is a ~2-3 minute seamless loop.
 2. Source or commission **1 new BGM track** for `bgm_boss` (final green-dragon fight).
 3. Replace **`sfx_encounter_appear`** — the current error tone is wrong.
-4. Source or commission **4 new SFX**: warp, catch_throw (whoosh), level_up (chime), tall_grass_rustle.
-5. Add **4 new SFX slots** in the catalog: tall_grass_rustle, critical_hit, shop_buy, quest_accept.
-6. Create **a new credits file at docs/CREDITS.md** and verify every existing asset's license.
-7. Update in-game credits screen to reference CREDITS.md entries.
+4. Replace at least one of **`sfx_catch_fail`** or **`sfx_faint`** so the acceptance bar's "no asset used for more than one game-state cue" holds (both currently share `sfx/error`).
+5. Source or commission **4 new SFX**: warp, catch_throw (whoosh), level_up (chime), tall_grass_rustle.
+6. Add the **4 new SFX slots** to `src/content/gameplay/audio.json` — the catalog and the JSON must move together (per the "never add a slot here without JSON" rule at the top of this doc): `sfx_tall_grass_rustle`, `sfx_critical_hit`, `sfx_shop_buy`, `sfx_quest_accept`.
+7. Resolve every "Needs license verification" row in the Current credits table — either cite the exact pack or replace.
+8. Create **a new credits file at docs/CREDITS.md** and verify every existing asset's license.
+9. Update in-game credits screen to reference CREDITS.md entries.
 
 **Acceptance bar for v1 audio:**
-- Every biome (7) has a distinct BGM during normal overworld.
+- All 5 biome BGM slots (`village`, `forest`, `mountain`, `water`, `snow`) have distinct tracks; the two regions that share a biome slot (highridge/dreadpeak use `bgm_mountain`; rivergate uses `bgm_water`) are acceptable as shared by design.
 - Every combat context (wild / region master / boss) has a distinct BGM.
 - 12+ SFX wired with no asset used for more than one game-state cue.
-- a new credits file at docs/CREDITS.md covers every shipped audio asset with source + license.
+- The new credits file at docs/CREDITS.md covers every shipped audio asset with source + license (including `public/rpg/audio/` and `public/rpg/sfx/`).
 - No asset's name, filename, or mood references a named franchise.
 
-## Runtime Behavior (unchanged)
+## Runtime Behavior
+
+Already wired (source: `src/config/audio-controller.ts`, `src/modules/main/audio.ts`, `src/content/gameplay/audio.json`):
 
 - Crossfade between BGM: 800ms (see `audio.json runtime.bgm_crossfade_ms`).
-- BGM stops on pause, resumes on unpause.
 - Combat BGM override by map prefix: see `bgm_selection.gym_map_prefixes` and `map_combat_overrides`.
 - SFX volumes normalized by `base_volume` in `audio.json`; the player's settings slider is a multiplier on top.
+
+Desired for v1 (NOT currently implemented):
+
+- **TODO for v1:** pausing gameplay should suspend active BGM and resume it on unpause. The current audio controller is driven by map-id effects and override events; there is no pause hook stopping or restarting playback. Implementing this means hooking the pause overlay's open/close signal to the controller.
