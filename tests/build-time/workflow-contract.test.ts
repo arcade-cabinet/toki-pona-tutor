@@ -56,8 +56,13 @@ describe("GitHub Actions run/release/deploy contract", () => {
         expect(automerge).toContain(
             "github.event.pull_request.head.repo.full_name == github.repository",
         );
-        expect(automerge).not.toContain(
-            "github.actor == 'github-actions[bot]' &&\n      startsWith(github.event.pull_request.head.ref, 'release-please--')",
+        expect(automerge).toContain(
+            "github.event.pull_request.user.login == 'github-actions[bot]'",
+        );
+        expect(automerge).toContain("github.event.pull_request.user.login == 'jbdevprimary'");
+        expect(automerge).toContain("vars.RELEASE_PLEASE_PAT_OWNER != ''");
+        expect(automerge).toContain(
+            "github.event.pull_request.user.login == vars.RELEASE_PLEASE_PAT_OWNER",
         );
         expect(automerge).toContain("gh pr merge --auto --squash");
     });
