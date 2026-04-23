@@ -11,7 +11,7 @@ domain: context
 
 **Product:** Rivers Reckoning, a native-English creature-catching RPG for web and Android debug APK builds. Rivers explores a fantasy world, catches monsters, investigates local trouble, solves quests, defeats four region masters, and reaches the green-dragon finale.
 
-**Latest verified release:** `v0.3.1` on 2026-04-23.
+**Latest verified release:** `v0.12.0` on 2026-04-23 — carries the full Phase 11 onboarding and T21 quest-dialog set atop the v0.3.1 remote-release proof.
 
 **Latest verified remote release proof:** feature merge commit `d68fed9e4aebad3aea226d248e7e0cdca3873827` -> release merge commit `a546843137137a57dc782fb4f99e32123a661d36` -> artifact-producing `release.yml` run `24819206623` -> consuming `cd.yml` run `24819295738`.
 
@@ -67,7 +67,8 @@ pnpm android:build-debug
 -   **Playable current arc:** starter ceremony, wild encounters, capture/defeat, first rival, four region masters, side quests, shops, final route, green dragon, credits, save/continue, and respawn are wired.
 -   **Mobile HUD:** tap-to-walk, contextual hint, HUD menu, pause routes, party/bestiary/inventory/clues/settings/save flows, and touch-target tests exist.
 -   **Release plumbing:** `automerge.yml` handles safe bot squash auto-merge, `ci.yml` handles PR gates and reviewer artifacts, `release.yml` creates versioned release artifacts through release-please, and `cd.yml` consumes the completed `workflow_run` to attach release assets and deploy Pages.
--   **Remote release proof is complete:** `v0.3.1` proved the full `ci.yml` -> `release.yml` -> `cd.yml` chain with attached release assets and a live Pages deploy.
+-   **Remote release proof is complete:** `v0.3.1` proved the full `ci.yml` -> `release.yml` -> `cd.yml` chain with attached release assets and a live Pages deploy. `v0.4.0` → `v0.12.0` followed through the same pipeline with no regressions.
+-   **Phase 11 onboarding is closed:** scripted opening scene, starter chain, dialog keyboard-advance, player name tag, jan Sewi first-play cue, scenic starter village, goal HUD chrome, pause glance dashboard. See `docs/ROADMAP.md` Phase 11 rows for PR refs.
 
 ## Verified Baseline
 
