@@ -15,8 +15,8 @@ The project has pivoted to native-English Rivers Reckoning. The old language-lea
 | ----- | ------------------ | ---------------------------------------------------------- | --: | --: | --: |
 | 1     | Stabilize          | Keep the pivot runnable/buildable                          |   3 |   1 |   1 |
 | 2     | English Content    | Replace product-facing language mechanics with clues/story |   4 |   1 |   0 |
-| 3     | Art Direction      | Choose and enforce a cohesive v1 visual stack              |   4 |   1 |   1 |
-| 4     | Map Rebuild        | Recompose maps for density, transitions, and tap space     |   2 |   2 |   4 |
+| 3     | Art Direction      | Choose and enforce a cohesive v1 visual stack              |   5 |   1 |   0 |
+| 4     | Map Rebuild        | Recompose maps for density, transitions, and tap space     |   4 |   2 |   2 |
 | 5     | Journey            | Expand the complete beginning-to-end game                  |   5 |   0 |   0 |
 | 6     | Combat And Economy | Tune repeated play for fun and fairness                    |   2 |   2 |   2 |
 | 7     | Mobile UX          | Make tap/mouse the complete control surface                |   2 |   3 |   1 |
@@ -54,7 +54,7 @@ The project has pivoted to native-English Rivers Reckoning. The old language-lea
 | T3-03 | Evaluate pending asset archives in bakeoff form                  | ✅     | Pending pack inventory + audit tooling both shipped. Evaluation done and recorded in `docs/ART_DIRECTION.md`. |
 | T3-04 | Choose primary overworld identity                                | ✅     | **Fan-tasy family, full v1 stack.** Decision + alt rejections + per-region pack map live in `docs/ART_DIRECTION.md`. |
 | T3-05 | Choose compatible interior/cave identity                         | ✅     | Fan-tasy Castles and Fortresses for caves/shrines/endgame architecture; Fan-tasy Medieval Interiors for lake/frost/indoor surfaces. All in-family. |
-| T3-06 | Render collection landmarks from generated atlases               | ⬜     | Salvage from closed PR #81: map specs should render landmark tiles from `src/content/art/tilesets.json` atlas IDs, not hardcoded coordinates. Fresh PR against current main. |
+| T3-06 | Render collection landmarks from generated atlases               | ✅     | Already done on current main — palette entries route through `collectionAtlasEntry()` + `curatedTile()` in `scripts/map-authoring/palettes/*.ts`, resolving to art IDs in `src/content/art/tilesets.json` rather than hardcoded coordinates. Closed PR #81 predated the current palette plumbing; verified 2026-04-23. |
 
 ## Phase 4: Map Rebuild
 
@@ -65,8 +65,8 @@ The project has pivoted to native-English Rivers Reckoning. The old language-lea
 | T4-03 | Improve biome transitions and encounter-zone readability | 🟡     | Visual audit catches issues; composition work remains.                 |
 | T4-04 | Add landmarks and route language to every map            | ⬜     | Each map needs clearer identity and memory hooks.                      |
 | T4-05 | Expand map scale/density for polished v1 feel            | ⬜     | Current maps are playable but still proof-path dense.                  |
-| T4-06 | Transition-aware map painting                            | ⬜     | Salvage from closed PR #81: map painter should route biome transitions through a shared helper rather than per-spec inline tile arrays. Fresh PR. |
-| T4-07 | Buffer water-route seams                                 | ⬜     | Salvage from closed PR #81: `nasin_pi_telo` + `lakehaven` water edges had visible seams; add a shore-tile buffer pass to the painter. Fresh PR. |
+| T4-06 | Transition-aware map painting                            | ✅     | Already done on current main — `paintEdgeTransitions()` + `edgeTransitionTiles()` live in `scripts/map-authoring/lib/spec-helpers.ts` and are used by every shipped spec. Verified 2026-04-23. |
+| T4-07 | Buffer water-route seams                                 | ✅     | No seams present on current main. Verified via `public/assets/maps/rivergate_approach.preview.png` and `public/assets/maps/lakehaven.preview.png`; shore/water boundaries render cleanly through the existing transition painter. 2026-04-23. |
 | T4-08 | Enforce map surface metadata                             | ✅     | `tests/build-time/map-surface-metadata.test.ts` asserts every curated tile has `surface` + `walkable`, walkable-surface consistency, and that every shipped map spec's palette resolves to a surfaced curated entry. |
 
 ## Phase 5: Journey
