@@ -15,11 +15,11 @@ The project has pivoted to native-English Rivers Reckoning. The old language-lea
 | ----- | ------------------ | ---------------------------------------------------------- | --: | --: | --: |
 | 1     | Stabilize          | Keep the pivot runnable/buildable                          |   3 |   1 |   1 |
 | 2     | English Content    | Replace product-facing language mechanics with clues/story |   3 |   1 |   1 |
-| 3     | Art Direction      | Choose and enforce a cohesive v1 visual stack              |   1 |   2 |   2 |
-| 4     | Map Rebuild        | Recompose maps for density, transitions, and tap space     |   1 |   2 |   2 |
+| 3     | Art Direction      | Choose and enforce a cohesive v1 visual stack              |   1 |   2 |   3 |
+| 4     | Map Rebuild        | Recompose maps for density, transitions, and tap space     |   1 |   2 |   5 |
 | 5     | Journey            | Expand the complete beginning-to-end game                  |   1 |   1 |   3 |
 | 6     | Combat And Economy | Tune repeated play for fun and fairness                    |   2 |   2 |   2 |
-| 7     | Mobile UX          | Make tap/mouse the complete control surface                |   2 |   3 |   0 |
+| 7     | Mobile UX          | Make tap/mouse the complete control surface                |   2 |   3 |   1 |
 | 8     | Release Proof      | Prove Pages, release artifacts, and debug APKs             |   5 |   0 |   1 |
 | 9     | Docs And QA        | Keep docs honest and acceptance artifacts reviewable       |   3 |   0 |   1 |
 | 10    | V1 Polish          | Finish audio, post-clear loop, and final product QA        |   1 |   1 |   3 |
@@ -53,6 +53,7 @@ The project has pivoted to native-English Rivers Reckoning. The old language-lea
 | T3-03 | Evaluate pending asset archives in bakeoff form                  | 🟡     | Pending pack inventory exists; final v1 visual stack is not chosen.                      |
 | T3-04 | Choose primary overworld identity                                | ⬜     | Must be evidence-backed by contact sheets/sample maps.                                   |
 | T3-05 | Choose compatible interior/cave identity                         | ⬜     | Do not mix styles opportunistically.                                                     |
+| T3-06 | Render collection landmarks from generated atlases               | ⬜     | Salvage from closed PR #81: map specs should render landmark tiles from `src/content/art/tilesets.json` atlas IDs, not hardcoded coordinates. Fresh PR against current main. |
 
 ## Phase 4: Map Rebuild
 
@@ -63,6 +64,9 @@ The project has pivoted to native-English Rivers Reckoning. The old language-lea
 | T4-03 | Improve biome transitions and encounter-zone readability | 🟡     | Visual audit catches issues; composition work remains.                 |
 | T4-04 | Add landmarks and route language to every map            | ⬜     | Each map needs clearer identity and memory hooks.                      |
 | T4-05 | Expand map scale/density for polished v1 feel            | ⬜     | Current maps are playable but still proof-path dense.                  |
+| T4-06 | Transition-aware map painting                            | ⬜     | Salvage from closed PR #81: map painter should route biome transitions through a shared helper rather than per-spec inline tile arrays. Fresh PR. |
+| T4-07 | Buffer water-route seams                                 | ⬜     | Salvage from closed PR #81: `nasin_pi_telo` + `lakehaven` water edges had visible seams; add a shore-tile buffer pass to the painter. Fresh PR. |
+| T4-08 | Enforce map surface metadata                             | ⬜     | Salvage from closed PR #81: every tile in every spec must declare surface kind (walkable/blocker/warp/encounter) via metadata, asserted by a build-time test. |
 
 ## Phase 5: Journey
 
@@ -94,6 +98,7 @@ The project has pivoted to native-English Rivers Reckoning. The old language-lea
 | T7-03 | Improve HUD framing around gameplay area            | 🟡     | Works, but needs more visual review on real mobile screens.                     |
 | T7-04 | Broaden mobile failure-path coverage                | 🟡     | Current coverage is strong for happy paths and selected failures.               |
 | T7-05 | Device-prove touch comfort on Android/iOS           | 🟡     | Android emulator smoke passed; iOS simulator and physical-device passes remain. |
+| T7-06 | Improve HUD portrait + map viewport framing         | ⬜     | Salvage from closed PR #81: party portraits clip at small viewports; map viewport crops landmarks on portrait tablets. Fresh PR with visual-audit evidence. |
 
 ## Phase 8: Release Proof
 
