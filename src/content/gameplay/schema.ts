@@ -23,7 +23,14 @@ const directionRowsSchema = z.object({
 const enemyTypeSchema = z.enum(["aggressive", "defensive", "ranged", "tank", "berserker"]);
 const titleEntryIdSchema = z.enum(["new", "settings", "quit"]);
 const titleConfirmChoiceValueSchema = z.enum(["confirm", "cancel"]);
-const pauseRouteIdSchema = z.enum(["party", "vocab", "inventory", "bestiary", "settings"]);
+const pauseRouteIdSchema = z.enum([
+    "glance",
+    "party",
+    "vocab",
+    "inventory",
+    "bestiary",
+    "settings",
+]);
 const pauseFooterIdSchema = z.enum(["resume", "save", "title"]);
 const saveMenuActionValueSchema = z.enum(["save", "load", "cancel"]);
 const settingsChoiceValueSchema = z.enum([
@@ -784,6 +791,20 @@ export const uiConfigSchema = z.object({
             )
             .min(1),
         party_panel_heal_item_id: idSchema,
+        glance: z.object({
+            title: idSchema,
+            party_row_label_template: idSchema,
+            party_row_meta_lead_template: idSchema,
+            party_row_meta_empty: idSchema,
+            clues_row_label_template: idSchema,
+            clues_row_meta_empty: idSchema,
+            clues_row_meta_template: idSchema,
+            bestiary_row_label_template: idSchema,
+            bestiary_row_meta_total_template: idSchema,
+            objective_row_label_pre_starter: idSchema,
+            objective_row_label_post_starter: idSchema,
+            objective_row_meta: idSchema,
+        }),
         party: z.object({
             title_template: idSchema,
             empty: labelMetaCopySchema,
