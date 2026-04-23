@@ -1235,6 +1235,11 @@ export const uiConfigSchema = z.object({
             .min(1),
     }),
     credits_pages: z.array(z.array(z.string())).min(1),
+    opening_scene: z.object({
+        flag_id: idSchema,
+        post_scene_dialog_id: idSchema,
+        beats: z.array(z.string()).min(1),
+    }),
 });
 
 const questGoalSchema = z.discriminatedUnion("kind", [

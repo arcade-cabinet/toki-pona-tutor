@@ -5,6 +5,7 @@ import { resetPersistedRuntimeState } from "../../platform/persistence/runtime-s
 import { PLAYER_CONFIG, TITLE_MENU_CONFIG, TITLE_START } from "../../content/gameplay";
 import { formatGameplayTemplate } from "../../content/gameplay/templates";
 import { markSafeMapIfVillage } from "./respawn";
+import { runOpeningScene } from "./opening-scene";
 import { getSaveSlotTimestamp, listSaveSlots } from "./save-slots";
 import { showSettings } from "./settings-screen";
 
@@ -146,6 +147,22 @@ export async function startFreshGame(
     await preferences.set(KEYS.currentMapId, TITLE_START.mapId);
     await preferences.set(KEYS.journeyBeat, TITLE_START.journeyBeatId);
     await markSafeMapIfVillage(TITLE_START.mapId);
+
+    // T11-11: scripted opening scene — stages why Rivers is here, why
+    // they care, and hands the player straight into Selby's starter
+    // ceremony. Idempotent (gated on opening_scene_complete flag) so
+    // a resumed save or a re-entry into the starter map does not
+    // replay the opening. Runs BEFORE autosave so the flag write is
+    // part of the first persisted snapshot.
+    try {
+        await runOpeningScene(player);
+    } catch {
+        // Opening scene failure must not stop the player entering the
+        // game. Worst case: the scene silently no-ops and the player
+        // starts on the starter map as they did before this module
+        // existed.
+    }
+
     await autosave(player);
 }
 

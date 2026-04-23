@@ -28,7 +28,8 @@
         "hooks": [
           {
             "type": "command",
-            "command": "bash .claude/hooks/task-batch-flush.sh"
+            "command": "bash .claude/hooks/keep-on-task.sh",
+            "timeout": 15
           }
         ]
       }
