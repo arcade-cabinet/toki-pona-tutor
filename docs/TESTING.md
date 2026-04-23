@@ -62,7 +62,7 @@ Playwright runs headed. In CI it runs under `xvfb-run`; do not convert these sui
 
 `pnpm test:e2e:smoke` is the PR browser gate. It verifies the game boots in real Chromium without page/console errors and with the expected shell/canvas.
 
-`pnpm test:e2e:full` is local. The full suite currently has 27 full browser tests across 15 files and covers title/save flows, settings, text speed, clue overlay, mobile HUD/menu/status/hint/tap controls, party/bestiary, side quests, wild battle, action-battle movebar, visual audit, and the golden path to credits.
+`pnpm test:e2e:full` is local. The full suite currently has 28 full browser tests across 16 files and covers title/save flows, settings, text speed, clue overlay, mobile HUD/menu/status/hint/tap controls, party/bestiary, side quests, wild battle, action-battle movebar, visual audit, asset-load audit against the Pages preview, and the golden path to credits.
 
 ## Visual Verification
 
