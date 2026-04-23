@@ -236,12 +236,7 @@ function useDialogTypewriter(state: RiversUiDialogState) {
                 return;
             }
 
-            let cps = DEFAULT_TEXT_SPEED_CPS;
-            try {
-                cps = await getTextSpeed();
-            } catch {
-                cps = DEFAULT_TEXT_SPEED_CPS;
-            }
+            const cps = await getTextSpeed().catch(() => DEFAULT_TEXT_SPEED_CPS);
             if (disposed) return;
             const intervalMs = typewriterIntervalMsForCps(cps);
             if (intervalMs === null) {

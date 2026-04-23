@@ -156,4 +156,33 @@ describe("portable local tooling scripts", () => {
             rmSync(root, { recursive: true, force: true });
         }
     });
+
+    it("fails Android identity sync when required string resources drift", () => {
+        const root = mkdtempSync(join(tmpdir(), "rivers-android-"));
+        try {
+            writeFileSync(
+                join(root, "capacitor.config.ts"),
+                [
+                    "export default {",
+                    "  appId: 'com.riversreckoning.game',",
+                    "  appName: 'Rivers Reckoning',",
+                    "};",
+                ].join("\n"),
+            );
+
+            mkdirSync(join(root, "android", "app", "src", "main", "res", "values"), {
+                recursive: true,
+            });
+            writeFileSync(
+                join(root, "android", "app", "src", "main", "res", "values", "strings.xml"),
+                ["<resources>", '    <string name="app_name">poki soweli</string>', "</resources>"].join("\n"),
+            );
+
+            expect(() => androidTool.syncAndroidAppIdentity({ root })).toThrow(
+                /title_activity_main in android\/app\/src\/main\/res\/values\/strings\.xml/,
+            );
+        } finally {
+            rmSync(root, { recursive: true, force: true });
+        }
+    });
 });

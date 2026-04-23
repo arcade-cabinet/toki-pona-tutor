@@ -208,10 +208,6 @@ function resolveName(name: TranslatableName | undefined): string | null {
     return candidate || null;
 }
 
-function prettifyId(id: string): string {
-    return id.replace(/_/g, " ");
-}
-
 function normalize(value: string): string {
     return value.replace(/\s+/g, " ").trim().toLowerCase();
 }

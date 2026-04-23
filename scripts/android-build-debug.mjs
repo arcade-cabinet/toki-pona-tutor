@@ -121,20 +121,30 @@ export function syncAndroidAppIdentity({ root = process.cwd(), androidDir = join
         const escapedName = xmlEscape(appName);
         const escapedId = xmlEscape(appId);
         const original = readFileSync(stringsPath, "utf8");
-        const next = original
-            .replace(/<string name="app_name">[^<]*<\/string>/, `<string name="app_name">${escapedName}</string>`)
-            .replace(
-                /<string name="title_activity_main">[^<]*<\/string>/,
-                `<string name="title_activity_main">${escapedName}</string>`,
-            )
-            .replace(
-                /<string name="package_name">[^<]*<\/string>/,
-                `<string name="package_name">${escapedId}</string>`,
-            )
-            .replace(
-                /<string name="custom_url_scheme">[^<]*<\/string>/,
-                `<string name="custom_url_scheme">${escapedId}</string>`,
-            );
+        let next = replaceOrThrow(
+            original,
+            /<string name="app_name">[^<]*<\/string>/,
+            `<string name="app_name">${escapedName}</string>`,
+            "app_name in android/app/src/main/res/values/strings.xml",
+        );
+        next = replaceOrThrow(
+            next,
+            /<string name="title_activity_main">[^<]*<\/string>/,
+            `<string name="title_activity_main">${escapedName}</string>`,
+            "title_activity_main in android/app/src/main/res/values/strings.xml",
+        );
+        next = replaceOrThrow(
+            next,
+            /<string name="package_name">[^<]*<\/string>/,
+            `<string name="package_name">${escapedId}</string>`,
+            "package_name in android/app/src/main/res/values/strings.xml",
+        );
+        next = replaceOrThrow(
+            next,
+            /<string name="custom_url_scheme">[^<]*<\/string>/,
+            `<string name="custom_url_scheme">${escapedId}</string>`,
+            "custom_url_scheme in android/app/src/main/res/values/strings.xml",
+        );
         if (next !== original) writeFileSync(stringsPath, next);
     }
 
