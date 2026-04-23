@@ -35,9 +35,17 @@ function starterVillageBase(): string[][] {
         }),
     );
 
+    // Main east-west dirt road — the only structural dirt path.
     paintRect(grid, [0, 5, WIDTH, 2], "d");
-    paintRect(grid, [2, 7, 4, 2], "d");
+    // jan Sewi's approach, extending the road north at (9-12, 4-6).
+    // The mentor stands at (10, 6); widening the road here makes the
+    // ceremony feel like it happens at the village centre.
     paintRect(grid, [9, 4, 4, 3], "d");
+    // T11-04: removed the orphan plot previously at [2, 7, 4, 2].
+    // It rendered as an unexplained brown square south of the path
+    // with no NPC sitting on it (jan-telo-well and jan-kili-tomo
+    // stand on its edges, not its centre) and no narrative purpose.
+    // The village reads cleaner with one road and one mentor plaza.
 
     paintEdgeTransitions(grid, {
         base: ["g", "f", "v"],
