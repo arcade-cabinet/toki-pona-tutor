@@ -5,17 +5,24 @@
   "beats": [
     {
       "text": {
-        "en": "The cave walls still remember old battles."
+        "en": "Something's been moving in the shadow at the back of the cavern."
       },
       "mood": "thinking",
-      "glyph": "dreadpeak-proof"
+      "glyph": "cave-shadow"
     },
     {
       "text": {
-        "en": "Bring a brave lead creature."
+        "en": "Two cave-dwellers will tell us what it is — they see in the dark the way Rivers sees maps."
+      },
+      "mood": "thinking",
+      "glyph": "cave-shadow"
+    },
+    {
+      "text": {
+        "en": "Catch two cave creatures and bring them back. We'll read the shadow together."
       },
       "mood": "excited",
-      "glyph": "battle-ready"
+      "glyph": "cave-shadow"
     }
   ],
   "triggers": {}

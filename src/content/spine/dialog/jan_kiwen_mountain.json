@@ -5,17 +5,24 @@
   "beats": [
     {
       "text": {
-        "en": "Stone paths break careless boots."
+        "en": "The old shrine at the summit is missing its stones."
       },
       "mood": "thinking",
-      "glyph": "dreadpeak-proof"
+      "glyph": "stone-type"
     },
     {
       "text": {
-        "en": "Strong companions can push through the pass."
+        "en": "Only Pebbleback keeps shrine stones in its shell. Other stone-types leave them scattered."
+      },
+      "mood": "thinking",
+      "glyph": "stone-type"
+    },
+    {
+      "text": {
+        "en": "Catch two Pebblebacks and the shrine will know your name."
       },
       "mood": "excited",
-      "glyph": "battle-ready"
+      "glyph": "stone-type"
     }
   ],
   "triggers": {}
