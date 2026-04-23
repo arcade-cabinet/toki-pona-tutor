@@ -103,6 +103,7 @@ describe("GitHub Actions run/release/deploy contract", () => {
         );
         expect(release).toContain("Configure CI_GITHUB_TOKEN_PAT or CI_GITHUB_TOKEN");
         expect(release).toContain("token: ${{ env.RELEASE_PLEASE_TOKEN }}");
+        expect(release).not.toContain("token: ${{ secrets.CI_GITHUB_TOKEN_PAT }}");
         expect(release).toContain("ref: ${{ needs.release-please.outputs.sha }}");
         expect(release).toMatch(/GITHUB_PAGES:\s+['"]true['"]/);
         expect(release).toContain("node scripts/deploy/verify-pages-bundle.mjs dist");
