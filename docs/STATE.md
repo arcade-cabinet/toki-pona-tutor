@@ -100,7 +100,7 @@ Release evidence already captured remotely:
 -   release assets `rivers-reckoning-web-v0.3.1.tar.gz` and `rivers-reckoning-v0.3.1-debug.apk`
 -   live Pages URL `https://arcade-cabinet.github.io/poki-soweli/`
 
-The full browser suite currently has 27 full browser tests across 15 files. It remains local rather than a PR gate because it is slower and more visually diagnostic than the smoke gate.
+The full browser suite currently has 28 full browser tests across 16 files. It remains local rather than a PR gate because it is slower and more visually diagnostic than the smoke gate.
 
 ## Visual Verification
 
