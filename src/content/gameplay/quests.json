@@ -124,6 +124,150 @@
         "item_count": 2,
         "reward_clue": "last-light"
       }
+    },
+    {
+      "id": "quest_tomo_safe_house",
+      "giver_npc_id": "jan_pona_tomo",
+      "map_id": "riverside_home",
+      "title": "Safe House",
+      "summary": "Catch one Reedfrog near the riverside pond to prove the area is safe.",
+      "goal": {
+        "kind": "catch_count",
+        "species_id": "kala_tomo",
+        "target": 1
+      },
+      "reward": {
+        "xp": 35,
+        "item_id": "poki_lili",
+        "item_count": 1,
+        "reward_clue": "safe-house"
+      }
+    },
+    {
+      "id": "quest_nasin_wild_signs",
+      "giver_npc_id": "jan_palisa_nasin",
+      "map_id": "greenwood_road",
+      "title": "Wild Signs",
+      "summary": "Catch two forest creatures and bring back what you notice about their tracks.",
+      "goal": {
+        "kind": "catch_any_in_biome",
+        "biome": "forest",
+        "target": 2
+      },
+      "reward": {
+        "xp": 45,
+        "item_id": "ma",
+        "item_count": 2,
+        "reward_clue": "wild-signs"
+      }
+    },
+    {
+      "id": "quest_sewi_shrine_stones",
+      "giver_npc_id": "jan_kiwen",
+      "map_id": "highridge_pass",
+      "title": "Shrine Stones",
+      "summary": "Catch two Pebblebacks for the shrine keeper's stone-count ritual.",
+      "goal": {
+        "kind": "catch_count",
+        "species_id": "soweli_kiwen",
+        "target": 2
+      },
+      "reward": {
+        "xp": 60,
+        "item_id": "telo_pona",
+        "item_count": 2,
+        "reward_clue": "stone-type"
+      }
+    },
+    {
+      "id": "quest_sewi_lost_hiker",
+      "giver_npc_id": "jan_nasin_sewi",
+      "map_id": "highridge_pass",
+      "title": "Lost Hiker",
+      "summary": "Carry a trail token down to the lake-village fisher to call a rescue.",
+      "goal": {
+        "kind": "deliver_item",
+        "item_id": "ma",
+        "to_npc_id": "jan_kala_lake"
+      },
+      "reward": {
+        "xp": 65,
+        "item_id": "poki_wawa",
+        "item_count": 1,
+        "reward_clue": "torch-path"
+      }
+    },
+    {
+      "id": "quest_telo_water_edge",
+      "giver_npc_id": "jan_olin_telo",
+      "map_id": "lakehaven",
+      "title": "Water Edge",
+      "summary": "Catch two lakeside creatures for the well-tender's field count.",
+      "goal": {
+        "kind": "catch_any_in_biome",
+        "biome": "water",
+        "target": 2
+      },
+      "reward": {
+        "xp": 70,
+        "item_id": "telo_pona",
+        "item_count": 2,
+        "reward_clue": "water-edge"
+      }
+    },
+    {
+      "id": "quest_lete_snowbird",
+      "giver_npc_id": "jan_kasi",
+      "map_id": "frostvale",
+      "title": "Snowbird Sighting",
+      "summary": "Catch one Snowbird so the frost botanist can confirm the cold-season roster.",
+      "goal": {
+        "kind": "catch_count",
+        "species_id": "waso_lete",
+        "target": 1
+      },
+      "reward": {
+        "xp": 70,
+        "item_id": "telo_pona",
+        "item_count": 2,
+        "reward_clue": "frost-type"
+      }
+    },
+    {
+      "id": "quest_suli_cave_shadow",
+      "giver_npc_id": "jan_kiwen_suli",
+      "map_id": "dreadpeak_cavern",
+      "title": "Cave Shadow",
+      "summary": "Catch two more cave creatures beyond the torch path to map the shadows.",
+      "goal": {
+        "kind": "catch_any_in_biome",
+        "biome": "cave",
+        "target": 2
+      },
+      "reward": {
+        "xp": 85,
+        "item_id": "poki_wawa",
+        "item_count": 1,
+        "reward_clue": "cave-shadow"
+      }
+    },
+    {
+      "id": "quest_telo_companion_bond",
+      "giver_npc_id": "jan_kala_lili",
+      "map_id": "rivergate_approach",
+      "title": "Companion Bond",
+      "summary": "Catch one more river creature so your party is ready for the green dragon.",
+      "goal": {
+        "kind": "catch_any_in_biome",
+        "biome": "water",
+        "target": 1
+      },
+      "reward": {
+        "xp": 95,
+        "item_id": "poki_wawa",
+        "item_count": 2,
+        "reward_clue": "companion-bond"
+      }
     }
   ]
 }

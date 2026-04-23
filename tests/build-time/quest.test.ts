@@ -229,8 +229,9 @@ describe('quest runtime copy', () => {
 });
 
 describe('side quest catalog', () => {
-    it('ships one playable side quest per current post-starter content band', () => {
-        expect(SIDE_QUESTS.map((quest) => quest.id)).toEqual([
+    it('ships at least two playable side quests per post-starter region', () => {
+        const ids = SIDE_QUESTS.map((quest) => quest.id);
+        expect(ids).toEqual([
             'quest_tomo_kili',
             'quest_nasin_forest_watch',
             'quest_nasin_poki_pack',
@@ -238,7 +239,33 @@ describe('side quest catalog', () => {
             'quest_lete_poki_pack',
             'quest_suli_torch',
             'quest_telo_last_light',
+            'quest_tomo_safe_house',
+            'quest_nasin_wild_signs',
+            'quest_sewi_shrine_stones',
+            'quest_sewi_lost_hiker',
+            'quest_telo_water_edge',
+            'quest_lete_snowbird',
+            'quest_suli_cave_shadow',
+            'quest_telo_companion_bond',
         ]);
+
+        // story-bible requirement: >=2 side quests per region
+        const byMap: Record<string, number> = {};
+        for (const q of SIDE_QUESTS) {
+            if (!q.mapId) continue;
+            byMap[q.mapId] = (byMap[q.mapId] ?? 0) + 1;
+        }
+        for (const map of [
+            'riverside_home',
+            'greenwood_road',
+            'highridge_pass',
+            'lakehaven',
+            'frostvale',
+            'dreadpeak_cavern',
+            'rivergate_approach',
+        ]) {
+            expect(byMap[map], `${map} quest count`).toBeGreaterThanOrEqual(2);
+        }
     });
 
     it('uses unique ids and quest-giver ids', () => {
