@@ -3,9 +3,10 @@
     "riverside_home": [
       {
         "id": "jan-pona-tomo",
-        "kind": "ambient_npc",
+        "kind": "quest_npc",
         "graphic": "npc_villager_fem_nel",
-        "dialog_id": "jan_pona_tomo_welcome"
+        "dialog_id": "jan_pona_tomo_welcome",
+        "quest_id": "quest_tomo_safe_house"
       },
       {
         "id": "jan-telo-well",
@@ -37,9 +38,10 @@
     "greenwood_road": [
       {
         "id": "jan-palisa-nasin",
-        "kind": "ambient_npc",
+        "kind": "quest_npc",
         "graphic": "npc_villager_masc_janik",
-        "dialog_id": "jan_palisa_nasin_sign"
+        "dialog_id": "jan_palisa_nasin_sign",
+        "quest_id": "quest_nasin_wild_signs"
       },
       {
         "id": "jan-kasi-nasin",
@@ -72,9 +74,10 @@
     "highridge_pass": [
       {
         "id": "jan-kiwen",
-        "kind": "ambient_npc",
+        "kind": "quest_npc",
         "graphic": "npc_villager_masc_grym",
-        "dialog_id": "jan_kiwen_mountain"
+        "dialog_id": "jan_kiwen_mountain",
+        "quest_id": "quest_sewi_shrine_stones"
       },
       {
         "id": "jan-kala",
@@ -90,9 +93,10 @@
       },
       {
         "id": "jan-nasin-sewi",
-        "kind": "ambient_npc",
+        "kind": "quest_npc",
         "graphic": "npc_villager_masc_janik",
-        "dialog_id": "jan_nasin_sewi_path"
+        "dialog_id": "jan_nasin_sewi_path",
+        "quest_id": "quest_sewi_lost_hiker"
       },
       { "id": "jan-wawa", "kind": "gym_leader", "trainer_id": "jan_wawa" },
       { "id": "warp_north", "kind": "warp", "position_offset": { "x": 8, "y": 0 } }
@@ -107,9 +111,10 @@
       },
       {
         "id": "jan-olin-telo",
-        "kind": "ambient_npc",
+        "kind": "quest_npc",
         "graphic": "npc_villager_masc_reza",
-        "dialog_id": "jan_olin_telo_quiet"
+        "dialog_id": "jan_olin_telo_quiet",
+        "quest_id": "quest_telo_water_edge"
       },
       { "id": "jan-moku", "kind": "shop", "shop_id": "jan_moku" },
       {
@@ -143,9 +148,10 @@
       },
       {
         "id": "jan-kasi",
-        "kind": "ambient_npc",
+        "kind": "quest_npc",
         "graphic": "npc_villager_fem_vash",
-        "dialog_id": "jan_kasi_garden"
+        "dialog_id": "jan_kasi_garden",
+        "quest_id": "quest_lete_snowbird"
       },
       { "id": "jan-lete", "kind": "gym_leader", "trainer_id": "jan_lete" },
       { "id": "warp_north", "kind": "warp", "position_offset": { "x": 8, "y": 0 } }
@@ -153,9 +159,10 @@
     "dreadpeak_cavern": [
       {
         "id": "jan-kiwen-suli",
-        "kind": "ambient_npc",
+        "kind": "quest_npc",
         "graphic": "npc_villager_masc_grym",
-        "dialog_id": "jan_kiwen_suli_cave"
+        "dialog_id": "jan_kiwen_suli_cave",
+        "quest_id": "quest_suli_cave_shadow"
       },
       {
         "id": "jan-pi-kon",
@@ -182,9 +189,10 @@
     "rivergate_approach": [
       {
         "id": "jan-kala-lili",
-        "kind": "ambient_npc",
+        "kind": "quest_npc",
         "graphic": "npc_villager_fem_hana",
-        "dialog_id": "jan_kala_lili_flavor"
+        "dialog_id": "jan_kala_lili_flavor",
+        "quest_id": "quest_telo_companion_bond"
       },
       {
         "id": "jan-moku-pona",
