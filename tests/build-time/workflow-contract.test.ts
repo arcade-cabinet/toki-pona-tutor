@@ -64,6 +64,13 @@ describe("GitHub Actions run/release/deploy contract", () => {
         expect(automerge).toContain(
             "github.event.pull_request.user.login == vars.RELEASE_PLEASE_PAT_OWNER",
         );
+        expect(automerge).toContain(
+            "RELEASE_AUTOMERGE_TOKEN: ${{ secrets.CI_GITHUB_TOKEN_PAT || secrets.CI_GITHUB_TOKEN }}",
+        );
+        expect(automerge).toContain("Configure CI_GITHUB_TOKEN_PAT or CI_GITHUB_TOKEN");
+        expect(automerge).toContain(
+            "GH_TOKEN: ${{ secrets.CI_GITHUB_TOKEN_PAT || secrets.CI_GITHUB_TOKEN }}",
+        );
         expect(automerge).toContain("gh pr merge --auto --squash");
     });
 

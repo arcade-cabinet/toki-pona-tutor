@@ -92,6 +92,9 @@ stay manual. Release-please PRs are approved and enrolled in squash auto-merge
 only when they come from this repository, use a `release-please--*` branch, and
 are authored by a trusted release account: `github-actions[bot]`,
 `jbdevprimary`, or the optional `RELEASE_PLEASE_PAT_OWNER` repository variable.
+The approval step uses `GITHUB_TOKEN`, but the auto-merge enrollment step uses
+`CI_GITHUB_TOKEN_PAT` or `CI_GITHUB_TOKEN` so the final squash-merge push can
+trigger `release.yml`.
 
 ### `release.yml` — release-please + versioned build artifacts
 
