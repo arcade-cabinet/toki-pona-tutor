@@ -34,7 +34,7 @@ async function snap(page: Page, name: string, note: string): Promise<void> {
         await page.screenshot({ path: file, fullPage: false, timeout: 30_000 });
     } catch (err) {
         // Don't fail the capture pass on a single screenshot hiccup.
-        const notesFile = path.join(CAPTURE_DIR, "NOTES.md");
+        const notesFile = path.join(CAPTURE_DIR, "RUN_LOG.md");
         fs.appendFileSync(
             notesFile,
             `- **${name}** — SCREENSHOT FAILED: ${(err as Error).message}\n`,
@@ -50,12 +50,14 @@ async function snap(page: Page, name: string, note: string): Promise<void> {
 test("onboarding — capture the first N minutes a new player sees", async ({ page, baseURL }) => {
     const target = (baseURL ?? "/").endsWith("/") ? (baseURL ?? "/") : `${baseURL}/`;
 
-    // Reset the notes file on each run so we have a fresh playthrough record.
+    // Reset the run-log on each invocation. The hand-authored fluency
+    // verdict lives in NOTES.md alongside this file; RUN_LOG.md is the
+    // auto-generated per-run inventory and is safe to overwrite.
     fs.mkdirSync(CAPTURE_DIR, { recursive: true });
-    const notesFile = path.join(CAPTURE_DIR, "NOTES.md");
+    const notesFile = path.join(CAPTURE_DIR, "RUN_LOG.md");
     fs.writeFileSync(
         notesFile,
-        `---\ntitle: 1.0 Onboarding Capture\nupdated: ${new Date().toISOString().slice(0, 10)}\nstatus: current\ndomain: quality\n---\n\n# 1.0 Onboarding Capture\n\nAutomated playthrough of the boot surface. The PNGs are evidence; the\n"fluency verdict" for each moment is filled in by hand below.\n\n## Frames\n\n`,
+        `---\ntitle: 1.0 Onboarding Capture — run log\nupdated: ${new Date().toISOString().slice(0, 10)}\nstatus: current\ndomain: quality\n---\n\n# 1.0 Onboarding Capture — run log\n\nAutomated playthrough of the boot surface. Captures this run's PNGs with one-line context. The hand-authored fluency verdict (what the PNGs mean for v1) lives in \`NOTES.md\` in this directory.\n\n## Frames\n\n`,
     );
 
     await page.goto(target);
@@ -75,29 +77,33 @@ test("onboarding — capture the first N minutes a new player sees", async ({ pa
         await snap(page, "02-title-menu", "Title menu with primary action highlighted. Is the New Game path obvious?");
     }
 
-    // Frame 3 — click into the game. Accept any dialog that appears.
+    // Frame 3 — click into the game. The opening scene's first beat
+    // should now appear (T11-11 + T11-06 wired the chain).
     if ((await firstEntry.count()) > 0) {
         await firstEntry.click();
-        await page.waitForTimeout(1500);
-        await snap(page, "03-post-title-click", "Immediately after clicking primary action. Does the player get a clear next-step or a blank canvas?");
+        await page.waitForTimeout(2000);
+        await snap(page, "03-post-title-click", "Immediately after clicking primary action. The opening scene should be staged — first beat visible.");
     }
 
-    // Frame 4 — wait for any starter dialog.
-    await page.waitForTimeout(2000);
-    await snap(page, "04-starter-ceremony-entry", "Starter ceremony moment. Is the mentor NPC visible and their role clear?");
+    // Frame 4 — a single Enter press to capture what the second beat
+    // looks like (without stalling on the ceremony's showChoices). The
+    // goal here is evidence, not full onboarding completion.
+    await page.keyboard.press("Enter");
+    await page.waitForTimeout(500);
+    await snap(page, "04-starter-ceremony-entry", "One dialog-advance later. Opening beats should be visibly progressing.");
 
-    // Frame 5 — full canvas after initial boot.
-    await page.waitForTimeout(2000);
-    await snap(page, "05-starter-map-idle", "Player standing on starter map before input. What landmarks, NPCs, and exits are visible?");
+    // Frame 5 — full canvas after ceremony should complete.
+    await page.waitForTimeout(1500);
+    await snap(page, "05-starter-map-idle", "After the ceremony. Player should now be distinguishable on the map.");
 
-    // Frame 6 — attempt to press a movement key to show input responsiveness.
+    // Frame 6 — movement. The player sprite should now exist and move.
     await page.keyboard.press("ArrowRight");
-    await page.waitForTimeout(300);
+    await page.waitForTimeout(350);
     await page.keyboard.press("ArrowRight");
-    await page.waitForTimeout(300);
+    await page.waitForTimeout(350);
     await page.keyboard.press("ArrowDown");
     await page.waitForTimeout(500);
-    await snap(page, "06-after-movement", "After a few movement inputs. Does the player see a clear progression, a next-objective hint, or just a blank map?");
+    await snap(page, "06-after-movement", "After a few movement inputs. The canvas should visibly change — player sprite moved, tiles re-rendered.");
 
     // Frame 7 — pause overlay (if it exists) — this is where goals/quests/party live.
     await page.keyboard.press("Escape");
