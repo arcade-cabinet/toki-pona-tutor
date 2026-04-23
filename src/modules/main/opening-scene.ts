@@ -36,6 +36,7 @@ import type { RpgPlayer } from "@rpgjs/server";
 import { OPENING_SCENE_CONFIG } from "../../content/gameplay";
 import { getFlag, setFlag } from "../../platform/persistence/queries";
 import { playDialog } from "./dialog";
+import { runStarterCeremony } from "./starter-ceremony";
 
 export type OpeningSceneDecision =
     | "play_full" // first run, no save
@@ -82,12 +83,16 @@ export async function runOpeningScene(player: RpgPlayer): Promise<OpeningSceneDe
         await player.showText(beat);
     }
 
-    // Post-scene hook: play the existing Selby starter dialog so the
-    // choice UI fires immediately without a second player interaction.
-    // This is what closes the gap between "opening ends" and "game
-    // begins" — the player does not have to find Selby; the opening
-    // hands them straight into the starter ceremony.
+    // Selby-intro narrative beats (from the spine dialog file).
+    // playDialog is display-only — no choices, no state mutation.
     await playDialog(player, OPENING_SCENE_CONFIG.postSceneDialogId);
+
+    // The real ceremony: choice prompt + party grant + inventory seed
+    // + bestiary sighting + clue records. This is what closes the gap
+    // between "opening ends" and "game begins" — the player doesn't
+    // have to find Selby; the opening hands them straight into the
+    // starter choice.
+    await runStarterCeremony(player);
 
     // Mark complete so save/load, disconnects, and reconnects all
     // treat the opening as done.
