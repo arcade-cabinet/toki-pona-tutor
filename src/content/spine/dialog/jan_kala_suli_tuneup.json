@@ -3,7 +3,13 @@
   "npc_id": "jan_kala_suli",
   "priority": 0,
   "beats": [
-    { "text": { "en": "Let's see!" }, "mood": "excited", "glyph": "kala" }
+    {
+      "text": {
+        "en": "Big catches live near deep water. Keep your team ready."
+      },
+      "mood": "excited",
+      "glyph": "water-edge"
+    }
   ],
   "triggers": {}
 }

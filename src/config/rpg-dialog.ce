@@ -1,0 +1,140 @@
+<DOMContainer width="0" height="0" controls={dialogControls}></DOMContainer>
+
+<script>
+    import { computed, mount, signal, effect } from "canvasengine";
+    import { inject, RpgClientEngine } from "@rpgjs/client";
+    import { delay } from "@rpgjs/common";
+    import { DIALOG_UI_CONFIG } from "../content/gameplay";
+    import { getSitelenOverlay } from "../platform/persistence/settings";
+    import { sitelenOverlayForText } from "../styles/sitelen-overlay";
+    import { playClientSfx } from "./client-sfx";
+    import { riversUiBridge } from "../ui/bridge";
+
+    const engine = inject(RpgClientEngine);
+    const keyboardControls = engine.globalConfig.keyboardControls;
+    engine.stopProcessingInput = true;
+
+    const { data, onFinish } = defineProps({
+        data: {
+            default: () => ({})
+        }
+    });
+
+    const resolveProp = (value) => typeof value === "function" ? value() : value;
+    const view = computed(() => data() || {});
+    const choices = computed(() => {
+        const list = resolveProp(view().choices);
+        return Array.isArray(list) ? list : [];
+    });
+    const hasChoices = computed(() => choices().length > 0);
+    const selectedItem = signal(0);
+    const messageText = computed(() => String(resolveProp(view().message) || ""));
+    const clueText = signal("");
+    let clueRunId = 0;
+
+    function finishDialog(value) {
+        if (onFinish) onFinish(value);
+    }
+
+    function onSelect(index) {
+        selectedItem.set(index);
+        void playClientSfx(engine, DIALOG_UI_CONFIG.confirmSfxId);
+        finishDialog(index);
+    }
+
+    function continueDialog() {
+        if (hasChoices()) return;
+        finishDialog();
+    }
+
+    function moveSelection(delta) {
+        const count = choices().length;
+        if (!count) return;
+        const next = (selectedItem() + delta + count) % count;
+        if (next !== selectedItem()) {
+            void playClientSfx(engine, DIALOG_UI_CONFIG.tickSfxId);
+        }
+        selectedItem.set(next);
+    }
+
+    async function refreshClueOverlay(text) {
+        const runId = ++clueRunId;
+        let enabled = false;
+        try {
+            enabled = await getSitelenOverlay();
+        } catch {
+            enabled = false;
+        }
+        if (runId !== clueRunId) return;
+        clueText.set(enabled ? sitelenOverlayForText(text) : "");
+    }
+
+    effect(() => {
+        void refreshClueOverlay(messageText());
+    });
+
+    effect(() => {
+        const model = view();
+        const speaker = resolveProp(model.speaker);
+        const position = resolveProp(model.position) || DIALOG_UI_CONFIG.defaultPosition;
+        const face = resolveProp(model.face);
+        riversUiBridge.update({
+            dialog: {
+                message: messageText(),
+                choices: choices().map((choice) => ({
+                    text: String(choice?.text ?? ""),
+                    value: choice?.value,
+                })),
+                speaker: speaker ? String(speaker) : undefined,
+                position,
+                fullWidth: resolveProp(model.fullWidth) !== false,
+                typewriter: resolveProp(model.typewriterEffect) !== false,
+                clueText: clueText(),
+                face: face ? { id: String(face.id), expression: String(face.expression || "idle") } : undefined,
+                onContinue: continueDialog,
+                onChoice: onSelect,
+            },
+        });
+    });
+
+    const dialogControls = signal({
+        up: {
+            repeat: true,
+            bind: keyboardControls.up,
+            throttle: 150,
+            keyDown() {
+                moveSelection(-1);
+            }
+        },
+        down: {
+            repeat: true,
+            bind: keyboardControls.down,
+            throttle: 150,
+            keyDown() {
+                moveSelection(1);
+            }
+        },
+        action: {
+            bind: keyboardControls.action,
+            keyDown() {
+                if (hasChoices()) {
+                    onSelect(selectedItem());
+                    return;
+                }
+                continueDialog();
+            }
+        },
+        gamepad: {
+            enabled: true
+        }
+    });
+
+    mount(() => {
+        return () => {
+            riversUiBridge.update({ dialog: null });
+            delay(() => {
+                engine.stopProcessingInput = false;
+            });
+        };
+    });
+</script>

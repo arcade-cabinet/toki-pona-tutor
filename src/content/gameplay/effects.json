@@ -1,0 +1,297 @@
+{
+  "effect_spritesheets": [
+    {
+      "id": "fx_feather_drift",
+      "image": "assets/effects/feather.png",
+      "frames_width": 4,
+      "frames_height": 1,
+      "animations": {
+        "play": { "frame_range": [0, 3], "duration": 280 }
+      }
+    },
+    {
+      "id": "fx_gas_cloud",
+      "image": "assets/effects/gas.png",
+      "frames_width": 1,
+      "frames_height": 7,
+      "animations": {
+        "play": { "frame_range": [0, 6], "duration": 875 }
+      }
+    },
+    {
+      "id": "fx_dirt_kickup",
+      "image": "assets/effects/dirt.png",
+      "frames_width": 3,
+      "frames_height": 1,
+      "animations": {
+        "play": { "frame_range": [0, 2], "duration": 250 }
+      }
+    },
+    {
+      "id": "fx_spell_orbs_v1",
+      "image": "assets/effects/magical/elemental-spellcasting-effects-v1-anti-alias-glow-8x8.png",
+      "frames_width": 4,
+      "frames_height": 26,
+      "animations": {
+        "water_orb": { "frame_range": [0, 3], "duration": 240 },
+        "pink_orb": { "frame_range": [4, 7], "duration": 240 },
+        "fire_orb": { "frame_range": [8, 11], "duration": 240 },
+        "wind_swirl": { "frame_range": [12, 15], "duration": 240 },
+        "cloud_wisp": { "frame_range": [16, 19], "duration": 240 },
+        "ice_shard": { "frame_range": [20, 23], "duration": 240 },
+        "poison_orb": { "frame_range": [24, 27], "duration": 240 },
+        "default": { "frame_range": [0, 3], "duration": 240 }
+      }
+    },
+    {
+      "id": "fx_spell_orbs_v2",
+      "image": "assets/effects/magical/elemental-spellcasting-effects-v2-8x8.png",
+      "frames_width": 4,
+      "frames_height": 26,
+      "animations": {
+        "water_orb": { "frame_range": [0, 3], "duration": 240 },
+        "pink_orb": { "frame_range": [4, 7], "duration": 240 },
+        "fire_orb": { "frame_range": [8, 11], "duration": 240 },
+        "wind_swirl": { "frame_range": [12, 15], "duration": 240 },
+        "cloud_wisp": { "frame_range": [16, 19], "duration": 240 },
+        "ice_shard": { "frame_range": [20, 23], "duration": 240 },
+        "poison_orb": { "frame_range": [24, 27], "duration": 240 },
+        "default": { "frame_range": [0, 3], "duration": 240 }
+      }
+    },
+    {
+      "id": "fx_spell_bursts_14",
+      "image": "assets/effects/magical/extra-elemental-spellcasting-effects-14x14.png",
+      "frames_width": 4,
+      "frames_height": 9,
+      "animations": {
+        "fire_burst": { "frame_range": [0, 3], "duration": 240 },
+        "dark_burst": { "frame_range": [4, 7], "duration": 240 },
+        "water_burst": { "frame_range": [8, 11], "duration": 240 },
+        "shadow_burst": { "frame_range": [12, 15], "duration": 240 },
+        "poison_burst": { "frame_range": [16, 19], "duration": 240 },
+        "cure_burst": { "frame_range": [20, 23], "duration": 240 },
+        "ember_burst": { "frame_range": [24, 27], "duration": 240 },
+        "ice_burst": { "frame_range": [28, 31], "duration": 240 },
+        "earth_burst": { "frame_range": [32, 35], "duration": 240 },
+        "default": { "frame_range": [0, 3], "duration": 240 }
+      }
+    },
+    {
+      "id": "fx_spell_bursts_14_glow",
+      "image": "assets/effects/magical/extra-elemental-spellcasting-effects-anti-alias-glow-14x14.png",
+      "frames_width": 4,
+      "frames_height": 9,
+      "animations": {
+        "fire_burst": { "frame_range": [0, 3], "duration": 240 },
+        "dark_burst": { "frame_range": [4, 7], "duration": 240 },
+        "water_burst": { "frame_range": [8, 11], "duration": 240 },
+        "shadow_burst": { "frame_range": [12, 15], "duration": 240 },
+        "poison_burst": { "frame_range": [16, 19], "duration": 240 },
+        "cure_burst": { "frame_range": [20, 23], "duration": 240 },
+        "ember_burst": { "frame_range": [24, 27], "duration": 240 },
+        "ice_burst": { "frame_range": [28, 31], "duration": 240 },
+        "earth_burst": { "frame_range": [32, 35], "duration": 240 },
+        "default": { "frame_range": [0, 3], "duration": 240 }
+      }
+    },
+    {
+      "id": "fx_fireball_explosion",
+      "image": "assets/effects/magical/fire-explosion-28x28.png",
+      "frames_width": 12,
+      "frames_height": 1,
+      "animations": {
+        "play": { "frame_range": [0, 11], "duration": 750 }
+      }
+    },
+    {
+      "id": "fx_fireball_explosion_glow",
+      "image": "assets/effects/magical/fire-explosion-anti-alias-glow.png",
+      "frames_width": 12,
+      "frames_height": 1,
+      "animations": {
+        "play": { "frame_range": [0, 11], "duration": 750 }
+      }
+    },
+    {
+      "id": "fx_fireball_explosion_iso",
+      "image": "assets/effects/magical/fire-explosion-isometric-28x28.png",
+      "frames_width": 12,
+      "frames_height": 1,
+      "animations": {
+        "play": { "frame_range": [0, 11], "duration": 750 }
+      }
+    },
+    {
+      "id": "fx_fireball_explosion_iso_glow",
+      "image": "assets/effects/magical/fire-explosion-isometric-anti-alias-glow-28x28.png",
+      "frames_width": 12,
+      "frames_height": 1,
+      "animations": {
+        "play": { "frame_range": [0, 11], "duration": 750 }
+      }
+    },
+    {
+      "id": "fx_ice_burst_crystal",
+      "image": "assets/effects/magical/ice-burst-crystal-48x48.png",
+      "frames_width": 8,
+      "frames_height": 1,
+      "animations": {
+        "play": { "frame_range": [0, 7], "duration": 667 }
+      }
+    },
+    {
+      "id": "fx_ice_burst_crystal_glow",
+      "image": "assets/effects/magical/ice-burst-crystal-48x48-anti-alias-glow.png",
+      "frames_width": 8,
+      "frames_height": 1,
+      "animations": {
+        "play": { "frame_range": [0, 7], "duration": 667 }
+      }
+    },
+    {
+      "id": "fx_ice_burst_blue",
+      "image": "assets/effects/magical/ice-burst-dark-blue-outline-48x48.png",
+      "frames_width": 8,
+      "frames_height": 1,
+      "animations": {
+        "play": { "frame_range": [0, 7], "duration": 667 }
+      }
+    },
+    {
+      "id": "fx_ice_burst_grey",
+      "image": "assets/effects/magical/ice-burst-light-grey-outline-48x48.png",
+      "frames_width": 8,
+      "frames_height": 1,
+      "animations": {
+        "play": { "frame_range": [0, 7], "duration": 667 }
+      }
+    },
+    {
+      "id": "fx_ice_burst_bare",
+      "image": "assets/effects/magical/ice-burst-no-outline-48x48.png",
+      "frames_width": 8,
+      "frames_height": 1,
+      "animations": {
+        "play": { "frame_range": [0, 7], "duration": 667 }
+      }
+    },
+    {
+      "id": "fx_ice_burst_tblue",
+      "image": "assets/effects/magical/ice-burst-transparent-blue-outline-48x48.png",
+      "frames_width": 8,
+      "frames_height": 1,
+      "animations": {
+        "play": { "frame_range": [0, 7], "duration": 667 }
+      }
+    },
+    {
+      "id": "fx_large_fire",
+      "image": "assets/effects/magical/large-fire-28x28.png",
+      "frames_width": 4,
+      "frames_height": 3,
+      "animations": {
+        "play": { "frame_range": [0, 11], "duration": 1200 }
+      }
+    },
+    {
+      "id": "fx_large_fire_glow",
+      "image": "assets/effects/magical/large-fire-anti-alias-glow-28x28.png",
+      "frames_width": 4,
+      "frames_height": 3,
+      "animations": {
+        "play": { "frame_range": [0, 11], "duration": 1200 }
+      }
+    },
+    {
+      "id": "fx_lightning_blast",
+      "image": "assets/effects/magical/lightning-blast-54x18.png",
+      "frames_width": 9,
+      "frames_height": 1,
+      "animations": {
+        "play": { "frame_range": [0, 8], "duration": 500 }
+      }
+    },
+    {
+      "id": "fx_lightning_blast_glow",
+      "image": "assets/effects/magical/lightning-blast-anti-alias-glow-54x18.png",
+      "frames_width": 9,
+      "frames_height": 1,
+      "animations": {
+        "play": { "frame_range": [0, 8], "duration": 500 }
+      }
+    },
+    {
+      "id": "fx_lightning_energy",
+      "image": "assets/effects/magical/lightning-energy-48x48.png",
+      "frames_width": 9,
+      "frames_height": 1,
+      "animations": {
+        "play": { "frame_range": [0, 8], "duration": 643 }
+      }
+    },
+    {
+      "id": "fx_lightning_energy_glow",
+      "image": "assets/effects/magical/lightning-energy-anti-alias-glow-48x48.png",
+      "frames_width": 9,
+      "frames_height": 1,
+      "animations": {
+        "play": { "frame_range": [0, 8], "duration": 643 }
+      }
+    },
+    {
+      "id": "fx_red_energy",
+      "image": "assets/effects/magical/red-energy-48x48.png",
+      "frames_width": 9,
+      "frames_height": 1,
+      "animations": {
+        "play": { "frame_range": [0, 8], "duration": 643 }
+      }
+    },
+    {
+      "id": "fx_red_energy_glow",
+      "image": "assets/effects/magical/red-energy-anti-alias-glow-48x48.png",
+      "frames_width": 9,
+      "frames_height": 1,
+      "animations": {
+        "play": { "frame_range": [0, 8], "duration": 643 }
+      }
+    },
+    {
+      "id": "fx_red_lightning_blast",
+      "image": "assets/effects/magical/red-lightning-blast-54x18.png",
+      "frames_width": 9,
+      "frames_height": 1,
+      "animations": {
+        "play": { "frame_range": [0, 8], "duration": 500 }
+      }
+    },
+    {
+      "id": "fx_red_lightning_blast_glow",
+      "image": "assets/effects/magical/red-lightning-blast-anti-alias-glow-54x18.png",
+      "frames_width": 9,
+      "frames_height": 1,
+      "animations": {
+        "play": { "frame_range": [0, 8], "duration": 500 }
+      }
+    },
+    {
+      "id": "fx_sword_slash",
+      "image": "assets/effects/weapon/slash-attack-effect-1.png",
+      "frames_width": 2,
+      "frames_height": 9,
+      "animations": {
+        "play": { "frame_range": [0, 17], "duration": 1125 }
+      }
+    },
+    {
+      "id": "fx_staff_swish",
+      "image": "assets/effects/weapon/staff-attack-effect-1.png",
+      "frames_width": 2,
+      "frames_height": 4,
+      "animations": {
+        "play": { "frame_range": [0, 7], "duration": 571 }
+      }
+    }
+  ]
+}

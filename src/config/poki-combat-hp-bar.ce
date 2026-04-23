@@ -1,0 +1,176 @@
+@if (shouldRender()) {
+    <Container x={barX} y={barY}>
+        <Graphics draw={drawShadow} x={1} y={1} />
+        <Graphics draw={drawBackground} />
+        <Graphics draw={drawFill} />
+        <Graphics draw={drawHighlight} />
+        <Graphics draw={drawBorder} />
+    </Container>
+}
+
+<script>
+    import { computed, effect, mount, signal } from "canvasengine";
+    import {
+        COMBAT_HP_BAR_HEIGHT,
+        COMBAT_HP_BAR_PADDING,
+        COMBAT_HP_TWEEN_MS,
+        COMBAT_HP_BAR_WIDTH,
+        buildCombatHpBarModel,
+        buildCombatHpBarTweenFrame,
+        shouldShowCombatHpBar
+    } from "../modules/main/combat-chrome";
+
+    const {
+        currentHp: currentHpProp,
+        maxHp: maxHpProp,
+        hitboxWidth: hitboxWidthProp,
+        isCombatEvent: isCombatEventProp
+    } = defineProps();
+
+    const radius = 5;
+    const innerRadius = 4;
+    const maxFillWidth = COMBAT_HP_BAR_WIDTH - COMBAT_HP_BAR_PADDING * 2;
+    const fillHeight = COMBAT_HP_BAR_HEIGHT - COMBAT_HP_BAR_PADDING * 2;
+    const highlightHeight = Math.max(1, Math.floor(fillHeight / 2));
+
+    const readProp = (value, fallback) => {
+        const raw = typeof value === "function" ? value() : value;
+        return raw ?? fallback;
+    };
+
+    const currentHp = computed(() => {
+        const value = readProp(currentHpProp, 0);
+        const parsed = Number(value);
+        return Number.isFinite(parsed) ? parsed : 0;
+    });
+
+    const maxHp = computed(() => {
+        const candidate = readProp(maxHpProp, currentHp());
+        const parsed = Number(candidate);
+        return Number.isFinite(parsed) ? parsed : currentHp();
+    });
+
+    const model = computed(() => buildCombatHpBarModel(currentHp(), maxHp()));
+    const shouldRender = computed(() => {
+        if (!readProp(isCombatEventProp, false)) return false;
+        return shouldShowCombatHpBar(currentHp(), maxHp());
+    });
+
+    const barX = computed(() => {
+        const width = Number(readProp(hitboxWidthProp, 32));
+        return width / 2 - COMBAT_HP_BAR_WIDTH / 2;
+    });
+    const barY = -COMBAT_HP_BAR_HEIGHT - 8;
+
+    const animatedFillWidth = signal(0);
+    const animatedFillColor = signal(0x4a9d5a);
+    let displayedFillWidth = 0;
+    let displayedFillColor = 0x4a9d5a;
+    let animationFrame = null;
+    let initialized = false;
+
+    const cancelTween = () => {
+        if (animationFrame !== null && typeof cancelAnimationFrame === "function") {
+            cancelAnimationFrame(animationFrame);
+        }
+        animationFrame = null;
+    };
+
+    const setAnimatedFrame = (frame) => {
+        displayedFillWidth = Math.max(0, frame.fillWidth);
+        displayedFillColor = frame.fillColor;
+        animatedFillWidth.set(displayedFillWidth);
+        animatedFillColor.set(displayedFillColor);
+    };
+
+    const prefersReducedMotion = () => {
+        if (typeof window === "undefined") return false;
+        return Boolean(window.matchMedia?.("(prefers-reduced-motion: reduce)")?.matches)
+            || Boolean(document?.body?.classList?.contains("poki-reduced-motion"));
+    };
+
+    effect(() => {
+        const target = {
+            fillWidth: Math.max(0, model().fillWidth),
+            fillColor: model().fillColor
+        };
+
+        if (!initialized || prefersReducedMotion() || COMBAT_HP_TWEEN_MS <= 0) {
+            initialized = true;
+            cancelTween();
+            setAnimatedFrame(target);
+            return;
+        }
+
+        const start = typeof performance !== "undefined" ? performance.now() : Date.now();
+        const from = {
+            fillWidth: displayedFillWidth,
+            fillColor: displayedFillColor
+        };
+
+        cancelTween();
+
+        const tick = (now) => {
+            const elapsed = now - start;
+            const progress = elapsed / COMBAT_HP_TWEEN_MS;
+            setAnimatedFrame(buildCombatHpBarTweenFrame(from, target, progress));
+            if (progress < 1 && typeof requestAnimationFrame === "function") {
+                animationFrame = requestAnimationFrame(tick);
+            } else {
+                animationFrame = null;
+                setAnimatedFrame(target);
+            }
+        };
+
+        if (typeof requestAnimationFrame === "function") {
+            animationFrame = requestAnimationFrame(tick);
+        } else {
+            setAnimatedFrame(target);
+        }
+    });
+
+    mount(() => {
+        return () => cancelTween();
+    });
+
+    const drawShadow = (g) => {
+        g.roundRect(0, 0, COMBAT_HP_BAR_WIDTH, COMBAT_HP_BAR_HEIGHT, radius);
+        g.fill({ color: 0x3d2e1e, alpha: 0.34 });
+    };
+
+    const drawBackground = (g) => {
+        g.roundRect(0, 0, COMBAT_HP_BAR_WIDTH, COMBAT_HP_BAR_HEIGHT, radius);
+        g.fill({ color: 0xf5e6c5, alpha: 0.94 });
+    };
+
+    const drawFill = (g) => {
+        const width = animatedFillWidth();
+        if (width <= 0) return;
+        g.roundRect(
+            COMBAT_HP_BAR_PADDING,
+            COMBAT_HP_BAR_PADDING,
+            width,
+            fillHeight,
+            innerRadius
+        );
+        g.fill({ color: animatedFillColor(), alpha: 0.98 });
+    };
+
+    const drawHighlight = (g) => {
+        const width = animatedFillWidth();
+        if (width <= 0) return;
+        g.roundRect(
+            COMBAT_HP_BAR_PADDING,
+            COMBAT_HP_BAR_PADDING,
+            width,
+            highlightHeight,
+            innerRadius
+        );
+        g.fill({ color: 0xfdf6e3, alpha: 0.28 });
+    };
+
+    const drawBorder = (g) => {
+        g.roundRect(0, 0, COMBAT_HP_BAR_WIDTH, COMBAT_HP_BAR_HEIGHT, radius);
+        g.stroke({ color: 0xc8a96b, width: 1, alpha: 0.95 });
+    };
+</script>

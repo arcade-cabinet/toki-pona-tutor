@@ -1,0 +1,22 @@
+{
+  "id": "jan_kiwen_suli_cave",
+  "npc_id": "jan_kiwen_suli",
+  "priority": 0,
+  "beats": [
+    {
+      "text": {
+        "en": "The cave walls still remember old battles."
+      },
+      "mood": "thinking",
+      "glyph": "dreadpeak-proof"
+    },
+    {
+      "text": {
+        "en": "Bring a brave lead creature."
+      },
+      "mood": "excited",
+      "glyph": "battle-ready"
+    }
+  ],
+  "triggers": {}
+}

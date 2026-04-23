@@ -1,0 +1,137 @@
+<Container>
+    @if (activeFeedback()) {
+        <Graphics draw={drawFlash} />
+        <Container x={popupX} y={popupY} alpha={popupAlpha}>
+            <Text text={popupLabel} style={popupStyle} />
+        </Container>
+    }
+</Container>
+
+<script>
+    import { computed, effect, signal, tick } from "canvasengine";
+    import {
+        COMBAT_DAMAGE_POPUP_MS,
+        buildCombatFeedbackModel
+    } from "../modules/main/combat-chrome";
+    import { BRAND_CANVAS_COLORS, BRAND_CANVAS_FONTS } from "../styles/brand-canvas";
+
+    const {
+        currentHp: currentHpProp,
+        maxHp: maxHpProp,
+        hitboxWidth: hitboxWidthProp,
+        isCombatEvent: isCombatEventProp
+    } = defineProps();
+
+    const readProp = (value, fallback) => {
+        const raw = typeof value === "function" ? value() : value;
+        return raw ?? fallback;
+    };
+
+    const currentHp = computed(() => {
+        const parsed = Number(readProp(currentHpProp, 0));
+        return Number.isFinite(parsed) ? parsed : 0;
+    });
+
+    const maxHp = computed(() => {
+        const parsed = Number(readProp(maxHpProp, currentHp()));
+        return Number.isFinite(parsed) ? parsed : currentHp();
+    });
+
+    const hitboxWidth = computed(() => {
+        const parsed = Number(readProp(hitboxWidthProp, 32));
+        return Number.isFinite(parsed) ? Math.max(16, parsed) : 32;
+    });
+
+    const isCombatEvent = computed(() => Boolean(readProp(isCombatEventProp, false)));
+    const activeFeedback = signal(null);
+    const progress = signal(1);
+    let previousHp = null;
+    let startedAt = 0;
+
+    effect(() => {
+        const hp = currentHp();
+        const max = maxHp();
+        if (!isCombatEvent()) {
+            previousHp = hp;
+            return;
+        }
+        if (previousHp === null) {
+            previousHp = hp;
+            return;
+        }
+
+        const feedback = buildCombatFeedbackModel(previousHp, hp, max);
+        previousHp = hp;
+        if (feedback.kind === "none") return;
+
+        activeFeedback.set(feedback);
+        progress.set(0);
+        startedAt = performance.now();
+    });
+
+    tick(({ timestamp }) => {
+        const feedback = activeFeedback();
+        if (!feedback) return;
+        const elapsed = Math.max(0, timestamp - startedAt);
+        const ratio = Math.min(1, elapsed / Math.max(1, feedback.popupDurationMs || COMBAT_DAMAGE_POPUP_MS));
+        progress.set(ratio);
+        if (ratio >= 1) {
+            activeFeedback.set(null);
+        }
+    });
+
+    const popupStyle = {
+        fill: BRAND_CANVAS_COLORS.cream,
+        fontFamily: BRAND_CANVAS_FONTS.display,
+        fontSize: 15,
+        fontWeight: 800,
+        stroke: { color: BRAND_CANVAS_COLORS.ink, width: 4 },
+        dropShadow: {
+            color: BRAND_CANVAS_COLORS.ink,
+            alpha: 0.35,
+            blur: 2,
+            distance: 1
+        }
+    };
+
+    const popupLabel = computed(() => activeFeedback()?.label ?? "");
+    const popupX = computed(() => {
+        const feedback = activeFeedback();
+        const p = progress();
+        const effectRatio = feedback
+            ? Math.min(1, (p * feedback.popupDurationMs) / Math.max(1, feedback.effectDurationMs))
+            : 1;
+        const shake = feedback?.shakePx
+            ? Math.sin(effectRatio * Math.PI * 6) * feedback.shakePx * (1 - effectRatio)
+            : 0;
+        return Math.round(hitboxWidth() / 2 - 12 + shake);
+    });
+    const popupY = computed(() => {
+        const feedback = activeFeedback();
+        const float = Math.round(progress() * 20);
+        const faintDrop = feedback?.kind === "faint" ? Math.round(progress() * feedback.dropPx * 0.35) : 0;
+        return -34 - float + faintDrop;
+    });
+    const popupAlpha = computed(() => {
+        const fadeStart = 0.62;
+        const p = progress();
+        if (p <= fadeStart) return 1;
+        return Math.max(0, 1 - (p - fadeStart) / (1 - fadeStart));
+    });
+    const flashAlpha = computed(() => {
+        const feedback = activeFeedback();
+        if (!feedback) return 0;
+        const effectRatio = Math.min(
+            1,
+            (progress() * feedback.popupDurationMs) / Math.max(1, feedback.effectDurationMs)
+        );
+        return feedback.flashAlpha * (1 - effectRatio);
+    });
+
+    const drawFlash = (g) => {
+        const alpha = flashAlpha();
+        if (alpha <= 0) return;
+        g.roundRect(0, -6, hitboxWidth(), 34, 6);
+        g.fill({ color: 0xffffff, alpha });
+    };
+</script>

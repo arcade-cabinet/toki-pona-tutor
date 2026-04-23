@@ -1,0 +1,123 @@
+@if (shouldRender()) {
+    <Container x={reticleX} y={reticleY} alpha={reticleAlpha}>
+        <Graphics draw={drawShadow} x={1} y={1} />
+        <Graphics draw={drawReticle} />
+    </Container>
+}
+
+<script>
+    import { computed, signal, tick } from "canvasengine";
+    import { inject } from "@rpgjs/client";
+    import { RpgGui } from "@rpgjs/client";
+    import { COMBAT_UI_CONFIG } from "../content/gameplay";
+    import { isGuiDisplayed } from "./hud-gui-visibility";
+    import {
+        buildCombatTargetReticleModel,
+        combatTargetReticleAlpha,
+        shouldShowCombatTargetReticle
+    } from "../modules/main/combat-chrome";
+
+    const {
+        currentHp: currentHpProp,
+        maxHp: maxHpProp,
+        hitboxWidth: hitboxWidthProp,
+        hitboxHeight: hitboxHeightProp,
+        isCombatEvent: isCombatEventProp
+    } = defineProps();
+
+    const guiService = inject(RpgGui);
+    const pulseProgress = signal(0);
+
+    const readProp = (value, fallback) => {
+        const raw = typeof value === "function" ? value() : value;
+        return raw ?? fallback;
+    };
+
+    const currentHp = computed(() => {
+        const parsed = Number(readProp(currentHpProp, 0));
+        return Number.isFinite(parsed) ? parsed : 0;
+    });
+
+    const maxHp = computed(() => {
+        const parsed = Number(readProp(maxHpProp, currentHp()));
+        return Number.isFinite(parsed) ? parsed : currentHp();
+    });
+
+    const hitboxWidth = computed(() => {
+        const parsed = Number(readProp(hitboxWidthProp, 32));
+        return Number.isFinite(parsed) ? Math.max(1, parsed) : 32;
+    });
+
+    const hitboxHeight = computed(() => {
+        const parsed = Number(readProp(hitboxHeightProp, 32));
+        return Number.isFinite(parsed) ? Math.max(1, parsed) : 32;
+    });
+
+    const isCombatEvent = computed(() => Boolean(readProp(isCombatEventProp, false)));
+    const isLeadMoveBarVisible = computed(() => {
+        // Keep this computed tied to the animation tick so DOM visibility changes are rechecked.
+        pulseProgress();
+        return isGuiDisplayed(guiService, COMBAT_UI_CONFIG.leadMoveBarGuiId)
+            || isLeadMoveBarDomVisible();
+    });
+    const model = computed(() => buildCombatTargetReticleModel(hitboxWidth(), hitboxHeight()));
+    const shouldRender = computed(() => shouldShowCombatTargetReticle(
+        currentHp(),
+        maxHp(),
+        isCombatEvent() && isLeadMoveBarVisible()
+    ));
+    const reticleX = computed(() => Math.round(hitboxWidth() / 2 - model().width / 2));
+    const reticleY = computed(() => -Math.max(4, Math.round((model().height - hitboxHeight()) / 2)));
+    const reticleAlpha = computed(() => combatTargetReticleAlpha(pulseProgress()));
+
+    tick(({ timestamp }) => {
+        const pulseMs = Math.max(1, model().pulseMs);
+        pulseProgress.set((timestamp % pulseMs) / pulseMs);
+    });
+
+    const drawCorners = (g, color, alpha, strokeWidth) => {
+        const reticle = model();
+        const w = reticle.width;
+        const h = reticle.height;
+        const c = reticle.cornerLength;
+
+        g.moveTo(0, c);
+        g.lineTo(0, 0);
+        g.lineTo(c, 0);
+
+        g.moveTo(w - c, 0);
+        g.lineTo(w, 0);
+        g.lineTo(w, c);
+
+        g.moveTo(w, h - c);
+        g.lineTo(w, h);
+        g.lineTo(w - c, h);
+
+        g.moveTo(c, h);
+        g.lineTo(0, h);
+        g.lineTo(0, h - c);
+
+        g.stroke({
+            color,
+            width: strokeWidth,
+            alpha,
+            cap: "round",
+            join: "round"
+        });
+    };
+
+    const drawShadow = (g) => {
+        const reticle = model();
+        drawCorners(g, reticle.shadowColor, 0.46, reticle.strokeWidth + 2);
+    };
+
+    const drawReticle = (g) => {
+        const reticle = model();
+        drawCorners(g, reticle.primaryColor, 1, reticle.strokeWidth);
+    };
+
+    function isLeadMoveBarDomVisible() {
+        const element = globalThis.document?.querySelector?.('[data-testid="lead-movebar"]');
+        return typeof HTMLElement !== "undefined" && element instanceof HTMLElement && element.getClientRects().length > 0;
+    }
+</script>

@@ -1,5 +1,5 @@
 import { describe, it, expect, beforeEach } from 'vitest';
-import { setPreferencesImpl, type IPreferences } from '../../src/platform/persistence/preferences';
+import { setPreferencesImpl, type PreferencesAdapter } from '../../src/platform/persistence/preferences';
 import {
     getSitelenOverlay,
     setSitelenOverlay,
@@ -7,14 +7,17 @@ import {
     setTextSpeed,
     getHighContrast,
     setHighContrast,
+    getAccessibleMode,
+    setAccessibleMode,
     getBgmVolume,
     setBgmVolume,
     getSfxVolume,
     setSfxVolume,
     _internals,
 } from '../../src/platform/persistence/settings';
+import { buildSettingsSummary, settingsChoiceLabel } from '../../src/modules/main/settings-screen';
 
-class InMemoryPrefs implements IPreferences {
+class InMemoryPrefs implements PreferencesAdapter {
     private store = new Map<string, string>();
     async get(key: string) {
         return this.store.get(key) ?? null;
@@ -73,8 +76,8 @@ describe('parseNumber helper', () => {
     });
 });
 
-describe('sitelen overlay — T8-04', () => {
-    it('defaults to false (diegetic TP)', async () => {
+describe('clue glyph overlay — T8-04', () => {
+    it('defaults to false', async () => {
         expect(await getSitelenOverlay()).toBe(false);
     });
 
@@ -120,6 +123,19 @@ describe('high-contrast — T5-11', () => {
     });
 });
 
+describe('accessible mode — T5-12', () => {
+    it('defaults to false', async () => {
+        expect(await getAccessibleMode()).toBe(false);
+    });
+
+    it('round-trips', async () => {
+        await setAccessibleMode(true);
+        expect(await getAccessibleMode()).toBe(true);
+        await setAccessibleMode(false);
+        expect(await getAccessibleMode()).toBe(false);
+    });
+});
+
 describe('volumes — T5-01', () => {
     it('BGM defaults to 70', async () => {
         expect(await getBgmVolume()).toBe(70);
@@ -141,5 +157,34 @@ describe('volumes — T5-01', () => {
         await setSfxVolume(0);
         expect(await getBgmVolume()).toBe(0);
         expect(await getSfxVolume()).toBe(0);
+    });
+});
+
+describe('settings screen copy', () => {
+    const state = {
+        sitelen: true,
+        textSpeed: 48,
+        highContrast: false,
+        accessibleMode: true,
+        bgm: 70,
+        sfx: 80,
+    };
+
+    it('formats the settings summary from gameplay JSON', () => {
+        expect(buildSettingsSummary(state)).toBe([
+            'Settings:',
+            '  glyphs    on',
+            '  text      48 / sec',
+            '  contrast       off',
+            '  access       on',
+            '  sound     bgm 70   sfx 80',
+        ].join('\n'));
+    });
+
+    it('formats choice labels from gameplay JSON', () => {
+        expect(settingsChoiceLabel('sitelen', { label: 'glyph overlay', ...state })).toBe('glyph overlay  [on]');
+        expect(settingsChoiceLabel('text_speed', { label: 'text speed', ...state })).toBe('text speed   48 / sec');
+        expect(settingsChoiceLabel('contrast', { label: 'high contrast', ...state })).toBe('high contrast  [off]');
+        expect(settingsChoiceLabel('bgm', { label: 'music volume', ...state })).toBe('music volume 70');
     });
 });

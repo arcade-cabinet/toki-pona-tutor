@@ -1,11 +1,25 @@
 {
   "id": "jan_lete_victory",
   "npc_id": "jan_lete",
-  "when_flags": { "badge_lete": true },
+  "when_flags": {
+    "badge_lete": true
+  },
   "priority": 5,
   "beats": [
-    { "text": { "en": "You won." }, "mood": "sad", "glyph": "sina" },
-    { "text": { "en": "Let's go!" }, "mood": "thinking", "glyph": "tawa" }
+    {
+      "text": {
+        "en": "You kept moving through the cold."
+      },
+      "mood": "sad",
+      "glyph": "companion-bond"
+    },
+    {
+      "text": {
+        "en": "Carry this badge onward."
+      },
+      "mood": "thinking",
+      "glyph": "greenwood-watch"
+    }
   ],
   "triggers": {}
 }

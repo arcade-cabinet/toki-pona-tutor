@@ -12,6 +12,7 @@
 
 export interface BrandPrefs {
     highContrast: boolean;
+    accessibleMode?: boolean;
 }
 
 /**
@@ -22,12 +23,15 @@ export interface BrandPrefs {
  * @example
  * brandBodyClasses({ highContrast: true })
  * // → Set(['poki-high-contrast'])
- * brandBodyClasses({ highContrast: false })
+ * brandBodyClasses({ highContrast: false, accessibleMode: true })
+ * // → Set(['poki-accessible-mode'])
+ * brandBodyClasses({ highContrast: false, accessibleMode: false })
  * // → Set([])
  */
 export function brandBodyClasses(prefs: BrandPrefs): Set<string> {
     const classes = new Set<string>();
-    if (prefs.highContrast) classes.add('poki-high-contrast');
+    if (prefs.highContrast) classes.add("poki-high-contrast");
+    if (prefs.accessibleMode) classes.add("poki-accessible-mode");
     return classes;
 }
 
@@ -44,7 +48,7 @@ export function applyBrandClasses(target: HTMLElement, prefs: BrandPrefs): void 
 
     // Remove brand classes that shouldn't be present.
     for (const existing of Array.from(target.classList)) {
-        if (existing.startsWith('poki-') && !desired.has(existing)) {
+        if (existing.startsWith("poki-") && !desired.has(existing)) {
             target.classList.remove(existing);
         }
     }

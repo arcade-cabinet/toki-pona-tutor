@@ -1,0 +1,14 @@
+coverage/
+dist/
+node_modules/
+playwright-report/
+test-results/
+
+# Build artifacts and vendored corpora should be regenerated, not formatted.
+src/content/corpus/
+src/content/generated/
+src/tiled/
+
+# CanvasEngine single-file components are compiled by @canvasengine/compiler,
+# not parsed by Prettier.
+*.ce

@@ -1,0 +1,47 @@
+<DOMContainer width="0" height="0"></DOMContainer>
+
+<script>
+    import { computed, effect, mount } from "canvasengine";
+    import { riversUiBridge } from "../ui/bridge";
+
+    const { data, onInteraction } = defineProps({
+        data: {
+            default: () => null
+        }
+    });
+
+    const view = computed(() => data() || null);
+
+    function useMove(move) {
+        if (!move?.actionId) return;
+        onInteraction?.("useMove", { id: move.actionId });
+    }
+
+    function switchLead(option) {
+        if (!option) return;
+        onInteraction?.("switchLead", {
+            id: String(option.slot),
+            slot: option.slot,
+            speciesId: option.speciesId,
+        });
+    }
+
+    effect(() => {
+        const model = view();
+        riversUiBridge.update({
+            leadMoveBar: model
+                ? {
+                      ...model,
+                      onUseMove: useMove,
+                      onSwitchLead: switchLead,
+                  }
+                : null,
+        });
+    });
+
+    mount(() => {
+        return () => {
+            riversUiBridge.update({ leadMoveBar: null });
+        };
+    });
+</script>

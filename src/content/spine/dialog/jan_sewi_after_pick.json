@@ -1,11 +1,25 @@
 {
   "id": "jan_sewi_after_pick",
   "npc_id": "jan_sewi",
-  "when_flags": { "starter_chosen": true },
+  "when_flags": {
+    "starter_chosen": true
+  },
   "priority": 5,
   "beats": [
-    { "text": { "en": "You seem well..." }, "mood": "happy", "glyph": "pona" },
-    { "text": { "en": "Are you in the house?" }, "mood": "thinking", "glyph": "lon" }
+    {
+      "text": {
+        "en": "Good. Your first partner chose you back."
+      },
+      "mood": "happy",
+      "glyph": "companion-bond"
+    },
+    {
+      "text": {
+        "en": "The eastern gate is open now."
+      },
+      "mood": "thinking",
+      "glyph": "safe-house"
+    }
   ],
   "triggers": {}
 }

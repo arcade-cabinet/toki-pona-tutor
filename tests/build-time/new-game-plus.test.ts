@@ -22,8 +22,8 @@ const clearedSave = (overrides: Partial<SaveState> = {}): SaveState => ({
     },
     masteredWords: { soweli: 12, poki: 8, seli: 5 },
     inventory: { poki_lili: 2, poki_wawa: 1, kili: 5 },
-    currentMapId: 'nasin_pi_telo',
-    journeyBeat: 'beat_07_nasin_pi_telo',
+    currentMapId: 'rivergate_approach',
+    journeyBeat: 'beat_07_rivergate_approach',
     ...overrides,
 });
 
@@ -89,8 +89,8 @@ describe('deriveNewGamePlus — full derivation', () => {
 
     it('resets map + journey to starter village', () => {
         const ng = deriveNewGamePlus(clearedSave());
-        expect(ng.currentMapId).toBe('ma_tomo_lili');
-        expect(ng.journeyBeat).toBe('beat_01_ma_tomo_lili');
+        expect(ng.currentMapId).toBe('riverside_home');
+        expect(ng.journeyBeat).toBe('beat_01_riverside_home');
     });
 
     it('increments ngPlusCount (undefined → 1)', () => {

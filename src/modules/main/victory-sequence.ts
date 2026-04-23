@@ -16,7 +16,7 @@
  * swap rules are out of scope for Phase-2.
  */
 
-import { gainXp } from './xp-curve';
+import { gainXp } from "./xp-curve";
 
 export type SpeciesEntry = {
     id: string;
@@ -35,9 +35,9 @@ export type FoeDefeated = {
 };
 
 export type VictoryStep =
-    | { kind: 'xp_gained'; creatureIndex: number; amount: number }
-    | { kind: 'level_up'; creatureIndex: number; from: number; to: number }
-    | { kind: 'move_learned'; creatureIndex: number; moveId: string; atLevel: number };
+    | { kind: "xp_gained"; creatureIndex: number; amount: number }
+    | { kind: "level_up"; creatureIndex: number; from: number; to: number }
+    | { kind: "move_learned"; creatureIndex: number; moveId: string; atLevel: number };
 
 export function buildVictorySequence(
     party: ReadonlyArray<PartyCreature>,
@@ -50,19 +50,19 @@ export function buildVictorySequence(
     const steps: VictoryStep[] = [];
     const gained = foe.xp_yield;
 
-    steps.push({ kind: 'xp_gained', creatureIndex: 0, amount: gained });
+    steps.push({ kind: "xp_gained", creatureIndex: 0, amount: gained });
 
     const { levelUps } = gainXp(lead.xp, gained);
     const species = speciesLookup(lead.species_id);
     const knownMoves = new Set(lead.moves);
 
     for (const lu of levelUps) {
-        steps.push({ kind: 'level_up', creatureIndex: 0, from: lu.from, to: lu.to });
+        steps.push({ kind: "level_up", creatureIndex: 0, from: lu.from, to: lu.to });
         if (!species) continue;
         for (const entry of species.learnset) {
             if (entry.level === lu.to && !knownMoves.has(entry.move_id)) {
                 steps.push({
-                    kind: 'move_learned',
+                    kind: "move_learned",
                     creatureIndex: 0,
                     moveId: entry.move_id,
                     atLevel: lu.to,

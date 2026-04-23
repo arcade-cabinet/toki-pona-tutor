@@ -1,19 +1,21 @@
 ---
 title: Effect Sprites Manifest
-updated: 2026-04-19
+updated: 2026-04-22
 status: current
 domain: technical
 ---
 
 # Effect Sprites Manifest
 
-Every VFX sprite sheet under `public/assets/effects/` is documented here. Each entry records the source PNG, frame dimensions, named animation strips, and the suggested move-binding for the engine wiring pass.
+Every VFX sprite sheet under `public/assets/effects/` is documented here. Each entry records the source PNG, frame dimensions, named animation strips, and the suggested move-binding for the later move-VFX wiring pass.
+
+Current runtime status: the spritesheet manifest itself is wired through `src/content/gameplay/effects.json`, validated by `src/content/gameplay/schema.ts`, exported as `EFFECT_SPRITESHEET_CONFIGS`, and registered into the RPG.js client spritesheet list by `src/config/effect-sprites.ts`. The recommended move bindings below are still future combat-polish guidance; authored move JSON currently does not select effect sprites.
 
 **Hard rules carried from `SPRITE_CURATION.md`:**
 - Frame dimensions are hand-determined from visual inspection + clean-divisor math — never auto-detected.
 - Animation names for effects: one-shots use `play`; named events use the event name (e.g. `fireball_travel`, `slash_horizontal`).
 - Effects don't loop (`loop: false`) unless they are ambient particles that sustain continuously.
-- Do NOT modify `moves/*.json` vfx fields yet — see "Move Binding" column for recommendations only.
+- Do NOT modify `moves/*.json` VFX fields yet — see "Move Binding" sections for future recommendations only.
 
 ---
 
@@ -192,7 +194,7 @@ Identical layout to `extra-elemental-spellcasting-effects-14x14.png` (56×126, 1
 
 **Suggested spritesheet id:** `fx_spell_bursts_14_glow`
 
-**Move-vfx binding:** Boss-tier version of the same bindings above. Use for jan lawa (region master) encounters.
+**Move-vfx binding:** Boss-tier version of the same bindings above. Use for region-master encounters.
 
 ---
 

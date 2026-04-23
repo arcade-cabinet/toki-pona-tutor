@@ -3,7 +3,13 @@
   "npc_id": null,
   "priority": 10,
   "beats": [
-    { "text": { "en": "That's it." }, "mood": "sad", "glyph": "ni" }
+    {
+      "text": {
+        "en": "It breaks loose and bolts."
+      },
+      "mood": "sad",
+      "glyph": "wild-signs"
+    }
   ],
   "triggers": {}
 }

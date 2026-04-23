@@ -3,7 +3,13 @@
   "npc_id": "jan_kala_lili",
   "priority": 0,
   "beats": [
-    { "text": { "en": "Ah. Good." }, "mood": "happy", "glyph": "pona" }
+    {
+      "text": {
+        "en": "Small fish gather where the current bends."
+      },
+      "mood": "happy",
+      "glyph": "companion-bond"
+    }
   ],
   "triggers": {}
 }

@@ -1,0 +1,24 @@
+<DOMContainer width="0" height="0"></DOMContainer>
+
+<script>
+    import { computed, effect, mount } from "canvasengine";
+    import { riversUiBridge } from "../ui/bridge";
+
+    const { data } = defineProps({
+        data: {
+            default: () => null
+        }
+    });
+
+    const battle = computed(() => data() || null);
+
+    effect(() => {
+        riversUiBridge.update({ wildBattle: battle() });
+    });
+
+    mount(() => {
+        return () => {
+            riversUiBridge.update({ wildBattle: null });
+        };
+    });
+</script>

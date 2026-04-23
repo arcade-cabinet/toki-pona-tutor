@@ -1,0 +1,136 @@
+<DOMContainer width="0" height="0" controls={controls}></DOMContainer>
+
+<script>
+    import { computed, effect, mount, signal } from "canvasengine";
+    import { inject, RpgClientEngine } from "@rpgjs/client";
+    import { TITLE_MENU_CONFIG } from "../content/gameplay";
+    import { riversUiBridge } from "../ui/bridge";
+    import { playClientSfx } from "./client-sfx";
+
+    const engine = inject(RpgClientEngine);
+    const keyboardControls = engine.globalConfig.keyboardControls;
+
+    const { data, onInteraction } = defineProps({
+        entries: {
+            default: () => []
+        }
+    });
+
+    const resolveProp = (value) => typeof value === "function" ? value() : value;
+    const view = computed(() => data() || {});
+    const entries = computed(() => {
+        const list = resolveProp(view().entries);
+        return Array.isArray(list) && list.length ? list : TITLE_MENU_CONFIG.entries;
+    });
+    const selectedEntry = signal(0);
+    const titleVisible = signal(true);
+    let lastPublishedSignature = "";
+
+    const isEntryDisabled = (entry) => {
+        if (!entry) return true;
+        if (entry.disabled) return true;
+        if (entry.enabled === false) return true;
+        return false;
+    };
+
+    const selectableIndexes = computed(() => {
+        return entries()
+            .map((entry, index) => (isEntryDisabled(entry) ? null : index))
+            .filter((value) => value !== null);
+    });
+
+    effect(() => {
+        const available = selectableIndexes();
+        if (!available.length) return;
+        if (!available.includes(selectedEntry())) selectedEntry.set(available[0]);
+    });
+
+    function moveSelection(delta) {
+        const available = selectableIndexes();
+        if (!available.length) return;
+        const currentIndex = Math.max(0, available.indexOf(selectedEntry()));
+        selectedEntry.set(available[(currentIndex + delta + available.length) % available.length]);
+    }
+
+    function triggerSelect(entry, index) {
+        if (!entry || isEntryDisabled(entry)) return;
+        selectedEntry.set(index);
+        titleVisible.set(false);
+        void playClientSfx(engine, "sfx_menu_confirm");
+        riversUiBridge.update({ title: null });
+        onInteraction?.("select", { id: entry.id, index, entry });
+    }
+
+    effect(() => {
+        const title = String(resolveProp(view().title) || TITLE_MENU_CONFIG.menuTitle);
+        const currentEntries = entries().map((entry) => ({
+            id: String(entry.id ?? ""),
+            label: String(entry.label ?? entry.id ?? ""),
+            testId: entry.testId,
+            disabled: entry.disabled,
+            enabled: entry.enabled,
+        }));
+        const signature = JSON.stringify({
+            title,
+            entries: currentEntries,
+            nonce: resolveProp(view().nonce) || null,
+        });
+
+        if (!titleVisible()) {
+            if (signature === lastPublishedSignature) {
+                riversUiBridge.update({ title: null });
+                return;
+            }
+            titleVisible.set(true);
+        }
+
+        if (signature === lastPublishedSignature) return;
+        lastPublishedSignature = signature;
+
+        riversUiBridge.update({
+            title: {
+                title,
+                nonce: resolveProp(view().nonce) || null,
+                entries: currentEntries,
+                onSelect: (entry) => {
+                    const index = entries().findIndex((candidate) => String(candidate.id) === String(entry.id));
+                    triggerSelect(entries()[index], index);
+                },
+            },
+        });
+    });
+
+    const controls = signal({
+        up: {
+            repeat: true,
+            bind: keyboardControls.up,
+            throttle: 150,
+            keyDown() {
+                moveSelection(-1);
+            }
+        },
+        down: {
+            repeat: true,
+            bind: keyboardControls.down,
+            throttle: 150,
+            keyDown() {
+                moveSelection(1);
+            }
+        },
+        action: {
+            bind: keyboardControls.action,
+            keyDown() {
+                triggerSelect(entries()[selectedEntry()], selectedEntry());
+            }
+        },
+        gamepad: {
+            enabled: true
+        }
+    });
+
+    mount(() => {
+        return () => {
+            riversUiBridge.update({ title: null });
+        };
+    });
+</script>

@@ -1,0 +1,160 @@
+<DOMContainer width="0" height="0" controls={controls}></DOMContainer>
+
+<script>
+    import { computed, effect, mount, signal } from "canvasengine";
+    import { inject, RpgClientEngine } from "@rpgjs/client";
+    import { PAUSE_MENU_CONFIG } from "../content/gameplay";
+    import { playClientSfx } from "./client-sfx";
+    import { riversUiBridge } from "../ui/bridge";
+
+    const engine = inject(RpgClientEngine);
+    const keyboardControls = engine.globalConfig.keyboardControls;
+
+    const { data, onInteraction } = defineProps({
+        entries: {
+            default: () => []
+        },
+        routes: {
+            default: () => []
+        },
+        contentTitle: {
+            default: ""
+        },
+        contentRows: {
+            default: () => []
+        },
+        footerEntries: {
+            default: () => []
+        },
+        activeRoute: {
+            default: PAUSE_MENU_CONFIG.defaultRouteId
+        },
+        title: {
+            default: PAUSE_MENU_CONFIG.title
+        }
+    });
+
+    const resolveProp = (value) => typeof value === "function" ? value() : value;
+    const view = computed(() => data() || {});
+    const routeList = computed(() => {
+        const list = resolveProp(view().routes);
+        return Array.isArray(list) ? list : [];
+    });
+    const contentRows = computed(() => {
+        const list = resolveProp(view().contentRows);
+        return Array.isArray(list) ? list : [];
+    });
+    const footerList = computed(() => {
+        const list = resolveProp(view().footerEntries);
+        const footer = Array.isArray(list) ? list : [];
+        if (footer.length) return footer;
+        const legacy = resolveProp(view().entries);
+        return Array.isArray(legacy) ? legacy : [];
+    });
+    const entryList = computed(() => [
+        ...routeList(),
+        ...contentRows(),
+        ...footerList(),
+    ]);
+    const selectedEntry = signal(0);
+
+    const isEntryDisabled = (entry) => {
+        if (!entry) return true;
+        if (!entry.id) return true;
+        if (entry.disabled) return true;
+        if (entry.enabled === false) return true;
+        return false;
+    };
+
+    const selectableIndexes = computed(() => {
+        return entryList()
+            .map((entry, index) => (isEntryDisabled(entry) ? null : index))
+            .filter((value) => value !== null);
+    });
+
+    effect(() => {
+        const available = selectableIndexes();
+        if (!available.length) return;
+        if (!available.includes(selectedEntry())) {
+            selectedEntry.set(available[0]);
+        }
+    });
+
+    function moveSelection(delta) {
+        const available = selectableIndexes();
+        if (!available.length) return;
+        const currentIndex = Math.max(0, available.indexOf(selectedEntry()));
+        const next = available[(currentIndex + delta + available.length) % available.length];
+        if (next !== selectedEntry()) {
+            void playClientSfx(engine, "sfx_menu_tick");
+        }
+        selectedEntry.set(next);
+    }
+
+    function triggerSelect(index) {
+        const entry = entryList()[index];
+        if (!entry || isEntryDisabled(entry)) return;
+        selectedEntry.set(index);
+        void playClientSfx(engine, "sfx_menu_confirm");
+        if (onInteraction) {
+            onInteraction("select", { id: entry.id, index, entry });
+        }
+    }
+
+    effect(() => {
+        const model = view();
+        riversUiBridge.update({
+            pause: {
+                title: String(resolveProp(model.title) || PAUSE_MENU_CONFIG.title),
+                activeRoute: String(resolveProp(model.activeRoute) || PAUSE_MENU_CONFIG.defaultRouteId),
+                routes: routeList(),
+                contentTitle: String(resolveProp(model.contentTitle) || ""),
+                contentRows: contentRows(),
+                footerEntries: footerList(),
+                routesAriaLabel: PAUSE_MENU_CONFIG.routesAriaLabel,
+                onSelect: (_entry, index) => triggerSelect(index),
+            },
+        });
+    });
+
+    const controls = signal({
+        up: {
+            repeat: true,
+            bind: keyboardControls.up,
+            throttle: 150,
+            keyDown() {
+                moveSelection(-1);
+            }
+        },
+        down: {
+            repeat: true,
+            bind: keyboardControls.down,
+            throttle: 150,
+            keyDown() {
+                moveSelection(1);
+            }
+        },
+        action: {
+            bind: keyboardControls.action,
+            keyDown() {
+                triggerSelect(selectedEntry());
+            }
+        },
+        escape: {
+            bind: keyboardControls.escape,
+            keyDown() {
+                const resumeIndex = entryList().findIndex((entry) => entry?.id === "resume");
+                if (resumeIndex >= 0) triggerSelect(resumeIndex);
+            }
+        },
+        gamepad: {
+            enabled: true
+        }
+    });
+
+    mount(() => {
+        return () => {
+            riversUiBridge.update({ pause: null });
+        };
+    });
+</script>

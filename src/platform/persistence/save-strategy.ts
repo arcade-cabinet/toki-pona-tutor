@@ -1,6 +1,6 @@
-import type { RpgPlayer, SaveStorageStrategy } from '@rpgjs/server';
-import type { SaveSlot, SaveSlotList, SaveSlotMeta } from '@rpgjs/common';
-import { getDatabase, saveWebStore } from './database';
+import type { RpgPlayer, SaveStorageStrategy } from "@rpgjs/server";
+import type { SaveSlot, SaveSlotList, SaveSlotMeta } from "@rpgjs/common";
+import { getDatabase, saveWebStore } from "./database";
 
 export interface CapacitorSaveOptions {
     namespace?: string;
@@ -10,7 +10,7 @@ export class CapacitorSaveStorageStrategy implements SaveStorageStrategy {
     private namespace: string;
 
     constructor(options: CapacitorSaveOptions = {}) {
-        this.namespace = options.namespace ?? 'default';
+        this.namespace = options.namespace ?? "default";
     }
 
     private assertValidIndex(index: number): void {
@@ -30,7 +30,12 @@ export class CapacitorSaveStorageStrategy implements SaveStorageStrategy {
         return slots[index] ?? null;
     }
 
-    async save(player: RpgPlayer, index: number, snapshot: string, meta: SaveSlotMeta): Promise<void> {
+    async save(
+        player: RpgPlayer,
+        index: number,
+        snapshot: string,
+        meta: SaveSlotMeta,
+    ): Promise<void> {
         this.assertValidIndex(index);
         const slots = await this.readSlots(player);
         // Pad with explicit nulls to avoid sparse-array holes when index > length.
@@ -49,15 +54,15 @@ export class CapacitorSaveStorageStrategy implements SaveStorageStrategy {
     }
 
     private playerKey(player: RpgPlayer): string {
-        return `${this.namespace}:${player.id ?? 'anonymous'}`;
+        const connectionId = (player as unknown as { conn?: { id?: string } }).conn?.id;
+        return `${this.namespace}:${connectionId ?? player.id ?? "anonymous"}`;
     }
 
     private async readSlots(player: RpgPlayer): Promise<Array<SaveSlot | null>> {
         const db = await getDatabase();
-        const result = await db.query(
-            `SELECT data FROM saves WHERE player_key = ? LIMIT 1`,
-            [this.playerKey(player)],
-        );
+        const result = await db.query(`SELECT data FROM saves WHERE player_key = ? LIMIT 1`, [
+            this.playerKey(player),
+        ]);
         const row = result.values?.[0];
         if (!row) return [];
         try {

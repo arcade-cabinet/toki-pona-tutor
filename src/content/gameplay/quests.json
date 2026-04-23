@@ -1,0 +1,129 @@
+{
+  "quests": [
+    {
+      "id": "quest_tomo_kili",
+      "giver_npc_id": "jan_kili_tomo",
+      "map_id": "riverside_home",
+      "title": "Orchard Helper",
+      "summary": "Catch one Applepup for the Riverside snack keeper.",
+      "goal": {
+        "kind": "catch_count",
+        "species_id": "soweli_kili",
+        "target": 1
+      },
+      "reward": {
+        "xp": 30,
+        "item_id": "kili",
+        "item_count": 2,
+        "reward_clue": "orchard-fruit"
+      }
+    },
+    {
+      "id": "quest_nasin_forest_watch",
+      "giver_npc_id": "jan_lukin_nasin",
+      "map_id": "greenwood_road",
+      "title": "Greenwood Watch",
+      "summary": "Defeat the rival on Greenwood Road and report back to the route watcher.",
+      "goal": {
+        "kind": "defeat_trainer",
+        "npc_id": "jan_ike"
+      },
+      "reward": {
+        "xp": 45,
+        "item_id": "ma",
+        "item_count": 3,
+        "reward_clue": "battle-ready"
+      }
+    },
+    {
+      "id": "quest_nasin_poki_pack",
+      "giver_npc_id": "jan_poki_nasin",
+      "map_id": "greenwood_road",
+      "title": "Field Notes",
+      "summary": "Catch two Greenwood creatures to earn a stronger capture pod.",
+      "goal": {
+        "kind": "catch_any_in_biome",
+        "biome": "forest",
+        "target": 2
+      },
+      "reward": {
+        "xp": 50,
+        "item_id": "poki_wawa",
+        "item_count": 1,
+        "reward_clue": "capture-pods"
+      }
+    },
+    {
+      "id": "quest_telo_kili_delivery",
+      "giver_npc_id": "jan_kala_lake",
+      "map_id": "lakehaven",
+      "title": "Lake Delivery",
+      "summary": "Carry one Orchard Fruit to the Lakehaven stall.",
+      "goal": {
+        "kind": "deliver_item",
+        "item_id": "kili",
+        "to_npc_id": "jan_moku"
+      },
+      "reward": {
+        "xp": 55,
+        "item_id": "telo_pona",
+        "item_count": 2,
+        "reward_clue": "lake-delivery"
+      }
+    },
+    {
+      "id": "quest_lete_poki_pack",
+      "giver_npc_id": "jan_poki_lete",
+      "map_id": "frostvale",
+      "title": "Cold Hands",
+      "summary": "Catch two Frostvale creatures for the cold-weather pod keeper.",
+      "goal": {
+        "kind": "catch_any_in_biome",
+        "biome": "ice",
+        "target": 2
+      },
+      "reward": {
+        "xp": 65,
+        "item_id": "poki_wawa",
+        "item_count": 1,
+        "reward_clue": "cold-hands"
+      }
+    },
+    {
+      "id": "quest_suli_torch",
+      "giver_npc_id": "jan_pimeja_suli",
+      "map_id": "dreadpeak_cavern",
+      "title": "Torch Path Survey",
+      "summary": "Catch two cave creatures near the Dreadpeak torch path.",
+      "goal": {
+        "kind": "catch_any_in_biome",
+        "biome": "cave",
+        "target": 2
+      },
+      "reward": {
+        "xp": 80,
+        "item_id": "telo_pona",
+        "item_count": 2,
+        "reward_clue": "torch-path"
+      }
+    },
+    {
+      "id": "quest_telo_last_light",
+      "giver_npc_id": "jan_suno_telo",
+      "map_id": "rivergate_approach",
+      "title": "Last Light",
+      "summary": "Catch one river-route creature before the final dragon approach.",
+      "goal": {
+        "kind": "catch_any_in_biome",
+        "biome": "water",
+        "target": 1
+      },
+      "reward": {
+        "xp": 90,
+        "item_id": "poki_wawa",
+        "item_count": 2,
+        "reward_clue": "last-light"
+      }
+    }
+  ]
+}

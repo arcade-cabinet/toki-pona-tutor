@@ -17,53 +17,62 @@
  * AudioManager wants 0-100, etc.). This module stays in the canonical
  * [0, 1] space.
  */
+import { mapMetadataFor } from "../../content/map-metadata";
+import {
+    AUDIO_RUNTIME_CONFIG,
+    BGM_FILES as CONFIGURED_BGM_FILES,
+    BGM_SELECTION_CONFIG,
+    type ConfiguredBgmId,
+} from "../../content/gameplay";
 
 export type MapContext = {
     mapId: string;
     inCombat: boolean;
     /** Optional day phase — influences ambient village/forest tracks. */
-    timePhase?: 'dawn' | 'day' | 'dusk' | 'night';
+    timePhase?: "dawn" | "day" | "dusk" | "night";
 };
 
-export type BgmId =
-    | 'bgm_village'
-    | 'bgm_forest'
-    | 'bgm_mountain'
-    | 'bgm_water'
-    | 'bgm_snow'
-    | 'bgm_battle'
-    | 'bgm_gym'
-    | 'bgm_boss'
-    | 'bgm_lesson'
-    | 'bgm_victory'
-    | 'bgm_gameover'
-    | 'bgm_menu';
+export type BgmId = ConfiguredBgmId;
+
+export const AUDIO_BGM_OVERRIDE_EVENT = AUDIO_RUNTIME_CONFIG.bgmOverrideEvent;
+
+export type BgmOverridePayload = {
+    mapId: string;
+    inCombat: boolean;
+    userVol?: number;
+};
+
+const BGM_FILES = CONFIGURED_BGM_FILES as Record<BgmId, string>;
 
 /**
- * Canonical file path for a BGM id. Matches public/audio/ contents.
- * Returns `.ogg` since every BGM ships both `.ogg` and `.mp3` — the
- * runtime adapter picks the right one per platform.
+ * Canonical public asset path for a BGM id. Returns `.ogg` because the
+ * shipped audio set is OGG-first and Howler handles browser playback.
  *
  * @example
- * bgmFile('bgm_village')  // → '/audio/bgm-village.ogg'
+ * bgmFile('bgm_village')  // → '/rpg/audio/bgm-village.ogg'
  */
 export function bgmFile(id: BgmId): string {
-    const name = id.replace(/^bgm_/, 'bgm-').replace(/_/g, '-');
-    return `/audio/${name}.ogg`;
+    return BGM_FILES[id];
 }
 
-/**
- * Map mapId → ambient BGM. Village maps get bgm_village; route maps
- * get bgm_forest / bgm_mountain / bgm_water depending on the biome
- * hint in the mapId. Unknown maps fall back to bgm_menu.
- */
+export function isBgmId(value: string): value is BgmId {
+    return Object.prototype.hasOwnProperty.call(BGM_FILES, value);
+}
+
+export function isBgmOverridePayload(value: unknown): value is BgmOverridePayload {
+    if (!value || typeof value !== "object") return false;
+    const payload = value as Record<string, unknown>;
+    return (
+        typeof payload.mapId === "string" &&
+        typeof payload.inCombat === "boolean" &&
+        (payload.userVol === undefined || typeof payload.userVol === "number")
+    );
+}
+
 function ambientBgmForMap(mapId: string): BgmId {
-    if (mapId.startsWith('ma_tomo') || mapId.startsWith('ma_telo')) return 'bgm_village';
-    if (mapId.startsWith('ma_lete') || mapId.startsWith('nasin_pi_telo')) return 'bgm_snow';
-    if (mapId.startsWith('nasin_')) return 'bgm_forest';
-    if (mapId.startsWith('nena_')) return 'bgm_mountain';
-    if (mapId.startsWith('lupa_') || mapId === 'secret_underwater') return 'bgm_water';
-    return 'bgm_menu';
+    // Map metadata is the authoring/runtime contract; map-id prefixes are only
+    // used below for combat intensity because those are encounter semantics.
+    return mapMetadataFor(mapId)?.music_track ?? "bgm_menu";
 }
 
 /**
@@ -71,19 +80,19 @@ function ambientBgmForMap(mapId: string): BgmId {
  * the higher-intensity `bgm_gym` variant; final boss gets `bgm_boss`.
  *
  * @example
- * bgmForContext({ mapId: 'ma_tomo_lili', inCombat: false })
+ * bgmForContext({ mapId: 'riverside_home', inCombat: false })
  * // → 'bgm_village'
- * bgmForContext({ mapId: 'nena_sewi', inCombat: true })
- * // → 'bgm_battle'
+ * bgmForContext({ mapId: 'highridge_pass', inCombat: true })
+ * // → 'bgm_gym'
  */
 export function bgmForContext(ctx: MapContext): BgmId {
     if (ctx.inCombat) {
-        if (ctx.mapId === 'nasin_pi_telo') return 'bgm_boss'; // final boss only here
-        if (ctx.mapId.startsWith('nena_') || ctx.mapId.startsWith('ma_')) {
-            // gym maps are village/mountain maps during combat
-            return 'bgm_gym';
+        const override = BGM_SELECTION_CONFIG.mapCombatOverrides[ctx.mapId];
+        if (override) return override;
+        if (BGM_SELECTION_CONFIG.gymMapPrefixes.some((prefix) => ctx.mapId.startsWith(prefix))) {
+            return BGM_SELECTION_CONFIG.gymCombatTrack;
         }
-        return 'bgm_battle';
+        return BGM_SELECTION_CONFIG.defaultCombatTrack;
     }
     return ambientBgmForMap(ctx.mapId);
 }

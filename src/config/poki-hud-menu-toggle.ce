@@ -1,0 +1,35 @@
+<DOMContainer width="0" height="0"></DOMContainer>
+
+<script>
+    import { computed, effect, mount } from "canvasengine";
+    import { inject, RpgClientEngine, RpgGui } from "@rpgjs/client";
+    import { HUD_MENU_CONFIG } from "../content/gameplay";
+    import { hasBlockingGui } from "./hud-gui-visibility";
+    import { riversUiBridge } from "../ui/bridge";
+
+    const engine = inject(RpgClientEngine);
+    const guiService = inject(RpgGui);
+    const currentPlayer = engine.scene.currentPlayer;
+    const shouldShow = computed(() => !!currentPlayer() && !hasBlockingGui(guiService));
+
+    function openPauseMenu() {
+        engine.processAction({ action: "escape" });
+    }
+
+    effect(() => {
+        riversUiBridge.update({
+            hudMenu: shouldShow()
+                ? {
+                      ariaLabel: HUD_MENU_CONFIG.ariaLabel,
+                      onOpen: openPauseMenu,
+                  }
+                : null,
+        });
+    });
+
+    mount(() => {
+        return () => {
+            riversUiBridge.update({ hudMenu: null });
+        };
+    });
+</script>

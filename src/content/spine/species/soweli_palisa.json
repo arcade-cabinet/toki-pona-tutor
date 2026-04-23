@@ -1,13 +1,31 @@
 {
   "id": "soweli_palisa",
-  "name": { "en": "palisa" },
-  "description": { "en": "Nothing lasts forever." },
+  "name": {
+    "en": "Twiglet"
+  },
+  "description": {
+    "en": "A twig-legged forest creature that freezes when watched."
+  },
   "type": "kasi",
-  "base_stats": { "hp": 46, "attack": 50, "defense": 56, "speed": 30 },
+  "base_stats": {
+    "hp": 46,
+    "attack": 50,
+    "defense": 56,
+    "speed": 30
+  },
   "learnset": [
-    { "level": 1, "move_id": "utala_lili" },
-    { "level": 1, "move_id": "kiwen_wawa" },
-    { "level": 9, "move_id": "kasi_lili" }
+    {
+      "level": 1,
+      "move_id": "utala_lili"
+    },
+    {
+      "level": 1,
+      "move_id": "kiwen_wawa"
+    },
+    {
+      "level": 9,
+      "move_id": "kasi_lili"
+    }
   ],
   "catch_rate": 0.42,
   "xp_yield": 50,
@@ -16,11 +34,41 @@
     "frame_width": 32,
     "frame_height": 32,
     "animations": {
-      "attack":  { "row": 0, "col_start": 0, "cols": 5, "fps": 12, "loop": false },
-      "walk":    { "row": 1, "col_start": 0, "cols": 3, "fps": 8,  "loop": true  },
-      "special": { "row": 2, "col_start": 0, "cols": 5, "fps": 14, "loop": false },
-      "hurt":    { "row": 3, "col_start": 0, "cols": 3, "fps": 8,  "loop": false },
-      "death":   { "row": 4, "col_start": 0, "cols": 3, "fps": 6,  "loop": false }
+      "attack": {
+        "row": 0,
+        "col_start": 0,
+        "cols": 5,
+        "fps": 12,
+        "loop": false
+      },
+      "walk": {
+        "row": 1,
+        "col_start": 0,
+        "cols": 3,
+        "fps": 8,
+        "loop": true
+      },
+      "special": {
+        "row": 2,
+        "col_start": 0,
+        "cols": 5,
+        "fps": 14,
+        "loop": false
+      },
+      "hurt": {
+        "row": 3,
+        "col_start": 0,
+        "cols": 3,
+        "fps": 8,
+        "loop": false
+      },
+      "death": {
+        "row": 4,
+        "col_start": 0,
+        "cols": 3,
+        "fps": 6,
+        "loop": false
+      }
     },
     "tier": "common"
   }

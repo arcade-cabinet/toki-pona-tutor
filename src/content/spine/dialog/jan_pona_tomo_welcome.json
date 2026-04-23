@@ -1,0 +1,22 @@
+{
+  "id": "jan_pona_tomo_welcome",
+  "npc_id": "jan_pona_tomo",
+  "priority": 0,
+  "beats": [
+    {
+      "text": {
+        "en": "Rivers, the road is waiting."
+      },
+      "mood": "happy",
+      "glyph": "companion-bond"
+    },
+    {
+      "text": {
+        "en": "Check on your companion before you leave."
+      },
+      "mood": "excited",
+      "glyph": "greenwood-watch"
+    }
+  ],
+  "triggers": {}
+}

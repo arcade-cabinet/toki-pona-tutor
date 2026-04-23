@@ -1,5 +1,6 @@
 import { describe, it, expect } from 'vitest';
 import {
+    canonicalXpTotal,
     xpForLevel,
     levelFromXp,
     xpToNextLevel,
@@ -125,6 +126,14 @@ describe('gainXp — ROADMAP T6-07 acceptance criterion', () => {
         const { xp, levelUps } = gainXp(1, 300);
         expect(xp).toBe(301);
         expect(levelUps[levelUps.length - 1].to).toBe(6);
+    });
+
+    it('treats the stored level threshold as the XP floor for starter-grade creatures', () => {
+        expect(canonicalXpTotal(0, 5)).toBe(125);
+        const { xp, levelUps } = gainXp(canonicalXpTotal(0, 5), 27);
+        expect(xp).toBe(152);
+        expect(levelUps).toHaveLength(0);
+        expect(levelFromXp(xp)).toBe(5);
     });
 
     it('MIN_LEVEL + MAX_LEVEL exported as constants', () => {

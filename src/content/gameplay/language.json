@@ -1,0 +1,43 @@
+{
+  "micro_game": {
+    "seed": 20260420,
+    "round_count": 3,
+    "action": { "label": "Field Notes", "meta": "clue check" },
+    "prompt_template": "{prompt}\n{round}/{total}",
+    "correct_template": "Correct. {score}/{total}",
+    "wrong_template": "Not that one. {answer}\n{score}/{total}",
+    "complete_template": "Field notes complete: {score}/{total}",
+    "pool": [
+      {
+        "id": "fruit_health",
+        "prompt_tag": "🍎",
+        "text": "Fresh fruit can restore strength."
+      },
+      {
+        "id": "color_choice",
+        "prompt_tag": "🎨",
+        "text": "Choose the color that feels right."
+      },
+      {
+        "id": "animal_here",
+        "prompt_tag": "🐾",
+        "text": "A creature is waiting nearby."
+      },
+      {
+        "id": "bird_flying",
+        "prompt_tag": "🐦",
+        "text": "A bird circles in the wind."
+      },
+      {
+        "id": "house_here",
+        "prompt_tag": "🏠",
+        "text": "The house is safe for now."
+      },
+      {
+        "id": "strong_fire",
+        "prompt_tag": "🔥",
+        "text": "The fire burns bright and strong."
+      }
+    ]
+  }
+}

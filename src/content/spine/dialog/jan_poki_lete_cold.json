@@ -1,0 +1,22 @@
+{
+  "id": "jan_poki_lete_cold",
+  "npc_id": "jan_poki_lete",
+  "priority": 0,
+  "beats": [
+    {
+      "text": {
+        "en": "Cold hands fumble capture pods."
+      },
+      "mood": "happy",
+      "glyph": "companion-bond"
+    },
+    {
+      "text": {
+        "en": "Warm them before you throw."
+      },
+      "mood": "excited",
+      "glyph": "greenwood-watch"
+    }
+  ],
+  "triggers": {}
+}

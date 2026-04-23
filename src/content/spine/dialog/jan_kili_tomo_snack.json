@@ -1,0 +1,22 @@
+{
+  "id": "jan_kili_tomo_snack",
+  "npc_id": "jan_kili_tomo",
+  "priority": 0,
+  "beats": [
+    {
+      "text": {
+        "en": "Take fruit before the road."
+      },
+      "mood": "happy",
+      "glyph": "orchard-fruit"
+    },
+    {
+      "text": {
+        "en": "A fed companion fights longer."
+      },
+      "mood": "happy",
+      "glyph": "companion-bond"
+    }
+  ],
+  "triggers": {}
+}

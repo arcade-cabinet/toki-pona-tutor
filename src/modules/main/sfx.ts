@@ -13,57 +13,31 @@
  * Pure — tests don't need an audio backend. Sibling of audio.ts
  * which owns BGM selection.
  */
+import {
+    SFX_BASE_VOLUMES,
+    SFX_EVENTS as CONFIGURED_SFX_EVENTS,
+    SFX_FILES,
+} from "../../content/gameplay";
 
-export const SFX_EVENTS = [
-    'sfx_menu_open',
-    'sfx_menu_tick',
-    'sfx_menu_confirm',
-    'sfx_footstep',
-    'sfx_warp',
-    'sfx_encounter_appear',
-    'sfx_hit',
-    'sfx_catch_throw',
-    'sfx_catch_success',
-    'sfx_catch_fail',
-    'sfx_level_up',
-    'sfx_faint',
-] as const;
+export const SFX_EVENTS = CONFIGURED_SFX_EVENTS;
 
-export type SfxEvent = typeof SFX_EVENTS[number];
+export type SfxEvent = (typeof SFX_EVENTS)[number];
 
 /**
- * Per-event base volume. The design goal is feedback hierarchy:
- * big moments (catch success, level up) punch over ambient ticks
- * (footstep, menu tick) even before the user's bus setting.
- */
-const BASE_VOLUMES: Record<SfxEvent, number> = {
-    sfx_menu_open:        0.55,
-    sfx_menu_tick:        0.30,
-    sfx_menu_confirm:     0.60,
-    sfx_footstep:         0.35,
-    sfx_warp:             0.70,
-    sfx_encounter_appear: 0.75,
-    sfx_hit:              0.75,
-    sfx_catch_throw:      0.70,
-    sfx_catch_success:    0.95,
-    sfx_catch_fail:       0.65,
-    sfx_level_up:         0.90,
-    sfx_faint:            0.70,
-};
-
-/**
- * Canonical asset path for a SFX event. Strips the `sfx_` prefix
- * and converts snake_case → kebab-case so the filename on disk is
- * the player-facing /audio/sfx/menu-open.ogg rather than the
- * internal sfx_menu_open symbol.
+ * Canonical asset path for a SFX event. Several events intentionally
+ * share source files until the final dedicated SFX pack lands; the
+ * event id still stays stable so gameplay code does not care.
  */
 export function sfxFile(event: SfxEvent): string {
-    const slug = event.replace(/^sfx_/, '').replace(/_/g, '-');
-    return `/audio/sfx/${slug}.ogg`;
+    return SFX_FILES[event];
+}
+
+export function isSfxEvent(value: string): value is SfxEvent {
+    return Object.prototype.hasOwnProperty.call(SFX_FILES, value);
 }
 
 export function sfxBaseVolume(event: SfxEvent): number {
-    return BASE_VOLUMES[event];
+    return SFX_BASE_VOLUMES[event];
 }
 
 /**

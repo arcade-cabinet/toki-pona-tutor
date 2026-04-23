@@ -1,51 +1,51 @@
 {
   "beats": [
     {
-      "id": "beat_01_ma_tomo_lili",
-      "map_id": "ma_tomo_lili",
-      "narrative": "Player wakes in the starter village — stone-floored homes ringed by green grass. jan Sewi stands at the village center; jan Pona lingers in the upper plaza; jan Telo leans against the well. Walking up to jan Sewi fires the four-beat starter ceremony (toki / poki / wan / wawa) and offers the three starters: kon_moli (seli spirit), telo_jaki (telo slime), jan_ike_lili (kasi goblin). Picking one sets starter_chosen, drops three poki_lili, adds the chosen creature to the party at level 5. Until starter_chosen is true the eastern warp is non-interactive.",
+      "id": "beat_01_riverside_home",
+      "map_id": "riverside_home",
+      "narrative": "Player wakes in the starter village: a small grass-ringed home plot with no encounters. jan Sewi runs the starter ceremony; jan Pona Tomo, jan Telo Well, jan Poki Tomo, and jan Kili Tomo provide ambient two-beat village dialog. Walking up to jan Sewi fires the starter ceremony and offers the three starters: kon_moli, telo_jaki, and jan_ike_lili. Picking one sets starter_chosen, drops three poki_lili, adds the chosen creature to the party at level 5, and unlocks the eastern warp.",
       "gate": { "kind": "starter_chosen" },
       "transition": { "kind": "warp", "trigger_object": "warp_east" }
     },
     {
-      "id": "beat_02_nasin_wan",
-      "map_id": "nasin_wan",
-      "narrative": "Long path-route east-to-west, framed by trees. Three tall_grass rectangles host the player's first encounters: jan_ike_lili, jan_utala_lili, jan_moli in the level 3-7 band — first chance to throw a poki_lili. Halfway along a sign reads 'the path was narrow.' At the eastern edge stands jan Ike, the rival, with kon_moli at level 5 and two starter moves. Defeating him (or losing — losses restore the party at the last village) opens the eastern warp.",
+      "id": "beat_02_greenwood_road",
+      "map_id": "greenwood_road",
+      "narrative": "Long forest path-route east-to-west, framed by trees. Three tall-grass rectangles host the player's first encounters across the level 3-7 band: jan_ike_lili, jan_utala_lili, soweli_musi, soweli_kili, soweli_jaki, waso_pimeja, soweli_anpa, soweli_kon, jan_moli, waso_toki, akesi_linja, and soweli_nena. Four ambient route walkers plus jan Ike bring the map to five NPC markers. Defeating jan Ike, or losing and restoring at the last village, opens the eastern warp.",
       "gate": { "kind": "defeated", "npc_id": "jan_ike" },
       "transition": { "kind": "warp", "trigger_object": "warp_east" }
     },
     {
-      "id": "beat_03_nena_sewi",
-      "map_id": "nena_sewi",
-      "narrative": "Mountain pass — stone footpaths between rocks and tall_grass clumps. Encounters skew wawa-ish and rocky: jan_wawa, jan_wawa_linja, sijelo_kiwen. jan Kala the hiker sits along the path catching her breath, teaches lete ahead of the next region. At the top, jan Wawa — the strong-master and first jan lawa — blocks the northward path with a two-creature gym fight: jan_wawa_linja at level 8 then sijelo_kiwen at level 10. Winning sets badge_sewi and grants the reward word sewi.",
+      "id": "beat_03_highridge_pass",
+      "map_id": "highridge_pass",
+      "narrative": "Mountain pass with stone footpaths between blocked cliffs, rocks, and tall-grass clumps. Encounters skew force-typed and rocky: jan_wawa, jan_wawa_linja, jan_wawa_jaki, sijelo_kiwen, soweli_palisa, waso_lape, akesi_seli, and soweli_sewi. Route NPCs provide ambient travel dialog. At the top, the Highridge master blocks the northward path. Winning sets badge_sewi and records the highridge-proof clue.",
       "gate": { "kind": "defeated", "npc_id": "jan_wawa" },
       "transition": { "kind": "warp", "trigger_object": "warp_north" }
     },
     {
-      "id": "beat_04_ma_telo",
-      "map_id": "ma_telo",
-      "narrative": "Round village built on a stone island in the middle of a lake. No tall grass, no random encounters — a story-and-shop beat. jan Telo (first met at the well in ma_tomo_lili) is now revealed as the jan lawa of ma_telo with telo_jaki at level 10 and jan_ike_lili at level 12 — a deliberate type wrinkle that punishes one-typed parties. Beating him sets badge_telo and grants telo. jan Kala sits at the lake's edge with a small lost-something quest stub. jan Moku runs a lakeside stall.",
+      "id": "beat_04_lakehaven",
+      "map_id": "lakehaven",
+      "narrative": "Round village built on a stone island in the middle of a lake. No tall grass and no random encounters: this is a story-and-shop beat. The Lakehaven master waits in the plaza; beating him sets badge_telo and records the lakehaven-proof clue. Lake-village NPCs fill the floor, and the stall sells capture pods and healing fruit for coins.",
       "gate": { "kind": "defeated", "npc_id": "jan_telo" },
       "transition": { "kind": "warp", "trigger_object": "warp_north" }
     },
     {
-      "id": "beat_05_ma_lete",
-      "map_id": "ma_lete",
-      "narrative": "Cold-land village. Stone ground with patches of grass_detail (the local tall-grass key), bordered by snow-laden trees and a fenced herb garden. Encounter table mixes sijelo_kiwen, sijelo_linja, jan_pi_sewi_pimeja, levels 7-12. jan Lete the jan lawa fields sijelo_linja level 10 and jan_pi_sewi_pimeja level 13 — first gym where a player without a seli creature feels real friction. jan Anpa watches the snow from her doorstep; jan Kasi tends the garden. Beating jan Lete sets badge_lete and grants lete.",
+      "id": "beat_05_frostvale",
+      "map_id": "frostvale",
+      "narrative": "Cold-land village with snow and ice ground, stone paths, snow tall grass, trees, houses, rocks, and a fenced herb garden. Encounters mix sijelo_linja, sijelo_kiwen, jan_pi_sewi_pimeja, waso_lete, soweli_nena, soweli_kiwen, and sijelo_utala at levels 7-12. The Frostvale master anchors the village challenge. Beating him sets badge_lete and records the frostvale-proof clue.",
       "gate": { "kind": "defeated", "npc_id": "jan_lete" },
       "transition": { "kind": "warp", "trigger_object": "warp_north" }
     },
     {
-      "id": "beat_06_nena_suli",
-      "map_id": "nena_suli",
-      "narrative": "The great peak — hardest gym before the endgame. Tall narrow map, stone everywhere, sparse tall-grass patches around rocky outcrops. Encounters are heavy elites: jan_wawa_suli, jan_wawa_utala, sijelo_utala at higher levels (10-15). jan Suli waits at the upper shrine with jan_wawa_suli level 12 (utala_lili + wawa_waso + kon_wawa) and sijelo_utala level 14 (utala + lete_wawa + lete_suli). jan pi kon meditates on a rock teaching kon; jan pi nasin asks which way is down, teaching nasin. Beating jan Suli sets badge_suli and grants suli — the canonical 'you are ready' moment.",
+      "id": "beat_06_dreadpeak_cavern",
+      "map_id": "dreadpeak_cavern",
+      "narrative": "The great peak is the hardest region-master challenge before the endgame: a tall narrow cave-shrine with stone floors, blocked rock walls, torch landmarks, and sparse encounter overgrowth. Encounters are heavy elites: jan_wawa_suli, jan_wawa_utala, jan_utala_suli, soweli_utala, sijelo_utala, waso_moku, waso_moli, soweli_sewi, soweli_alasa, and soweli_wawa at levels 10-15. Cave NPCs flesh out the climb before the Dreadpeak master. Beating him sets badge_suli and records the dreadpeak-proof clue.",
       "gate": { "kind": "defeated", "npc_id": "jan_suli" },
       "transition": { "kind": "warp", "trigger_object": "warp_north" }
     },
     {
-      "id": "beat_07_nasin_pi_telo",
-      "map_id": "nasin_pi_telo",
-      "narrative": "Endgame approach. Long riverside route — wide grassy west bank, deep water channel down the east side, scattered tall-grass clumps. Heavily shadowed encounters: jan_moli, kon_moli, telo_jaki, jan_moli_wawa at the highest wild-roll levels yet (7-13). jan Kala Suli is a veteran fisher who offers an optional XP-only fight (jan_moli_wawa level 10 + telo_jaki level 11) — a tune-up before the final boss. jan Kala Lili is cheerful flavor. jan Moku Pona grills river fish at a cart. jan Olin Telo speaks quietly about the water. With all four region badges in hand, walking onto the eastern final_boss_trigger fires the akesi_sewi cutscene + final legendary catch opportunity; the green dragon's dedicated death animation plays on either defeat or capture.",
+      "id": "beat_07_rivergate_approach",
+      "map_id": "rivergate_approach",
+      "narrative": "Endgame approach: long riverside route with a grassy west bank, deep water channel, sandbar path, and two aquatic encounter patches. Encounters include jan_moli, kon_moli, telo_jaki, kala_telo, kala_uta, kala_tomo, jan_moli_wawa, kala_luka, seli_moli, akesi_suli, and the rare akesi_sewi across levels 7-13. jan Kala Lili, jan Moku Pona, jan Kala Suli, jan Olin Telo, and jan Suno Telo populate the bank. With all four region badges in hand, final_boss_trigger fires the akesi_sewi cutscene; the green-dragon clear path plays the green dragon defeat animation.",
       "gate": { "kind": "flag", "flag_id": "badges_all_four" },
       "transition": { "kind": "cutscene", "trigger_object": "final_boss_trigger" }
     }

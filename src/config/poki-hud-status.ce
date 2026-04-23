@@ -1,0 +1,127 @@
+<DOMContainer width="0" height="0"></DOMContainer>
+
+<script>
+    import { computed, effect, mount, signal } from "canvasengine";
+    import { inject, RpgClientEngine, RpgGui } from "@rpgjs/client";
+    import { PERSISTENCE_CHANGED_EVENT } from "../platform/persistence/database";
+    import { getParty, listMasteredWords } from "../platform/persistence/queries";
+    import { publicAssetPath } from "./asset-paths";
+    import { hasBlockingGui } from "./hud-gui-visibility";
+    import { buildHudLeadStatus } from "./hud-status";
+    import { riversUiBridge } from "../ui/bridge";
+
+    const engine = inject(RpgClientEngine);
+    const guiService = inject(RpgGui);
+    const base = import.meta.env.BASE_URL || "/";
+    const currentPlayer = engine.scene.currentPlayer;
+    const snapshot = signal(null);
+    const refreshVersion = signal(0);
+    let refreshToken = 0;
+
+    const hudStatus = computed(() => {
+        const baseSnapshot = snapshot();
+        const player = currentPlayer();
+        if (!baseSnapshot || !player) return null;
+
+        const currentHp = typeof player.__hpSignal === "function"
+            ? Number(player.__hpSignal())
+            : 0;
+        const maxHp = Number(player._parametersSignal?.maxHp?.start ?? currentHp);
+
+        return buildHudLeadStatus({
+            ...baseSnapshot,
+            currentHp,
+            maxHp,
+        });
+    });
+
+    const shouldShow = computed(() => !!currentPlayer() && !!hudStatus() && !hasBlockingGui(guiService));
+
+    const portraitStyle = (frame) => {
+        if (!frame?.src) return {};
+        const framesWidth = Math.max(1, Number(frame.framesWidth || 1));
+        const framesHeight = Math.max(1, Number(frame.framesHeight || 1));
+        const frameX = Math.max(0, Math.min(framesWidth - 1, Number(frame.frameX || 0)));
+        const frameY = Math.max(0, Math.min(framesHeight - 1, Number(frame.frameY || 0)));
+        const positionX = framesWidth <= 1 ? 0 : (frameX / (framesWidth - 1)) * 100;
+        const positionY = framesHeight <= 1 ? 0 : (frameY / (framesHeight - 1)) * 100;
+        return {
+            backgroundImage: `url(${publicAssetPath(frame.src, base)})`,
+            backgroundSize: `${framesWidth * 100}% ${framesHeight * 100}%`,
+            backgroundPosition: `${positionX}% ${positionY}%`,
+        };
+    };
+
+    effect(() => {
+        currentPlayer();
+        engine.scene.data();
+        refreshVersion();
+        void refreshSnapshot();
+    });
+
+    effect(() => {
+        const status = hudStatus();
+        if (!shouldShow() || !status) {
+            riversUiBridge.update({ hudStatus: null });
+            return;
+        }
+        const frame = status.portraitFrame;
+        riversUiBridge.update({
+            hudStatus: {
+                primaryLabel: status.primaryLabel,
+                levelLabel: status.levelLabel,
+                secondaryLabel: status.secondaryLabel ?? "",
+                hpLabel: status.hpLabel,
+                hpPercent: status.hpPercent,
+                hpClass: status.hpClass,
+                masteredLabel: status.masteredLabel,
+                portraitFallback: status.portraitFallback,
+                portraitStyle: portraitStyle(frame),
+                hasPortraitImage: !!frame,
+            },
+        });
+    });
+
+    async function refreshSnapshot() {
+        const player = currentPlayer();
+        if (!player) {
+            snapshot.set(null);
+            return;
+        }
+
+        const token = refreshToken + 1;
+        refreshToken = token;
+        const [party, masteredWords] = await Promise.all([
+            getParty(),
+            listMasteredWords(),
+        ]);
+        if (refreshToken !== token) return;
+
+        const lead = party[0];
+        if (!lead) {
+            snapshot.set(null);
+            return;
+        }
+
+        snapshot.set({
+            speciesId: lead.species_id,
+            level: lead.level,
+            masteredWordCount: masteredWords.length,
+        });
+    }
+
+    mount(() => {
+        const onPersistenceChanged = () => {
+            refreshVersion.set(refreshVersion() + 1);
+        };
+        const pollId = window.setInterval(() => {
+            refreshVersion.set(refreshVersion() + 1);
+        }, 500);
+        window.addEventListener(PERSISTENCE_CHANGED_EVENT, onPersistenceChanged);
+        return () => {
+            window.clearInterval(pollId);
+            window.removeEventListener(PERSISTENCE_CHANGED_EVENT, onPersistenceChanged);
+            riversUiBridge.update({ hudStatus: null });
+        };
+    });
+</script>

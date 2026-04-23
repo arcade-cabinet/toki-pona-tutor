@@ -4,9 +4,9 @@
  * The starter-village daycare accepts two captured creatures from the
  * player's party. After N real minutes (or N encounter-rolls, whichever
  * the runtime wires first), an egg is produced. Hatching produces a
- * level-1 baby creature whose stats average the two parents with a
- * ±10% jitter, and whose learnset is the union of both parents'
- * level-1 moves plus the baby's own species learnset entries ≤ level 5.
+ * JSON-configured baby creature whose stats average the two parents
+ * with a configured jitter, and whose learnset is the union of configured
+ * parent/child learnset windows.
  *
  * Pure-data helpers here; the timer + NPC event wiring lives in a
  * future follow-up. The key insight is that every derivation (type
@@ -14,8 +14,9 @@
  * the two parents, so breeding is testable without any runtime state.
  */
 
-import type { BaseStats } from '../../content/schema/species';
-import type { TpType } from './type-matchup';
+import { DAYCARE_CONFIG } from "../../content/gameplay";
+import type { BaseStats } from "../../content/schema/species";
+import type { TpType } from "./type-matchup";
 
 export interface ParentSnapshot {
     speciesId: string;
@@ -44,14 +45,12 @@ export interface Offspring {
  */
 export function childType(a: TpType, b: TpType): TpType {
     if (a === b) return a;
-    if (a === 'wawa' || b === 'wawa') return 'wawa';
-    if (a === 'lete' && b !== 'lete') return b;
-    if (b === 'lete' && a !== 'lete') return a;
-    const pair = [a, b].sort().join('_');
-    if (pair === 'seli_telo') return 'kasi';
-    if (pair === 'kasi_seli') return 'seli';
-    if (pair === 'kasi_telo') return 'telo';
-    return a;
+    if (DAYCARE_CONFIG.typeInheritance.dominantTypes.includes(a)) return a;
+    if (DAYCARE_CONFIG.typeInheritance.dominantTypes.includes(b)) return b;
+    if (DAYCARE_CONFIG.typeInheritance.deferToOtherTypes.includes(a)) return b;
+    if (DAYCARE_CONFIG.typeInheritance.deferToOtherTypes.includes(b)) return a;
+    const pair = [a, b].sort().join("_");
+    return DAYCARE_CONFIG.typeInheritance.pairOverrides[pair] ?? a;
 }
 
 /**
@@ -71,14 +70,17 @@ export function childType(a: TpType, b: TpType): TpType {
 export function averagedStats(
     a: BaseStats,
     b: BaseStats,
-    jitterFrac: number = 0.1,
+    jitterFrac: number = DAYCARE_CONFIG.statJitterFraction,
     rng: () => number = Math.random,
 ): BaseStats {
     const avg = (x: number, y: number): number => {
         const mean = (x + y) / 2;
         if (jitterFrac === 0) return Math.round(mean);
         const delta = mean * jitterFrac * (rng() * 2 - 1);
-        return Math.max(1, Math.min(250, Math.round(mean + delta)));
+        return Math.max(
+            DAYCARE_CONFIG.statMin,
+            Math.min(DAYCARE_CONFIG.statMax, Math.round(mean + delta)),
+        );
     };
     return {
         hp: avg(a.hp, b.hp),
@@ -100,13 +102,17 @@ export function inheritedLearnset(
 ): { level: number; move_id: string }[] {
     const seen = new Map<string, number>();
     for (const entry of parentA.learnset) {
-        if (entry.level === 1) seen.set(entry.move_id, 1);
+        if (entry.level === DAYCARE_CONFIG.parentInheritedMoveLevel) {
+            seen.set(entry.move_id, DAYCARE_CONFIG.parentInheritedMoveLevel);
+        }
     }
     for (const entry of parentB.learnset) {
-        if (entry.level === 1 && !seen.has(entry.move_id)) seen.set(entry.move_id, 1);
+        if (entry.level === DAYCARE_CONFIG.parentInheritedMoveLevel && !seen.has(entry.move_id)) {
+            seen.set(entry.move_id, DAYCARE_CONFIG.parentInheritedMoveLevel);
+        }
     }
     for (const entry of childSpeciesLearnset) {
-        if (entry.level <= 5 && !seen.has(entry.move_id)) {
+        if (entry.level <= DAYCARE_CONFIG.childLearnsetMaxLevel && !seen.has(entry.move_id)) {
             seen.set(entry.move_id, entry.level);
         }
     }
@@ -141,9 +147,9 @@ export function hatch(params: {
     const {
         parentA,
         parentB,
-        childSpeciesId = `${parentA.speciesId}_lili`,
+        childSpeciesId = `${parentA.speciesId}${DAYCARE_CONFIG.defaultChildSuffix}`,
         childSpeciesLearnset,
-        jitterFrac = 0.1,
+        jitterFrac = DAYCARE_CONFIG.statJitterFraction,
         rng = Math.random,
     } = params;
 
@@ -152,6 +158,6 @@ export function hatch(params: {
         type: childType(parentA.type, parentB.type),
         base_stats: averagedStats(parentA.base_stats, parentB.base_stats, jitterFrac, rng),
         learnset: inheritedLearnset(parentA, parentB, childSpeciesLearnset),
-        level: 1,
+        level: DAYCARE_CONFIG.offspringLevel,
     };
 }

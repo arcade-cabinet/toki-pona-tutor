@@ -73,7 +73,7 @@ describe('weatherFor — deterministic per (biome, hour)', () => {
     });
 
     it('lete biome produces snow on at least some hours', () => {
-        const snowHours = [];
+        const snowHours: number[] = [];
         for (let h = 0; h < 24; h++) {
             if (weatherFor('lete', h) === 'snow') snowHours.push(h);
         }

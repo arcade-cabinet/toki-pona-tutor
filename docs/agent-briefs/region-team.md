@@ -1,116 +1,60 @@
 ---
-title: Agent Brief — Region Team
-updated: 2026-04-19
+title: Region Team Brief
+updated: 2026-04-22
 status: current
-domain: ops
+domain: content
 ---
 
-# Region team agent brief
+# Region Team Brief
 
-You're authoring one complete region for Toki Town. A region is a single Phaser scene's worth of world — tile layout, NPCs, dialog, signs, warps to adjacent regions, encounter table. You write one file at `src/content/spine/regions/<region_id>.json` that validates against `src/content/schema/region.ts`.
+Use this brief when authoring map specs, NPCs, dialog, quests, encounters, and clue rewards for a region.
 
-## Worktree prologue
+## Goal
 
-```bash
-BRANCH="content/region-<region-id>"
-WT_PATH=".worktrees/${BRANCH}"
-cd /Users/jbogaty/src/arcade-cabinet/toki-pona-tutor
-if [[ "$(git rev-parse --show-toplevel)" == "$(pwd)" && ! "$(pwd)" == *"/.worktrees/"* ]]; then
-  git fetch origin main
-  git worktree add -B "$BRANCH" "$WT_PATH" origin/main
-  cd "$WT_PATH" || exit 1
-fi
-pnpm install --ignore-workspace
-```
+Each region should feel like an authored place with a clear route language, local problem, clue/reward loop, encounter identity, and mobile-friendly staging.
 
-## What to author
+## Source Files
 
-Your brief specifies **one region** by id — e.g. `ma_telo` (the lake village), `nena_sewi` (the mountain pass). Write its region JSON plus any dialog nodes its NPCs need.
+- Map specs: `scripts/map-authoring/specs/<map_id>.ts`
+- Runtime maps: `src/content/gameplay/maps.json`
+- Event payloads: `src/content/gameplay/events.json`
+- Dialog: `src/content/spine/dialog/*.json`
+- Quests: `src/content/gameplay/quests.json`
+- Clues: `src/content/clues.json`
 
-### Required content
+## Region Requirements
 
-- Grid dimensions: villages are ~20×14, routes are long (~32×10), mountain passes are ~16×20. Your brief will specify.
-- Sky color: villages `#8bc260` (kenney town green), routes same, mountains `#6b7a83` (stone), lakes `#5ba7d8` (blue).
-- At least **2 tile layers** (`ground`, `objects`). A third `overlay` layer is optional (flowers, shimmer).
-- **3–5 NPCs**, each with a distinct role — one quest-giver / jan-lawa, one ambient, optionally a shopkeeper or rival.
-- **2–3 signs** with canonical-TP text.
-- **1–2 warps** to adjacent regions.
-- **Tall grass:** if this region has encounters, 30–60% of walkable ground should be tall-grass keys.
-- **Encounters:** 3–6 species in a weighted table summing to 1.0. Species must already exist in `src/content/spine/species/`.
-- **Dialog array:** at least 1 dialog node per NPC. Quest-giver NPCs get multi-beat dialog (3–5 beats); ambient NPCs get single-beat flavor lines.
-- **Spawn point:** where the player lands when warping in.
+- At least five meaningful NPC/sign/event touchpoints for story maps.
+- Walkable route language: roads, thresholds, blockers, landmarks, and encounter zones should be visually obvious.
+- No actor, NPC, sign, shop, warp, or trigger placement on collision blockers or rejected tiles.
+- Mobile tap space around important interactions.
+- Encounter zones must be visibly marked by terrain that reads as encounter terrain.
+- Biome transitions should use curated transition tiles where possible, not abrupt unrelated patches.
 
-### Writing canonical TP
+## Writing Rules
 
-Every multi-word `{ en }` field — `description`, sign text, dialog beats — will be validated against `src/content/corpus/tatoeba.json` at build time. Single-word TP (names, sign text like `"ma"`) is exempt.
+- Write natural English dialog.
+- Prefer short beats with a clear purpose: navigation, character, clue, quest, warning, or payoff.
+- Use clue IDs only as metadata/rewards; do not show raw IDs to players.
+- Keep the tone brave, curious, and kid-friendly.
 
-**Read `docs/WRITING_RULES.md` before writing any line.** The validator now scores every line against those rules (hard + soft) *before* checking corpus membership — lines that violate the rules fail the build with a complexity breakdown (rare words, uncommon starter, subordinate clauses, length). The ceiling is rank ≤ 40; stay well under.
+## Verification
 
-Process:
-1. Read `docs/WRITING_RULES.md`. Internalize: ≤ 9 words, single clause, `.`/`?`/`!`, top-1000 vocabulary, starters like `I/You/Tom/The/We/This`.
-2. Write the English beat following the rules.
-3. Run `pnpm validate-tp`. If it flags complexity, the message names the offending axis (e.g. `rare words: mountains, climb; compound clause`). Rewrite to fix the axis.
-4. If the line passes complexity but misses the corpus, use one of the suggested Tatoeba pairs verbatim. Canonical > authored.
-5. When in doubt, `grep -i "YOUR IDEA" src/content/corpus/tatoeba.json | head -5` and pick from what already exists.
-
-**Short English works.** Three-to-six-word sentences are your friend. "Water is good." / "telo li pona." will pass. "My wise friend sits by the ancient well and sings" will never find a pair.
-
-### Tile keys
-
-Tile keys in `layers[].tiles` are short strings the engine maps to frames at runtime. Use:
-
-- `"g"` — grass
-- `"gf"` — grass with flowers
-- `"gd"` — grass detail (small weeds)
-- `"stone"` — stone floor (plaza)
-- `"tree_g"`, `"tree_y"` — full-canopy trees (solid)
-- `"bush"` — bushes (solid)
-- `"house_b"`, `"house_r"` — house icons (solid)
-- `"sign"` — signpost (solid)
-- `"mushroom"` — kili patch
-- `"grass_tall"` — tall grass tile (goes in `tall_grass_keys`)
-
-Add new keys if your region needs them; the engine will translate them via the shared tile-key → frame lookup in `src/game/content-loader.ts`.
-
-### Warps
-
-A warp moves the player to another region when they step on a specific tile. Place warps on the EDGE of the map, at walkable tiles:
-
-```json
-{
-  "id": "east_exit",
-  "tile": { "x": 19, "y": 7 },
-  "to_region": "nasin_wan",
-  "to_tile": { "x": 1, "y": 5 }
-}
-```
-
-## Validate loop
-
-```bash
-pnpm validate-tp
-node scripts/build-spine.mjs
+```sh
+pnpm author:build <map_id>
+pnpm author:verify
+pnpm build-spine
 pnpm typecheck
+pnpm test:unit
+pnpm test:integration
 ```
 
-All three must be green.
+If visuals changed, also run the visual audit and inspect screenshots.
 
-## PR
+## Review Checklist
 
-```bash
-git add -A
-git commit -m "feat(content): region <id> — <short descriptor>"
-git push -u origin "$BRANCH"
-gh pr create --title "..." --body "..."
-```
-
-## Stall + self-review + merge
-
-See `docs/AGENT_TEAMS.md`.
-
-## Guardrails
-
-- Only edit inside your worktree
-- Only create files under `src/content/spine/regions/<region_id>.json` — no engine changes
-- Never hand-author TP; always let the pipeline resolve it
-- Always squash-merge, never force-push, never skip hooks
+- The map reads well at the current camera zoom.
+- Terrain, overlays, blockers, and decorations are visually cohesive.
+- NPCs are staged on sensible ground tiles.
+- Quest and clue rewards match the region's story.
+- The next-route gate is understandable without reading docs.

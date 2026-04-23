@@ -1,20 +1,23 @@
 import { describe, it, expect } from 'vitest';
+import type { RpgPlayer } from '@rpgjs/server';
+import { MICRO_GAME_CONFIG } from '../../src/content/gameplay';
 import {
     makeRng,
     shuffle,
     buildRound,
     buildSequence,
     gradePick,
+    playMicroGame,
     type SentencePrompt,
 } from '../../src/modules/main/micro-game';
 
 const pool: SentencePrompt[] = [
-    { id: 'soweli', prompt_tag: 'animal', tp: 'soweli li lon.' },
-    { id: 'kala', prompt_tag: 'fish', tp: 'kala li lon telo.' },
-    { id: 'waso', prompt_tag: 'bird', tp: 'waso li tawa sewi.' },
-    { id: 'kili', prompt_tag: 'fruit', tp: 'kili li suwi.' },
-    { id: 'tomo', prompt_tag: 'house', tp: 'mi lon tomo.' },
-    { id: 'seli', prompt_tag: 'fire', tp: 'seli li wawa.' },
+    { id: 'creature', prompt_tag: 'animal', text: 'A creature waits nearby.' },
+    { id: 'fish', prompt_tag: 'fish', text: 'Something moves under the water.' },
+    { id: 'bird', prompt_tag: 'bird', text: 'A bird circles in the wind.' },
+    { id: 'fruit', prompt_tag: 'fruit', text: 'Fresh fruit can restore strength.' },
+    { id: 'house', prompt_tag: 'house', text: 'The house is safe for now.' },
+    { id: 'fire', prompt_tag: 'fire', text: 'The fire burns bright and strong.' },
 ];
 
 describe('makeRng — deterministic', () => {
@@ -72,9 +75,9 @@ describe('buildRound — one correct + 3 distractors', () => {
         expect(round.options).toHaveLength(4);
     });
 
-    it('correctIndex references a string equal to prompt.tp', () => {
+    it('correctIndex references a string equal to prompt.text', () => {
         const round = buildRound(pool, pool[0], makeRng(1));
-        expect(round.options[round.correctIndex]).toBe(pool[0].tp);
+        expect(round.options[round.correctIndex]).toBe(pool[0].text);
     });
 
     it('options are all distinct', () => {
@@ -82,15 +85,15 @@ describe('buildRound — one correct + 3 distractors', () => {
         expect(new Set(round.options).size).toBe(4);
     });
 
-    it('throws when pool has < 4 distinct TP strings', () => {
+    it('throws when pool has < 4 distinct text strings', () => {
         const small = pool.slice(0, 3);
         expect(() => buildRound(small, small[0], makeRng(1))).toThrow(/need at least 4/);
     });
 
-    it('handles pool duplicates (same TP under different ids) without crashing', () => {
+    it('handles pool duplicates (same text under different ids) without crashing', () => {
         const dupPool: SentencePrompt[] = [
             ...pool,
-            { id: 'soweli_alt', prompt_tag: 'animal2', tp: pool[0].tp }, // dup TP
+            { id: 'creature_alt', prompt_tag: 'animal2', text: pool[0].text }, // dup text
         ];
         const round = buildRound(dupPool, pool[0], makeRng(5));
         expect(new Set(round.options).size).toBe(4);
@@ -117,7 +120,7 @@ describe('buildSequence — deterministic N-round batch', () => {
     it('every round has a correct answer', () => {
         const rounds = buildSequence(pool, 5, 123);
         for (const r of rounds) {
-            expect(r.options[r.correctIndex]).toBe(r.prompt.tp);
+            expect(r.options[r.correctIndex]).toBe(r.prompt.text);
         }
     });
 
@@ -151,5 +154,57 @@ describe('gradePick — scoring', () => {
     it('wrong pick returns correct: false', () => {
         const wrongIndex = (round.correctIndex + 1) % 4;
         expect(gradePick(round, wrongIndex, 0).correct).toBe(false);
+    });
+});
+
+describe('playMicroGame — RPG.js choice binding', () => {
+    it('runs configured rounds with English choices and deterministic scoring', async () => {
+        const rounds = buildSequence(
+            MICRO_GAME_CONFIG.pool,
+            MICRO_GAME_CONFIG.roundCount,
+            MICRO_GAME_CONFIG.seed,
+        );
+        const prompts: string[] = [];
+        const choicesSeen: string[][] = [];
+        const texts: string[] = [];
+        let roundIndex = 0;
+        const player = {
+            showChoices: async (
+                message: string,
+                choices: Array<{ text: string; value: string }>,
+            ) => {
+                const round = rounds[roundIndex];
+                roundIndex += 1;
+                prompts.push(message);
+                choicesSeen.push(choices.map((choice) => choice.text));
+                return choices.find((choice) => choice.text === round?.prompt.text) ?? null;
+            },
+            showText: async (line: string) => {
+                texts.push(line);
+            },
+        } as unknown as RpgPlayer;
+
+        const result = await playMicroGame(player);
+
+        expect(result).toEqual({ completed: true, score: 3, total: 3 });
+        expect(prompts[0]).toContain('1/3');
+        expect(choicesSeen).toHaveLength(3);
+        expect(choicesSeen.flat().every((choice) =>
+            MICRO_GAME_CONFIG.pool.some((entry) => entry.text === choice),
+        )).toBe(true);
+        expect(texts).toContain('Field notes complete: 3/3');
+    });
+
+    it('returns incomplete when the choice dialog is cancelled', async () => {
+        const player = {
+            showChoices: async () => null,
+            showText: async () => {},
+        } as unknown as RpgPlayer;
+
+        await expect(playMicroGame(player)).resolves.toEqual({
+            completed: false,
+            score: 0,
+            total: 3,
+        });
     });
 });

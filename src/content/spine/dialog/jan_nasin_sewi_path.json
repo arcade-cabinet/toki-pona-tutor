@@ -1,0 +1,22 @@
+{
+  "id": "jan_nasin_sewi_path",
+  "npc_id": "jan_nasin_sewi",
+  "priority": 0,
+  "beats": [
+    {
+      "text": {
+        "en": "The high trail opens north."
+      },
+      "mood": "excited",
+      "glyph": "greenwood-watch"
+    },
+    {
+      "text": {
+        "en": "You'll need a stronger party before the summit."
+      },
+      "mood": "thinking",
+      "glyph": "battle-ready"
+    }
+  ],
+  "triggers": {}
+}

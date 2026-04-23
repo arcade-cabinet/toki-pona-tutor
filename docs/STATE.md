@@ -1,87 +1,128 @@
 ---
 title: Current State
-updated: 2026-04-20
+updated: 2026-04-22
 status: current
 domain: context
 ---
 
-# Where we are
+# Current State
 
-**Branch:** `feat/rpgjs-v5-pivot` → PR #66 (149 commits ahead of `main`, about to squash-merge into `v0.2.0` release train).
+**Branch:** intentionally not hard-coded here. Check `git branch --show-current`.
 
-**Stack:** RPG.js v5 beta + CanvasEngine/Pixi 8 + Capacitor 8 persistence + Tiled (`.tmx` built from TS specs) + vendored Tatoeba corpus. See `docs/ARCHITECTURE.md`.
+**Product:** Rivers Reckoning, a native-English creature-catching RPG for web and Android debug APK builds. Rivers explores a fantasy world, catches monsters, investigates local trouble, solves quests, defeats four region masters, and reaches the green-dragon finale.
 
-**Base URL:** `/poki-soweli/` on web (GitHub Pages), `/` under Capacitor (see `vite.config.ts`). Dev server boots at `http://localhost:5173/poki-soweli/` — watch the vite output if 5173 is taken, the port auto-increments.
+**Stack:** RPG.js v5 beta + CanvasEngine/Pixi 8 + Capacitor 8 + spec-generated Tiled maps + JSON/Zod gameplay configuration. See `docs/ARCHITECTURE.md`.
 
-## Orient yourself
+**Toolchain:** Node 22 LTS + pnpm 10.x. GitHub Actions are pinned to Node 22, and local release/build evidence should use the same major version.
 
-Read these in order before touching code:
+**Base paths:** local dev/preview is `/`, GitHub Pages is `/poki-soweli/`, and Capacitor is `./`.
 
-1. **`docs/ROADMAP.md`** — single source of truth for what's done, what's next, and the Definition of Done for `v0.2.0`.
-2. **`docs/ARCHITECTURE.md`** — stack layout + the three layers (content pipeline → pure game modules → runtime wiring).
-3. **`docs/TESTING.md`** — the E2E-first testing rule: every feature ships with an integration test that exercises the real engine before any unit test.
-4. **`docs/DESIGN.md`** — product vision (what the game IS and IS NOT).
-5. **`docs/BRAND.md`** — palette, typography, chrome patterns. All UI surfaces draw from these tokens.
-6. **`docs/UX.md`** — HUD architecture, tap-to-walk input model, `.ce` component registration contract, data-testid naming. Any new on-screen surface starts here.
+## Orientation
 
-Then: `git status && git log --oneline -10 && gh pr view 66`.
+Read these before code changes:
 
-## Running the game
+1. `docs/ARCHITECTURE.md` — stack, pipelines, runtime layout.
+2. `docs/TESTING.md` — gate matrix, visual audit, local/full browser posture.
+3. `docs/DEPLOYMENT.md` — CI, release, CD, Pages, debug APK handoff.
+4. `docs/DESIGN.md` — product direction and non-goals.
+5. `docs/BRAND.md` — visual identity and HUD chrome.
+6. `docs/ART_DIRECTION.md` — tile curation and pending-pack bakeoff.
+7. `docs/UX.md` — mobile-first controls and `data-testid` contracts.
+8. `docs/ROADMAP.md` — current v1 completion backlog.
+
+Then run `git status` and `git log --oneline -10`.
+
+## Run And Build
 
 ```sh
 pnpm install
-pnpm dev                 # http://localhost:5173/poki-soweli/
-pnpm test                # both projects (unit + integration)
-pnpm test:unit           # pure-logic only (~5 s)
-pnpm test:integration    # real RPG.js engine in Node via @rpgjs/testing
-pnpm test:coverage       # unit coverage gate, 95% lines/95% functions/90% branches
-pnpm build               # prebuild (validate + build-spine + typecheck) → vite build
-pnpm preview             # serve the built bundle
+pnpm dev
+pnpm validate
+pnpm build-spine
+pnpm typecheck
+pnpm test:unit
+pnpm test:integration
+pnpm test:e2e:smoke
+pnpm build
+GITHUB_PAGES=true pnpm build
+pnpm android:build-debug
 ```
 
-## Playtest the real game, not just the tests
+`pnpm dev` serves `http://localhost:5173/` by default. If 5173 is in use, set `E2E_PORT` for Playwright or stop the other server.
 
-Tests catch regressions in behavior the tests already asserted. Whether the game is **fun** only reveals itself in a browser. Before merging any feature that touches player-visible behavior, run `pnpm dev` and walk it yourself. Screenshots and a sentence in the PR description are better than a ticked checkbox.
+## What Is Implemented
 
-## Hard rules (override defaults)
+- **Seven generated maps:** `riverside_home`, `greenwood_road`, `highridge_pass`, `lakehaven`, `frostvale`, `dreadpeak_cavern`, and `rivergate_approach`.
+- **Spec-driven map tooling:** maps emit `.tmx`, `.tmj`, and preview PNG artifacts from TypeScript specs; `pnpm author:verify` guards drift.
+- **Curated art boundary:** palette entries route through `src/content/art/tilesets.json`, with rejected tiles documented rather than forgotten.
+- **Native-English content:** dialog, quest copy, UI copy, item/species labels, and Field Notes are authored in English.
+- **Clue journal:** `src/content/clues.json` owns investigation clues; legacy-named persistence remains only for save compatibility.
+- **Runtime gameplay config:** maps, events, starters, progression, trainers, shops, quests, combat formulas, visuals, audio, UI, and Field Notes are JSON-backed.
+- **Playable current arc:** starter ceremony, wild encounters, capture/defeat, first rival, four region masters, side quests, shops, final route, green dragon, credits, save/continue, and respawn are wired.
+- **Mobile HUD:** tap-to-walk, contextual hint, HUD menu, pause routes, party/bestiary/inventory/clues/settings/save flows, and touch-target tests exist.
+- **Release plumbing:** `automerge.yml` handles safe bot squash auto-merge, `ci.yml` handles PR gates and reviewer artifacts, `release.yml` creates versioned release artifacts through release-please, and `cd.yml` consumes the completed `workflow_run` to attach release assets and deploy Pages.
 
-- **Fan-tasy is the only tileset family.** `public/assets/tilesets/{core,seasons,snow,desert,fortress,indoor}/` is the source of truth.
-- **Maps are build artifacts.** Edit `scripts/map-authoring/specs/<id>.ts`, run `pnpm author:build <id>`. Never edit `src/tiled/*.tmx` or `public/assets/maps/*.tmj` directly. `pnpm author:verify` enforces this in `validate` + `prebuild` + CI.
-- **Every monster is catchable.** Tiering is rarity + catch difficulty, not whether `poki` works. Green dragon (`akesi_sewi`) is the final boss, the only creature with a death animation.
-- **No hand-authored toki pona.** Every user-facing TP string round-trips through the Tatoeba corpus. `pnpm validate-tp` is the gate. If it rejects, rewrite the EN.
-- **No direct `localStorage` / `IndexedDB`** in feature code — `src/platform/persistence/preferences.ts` (KV) or `src/platform/persistence/database.ts` (structured) only.
-- **Docs > tests > code.** Docs describe the game; tests describe the code; code satisfies both. Tests never chase code.
-- **E2E > unit.** Integration tests with the real engine carry the weight. Pure-logic unit tests are for algorithms, nothing else. See `docs/TESTING.md`.
-- **Always use pull requests.** Never push to `main` directly.
+## Verified Baseline
 
-## What landed in this branch
+The local gate set for this state is:
 
-PR #66 is the RPG.js v5 pivot plus roughly half of the `v0.2.0` backlog. For a precise accounting of done / partial / open tasks, read `docs/ROADMAP.md`. For commit-level history, `git log main..HEAD --oneline`.
+- `pnpm validate`
+- `pnpm build-spine`
+- `pnpm typecheck`
+- `pnpm test:unit`
+- `pnpm test:integration`
+- `pnpm test:e2e:smoke`
+- `pnpm build`
+- `GITHUB_PAGES=true pnpm build`
+- `pnpm android:build-debug`
 
-Short version:
+Additional release/tooling checks:
 
-- **Phase 1 (playable vertical slice)** — done.
-- **Phase 2 (combat polish + party)** — pure-logic modules + pure helpers done (victory sequence, HP thresholds, party order, type matchup, xp curve, catch math, status effects). Runtime wiring of animated combat UI is open.
-- **Phase 3 (save, menus, transitions)** — autosave, continue, settings screen, pause menu, save-schema migrations done. Title scene + credits open.
-- **Phase 4 (content breadth)** — 7 maps walkable, 4 gym set-pieces wired, bestiary state machine done, 17-species roster content still partial on per-biome paint.
-- **Phase 5 (audio / mobile / a11y)** — BGM selection, SFX catalog, virtual d-pad math, settings sliders done. Actual Howler runtime + portrait-lock + mobile overlay open.
-- **Phase 6 (release hardening)** — CI/CD trifecta wired, commitlint, bundle-size audit, unit coverage gate, save round-trip, warp-graph topology, dialog content cross-check done. E2E playthrough open (now that the hand-rolled harness is replaced by `@rpgjs/testing`, this is the next big push).
-- **Phase 7 (post-v0.2 depth)** — pure-logic scaffolding for NG+, daycare, ambient events, side quests, status effects, treasure chests, rematches done.
-- **Phase 8 (language layer)** — sentence log, sitelen-glyph helper, micro-game seed logic, dictionary-export done. Settings flag wired for the "show sitelen overlay" toggle.
-- **Phase 9 (engine perf / infra)** — unit coverage gate live at 95%/95%/90%/95%.
-- **BRAND** — `docs/BRAND.md` + `src/styles/brand.css` + boot wiring + reactive high-contrast toggle live. Settings pause menu is the first surface rendering the theme.
+- `pnpm author:verify`
+- `pnpm author:all --all`
+- `pnpm author:all --all --dry-run`
+- `pnpm workflow:check`
+- `pnpm maestro:check`
+- `pnpm maestro:android` on the visible `Maestro_ANDROID_pixel_6_android-33`
+  emulator after installing a locally built debug APK
+- `pnpm release:smoke-artifacts "$RELEASE_TAG"` after a Pages build and debug APK build
 
-## Testing posture
+The full browser suite currently has 27 full browser tests across 15 files. It remains local rather than a PR gate because it is slower and more visually diagnostic than the smoke gate.
 
-Two vitest projects share one config:
+## Visual Verification
 
-- **unit** (`tests/build-time/`, 522 tests) — Node env, pure logic only, coverage-gated at 95% lines.
-- **integration** (`tests/integration/`, 1 test so far) — happy-dom + `@rpgjs/testing/dist/setup.js`, boots the real `@rpgjs/server` + client in-process, exercises the same module graph as `src/standalone.ts`. This is where all new feature tests land.
+The visual-audit suite captures PNGs for:
 
-The old `tests/e2e/` hand-rolled vitest-browser + Playwright harness was replaced in commit `6992c10` because `@rpgjs/testing` does the same job without a browser runtime — same engine, same wiring, no socket, no chromium, faster CI.
+- desktop title choices
+- desktop starter map canvas
+- mobile starter choice dialog
+- mobile pause overlay
+- all seven authored map canvases
 
-## Known limits
+Curated copies live under `docs/screenshots/visual-audit/`. The golden-path browser spec also emits periodic screenshot, JSON diagnostic, and Markdown checklist artifacts that cover map ID, player position, collision context, visible HUD state, tile context, camera scale, and visual-cohesion warnings.
 
-- **Integration suite is thin.** `boot.test.ts` proves the player connects and lands on `ma_tomo_lili`. Starter ceremony, warp flow, encounter, catch, respawn all still need integration tests. This is the next priority.
-- **RPG.js v5 is beta.** `5.0.0-beta.1` across all `@rpgjs/*` packages. API churn is still possible; see `docs/ROADMAP.md` risk list.
-- **`@rpgjs/common/src/rooms/WorldMaps.ts`** ships with a known type error; `pnpm typecheck` filters it via pipefail grep. Revisit when v5 goes stable.
+These artifacts are acceptance inputs, not decorative output. For any UI/map/tile change, inspect them before claiming the game still looks right.
+
+## Hard Rules
+
+- **Native-English story only.** Do not rebuild a corpus/translation layer or language-learning mechanics.
+- **Maps are build artifacts.** Edit specs and regenerate. Never hand-edit emitted `.tmx`, `.tmj`, or preview PNGs.
+- **Every monster is catchable.** Difficulty is rarity/catch odds/encounter context, not an uncapturable flag.
+- **Mobile-first.** Every action must be reachable by mouse/tap; keyboard is a desktop shortcut.
+- **No direct browser storage.** Use the persistence wrappers.
+- **Docs > tests > code.** Update docs first when scope changes.
+- **Integration and headed E2E carry player-visible behavior.** Unit tests are for pure logic and build-time contracts.
+- **Always use pull requests.** Do not push directly to `main`.
+
+## Current Limits
+
+- **The game is not a finished v1.0.** The current arc is playable, but still needs deeper quest density, richer narrative payoff, combat tuning, final audio, stronger art direction, and broader device proof.
+- **Map composition remains the largest product-quality gap.** Several maps are functionally valid but still too sparse or visually inconsistent for a polished 16-bit RPG feel.
+- **The Android APK is debug-only.** Signed release APK support is deferred until keystore, `assembleRelease`, release-asset attachment, and physical-device QA are implemented.
+- **Maestro is partially device-proven.** Android debug APK smoke passed on a visible Android emulator with the locally built debug APK; iOS Pages simulator proof and release-attached APK proof remain release-QA work.
+- **Playwright in CI is smoke-only.** Full browser progression and visual audit are local gates today.
+- **RPG.js v5 is beta.** Package API churn remains possible.
+
+## Current Emphasis
+
+The active pivot is to complete Rivers Reckoning as a native-English game rather than preserving the former language-learning premise. The immediate priority is to keep run/build/deploy green while replacing product-facing vocabulary/corpus claims with clue, investigation, quest, and narrative systems that support a richer beginning-to-end game.

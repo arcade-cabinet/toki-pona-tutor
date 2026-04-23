@@ -1,13 +1,29 @@
-import { type EventDefinition, RpgPlayer, ATK, PDEF } from '@rpgjs/server';
-import { BattleAi, EnemyType } from '@rpgjs/action-battle/server';
-import { playDialog } from './dialog';
-import { getFlag, setFlag, recordMasteredWord, getParty, awardXpToLead } from '../../platform/persistence/queries';
-import { preferences, KEYS } from '../../platform/persistence/preferences';
-import { gainXp } from './xp-curve';
-import { movesLearnedAtLevel } from './content';
+import { type EventDefinition, RpgPlayer, ATK, MAXHP, PDEF } from "@rpgjs/server";
+import { BattleAi, EnemyType } from "@rpgjs/action-battle/server";
+import { playDialog } from "./dialog";
+import { ensureBattleAi, scheduleBattleAi } from "./battle-ai";
+import { getFlag, setFlag, recordClue } from "../../platform/persistence/queries";
+import { preferences, KEYS } from "../../platform/persistence/preferences";
+import { cueAmbientBgm, cueCombatBgm, cueSfx } from "./audio-cues";
+import { BATTLE_COIN_REWARDS, grantBattleCoins } from "./shop";
+import {
+    COMBAT_TARGET_PARAM,
+    playCombatFaintVisual,
+    updateCombatDamageVisuals,
+} from "./combat-visuals";
+import { awardLeadVictoryXp } from "./victory-rewards";
+import { activateLeadBattleAvatar, restoreLeadBattleAvatar } from "./lead-battle-avatar";
+import { recordQuestEventForActive } from "./quest-runtime";
+import {
+    GYM_PHASE_POLL_MS,
+    REGION_XP_CURVE,
+    SFX_CUE_CONFIG,
+    type RuntimeActionBattleConfig,
+    type RuntimeEnemyType,
+} from "../../content/gameplay";
 
 /**
- * Shared factory for the seven jan lawa (region masters).
+ * Shared factory for the current four region masters.
  *
  * Single-phase mode (omit `phase2`): one BattleAi entity for the
  * whole fight. Used for jan_ike (rival) and any leader whose
@@ -29,9 +45,9 @@ export interface GymLeaderOptions {
     /** Stable NPC id (matches dialog_id conventions + spec NPC id). */
     npcId: string;
     /** Flag set in SQLite on defeat — checked by the Warp event. */
-    badgeFlag: string;
-    /** TP word granted as a mastered-word on defeat (one sightings bump). */
-    rewardWord: string;
+    badgeFlag?: string;
+    /** Investigation clue granted on defeat. */
+    rewardClue?: string;
     /** Journey beat id to advance to on defeat (persisted to preferences). */
     nextBeatId: string;
     /** Phase-1 HP (or combined HP if no phase2 is set). */
@@ -42,13 +58,15 @@ export interface GymLeaderOptions {
     pdef: number;
     /** Base dialog id — `<base>_intro` pre-fight, `<base>_victory` post. */
     dialogBase: string;
+    /** Action-battle tuning shared with the runtime BattleAi adapter. */
+    actionBattle: RuntimeActionBattleConfig;
     /** XP awarded to the lead party creature on defeat. Optional —
      *  defaults to REGION_XP_CURVE[opts.badgeFlag] so callers don't
      *  duplicate the per-region XP schedule. Override only for
      *  non-gym leaders (e.g. the endgame rival). */
     xpYield?: number;
     /** AI archetype for phase 1; defaults to Aggressive. */
-    enemyType?: EnemyType;
+    enemyType?: RuntimeEnemyType;
     /** Graphic id (from config.client.ts spritesheets). */
     graphic?: string;
     /** Optional second phase. Triggers when hp / opts.hp < triggerAtHpFraction. */
@@ -62,7 +80,7 @@ export interface GymLeaderOptions {
         /** Phase-2 physical defense. */
         pdef: number;
         /** Phase-2 AI archetype. */
-        enemyType?: EnemyType;
+        enemyType?: RuntimeEnemyType;
         /** Optional graphic swap (second creature in the roster). */
         graphic?: string;
         /** Optional dialog id to play at the transition moment. */
@@ -70,68 +88,57 @@ export interface GymLeaderOptions {
     };
 }
 
-const PHASE_POLL_MS = 250;
-
-/**
- * XP yield per region. Canonical source of truth for gym xpYield so
- * server.ts doesn't have to hardcode magic numbers per leader. Keyed
- * by badge flag; lookup by `opts.badgeFlag` matches the existing
- * factory call shape.
- *
- * Curve is roughly +30 XP per region, matching the n^3 XP curve's
- * accelerating threshold (players level up slower as they progress,
- * so gym yield scales up to keep level gains per-gym consistent).
- */
-export const REGION_XP_CURVE: Record<string, number> = {
-    badge_sewi: 120, // jan Wawa — region 3
-    badge_telo: 150, // jan Telo — region 4
-    badge_lete: 180, // jan Lete — region 5
-    badge_suli: 220, // jan Suli — region 6
-};
+export { REGION_XP_CURVE };
 
 export function GymLeader(opts: GymLeaderOptions): EventDefinition {
-    const graphic = opts.graphic ?? 'female';
+    const badgeFlag = requiredGymConfig(opts.badgeFlag, opts.npcId, "badgeFlag");
+    const rewardClue = requiredGymConfig(opts.rewardClue, opts.npcId, "rewardClue");
+    const graphic = requiredGymConfig(opts.graphic, opts.npcId, "graphic");
     return {
         onInit() {
             this.setGraphic(graphic);
+            this.param[MAXHP] = opts.hp;
+            this.param[COMBAT_TARGET_PARAM] = 1;
             this.hp = opts.hp;
             this.param[ATK] = opts.atk;
             this.param[PDEF] = opts.pdef;
 
-            const attachAi = (archetype: EnemyType): void => {
-                new BattleAi(this as never, {
-                    enemyType: archetype,
-                    attackCooldown: 1000,
-                    visionRange: 160,
-                    attackRange: 32,
-                    fleeThreshold: 0,
-                    onDefeated: async (_event, attacker) => {
-                        await setFlag(opts.badgeFlag, '1');
-                        await recordMasteredWord(opts.rewardWord);
+            const attachAi = (
+                archetype: RuntimeEnemyType | undefined,
+                actionBattle = opts.actionBattle,
+            ) => {
+                return new BattleAi(this as never, {
+                    enemyType: resolveEnemyType(archetype),
+                    attackCooldown: actionBattle.attackCooldownMs,
+                    visionRange: actionBattle.visionRange,
+                    attackRange: actionBattle.attackRange,
+                    fleeThreshold: actionBattle.fleeThreshold,
+                    onDefeated: async (event, attacker) => {
+                        playCombatFaintVisual(event, {
+                            animationName: "hurt",
+                        });
+                        await setFlag(badgeFlag, "1");
+                        await recordClue(rewardClue);
                         await preferences.set(KEYS.journeyBeat, opts.nextBeatId);
+                        if (attacker) {
+                            await cueSfx(attacker as RpgPlayer, SFX_CUE_CONFIG.trainerFaint);
+                            await cueAmbientBgm(attacker as RpgPlayer);
+                            await restoreLeadBattleAvatar(attacker as RpgPlayer);
+                            await grantBattleCoins(
+                                attacker as RpgPlayer,
+                                BATTLE_COIN_REWARDS[
+                                    badgeFlag as keyof typeof BATTLE_COIN_REWARDS
+                                ] ?? 6,
+                            );
+                        }
 
-                        // Award XP to the lead party creature. If the party is
-                        // empty (edge case — shouldn't happen post-starter) we
-                        // still advance the beat; XP just has nowhere to go.
-                        const party = await getParty();
-                        const lead = party[0];
-                        const xpYield = opts.xpYield ?? REGION_XP_CURVE[opts.badgeFlag] ?? 100;
-                        if (lead && attacker) {
-                            const { xp, levelUps } = gainXp(lead.xp, xpYield);
-                            const newLevel = levelUps.length
-                                ? levelUps[levelUps.length - 1].to
-                                : lead.level;
-                            await awardXpToLead(xp, newLevel);
-
-                            await (attacker as RpgPlayer).showText(`+${xpYield} xp`);
-                            for (const lvl of levelUps) {
-                                await (attacker as RpgPlayer).showText(
-                                    `${lead.species_id} L${lvl.from} → L${lvl.to}`,
-                                );
-                                for (const moveId of movesLearnedAtLevel(lead.species_id, lvl.to)) {
-                                    await (attacker as RpgPlayer).showText(`learned: ${moveId}`);
-                                }
-                            }
+                        const xpYield = opts.xpYield ?? REGION_XP_CURVE[badgeFlag] ?? 100;
+                        if (attacker) {
+                            await awardLeadVictoryXp(attacker as RpgPlayer, xpYield);
+                            await recordQuestEventForActive(attacker as RpgPlayer, {
+                                type: "defeat",
+                                npcId: opts.npcId,
+                            });
                         }
 
                         if (attacker) {
@@ -142,10 +149,12 @@ export function GymLeader(opts: GymLeaderOptions): EventDefinition {
                         // gains survive if the player quits before the
                         // next map change fires onJoinMap autosave.
                         if (attacker) {
-                            const save = (attacker as unknown as {
-                                save?: (slot: number) => Promise<void>;
-                            }).save;
-                            if (typeof save === 'function') {
+                            const save = (
+                                attacker as unknown as {
+                                    save?: (slot: number) => Promise<void>;
+                                }
+                            ).save;
+                            if (typeof save === "function") {
                                 try {
                                     await save.call(attacker, 0);
                                 } catch {
@@ -157,7 +166,7 @@ export function GymLeader(opts: GymLeaderOptions): EventDefinition {
                 });
             };
 
-            attachAi(opts.enemyType ?? EnemyType.Aggressive);
+            scheduleBattleAi(this as never, () => attachAi(opts.enemyType));
 
             // Phase-2 poller. Runs only if phase2 is configured; self-
             // stops after the transition or if the entity is removed.
@@ -167,7 +176,7 @@ export function GymLeader(opts: GymLeaderOptions): EventDefinition {
                 const timer = setInterval(() => {
                     // If the entity's been removed from the map, drop.
                     const hp = (this as unknown as { hp?: number }).hp;
-                    if (typeof hp !== 'number' || hp <= 0) {
+                    if (typeof hp !== "number" || hp <= 0) {
                         clearInterval(timer);
                         return;
                     }
@@ -176,37 +185,66 @@ export function GymLeader(opts: GymLeaderOptions): EventDefinition {
                         clearInterval(timer);
                         void runPhaseTransition(this, opts.phase2!, attachAi);
                     }
-                }, PHASE_POLL_MS);
+                }, GYM_PHASE_POLL_MS);
             }
         },
+        onChanges() {
+            updateCombatDamageVisuals(this as never);
+            void ensureBattleAi(this as never);
+        },
         async onAction(player: RpgPlayer) {
-            const already = await getFlag(opts.badgeFlag);
+            const already = await getFlag(badgeFlag);
             if (already) {
                 await playDialog(player, `${opts.dialogBase}_victory`);
                 return;
             }
             await playDialog(player, `${opts.dialogBase}_intro`);
+            await activateLeadBattleAvatar(player);
+            await cueCombatBgm(player);
         },
     };
 }
 
+function requiredGymConfig(value: string | undefined, npcId: string, key: string): string {
+    if (value) return value;
+    throw new Error(`[gym-leader] ${npcId} is missing ${key}`);
+}
+
 async function runPhaseTransition(
     event: unknown,
-    phase2: NonNullable<GymLeaderOptions['phase2']>,
-    attachAi: (t: EnemyType) => void,
+    phase2: NonNullable<GymLeaderOptions["phase2"]>,
+    attachAi: (t: RuntimeEnemyType | undefined) => void,
 ): Promise<void> {
     const typed = event as {
         hp: number;
-        param: Record<number, number>;
+        param: Record<string | number, number>;
         setGraphic?: (id: string) => void;
     };
+    typed.param[MAXHP] = phase2.hp;
+    typed.param[COMBAT_TARGET_PARAM] = 1;
     typed.hp = phase2.hp;
     typed.param[ATK] = phase2.atk;
     typed.param[PDEF] = phase2.pdef;
     if (phase2.graphic && typed.setGraphic) typed.setGraphic(phase2.graphic);
-    attachAi(phase2.enemyType ?? EnemyType.Aggressive);
+    attachAi(phase2.enemyType);
     // Transition dialog is optional and best-effort — we don't know
     // which player triggered the phase, so we cannot showText() here.
     // The dialog id is reserved for a future player-aware hook.
     void phase2.transitionDialogId;
+}
+
+export function resolveEnemyType(type: RuntimeEnemyType | undefined): EnemyType {
+    switch (type) {
+        case "defensive":
+            return EnemyType.Defensive;
+        case "ranged":
+            return EnemyType.Ranged;
+        case "tank":
+            return EnemyType.Tank;
+        case "berserker":
+            return EnemyType.Berserker;
+        case "aggressive":
+        case undefined:
+            return EnemyType.Aggressive;
+    }
 }

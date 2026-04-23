@@ -1,13 +1,31 @@
 {
   "id": "jan_utala_suli",
-  "name": { "en": "utala" },
-  "description": { "en": "She isn't afraid of snakes." },
+  "name": {
+    "en": "Stoneclaw"
+  },
+  "description": {
+    "en": "A mountain bruiser that uses its claws like climbing picks."
+  },
   "type": "wawa",
-  "base_stats": { "hp": 85, "attack": 80, "defense": 74, "speed": 42 },
+  "base_stats": {
+    "hp": 85,
+    "attack": 80,
+    "defense": 74,
+    "speed": 42
+  },
   "learnset": [
-    { "level": 1, "move_id": "utala" },
-    { "level": 1, "move_id": "kiwen_wawa" },
-    { "level": 12, "move_id": "utala_lili" }
+    {
+      "level": 1,
+      "move_id": "utala"
+    },
+    {
+      "level": 1,
+      "move_id": "kiwen_wawa"
+    },
+    {
+      "level": 12,
+      "move_id": "utala_lili"
+    }
   ],
   "catch_rate": 0.12,
   "xp_yield": 180,
@@ -17,16 +35,78 @@
     "frame_width": 32,
     "frame_height": 32,
     "animations": {
-      "idle":    { "row": 0,  "col_start": 0, "cols": 4, "fps": 4,  "loop": true  },
-      "walk":    { "row": 1,  "col_start": 0, "cols": 4, "fps": 8,  "loop": true  },
-      "attack":  { "row": 2,  "col_start": 0, "cols": 4, "fps": 12, "loop": false },
-      "taunt":   { "row": 3,  "col_start": 0, "cols": 4, "fps": 8,  "loop": false },
-      "hurt":    { "row": 4,  "col_start": 0, "cols": 4, "fps": 8,  "loop": false },
-      "special": { "row": 5,  "col_start": 0, "cols": 4, "fps": 12, "loop": false },
-      "defend":  { "row": 6,  "col_start": 0, "cols": 4, "fps": 6,  "loop": false },
-      "death":   { "row": 7,  "col_start": 0, "cols": 4, "fps": 5,  "loop": false },
-      "cast":    { "src": "/assets/bosses/dread-knight/thrust-attack-non-dash-version.png", "row": 0, "col_start": 0, "cols": 8, "fps": 12, "loop": false },
-      "flee":    { "src": "/assets/bosses/dread-knight/thrust-dash-attack.png",             "row": 0, "col_start": 0, "cols": 8, "fps": 14, "loop": false }
+      "idle": {
+        "row": 0,
+        "col_start": 0,
+        "cols": 4,
+        "fps": 4,
+        "loop": true
+      },
+      "walk": {
+        "row": 1,
+        "col_start": 0,
+        "cols": 4,
+        "fps": 8,
+        "loop": true
+      },
+      "attack": {
+        "row": 2,
+        "col_start": 0,
+        "cols": 4,
+        "fps": 12,
+        "loop": false
+      },
+      "taunt": {
+        "row": 3,
+        "col_start": 0,
+        "cols": 4,
+        "fps": 8,
+        "loop": false
+      },
+      "hurt": {
+        "row": 4,
+        "col_start": 0,
+        "cols": 4,
+        "fps": 8,
+        "loop": false
+      },
+      "special": {
+        "row": 5,
+        "col_start": 0,
+        "cols": 4,
+        "fps": 12,
+        "loop": false
+      },
+      "defend": {
+        "row": 6,
+        "col_start": 0,
+        "cols": 4,
+        "fps": 6,
+        "loop": false
+      },
+      "death": {
+        "row": 7,
+        "col_start": 0,
+        "cols": 4,
+        "fps": 5,
+        "loop": false
+      },
+      "cast": {
+        "src": "/assets/bosses/dread-knight/thrust-attack-non-dash-version.png",
+        "row": 0,
+        "col_start": 0,
+        "cols": 8,
+        "fps": 12,
+        "loop": false
+      },
+      "flee": {
+        "src": "/assets/bosses/dread-knight/thrust-dash-attack.png",
+        "row": 0,
+        "col_start": 0,
+        "cols": 8,
+        "fps": 14,
+        "loop": false
+      }
     },
     "tier": "legendary"
   }

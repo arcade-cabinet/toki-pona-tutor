@@ -3,7 +3,13 @@
   "npc_id": "jan_moku_pona",
   "priority": 0,
   "beats": [
-    { "text": { "en": "Fresh fruit is good for the health." }, "mood": "happy", "glyph": "moku" }
+    {
+      "text": {
+        "en": "Hot food helps after a long river walk."
+      },
+      "mood": "happy",
+      "glyph": "orchard-fruit"
+    }
   ],
   "triggers": {}
 }

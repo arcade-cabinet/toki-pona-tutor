@@ -1,13 +1,31 @@
 {
   "id": "jan_pi_sewi_pimeja",
-  "name": { "en": "pimeja" },
-  "description": { "en": "The snow is white." },
+  "name": {
+    "en": "Nightspike"
+  },
+  "description": {
+    "en": "A dark frost creature with a crest like frozen midnight."
+  },
   "type": "lete",
-  "base_stats": { "hp": 55, "attack": 42, "defense": 48, "speed": 28 },
+  "base_stats": {
+    "hp": 55,
+    "attack": 42,
+    "defense": 48,
+    "speed": 28
+  },
   "learnset": [
-    { "level": 1, "move_id": "lete_lili" },
-    { "level": 1, "move_id": "utala_lili" },
-    { "level": 10, "move_id": "lete_suli" }
+    {
+      "level": 1,
+      "move_id": "lete_lili"
+    },
+    {
+      "level": 1,
+      "move_id": "utala_lili"
+    },
+    {
+      "level": 10,
+      "move_id": "lete_suli"
+    }
   ],
   "catch_rate": 0.35,
   "xp_yield": 70,
@@ -18,13 +36,55 @@
     "frame_width": 16,
     "frame_height": 32,
     "animations": {
-      "idle":   { "row": 0, "col_start": 0, "cols": 4, "fps": 4,  "loop": true  },
-      "taunt":  { "row": 1, "col_start": 0, "cols": 4, "fps": 6,  "loop": false },
-      "walk":   { "row": 2, "col_start": 0, "cols": 4, "fps": 8,  "loop": true  },
-      "defend": { "row": 3, "col_start": 0, "cols": 4, "fps": 6,  "loop": false },
-      "attack": { "row": 4, "col_start": 0, "cols": 4, "fps": 10, "loop": false },
-      "hurt":   { "row": 5, "col_start": 0, "cols": 4, "fps": 8,  "loop": false },
-      "death":  { "row": 6, "col_start": 0, "cols": 4, "fps": 6,  "loop": false }
+      "idle": {
+        "row": 0,
+        "col_start": 0,
+        "cols": 4,
+        "fps": 4,
+        "loop": true
+      },
+      "taunt": {
+        "row": 1,
+        "col_start": 0,
+        "cols": 4,
+        "fps": 6,
+        "loop": false
+      },
+      "walk": {
+        "row": 2,
+        "col_start": 0,
+        "cols": 4,
+        "fps": 8,
+        "loop": true
+      },
+      "defend": {
+        "row": 3,
+        "col_start": 0,
+        "cols": 4,
+        "fps": 6,
+        "loop": false
+      },
+      "attack": {
+        "row": 4,
+        "col_start": 0,
+        "cols": 4,
+        "fps": 10,
+        "loop": false
+      },
+      "hurt": {
+        "row": 5,
+        "col_start": 0,
+        "cols": 4,
+        "fps": 8,
+        "loop": false
+      },
+      "death": {
+        "row": 6,
+        "col_start": 0,
+        "cols": 4,
+        "fps": 6,
+        "loop": false
+      }
     },
     "tier": "common"
   }

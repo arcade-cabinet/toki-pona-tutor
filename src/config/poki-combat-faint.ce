@@ -1,0 +1,80 @@
+<Sprite sheet={sheet} x={x} y={animatedY} anchor={0.5} alpha={alpha} />
+
+<script>
+    import { computed, signal, tick } from "canvasengine";
+    import { RpgClientEngine, inject } from "@rpgjs/client";
+
+    const {
+        x,
+        y,
+        graphic,
+        animationName,
+        duration: durationProp,
+        dropPx: dropPxProp,
+        fadeStart: fadeStartProp,
+        onFinish
+    } = defineProps({
+        duration: {
+            default: 500
+        },
+        dropPx: {
+            default: 40
+        },
+        fadeStart: {
+            default: 0.35
+        }
+    });
+
+    const client = inject(RpgClientEngine);
+    const progress = signal(0);
+    let elapsed = 0;
+    let finished = false;
+
+    const readProp = (value, fallback) => {
+        const raw = typeof value === "function" ? value() : value;
+        return raw ?? fallback;
+    };
+
+    const durationMs = computed(() => {
+        const parsed = Number(readProp(durationProp, 500));
+        return Number.isFinite(parsed) ? Math.max(1, parsed) : 500;
+    });
+
+    const dropPx = computed(() => {
+        const parsed = Number(readProp(dropPxProp, 40));
+        return Number.isFinite(parsed) ? parsed : 40;
+    });
+
+    const fadeStart = computed(() => {
+        const parsed = Number(readProp(fadeStartProp, 0.35));
+        return Number.isFinite(parsed) ? Math.max(0, Math.min(0.95, parsed)) : 0.35;
+    });
+
+    const sheet = computed(() => ({
+        definition: client.getSpriteSheet(readProp(graphic, "")),
+        playing: readProp(animationName, "stand") || "stand"
+    }));
+
+    const animatedY = computed(() => {
+        const baseY = Number(readProp(y, 0));
+        return baseY + progress() * dropPx();
+    });
+
+    const alpha = computed(() => {
+        const p = progress();
+        const start = fadeStart();
+        if (p <= start) return 1;
+        return Math.max(0, 1 - (p - start) / (1 - start));
+    });
+
+    tick(({ deltaTime }) => {
+        if (finished) return;
+        elapsed += Math.max(0, deltaTime);
+        const ratio = Math.min(1, elapsed / durationMs());
+        progress.set(ratio);
+        if (ratio >= 1) {
+            finished = true;
+            if (onFinish) onFinish();
+        }
+    });
+</script>

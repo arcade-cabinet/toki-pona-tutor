@@ -1,4 +1,8 @@
-import { defineConfig } from 'vitest/config';
+import { defineConfig } from "vitest/config";
+import { resolve, dirname } from "node:path";
+import { fileURLToPath } from "node:url";
+
+const __dirname = dirname(fileURLToPath(import.meta.url));
 
 /**
  * One vitest config, two projects:
@@ -22,25 +26,34 @@ import { defineConfig } from 'vitest/config';
  *   pnpm test:coverage           — coverage gate on unit project
  */
 export default defineConfig({
+    resolve: {
+        alias: {
+            src: resolve(__dirname, "src"),
+        },
+    },
     test: {
         projects: [
             {
                 extends: true,
                 test: {
-                    name: 'unit',
-                    include: ['tests/build-time/**/*.test.ts'],
-                    environment: 'node',
+                    name: "unit",
+                    include: ["tests/build-time/**/*.test.ts"],
+                    environment: "node",
                     testTimeout: 30_000,
                     hookTimeout: 30_000,
+                    // Several build-time suites exercise shared content,
+                    // image, and persistence singletons. Serialize files so
+                    // `pnpm test:unit` matches CI deterministically.
+                    fileParallelism: false,
                 },
             },
             {
                 extends: true,
                 test: {
-                    name: 'integration',
-                    include: ['tests/integration/**/*.test.ts'],
-                    environment: 'happy-dom',
-                    setupFiles: ['@rpgjs/testing/dist/setup.js'],
+                    name: "integration",
+                    include: ["tests/integration/**/*.test.ts"],
+                    environment: "happy-dom",
+                    setupFiles: ["@rpgjs/testing/dist/setup.js"],
                     testTimeout: 30_000,
                     hookTimeout: 30_000,
                     // RPG.js engine uses module-level singletons that
@@ -50,34 +63,34 @@ export default defineConfig({
             },
         ],
         coverage: {
-            provider: 'v8',
-            reporter: ['text-summary', 'json-summary', 'lcov'],
+            provider: "v8",
+            reporter: ["text-summary", "json-summary", "lcov"],
             // Coverage is measured on pure-logic modules only. Runtime
             // wiring, platform adapters, and RPG.js boot code are
             // exercised by integration + E2E, not by the coverage gate.
             include: [
-                'src/modules/main/catch-math.ts',
-                'src/modules/main/type-matchup.ts',
-                'src/modules/main/xp-curve.ts',
-                'src/modules/main/status-effect.ts',
-                'src/modules/main/ambient-events.ts',
-                'src/modules/main/quest.ts',
-                'src/modules/main/daycare.ts',
-                'src/modules/main/new-game-plus.ts',
-                'src/modules/main/sentence-log.ts',
-                'src/modules/main/micro-game.ts',
-                'src/modules/main/dictionary-export.ts',
-                'src/modules/main/treasure-chest.ts',
-                'src/modules/main/audio.ts',
-                'src/modules/main/sfx.ts',
-                'src/modules/main/rematch.ts',
-                'src/modules/main/victory-sequence.ts',
-                'src/modules/main/bestiary.ts',
-                'src/modules/main/party-order.ts',
-                'src/styles/brand-preferences.ts',
-                'src/styles/hp-bar.ts',
-                'src/styles/sitelen-glyph.ts',
-                'src/platform/persistence/settings.ts',
+                "src/modules/main/catch-math.ts",
+                "src/modules/main/type-matchup.ts",
+                "src/modules/main/xp-curve.ts",
+                "src/modules/main/status-effect.ts",
+                "src/modules/main/ambient-events.ts",
+                "src/modules/main/quest.ts",
+                "src/modules/main/daycare.ts",
+                "src/modules/main/new-game-plus.ts",
+                "src/modules/main/sentence-log.ts",
+                "src/modules/main/micro-game.ts",
+                "src/modules/main/dictionary-export.ts",
+                "src/modules/main/treasure-chest.ts",
+                "src/modules/main/audio.ts",
+                "src/modules/main/sfx.ts",
+                "src/modules/main/rematch.ts",
+                "src/modules/main/victory-sequence.ts",
+                "src/modules/main/bestiary.ts",
+                "src/modules/main/party-order.ts",
+                "src/styles/brand-preferences.ts",
+                "src/styles/hp-bar.ts",
+                "src/styles/sitelen-glyph.ts",
+                "src/platform/persistence/settings.ts",
             ],
             thresholds: {
                 lines: 95,

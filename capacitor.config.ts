@@ -1,8 +1,8 @@
 import type { CapacitorConfig } from '@capacitor/cli';
 
 const config: CapacitorConfig = {
-  appId: 'com.pokisoweli.game',
-  appName: 'poki soweli',
+  appId: 'com.riversreckoning.game',
+  appName: 'Rivers Reckoning',
   webDir: 'dist',
   server: {
     // Allow localhost/devserver access from the Android emulator during dev.

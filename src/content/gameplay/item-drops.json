@@ -1,0 +1,14 @@
+{
+  "fallback_by_type": {
+    "kasi": "kili",
+    "telo": "telo_pona",
+    "lete": "telo_pona",
+    "seli": "ma",
+    "wawa": "ma"
+  },
+  "tier_defaults": {
+    "common": { "chance": 0.18, "count": 1 },
+    "uncommon": { "chance": 0.32, "count": 1 },
+    "legendary": { "chance": 1, "count": 2 }
+  }
+}

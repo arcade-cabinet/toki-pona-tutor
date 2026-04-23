@@ -1,0 +1,77 @@
+<DOMContainer width="0" height="0"></DOMContainer>
+
+<script>
+    import { computed, mount, signal, effect } from "canvasengine";
+    import { inject, RpgClientEngine, RpgGui } from "@rpgjs/client";
+    import { HUD_HINT_CONFIG } from "../content/gameplay";
+    import { formatGameplayTemplate } from "../content/gameplay/templates";
+    import { hasBlockingGui } from "./hud-gui-visibility";
+    import { getInteractionHintForPlayer, triggerInteractionHint } from "./interaction-hint";
+    import { riversUiBridge } from "../ui/bridge";
+
+    const engine = inject(RpgClientEngine);
+    const guiService = inject(RpgGui);
+    const currentPlayer = engine.scene.currentPlayer;
+    const refreshVersion = signal(0);
+
+    const hintData = computed(() => {
+        refreshVersion();
+        engine.scene.data();
+        engine.sceneMap.events();
+        const player = currentPlayer();
+        if (!player) return null;
+        player.x();
+        player.y();
+        if (hasBlockingGui(guiService)) return null;
+        return getInteractionHintForPlayer(engine, player);
+    });
+
+    const hintStyle = computed(() => {
+        const player = currentPlayer();
+        const value = hintData();
+        const mapData = engine.scene.data?.();
+        const viewport = engine.canvasElement?.props?.context?.viewport;
+        if (!player || !value || !viewport) return {};
+
+        const tileWidth = Number(mapData?.tiled?.tilewidth ?? 16);
+        const screen = viewport.toScreen(player.x() + tileWidth / 2, player.y());
+        return {
+            left: `${screen.x}px`,
+            top: `${screen.y + HUD_HINT_CONFIG.offsetY}px`,
+        };
+    });
+
+    function activateHint() {
+        const value = hintData();
+        if (!value) return;
+        triggerInteractionHint(engine, value);
+    }
+
+    effect(() => {
+        const value = hintData();
+        if (!currentPlayer() || !value || hasBlockingGui(guiService)) {
+            riversUiBridge.update({ hudHint: null });
+            return;
+        }
+        riversUiBridge.update({
+            hudHint: {
+                glyph: value.glyph ?? "",
+                ariaLabel: value.glyph
+                    ? formatGameplayTemplate(HUD_HINT_CONFIG.ariaLabelTemplate, { glyph: value.glyph })
+                    : HUD_HINT_CONFIG.emptyAriaLabel,
+                style: hintStyle(),
+                onActivate: activateHint,
+            },
+        });
+    });
+
+    mount(() => {
+        const pollId = window.setInterval(() => {
+            refreshVersion.set(refreshVersion() + 1);
+        }, HUD_HINT_CONFIG.pollMs);
+        return () => {
+            window.clearInterval(pollId);
+            riversUiBridge.update({ hudHint: null });
+        };
+    });
+</script>

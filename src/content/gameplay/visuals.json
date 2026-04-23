@@ -1,0 +1,358 @@
+{
+  "combat_hp_bar": {
+    "width": 58,
+    "height": 9,
+    "padding": 1,
+    "hit_effect_ms": 150,
+    "faint_effect_ms": 500,
+    "damage_popup_ms": 650,
+    "hp_tween_ms": 400,
+    "hp_label_template": "HP {current} / {max}",
+    "damage_label_template": "-{damage}",
+    "tiers": [
+      {
+        "class": "hp-healthy",
+        "label": "healthy",
+        "above_ratio": 0.5
+      },
+      {
+        "class": "hp-wounded",
+        "label": "hurt",
+        "above_ratio": 0.2
+      },
+      {
+        "class": "hp-critical",
+        "label": "critical"
+      }
+    ],
+    "colors": {
+      "hp-healthy": "#4a9d5a",
+      "hp-wounded": "#d98a3f",
+      "hp-critical": "#c85a4a"
+    }
+  },
+  "combat_target_reticle": {
+    "padding": 7,
+    "min_width": 34,
+    "min_height": 32,
+    "corner_length": 9,
+    "stroke_width": 3,
+    "pulse_ms": 900,
+    "alpha_min": 0.78,
+    "alpha_max": 0.96,
+    "primary_color": "#4fd8ff",
+    "shadow_color": "#12333d"
+  },
+  "tap_controls": {
+    "blocking_ui_selectors": [
+      ".rr-dialog",
+      ".rr-save-load",
+      "[data-testid=\"pause-overlay\"]"
+    ],
+    "target_blocking_ui_selectors": [
+      ".rr-title-screen",
+      ".rr-lead-movebar",
+      ".rr-hud-menu-toggle",
+      ".rr-hud-hint"
+    ]
+  },
+  "map_viewport": {
+    "default_tile_px": 16,
+    "desktop_zoom": 3,
+    "mobile_zoom": 3,
+    "min_tile_screen_px": 56,
+    "max_zoom": 5,
+    "poll_ms": 100
+  },
+  "pixi": {
+    "guarded_fx_aliases": [
+      "fx_settings",
+      "fx_spritesheet"
+    ]
+  },
+  "sprite_layouts": {
+    "player_three_frame": {
+      "frames_width": 3,
+      "frames_height": 4,
+      "stand_frame_x": 1,
+      "stand_rows": {
+        "down": 0,
+        "left": 1,
+        "right": 2,
+        "up": 3
+      },
+      "walk_rows": {
+        "down": 0,
+        "left": 1,
+        "right": 2,
+        "up": 3
+      },
+      "walk_frame_count": 3,
+      "walk_speed": 10,
+      "attack_speed": 6
+    },
+    "npc_four_by_thirty_one": {
+      "frames_width": 4,
+      "frames_height": 31,
+      "stand_frame_x": 1,
+      "stand_rows": {
+        "down": 1,
+        "left": 4,
+        "right": 7,
+        "up": 10
+      },
+      "walk_rows": {
+        "down": 0,
+        "left": 3,
+        "right": 6,
+        "up": 9
+      },
+      "walk_frame_count": 3,
+      "walk_speed": 10
+    },
+    "combatant_four_by_thirty_one": {
+      "frames_width": 4,
+      "frames_height": 31,
+      "stand_frame_x": 1,
+      "stand_rows": {
+        "down": 1,
+        "left": 4,
+        "right": 7,
+        "up": 10
+      },
+      "walk_rows": {
+        "down": 0,
+        "left": 3,
+        "right": 6,
+        "up": 9
+      },
+      "walk_frame_count": 4,
+      "walk_speed": 10,
+      "attack_speed": 6,
+      "skill_speed": 6,
+      "defense_speed": 8,
+      "hurt_speed": 8
+    }
+  },
+  "player_spritesheets": [
+    {
+      "id": "hero",
+      "image": "spritesheets/hero.png",
+      "layout_id": "player_three_frame"
+    },
+    {
+      "id": "female",
+      "image": "spritesheets/female.png",
+      "layout_id": "player_three_frame"
+    }
+  ],
+  "npc_spritesheets": [
+    {
+      "id": "npc_guard_spear",
+      "image": "assets/npcs/guards/guard-spearman.png",
+      "layout_id": "npc_four_by_thirty_one"
+    },
+    {
+      "id": "npc_guard_archer",
+      "image": "assets/npcs/guards/guard-archer-non-combat.png",
+      "layout_id": "npc_four_by_thirty_one"
+    },
+    {
+      "id": "npc_guard_sword",
+      "image": "assets/npcs/guards/guard-swordsman.png",
+      "layout_id": "npc_four_by_thirty_one"
+    },
+    {
+      "id": "npc_villager_fem_hana",
+      "image": "assets/npcs/villagers-fem/hana/hana.png",
+      "layout_id": "npc_four_by_thirty_one"
+    },
+    {
+      "id": "npc_villager_fem_julz",
+      "image": "assets/npcs/villagers-fem/julz/julz.png",
+      "layout_id": "npc_four_by_thirty_one"
+    },
+    {
+      "id": "npc_villager_fem_khali",
+      "image": "assets/npcs/villagers-fem/khali/khali.png",
+      "layout_id": "npc_four_by_thirty_one"
+    },
+    {
+      "id": "npc_villager_fem_meza",
+      "image": "assets/npcs/villagers-fem/meza/meza.png",
+      "layout_id": "npc_four_by_thirty_one"
+    },
+    {
+      "id": "npc_villager_fem_nel",
+      "image": "assets/npcs/villagers-fem/nel/nel.png",
+      "layout_id": "npc_four_by_thirty_one"
+    },
+    {
+      "id": "npc_villager_fem_seza",
+      "image": "assets/npcs/villagers-fem/seza/seza.png",
+      "layout_id": "npc_four_by_thirty_one"
+    },
+    {
+      "id": "npc_villager_fem_vash",
+      "image": "assets/npcs/villagers-fem/vash/vash.png",
+      "layout_id": "npc_four_by_thirty_one"
+    },
+    {
+      "id": "npc_villager_masc_artun",
+      "image": "assets/npcs/villagers-masc/artun/artun.png",
+      "layout_id": "npc_four_by_thirty_one"
+    },
+    {
+      "id": "npc_villager_masc_grym",
+      "image": "assets/npcs/villagers-masc/grym/grym.png",
+      "layout_id": "npc_four_by_thirty_one"
+    },
+    {
+      "id": "npc_villager_masc_hark",
+      "image": "assets/npcs/villagers-masc/hark/hark.png",
+      "layout_id": "npc_four_by_thirty_one"
+    },
+    {
+      "id": "npc_villager_masc_janik",
+      "image": "assets/npcs/villagers-masc/janik/janik.png",
+      "layout_id": "npc_four_by_thirty_one"
+    },
+    {
+      "id": "npc_villager_masc_nyro",
+      "image": "assets/npcs/villagers-masc/nyro/nyro.png",
+      "layout_id": "npc_four_by_thirty_one"
+    },
+    {
+      "id": "npc_villager_masc_reza",
+      "image": "assets/npcs/villagers-masc/reza/reza.png",
+      "layout_id": "npc_four_by_thirty_one"
+    },
+    {
+      "id": "npc_villager_masc_serek",
+      "image": "assets/npcs/villagers-masc/serek/serek.png",
+      "layout_id": "npc_four_by_thirty_one"
+    },
+    {
+      "id": "npc_warrior_archer",
+      "image": "assets/npcs/warriors/archer-non-combat.png",
+      "layout_id": "npc_four_by_thirty_one"
+    },
+    {
+      "id": "npc_warrior_2h_sword",
+      "image": "assets/npcs/warriors/2-handed-swordsman-non-combat.png",
+      "layout_id": "npc_four_by_thirty_one"
+    },
+    {
+      "id": "npc_warrior_sword_shield",
+      "image": "assets/npcs/warriors/sword-and-shield-fighter-non-combat.png",
+      "layout_id": "npc_four_by_thirty_one"
+    }
+  ],
+  "combatant_spritesheets": [
+    {
+      "id": "combatant_mage_fem_red",
+      "image": "assets/combatants/mages/mage-fem-red.png",
+      "layout_id": "combatant_four_by_thirty_one",
+      "attack_row": 21,
+      "skill_row": 21,
+      "hurt_row": 24
+    },
+    {
+      "id": "combatant_mage_hooded_brown",
+      "image": "assets/combatants/mages/mage-hooded-brown.png",
+      "layout_id": "combatant_four_by_thirty_one",
+      "attack_row": 21,
+      "skill_row": 21,
+      "hurt_row": 24
+    },
+    {
+      "id": "combatant_rogue_hooded",
+      "image": "assets/combatants/rogues/hooded-rogue-non-combat-daggers-equipped.png",
+      "layout_id": "combatant_four_by_thirty_one",
+      "attack_row": 21,
+      "hurt_row": 24
+    },
+    {
+      "id": "combatant_warrior_axe",
+      "image": "assets/combatants/warriors/axe-warrior-16x16.png",
+      "layout_id": "combatant_four_by_thirty_one",
+      "attack_row": 21,
+      "hurt_row": 24
+    },
+    {
+      "id": "combatant_warrior_paladin",
+      "image": "assets/combatants/warriors/paladin/non-combat-animations.png",
+      "layout_id": "combatant_four_by_thirty_one",
+      "attack_row": 21,
+      "defense_row": 24,
+      "hurt_row": 27
+    }
+  ],
+  "boss_spritesheets": [
+    {
+      "id": "green_dragon_idle",
+      "image": "assets/bosses/green-dragon/idle-green.png",
+      "frames_width": 32,
+      "frames_height": 1,
+      "animations": {
+        "idle": {
+          "frame_range": [
+            0,
+            31
+          ],
+          "duration": 1500
+        },
+        "stand": {
+          "frame_range": [
+            0,
+            31
+          ],
+          "duration": 1500
+        },
+        "default": {
+          "frame_range": [
+            0,
+            31
+          ],
+          "duration": 1500
+        }
+      }
+    },
+    {
+      "id": "green_dragon_death",
+      "image": "assets/bosses/green-dragon/death-animation.png",
+      "frames_width": 9,
+      "frames_height": 1,
+      "animations": {
+        "idle": {
+          "frame_range": [
+            0,
+            8
+          ],
+          "duration": 1200
+        },
+        "stand": {
+          "frame_range": [
+            0,
+            8
+          ],
+          "duration": 1200
+        },
+        "death": {
+          "frame_range": [
+            0,
+            8
+          ],
+          "duration": 1200
+        },
+        "default": {
+          "frame_range": [
+            0,
+            8
+          ],
+          "duration": 1200
+        }
+      }
+    }
+  ]
+}

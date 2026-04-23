@@ -1,0 +1,43 @@
+{
+  "maps": {
+    "riverside_home": {
+      "label": "Riverside Home",
+      "biome": "town",
+      "music_track": "bgm_village",
+      "safe_spawn": { "x": 128, "y": 128 }
+    },
+    "greenwood_road": {
+      "label": "Greenwood Road",
+      "biome": "forest",
+      "music_track": "bgm_forest"
+    },
+    "highridge_pass": {
+      "label": "Highridge Pass",
+      "biome": "peak",
+      "music_track": "bgm_mountain"
+    },
+    "lakehaven": {
+      "label": "Lakehaven",
+      "biome": "town",
+      "music_track": "bgm_village",
+      "safe_spawn": { "x": 32, "y": 96 }
+    },
+    "frostvale": {
+      "label": "Frostvale",
+      "biome": "ice",
+      "music_track": "bgm_snow",
+      "safe_spawn": { "x": 32, "y": 96 }
+    },
+    "dreadpeak_cavern": {
+      "label": "Dreadpeak Cavern",
+      "biome": "cave",
+      "music_track": "bgm_mountain"
+    },
+    "rivergate_approach": {
+      "label": "Rivergate Approach",
+      "biome": "water",
+      "music_track": "bgm_water"
+    }
+  },
+  "default_respawn": { "map_id": "riverside_home", "x": 128, "y": 128 }
+}

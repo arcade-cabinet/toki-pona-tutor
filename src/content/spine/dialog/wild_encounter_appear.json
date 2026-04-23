@@ -3,7 +3,13 @@
   "npc_id": null,
   "priority": 10,
   "beats": [
-    { "text": { "en": "You're an animal." }, "mood": "excited", "glyph": "soweli" }
+    {
+      "text": {
+        "en": "Something wild jumps from the grass."
+      },
+      "mood": "excited",
+      "glyph": "wild-signs"
+    }
   ],
   "triggers": {}
 }

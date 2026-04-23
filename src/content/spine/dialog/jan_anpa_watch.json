@@ -3,7 +3,13 @@
   "npc_id": "jan_anpa",
   "priority": 0,
   "beats": [
-    { "text": { "en": "I'm getting tired." }, "mood": "thinking", "glyph": "anpa" }
+    {
+      "text": {
+        "en": "The low trail looks harmless until the grass starts moving."
+      },
+      "mood": "thinking",
+      "glyph": "cave-shadow"
+    }
   ],
   "triggers": {}
 }

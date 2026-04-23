@@ -1,27 +1,37 @@
-import type { RpgPlayer } from '@rpgjs/server';
-import { preferences, KEYS } from '../../platform/persistence/preferences';
-import { recordMasteredWord, setFlag, addToParty, addToInventory } from '../../platform/persistence/queries';
-import { playDialog } from './dialog';
-
-const STARTERS = [
-    { id: 'kon_moli', label: 'kon moli' },
-    { id: 'telo_jaki', label: 'telo jaki' },
-    { id: 'jan_ike_lili', label: 'jan ike lili' },
-] as const;
+import type { RpgPlayer } from "@rpgjs/server";
+import { preferences, KEYS } from "../../platform/persistence/preferences";
+import {
+    addToInventory,
+    addToParty,
+    recordBestiaryCaught,
+    recordClue,
+    setFlag,
+} from "../../platform/persistence/queries";
+import {
+    STARTER_INITIAL_ITEMS,
+    STARTER_LEVEL,
+    STARTER_CEREMONY_CONFIG,
+    STARTERS,
+} from "../../content/gameplay";
+import { playDialog } from "./dialog";
+import { syncLeadCreatureStats } from "./lead-battle-avatar";
 
 export async function runStarterCeremony(player: RpgPlayer): Promise<void> {
     const already = await preferences.get(KEYS.starterChosen);
     if (already) {
-        await playDialog(player, 'jan_sewi_after_pick');
+        await playDialog(player, STARTER_CEREMONY_CONFIG.alreadyChosenDialogId);
         return;
     }
 
-    await playDialog(player, 'jan_sewi_starter_intro');
+    await playDialog(player, STARTER_CEREMONY_CONFIG.introDialogId);
 
-    const choice = await player.showChoices('?', STARTERS.map((s) => ({
-        text: s.label,
-        value: s.id,
-    })));
+    const choice = await player.showChoices(
+        STARTER_CEREMONY_CONFIG.choicePrompt,
+        STARTERS.map((s) => ({
+            text: s.label,
+            value: s.id,
+        })),
+    );
 
     if (!choice) return;
     const picked = STARTERS.find((s) => s.id === choice.value);
@@ -33,17 +43,18 @@ export async function runStarterCeremony(player: RpgPlayer): Promise<void> {
     // closed). If either write throws, the unhandled rejection surfaces to
     // the RPG.js event system and neither side commits.
     await preferences.set(KEYS.starterChosen, picked.id);
-    await setFlag('starter_chosen', '1');
+    await setFlag("starter_chosen", "1");
 
-    // Grant the chosen creature at level 5 and seed the poki_lili supply
-    // (3 nets) per the beat-1 spec in docs/JOURNEY.md / journey.json narrative.
-    await addToParty(picked.id, 5);
-    await addToInventory('poki_lili', 3);
-
-    for (const word of picked.id.split('_')) {
-        await recordMasteredWord(word);
+    await addToParty(picked.id, STARTER_LEVEL);
+    await syncLeadCreatureStats(player);
+    for (const item of STARTER_INITIAL_ITEMS) {
+        await addToInventory(item.itemId, item.count);
     }
-    await recordMasteredWord('poki');
+    await recordBestiaryCaught(picked.id);
 
-    await player.showNotification(picked.label, { time: 3500 });
+    for (const clueId of picked.starting_clues) {
+        await recordClue(clueId);
+    }
+
+    await player.showNotification(picked.label, { time: STARTER_CEREMONY_CONFIG.notificationMs });
 }

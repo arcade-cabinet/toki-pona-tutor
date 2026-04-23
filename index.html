@@ -1,56 +1,74 @@
 <!doctype html>
 <html lang="en">
-  <head>
-    <meta charset="UTF-8" />
-    <meta
-      name="viewport"
-      content="width=device-width, initial-scale=1.0, viewport-fit=cover"
-    />
-    <meta name="theme-color" content="#fdf6e3" />
-    <title>poki soweli</title>
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+        <meta name="theme-color" content="#fdf6e3" />
+        <meta
+            name="description"
+            content="Rivers Reckoning is a polished fantasy creature-catching RPG about exploration, strange companions, and the green dragon mystery."
+        />
+        <meta name="application-name" content="Rivers Reckoning" />
+        <meta property="og:title" content="Rivers Reckoning" />
+        <meta
+            property="og:description"
+            content="A polished fantasy creature-catching RPG about exploration, strange companions, and the green dragon mystery."
+        />
+        <meta property="og:type" content="website" />
+        <link rel="manifest" href="%BASE_URL%manifest.json" />
+        <link rel="icon" type="image/png" sizes="16x16" href="%BASE_URL%icons/poki-soweli-16.png" />
+        <link rel="icon" type="image/png" sizes="32x32" href="%BASE_URL%icons/poki-soweli-32.png" />
+        <link rel="icon" type="image/png" sizes="48x48" href="%BASE_URL%icons/poki-soweli-48.png" />
+        <link rel="apple-touch-icon" sizes="192x192" href="%BASE_URL%icons/poki-soweli-192.png" />
+        <title>Rivers Reckoning</title>
 
-    <!--
-      Preload the body + display fonts so first paint has typography.
+        <!--
+      Preload the body + title fonts so first paint has typography.
       Glyph (nasin-nanpa), mono, and italic variants load on demand when
       a surface needs them. %BASE_URL% is vite's placeholder; resolves
       to '/' in dev, '/poki-soweli/' on GitHub Pages, './' in Capacitor.
     -->
-    <link
-      rel="preload"
-      href="%BASE_URL%assets/fonts/nunito/Nunito-VariableFont.woff2"
-      as="font"
-      type="font/woff2"
-      crossorigin
-    />
-    <link
-      rel="preload"
-      href="%BASE_URL%assets/fonts/fredoka/Fredoka-VariableFont.woff2"
-      as="font"
-      type="font/woff2"
-      crossorigin
-    />
+        <link
+            rel="preload"
+            href="%BASE_URL%assets/fonts/nunito/Nunito-VariableFont.woff2"
+            as="font"
+            type="font/woff2"
+            crossorigin
+        />
+        <link
+            rel="preload"
+            href="%BASE_URL%assets/fonts/fraunces/Fraunces-VariableFont.woff2"
+            as="font"
+            type="font/woff2"
+            crossorigin
+        />
 
-    <style>
-      /*
+        <style>
+            /*
        * Nunito is the body default once src/styles/fonts.css resolves;
        * the fallback stack stays rounded + warm so the pre-font-load
        * paint doesn't look like a different game.
        */
-      body,
-      #rpg {
-        margin: 0;
-        padding: 0;
-        height: 100vh;
-        width: 100vw;
-        overflow: hidden;
-        font-family: 'Nunito', ui-rounded, 'Hiragino Maru Gothic ProN',
-          Quicksand, Comfortaa, Manjari, system-ui, sans-serif;
-        background: #fdf6e3; /* matches BRAND.md palette `cream` */
-      }
-    </style>
-  </head>
-  <body>
-    <div id="rpg"></div>
-    <script type="module" src="/src/standalone.ts"></script>
-  </body>
+            html,
+            body,
+            #game-shell,
+            #rpg {
+                margin: 0;
+                padding: 0;
+                height: 100vh;
+                width: 100vw;
+                overflow: hidden;
+                font-family: "Nunito", ui-rounded, "Hiragino Maru Gothic ProN", Quicksand, Comfortaa,
+                    Manjari, system-ui, sans-serif;
+                background: #fdf6e3; /* matches BRAND.md palette `cream` */
+            }
+        </style>
+    </head>
+    <body>
+        <main id="game-shell" aria-label="Rivers Reckoning game">
+            <div id="rpg" role="application" aria-label="Rivers Reckoning game canvas"></div>
+            <div id="rr-ui-root" aria-label="Rivers Reckoning interface"></div>
+        </main>
+        <script type="module" src="/src/standalone.ts"></script>
+    </body>
 </html>

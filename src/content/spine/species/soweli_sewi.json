@@ -1,14 +1,35 @@
 {
   "id": "soweli_sewi",
-  "name": { "en": "sewi" },
-  "description": { "en": "Nothing lasts forever." },
+  "name": {
+    "en": "Snowhare"
+  },
+  "description": {
+    "en": "A white-eared runner that bounds across crusted snow."
+  },
   "type": "lete",
-  "base_stats": { "hp": 80, "attack": 88, "defense": 58, "speed": 76 },
+  "base_stats": {
+    "hp": 80,
+    "attack": 88,
+    "defense": 58,
+    "speed": 76
+  },
   "learnset": [
-    { "level": 1, "move_id": "utala" },
-    { "level": 1, "move_id": "lete_lili" },
-    { "level": 12, "move_id": "lete_wawa" },
-    { "level": 18, "move_id": "kiwen_wawa" }
+    {
+      "level": 1,
+      "move_id": "utala"
+    },
+    {
+      "level": 1,
+      "move_id": "lete_lili"
+    },
+    {
+      "level": 12,
+      "move_id": "lete_wawa"
+    },
+    {
+      "level": 18,
+      "move_id": "kiwen_wawa"
+    }
   ],
   "catch_rate": 0.22,
   "xp_yield": 118,
@@ -17,12 +38,48 @@
     "frame_width": 64,
     "frame_height": 64,
     "animations": {
-      "walk":   { "row": 0, "col_start": 0, "cols": 8, "fps": 10, "loop": true  },
-      "flee":   { "row": 1, "col_start": 0, "cols": 7, "fps": 12, "loop": true  },
-      "taunt":  { "row": 2, "col_start": 0, "cols": 8, "fps": 6,  "loop": false },
-      "attack": { "row": 3, "col_start": 0, "cols": 5, "fps": 12, "loop": false },
-      "sneak":  { "row": 4, "col_start": 0, "cols": 3, "fps": 6,  "loop": true  },
-      "death":  { "row": 5, "col_start": 0, "cols": 3, "fps": 6,  "loop": false }
+      "walk": {
+        "row": 0,
+        "col_start": 0,
+        "cols": 8,
+        "fps": 10,
+        "loop": true
+      },
+      "flee": {
+        "row": 1,
+        "col_start": 0,
+        "cols": 7,
+        "fps": 12,
+        "loop": true
+      },
+      "taunt": {
+        "row": 2,
+        "col_start": 0,
+        "cols": 8,
+        "fps": 6,
+        "loop": false
+      },
+      "attack": {
+        "row": 3,
+        "col_start": 0,
+        "cols": 5,
+        "fps": 12,
+        "loop": false
+      },
+      "sneak": {
+        "row": 4,
+        "col_start": 0,
+        "cols": 3,
+        "fps": 6,
+        "loop": true
+      },
+      "death": {
+        "row": 5,
+        "col_start": 0,
+        "cols": 3,
+        "fps": 6,
+        "loop": false
+      }
     },
     "tier": "uncommon"
   }

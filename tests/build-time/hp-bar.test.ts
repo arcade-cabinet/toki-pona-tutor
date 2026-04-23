@@ -2,8 +2,9 @@ import { describe, it, expect } from 'vitest';
 import {
     hpRatio,
     hpClassFor,
-    hpTpLabel,
+    hpStatusLabel,
     HP_CRITICAL_THRESHOLD,
+    HP_TIERS,
     HP_WOUNDED_THRESHOLD,
     type HpClass,
 } from '../../src/styles/hp-bar';
@@ -97,6 +98,14 @@ describe('hpClassFor — threshold mapping', () => {
 });
 
 describe('threshold constants', () => {
+    it('loads tier thresholds and labels from gameplay JSON', () => {
+        expect(HP_TIERS).toEqual([
+            { className: 'hp-healthy', label: 'healthy', aboveRatio: 0.5 },
+            { className: 'hp-wounded', label: 'hurt', aboveRatio: 0.2 },
+            { className: 'hp-critical', label: 'critical', aboveRatio: undefined },
+        ]);
+    });
+
     it('HP_WOUNDED_THRESHOLD is 0.50', () => {
         expect(HP_WOUNDED_THRESHOLD).toBe(0.5);
     });
@@ -110,20 +119,20 @@ describe('threshold constants', () => {
     });
 });
 
-describe('hpTpLabel — single-word TP status label', () => {
-    it('healthy → wawa (powerful)', () => {
-        expect(hpTpLabel(20, 20)).toBe('wawa');
+describe('hpStatusLabel — single-word HP status label', () => {
+    it('healthy → healthy', () => {
+        expect(hpStatusLabel(20, 20)).toBe('healthy');
     });
 
-    it('wounded → pakala (damaged)', () => {
-        expect(hpTpLabel(10, 20)).toBe('pakala');
+    it('wounded → hurt', () => {
+        expect(hpStatusLabel(10, 20)).toBe('hurt');
     });
 
-    it('critical → moli (dying)', () => {
-        expect(hpTpLabel(2, 20)).toBe('moli');
+    it('critical → critical', () => {
+        expect(hpStatusLabel(2, 20)).toBe('critical');
     });
 
-    it('zero HP → moli', () => {
-        expect(hpTpLabel(0, 20)).toBe('moli');
+    it('zero HP → critical', () => {
+        expect(hpStatusLabel(0, 20)).toBe('critical');
     });
 });

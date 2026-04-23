@@ -1,21 +1,29 @@
 /**
  * HP-bar threshold helper — T2-02 / BRAND.md §HP.
  *
- * Single source of truth for the three-tier HP color language.
+ * Runtime adapter for the JSON-authored three-tier HP color language.
  * Components that render HP — party panel, combat overlay, trainer
  * pre-fight reveals — all call `hpClassFor(current, max)` and apply
  * the returned class name to the bar wrapper element. brand.css
  * already defines `.hp-healthy` / `.hp-wounded` / `.hp-critical`
  * fills and pulse animation.
  *
- * Hard-coding these cutoffs in any component is a bug — the HP
- * color language would drift the first time someone tweaks BRAND.md.
+ * Hard-coding these cutoffs or labels in any component is a bug — the
+ * HP language belongs in src/content/gameplay/visuals.json.
  */
 
-export const HP_WOUNDED_THRESHOLD = 0.5;
-export const HP_CRITICAL_THRESHOLD = 0.2;
+import { COMBAT_CHROME_CONFIG, type RuntimeHpTierConfig } from "../content/gameplay";
 
-export type HpClass = 'hp-healthy' | 'hp-wounded' | 'hp-critical';
+export type HpClass = RuntimeHpTierConfig["className"];
+
+export const HP_TIERS = COMBAT_CHROME_CONFIG.hpBar.tiers;
+export const HP_WOUNDED_THRESHOLD = thresholdFor("hp-healthy");
+export const HP_CRITICAL_THRESHOLD = thresholdFor("hp-wounded");
+
+const HP_TERMINAL_TIER = HP_TIERS[HP_TIERS.length - 1];
+const HP_STATUS_LABELS = Object.fromEntries(
+    HP_TIERS.map((tier) => [tier.className, tier.label]),
+) as Record<HpClass, string>;
 
 /**
  * Clamped ratio in [0, 1]. Returns 0 for non-positive max so callers
@@ -36,20 +44,27 @@ export function hpRatio(current: number, max: number): number {
  */
 export function hpClassFor(current: number, max: number): HpClass {
     const r = hpRatio(current, max);
-    if (max <= 0) return 'hp-critical';
-    if (r > HP_WOUNDED_THRESHOLD) return 'hp-healthy';
-    if (r > HP_CRITICAL_THRESHOLD) return 'hp-wounded';
-    return 'hp-critical';
+    if (max <= 0) return HP_TERMINAL_TIER.className;
+    for (const tier of HP_TIERS) {
+        if (tier.aboveRatio === undefined || r > tier.aboveRatio) return tier.className;
+    }
+    return HP_TERMINAL_TIER.className;
 }
 
 /**
- * Single-word TP status label for the HP tier. Used by accessibility
- * readouts + status tooltips. TP labels map 1:1 to the threshold
- * classes so the text reinforces the color, not duplicates it.
+ * Single-word status label for the HP tier. Used by accessibility
+ * readouts + status tooltips. Labels map 1:1 to the threshold classes
+ * so the text reinforces the color, not duplicates it.
  */
-export function hpTpLabel(current: number, max: number): string {
+export function hpStatusLabel(current: number, max: number): string {
     const cls = hpClassFor(current, max);
-    if (cls === 'hp-healthy') return 'wawa';
-    if (cls === 'hp-wounded') return 'pakala';
-    return 'moli';
+    return HP_STATUS_LABELS[cls];
+}
+
+function thresholdFor(className: HpClass): number {
+    const tier = HP_TIERS.find((entry) => entry.className === className);
+    if (tier?.aboveRatio === undefined) {
+        throw new Error(`Missing HP threshold for ${className}`);
+    }
+    return tier.aboveRatio;
 }
