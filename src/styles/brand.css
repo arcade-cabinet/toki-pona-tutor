@@ -1,16 +1,13 @@
 /*
- * poki soweli brand theme — implements docs/BRAND.md
+ * Rivers Reckoning brand theme — implements docs/BRAND.md
  *
  * This sheet owns:
  *   1. CSS custom properties for the canonical palette + aliases
  *   2. Typography stack + size scale
  *   3. Spacing rhythm
  *   4. Motion timing tokens
- *   5. @rpgjs/ui-css token overrides (parchment-on-dark + kasi-green
- *      accent in place of the library's dusk-blue default)
- *
- * Imported after @rpgjs/ui-css stylesheets in standalone.ts so
- * overrides take precedence without !important.
+ *   5. Legacy engine/combat aliases that are still shared by map and
+ *      sprite chrome while rr-ui owns player-facing overlays.
  *
  * When BRAND.md changes, this file changes FIRST, then any component
  * CSS that references these tokens. BRAND.md → brand.css → components.
@@ -140,198 +137,6 @@
     --touch-min: 44px;
     --touch-combat: 56px;
 
-    /* ─── @rpgjs/ui-css token overrides ─── */
-    /* The library exposes --rpg-ui-* tokens which we remap to our
-       canonical palette so every default component inherits the
-       warm-cream brand without per-component overrides. */
-    --rpg-ui-bg: var(--poki-cream);
-    --rpg-ui-body-bg: var(--poki-cream);
-    --rpg-ui-surface: var(--surface);
-    --rpg-ui-surface-light: var(--surface-high);
-    --rpg-ui-surface-overlay: rgba(61, 46, 30, 0.42);
-    --rpg-ui-surface-overlay-strong: rgba(61, 46, 30, 0.62);
-    --rpg-ui-border: rgba(200, 169, 107, 0.55);
-    --rpg-ui-border-light: rgba(244, 185, 149, 0.45);
-    --rpg-ui-border-dark: rgba(61, 46, 30, 0.3);
-    --rpg-ui-text: var(--text);
-    --rpg-ui-text-muted: var(--text-mute);
-    --rpg-ui-accent: var(--primary);
-    --rpg-ui-accent-hover: var(--primary-deep);
-    --rpg-ui-accent-active: var(--primary-deep);
-    --rpg-ui-success: var(--success);
-    --rpg-ui-warning: var(--poki-caution);
-    --rpg-ui-danger: var(--danger);
-    --rpg-ui-info: var(--info);
-    --rpg-ui-mana: var(--info);
-    --rpg-ui-xp: var(--poki-joy);
-
-    --rpg-ui-health-gradient: linear-gradient(
-        90deg,
-        var(--poki-emerald) 0%,
-        var(--poki-emerald-deep) 100%
-    );
-    --rpg-ui-mana-gradient: linear-gradient(90deg, var(--poki-telo) 0%, #2f5a68 100%);
-    --rpg-ui-xp-gradient: linear-gradient(90deg, var(--poki-joy) 0%, var(--poki-amber-deep) 100%);
-
-    --rpg-ui-font: var(--font-body);
-    --rpg-ui-font-size: 1rem;
-    --rpg-ui-font-weight: 500;
-    --rpg-ui-font-weight-bold: 700;
-
-    --rpg-ui-radius-sm: var(--radius-sm);
-    --rpg-ui-radius-md: var(--radius-md);
-    --rpg-ui-radius-lg: var(--radius-lg);
-
-    --rpg-ui-shadow-sm: var(--shadow-panel);
-    --rpg-ui-shadow-md: var(--shadow-modal);
-    --rpg-ui-shadow: var(--shadow-modal);
-}
-
-.rpg-ui-title-screen:not(.poki-pause-screen) {
-    padding: max(var(--space-4), env(safe-area-inset-top))
-        max(var(--space-2), env(safe-area-inset-right))
-        max(var(--space-4), env(safe-area-inset-bottom))
-        max(var(--space-2), env(safe-area-inset-left));
-    background: radial-gradient(circle at 18% 18%, rgba(242, 193, 88, 0.36), transparent 26%),
-        radial-gradient(circle at 86% 12%, rgba(77, 163, 212, 0.28), transparent 28%),
-        radial-gradient(circle at 50% 94%, rgba(74, 157, 90, 0.26), transparent 38%),
-        linear-gradient(
-            180deg,
-            rgba(168, 216, 232, 0.78),
-            rgba(253, 246, 227, 0.94) 42%,
-            rgba(245, 230, 197, 0.98)
-        ),
-        var(--poki-cream);
-}
-
-.rpg-ui-title-screen:not(.poki-pause-screen)::before {
-    content: "";
-    position: fixed;
-    inset: auto 0 0;
-    height: min(32vh, 260px);
-    pointer-events: none;
-    background: radial-gradient(ellipse at 18% 100%, rgba(50, 113, 68, 0.34), transparent 52%),
-        radial-gradient(ellipse at 78% 100%, rgba(200, 169, 107, 0.42), transparent 58%);
-    opacity: 0.9;
-}
-
-.rpg-ui-title-screen:not(.poki-pause-screen) .rpg-ui-title-screen-header {
-    max-width: min(760px, 100%);
-    margin-inline: auto;
-    padding: var(--space-3);
-    border: var(--border-width-modal) solid rgba(200, 169, 107, 0.78);
-    border-radius: calc(var(--radius-lg) + 8px);
-    background: radial-gradient(circle at 14% 24%, rgba(244, 185, 149, 0.22), transparent 34%),
-        linear-gradient(135deg, rgba(253, 246, 227, 0.96), rgba(245, 230, 197, 0.9));
-    box-shadow: var(--shadow-modal);
-}
-
-.rpg-ui-title-screen:not(.poki-pause-screen) .rpg-ui-title-screen-title {
-    display: grid;
-    gap: 4px;
-    color: var(--poki-ink);
-    font-family: var(--font-display);
-    font-size: clamp(3rem, 12vmin, 7rem);
-    line-height: 0.9;
-    letter-spacing: -0.055em;
-    text-shadow:
-        0 3px 0 rgba(253, 246, 227, 0.9),
-        0 10px 22px rgba(61, 46, 30, 0.16);
-}
-
-.rpg-ui-title-screen:not(.poki-pause-screen) .rpg-ui-title-screen-title::after {
-    content: "o kama jo e jan pona";
-    color: var(--poki-emerald-deep);
-    font-family: var(--font-mono);
-    font-size: clamp(0.72rem, 2.4vmin, 0.98rem);
-    font-weight: 700;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    text-shadow: none;
-}
-
-.rpg-ui-title-screen:not(.poki-pause-screen) .rpg-ui-title-screen-menu {
-    width: min(420px, 100%);
-    margin-inline: auto;
-    gap: var(--space-1);
-}
-
-.rpg-ui-title-screen:not(.poki-pause-screen) .rpg-ui-menu-item {
-    min-height: var(--touch-min);
-    border: var(--border-width-modal) solid rgba(200, 169, 107, 0.74);
-    border-radius: 999px;
-    background: linear-gradient(180deg, rgba(253, 246, 227, 0.96), rgba(232, 213, 168, 0.9)),
-        var(--poki-parchment);
-    color: var(--poki-ink);
-    font-family: var(--font-display);
-    font-size: clamp(1rem, 3vmin, 1.18rem);
-    font-weight: 800;
-    box-shadow: var(--shadow-panel);
-    transition:
-        transform var(--duration-press) var(--ease-out),
-        border-color var(--duration-menu) var(--ease-out),
-        box-shadow var(--duration-menu) var(--ease-out);
-}
-
-.rpg-ui-title-screen:not(.poki-pause-screen) .rpg-ui-menu-item:hover,
-.rpg-ui-title-screen:not(.poki-pause-screen) .rpg-ui-menu-item:focus-visible {
-    border-color: var(--poki-emerald);
-    box-shadow: var(--shadow-hover), var(--shadow-panel);
-    transform: translateY(-1px);
-}
-
-.rpg-ui-title-screen:not(.poki-pause-screen) .rpg-ui-menu-item:active {
-    transform: scale(0.97);
-}
-
-.rpg-ui-dialog .rpg-ui-dialog-choices {
-    display: grid;
-    gap: var(--space-1);
-    margin-top: var(--space-2);
-}
-
-.rpg-ui-dialog .rpg-ui-dialog-choice {
-    min-height: var(--touch-min);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 10px 14px;
-    border: var(--border-width-modal) solid rgba(200, 169, 107, 0.72);
-    border-radius: 999px;
-    background: linear-gradient(180deg, rgba(253, 246, 227, 0.96), rgba(232, 213, 168, 0.92)),
-        var(--poki-parchment);
-    color: var(--poki-ink);
-    font-family: var(--font-display);
-    font-weight: 800;
-    line-height: 1.15;
-    text-align: center;
-    box-shadow: var(--shadow-panel);
-}
-
-.rpg-ui-dialog .rpg-ui-dialog-choice.active,
-.rpg-ui-dialog .rpg-ui-dialog-choice:hover,
-.rpg-ui-dialog .rpg-ui-dialog-choice:focus-visible {
-    border-color: var(--poki-emerald);
-    background: linear-gradient(180deg, rgba(232, 213, 168, 0.98), rgba(245, 230, 197, 0.96)),
-        var(--poki-parchment-deep);
-    box-shadow: var(--shadow-hover), var(--shadow-panel);
-}
-
-.rpg-ui-dialog .poki-dialog-sitelen {
-    margin-top: var(--space-1);
-    color: var(--poki-emerald-deep);
-    font-family: var(--font-glyph);
-    font-size: clamp(1.25rem, 5vmin, 2rem);
-    font-weight: 700;
-    letter-spacing: 0.08em;
-    line-height: 1.25;
-    overflow-wrap: anywhere;
-    text-align: center;
-    text-shadow: 0 1px 0 rgba(253, 246, 227, 0.74);
-}
-
-.rpg-ui-dialog .poki-dialog-sitelen[data-visible="false"] {
-    display: none;
 }
 
 .poki-hud-menu-root {
@@ -586,18 +391,6 @@
     transform: translate(-50%, -100%) scale(0.96);
 }
 
-body:has(.rpg-ui-title-screen) .poki-hud-menu-toggle,
-body:has(.rpg-ui-dialog) .poki-hud-menu-toggle,
-body:has(.rpg-ui-save-load) .poki-hud-menu-toggle,
-body:has(.rpg-ui-title-screen) .poki-hud-status,
-body:has(.rpg-ui-dialog) .poki-hud-status,
-body:has(.rpg-ui-save-load) .poki-hud-status,
-body:has(.rpg-ui-title-screen) .poki-hud-hint-glyph,
-body:has(.rpg-ui-dialog) .poki-hud-hint-glyph,
-body:has(.rpg-ui-save-load) .poki-hud-hint-glyph {
-    display: none;
-}
-
 @media (pointer: coarse) {
     .poki-hud-status {
         max-width: min(
@@ -620,14 +413,7 @@ body:has(.rpg-ui-save-load) .poki-hud-hint-glyph {
     .poki-hud-hint-glyph {
         min-width: max(var(--touch-min), 52px);
         min-height: max(var(--touch-min), 52px);
-    }
-
-    .rpg-ui-dialog-choice {
-        min-height: var(--touch-min);
-        display: flex;
-        align-items: center;
-    }
-}
+    }}
 
 @media (max-width: 640px) {
     .poki-hud-status {
@@ -642,10 +428,6 @@ body:has(.rpg-ui-save-load) .poki-hud-hint-glyph {
 body.poki-high-contrast {
     --border-width: 2px;
     --border-width-modal: 3px;
-    --rpg-ui-border: rgba(200, 169, 107, 0.95);
-    --rpg-ui-health-gradient: var(--poki-emerald);
-    --rpg-ui-mana-gradient: var(--poki-telo);
-    --rpg-ui-xp-gradient: var(--poki-joy);
 }
 
 /* ─── Accessible mode (T5-12) ───
@@ -662,23 +444,11 @@ body.poki-accessible-mode {
     --duration-menu: 0ms;
     --duration-tween: 0ms;
     --duration-victory: 0ms;
-    --rpg-ui-font-size: 1.125rem;
-}
-
-body.poki-accessible-mode .rpg-ui-dialog,
-body.poki-accessible-mode .poki-dialog {
-    font-size: var(--text-body-desktop);
-    line-height: 1.55;
-}
-
-body.poki-accessible-mode .rpg-ui-dialog-choice,
-body.poki-accessible-mode .rpg-ui-menu-item {
-    min-height: max(var(--touch-min), 52px);
 }
 
 /* Action-battle chrome (T2-01/T2-02). The upstream CanvasEngine
    action bar keeps the behavior; this layer makes the hotbar match
-   the poki soweli parchment/emerald brand and mobile target sizing. */
+   the Rivers Reckoning parchment/emerald brand and mobile target sizing. */
 .action-battle-actionbar {
     left: max(12px, env(safe-area-inset-left));
     right: max(12px, env(safe-area-inset-right));
@@ -687,11 +457,6 @@ body.poki-accessible-mode .rpg-ui-menu-item {
 
 .action-battle-actionbar-plate {
     width: min(720px, 100%);
-    --rpg-ui-hotbar-gap: 8px;
-    --rpg-ui-hotbar-size: clamp(44px, 8.5vmin, var(--touch-combat));
-    --rpg-ui-hotbar-padding-x: 12px;
-    --rpg-ui-hotbar-padding-y: 10px;
-    --rpg-ui-hotbar-padding-bottom: 12px;
     border: var(--border-width-modal) solid rgba(200, 169, 107, 0.9);
     background: linear-gradient(180deg, rgba(253, 246, 227, 0.98), rgba(245, 230, 197, 0.94)),
         var(--poki-parchment);
@@ -2075,35 +1840,5 @@ body.poki-accessible-mode .rpg-ui-menu-item {
     to {
         opacity: 1;
         transform: translateY(0);
-    }
-}
-
-/* ─── Dialog bubble chrome (brand §Chrome patterns) ───
-   Optional override when RPG.js's default dialog box is shown;
-   keeps speaker label + body structure per BRAND.md. */
-.poki-dialog {
-    background: var(--rpg-ui-surface-overlay-strong);
-    border: var(--border-width-modal) solid var(--border);
-    border-radius: var(--radius-lg);
-    color: var(--text);
-    padding: var(--space-2) var(--space-3);
-    font-family: var(--font-body);
-    font-size: var(--text-body-desktop);
-    line-height: var(--line-body);
-    box-shadow: var(--shadow-modal);
-}
-
-.poki-dialog > .speaker {
-    color: var(--text-mute);
-    font-size: var(--text-label);
-    font-weight: 600;
-    margin-bottom: var(--space-1);
-    padding-bottom: var(--space-1);
-    border-bottom: 1px solid var(--border);
-}
-
-@media (max-width: 768px) {
-    .poki-dialog {
-        font-size: var(--text-body-mobile);
     }
 }

@@ -30,6 +30,7 @@ import {
     TITLE_START,
 } from "../../content/gameplay";
 import { formatGameplayTemplate } from "../../content/gameplay/templates";
+import { speciesLabel } from "../../content/runtime-labels";
 
 type SaveSnapshot = Record<string, unknown>;
 type MainPlayerHooks = RpgPlayerHooks & {
@@ -144,7 +145,7 @@ export const player: MainPlayerHooks = {
             await cueSfx(player, SFX_CUE_CONFIG.menuConfirm);
             await player.showNotification(
                 formatGameplayTemplate(NOTIFICATION_CONFIG.benchSwitch.template, {
-                    species: nextLead.speciesId.replace(/_/g, " "),
+                    species: speciesLabel(nextLead.speciesId),
                 }),
                 { time: NOTIFICATION_CONFIG.benchSwitch.timeMs },
             );

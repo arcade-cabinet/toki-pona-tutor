@@ -195,7 +195,7 @@ const REVIEW_CHECKLIST = [
         items: [
             "Biome palette matches the map label and story beat; no placeholder or off-family asset stands out.",
             "Sprites, tiles, HUD, dialog, and effects share a coherent scale, outline weight, and saturation range.",
-            "Fonts, colors, borders, shadows, and button styling match the established poki soweli brand system.",
+            "Fonts, colors, borders, shadows, and button styling match the established Rivers Reckoning brand system.",
         ],
     },
     {
@@ -219,7 +219,7 @@ const REVIEW_CHECKLIST = [
         items: [
             "Pathing is legible from the screenshot without reading code; landmarks point the player toward the next action.",
             "Encounter grass/water/cave areas are visually distinct from normal floor while still matching the biome.",
-            "NPCs, shops, jan lawa, and final-boss staging have enough breathing room for tap/mouse interaction.",
+            "NPCs, shops, region masters, and final-boss staging have enough breathing room for tap/mouse interaction.",
         ],
     },
     {
@@ -283,8 +283,8 @@ const VISIBLE_TEST_IDS = [
 ];
 
 const OVERLAY_SCREENSHOT_SELECTORS = [
-    ".rpg-ui-title-screen",
-    ".rpg-ui-dialog",
+    ".rr-title-screen",
+    ".rr-dialog",
     ...VISIBLE_TEST_IDS.map((testId) => `[data-testid="${testId}"]`),
 ];
 
@@ -522,9 +522,9 @@ async function collectRuntimeDiagnostics(page: Page): Promise<RuntimeDiagnostics
             const canvas = document.querySelector("#rpg canvas") as HTMLCanvasElement | null;
             const canvasRect = canvas?.getBoundingClientRect() ?? null;
             const titleText =
-                document.querySelector(".rpg-ui-title-screen-title")?.textContent?.trim() ?? null;
+                document.querySelector('[data-testid="rr-title-title"]')?.textContent?.trim() ?? null;
             const dialogText =
-                document.querySelector(".rpg-ui-dialog-content")?.textContent?.trim() ?? null;
+                document.querySelector('[data-testid="rr-dialog-content"]')?.textContent?.trim() ?? null;
             const dialogChoices = Array.from(
                 document.querySelectorAll('[data-testid^="dialog-choice-"]'),
             )

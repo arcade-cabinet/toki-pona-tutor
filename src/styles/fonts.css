@@ -17,7 +17,7 @@
  *   Nunito         body + dialog + descriptions (weight 200–900)
  *   Fredoka        display + headings + toasts (weight 300–700, wdth 75–125%)
  *   JetBrains Mono numbers + HP/XP/level (tabular-nums, weight 100–800)
- *   nasin-nanpa    sitelen-pona glyphs (UCSUR codepoints U+F1900+)
+ *   nasin-nanpa    legacy clue-glyph font fallback
  *
  * Licenses: all four ship under SIL Open Font License 1.1; each
  * family directory retains its original OFL.txt.

@@ -14,7 +14,7 @@ import {
     getFlag,
     getParty,
     getPartyWithHealth,
-    getWordSightings,
+    getClueSightings,
     setPartyCurrentHp,
 } from '../../src/platform/persistence/queries';
 import { resetPersistedRuntimeState } from '../../src/platform/persistence/runtime-state';
@@ -46,7 +46,7 @@ describe('journey golden path (integration)', () => {
         try {
             const { player } = await bootIntoFinalRoute();
 
-            expect(player.getCurrentMap()?.id).toBe('nasin_pi_telo');
+            expect(player.getCurrentMap()?.id).toBe('rivergate_approach');
 
             const physicsWarnings = warnSpy.mock.calls
                 .map((args) => args.map((value) => String(value)).join(' '))
@@ -58,7 +58,7 @@ describe('journey golden path (integration)', () => {
         }
     });
 
-    it('runs starter ceremony, unlocks the first gate, and transitions onto nasin_wan', async () => {
+    it('runs starter ceremony, unlocks the first gate, and transitions onto greenwood_road', async () => {
         const { player, client } = await bootGame();
         const ui = hijackUi(player);
         const starterMap = player.getCurrentMap();
@@ -70,7 +70,7 @@ describe('journey golden path (integration)', () => {
 
         await warpEast!.execMethod('onPlayerTouch', [player]);
 
-        expect(player.getCurrentMap()?.id).toBe('ma_tomo_lili');
+        expect(player.getCurrentMap()?.id).toBe('riverside_home');
         expect(await getFlag('starter_chosen')).toBeNull();
         expect(ui.texts.length).toBeGreaterThan(0);
 
@@ -84,17 +84,17 @@ describe('journey golden path (integration)', () => {
             expect.objectContaining({ slot: 0, species_id: 'kon_moli', level: 5 }),
         ]);
         expect((await getBestiaryState()).kon_moli?.caughtAt).toBeTruthy();
-        expect(ui.notifications).toContain('kon moli');
+        expect(ui.notifications).toContain('Ashcat');
 
-        const waitForRoute = client.waitForMapChange('nasin_wan', 5000);
+        const waitForRoute = client.waitForMapChange('greenwood_road', 5000);
         await warpEast!.execMethod('onPlayerTouch', [player]);
         const routePlayer = await waitForRoute;
 
-        expect(routePlayer.getCurrentMap()?.id).toBe('nasin_wan');
-        expect(await preferences.get(KEYS.currentMapId)).toBe('nasin_wan');
+        expect(routePlayer.getCurrentMap()?.id).toBe('greenwood_road');
+        expect(await preferences.get(KEYS.currentMapId)).toBe('greenwood_road');
     });
 
-    it('runs a caught wild encounter on nasin_wan and updates party, logs, and xp', async () => {
+    it('runs a caught wild encounter on greenwood_road and updates party, logs, and xp', async () => {
         const { player } = await bootIntoRoute();
         const ui = hijackUi(player);
         const encounter = makeNasinWanEncounterShape();
@@ -115,15 +115,15 @@ describe('journey golden path (integration)', () => {
         }));
         expect(lead?.level).toBe(5);
         expect(lead?.xp).toBe(152);
-        expect(ui.texts.some((line) => line.includes('utala: -'))).toBe(true);
-        expect(ui.notifications).toContain('kon moli +27 XP');
-        expect(ui.notifications).toContain('kili ×1');
+        expect(ui.texts.some((line) => line.includes('Attack: -'))).toBe(true);
+        expect(ui.notifications).toContain('Ashcat +27 XP');
+        expect(ui.notifications).toContain('Orchard Fruit ×1');
         expect(await inventoryCount('poki_lili')).toBe(2);
         expect(await inventoryCount('kili')).toBe(1);
         expect((await getBestiaryState()).jan_ike_lili?.caughtAt).toBeTruthy();
         expect(await latestEncounter()).toEqual(expect.objectContaining({
             species_id: 'jan_ike_lili',
-            map_id: 'nasin_wan',
+            map_id: 'greenwood_road',
             outcome: 'caught',
         }));
     });
@@ -140,22 +140,22 @@ describe('journey golden path (integration)', () => {
         ui.choose('accept');
         await janPoki!.execMethod('onAction', [player]);
 
-        expect(ui.texts).toContain('pali poki\npoki: x2');
+        expect(ui.texts).toContain('Field Notes\nCatch: x2');
         await expect(readQuestState(quest)).resolves.toEqual({ status: 'active', progress: 0 });
 
         await recordQuestEventForActive(player, { type: 'catch', speciesId: 'soweli_jaki', biome: 'forest' });
         await recordQuestEventForActive(player, { type: 'catch', speciesId: 'soweli_kili', biome: 'forest' });
 
         await expect(readQuestState(quest)).resolves.toEqual({ status: 'active', progress: 2 });
-        expect(ui.notifications).toContain('pali poki: pini');
+        expect(ui.notifications).toContain('Field Notes: ready');
 
         await janPoki!.execMethod('onAction', [player]);
 
         await expect(readQuestState(quest)).resolves.toEqual({ status: 'completed', progress: 2 });
         await expect(getFlag(questDoneFlag(quest.id))).resolves.toBe('1');
         expect(await inventoryCount('poki_wawa')).toBe(1);
-        expect(ui.texts).toContain('pali pini: pali poki\npoki wawa x1\nXP +50\nnimi: poki');
-        expect(ui.notifications).toContain('pali pini: pali poki');
+        expect(ui.texts).toContain('Quest complete: Field Notes\nHeavy Capture Pod x1\nXP +50\nClue: Capture pods');
+        expect(ui.notifications).toContain('Quest complete: Field Notes');
     });
 
     it('uses a kili from the wild encounter item submenu and returns to the action menu', async () => {
@@ -172,8 +172,8 @@ describe('journey golden path (integration)', () => {
             await player.execMethod('onInShape', [encounter]);
         });
 
-        expect(ui.texts).toContain('ijo');
-        expect(ui.texts).toContain('kili: +20 HP\nHP 25 / 44');
+        expect(ui.texts).toContain('Choose an item');
+        expect(ui.texts).toContain('Orchard Fruit: +20 HP\nHP 25 / 44');
         expect((player as unknown as { hp: number }).hp).toBe(25);
         expect((await getPartyWithHealth())[0].current_hp).toBe(25);
         expect((await getBestiaryState()).jan_ike_lili).toEqual(expect.objectContaining({
@@ -183,12 +183,12 @@ describe('journey golden path (integration)', () => {
         expect(await inventoryCount('kili')).toBe(0);
         expect(await latestEncounter()).toEqual(expect.objectContaining({
             species_id: 'jan_ike_lili',
-            map_id: 'nasin_wan',
+            map_id: 'greenwood_road',
             outcome: 'fled',
         }));
     });
 
-    it('marks the rival as defeated and unlocks the east gate to nena_sewi', async () => {
+    it('marks the rival as defeated and unlocks the east gate to highridge_pass', async () => {
         const { player, client } = await bootIntoRoute();
         const ui = hijackUi(player);
         const route = player.getCurrentMap();
@@ -211,21 +211,21 @@ describe('journey golden path (integration)', () => {
             await getFlag('jan_ike_defeated')
         ) === '1' && (
             await preferences.get(KEYS.journeyBeat)
-        ) === 'beat_03_nena_sewi');
+        ) === 'beat_03_highridge_pass');
 
         expect(await getFlag('jan_ike_defeated')).toBe('1');
-        expect(await preferences.get(KEYS.journeyBeat)).toBe('beat_03_nena_sewi');
+        expect(await preferences.get(KEYS.journeyBeat)).toBe('beat_03_highridge_pass');
         expect(await inventoryCount('ma')).toBe(4);
-        expect(ui.notifications).toContain('ma ×4');
-        expect(ui.notifications).toContain('kon moli +100 XP');
-        expect(ui.notifications).toContain('kon moli L5 -> L6');
+        expect(ui.notifications).toContain('Trail Token ×4');
+        expect(ui.notifications).toContain('Ashcat +100 XP');
+        expect(ui.notifications).toContain('Ashcat L5 -> L6');
         expect(currentGraphic(player)).toBe('hero');
 
-        const waitForMountain = client.waitForMapChange('nena_sewi', 5000);
+        const waitForMountain = client.waitForMapChange('highridge_pass', 5000);
         await warpEast!.execMethod('onPlayerTouch', [player]);
         const mountainPlayer = await waitForMountain;
 
-        expect(mountainPlayer.getCurrentMap()?.id).toBe('nena_sewi');
+        expect(mountainPlayer.getCurrentMap()?.id).toBe('highridge_pass');
     });
 
     it('sends out the next conscious party creature when the action-battle lead faints', async () => {
@@ -243,17 +243,17 @@ describe('journey golden path (integration)', () => {
         player.hp = 0;
         await waitFor(async () => currentGraphic(player) === 'species_soweli_kili' && player.hp === 12);
 
-        expect(player.getCurrentMap()?.id).toBe('nasin_wan');
+        expect(player.getCurrentMap()?.id).toBe('greenwood_road');
         expect(currentGraphic(player)).toBe('species_soweli_kili');
         expect(player.hp).toBe(12);
-        expect(ui.notifications).toContain('soweli kili li kama');
+        expect(ui.notifications).toContain('Applepup joins in');
         expect(await getPartyWithHealth()).toMatchObject([
             { slot: 0, species_id: 'soweli_kili', current_hp: 12 },
             { slot: 1, species_id: 'kon_moli', current_hp: 0 },
         ]);
     });
 
-    it('defeats jan Wawa, grants the badge reward, and opens ma_telo', async () => {
+    it('defeats jan Wawa, grants the badge reward, and opens lakehaven', async () => {
         const { player, client } = await bootIntoMountain();
         const ui = hijackUi(player);
         const mountain = player.getCurrentMap();
@@ -272,23 +272,23 @@ describe('journey golden path (integration)', () => {
             await getFlag('badge_sewi')
         ) === '1' && (
             await preferences.get(KEYS.journeyBeat)
-        ) === 'beat_04_ma_telo' && (
-            await getWordSightings('sewi')
+        ) === 'beat_04_lakehaven' && (
+            await getClueSightings('highridge-proof')
         ) > 0);
 
         expect(await getFlag('badge_sewi')).toBe('1');
-        expect(await preferences.get(KEYS.journeyBeat)).toBe('beat_04_ma_telo');
-        expect(await getWordSightings('sewi')).toBeGreaterThan(0);
+        expect(await preferences.get(KEYS.journeyBeat)).toBe('beat_04_lakehaven');
+        expect(await getClueSightings('highridge-proof')).toBeGreaterThan(0);
         expect(await inventoryCount('ma')).toBe(10);
-        expect(ui.notifications).toContain('ma ×6');
-        expect(ui.notifications).toContain('kon moli +120 XP');
-        expect(ui.notifications).toContain('kon moli L6 -> L7');
+        expect(ui.notifications).toContain('Trail Token ×6');
+        expect(ui.notifications).toContain('Ashcat +120 XP');
+        expect(ui.notifications).toContain('Ashcat L6 -> L7');
 
-        const waitForVillage = client.waitForMapChange('ma_telo', 5000);
+        const waitForVillage = client.waitForMapChange('lakehaven', 5000);
         await warpNorth!.execMethod('onPlayerTouch', [player]);
         const villagePlayer = await waitForVillage;
 
-        expect(villagePlayer.getCurrentMap()?.id).toBe('ma_telo');
+        expect(villagePlayer.getCurrentMap()?.id).toBe('lakehaven');
     });
 
     it('buys poki and kili from jan Moku with earned ma coins', async () => {
@@ -303,16 +303,16 @@ describe('journey golden path (integration)', () => {
         ui.choose('buy:poki_lili', 'buy:kili', 'back');
         await janMoku!.execMethod('onAction', [player]);
 
-        expect(ui.texts).toContain('kili sin li pona tawa sijelo.');
-        expect(ui.texts).toContain('ma 10');
-        expect(ui.texts).toContain('poki lili +1\nma 8');
-        expect(ui.texts).toContain('kili +1\nma 7');
+        expect(ui.texts).toContain('Fruit, pods, and tonics. Nothing fancy, all useful.');
+        expect(ui.texts).toContain('Trail Token 10');
+        expect(ui.texts).toContain('Capture Pod +1\nTrail Token 8');
+        expect(ui.texts).toContain('Orchard Fruit +1\nTrail Token 7');
         expect(await inventoryCount('ma')).toBe(7);
         expect(await inventoryCount('poki_lili')).toBe(4);
         expect(await inventoryCount('kili')).toBe(1);
     });
 
-    it('defeats jan Telo, grants the badge reward, and opens ma_lete', async () => {
+    it('defeats jan Telo, grants the badge reward, and opens frostvale', async () => {
         const { player, client } = await bootIntoLakeVillage();
         const ui = hijackUi(player);
         const village = player.getCurrentMap();
@@ -331,22 +331,22 @@ describe('journey golden path (integration)', () => {
             await getFlag('badge_telo')
         ) === '1' && (
             await preferences.get(KEYS.journeyBeat)
-        ) === 'beat_05_ma_lete' && (
-            await getWordSightings('telo')
+        ) === 'beat_05_frostvale' && (
+            await getClueSightings('lakehaven-proof')
         ) > 0);
 
         expect(await getFlag('badge_telo')).toBe('1');
-        expect(await preferences.get(KEYS.journeyBeat)).toBe('beat_05_ma_lete');
-        expect(await getWordSightings('telo')).toBeGreaterThan(0);
+        expect(await preferences.get(KEYS.journeyBeat)).toBe('beat_05_frostvale');
+        expect(await getClueSightings('lakehaven-proof')).toBeGreaterThan(0);
 
-        const waitForIceVillage = client.waitForMapChange('ma_lete', 5000);
+        const waitForIceVillage = client.waitForMapChange('frostvale', 5000);
         await warpNorth!.execMethod('onPlayerTouch', [player]);
         const iceVillagePlayer = await waitForIceVillage;
 
-        expect(iceVillagePlayer.getCurrentMap()?.id).toBe('ma_lete');
+        expect(iceVillagePlayer.getCurrentMap()?.id).toBe('frostvale');
     });
 
-    it('defeats jan Lete, grants the badge reward, and opens nena_suli', async () => {
+    it('defeats jan Lete, grants the badge reward, and opens dreadpeak_cavern', async () => {
         const { player, client } = await bootIntoIceVillage();
         const ui = hijackUi(player);
         const iceVillage = player.getCurrentMap();
@@ -365,22 +365,22 @@ describe('journey golden path (integration)', () => {
             await getFlag('badge_lete')
         ) === '1' && (
             await preferences.get(KEYS.journeyBeat)
-        ) === 'beat_06_nena_suli' && (
-            await getWordSightings('lete')
+        ) === 'beat_06_dreadpeak_cavern' && (
+            await getClueSightings('frostvale-proof')
         ) > 0);
 
         expect(await getFlag('badge_lete')).toBe('1');
-        expect(await preferences.get(KEYS.journeyBeat)).toBe('beat_06_nena_suli');
-        expect(await getWordSightings('lete')).toBeGreaterThan(0);
+        expect(await preferences.get(KEYS.journeyBeat)).toBe('beat_06_dreadpeak_cavern');
+        expect(await getClueSightings('frostvale-proof')).toBeGreaterThan(0);
 
-        const waitForGreatPeak = client.waitForMapChange('nena_suli', 5000);
+        const waitForGreatPeak = client.waitForMapChange('dreadpeak_cavern', 5000);
         await warpNorth!.execMethod('onPlayerTouch', [player]);
         const greatPeakPlayer = await waitForGreatPeak;
 
-        expect(greatPeakPlayer.getCurrentMap()?.id).toBe('nena_suli');
+        expect(greatPeakPlayer.getCurrentMap()?.id).toBe('dreadpeak_cavern');
     });
 
-    it('defeats jan Suli, grants the badge reward, and opens nasin_pi_telo', async () => {
+    it('defeats jan Suli, grants the badge reward, and opens rivergate_approach', async () => {
         const { player, client } = await bootIntoGreatPeak();
         const ui = hijackUi(player);
         const greatPeak = player.getCurrentMap();
@@ -399,19 +399,19 @@ describe('journey golden path (integration)', () => {
             await getFlag('badge_suli')
         ) === '1' && (
             await preferences.get(KEYS.journeyBeat)
-        ) === 'beat_07_nasin_pi_telo' && (
-            await getWordSightings('suli')
+        ) === 'beat_07_rivergate_approach' && (
+            await getClueSightings('dreadpeak-proof')
         ) > 0);
 
         expect(await getFlag('badge_suli')).toBe('1');
-        expect(await preferences.get(KEYS.journeyBeat)).toBe('beat_07_nasin_pi_telo');
-        expect(await getWordSightings('suli')).toBeGreaterThan(0);
+        expect(await preferences.get(KEYS.journeyBeat)).toBe('beat_07_rivergate_approach');
+        expect(await getClueSightings('dreadpeak-proof')).toBeGreaterThan(0);
 
-        const waitForFinalRoute = client.waitForMapChange('nasin_pi_telo', 5000);
+        const waitForFinalRoute = client.waitForMapChange('rivergate_approach', 5000);
         await warpNorth!.execMethod('onPlayerTouch', [player]);
         const finalRoutePlayer = await waitForFinalRoute;
 
-        expect(finalRoutePlayer.getCurrentMap()?.id).toBe('nasin_pi_telo');
+        expect(finalRoutePlayer.getCurrentMap()?.id).toBe('rivergate_approach');
     });
 
     it('keeps the final boss trigger silent before all four badges are earned', async () => {
@@ -448,13 +448,13 @@ describe('journey golden path (integration)', () => {
         ) === '1' && (
             await preferences.get(KEYS.journeyBeat)
         ) === 'ending' && (
-            await getWordSightings('kala')
+            await getClueSightings('green-dragon-proof')
         ) > 0 && CREDITS_PAGES.every((page) => ui.texts.includes(page)));
 
         expect(await getFlag('green_dragon_defeated')).toBe('1');
         expect(await getFlag('game_cleared')).toBe('1');
         expect(await preferences.get(KEYS.journeyBeat)).toBe('ending');
-        expect(await getWordSightings('kala')).toBeGreaterThan(0);
+        expect(await getClueSightings('green-dragon-proof')).toBeGreaterThan(0);
         expect(CREDITS_PAGES.every((page) => ui.texts.includes(page))).toBe(true);
     });
 
@@ -462,12 +462,12 @@ describe('journey golden path (integration)', () => {
         const { player, client } = await bootGame();
         hijackUi(player);
 
-        const waitForVillage = client.waitForMapChange('ma_telo', 5000);
-        await player.changeMap('ma_telo', { x: 40, y: 104 });
+        const waitForVillage = client.waitForMapChange('lakehaven', 5000);
+        await player.changeMap('lakehaven', { x: 40, y: 104 });
         const villagePlayer = await waitForVillage;
 
-        const waitForRoute = client.waitForMapChange('nasin_wan', 5000);
-        await villagePlayer.changeMap('nasin_wan', { x: 96, y: 80 });
+        const waitForRoute = client.waitForMapChange('greenwood_road', 5000);
+        await villagePlayer.changeMap('greenwood_road', { x: 96, y: 80 });
         const routePlayer = await waitForRoute;
         hijackUi(routePlayer);
 
@@ -475,35 +475,35 @@ describe('journey golden path (integration)', () => {
         expect(maxHp).toBeGreaterThan(0);
 
         routePlayer.hp = 1;
-        const waitForRespawn = client.waitForMapChange('ma_telo', 5000);
+        const waitForRespawn = client.waitForMapChange('lakehaven', 5000);
         await routePlayer.execMethod('onDead');
         const respawnedPlayer = await waitForRespawn;
 
-        expect(respawnedPlayer.getCurrentMap()?.id).toBe('ma_telo');
+        expect(respawnedPlayer.getCurrentMap()?.id).toBe('lakehaven');
         expect(respawnedPlayer.hp).toBe(maxHp);
-        expect(await preferences.get(KEYS.currentMapId)).toBe('ma_telo');
+        expect(await preferences.get(KEYS.currentMapId)).toBe('lakehaven');
     });
 
     it('restores external progression data on manual save/load round-trip', async () => {
         const { player, client } = await bootIntoRoute();
         hijackUi(player);
 
-        await preferences.set(KEYS.journeyBeat, 'beat_02_nasin_wan');
+        await preferences.set(KEYS.journeyBeat, 'beat_02_greenwood_road');
         await player.save(1);
 
         await preferences.set(KEYS.journeyBeat, 'mutated');
-        const waitForVillage = client.waitForMapChange('ma_tomo_lili', 5000);
-        await player.changeMap('ma_tomo_lili', { x: 128, y: 128 });
+        const waitForVillage = client.waitForMapChange('riverside_home', 5000);
+        await player.changeMap('riverside_home', { x: 128, y: 128 });
         await waitForVillage;
         await addInventory('kili', 5);
 
         const loadResult = await player.load(1, { reason: 'manual', source: 'test' }, { changeMap: true });
         expect(loadResult?.ok).toBe(true);
 
-        const loadedPlayer = await client.waitForMapChange('nasin_wan', 5000);
+        const loadedPlayer = await client.waitForMapChange('greenwood_road', 5000);
 
-        expect(loadedPlayer.getCurrentMap()?.id).toBe('nasin_wan');
-        expect(await preferences.get(KEYS.journeyBeat)).toBe('beat_02_nasin_wan');
+        expect(loadedPlayer.getCurrentMap()?.id).toBe('greenwood_road');
+        expect(await preferences.get(KEYS.journeyBeat)).toBe('beat_02_greenwood_road');
         expect(await inventoryCount('kili')).toBe(0);
         expect(await getParty()).toEqual([
             expect.objectContaining({ slot: 0, species_id: 'kon_moli', level: 5 }),
@@ -514,7 +514,7 @@ describe('journey golden path (integration)', () => {
 async function bootGame(): Promise<{ client: GameClient; player: RpgPlayer }> {
     const fixture = await testing(integrationModules());
     const client = await fixture.createClient();
-    const player = await client.waitForMapChange('ma_tomo_lili', 5000);
+    const player = await client.waitForMapChange('riverside_home', 5000);
     return { client, player };
 }
 
@@ -547,7 +547,7 @@ async function bootIntoRoute(): Promise<{ client: GameClient; player: RpgPlayer 
     ui.choose('kon_moli');
     await janSewi!.execMethod('onAction', [game.player]);
 
-    const waitForRoute = game.client.waitForMapChange('nasin_wan', 5000);
+    const waitForRoute = game.client.waitForMapChange('greenwood_road', 5000);
     await warpEast!.execMethod('onPlayerTouch', [game.player]);
     const routePlayer = await waitForRoute;
     await waitFor(async () => {
@@ -576,7 +576,7 @@ async function bootIntoMountain(): Promise<{ client: GameClient; player: RpgPlay
     await scriptDefeat(janIke, game.player, async () => (
         await getFlag('jan_ike_defeated')
     ) === '1');
-    const waitForMountain = game.client.waitForMapChange('nena_sewi', 5000);
+    const waitForMountain = game.client.waitForMapChange('highridge_pass', 5000);
     await warpEast.execMethod('onPlayerTouch', [game.player]);
     const mountainPlayer = await waitForMountain;
     await waitFor(async () => {
@@ -605,7 +605,7 @@ async function bootIntoLakeVillage(): Promise<{ client: GameClient; player: RpgP
     await scriptDefeat(janWawa, game.player, async () => (
         await getFlag('badge_sewi')
     ) === '1');
-    const waitForVillage = game.client.waitForMapChange('ma_telo', 5000);
+    const waitForVillage = game.client.waitForMapChange('lakehaven', 5000);
     await warpNorth.execMethod('onPlayerTouch', [game.player]);
     const villagePlayer = await waitForVillage;
     await waitFor(async () => {
@@ -634,7 +634,7 @@ async function bootIntoIceVillage(): Promise<{ client: GameClient; player: RpgPl
     await scriptDefeat(janTelo, game.player, async () => (
         await getFlag('badge_telo')
     ) === '1');
-    const waitForIceVillage = game.client.waitForMapChange('ma_lete', 5000);
+    const waitForIceVillage = game.client.waitForMapChange('frostvale', 5000);
     await warpNorth.execMethod('onPlayerTouch', [game.player]);
     const iceVillagePlayer = await waitForIceVillage;
     await waitFor(async () => {
@@ -663,7 +663,7 @@ async function bootIntoGreatPeak(): Promise<{ client: GameClient; player: RpgPla
     await scriptDefeat(janLete, game.player, async () => (
         await getFlag('badge_lete')
     ) === '1');
-    const waitForGreatPeak = game.client.waitForMapChange('nena_suli', 5000);
+    const waitForGreatPeak = game.client.waitForMapChange('dreadpeak_cavern', 5000);
     await warpNorth.execMethod('onPlayerTouch', [game.player]);
     const greatPeakPlayer = await waitForGreatPeak;
     await waitFor(async () => {
@@ -692,7 +692,7 @@ async function bootIntoFinalRoute(): Promise<{ client: GameClient; player: RpgPl
     await scriptDefeat(janSuli, game.player, async () => (
         await getFlag('badge_suli')
     ) === '1');
-    const waitForFinalRoute = game.client.waitForMapChange('nasin_pi_telo', 5000);
+    const waitForFinalRoute = game.client.waitForMapChange('rivergate_approach', 5000);
     await warpNorth.execMethod('onPlayerTouch', [game.player]);
     const finalRoutePlayer = await waitForFinalRoute;
     await waitFor(async () => {

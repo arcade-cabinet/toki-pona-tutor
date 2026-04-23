@@ -3,8 +3,20 @@
   "npc_id": "jan_nasin_sewi",
   "priority": 0,
   "beats": [
-    { "text": { "en": "Let's go!" }, "mood": "excited", "glyph": "tawa" },
-    { "text": { "en": "You need to be strong to do that." }, "mood": "thinking", "glyph": "wawa" }
+    {
+      "text": {
+        "en": "The high trail opens north."
+      },
+      "mood": "excited",
+      "glyph": "greenwood-watch"
+    },
+    {
+      "text": {
+        "en": "You'll need a stronger party before the summit."
+      },
+      "mood": "thinking",
+      "glyph": "battle-ready"
+    }
   ],
   "triggers": {}
 }

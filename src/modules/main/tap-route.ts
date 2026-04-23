@@ -8,8 +8,10 @@ import {
     type TapRouteSnap,
     type TilePoint,
 } from "./tap-route-contract";
+import { TAP_ROUTE_CONFIG } from "../../content/gameplay";
 
 const tapRouteVersions = new WeakMap<RpgPlayer, number>();
+const MOVEMENT_TILE_SIZE = TAP_ROUTE_CONFIG.movementTileSize;
 
 export function registerTapRouteListener(player: RpgPlayer): void {
     player.off(TAP_ROUTE_EVENT);
@@ -45,8 +47,8 @@ export async function handleTapRouteRequest(player: RpgPlayer, payload: unknown)
 
     const normalizedRoute = normalizeTapRoutePath(
         payload.path,
-        map.tileWidth,
-        map.tileHeight,
+        MOVEMENT_TILE_SIZE,
+        MOVEMENT_TILE_SIZE,
         player.x(),
         player.y(),
     );
@@ -57,14 +59,14 @@ export async function handleTapRouteRequest(player: RpgPlayer, payload: unknown)
     const routeVersion = bumpTapRouteVersion(player);
     player.breakRoutes(true);
     await player.teleport({
-        x: normalizedRoute.startTile.x * map.tileWidth,
-        y: normalizedRoute.startTile.y * map.tileHeight,
+        x: normalizedRoute.startTile.x * MOVEMENT_TILE_SIZE,
+        y: normalizedRoute.startTile.y * MOVEMENT_TILE_SIZE,
     });
     emitTapRouteSnap(player, {
         mapId: map.id,
         version: routeVersion,
-        x: normalizedRoute.startTile.x * map.tileWidth,
-        y: normalizedRoute.startTile.y * map.tileHeight,
+        x: normalizedRoute.startTile.x * MOVEMENT_TILE_SIZE,
+        y: normalizedRoute.startTile.y * MOVEMENT_TILE_SIZE,
     });
 
     const completed = await runTileRoute(player, normalizedRoute.startTile, normalizedRoute.path);
@@ -81,14 +83,14 @@ export async function handleTapRouteRequest(player: RpgPlayer, payload: unknown)
         normalizedRoute.path[normalizedRoute.path.length - 1] ?? normalizedRoute.startTile;
     if (normalizedRoute.path.length > 0) {
         await player.teleport({
-            x: destinationTile.x * currentMap.tileWidth,
-            y: destinationTile.y * currentMap.tileHeight,
+            x: destinationTile.x * MOVEMENT_TILE_SIZE,
+            y: destinationTile.y * MOVEMENT_TILE_SIZE,
         });
         emitTapRouteSnap(player, {
             mapId: currentMap.id,
             version: routeVersion,
-            x: destinationTile.x * currentMap.tileWidth,
-            y: destinationTile.y * currentMap.tileHeight,
+            x: destinationTile.x * MOVEMENT_TILE_SIZE,
+            y: destinationTile.y * MOVEMENT_TILE_SIZE,
         });
     }
 

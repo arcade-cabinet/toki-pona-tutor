@@ -1,15 +1,14 @@
 /**
- * Personal dictionary export — T8-06.
+ * Personal clue journal export.
  *
- * At end-of-playthrough (or on-demand from the pause menu), the player
- * can export a shareable record of every TP word they mastered. Two
- * output formats:
+ * At end-of-playthrough or on-demand from the pause menu, the player can
+ * export a shareable record of every investigation clue they discovered.
  *
  * 1. **Text card** — a plaintext summary suitable for copying into
- *    chat / pasting into a journal. Sections: total words, most-sighted
+ *    chat / pasting into a journal. Sections: total clues, most-sighted
  *    top-20, recently-learned (last 7 days).
  * 2. **SVG card** — a 400×600 graphic with the same info, styled
- *    for social-share / print. Deterministic layout: word cloud
+ *    for social-share / print. Deterministic layout: clue cloud
  *    weighted by sightings count.
  *
  * Both functions are pure — they take a snapshot + the player's name
@@ -24,19 +23,21 @@ import {
     VOCABULARY_SCREEN_CONFIG,
 } from "../../content/gameplay";
 import { formatGameplayTemplate } from "../../content/gameplay/templates";
-import { getFlag, listMasteredWordRecords } from "../../platform/persistence/queries";
+import { getFlag, listClueRecords } from "../../platform/persistence/queries";
+import { clueLabel } from "./vocabulary";
 
 export const DICTIONARY_EXPORT_EVENT = "poki:dictionary-export";
 
-export interface MasteredWord {
-    tp: string;
+export interface ClueRecord {
+    id: string;
     sightings: number;
     mastered_at: string; // ISO timestamp
 }
+export type MasteredWord = ClueRecord;
 
 export interface ExportSnapshot {
     playerName: string;
-    words: MasteredWord[];
+    words: ClueRecord[];
     journeyCleared: boolean;
     ngPlusCount: number;
     exportedAt: string; // ISO
@@ -56,7 +57,7 @@ export interface DictionaryExportPayload {
  * @example
  * exportTextCard({
  *   playerName: 'Sam',
- *   words: [{ tp: 'soweli', sightings: 12, mastered_at: '2026-04-20T00:00:00Z' }],
+ *   words: [{ id: 'wild-signs', sightings: 12, mastered_at: '2026-04-20T00:00:00Z' }],
  *   journeyCleared: true,
  *   ngPlusCount: 0,
  *   exportedAt: '2026-04-20T12:00:00Z',
@@ -92,7 +93,7 @@ export function exportTextCard(snap: ExportSnapshot): string {
     for (const w of topSighted) {
         lines.push(
             formatGameplayTemplate(config.wordRowTemplate, {
-                word: w.tp.padEnd(config.wordColumnWidth),
+                word: clueLabel(w.id).padEnd(config.wordColumnWidth),
                 marks: config.sightingMark.repeat(Math.min(config.sightingMarkCap, w.sightings)),
             }),
         );
@@ -131,7 +132,7 @@ export function exportSvgCard(snap: ExportSnapshot): string {
                 fontSize,
                 fill: config.grid.wordFill,
                 fontFamily: config.fontFamily,
-                text: w.tp,
+                text: clueLabel(w.id),
             });
         })
         .join("");
@@ -186,7 +187,7 @@ export async function buildDictionaryExportSnapshot(
     } = {},
 ): Promise<ExportSnapshot> {
     const [words, cleared] = await Promise.all([
-        listMasteredWordRecords(
+        listClueRecords(
             options.masteryThreshold ?? VOCABULARY_SCREEN_CONFIG.masteryThreshold,
         ),
         getFlag(FINAL_BOSS_CONFIG.clearedFlag),
@@ -208,6 +209,7 @@ export async function showDictionaryExport(player: RpgPlayer): Promise<Dictionar
         filename: DICTIONARY_EXPORT_CONFIG.runtime.downloadFilename,
     };
     player.emit(DICTIONARY_EXPORT_EVENT, payload);
+    player.getCurrentMap?.()?.broadcast?.(DICTIONARY_EXPORT_EVENT, payload);
     await player.showText(payload.textCard);
     return payload;
 }

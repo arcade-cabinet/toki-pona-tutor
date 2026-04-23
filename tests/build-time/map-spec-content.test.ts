@@ -1,13 +1,13 @@
 import { describe, expect, it } from "vitest";
 import { readFileSync, readdirSync } from "node:fs";
 import { resolve } from "node:path";
-import maTomoLili from "../../scripts/map-authoring/specs/ma_tomo_lili";
-import nasinWan from "../../scripts/map-authoring/specs/nasin_wan";
-import nasinPiTelo from "../../scripts/map-authoring/specs/nasin_pi_telo";
-import maTelo from "../../scripts/map-authoring/specs/ma_telo";
-import maLete from "../../scripts/map-authoring/specs/ma_lete";
-import nenaSewi from "../../scripts/map-authoring/specs/nena_sewi";
-import nenaSuli from "../../scripts/map-authoring/specs/nena_suli";
+import maTomoLili from "../../scripts/map-authoring/specs/riverside_home";
+import nasinWan from "../../scripts/map-authoring/specs/greenwood_road";
+import nasinPiTelo from "../../scripts/map-authoring/specs/rivergate_approach";
+import maTelo from "../../scripts/map-authoring/specs/lakehaven";
+import maLete from "../../scripts/map-authoring/specs/frostvale";
+import nenaSewi from "../../scripts/map-authoring/specs/highridge_pass";
+import nenaSuli from "../../scripts/map-authoring/specs/dreadpeak_cavern";
 import { cavePalette } from "../../scripts/map-authoring/palettes/cave";
 import { icePalette } from "../../scripts/map-authoring/palettes/ice";
 import { mountainPalette } from "../../scripts/map-authoring/palettes/mountain";
@@ -16,13 +16,13 @@ import { collectionAtlasTileset } from "../../scripts/map-authoring/config/colle
 import type { PlacedTile, TileGrid } from "../../scripts/map-authoring/lib/types";
 
 const SHIPPED_SPECS = [
-    ["ma_tomo_lili", maTomoLili],
-    ["nasin_wan", nasinWan],
-    ["nena_sewi", nenaSewi],
-    ["ma_telo", maTelo],
-    ["ma_lete", maLete],
-    ["nena_suli", nenaSuli],
-    ["nasin_pi_telo", nasinPiTelo],
+    ["riverside_home", maTomoLili],
+    ["greenwood_road", nasinWan],
+    ["highridge_pass", nenaSewi],
+    ["lakehaven", maTelo],
+    ["frostvale", maLete],
+    ["dreadpeak_cavern", nenaSuli],
+    ["rivergate_approach", nasinPiTelo],
 ] as const;
 
 const CARDINAL_DIRECTIONS = [
@@ -34,6 +34,14 @@ const CARDINAL_DIRECTIONS = [
 
 function isTileGrid(layer: TileGrid | PlacedTile[] | undefined): layer is TileGrid {
     return Array.isArray(layer) && layer.length > 0 && Array.isArray(layer[0]);
+}
+
+function requireTileGrid(
+    layer: TileGrid | PlacedTile[] | undefined,
+    name: string,
+): TileGrid {
+    if (!isTileGrid(layer)) throw new Error(`expected ${name} to be a tile grid`);
+    return layer;
 }
 
 function isBlockedWaterCell(cell: string): boolean {
@@ -144,7 +152,7 @@ describe("authored map content contracts", () => {
         }
     });
 
-    it("T4-01: ma_tomo_lili uses seasons grass and dirt-path transitions instead of core placeholder paint", () => {
+    it("T4-01: riverside_home uses seasons grass and dirt-path transitions instead of core placeholder paint", () => {
         expect(maTomoLili.tilesets).toEqual(
             expect.arrayContaining(["seasons/Tileset_Ground_Seasons", "seasons/Tileset_Road"]),
         );
@@ -152,14 +160,14 @@ describe("authored map content contracts", () => {
 
         const below = maTomoLili.layers["Below Player"];
         if (!isTileGrid(below))
-            throw new Error("expected ma_tomo_lili Below Player to be a tile grid");
+            throw new Error("expected riverside_home Below Player to be a tile grid");
 
         const used = new Set(below.flat());
         expect([...used]).toEqual(expect.arrayContaining(["g", "f", "v", "d"]));
         expect([...used].some((cell) => cell.startsWith("gd_"))).toBe(true);
     });
 
-    it("T4-02: nasin_wan uses the seasons forest tileset instead of placeholder core grass", () => {
+    it("T4-02: greenwood_road uses the seasons forest tileset instead of placeholder core grass", () => {
         expect(nasinWan.biome).toBe("forest");
         expect(nasinWan.tilesets).toEqual(
             expect.arrayContaining([
@@ -172,25 +180,26 @@ describe("authored map content contracts", () => {
         expect(nasinWan.tilesets).not.toContain("core/Tileset_Ground");
     });
 
-    it("T4-02: nasin_wan has forest paint, encounter grass, pathing, and tree cover", () => {
-        const below = nasinWan.layers["Below Player"];
-        if (!isTileGrid(below))
-            throw new Error("expected nasin_wan Below Player to be a tile grid");
+    it("T4-02: greenwood_road has forest paint, encounter grass, pathing, and tree cover", () => {
+        const below = requireTileGrid(nasinWan.layers["Below Player"], "greenwood_road Below Player");
+        const detail = requireTileGrid(nasinWan.layers["Ground Detail"], "greenwood_road Ground Detail");
 
         const used = new Set(below.flat());
-        expect([...used]).toEqual(expect.arrayContaining(["g", "f", "v", "d", "G"]));
+        expect([...used]).toEqual(expect.arrayContaining(["g", "f", "v", "d"]));
+        expect(used.has("G")).toBe(false);
+        expect(new Set(detail.flat())).toContain("G");
         expect(below[5].every((cell) => cell === "d")).toBe(true);
 
         const world = nasinWan.layers.World;
         if (!Array.isArray(world) || isTileGrid(world)) {
-            throw new Error("expected nasin_wan World to be placed forest tiles");
+            throw new Error("expected greenwood_road World to be placed forest tiles");
         }
         const placed = world.map((entry) => entry.tile);
         expect(placed.some((tile) => tile.startsWith("tree_"))).toBe(true);
         expect(placed.some((tile) => tile.startsWith("bush_"))).toBe(true);
     });
 
-    it("T4-03: nasin_pi_telo uses seasons water/shore tiles instead of placeholder core grass", () => {
+    it("T4-03: rivergate_approach uses seasons water/shore tiles instead of placeholder core grass", () => {
         expect(nasinPiTelo.biome).toBe("water");
         expect(nasinPiTelo.tilesets).toEqual(
             expect.arrayContaining([
@@ -204,13 +213,20 @@ describe("authored map content contracts", () => {
         expect(nasinPiTelo.tilesets).not.toContain("core/Tileset_Ground");
     });
 
-    it("T4-03: nasin_pi_telo has blocked water, encounter grass, and a playable sandbar route", () => {
-        const below = nasinPiTelo.layers["Below Player"];
-        if (!isTileGrid(below))
-            throw new Error("expected nasin_pi_telo Below Player to be a tile grid");
+    it("T4-03: rivergate_approach has blocked water, encounter grass, and a playable sandbar route", () => {
+        const below = requireTileGrid(
+            nasinPiTelo.layers["Below Player"],
+            "rivergate_approach Below Player",
+        );
+        const detail = requireTileGrid(
+            nasinPiTelo.layers["Ground Detail"],
+            "rivergate_approach Ground Detail",
+        );
 
         const used = new Set(below.flat());
-        expect([...used]).toEqual(expect.arrayContaining(["g", "f", "v", "d", "s", "G", "w"]));
+        expect([...used]).toEqual(expect.arrayContaining(["g", "f", "v", "d", "s", "w"]));
+        expect(used.has("G")).toBe(false);
+        expect(new Set(detail.flat())).toContain("G");
         expect(below.flat().filter(isBlockedWaterCell).length).toBeGreaterThanOrEqual(40);
 
         const markers = nasinPiTelo.layers.Objects ?? [];
@@ -234,7 +250,7 @@ describe("authored map content contracts", () => {
         }
     });
 
-    it("T4-03: nasin_pi_telo water palette points at a Tiled collision tile", () => {
+    it("T4-03: rivergate_approach water palette points at a Tiled collision tile", () => {
         const waterTile = waterPalette.w;
         expect(waterTile.tsx).toBe("seasons/Tileset_Water");
 
@@ -260,7 +276,7 @@ describe("authored map content contracts", () => {
         }
     });
 
-    it("T4-04: ma_telo uses a lake-village tileset set instead of placeholder core grass", () => {
+    it("T4-04: lakehaven uses a lake-village tileset set instead of placeholder core grass", () => {
         expect(maTelo.biome).toBe("town");
         expect(maTelo.tilesets).toEqual(
             expect.arrayContaining([
@@ -275,9 +291,9 @@ describe("authored map content contracts", () => {
         expect(maTelo.tilesets).not.toContain("core/Tileset_Ground");
     });
 
-    it("T4-04: ma_telo is a no-encounter lake village with reachable story/shop markers", () => {
+    it("T4-04: lakehaven is a no-encounter lake village with reachable story/shop markers", () => {
         const below = maTelo.layers["Below Player"];
-        if (!isTileGrid(below)) throw new Error("expected ma_telo Below Player to be a tile grid");
+        if (!isTileGrid(below)) throw new Error("expected lakehaven Below Player to be a tile grid");
 
         const used = new Set(below.flat());
         expect([...used]).toEqual(expect.arrayContaining(["g", "v", "s", "d", "p", "w"]));
@@ -301,8 +317,8 @@ describe("authored map content contracts", () => {
             type: "Warp",
             rect: [15, 0, 1, 1],
             props: {
-                target_map: "ma_lete",
-                target_spawn: "from_ma_telo",
+                target_map: "frostvale",
+                target_spawn: "from_lakehaven",
                 required_flag: "badge_telo",
             },
         });
@@ -321,10 +337,10 @@ describe("authored map content contracts", () => {
         }
     });
 
-    it("T4-04: ma_telo includes visual village landmarks", () => {
+    it("T4-04: lakehaven includes visual village landmarks", () => {
         const world = maTelo.layers.World;
         if (!Array.isArray(world) || isTileGrid(world)) {
-            throw new Error("expected ma_telo World to be placed town landmarks");
+            throw new Error("expected lakehaven World to be placed town landmarks");
         }
 
         const placed = world.map((entry) => entry.tile);
@@ -333,14 +349,13 @@ describe("authored map content contracts", () => {
         expect(placed.some((tile) => tile.startsWith("bush_"))).toBe(true);
     });
 
-    it("T4-05: ma_lete uses the snow tileset family instead of placeholder core grass", () => {
+    it("T4-05: frostvale uses the snow tileset family instead of placeholder core grass", () => {
         expect(maLete.biome).toBe("ice");
         expect(maLete.tilesets).toEqual(
             expect.arrayContaining([
                 "snow/Tileset_Ground_Snow",
                 "snow/Tileset_Road",
                 "snow/Tileset_Snow",
-                "snow/Tileset_TallGrass",
                 "snow/Tileset_Fence_1_Snow",
                 collectionAtlasTileset("snow/Objects_Buildings_Snow"),
                 collectionAtlasTileset("snow/Objects_Props_Snow"),
@@ -351,19 +366,20 @@ describe("authored map content contracts", () => {
         expect(maLete.tilesets).not.toContain("core/Tileset_Ground");
     });
 
-    it("T4-05: ma_lete has cold village paint, encounter grass, and reachable story markers", () => {
-        const below = maLete.layers["Below Player"];
-        if (!isTileGrid(below)) throw new Error("expected ma_lete Below Player to be a tile grid");
+    it("T4-05: frostvale has cold village paint, encounter grass, and reachable story markers", () => {
+        const below = requireTileGrid(maLete.layers["Below Player"], "frostvale Below Player");
+        const detail = requireTileGrid(maLete.layers["Ground Detail"], "frostvale Ground Detail");
 
         const used = new Set(below.flat());
-        expect([...used]).toEqual(expect.arrayContaining(["s", "i", "j", "r", "d", "G"]));
-        expect(below.flat().filter((cell) => cell === "G").length).toBeGreaterThanOrEqual(30);
+        expect([...used]).toEqual(expect.arrayContaining(["s", "i", "j", "r", "d"]));
+        expect(used.has("G")).toBe(false);
+        expect(detail.flat().filter((cell) => cell === "G").length).toBeGreaterThanOrEqual(30);
         expect(maLete.layers.Encounters ?? []).toHaveLength(2);
 
         for (const encounter of maLete.layers.Encounters ?? []) {
             const [x0, y0, w, h] = encounter.rect;
             for (let y = y0; y < y0 + h; y++) {
-                for (let x = x0; x < x0 + w; x++) expect(below[y][x]).toBe("G");
+                for (let x = x0; x < x0 + w; x++) expect(detail[y][x]).toBe("G");
             }
         }
 
@@ -380,8 +396,8 @@ describe("authored map content contracts", () => {
             type: "Warp",
             rect: [17, 0, 1, 1],
             props: {
-                target_map: "nena_suli",
-                target_spawn: "from_ma_lete",
+                target_map: "dreadpeak_cavern",
+                target_spawn: "from_frostvale",
                 required_flag: "badge_lete",
             },
         });
@@ -389,21 +405,21 @@ describe("authored map content contracts", () => {
         for (const marker of markers) {
             if ("at" in marker) {
                 const [x, y] = marker.at;
-                expect(below[y][x]).not.toBe("G");
+                expect(detail[y][x]).not.toBe("G");
             }
             if ("rect" in marker) {
                 const [x0, y0, w, h] = marker.rect;
                 for (let y = y0; y < y0 + h; y++) {
-                    for (let x = x0; x < x0 + w; x++) expect(below[y][x]).not.toBe("G");
+                    for (let x = x0; x < x0 + w; x++) expect(detail[y][x]).not.toBe("G");
                 }
             }
         }
     });
 
-    it("T4-05: ma_lete includes snow village landmarks and an encounter-grass collision tile", () => {
+    it("T4-05: frostvale includes snow village landmarks and snow-family encounter fill", () => {
         const world = maLete.layers.World;
         if (!Array.isArray(world) || isTileGrid(world)) {
-            throw new Error("expected ma_lete World to be placed snow landmarks");
+            throw new Error("expected frostvale World to be placed snow landmarks");
         }
 
         const placed = world.map((entry) => entry.tile);
@@ -421,22 +437,28 @@ describe("authored map content contracts", () => {
         expect(placed.some((tile) => tile.startsWith("bush_"))).toBe(true);
 
         const tallGrassTile = icePalette.G;
-        expect(tallGrassTile.tsx).toBe("snow/Tileset_TallGrass");
+        expect(tallGrassTile).toMatchObject({
+            tsx: "snow/Tileset_Snow",
+            local_id: 50,
+            surface: "rough-grass",
+            role: "encounter",
+            walkable: true,
+        });
 
         const tsx = readFileSync(
             resolve(
                 __dirname,
-                "../../public/assets/tilesets/snow/Tiled/Tilesets/Tileset_TallGrass.tsx",
+                "../../public/assets/tilesets/snow/Tiled/Tilesets/Tileset_Snow.tsx",
             ),
             "utf8",
         );
-        const tileBlock =
-            new RegExp(`<tile id="${tallGrassTile.local_id}"[\\s\\S]*?<\\/tile>`).exec(tsx)?.[0] ??
-            "";
-        expect(tileBlock).toContain("<objectgroup");
+        expect(tsx).toContain(`<tile id="${tallGrassTile.local_id}" probability="0"/>`);
+        expect(tsx).not.toMatch(
+            new RegExp(`<tile id="${tallGrassTile.local_id}"[\\s\\S]*?<objectgroup`),
+        );
     });
 
-    it("T4-06: nena_sewi uses the mountain tileset set instead of placeholder core grass", () => {
+    it("T4-06: highridge_pass uses the mountain tileset set instead of placeholder core grass", () => {
         expect(nenaSewi.biome).toBe("peak");
         expect(nenaSewi.tilesets).toEqual(
             expect.arrayContaining([
@@ -451,20 +473,21 @@ describe("authored map content contracts", () => {
         expect(nenaSewi.tilesets).not.toContain("core/Tileset_Ground");
     });
 
-    it("T4-06: nena_sewi has blocked cliffs, encounter grass, and reachable gym markers", () => {
-        const below = nenaSewi.layers["Below Player"];
-        if (!isTileGrid(below))
-            throw new Error("expected nena_sewi Below Player to be a tile grid");
+    it("T4-06: highridge_pass has blocked cliffs, encounter grass, and reachable gym markers", () => {
+        const below = requireTileGrid(nenaSewi.layers["Below Player"], "highridge_pass Below Player");
+        const detail = requireTileGrid(nenaSewi.layers["Ground Detail"], "highridge_pass Ground Detail");
 
         const used = new Set(below.flat());
-        expect([...used]).toEqual(expect.arrayContaining(["g", "v", "d", "p", "G", "c"]));
+        expect([...used]).toEqual(expect.arrayContaining(["g", "v", "d", "p", "c"]));
+        expect(used.has("G")).toBe(false);
+        expect(new Set(detail.flat())).toContain("G");
         expect(below.flat().filter((cell) => cell === "c").length).toBeGreaterThanOrEqual(100);
         expect(nenaSewi.layers.Encounters ?? []).toHaveLength(2);
 
         for (const encounter of nenaSewi.layers.Encounters ?? []) {
             const [x0, y0, w, h] = encounter.rect;
             for (let y = y0; y < y0 + h; y++) {
-                for (let x = x0; x < x0 + w; x++) expect(below[y][x]).toBe("G");
+                for (let x = x0; x < x0 + w; x++) expect(detail[y][x]).toBe("G");
             }
         }
 
@@ -479,8 +502,8 @@ describe("authored map content contracts", () => {
             type: "Warp",
             rect: [24, 0, 1, 1],
             props: {
-                target_map: "ma_telo",
-                target_spawn: "from_nena_sewi",
+                target_map: "lakehaven",
+                target_spawn: "from_highridge_pass",
                 required_flag: "badge_sewi",
             },
         });
@@ -489,24 +512,24 @@ describe("authored map content contracts", () => {
             if ("at" in marker) {
                 const [x, y] = marker.at;
                 expect(below[y][x]).not.toBe("c");
-                expect(below[y][x]).not.toBe("G");
+                expect(detail[y][x]).not.toBe("G");
             }
             if ("rect" in marker) {
                 const [x0, y0, w, h] = marker.rect;
                 for (let y = y0; y < y0 + h; y++) {
                     for (let x = x0; x < x0 + w; x++) {
                         expect(below[y][x]).not.toBe("c");
-                        expect(below[y][x]).not.toBe("G");
+                        expect(detail[y][x]).not.toBe("G");
                     }
                 }
             }
         }
     });
 
-    it("T4-06: nena_sewi includes rock landmarks and cliff collision paint", () => {
+    it("T4-06: highridge_pass includes rock landmarks and cliff collision paint", () => {
         const world = nenaSewi.layers.World;
         if (!Array.isArray(world) || isTileGrid(world)) {
-            throw new Error("expected nena_sewi World to be placed mountain landmarks");
+            throw new Error("expected highridge_pass World to be placed mountain landmarks");
         }
 
         const placed = world.map((entry) => entry.tile);
@@ -529,7 +552,7 @@ describe("authored map content contracts", () => {
         expect(tileBlock).toContain("<objectgroup");
     });
 
-    it("T4-07: nena_suli uses the fortress cave tileset set instead of placeholder core grass", () => {
+    it("T4-07: dreadpeak_cavern uses the fortress cave tileset set instead of placeholder core grass", () => {
         expect(nenaSuli.biome).toBe("cave");
         expect(nenaSuli.tilesets).toEqual(
             expect.arrayContaining([
@@ -542,20 +565,21 @@ describe("authored map content contracts", () => {
         expect(nenaSuli.tilesets).not.toContain("core/Tileset_Ground");
     });
 
-    it("T4-07: nena_suli has blocked cave walls, encounter patches, and reachable peak markers", () => {
-        const below = nenaSuli.layers["Below Player"];
-        if (!isTileGrid(below))
-            throw new Error("expected nena_suli Below Player to be a tile grid");
+    it("T4-07: dreadpeak_cavern has blocked cave walls, encounter patches, and reachable peak markers", () => {
+        const below = requireTileGrid(nenaSuli.layers["Below Player"], "dreadpeak_cavern Below Player");
+        const detail = requireTileGrid(nenaSuli.layers["Ground Detail"], "dreadpeak_cavern Ground Detail");
 
         const used = new Set(below.flat());
-        expect([...used]).toEqual(expect.arrayContaining(["f", "p", "v", "w", "G"]));
+        expect([...used]).toEqual(expect.arrayContaining(["f", "p", "v", "w"]));
+        expect(used.has("G")).toBe(false);
+        expect(new Set(detail.flat())).toContain("G");
         expect(below.flat().filter((cell) => cell === "w").length).toBeGreaterThanOrEqual(100);
         expect(nenaSuli.layers.Encounters ?? []).toHaveLength(2);
 
         for (const encounter of nenaSuli.layers.Encounters ?? []) {
             const [x0, y0, w, h] = encounter.rect;
             for (let y = y0; y < y0 + h; y++) {
-                for (let x = x0; x < x0 + w; x++) expect(below[y][x]).toBe("G");
+                for (let x = x0; x < x0 + w; x++) expect(detail[y][x]).toBe("G");
             }
         }
 
@@ -570,8 +594,8 @@ describe("authored map content contracts", () => {
             type: "Warp",
             rect: [8, 0, 1, 1],
             props: {
-                target_map: "nasin_pi_telo",
-                target_spawn: "from_nena_suli",
+                target_map: "rivergate_approach",
+                target_spawn: "from_dreadpeak_cavern",
                 required_flag: "badge_suli",
             },
         });
@@ -580,24 +604,24 @@ describe("authored map content contracts", () => {
             if ("at" in marker) {
                 const [x, y] = marker.at;
                 expect(below[y][x]).not.toBe("w");
-                expect(below[y][x]).not.toBe("G");
+                expect(detail[y][x]).not.toBe("G");
             }
             if ("rect" in marker) {
                 const [x0, y0, w, h] = marker.rect;
                 for (let y = y0; y < y0 + h; y++) {
                     for (let x = x0; x < x0 + w; x++) {
                         expect(below[y][x]).not.toBe("w");
-                        expect(below[y][x]).not.toBe("G");
+                        expect(detail[y][x]).not.toBe("G");
                     }
                 }
             }
         }
     });
 
-    it("T4-07: nena_suli includes torch landmarks and cave-wall collision paint", () => {
+    it("T4-07: dreadpeak_cavern includes torch landmarks and cave-wall collision paint", () => {
         const world = nenaSuli.layers.World;
         if (!Array.isArray(world) || isTileGrid(world)) {
-            throw new Error("expected nena_suli World to be placed cave landmarks");
+            throw new Error("expected dreadpeak_cavern World to be placed cave landmarks");
         }
 
         const placed = world.map((entry) => entry.tile);

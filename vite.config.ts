@@ -1,5 +1,6 @@
 import { defineConfig } from "vite";
 import type { Plugin } from "vite";
+import react from "@vitejs/plugin-react";
 import { rpgjs, tiledMapFolderPlugin } from "@rpgjs/vite";
 import { copyFileSync, mkdirSync } from "node:fs";
 import { resolve, dirname } from "node:path";
@@ -61,6 +62,7 @@ export default defineConfig({
         },
     },
     plugins: [
+        react(),
         copyWasmPlugin(),
         tiledMapFolderPlugin({
             sourceFolder: "./src/tiled",

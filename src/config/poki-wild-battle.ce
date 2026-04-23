@@ -1,80 +1,8 @@
-<DOMContainer width="100%" height="220" class="poki-wild-battle-root" style={rootStyle}>
-    @if (battle()) {
-        <div class="poki-wild-battle" data-testid="wild-battle" aria-label={battleLabel()}>
-            <div class="poki-wild-battle-stage">
-                @if (battle().lead) {
-                    <div class="poki-wild-combatant lead" data-testid="wild-battle-lead">
-                        <div class={{"poki-wild-combatant-sprite": true, "has-image": !!battle().lead.sprite}} style={spriteStyle(battle().lead.sprite)}>
-                            <span>{battle().lead.fallback}</span>
-                        </div>
-                        <div class="poki-wild-combatant-copy">
-                            <div class="poki-wild-combatant-heading">
-                                <span>{battle().lead.label}</span>
-                                <small>{battle().lead.levelLabel}</small>
-                            </div>
-                            <div class="poki-wild-combatant-type">{battle().lead.typeLabel}</div>
-                            <div class={["poki-wild-hp", battle().lead.hpClass]}>
-                                <div class="poki-wild-hp-track">
-                                    <div class="poki-wild-hp-fill hp-fill" style={hpFillStyle(battle().lead)}></div>
-                                </div>
-                                <small>{battle().lead.hpLabel}</small>
-                            </div>
-                        </div>
-                    </div>
-                }
-                @else {
-                    <div class="poki-wild-combatant lead missing" data-testid="wild-battle-lead">
-                        <div class="poki-wild-combatant-sprite"><span>{wildCopy.missingPortraitFallback}</span></div>
-                        <div class="poki-wild-combatant-copy">
-                            <div class="poki-wild-combatant-heading">
-                                <span>{wildCopy.missingLeadLabel}</span>
-                                <small>{wildCopy.missingPortraitFallback}</small>
-                            </div>
-                            <div class="poki-wild-combatant-type">{wildCopy.missingLeadTypeLabel}</div>
-                        </div>
-                    </div>
-                }
-
-                <div class="poki-wild-versus" aria-hidden="true">{wildCopy.versusLabel}</div>
-
-                <div class={captureClass()} data-testid="wild-battle-capture" aria-hidden={captureHidden()}>
-                    <div class="poki-wild-capture-arc" aria-hidden="true">
-                        <span class="poki-wild-capture-orb"></span>
-                    </div>
-                    <div class="poki-wild-capture-label">{captureLabel()}</div>
-                </div>
-
-                <div class="poki-wild-combatant target" data-testid="wild-battle-target">
-                    <div class={{"poki-wild-combatant-sprite": true, "has-image": !!battle().target.sprite}} style={spriteStyle(battle().target.sprite)}>
-                        <span>{battle().target.fallback}</span>
-                    </div>
-                    <div class={damageClass()} data-testid="wild-battle-damage" aria-hidden={damageHidden()}>
-                        {damageLabel()}
-                    </div>
-                    <div class="poki-wild-combatant-copy">
-                        <div class="poki-wild-combatant-heading">
-                            <span>{battle().target.label}</span>
-                            <small>{battle().target.levelLabel}</small>
-                        </div>
-                        <div class="poki-wild-combatant-type">{battle().target.typeLabel}</div>
-                        <div class={["poki-wild-hp", battle().target.hpClass]}>
-                            <div class="poki-wild-hp-track">
-                                <div class="poki-wild-hp-fill hp-fill" style={hpFillStyle(battle().target)}></div>
-                            </div>
-                            <small>{battle().target.hpLabel}</small>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    }
-</DOMContainer>
+<DOMContainer width="0" height="0"></DOMContainer>
 
 <script>
-    import { computed } from "canvasengine";
-    import { COMBAT_UI_CONFIG } from "../content/gameplay";
-    import { formatGameplayTemplate } from "../content/gameplay/templates";
-    import { publicAssetPath } from "./asset-paths";
+    import { computed, effect, mount } from "canvasengine";
+    import { riversUiBridge } from "../ui/bridge";
 
     const { data } = defineProps({
         data: {
@@ -83,52 +11,14 @@
     });
 
     const battle = computed(() => data() || null);
-    const wildCopy = COMBAT_UI_CONFIG.wildBattle;
-    const base = import.meta.env.BASE_URL || "/";
-    const rootStyle = { pointerEvents: "none" };
-    const damage = computed(() => battle()?.damage || null);
-    const capture = computed(() => battle()?.capture || null);
 
-    const battleLabel = computed(() => {
-        const view = battle();
-        if (!view) return wildCopy.battleAriaLabel;
-        const lead = view.lead?.label || wildCopy.missingLeadLabel;
-        return formatGameplayTemplate(wildCopy.battleLabelTemplate, {
-            lead,
-            target: view.target.label
-        });
+    effect(() => {
+        riversUiBridge.update({ wildBattle: battle() });
     });
 
-    const hpFillStyle = (combatant) => `width: ${Number(combatant?.hpPercent ?? 0)}%`;
-    const damageLabel = computed(() => damage()?.label || "");
-    const damageHidden = computed(() => (damage() ? "false" : "true"));
-    const damageClass = computed(() => {
-        const item = damage();
-        return item
-            ? `poki-wild-damage visible tone-${item.tone}`
-            : "poki-wild-damage";
-    });
-    const captureLabel = computed(() => capture()?.label || "");
-    const captureHidden = computed(() => (capture() ? "false" : "true"));
-    const captureClass = computed(() => {
-        const item = capture();
-        return item
-            ? `poki-wild-capture visible state-${item.state}`
-            : "poki-wild-capture";
-    });
-
-    const spriteStyle = (sprite) => {
-        if (!sprite?.src) return {};
-        const framesWidth = Math.max(1, Number(sprite.framesWidth || 1));
-        const framesHeight = Math.max(1, Number(sprite.framesHeight || 1));
-        const frameX = Math.max(0, Math.min(framesWidth - 1, Number(sprite.frameX || 0)));
-        const frameY = Math.max(0, Math.min(framesHeight - 1, Number(sprite.frameY || 0)));
-        const positionX = framesWidth <= 1 ? 0 : (frameX / (framesWidth - 1)) * 100;
-        const positionY = framesHeight <= 1 ? 0 : (frameY / (framesHeight - 1)) * 100;
-        return {
-            backgroundImage: `url(${publicAssetPath(sprite.src, base)})`,
-            backgroundSize: `${framesWidth * 100}% ${framesHeight * 100}%`,
-            backgroundPosition: `${positionX}% ${positionY}%`
+    mount(() => {
+        return () => {
+            riversUiBridge.update({ wildBattle: null });
         };
-    };
+    });
 </script>

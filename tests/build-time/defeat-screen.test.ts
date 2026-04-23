@@ -8,28 +8,28 @@ import {
 
 describe('defeat screen view model', () => {
     it('uses safe-village labels for respawn destinations', () => {
-        expect(resolveDefeatScreenLabel('ma_tomo_lili')).toBe('ma tomo lili');
-        expect(resolveDefeatScreenLabel('ma_telo')).toBe('ma telo');
-        expect(resolveDefeatScreenLabel('ma_lete')).toBe('ma lete');
+        expect(resolveDefeatScreenLabel('riverside_home')).toBe('Riverside Home');
+        expect(resolveDefeatScreenLabel('lakehaven')).toBe('Lakehaven');
+        expect(resolveDefeatScreenLabel('frostvale')).toBe('Frostvale');
     });
 
     it('allows explicit labels and readable unknown map fallbacks', () => {
-        expect(resolveDefeatScreenLabel('ma_tomo_lili', 'tomo awen')).toBe('tomo awen');
+        expect(resolveDefeatScreenLabel('riverside_home', 'tomo awen')).toBe('tomo awen');
         expect(resolveDefeatScreenLabel('ma_ante')).toBe('ma ante');
     });
 
     it('builds the fallen and returning phases', () => {
-        expect(buildDefeatScreenView({ targetMap: 'ma_tomo_lili' })).toMatchObject({
+        expect(buildDefeatScreenView({ targetMap: 'riverside_home' })).toMatchObject({
             phase: 'fallen',
-            statusLabel: 'pakala!',
-            detailLabel: 'o awen lili',
-            label: 'ma tomo lili',
+            statusLabel: 'Knocked down!',
+            detailLabel: 'Hold on',
+            label: 'Riverside Home',
         });
-        expect(buildDefeatScreenView({ targetMap: 'ma_tomo_lili', phase: 'returning' })).toMatchObject({
+        expect(buildDefeatScreenView({ targetMap: 'riverside_home', phase: 'returning' })).toMatchObject({
             phase: 'returning',
-            statusLabel: 'sina tawa ma tomo',
-            detailLabel: 'sijelo li kama pona',
-            label: 'ma tomo lili',
+            statusLabel: 'Heading back',
+            detailLabel: 'Your party is recovering',
+            label: 'Riverside Home',
         });
     });
 

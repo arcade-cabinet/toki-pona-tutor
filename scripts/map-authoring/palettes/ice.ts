@@ -5,6 +5,7 @@
  * direct TSX image-collection inspection for snow buildings, trees, and rocks.
  */
 import type { Palette } from '../lib/types';
+import { curatedTile } from '../config/art-curation';
 import { collectionAtlasEntry } from '../config/collection-atlases';
 
 const snowBuildings = 'snow/Objects_Buildings_Snow';
@@ -14,14 +15,16 @@ const snowTrees = 'snow/Objects_Trees_Snow';
 
 export const icePalette: Palette = {
   // Snow, ice, and village paths.
-  s: { tsx: 'snow/Tileset_Snow', local_id: 8, description: 'deep snow field' },
-  i: { tsx: 'snow/Tileset_Ground_Snow', local_id: 2078, description: 'icy village ground' },
-  j: { tsx: 'snow/Tileset_Ground_Snow', local_id: 2084, description: 'icy ground variation' },
-  r: { tsx: 'snow/Tileset_Road', local_id: 272, description: 'stone village path' },
-  d: { tsx: 'snow/Tileset_Road', local_id: 20, description: 'snowy dirt entry path' },
+  s: curatedTile('fan_tasy.snow.snow.base', { description: 'deep snow field' }),
+  i: curatedTile('fan_tasy.snow.ground.ice_base', { description: 'icy village ground' }),
+  j: curatedTile('fan_tasy.snow.ground.ice_variation', { description: 'icy ground variation' }),
+  r: curatedTile('fan_tasy.snow.road.stone', { description: 'stone village path' }),
+  d: curatedTile('fan_tasy.snow.road.dirt', { description: 'snowy dirt entry path' }),
 
   // Encounter grass.
-  G: { tsx: 'snow/Tileset_TallGrass', local_id: 0, description: 'snow tall grass encounter tile' },
+  G: curatedTile('fan_tasy.snow.snow.rough_encounter', {
+    description: 'rough snow encounter fill',
+  }),
 
   // Snow village landmarks.
   house_blue: { ...collectionAtlasEntry(snowBuildings, 341), description: 'small blue snow house' },
@@ -29,8 +32,8 @@ export const icePalette: Palette = {
   well_snow: { ...collectionAtlasEntry(snowBuildings, 293), description: 'snowy village well' },
 
   // Garden and blockers.
-  fence_h: { tsx: 'snow/Tileset_Fence_1_Snow', local_id: 13, description: 'horizontal snow fence' },
-  fence_v: { tsx: 'snow/Tileset_Fence_1_Snow', local_id: 0, description: 'vertical snow fence' },
+  fence_h: curatedTile('fan_tasy.snow.fence.horizontal', { description: 'horizontal snow fence' }),
+  fence_v: curatedTile('fan_tasy.snow.fence.vertical', { description: 'vertical snow fence' }),
   crate_snow: { ...collectionAtlasEntry(snowProps, 414), description: 'snow garden crate' },
 
   // Trees, bushes, and rocks.

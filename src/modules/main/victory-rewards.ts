@@ -1,6 +1,7 @@
 import type { RpgPlayer } from "@rpgjs/server";
 import { NOTIFICATION_CONFIG, SFX_CUE_CONFIG } from "../../content/gameplay";
 import { formatGameplayTemplate } from "../../content/gameplay/templates";
+import { moveLabel, speciesLabel } from "../../content/runtime-labels";
 import { awardXpToLead, getParty } from "../../platform/persistence/queries";
 import { cueSfx } from "./audio-cues";
 import { movesLearnedAtLevel } from "./content";
@@ -19,7 +20,7 @@ export type VictoryRewardResult = {
 };
 
 export function formatVictoryRewardToast(toast: VictoryRewardToast): string {
-    const label = toast.speciesId.replace(/_/g, " ");
+    const label = speciesLabel(toast.speciesId);
     switch (toast.kind) {
         case "xp":
             return formatGameplayTemplate(NOTIFICATION_CONFIG.victory.xpTemplate, {
@@ -35,7 +36,7 @@ export function formatVictoryRewardToast(toast: VictoryRewardToast): string {
         case "move":
             return formatGameplayTemplate(NOTIFICATION_CONFIG.victory.moveTemplate, {
                 species: label,
-                move: toast.moveId.replace(/_/g, " "),
+                move: moveLabel(toast.moveId),
             });
     }
 }

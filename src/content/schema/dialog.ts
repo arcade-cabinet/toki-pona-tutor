@@ -2,13 +2,12 @@ import { z } from "zod";
 import { translatable } from "./translatable";
 
 /**
- * A single dialog beat — one chunk of text, optionally with a sitelen-pona
- * glyph lesson card. Multi-beat dialog is an array of these.
+ * A single dialog beat — one chunk of text, optionally with a compact clue
+ * token for the journal. Multi-beat dialog is an array of these.
  */
 export const dialogBeat = z.object({
     text: translatable,
-    /** Optional sitelen-pona word to foreground as a glyph lesson. Must be
-     *  a dictionary entry (the renderer looks up its UCSUR codepoint). */
+    /** Optional clue token to record when the line is seen. */
     glyph: z.string().optional(),
     mood: z.enum(["happy", "sad", "thinking", "excited"]).default("thinking"),
 });

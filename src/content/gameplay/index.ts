@@ -137,7 +137,7 @@ export type RuntimeQuest = {
         xp?: number;
         itemId?: string;
         itemCount?: number;
-        rewardWord?: string;
+        rewardClue?: string;
     };
 };
 
@@ -174,7 +174,7 @@ export type RuntimeTrainerBattleConfig = {
     npcId: string;
     defeatedFlag?: string;
     badgeFlag?: string;
-    rewardWord?: string;
+    rewardClue?: string;
     nextBeatId: string;
     hp: number;
     atk: number;
@@ -194,7 +194,7 @@ export type RuntimeFinalBossConfig = {
     defeatedFlag: string;
     clearedFlag: string;
     requiredBadgeFlags: string[];
-    rewardWord: string;
+    rewardClue: string;
     endingBeatId: string;
     dialogBase: string;
     graphic: string;
@@ -381,7 +381,7 @@ export const FINAL_BOSS_CONFIG: RuntimeFinalBossConfig = {
     defeatedFlag: trainersConfig.final_boss.defeated_flag,
     clearedFlag: trainersConfig.final_boss.cleared_flag,
     requiredBadgeFlags: trainersConfig.final_boss.required_badge_flags,
-    rewardWord: trainersConfig.final_boss.reward_word,
+    rewardClue: trainersConfig.final_boss.reward_clue,
     endingBeatId: trainersConfig.final_boss.ending_beat_id,
     dialogBase: trainersConfig.final_boss.dialog_base,
     graphic: trainersConfig.final_boss.graphic,
@@ -407,7 +407,7 @@ export const TRAINER_BATTLE_CONFIGS: Record<string, RuntimeTrainerBattleConfig> 
                 npcId: trainer.npc_id,
                 defeatedFlag: trainer.defeated_flag,
                 badgeFlag: trainer.badge_flag,
-                rewardWord: trainer.reward_word,
+                rewardClue: trainer.reward_clue,
                 nextBeatId: trainer.next_beat_id,
                 hp: trainer.hp,
                 atk: trainer.atk,
@@ -472,7 +472,7 @@ export const MICRO_GAME_CONFIG = {
     pool: languageConfig.micro_game.pool.map((entry) => ({
         id: entry.id,
         prompt_tag: entry.prompt_tag,
-        tp: entry.tp,
+        text: entry.text,
     })),
 };
 
@@ -484,6 +484,7 @@ export const TYPE_MATCHUP_CONFIG = {
     matrix: combatConfig.type_matchups.matrix,
     defenderTagOverrides: combatConfig.type_matchups.defender_tag_overrides,
 };
+export const COMBAT_TYPE_LABELS = combatConfig.type_labels as Record<ConfiguredTpType, string>;
 export const STATUS_EFFECT_CONFIG: RuntimeStatusEffectConfig = {
     applicationRules: combatConfig.status_effects.application_rules.map((rule) => ({
         moveType: rule.move_type,
@@ -1137,7 +1138,7 @@ function normalizeQuest(quest: QuestConfig): RuntimeQuest {
             xp: quest.reward.xp,
             itemId: quest.reward.item_id,
             itemCount: quest.reward.item_count,
-            rewardWord: quest.reward.reward_word,
+            rewardClue: quest.reward.reward_clue,
         },
     };
 }

@@ -448,7 +448,11 @@ describe("validateSpec — encounter species exist", () => {
             layers: {
                 "Below Player": [
                     ["g", "g"],
-                    ["g", "G"],
+                    ["g", "g"],
+                ],
+                "Ground Detail": [
+                    [".", "."],
+                    [".", "G"],
                 ],
                 Objects: [{ type: "SpawnPoint", name: "default", at: [0, 0] }],
                 Encounters: [

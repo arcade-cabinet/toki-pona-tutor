@@ -1,0 +1,68 @@
+@keyframes rr-river-shimmer {
+    0% {
+        transform: translateX(-12%) skewX(-12deg);
+    }
+    100% {
+        transform: translateX(12%) skewX(-12deg);
+    }
+}
+
+@keyframes rr-panel-in {
+    from {
+        opacity: 0;
+        transform: translateY(14px) scale(0.985);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+@keyframes rr-ink-pulse {
+    0%,
+    100% {
+        opacity: 0.7;
+    }
+    50% {
+        opacity: 1;
+    }
+}
+
+@keyframes rr-orb-throw {
+    0% {
+        transform: translate(calc(-50% - 160px), 34px) rotate(-24deg) scale(0.75);
+    }
+    42% {
+        transform: translate(-50%, -76px) rotate(16deg) scale(1.08);
+    }
+    100% {
+        transform: translate(calc(-50% + 145px), -5px) rotate(360deg) scale(1);
+    }
+}
+
+@keyframes rr-orb-shake {
+    0%,
+    100% {
+        transform: translate(-50%, -50%) rotate(0);
+    }
+    25% {
+        transform: translate(calc(-50% - 10px), -50%) rotate(-10deg);
+    }
+    50% {
+        transform: translate(calc(-50% + 10px), -50%) rotate(10deg);
+    }
+    75% {
+        transform: translate(calc(-50% - 5px), -50%) rotate(-5deg);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 1ms !important;
+        animation-iteration-count: 1 !important;
+        scroll-behavior: auto !important;
+        transition-duration: 1ms !important;
+    }
+}

@@ -1,18 +1,17 @@
 {
   "schema_version": 1,
   "title": {
-    "en": "land"
+    "en": "Rivers Reckoning"
   },
-  "start_region_id": "ma_tomo_lili",
+  "start_region_id": "riverside_home",
   "species": [
     {
       "id": "akesi_linja",
       "name": {
-        "en": "linja"
+        "en": "Vine Adder"
       },
       "description": {
-        "en": "The snake sheds its skin.",
-        "tp": "akesi linja li weka e selo ona."
+        "en": "A quick green serpent that hides between roots and hanging vines."
       },
       "type": "kasi",
       "base_stats": {
@@ -119,11 +118,10 @@
     {
       "id": "akesi_seli",
       "name": {
-        "en": "seli"
+        "en": "Ember Adder"
       },
       "description": {
-        "en": "The snake is big.",
-        "tp": "akesi linja li suli."
+        "en": "A warm-scaled snake that leaves tiny sparks in dry grass."
       },
       "type": "seli",
       "base_stats": {
@@ -195,11 +193,10 @@
     {
       "id": "akesi_sewi",
       "name": {
-        "en": "akesi"
+        "en": "Green Dragon"
       },
       "description": {
-        "en": "That's a lizard.",
-        "tp": "ni li akesi."
+        "en": "The rivergate dragon, ancient, brilliant, and far too proud to stay hidden."
       },
       "type": "seli",
       "base_stats": {
@@ -304,11 +301,10 @@
     {
       "id": "akesi_suli",
       "name": {
-        "en": "suli"
+        "en": "Marshjaw"
       },
       "description": {
-        "en": "The alligator ate the dog.",
-        "tp": "akesi wawa li moku e soweli tomo."
+        "en": "A broad-snouted swamp hunter that snaps from below the reeds."
       },
       "type": "telo",
       "base_stats": {
@@ -405,11 +401,10 @@
     {
       "id": "jan_ike_lili",
       "name": {
-        "en": "ike"
+        "en": "Bramble Imp"
       },
       "description": {
-        "en": "The bug is still alive.",
-        "tp": "pipi li awen lon."
+        "en": "A small thorny trickster that darts through brush and laughs at fences."
       },
       "type": "kasi",
       "base_stats": {
@@ -506,11 +501,10 @@
     {
       "id": "jan_moli",
       "name": {
-        "en": "moli"
+        "en": "Bog Wisp"
       },
       "description": {
-        "en": "The fish swam in the lake.",
-        "tp": "kala li tawa lon telo suli."
+        "en": "A dim marsh spirit that drifts over still water after sunset."
       },
       "type": "kasi",
       "base_stats": {
@@ -598,11 +592,10 @@
     {
       "id": "jan_moli_wawa",
       "name": {
-        "en": "wawa"
+        "en": "Iron Wraith"
       },
       "description": {
-        "en": "The snake is big.",
-        "tp": "akesi linja li suli."
+        "en": "A heavy shadow wrapped in old armor and stubborn anger."
       },
       "type": "kasi",
       "base_stats": {
@@ -705,11 +698,10 @@
     {
       "id": "jan_pi_sewi_pimeja",
       "name": {
-        "en": "pimeja"
+        "en": "Nightspike"
       },
       "description": {
-        "en": "The snow is white.",
-        "tp": "ko lete li walo."
+        "en": "A dark frost creature with a crest like frozen midnight."
       },
       "type": "lete",
       "base_stats": {
@@ -797,11 +789,10 @@
     {
       "id": "jan_utala_lili",
       "name": {
-        "en": "utala"
+        "en": "Thornling"
       },
       "description": {
-        "en": "The bug is thirsty.",
-        "tp": "pipi li wile moku e telo."
+        "en": "A scrappy forest fighter that jabs before it thinks."
       },
       "type": "kasi",
       "base_stats": {
@@ -894,11 +885,10 @@
     {
       "id": "jan_utala_suli",
       "name": {
-        "en": "utala"
+        "en": "Stoneclaw"
       },
       "description": {
-        "en": "She isn't afraid of snakes.",
-        "tp": "akesi linja li akesi ala tawa ona."
+        "en": "A mountain bruiser that uses its claws like climbing picks."
       },
       "type": "wawa",
       "base_stats": {
@@ -1008,11 +998,10 @@
     {
       "id": "jan_wawa",
       "name": {
-        "en": "wawa"
+        "en": "Stone Bruiser"
       },
       "description": {
-        "en": "That animal is strong.",
-        "tp": "soweli ni li wawa."
+        "en": "A steady rock-backed creature that wins by refusing to move."
       },
       "type": "wawa",
       "base_stats": {
@@ -1100,11 +1089,10 @@
     {
       "id": "jan_wawa_jaki",
       "name": {
-        "en": "jaki"
+        "en": "Mire Brute"
       },
       "description": {
-        "en": "Fish swim.",
-        "tp": "kala li tawa."
+        "en": "A mud-splattered brute that charges from boggy ground."
       },
       "type": "wawa",
       "base_stats": {
@@ -1192,11 +1180,10 @@
     {
       "id": "jan_wawa_linja",
       "name": {
-        "en": "linja"
+        "en": "Chainback"
       },
       "description": {
-        "en": "The birds are red.",
-        "tp": "waso li loje."
+        "en": "A long-bodied stone creature with a spine like linked iron."
       },
       "type": "wawa",
       "base_stats": {
@@ -1284,11 +1271,10 @@
     {
       "id": "jan_wawa_suli",
       "name": {
-        "en": "suli"
+        "en": "Mountain Bear"
       },
       "description": {
-        "en": "The bear is big.",
-        "tp": "soweli wawa li suli."
+        "en": "A huge ridge guardian with paws like falling boulders."
       },
       "type": "wawa",
       "base_stats": {
@@ -1376,11 +1362,10 @@
     {
       "id": "jan_wawa_utala",
       "name": {
-        "en": "utala"
+        "en": "Warback"
       },
       "description": {
-        "en": "There's some fish.",
-        "tp": "kala lili li lon."
+        "en": "A scarred cave fighter that lowers its head and rushes."
       },
       "type": "wawa",
       "base_stats": {
@@ -1468,11 +1453,10 @@
     {
       "id": "kala_luka",
       "name": {
-        "en": "luka"
+        "en": "Riverfin"
       },
       "description": {
-        "en": "He likes fishing.",
-        "tp": "alasa kala li pona tawa ona."
+        "en": "A nimble river fish that flicks water like thrown glass."
       },
       "type": "telo",
       "base_stats": {
@@ -1558,11 +1542,10 @@
     {
       "id": "kala_telo",
       "name": {
-        "en": "telo"
+        "en": "Bluefin"
       },
       "description": {
-        "en": "The water became shallow.",
-        "tp": "anpa telo li kama lili."
+        "en": "A calm lake swimmer that flashes blue under clear water."
       },
       "type": "telo",
       "base_stats": {
@@ -1634,11 +1617,10 @@
     {
       "id": "kala_tomo",
       "name": {
-        "en": "tomo"
+        "en": "Reedfrog"
       },
       "description": {
-        "en": "Frogs eat insects.",
-        "tp": "akesi li moku e pipi."
+        "en": "A small frog that nests inside broken reeds and old pots."
       },
       "type": "telo",
       "base_stats": {
@@ -1710,11 +1692,10 @@
     {
       "id": "kala_uta",
       "name": {
-        "en": "uta"
+        "en": "Snapper"
       },
       "description": {
-        "en": "The water became shallow.",
-        "tp": "anpa telo li kama lili."
+        "en": "A sharp-mouthed fish that guards narrow channels."
       },
       "type": "telo",
       "base_stats": {
@@ -1779,11 +1760,10 @@
     {
       "id": "kon_moli",
       "name": {
-        "en": "kon"
+        "en": "Ashcat"
       },
       "description": {
-        "en": "The cat is very cute.",
-        "tp": "soweli tomo li suwi mute."
+        "en": "A smoky little cat with ember-bright eyes and a loyal streak."
       },
       "type": "seli",
       "base_stats": {
@@ -1875,11 +1855,10 @@
     {
       "id": "seli_moli",
       "name": {
-        "en": "seli"
+        "en": "Cinderling"
       },
       "description": {
-        "en": "The floor is lava!",
-        "tp": "anpa li telo pi kiwen seli!"
+        "en": "A flame spirit that rolls over hot stone without burning out."
       },
       "type": "seli",
       "base_stats": {
@@ -1964,11 +1943,10 @@
     {
       "id": "sijelo_kiwen",
       "name": {
-        "en": "kiwen"
+        "en": "Quartz Shell"
       },
       "description": {
-        "en": "Flowers are yellow.",
-        "tp": "kasi kule li jelo."
+        "en": "A crystal-shelled creature that glints in snowlight."
       },
       "type": "lete",
       "base_stats": {
@@ -2056,11 +2034,10 @@
     {
       "id": "sijelo_linja",
       "name": {
-        "en": "linja"
+        "en": "Frostcoil"
       },
       "description": {
-        "en": "Birds drink water.",
-        "tp": "waso li moku e telo."
+        "en": "An icy coil-beast that loops around rocks before striking."
       },
       "type": "lete",
       "base_stats": {
@@ -2148,11 +2125,10 @@
     {
       "id": "sijelo_utala",
       "name": {
-        "en": "utala"
+        "en": "Glacier Talon"
       },
       "description": {
-        "en": "The eagle is king of birds.",
-        "tp": "waso wawa li lawa e waso ali."
+        "en": "A sharp frozen hunter that cuts clean tracks through drifts."
       },
       "type": "lete",
       "base_stats": {
@@ -2240,11 +2216,10 @@
     {
       "id": "soweli_alasa",
       "name": {
-        "en": "alasa"
+        "en": "Foxhound"
       },
       "description": {
-        "en": "The hunter shot a fox.",
-        "tp": "jan alasa li utala e soweli alasa."
+        "en": "A clever red hunter that listens before it leaps."
       },
       "type": "kasi",
       "base_stats": {
@@ -2330,11 +2305,10 @@
     {
       "id": "soweli_anpa",
       "name": {
-        "en": "anpa"
+        "en": "Burrowmole"
       },
       "description": {
-        "en": "Somebody is eating.",
-        "tp": "jan li moku."
+        "en": "A low, sturdy digger that vanishes under soft soil."
       },
       "type": "kasi",
       "base_stats": {
@@ -2420,11 +2394,10 @@
     {
       "id": "soweli_jaki",
       "name": {
-        "en": "jaki"
+        "en": "Mudgrub"
       },
       "description": {
-        "en": "The bug is thirsty.",
-        "tp": "pipi li wile moku e telo."
+        "en": "A messy little crawler that loves wet leaves and trouble."
       },
       "type": "kasi",
       "base_stats": {
@@ -2522,11 +2495,10 @@
     {
       "id": "soweli_kili",
       "name": {
-        "en": "kili"
+        "en": "Applepup"
       },
       "description": {
-        "en": "He is always happy.",
-        "tp": "ale la ona li pilin pona."
+        "en": "A bright orchard pup that sniffs out sweet fruit."
       },
       "type": "kasi",
       "base_stats": {
@@ -2617,11 +2589,10 @@
     {
       "id": "soweli_kiwen",
       "name": {
-        "en": "kiwen"
+        "en": "Pebbleback"
       },
       "description": {
-        "en": "Nothing is strange.",
-        "tp": "ala li nasa."
+        "en": "A compact stone-backed creature that curls into a shield."
       },
       "type": "wawa",
       "base_stats": {
@@ -2693,11 +2664,10 @@
     {
       "id": "soweli_kon",
       "name": {
-        "en": "kon"
+        "en": "Mistfox"
       },
       "description": {
-        "en": "Everything is ugly.",
-        "tp": "ale li ike lukin."
+        "en": "A pale fox that blurs into morning fog."
       },
       "type": "kasi",
       "base_stats": {
@@ -2769,11 +2739,10 @@
     {
       "id": "soweli_musi",
       "name": {
-        "en": "musi"
+        "en": "Mirthcat"
       },
       "description": {
-        "en": "Cats meow.",
-        "tp": "kisa li mu."
+        "en": "A playful cat that turns every chase into a game."
       },
       "type": "kasi",
       "base_stats": {
@@ -2885,11 +2854,10 @@
     {
       "id": "soweli_nena",
       "name": {
-        "en": "nena"
+        "en": "Hillbuck"
       },
       "description": {
-        "en": "Nothing is permanent.",
-        "tp": "ala li awen."
+        "en": "A sure-footed grazer with small curved horns."
       },
       "type": "kasi",
       "base_stats": {
@@ -2954,11 +2922,10 @@
     {
       "id": "soweli_palisa",
       "name": {
-        "en": "palisa"
+        "en": "Twiglet"
       },
       "description": {
-        "en": "Nothing lasts forever.",
-        "tp": "ale li kama pini."
+        "en": "A twig-legged forest creature that freezes when watched."
       },
       "type": "kasi",
       "base_stats": {
@@ -3030,11 +2997,10 @@
     {
       "id": "soweli_sewi",
       "name": {
-        "en": "sewi"
+        "en": "Snowhare"
       },
       "description": {
-        "en": "Nothing lasts forever.",
-        "tp": "ale li kama pini."
+        "en": "A white-eared runner that bounds across crusted snow."
       },
       "type": "lete",
       "base_stats": {
@@ -3117,11 +3083,10 @@
     {
       "id": "soweli_utala",
       "name": {
-        "en": "utala"
+        "en": "Fangrunner"
       },
       "description": {
-        "en": "That animal is strong.",
-        "tp": "soweli ni li wawa."
+        "en": "A lean fighter that circles until it finds an opening."
       },
       "type": "wawa",
       "base_stats": {
@@ -3200,11 +3165,10 @@
     {
       "id": "soweli_wawa",
       "name": {
-        "en": "wawa"
+        "en": "Boulderhorn"
       },
       "description": {
-        "en": "That animal is strong.",
-        "tp": "soweli ni li wawa."
+        "en": "A thick-horned beast that can shove aside loose stone."
       },
       "type": "wawa",
       "base_stats": {
@@ -3308,11 +3272,10 @@
     {
       "id": "telo_jaki",
       "name": {
-        "en": "jaki"
+        "en": "Mireling"
       },
       "description": {
-        "en": "We live near the lake.",
-        "tp": "mi awen lon poka pi telo suli."
+        "en": "A damp little water creature with a muddy grin."
       },
       "type": "telo",
       "base_stats": {
@@ -3385,11 +3348,10 @@
     {
       "id": "waso_lape",
       "name": {
-        "en": "lape"
+        "en": "Drowsy Owl"
       },
       "description": {
-        "en": "Everyone dreams.",
-        "tp": "sitelen lape li kama tawa jan ale."
+        "en": "A sleepy owl that wakes only when the moon is high."
       },
       "type": "lete",
       "base_stats": {
@@ -3468,11 +3430,10 @@
     {
       "id": "waso_lete",
       "name": {
-        "en": "lete"
+        "en": "Snowbird"
       },
       "description": {
-        "en": "Tom is cold.",
-        "tp": "jan Ton li lete."
+        "en": "A bright winter bird that rides cold gusts."
       },
       "type": "lete",
       "base_stats": {
@@ -3558,11 +3519,10 @@
     {
       "id": "waso_moku",
       "name": {
-        "en": "moku"
+        "en": "Coalbeak"
       },
       "description": {
-        "en": "Somebody is eating.",
-        "tp": "jan li moku."
+        "en": "A dark-beaked bird that pecks at warm ash."
       },
       "type": "seli",
       "base_stats": {
@@ -3634,11 +3594,10 @@
     {
       "id": "waso_moli",
       "name": {
-        "en": "moli"
+        "en": "Raven Shade"
       },
       "description": {
-        "en": "Death is inevitable.",
-        "tp": "jan li ken ala weka e moli."
+        "en": "A black-winged omen that appears near quiet places."
       },
       "type": "lete",
       "base_stats": {
@@ -3738,11 +3697,10 @@
     {
       "id": "waso_pimeja",
       "name": {
-        "en": "pimeja"
+        "en": "Nightjar"
       },
       "description": {
-        "en": "Nobody will sleep tonight.",
-        "tp": "jan ala li lape lon tenpo pimeja ni."
+        "en": "A dusk bird that disappears when lanterns flare."
       },
       "type": "lete",
       "base_stats": {
@@ -3805,11 +3763,10 @@
     {
       "id": "waso_toki",
       "name": {
-        "en": "toki"
+        "en": "Songbird"
       },
       "description": {
-        "en": "The child loves the birds.",
-        "tp": "jan lili li olin e waso."
+        "en": "A chatty forest bird that answers whistles."
       },
       "type": "kasi",
       "base_stats": {
@@ -3907,8 +3864,7 @@
         "en": "leaf"
       },
       "description": {
-        "en": "Grass grew.",
-        "tp": "kasi li kama suli."
+        "en": "Grass grew."
       },
       "type": "kasi",
       "power": 25,
@@ -3923,8 +3879,7 @@
         "en": "bloom"
       },
       "description": {
-        "en": "The tree falls.",
-        "tp": "kasi suli li kama anpa."
+        "en": "The tree falls."
       },
       "type": "kasi",
       "power": 70,
@@ -3939,8 +3894,7 @@
         "en": "stoneblow"
       },
       "description": {
-        "en": "That animal is strong.",
-        "tp": "soweli ni li wawa."
+        "en": "That animal is strong."
       },
       "type": "wawa",
       "power": 40,
@@ -3955,8 +3909,7 @@
         "en": "windblast"
       },
       "description": {
-        "en": "The wind blows.",
-        "tp": "kon li kon."
+        "en": "The wind blows."
       },
       "type": "wawa",
       "power": 45,
@@ -3971,8 +3924,7 @@
         "en": "chill"
       },
       "description": {
-        "en": "It's cold.",
-        "tp": "ona li lete."
+        "en": "It's cold."
       },
       "type": "lete",
       "power": 25,
@@ -3987,8 +3939,7 @@
         "en": "frost"
       },
       "description": {
-        "en": "It was chilly.",
-        "tp": "lete li lon."
+        "en": "It was chilly."
       },
       "type": "lete",
       "power": 45,
@@ -4003,8 +3954,7 @@
         "en": "blizzard"
       },
       "description": {
-        "en": "A snowstorm is coming.",
-        "tp": "lete wawa li kama."
+        "en": "A snowstorm is coming."
       },
       "type": "lete",
       "power": 80,
@@ -4019,8 +3969,7 @@
         "en": "freeze"
       },
       "description": {
-        "en": "Ice is very cold.",
-        "tp": "telo kiwen li lete mute."
+        "en": "Ice is very cold."
       },
       "type": "lete",
       "power": 75,
@@ -4035,8 +3984,7 @@
         "en": "ember"
       },
       "description": {
-        "en": "Fire burns.",
-        "tp": "seli li seli."
+        "en": "Fire burns."
       },
       "type": "seli",
       "power": 25,
@@ -4051,8 +3999,7 @@
         "en": "blaze"
       },
       "description": {
-        "en": "This is very hot.",
-        "tp": "ni li seli mute."
+        "en": "This is very hot."
       },
       "type": "seli",
       "power": 75,
@@ -4067,8 +4014,7 @@
         "en": "splash"
       },
       "description": {
-        "en": "That's water.",
-        "tp": "ni li telo."
+        "en": "That's water."
       },
       "type": "telo",
       "power": 25,
@@ -4083,8 +4029,7 @@
         "en": "current"
       },
       "description": {
-        "en": "Tom fell into the water.",
-        "tp": "jan Ton li tawa ike tawa telo."
+        "en": "Tom fell into the water."
       },
       "type": "telo",
       "power": 55,
@@ -4099,8 +4044,7 @@
         "en": "torrent"
       },
       "description": {
-        "en": "The fish swam in the lake.",
-        "tp": "kala li tawa lon telo suli."
+        "en": "The fish swam in the lake."
       },
       "type": "telo",
       "power": 80,
@@ -4115,8 +4059,7 @@
         "en": "wave"
       },
       "description": {
-        "en": "Water is good.",
-        "tp": "telo li pona."
+        "en": "Water is good."
       },
       "type": "telo",
       "power": 70,
@@ -4131,8 +4074,7 @@
         "en": "fight"
       },
       "description": {
-        "en": "Attack them.",
-        "tp": "o utala e ona."
+        "en": "Attack them."
       },
       "type": "wawa",
       "power": 50,
@@ -4147,8 +4089,7 @@
         "en": "attack"
       },
       "description": {
-        "en": "It hurts.",
-        "tp": "ona li pilin ike."
+        "en": "It hurts."
       },
       "type": "wawa",
       "power": 20,
@@ -4163,8 +4104,7 @@
         "en": "flit"
       },
       "description": {
-        "en": "Flies fly.",
-        "tp": "pipi jaki li tawa lon kon."
+        "en": "Flies fly."
       },
       "type": "wawa",
       "power": 30,
@@ -4178,11 +4118,10 @@
     {
       "id": "kili",
       "name": {
-        "en": "kili"
+        "en": "Orchard Fruit"
       },
       "description": {
-        "en": "Eat fruit.",
-        "tp": "o moku e kili!"
+        "en": "Restores a companion with sweet, field-packed fruit."
       },
       "kind": "heal",
       "power": 20,
@@ -4192,10 +4131,10 @@
     {
       "id": "ma",
       "name": {
-        "en": "ma"
+        "en": "Trail Token"
       },
       "description": {
-        "en": "land"
+        "en": "A local token used for small route shops and favors."
       },
       "kind": "flavor",
       "stackable": true,
@@ -4204,11 +4143,10 @@
     {
       "id": "poki_lili",
       "name": {
-        "en": "poki"
+        "en": "Capture Pod"
       },
       "description": {
-        "en": "Take this.",
-        "tp": "o jo e ni."
+        "en": "A standard pod for catching wild companions."
       },
       "kind": "poki",
       "power": 1,
@@ -4218,11 +4156,10 @@
     {
       "id": "poki_wawa",
       "name": {
-        "en": "poki"
+        "en": "Heavy Capture Pod"
       },
       "description": {
-        "en": "Tom opened the box.",
-        "tp": "jan Ton li open e poki."
+        "en": "A reinforced pod with better odds against stubborn companions."
       },
       "kind": "poki",
       "power": 1.5,
@@ -4232,11 +4169,10 @@
     {
       "id": "telo_pona",
       "name": {
-        "en": "telo"
+        "en": "Spring Tonic"
       },
       "description": {
-        "en": "Water is good.",
-        "tp": "telo li pona."
+        "en": "Clean spring water that restores a tired companion."
       },
       "kind": "heal",
       "power": 50,
@@ -4252,11 +4188,10 @@
       "beats": [
         {
           "text": {
-            "en": "You seem well...",
-            "tp": "lukin la sina pilin pona..."
+            "en": "You are safe. Rest here, then try again."
           },
           "mood": "sad",
-          "glyph": "pona"
+          "glyph": "companion-bond"
         }
       ],
       "triggers": {}
@@ -4271,11 +4206,10 @@
       "beats": [
         {
           "text": {
-            "en": "I'm plenty strong!",
-            "tp": "mi wawa mute!"
+            "en": "The rivergate burns with green fire. I am done hiding."
           },
           "mood": "excited",
-          "glyph": "wawa"
+          "glyph": "battle-ready"
         }
       ],
       "triggers": {}
@@ -4290,11 +4224,10 @@
       "beats": [
         {
           "text": {
-            "en": "Ah. Good.",
-            "tp": "a. pona."
+            "en": "The storm is finally quiet."
           },
           "mood": "happy",
-          "glyph": "pona"
+          "glyph": "companion-bond"
         }
       ],
       "triggers": {}
@@ -4306,11 +4239,10 @@
       "beats": [
         {
           "text": {
-            "en": "I'm getting tired.",
-            "tp": "mi kama wile lape."
+            "en": "The low trail looks harmless until the grass starts moving."
           },
           "mood": "thinking",
-          "glyph": "anpa"
+          "glyph": "cave-shadow"
         }
       ],
       "triggers": {}
@@ -4325,19 +4257,17 @@
       "beats": [
         {
           "text": {
-            "en": "Let's see!",
-            "tp": "mi mute o lukin!"
+            "en": "You've made it past the village. Let's see what your companion can do."
           },
           "mood": "excited",
-          "glyph": "lukin"
+          "glyph": "wild-signs"
         },
         {
           "text": {
-            "en": "I'm not.",
-            "tp": "mi ala."
+            "en": "I'm not going easy on you."
           },
           "mood": "excited",
-          "glyph": "ala"
+          "glyph": "battle-ready"
         }
       ],
       "triggers": {}
@@ -4352,19 +4282,17 @@
       "beats": [
         {
           "text": {
-            "en": "You won.",
-            "tp": "sina pini pona."
+            "en": "You handled yourself."
           },
           "mood": "sad",
-          "glyph": "sina"
+          "glyph": "companion-bond"
         },
         {
           "text": {
-            "en": "Let's go!",
-            "tp": "mi mute o tawa!"
+            "en": "Greenwood Road is yours."
           },
           "mood": "thinking",
-          "glyph": "tawa"
+          "glyph": "greenwood-watch"
         }
       ],
       "triggers": {}
@@ -4376,11 +4304,10 @@
       "beats": [
         {
           "text": {
-            "en": "I'm getting tired.",
-            "tp": "mi kama wile lape."
+            "en": "Lakehaven needs a runner with steady hands."
           },
           "mood": "thinking",
-          "glyph": "lape"
+          "glyph": "safe-house"
         }
       ],
       "triggers": {}
@@ -4392,11 +4319,10 @@
       "beats": [
         {
           "text": {
-            "en": "Ah. Good.",
-            "tp": "a. pona."
+            "en": "Small fish gather where the current bends."
           },
           "mood": "happy",
-          "glyph": "pona"
+          "glyph": "companion-bond"
         }
       ],
       "triggers": {}
@@ -4408,11 +4334,10 @@
       "beats": [
         {
           "text": {
-            "en": "I'm getting tired.",
-            "tp": "mi kama wile lape."
+            "en": "The lake wind makes everyone slow down."
           },
           "mood": "thinking",
-          "glyph": "lape"
+          "glyph": "safe-house"
         }
       ],
       "triggers": {}
@@ -4424,11 +4349,10 @@
       "beats": [
         {
           "text": {
-            "en": "Let's see!",
-            "tp": "mi mute o lukin!"
+            "en": "Big catches live near deep water. Keep your team ready."
           },
           "mood": "excited",
-          "glyph": "kala"
+          "glyph": "water-edge"
         }
       ],
       "triggers": {}
@@ -4440,11 +4364,10 @@
       "beats": [
         {
           "text": {
-            "en": "Fresh fruit is good for the health.",
-            "tp": "kili sin li pona tawa sijelo."
+            "en": "The garden herbs make the best healing fruit."
           },
           "mood": "happy",
-          "glyph": "kasi"
+          "glyph": "forest-cover"
         }
       ],
       "triggers": {}
@@ -4456,19 +4379,17 @@
       "beats": [
         {
           "text": {
-            "en": "Fresh fruit is good for the health.",
-            "tp": "kili sin li pona tawa sijelo."
+            "en": "Deep grass means wild creatures nearby."
           },
           "mood": "happy",
-          "glyph": "kasi"
+          "glyph": "forest-cover"
         },
         {
           "text": {
-            "en": "There is a bird here.",
-            "tp": "waso li lon ni."
+            "en": "If the grass rustles twice, back up or be ready."
           },
           "mood": "thinking",
-          "glyph": "waso"
+          "glyph": "wild-signs"
         }
       ],
       "triggers": {}
@@ -4480,19 +4401,17 @@
       "beats": [
         {
           "text": {
-            "en": "Fresh fruit is good for the health.",
-            "tp": "kili sin li pona tawa sijelo."
+            "en": "Take fruit before the road."
           },
           "mood": "happy",
-          "glyph": "kili"
+          "glyph": "orchard-fruit"
         },
         {
           "text": {
-            "en": "Ah. Good.",
-            "tp": "a. pona."
+            "en": "A fed companion fights longer."
           },
           "mood": "happy",
-          "glyph": "pona"
+          "glyph": "companion-bond"
         }
       ],
       "triggers": {}
@@ -4504,19 +4423,17 @@
       "beats": [
         {
           "text": {
-            "en": "This thing is big.",
-            "tp": "ijo ni li suli."
+            "en": "Stone paths break careless boots."
           },
           "mood": "thinking",
-          "glyph": "suli"
+          "glyph": "dreadpeak-proof"
         },
         {
           "text": {
-            "en": "I'm plenty strong!",
-            "tp": "mi wawa mute!"
+            "en": "Strong companions can push through the pass."
           },
           "mood": "excited",
-          "glyph": "wawa"
+          "glyph": "battle-ready"
         }
       ],
       "triggers": {}
@@ -4528,19 +4445,17 @@
       "beats": [
         {
           "text": {
-            "en": "This thing is big.",
-            "tp": "ijo ni li suli."
+            "en": "The cave walls still remember old battles."
           },
           "mood": "thinking",
-          "glyph": "suli"
+          "glyph": "dreadpeak-proof"
         },
         {
           "text": {
-            "en": "I'm plenty strong!",
-            "tp": "mi wawa mute!"
+            "en": "Bring a brave lead creature."
           },
           "mood": "excited",
-          "glyph": "wawa"
+          "glyph": "battle-ready"
         }
       ],
       "triggers": {}
@@ -4555,19 +4470,17 @@
       "beats": [
         {
           "text": {
-            "en": "Let's see!",
-            "tp": "mi mute o lukin!"
+            "en": "Frostvale tests patience first."
           },
           "mood": "excited",
-          "glyph": "lukin"
+          "glyph": "wild-signs"
         },
         {
           "text": {
-            "en": "I'm plenty strong!",
-            "tp": "mi wawa mute!"
+            "en": "Show me your warmest heart."
           },
           "mood": "excited",
-          "glyph": "wawa"
+          "glyph": "battle-ready"
         }
       ],
       "triggers": {}
@@ -4582,19 +4495,17 @@
       "beats": [
         {
           "text": {
-            "en": "You won.",
-            "tp": "sina pini pona."
+            "en": "You kept moving through the cold."
           },
           "mood": "sad",
-          "glyph": "sina"
+          "glyph": "companion-bond"
         },
         {
           "text": {
-            "en": "Let's go!",
-            "tp": "mi mute o tawa!"
+            "en": "Carry this badge onward."
           },
           "mood": "thinking",
-          "glyph": "tawa"
+          "glyph": "greenwood-watch"
         }
       ],
       "triggers": {}
@@ -4606,19 +4517,17 @@
       "beats": [
         {
           "text": {
-            "en": "Let's see!",
-            "tp": "mi mute o lukin!"
+            "en": "I watch the Greenwood crossings."
           },
           "mood": "thinking",
-          "glyph": "lukin"
+          "glyph": "wild-signs"
         },
         {
           "text": {
-            "en": "I'm not.",
-            "tp": "mi ala."
+            "en": "Something has been driving the wild ones toward town."
           },
           "mood": "sad",
-          "glyph": "ala"
+          "glyph": "battle-ready"
         }
       ],
       "triggers": {}
@@ -4630,11 +4539,10 @@
       "beats": [
         {
           "text": {
-            "en": "Fresh fruit is good for the health.",
-            "tp": "kili sin li pona tawa sijelo."
+            "en": "Hot food helps after a long river walk."
           },
           "mood": "happy",
-          "glyph": "moku"
+          "glyph": "orchard-fruit"
         }
       ],
       "triggers": {}
@@ -4646,11 +4554,10 @@
       "beats": [
         {
           "text": {
-            "en": "Fresh fruit is good for the health.",
-            "tp": "kili sin li pona tawa sijelo."
+            "en": "Fruit, pods, and tonics. Nothing fancy, all useful."
           },
           "mood": "happy",
-          "glyph": "moku"
+          "glyph": "orchard-fruit"
         }
       ],
       "triggers": {}
@@ -4662,19 +4569,17 @@
       "beats": [
         {
           "text": {
-            "en": "Let's go!",
-            "tp": "mi mute o tawa!"
+            "en": "The high trail opens north."
           },
           "mood": "excited",
-          "glyph": "tawa"
+          "glyph": "greenwood-watch"
         },
         {
           "text": {
-            "en": "You need to be strong to do that.",
-            "tp": "jan li pali e ni la ona li wawa."
+            "en": "You'll need a stronger party before the summit."
           },
           "mood": "thinking",
-          "glyph": "wawa"
+          "glyph": "battle-ready"
         }
       ],
       "triggers": {}
@@ -4686,11 +4591,10 @@
       "beats": [
         {
           "text": {
-            "en": "You seem well...",
-            "tp": "lukin la sina pilin pona..."
+            "en": "Lakehaven listens better than it speaks."
           },
           "mood": "thinking",
-          "glyph": "olin"
+          "glyph": "companion-bond"
         }
       ],
       "triggers": {}
@@ -4702,19 +4606,17 @@
       "beats": [
         {
           "text": {
-            "en": "Let's see!",
-            "tp": "mi mute o lukin!"
+            "en": "Greenwood Road: stay on the path unless you want a fight."
           },
           "mood": "thinking",
-          "glyph": "lukin"
+          "glyph": "wild-signs"
         },
         {
           "text": {
-            "en": "Let's go!",
-            "tp": "mi mute o tawa!"
+            "en": "New trainers should keep capture pods ready."
           },
           "mood": "excited",
-          "glyph": "tawa"
+          "glyph": "greenwood-watch"
         }
       ],
       "triggers": {}
@@ -4726,11 +4628,10 @@
       "beats": [
         {
           "text": {
-            "en": "I'm getting tired.",
-            "tp": "mi kama wile lape."
+            "en": "Breathe with the cave draft. It points toward safe stone."
           },
           "mood": "thinking",
-          "glyph": "kon"
+          "glyph": "wild-signs"
         }
       ],
       "triggers": {}
@@ -4742,11 +4643,10 @@
       "beats": [
         {
           "text": {
-            "en": "Let's go!",
-            "tp": "mi mute o tawa!"
+            "en": "If the path narrows, check your supplies before you commit."
           },
           "mood": "thinking",
-          "glyph": "nasin"
+          "glyph": "greenwood-watch"
         }
       ],
       "triggers": {}
@@ -4758,19 +4658,17 @@
       "beats": [
         {
           "text": {
-            "en": "Let's see!",
-            "tp": "mi mute o lukin!"
+            "en": "These torches mark the old climb."
           },
           "mood": "thinking",
-          "glyph": "lukin"
+          "glyph": "wild-signs"
         },
         {
           "text": {
-            "en": "I want you to be quiet.",
-            "tp": "wile mi la sina o toki ala."
+            "en": "When one goes dark, something big passed nearby."
           },
           "mood": "thinking",
-          "glyph": "toki"
+          "glyph": "companion-bond"
         }
       ],
       "triggers": {}
@@ -4782,19 +4680,17 @@
       "beats": [
         {
           "text": {
-            "en": "You seem well...",
-            "tp": "lukin la sina pilin pona..."
+            "en": "Cold hands fumble capture pods."
           },
           "mood": "happy",
-          "glyph": "pona"
+          "glyph": "companion-bond"
         },
         {
           "text": {
-            "en": "Let's go!",
-            "tp": "mi mute o tawa!"
+            "en": "Warm them before you throw."
           },
           "mood": "excited",
-          "glyph": "tawa"
+          "glyph": "greenwood-watch"
         }
       ],
       "triggers": {}
@@ -4806,19 +4702,17 @@
       "beats": [
         {
           "text": {
-            "en": "Good choice!",
-            "tp": "wile pona a!"
+            "en": "Good timing. I need field notes from Greenwood."
           },
           "mood": "happy",
-          "glyph": "pona"
+          "glyph": "companion-bond"
         },
         {
           "text": {
-            "en": "You seem well...",
-            "tp": "lukin la sina pilin pona..."
+            "en": "Catch two route creatures and I'll trade you a stronger pod."
           },
           "mood": "thinking",
-          "glyph": "pona"
+          "glyph": "companion-bond"
         }
       ],
       "triggers": {}
@@ -4830,19 +4724,17 @@
       "beats": [
         {
           "text": {
-            "en": "Good choice!",
-            "tp": "wile pona a!"
+            "en": "Capture pods are packed."
           },
           "mood": "happy",
-          "glyph": "pona"
+          "glyph": "companion-bond"
         },
         {
           "text": {
-            "en": "Let's go!",
-            "tp": "mi mute o tawa!"
+            "en": "Bring home anything you can care for."
           },
           "mood": "excited",
-          "glyph": "tawa"
+          "glyph": "greenwood-watch"
         }
       ],
       "triggers": {}
@@ -4854,19 +4746,17 @@
       "beats": [
         {
           "text": {
-            "en": "Ah. Good.",
-            "tp": "a. pona."
+            "en": "Rivers, the road is waiting."
           },
           "mood": "happy",
-          "glyph": "pona"
+          "glyph": "companion-bond"
         },
         {
           "text": {
-            "en": "Let's go!",
-            "tp": "mi mute o tawa!"
+            "en": "Check on your companion before you leave."
           },
           "mood": "excited",
-          "glyph": "tawa"
+          "glyph": "greenwood-watch"
         }
       ],
       "triggers": {}
@@ -4881,19 +4771,17 @@
       "beats": [
         {
           "text": {
-            "en": "You seem well...",
-            "tp": "lukin la sina pilin pona..."
+            "en": "Good. Your first partner chose you back."
           },
           "mood": "happy",
-          "glyph": "pona"
+          "glyph": "companion-bond"
         },
         {
           "text": {
-            "en": "Are you in the house?",
-            "tp": "sina lon ala lon tomo?"
+            "en": "The eastern gate is open now."
           },
           "mood": "thinking",
-          "glyph": "lon"
+          "glyph": "safe-house"
         }
       ],
       "triggers": {}
@@ -4908,26 +4796,24 @@
       "beats": [
         {
           "text": {
-            "en": "hello"
+            "en": "Rivers, today you start your own investigation."
           },
           "mood": "happy",
-          "glyph": "toki"
+          "glyph": "companion-bond"
         },
         {
           "text": {
-            "en": "Fresh fruit is good for the health.",
-            "tp": "kili sin li pona tawa sijelo."
+            "en": "Three creatures answered the call."
           },
           "mood": "thinking",
-          "glyph": "pona"
+          "glyph": "companion-bond"
         },
         {
           "text": {
-            "en": "Which color do you prefer?",
-            "tp": "kule seme li pona tawa sina?"
+            "en": "Choose the partner you trust at your side."
           },
           "mood": "excited",
-          "glyph": "seme"
+          "glyph": "wild-signs"
         }
       ],
       "triggers": {}
@@ -4939,19 +4825,17 @@
       "beats": [
         {
           "text": {
-            "en": "The shop is open.",
-            "tp": "esun li open."
+            "en": "The shop is open by the fountain."
           },
           "mood": "happy",
-          "glyph": "open"
+          "glyph": "water-edge"
         },
         {
           "text": {
-            "en": "He likes fishing.",
-            "tp": "alasa kala li pona tawa ona."
+            "en": "Lake trainers compare catches at sunset."
           },
           "mood": "thinking",
-          "glyph": "kala"
+          "glyph": "water-edge"
         }
       ],
       "triggers": {}
@@ -4966,19 +4850,17 @@
       "beats": [
         {
           "text": {
-            "en": "Let's see!",
-            "tp": "mi mute o lukin!"
+            "en": "Dreadpeak doesn't forgive sloppy teams."
           },
           "mood": "excited",
-          "glyph": "lukin"
+          "glyph": "wild-signs"
         },
         {
           "text": {
-            "en": "I'm plenty strong!",
-            "tp": "mi wawa mute!"
+            "en": "Show me why the mountain should let you pass."
           },
           "mood": "excited",
-          "glyph": "wawa"
+          "glyph": "battle-ready"
         }
       ],
       "triggers": {}
@@ -4993,19 +4875,17 @@
       "beats": [
         {
           "text": {
-            "en": "You seem well...",
-            "tp": "lukin la sina pilin pona..."
+            "en": "You climbed higher than I expected."
           },
           "mood": "sad",
-          "glyph": "pona"
+          "glyph": "companion-bond"
         },
         {
           "text": {
-            "en": "Let's go!",
-            "tp": "mi mute o tawa!"
+            "en": "The final road is open."
           },
           "mood": "thinking",
-          "glyph": "tawa"
+          "glyph": "greenwood-watch"
         }
       ],
       "triggers": {}
@@ -5017,19 +4897,17 @@
       "beats": [
         {
           "text": {
-            "en": "Brr! This water's really cold!",
-            "tp": "a! telo ni li lete a!"
+            "en": "Frost glows blue before a storm."
           },
           "mood": "thinking",
-          "glyph": "lete"
+          "glyph": "cold-hands"
         },
         {
           "text": {
-            "en": "I'm getting tired.",
-            "tp": "mi kama wile lape."
+            "en": "Follow the lighted fences if you get turned around."
           },
           "mood": "sad",
-          "glyph": "lape"
+          "glyph": "safe-house"
         }
       ],
       "triggers": {}
@@ -5041,19 +4919,17 @@
       "beats": [
         {
           "text": {
-            "en": "He likes fishing.",
-            "tp": "alasa kala li pona tawa ona."
+            "en": "The final river bends toward old trouble."
           },
           "mood": "happy",
-          "glyph": "kala"
+          "glyph": "water-edge"
         },
         {
           "text": {
-            "en": "Let's go!",
-            "tp": "mi mute o tawa!"
+            "en": "If you hear wings, save your best throw."
           },
           "mood": "excited",
-          "glyph": "tawa"
+          "glyph": "greenwood-watch"
         }
       ],
       "triggers": {}
@@ -5068,19 +4944,17 @@
       "beats": [
         {
           "text": {
-            "en": "Let's see!",
-            "tp": "mi mute o lukin!"
+            "en": "Lakehaven watches the water and the trainer."
           },
           "mood": "excited",
-          "glyph": "lukin"
+          "glyph": "wild-signs"
         },
         {
           "text": {
-            "en": "I'm plenty strong!",
-            "tp": "mi wawa mute!"
+            "en": "Let's see if you can read both."
           },
           "mood": "excited",
-          "glyph": "wawa"
+          "glyph": "battle-ready"
         }
       ],
       "triggers": {}
@@ -5095,19 +4969,17 @@
       "beats": [
         {
           "text": {
-            "en": "You won.",
-            "tp": "sina pini pona."
+            "en": "You stayed calm under pressure."
           },
           "mood": "sad",
-          "glyph": "sina"
+          "glyph": "companion-bond"
         },
         {
           "text": {
-            "en": "Let's go!",
-            "tp": "mi mute o tawa!"
+            "en": "Take the lake badge."
           },
           "mood": "thinking",
-          "glyph": "tawa"
+          "glyph": "greenwood-watch"
         }
       ],
       "triggers": {}
@@ -5119,19 +4991,17 @@
       "beats": [
         {
           "text": {
-            "en": "Brr! This water's really cold!",
-            "tp": "a! telo ni li lete a!"
+            "en": "The well runs cold even in summer."
           },
           "mood": "thinking",
-          "glyph": "telo"
+          "glyph": "water-edge"
         },
         {
           "text": {
-            "en": "Ah. Good.",
-            "tp": "a. pona."
+            "en": "Good water keeps companions steady."
           },
           "mood": "happy",
-          "glyph": "pona"
+          "glyph": "companion-bond"
         }
       ],
       "triggers": {}
@@ -5143,19 +5013,17 @@
       "beats": [
         {
           "text": {
-            "en": "There is a bird here.",
-            "tp": "waso li lon ni."
+            "en": "Birds circle when someone strays from the high path."
           },
           "mood": "happy",
-          "glyph": "waso"
+          "glyph": "wild-signs"
         },
         {
           "text": {
-            "en": "Let's see!",
-            "tp": "mi mute o lukin!"
+            "en": "Watch the shadows, not just the road."
           },
           "mood": "thinking",
-          "glyph": "lukin"
+          "glyph": "wild-signs"
         }
       ],
       "triggers": {}
@@ -5170,19 +5038,17 @@
       "beats": [
         {
           "text": {
-            "en": "I'm plenty strong!",
-            "tp": "mi wawa mute!"
+            "en": "The pass belongs to teams that can take a hit."
           },
           "mood": "excited",
-          "glyph": "wawa"
+          "glyph": "battle-ready"
         },
         {
           "text": {
-            "en": "Let's see!",
-            "tp": "mi mute o lukin!"
+            "en": "Stand firm."
           },
           "mood": "excited",
-          "glyph": "lukin"
+          "glyph": "wild-signs"
         }
       ],
       "triggers": {}
@@ -5197,19 +5063,17 @@
       "beats": [
         {
           "text": {
-            "en": "You won.",
-            "tp": "sina pini pona."
+            "en": "You took the hit and kept going."
           },
           "mood": "sad",
-          "glyph": "sina"
+          "glyph": "companion-bond"
         },
         {
           "text": {
-            "en": "You seem well...",
-            "tp": "lukin la sina pilin pona..."
+            "en": "Highridge Pass is open."
           },
           "mood": "thinking",
-          "glyph": "pona"
+          "glyph": "companion-bond"
         }
       ],
       "triggers": {}
@@ -5221,11 +5085,10 @@
       "beats": [
         {
           "text": {
-            "en": "You're an animal.",
-            "tp": "sina soweli."
+            "en": "Something wild jumps from the grass."
           },
           "mood": "excited",
-          "glyph": "soweli"
+          "glyph": "wild-signs"
         }
       ],
       "triggers": {}
@@ -5237,11 +5100,10 @@
       "beats": [
         {
           "text": {
-            "en": "Ah. Good.",
-            "tp": "a. pona."
+            "en": "Captured. It settles into the pod."
           },
           "mood": "happy",
-          "glyph": "pona"
+          "glyph": "companion-bond"
         }
       ],
       "triggers": {}
@@ -5253,11 +5115,10 @@
       "beats": [
         {
           "text": {
-            "en": "That's it.",
-            "tp": "ni li ona."
+            "en": "It breaks loose and bolts."
           },
           "mood": "sad",
-          "glyph": "ni"
+          "glyph": "wild-signs"
         }
       ],
       "triggers": {}
@@ -5266,8 +5127,8 @@
   "journey": {
     "beats": [
       {
-        "id": "beat_01_ma_tomo_lili",
-        "map_id": "ma_tomo_lili",
+        "id": "beat_01_riverside_home",
+        "map_id": "riverside_home",
         "narrative": "Player wakes in the starter village: a small grass-ringed home plot with no encounters. jan Sewi runs the starter ceremony; jan Pona Tomo, jan Telo Well, jan Poki Tomo, and jan Kili Tomo provide ambient two-beat village dialog. Walking up to jan Sewi fires the starter ceremony and offers the three starters: kon_moli, telo_jaki, and jan_ike_lili. Picking one sets starter_chosen, drops three poki_lili, adds the chosen creature to the party at level 5, and unlocks the eastern warp.",
         "gate": {
           "kind": "starter_chosen"
@@ -5278,8 +5139,8 @@
         }
       },
       {
-        "id": "beat_02_nasin_wan",
-        "map_id": "nasin_wan",
+        "id": "beat_02_greenwood_road",
+        "map_id": "greenwood_road",
         "narrative": "Long forest path-route east-to-west, framed by trees. Three tall-grass rectangles host the player's first encounters across the level 3-7 band: jan_ike_lili, jan_utala_lili, soweli_musi, soweli_kili, soweli_jaki, waso_pimeja, soweli_anpa, soweli_kon, jan_moli, waso_toki, akesi_linja, and soweli_nena. Four ambient route walkers plus jan Ike bring the map to five NPC markers. Defeating jan Ike, or losing and restoring at the last village, opens the eastern warp.",
         "gate": {
           "kind": "defeated",
@@ -5291,9 +5152,9 @@
         }
       },
       {
-        "id": "beat_03_nena_sewi",
-        "map_id": "nena_sewi",
-        "narrative": "Mountain pass with stone footpaths between blocked cliffs, rocks, and tall-grass clumps. Encounters skew wawa-typed and rocky: jan_wawa, jan_wawa_linja, jan_wawa_jaki, sijelo_kiwen, soweli_palisa, waso_lape, akesi_seli, and soweli_sewi. jan Kiwen, jan Kala, jan Waso Sewi, and jan Nasin Sewi provide ambient route dialog. At the top, jan Wawa blocks the northward path with the first jan lawa fight. Winning sets badge_sewi and grants the reward word sewi.",
+        "id": "beat_03_highridge_pass",
+        "map_id": "highridge_pass",
+        "narrative": "Mountain pass with stone footpaths between blocked cliffs, rocks, and tall-grass clumps. Encounters skew force-typed and rocky: jan_wawa, jan_wawa_linja, jan_wawa_jaki, sijelo_kiwen, soweli_palisa, waso_lape, akesi_seli, and soweli_sewi. Route NPCs provide ambient travel dialog. At the top, the Highridge master blocks the northward path. Winning sets badge_sewi and records the highridge-proof clue.",
         "gate": {
           "kind": "defeated",
           "npc_id": "jan_wawa"
@@ -5304,9 +5165,9 @@
         }
       },
       {
-        "id": "beat_04_ma_telo",
-        "map_id": "ma_telo",
-        "narrative": "Round village built on a stone island in the middle of a lake. No tall grass and no random encounters: this is a story-and-shop beat. jan Telo is the jan lawa of ma_telo; beating him sets badge_telo and grants telo. jan Kala Lake, jan Olin Telo, jan Moku, and jan Sike Telo fill the lake-village NPC floor. jan Moku runs a lakeside stall that sells poki_lili and kili for ma.",
+        "id": "beat_04_lakehaven",
+        "map_id": "lakehaven",
+        "narrative": "Round village built on a stone island in the middle of a lake. No tall grass and no random encounters: this is a story-and-shop beat. The Lakehaven master waits in the plaza; beating him sets badge_telo and records the lakehaven-proof clue. Lake-village NPCs fill the floor, and the stall sells capture pods and healing fruit for coins.",
         "gate": {
           "kind": "defeated",
           "npc_id": "jan_telo"
@@ -5317,9 +5178,9 @@
         }
       },
       {
-        "id": "beat_05_ma_lete",
-        "map_id": "ma_lete",
-        "narrative": "Cold-land village with snow and ice ground, stone paths, snow tall grass, trees, houses, rocks, and a fenced herb garden. Encounters mix sijelo_linja, sijelo_kiwen, jan_pi_sewi_pimeja, waso_lete, soweli_nena, soweli_kiwen, and sijelo_utala at levels 7-12. jan Lete is the jan lawa. jan Anpa, jan Suno Lete, jan Poki Lete, and jan Kasi complete the five-NPC village floor. Beating jan Lete sets badge_lete and grants lete.",
+        "id": "beat_05_frostvale",
+        "map_id": "frostvale",
+        "narrative": "Cold-land village with snow and ice ground, stone paths, snow tall grass, trees, houses, rocks, and a fenced herb garden. Encounters mix sijelo_linja, sijelo_kiwen, jan_pi_sewi_pimeja, waso_lete, soweli_nena, soweli_kiwen, and sijelo_utala at levels 7-12. The Frostvale master anchors the village challenge. Beating him sets badge_lete and records the frostvale-proof clue.",
         "gate": {
           "kind": "defeated",
           "npc_id": "jan_lete"
@@ -5330,9 +5191,9 @@
         }
       },
       {
-        "id": "beat_06_nena_suli",
-        "map_id": "nena_suli",
-        "narrative": "The great peak is the hardest jan lawa challenge before the endgame: a tall narrow cave-shrine with stone floors, blocked rock walls, torch landmarks, and sparse encounter overgrowth. Encounters are heavy elites: jan_wawa_suli, jan_wawa_utala, jan_utala_suli, soweli_utala, sijelo_utala, waso_moku, waso_moli, soweli_sewi, soweli_alasa, and soweli_wawa at levels 10-15. jan Kiwen Suli, jan Pi Kon, jan Pimeja Suli, and jan Pi Nasin flesh out the climb before jan Suli. Beating jan Suli sets badge_suli and grants suli.",
+        "id": "beat_06_dreadpeak_cavern",
+        "map_id": "dreadpeak_cavern",
+        "narrative": "The great peak is the hardest region-master challenge before the endgame: a tall narrow cave-shrine with stone floors, blocked rock walls, torch landmarks, and sparse encounter overgrowth. Encounters are heavy elites: jan_wawa_suli, jan_wawa_utala, jan_utala_suli, soweli_utala, sijelo_utala, waso_moku, waso_moli, soweli_sewi, soweli_alasa, and soweli_wawa at levels 10-15. Cave NPCs flesh out the climb before the Dreadpeak master. Beating him sets badge_suli and records the dreadpeak-proof clue.",
         "gate": {
           "kind": "defeated",
           "npc_id": "jan_suli"
@@ -5343,8 +5204,8 @@
         }
       },
       {
-        "id": "beat_07_nasin_pi_telo",
-        "map_id": "nasin_pi_telo",
+        "id": "beat_07_rivergate_approach",
+        "map_id": "rivergate_approach",
         "narrative": "Endgame approach: long riverside route with a grassy west bank, deep water channel, sandbar path, and two aquatic encounter patches. Encounters include jan_moli, kon_moli, telo_jaki, kala_telo, kala_uta, kala_tomo, jan_moli_wawa, kala_luka, seli_moli, akesi_suli, and the rare akesi_sewi across levels 7-13. jan Kala Lili, jan Moku Pona, jan Kala Suli, jan Olin Telo, and jan Suno Telo populate the bank. With all four region badges in hand, final_boss_trigger fires the akesi_sewi cutscene; the green-dragon clear path plays the green dragon defeat animation.",
         "gate": {
           "kind": "flag",
@@ -5359,7 +5220,133 @@
   },
   "maps": [
     {
-      "id": "ma_lete",
+      "id": "dreadpeak_cavern",
+      "width": 16,
+      "height": 20,
+      "tilewidth": 16,
+      "tileheight": 16,
+      "objects": [
+        {
+          "layer": "Objects",
+          "name": "from_frostvale",
+          "type": "SpawnPoint",
+          "x": 32,
+          "y": 192,
+          "width": 0,
+          "height": 0,
+          "properties": {}
+        },
+        {
+          "layer": "Objects",
+          "name": "jan-kiwen-suli",
+          "type": "NPC",
+          "x": 48,
+          "y": 192,
+          "width": 0,
+          "height": 0,
+          "properties": {
+            "id": "jan_kiwen_suli",
+            "dialog_id": "jan_kiwen_suli_cave"
+          }
+        },
+        {
+          "layer": "Objects",
+          "name": "jan-pi-kon",
+          "type": "NPC",
+          "x": 80,
+          "y": 160,
+          "width": 0,
+          "height": 0,
+          "properties": {
+            "id": "jan_pi_kon",
+            "dialog_id": "jan_pi_kon_meditate"
+          }
+        },
+        {
+          "layer": "Objects",
+          "name": "jan-pimeja-suli",
+          "type": "NPC",
+          "x": 112,
+          "y": 128,
+          "width": 0,
+          "height": 0,
+          "properties": {
+            "id": "jan_pimeja_suli",
+            "dialog_id": "jan_pimeja_suli_torch"
+          }
+        },
+        {
+          "layer": "Objects",
+          "name": "jan-pi-nasin",
+          "type": "NPC",
+          "x": 160,
+          "y": 112,
+          "width": 0,
+          "height": 0,
+          "properties": {
+            "id": "jan_pi_nasin",
+            "dialog_id": "jan_pi_nasin_ask"
+          }
+        },
+        {
+          "layer": "Objects",
+          "name": "jan-suli",
+          "type": "NPC",
+          "x": 128,
+          "y": 32,
+          "width": 0,
+          "height": 0,
+          "properties": {
+            "id": "jan_suli",
+            "dialog_id": "jan_suli_intro"
+          }
+        },
+        {
+          "layer": "Objects",
+          "name": "warp_north",
+          "type": "Warp",
+          "x": 128,
+          "y": 0,
+          "width": 16,
+          "height": 16,
+          "properties": {
+            "target_map": "rivergate_approach",
+            "target_spawn": "from_dreadpeak_cavern",
+            "required_flag": "badge_suli"
+          }
+        },
+        {
+          "layer": "Encounters",
+          "name": "encounter_0",
+          "type": "Encounter",
+          "x": 48,
+          "y": 240,
+          "width": 64,
+          "height": 48,
+          "properties": {
+            "species": "{\"jan_wawa_suli\":22,\"jan_wawa_utala\":18,\"soweli_utala\":12,\"sijelo_utala\":18,\"waso_moku\":12,\"waso_moli\":12,\"soweli_sewi\":6}",
+            "level_min": 10,
+            "level_max": 13
+          }
+        },
+        {
+          "layer": "Encounters",
+          "name": "encounter_1",
+          "type": "Encounter",
+          "x": 160,
+          "y": 192,
+          "width": 64,
+          "height": 48,
+          "properties": {
+            "species": "{\"jan_wawa_suli\":18,\"jan_wawa_utala\":18,\"jan_utala_suli\":6,\"sijelo_utala\":22,\"waso_moku\":14,\"soweli_alasa\":14,\"soweli_wawa\":8}",
+            "level_min": 12,
+            "level_max": 15
+          }
+        }
+      ]
+    },
+    {
+      "id": "frostvale",
       "width": 22,
       "height": 16,
       "tilewidth": 16,
@@ -5367,7 +5354,7 @@
       "objects": [
         {
           "layer": "Objects",
-          "name": "from_ma_telo",
+          "name": "from_lakehaven",
           "type": "SpawnPoint",
           "x": 32,
           "y": 96,
@@ -5449,8 +5436,8 @@
           "width": 16,
           "height": 16,
           "properties": {
-            "target_map": "nena_suli",
-            "target_spawn": "from_ma_lete",
+            "target_map": "dreadpeak_cavern",
+            "target_spawn": "from_frostvale",
             "required_flag": "badge_lete"
           }
         },
@@ -5485,7 +5472,273 @@
       ]
     },
     {
-      "id": "ma_telo",
+      "id": "greenwood_road",
+      "width": 32,
+      "height": 12,
+      "tilewidth": 16,
+      "tileheight": 16,
+      "objects": [
+        {
+          "layer": "Objects",
+          "name": "from_tomo",
+          "type": "SpawnPoint",
+          "x": 16,
+          "y": 80,
+          "width": 0,
+          "height": 0,
+          "properties": {}
+        },
+        {
+          "layer": "Objects",
+          "name": "jan-palisa-nasin",
+          "type": "NPC",
+          "x": 64,
+          "y": 80,
+          "width": 0,
+          "height": 0,
+          "properties": {
+            "id": "jan_palisa_nasin",
+            "dialog_id": "jan_palisa_nasin_sign"
+          }
+        },
+        {
+          "layer": "Objects",
+          "name": "jan-kasi-nasin",
+          "type": "NPC",
+          "x": 176,
+          "y": 80,
+          "width": 0,
+          "height": 0,
+          "properties": {
+            "id": "jan_kasi_nasin",
+            "dialog_id": "jan_kasi_nasin_grass"
+          }
+        },
+        {
+          "layer": "Objects",
+          "name": "jan-poki-nasin",
+          "type": "NPC",
+          "x": 320,
+          "y": 80,
+          "width": 0,
+          "height": 0,
+          "properties": {
+            "id": "jan_poki_nasin",
+            "dialog_id": "jan_poki_nasin_pack"
+          }
+        },
+        {
+          "layer": "Objects",
+          "name": "jan-lukin-nasin",
+          "type": "NPC",
+          "x": 400,
+          "y": 80,
+          "width": 0,
+          "height": 0,
+          "properties": {
+            "id": "jan_lukin_nasin",
+            "dialog_id": "jan_lukin_nasin_watch"
+          }
+        },
+        {
+          "layer": "Objects",
+          "name": "jan-ike",
+          "type": "NPC",
+          "x": 448,
+          "y": 80,
+          "width": 0,
+          "height": 0,
+          "properties": {
+            "id": "jan_ike",
+            "dialog_id": "jan_ike_rival"
+          }
+        },
+        {
+          "layer": "Objects",
+          "name": "warp_east",
+          "type": "Warp",
+          "x": 496,
+          "y": 80,
+          "width": 16,
+          "height": 16,
+          "properties": {
+            "target_map": "highridge_pass",
+            "target_spawn": "from_greenwood_road",
+            "required_flag": "jan_ike_defeated"
+          }
+        },
+        {
+          "layer": "Encounters",
+          "name": "encounter_0",
+          "type": "Encounter",
+          "x": 96,
+          "y": 48,
+          "width": 64,
+          "height": 32,
+          "properties": {
+            "species": "{\"jan_ike_lili\":20,\"jan_utala_lili\":18,\"soweli_musi\":18,\"soweli_kili\":14,\"soweli_jaki\":10,\"waso_pimeja\":10,\"soweli_anpa\":10}",
+            "level_min": 3,
+            "level_max": 5
+          }
+        },
+        {
+          "layer": "Encounters",
+          "name": "encounter_1",
+          "type": "Encounter",
+          "x": 224,
+          "y": 96,
+          "width": 80,
+          "height": 32,
+          "properties": {
+            "species": "{\"jan_ike_lili\":18,\"jan_utala_lili\":22,\"jan_moli\":14,\"soweli_musi\":14,\"soweli_kili\":14,\"waso_toki\":10,\"soweli_kon\":8}",
+            "level_min": 4,
+            "level_max": 6
+          }
+        },
+        {
+          "layer": "Encounters",
+          "name": "encounter_2",
+          "type": "Encounter",
+          "x": 352,
+          "y": 48,
+          "width": 64,
+          "height": 32,
+          "properties": {
+            "species": "{\"jan_ike_lili\":15,\"jan_moli\":25,\"soweli_kili\":20,\"soweli_jaki\":20,\"akesi_linja\":10,\"soweli_nena\":10}",
+            "level_min": 5,
+            "level_max": 7
+          }
+        }
+      ]
+    },
+    {
+      "id": "highridge_pass",
+      "width": 32,
+      "height": 14,
+      "tilewidth": 16,
+      "tileheight": 16,
+      "objects": [
+        {
+          "layer": "Objects",
+          "name": "from_greenwood_road",
+          "type": "SpawnPoint",
+          "x": 16,
+          "y": 112,
+          "width": 0,
+          "height": 0,
+          "properties": {}
+        },
+        {
+          "layer": "Objects",
+          "name": "jan-kiwen",
+          "type": "NPC",
+          "x": 64,
+          "y": 128,
+          "width": 0,
+          "height": 0,
+          "properties": {
+            "id": "jan_kiwen",
+            "dialog_id": "jan_kiwen_mountain"
+          }
+        },
+        {
+          "layer": "Objects",
+          "name": "jan-kala",
+          "type": "NPC",
+          "x": 160,
+          "y": 128,
+          "width": 0,
+          "height": 0,
+          "properties": {
+            "id": "jan_kala",
+            "dialog_id": "jan_kala_rest"
+          }
+        },
+        {
+          "layer": "Objects",
+          "name": "jan-waso-sewi",
+          "type": "NPC",
+          "x": 256,
+          "y": 96,
+          "width": 0,
+          "height": 0,
+          "properties": {
+            "id": "jan_waso_sewi",
+            "dialog_id": "jan_waso_sewi_sky"
+          }
+        },
+        {
+          "layer": "Objects",
+          "name": "jan-nasin-sewi",
+          "type": "NPC",
+          "x": 352,
+          "y": 80,
+          "width": 0,
+          "height": 0,
+          "properties": {
+            "id": "jan_nasin_sewi",
+            "dialog_id": "jan_nasin_sewi_path"
+          }
+        },
+        {
+          "layer": "Objects",
+          "name": "jan-wawa",
+          "type": "NPC",
+          "x": 384,
+          "y": 48,
+          "width": 0,
+          "height": 0,
+          "properties": {
+            "id": "jan_wawa",
+            "dialog_id": "jan_wawa_intro"
+          }
+        },
+        {
+          "layer": "Objects",
+          "name": "warp_north",
+          "type": "Warp",
+          "x": 384,
+          "y": 0,
+          "width": 16,
+          "height": 16,
+          "properties": {
+            "target_map": "lakehaven",
+            "target_spawn": "from_highridge_pass",
+            "required_flag": "badge_sewi"
+          }
+        },
+        {
+          "layer": "Encounters",
+          "name": "encounter_0",
+          "type": "Encounter",
+          "x": 64,
+          "y": 64,
+          "width": 64,
+          "height": 32,
+          "properties": {
+            "species": "{\"jan_wawa\":25,\"jan_wawa_linja\":20,\"sijelo_kiwen\":15,\"soweli_palisa\":15,\"waso_lape\":15,\"akesi_seli\":10}",
+            "level_min": 6,
+            "level_max": 8
+          }
+        },
+        {
+          "layer": "Encounters",
+          "name": "encounter_1",
+          "type": "Encounter",
+          "x": 224,
+          "y": 160,
+          "width": 96,
+          "height": 48,
+          "properties": {
+            "species": "{\"jan_wawa\":18,\"jan_wawa_linja\":18,\"jan_wawa_jaki\":14,\"sijelo_kiwen\":18,\"soweli_sewi\":12,\"waso_lape\":12,\"soweli_palisa\":8}",
+            "level_min": 7,
+            "level_max": 9
+          }
+        }
+      ]
+    },
+    {
+      "id": "lakehaven",
       "width": 20,
       "height": 16,
       "tilewidth": 16,
@@ -5493,7 +5746,7 @@
       "objects": [
         {
           "layer": "Objects",
-          "name": "from_nena_sewi",
+          "name": "from_highridge_pass",
           "type": "SpawnPoint",
           "x": 32,
           "y": 96,
@@ -5575,113 +5828,15 @@
           "width": 16,
           "height": 16,
           "properties": {
-            "target_map": "ma_lete",
-            "target_spawn": "from_ma_telo",
+            "target_map": "frostvale",
+            "target_spawn": "from_lakehaven",
             "required_flag": "badge_telo"
           }
         }
       ]
     },
     {
-      "id": "ma_tomo_lili",
-      "width": 16,
-      "height": 12,
-      "tilewidth": 16,
-      "tileheight": 16,
-      "objects": [
-        {
-          "layer": "Objects",
-          "name": "default",
-          "type": "SpawnPoint",
-          "x": 112,
-          "y": 80,
-          "width": 0,
-          "height": 0,
-          "properties": {}
-        },
-        {
-          "layer": "Objects",
-          "name": "jan-pona-tomo",
-          "type": "NPC",
-          "x": 64,
-          "y": 80,
-          "width": 0,
-          "height": 0,
-          "properties": {
-            "id": "jan_pona_tomo",
-            "dialog_id": "jan_pona_tomo_welcome"
-          }
-        },
-        {
-          "layer": "Objects",
-          "name": "jan-telo-well",
-          "type": "NPC",
-          "x": 48,
-          "y": 128,
-          "width": 0,
-          "height": 0,
-          "properties": {
-            "id": "jan_telo_well",
-            "dialog_id": "jan_telo_well_water"
-          }
-        },
-        {
-          "layer": "Objects",
-          "name": "jan-sewi",
-          "type": "NPC",
-          "x": 160,
-          "y": 96,
-          "width": 0,
-          "height": 0,
-          "properties": {
-            "id": "jan_sewi",
-            "dialog_id": "jan_sewi_starter_intro"
-          }
-        },
-        {
-          "layer": "Objects",
-          "name": "jan-poki-tomo",
-          "type": "NPC",
-          "x": 48,
-          "y": 80,
-          "width": 0,
-          "height": 0,
-          "properties": {
-            "id": "jan_poki_tomo",
-            "dialog_id": "jan_poki_tomo_ready"
-          }
-        },
-        {
-          "layer": "Objects",
-          "name": "jan-kili-tomo",
-          "type": "NPC",
-          "x": 64,
-          "y": 128,
-          "width": 0,
-          "height": 0,
-          "properties": {
-            "id": "jan_kili_tomo",
-            "dialog_id": "jan_kili_tomo_snack"
-          }
-        },
-        {
-          "layer": "Objects",
-          "name": "warp_east",
-          "type": "Warp",
-          "x": 240,
-          "y": 80,
-          "width": 16,
-          "height": 16,
-          "properties": {
-            "target_map": "nasin_wan",
-            "target_spawn": "from_tomo",
-            "required_flag": "starter_chosen"
-          }
-        }
-      ]
-    },
-    {
-      "id": "nasin_pi_telo",
+      "id": "rivergate_approach",
       "width": 28,
       "height": 14,
       "tilewidth": 16,
@@ -5689,7 +5844,7 @@
       "objects": [
         {
           "layer": "Objects",
-          "name": "from_nena_suli",
+          "name": "from_dreadpeak_cavern",
           "type": "SpawnPoint",
           "x": 32,
           "y": 96,
@@ -5806,17 +5961,17 @@
       ]
     },
     {
-      "id": "nasin_wan",
-      "width": 32,
+      "id": "riverside_home",
+      "width": 16,
       "height": 12,
       "tilewidth": 16,
       "tileheight": 16,
       "objects": [
         {
           "layer": "Objects",
-          "name": "from_tomo",
+          "name": "default",
           "type": "SpawnPoint",
-          "x": 16,
+          "x": 112,
           "y": 80,
           "width": 0,
           "height": 0,
@@ -5824,375 +5979,81 @@
         },
         {
           "layer": "Objects",
-          "name": "jan-palisa-nasin",
+          "name": "jan-pona-tomo",
           "type": "NPC",
           "x": 64,
           "y": 80,
           "width": 0,
           "height": 0,
           "properties": {
-            "id": "jan_palisa_nasin",
-            "dialog_id": "jan_palisa_nasin_sign"
+            "id": "jan_pona_tomo",
+            "dialog_id": "jan_pona_tomo_welcome"
           }
         },
         {
           "layer": "Objects",
-          "name": "jan-kasi-nasin",
+          "name": "jan-telo-well",
           "type": "NPC",
-          "x": 176,
-          "y": 80,
+          "x": 48,
+          "y": 128,
           "width": 0,
           "height": 0,
           "properties": {
-            "id": "jan_kasi_nasin",
-            "dialog_id": "jan_kasi_nasin_grass"
+            "id": "jan_telo_well",
+            "dialog_id": "jan_telo_well_water"
           }
         },
         {
           "layer": "Objects",
-          "name": "jan-poki-nasin",
+          "name": "jan-sewi",
           "type": "NPC",
-          "x": 320,
-          "y": 80,
+          "x": 160,
+          "y": 96,
           "width": 0,
           "height": 0,
           "properties": {
-            "id": "jan_poki_nasin",
-            "dialog_id": "jan_poki_nasin_pack"
+            "id": "jan_sewi",
+            "dialog_id": "jan_sewi_starter_intro"
           }
         },
         {
           "layer": "Objects",
-          "name": "jan-lukin-nasin",
+          "name": "jan-poki-tomo",
           "type": "NPC",
-          "x": 400,
+          "x": 48,
           "y": 80,
           "width": 0,
           "height": 0,
           "properties": {
-            "id": "jan_lukin_nasin",
-            "dialog_id": "jan_lukin_nasin_watch"
+            "id": "jan_poki_tomo",
+            "dialog_id": "jan_poki_tomo_ready"
           }
         },
         {
           "layer": "Objects",
-          "name": "jan-ike",
+          "name": "jan-kili-tomo",
           "type": "NPC",
-          "x": 448,
-          "y": 80,
+          "x": 64,
+          "y": 128,
           "width": 0,
           "height": 0,
           "properties": {
-            "id": "jan_ike",
-            "dialog_id": "jan_ike_rival"
+            "id": "jan_kili_tomo",
+            "dialog_id": "jan_kili_tomo_snack"
           }
         },
         {
           "layer": "Objects",
           "name": "warp_east",
           "type": "Warp",
-          "x": 496,
+          "x": 240,
           "y": 80,
           "width": 16,
           "height": 16,
           "properties": {
-            "target_map": "nena_sewi",
-            "target_spawn": "from_nasin_wan",
-            "required_flag": "jan_ike_defeated"
-          }
-        },
-        {
-          "layer": "Encounters",
-          "name": "encounter_0",
-          "type": "Encounter",
-          "x": 96,
-          "y": 48,
-          "width": 64,
-          "height": 32,
-          "properties": {
-            "species": "{\"jan_ike_lili\":20,\"jan_utala_lili\":18,\"soweli_musi\":18,\"soweli_kili\":14,\"soweli_jaki\":10,\"waso_pimeja\":10,\"soweli_anpa\":10}",
-            "level_min": 3,
-            "level_max": 5
-          }
-        },
-        {
-          "layer": "Encounters",
-          "name": "encounter_1",
-          "type": "Encounter",
-          "x": 224,
-          "y": 96,
-          "width": 80,
-          "height": 32,
-          "properties": {
-            "species": "{\"jan_ike_lili\":18,\"jan_utala_lili\":22,\"jan_moli\":14,\"soweli_musi\":14,\"soweli_kili\":14,\"waso_toki\":10,\"soweli_kon\":8}",
-            "level_min": 4,
-            "level_max": 6
-          }
-        },
-        {
-          "layer": "Encounters",
-          "name": "encounter_2",
-          "type": "Encounter",
-          "x": 352,
-          "y": 48,
-          "width": 64,
-          "height": 32,
-          "properties": {
-            "species": "{\"jan_ike_lili\":15,\"jan_moli\":25,\"soweli_kili\":20,\"soweli_jaki\":20,\"akesi_linja\":10,\"soweli_nena\":10}",
-            "level_min": 5,
-            "level_max": 7
-          }
-        }
-      ]
-    },
-    {
-      "id": "nena_sewi",
-      "width": 32,
-      "height": 14,
-      "tilewidth": 16,
-      "tileheight": 16,
-      "objects": [
-        {
-          "layer": "Objects",
-          "name": "from_nasin_wan",
-          "type": "SpawnPoint",
-          "x": 16,
-          "y": 112,
-          "width": 0,
-          "height": 0,
-          "properties": {}
-        },
-        {
-          "layer": "Objects",
-          "name": "jan-kiwen",
-          "type": "NPC",
-          "x": 64,
-          "y": 128,
-          "width": 0,
-          "height": 0,
-          "properties": {
-            "id": "jan_kiwen",
-            "dialog_id": "jan_kiwen_mountain"
-          }
-        },
-        {
-          "layer": "Objects",
-          "name": "jan-kala",
-          "type": "NPC",
-          "x": 160,
-          "y": 128,
-          "width": 0,
-          "height": 0,
-          "properties": {
-            "id": "jan_kala",
-            "dialog_id": "jan_kala_rest"
-          }
-        },
-        {
-          "layer": "Objects",
-          "name": "jan-waso-sewi",
-          "type": "NPC",
-          "x": 256,
-          "y": 96,
-          "width": 0,
-          "height": 0,
-          "properties": {
-            "id": "jan_waso_sewi",
-            "dialog_id": "jan_waso_sewi_sky"
-          }
-        },
-        {
-          "layer": "Objects",
-          "name": "jan-nasin-sewi",
-          "type": "NPC",
-          "x": 352,
-          "y": 80,
-          "width": 0,
-          "height": 0,
-          "properties": {
-            "id": "jan_nasin_sewi",
-            "dialog_id": "jan_nasin_sewi_path"
-          }
-        },
-        {
-          "layer": "Objects",
-          "name": "jan-wawa",
-          "type": "NPC",
-          "x": 384,
-          "y": 48,
-          "width": 0,
-          "height": 0,
-          "properties": {
-            "id": "jan_wawa",
-            "dialog_id": "jan_wawa_intro"
-          }
-        },
-        {
-          "layer": "Objects",
-          "name": "warp_north",
-          "type": "Warp",
-          "x": 384,
-          "y": 0,
-          "width": 16,
-          "height": 16,
-          "properties": {
-            "target_map": "ma_telo",
-            "target_spawn": "from_nena_sewi",
-            "required_flag": "badge_sewi"
-          }
-        },
-        {
-          "layer": "Encounters",
-          "name": "encounter_0",
-          "type": "Encounter",
-          "x": 64,
-          "y": 64,
-          "width": 64,
-          "height": 32,
-          "properties": {
-            "species": "{\"jan_wawa\":25,\"jan_wawa_linja\":20,\"sijelo_kiwen\":15,\"soweli_palisa\":15,\"waso_lape\":15,\"akesi_seli\":10}",
-            "level_min": 6,
-            "level_max": 8
-          }
-        },
-        {
-          "layer": "Encounters",
-          "name": "encounter_1",
-          "type": "Encounter",
-          "x": 224,
-          "y": 160,
-          "width": 96,
-          "height": 48,
-          "properties": {
-            "species": "{\"jan_wawa\":18,\"jan_wawa_linja\":18,\"jan_wawa_jaki\":14,\"sijelo_kiwen\":18,\"soweli_sewi\":12,\"waso_lape\":12,\"soweli_palisa\":8}",
-            "level_min": 7,
-            "level_max": 9
-          }
-        }
-      ]
-    },
-    {
-      "id": "nena_suli",
-      "width": 16,
-      "height": 20,
-      "tilewidth": 16,
-      "tileheight": 16,
-      "objects": [
-        {
-          "layer": "Objects",
-          "name": "from_ma_lete",
-          "type": "SpawnPoint",
-          "x": 32,
-          "y": 192,
-          "width": 0,
-          "height": 0,
-          "properties": {}
-        },
-        {
-          "layer": "Objects",
-          "name": "jan-kiwen-suli",
-          "type": "NPC",
-          "x": 48,
-          "y": 192,
-          "width": 0,
-          "height": 0,
-          "properties": {
-            "id": "jan_kiwen_suli",
-            "dialog_id": "jan_kiwen_suli_cave"
-          }
-        },
-        {
-          "layer": "Objects",
-          "name": "jan-pi-kon",
-          "type": "NPC",
-          "x": 80,
-          "y": 160,
-          "width": 0,
-          "height": 0,
-          "properties": {
-            "id": "jan_pi_kon",
-            "dialog_id": "jan_pi_kon_meditate"
-          }
-        },
-        {
-          "layer": "Objects",
-          "name": "jan-pimeja-suli",
-          "type": "NPC",
-          "x": 112,
-          "y": 128,
-          "width": 0,
-          "height": 0,
-          "properties": {
-            "id": "jan_pimeja_suli",
-            "dialog_id": "jan_pimeja_suli_torch"
-          }
-        },
-        {
-          "layer": "Objects",
-          "name": "jan-pi-nasin",
-          "type": "NPC",
-          "x": 160,
-          "y": 112,
-          "width": 0,
-          "height": 0,
-          "properties": {
-            "id": "jan_pi_nasin",
-            "dialog_id": "jan_pi_nasin_ask"
-          }
-        },
-        {
-          "layer": "Objects",
-          "name": "jan-suli",
-          "type": "NPC",
-          "x": 128,
-          "y": 32,
-          "width": 0,
-          "height": 0,
-          "properties": {
-            "id": "jan_suli",
-            "dialog_id": "jan_suli_intro"
-          }
-        },
-        {
-          "layer": "Objects",
-          "name": "warp_north",
-          "type": "Warp",
-          "x": 128,
-          "y": 0,
-          "width": 16,
-          "height": 16,
-          "properties": {
-            "target_map": "nasin_pi_telo",
-            "target_spawn": "from_nena_suli",
-            "required_flag": "badge_suli"
-          }
-        },
-        {
-          "layer": "Encounters",
-          "name": "encounter_0",
-          "type": "Encounter",
-          "x": 48,
-          "y": 240,
-          "width": 64,
-          "height": 48,
-          "properties": {
-            "species": "{\"jan_wawa_suli\":22,\"jan_wawa_utala\":18,\"soweli_utala\":12,\"sijelo_utala\":18,\"waso_moku\":12,\"waso_moli\":12,\"soweli_sewi\":6}",
-            "level_min": 10,
-            "level_max": 13
-          }
-        },
-        {
-          "layer": "Encounters",
-          "name": "encounter_1",
-          "type": "Encounter",
-          "x": 160,
-          "y": 192,
-          "width": 64,
-          "height": 48,
-          "properties": {
-            "species": "{\"jan_wawa_suli\":18,\"jan_wawa_utala\":18,\"jan_utala_suli\":6,\"sijelo_utala\":22,\"waso_moku\":14,\"soweli_alasa\":14,\"soweli_wawa\":8}",
-            "level_min": 12,
-            "level_max": 15
+            "target_map": "greenwood_road",
+            "target_spawn": "from_tomo",
+            "required_flag": "starter_chosen"
           }
         }
       ]

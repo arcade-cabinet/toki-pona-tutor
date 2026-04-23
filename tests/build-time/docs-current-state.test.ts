@@ -239,15 +239,15 @@ describe("current-state documentation drift guards", () => {
         const source = doc("docs/STATE.md");
 
         expect(countSpecFiles("tests/e2e/full")).toBe(15);
-        expect(source).toContain("25 full browser tests across 15 files");
-        expect(source).not.toContain("25 full browser specs");
+        expect(source).toContain("27 full browser tests across 15 files");
+        expect(source).not.toContain("27 full browser specs");
     });
 
     it("keeps UX selector docs aligned with the dialog component contract", () => {
         const ux = doc("docs/UX.md");
-        const dialogComponent = doc("src/config/rpg-dialog.ce");
+        const dialogComponent = doc("src/ui/RiversUiApp.tsx");
 
-        expect(dialogComponent).toContain("data-testid={choiceTestId(index)}");
+        expect(dialogComponent).toContain('data-testid={`dialog-choice-${index}`}');
         expect(ux).toContain('data-testid="dialog-choice-{n}"');
         expect(ux).not.toContain("`choice-{n}`");
     });
@@ -265,13 +265,13 @@ describe("current-state documentation drift guards", () => {
         expect(pngFiles).toEqual([
             "desktop-starter-map-canvas.png",
             "desktop-title-choices.png",
-            "map-ma_lete.png",
-            "map-ma_telo.png",
-            "map-ma_tomo_lili.png",
-            "map-nasin_pi_telo.png",
-            "map-nasin_wan.png",
-            "map-nena_sewi.png",
-            "map-nena_suli.png",
+            "map-dreadpeak_cavern.png",
+            "map-frostvale.png",
+            "map-greenwood_road.png",
+            "map-highridge_pass.png",
+            "map-lakehaven.png",
+            "map-rivergate_approach.png",
+            "map-riverside_home.png",
             "mobile-pause-overlay.png",
             "mobile-starter-choice-dialog.png",
         ]);
@@ -283,13 +283,13 @@ describe("current-state documentation drift guards", () => {
         const desktopFiles = [
             "desktop-starter-map-canvas.png",
             "desktop-title-choices.png",
-            "map-ma_lete.png",
-            "map-ma_telo.png",
-            "map-ma_tomo_lili.png",
-            "map-nasin_pi_telo.png",
-            "map-nasin_wan.png",
-            "map-nena_sewi.png",
-            "map-nena_suli.png",
+            "map-dreadpeak_cavern.png",
+            "map-frostvale.png",
+            "map-greenwood_road.png",
+            "map-highridge_pass.png",
+            "map-lakehaven.png",
+            "map-rivergate_approach.png",
+            "map-riverside_home.png",
         ];
         const mobileFiles = ["mobile-pause-overlay.png", "mobile-starter-choice-dialog.png"];
 

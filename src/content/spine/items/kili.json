@@ -1,7 +1,11 @@
 {
   "id": "kili",
-  "name": { "en": "kili" },
-  "description": { "en": "Eat fruit." },
+  "name": {
+    "en": "Orchard Fruit"
+  },
+  "description": {
+    "en": "Restores a companion with sweet, field-packed fruit."
+  },
   "kind": "heal",
   "power": 20,
   "stackable": true,

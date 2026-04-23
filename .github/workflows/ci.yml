@@ -37,9 +37,6 @@ jobs:
       - name: Validate challenges
         run: pnpm validate-challenges
 
-      - name: Validate canonical Toki Pona
-        run: pnpm validate-tp
-
       - name: Verify map-authoring contract
         run: pnpm author:verify
 
@@ -243,7 +240,7 @@ jobs:
       - name: Upload APK artifact
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
-          name: poki-soweli-debug-apk-${{ github.event.pull_request.number }}
+          name: rivers-reckoning-debug-apk-${{ github.event.pull_request.number }}
           path: android/app/build/outputs/apk/debug/app-debug.apk
           retention-days: 14
           if-no-files-found: error

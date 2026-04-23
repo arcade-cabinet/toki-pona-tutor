@@ -1,6 +1,7 @@
 import type { RpgClient, RpgClientEngine } from "@rpgjs/client";
 import { createModule, defineModule } from "@rpgjs/common";
 import { MAP_VIEWPORT_CONFIG } from "../content/gameplay";
+import { computeMapViewportZoom } from "./map-viewport";
 
 type ViewportLike = {
     scale?: {
@@ -14,9 +15,13 @@ type ViewportLike = {
 
 type SceneDataLike = {
     id?: string;
+    width?: number;
+    height?: number;
     tilewidth?: number;
     tileheight?: number;
     tiled?: {
+        width?: number;
+        height?: number;
         tilewidth?: number;
         tileheight?: number;
     };
@@ -123,11 +128,18 @@ function getRuntimeSnapshot(engine: RpgClientEngine): RuntimeSnapshot | null {
 
     const tilePx =
         sceneData.tiled?.tilewidth ?? sceneData.tilewidth ?? MAP_VIEWPORT_CONFIG.defaultTilePx;
-    const requestedZoom = isMobilePointer()
-        ? MAP_VIEWPORT_CONFIG.mobileZoom
-        : MAP_VIEWPORT_CONFIG.desktopZoom;
-    const minReadableZoom = MAP_VIEWPORT_CONFIG.minTileScreenPx / tilePx;
-    const targetZoom = clampZoom(Math.max(requestedZoom, minReadableZoom));
+    const mapWidth = sceneData.tiled?.width ?? sceneData.width;
+    const mapHeight = sceneData.tiled?.height ?? sceneData.height;
+    const targetZoom = computeMapViewportZoom({
+        config: MAP_VIEWPORT_CONFIG,
+        tilePx,
+        mapPixels:
+            typeof mapWidth === "number" && typeof mapHeight === "number"
+                ? { width: mapWidth * tilePx, height: mapHeight * tilePx }
+                : null,
+        viewportPixels: getViewportPixels(),
+        mobilePointer: isMobilePointer(),
+    });
 
     return {
         mapId,
@@ -152,12 +164,17 @@ function centerOnCurrentPlayer(engine: RpgClientEngine, viewport: ViewportLike):
     viewport.moveCenter(player.x(), player.y());
 }
 
-function clampZoom(zoom: number): number {
-    return Math.min(Math.max(zoom, ZOOM_EPSILON), MAP_VIEWPORT_CONFIG.maxZoom);
-}
-
 function isMobilePointer(): boolean {
     return window.matchMedia("(pointer: coarse), (max-width: 700px)").matches;
+}
+
+function getViewportPixels(): { width: number; height: number } {
+    const canvas = document.querySelector<HTMLCanvasElement>("#rpg canvas");
+    const rect = canvas?.getBoundingClientRect();
+    return {
+        width: Math.max(1, rect?.width ?? window.innerWidth),
+        height: Math.max(1, rect?.height ?? window.innerHeight),
+    };
 }
 
 function getSceneData(engine: RpgClientEngine): SceneDataLike | null {

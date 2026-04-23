@@ -62,8 +62,6 @@ type ObjectTarget = {
 const PLAYER_TAP_RADIUS_MULTIPLIER = TAP_ROUTE_CONFIG.playerTapRadiusMultiplier;
 const MOVEMENT_TILE_SIZE = TAP_ROUTE_CONFIG.movementTileSize;
 const PENDING_TAP_ROUTE_SNAP_KEY = TAP_ROUTE_CONFIG.pendingSnapKey;
-const BIND_RETRY_MS = TAP_ROUTE_CONFIG.bindRetryMs;
-const BIND_RETRY_MAX_ATTEMPTS = TAP_ROUTE_CONFIG.bindRetryMaxAttempts;
 const SNAP_RETRY_MS = TAP_ROUTE_CONFIG.snapRetryMs;
 const SNAP_STABILIZE_MAX_ATTEMPTS = TAP_ROUTE_CONFIG.snapStabilizeMaxAttempts;
 const SNAP_MAX_ATTEMPTS = TAP_ROUTE_CONFIG.snapMaxAttempts;
@@ -72,13 +70,13 @@ const TARGET_BLOCKING_UI_SELECTOR = TAP_CONTROL_TARGET_BLOCKING_UI_SELECTORS.joi
 
 let detachCanvasListener: (() => void) | null = null;
 let detachTapRouteSnapListener: (() => void) | null = null;
-let canvasBindRetryTimer: ReturnType<typeof setTimeout> | null = null;
 let latestTapRouteSnapVersion = 0;
 let pendingTapRouteSnap: TapRouteSnap | null = null;
 let pendingTapRouteSnapTimer: ReturnType<typeof setTimeout> | null = null;
 let pendingTapRouteSnapAttempts = 0;
 let pendingTapRouteSnapDeferred = false;
 let pendingTapRouteSnapStabilizing = false;
+let lastHandledTap: { x: number; y: number; at: number } | null = null;
 
 const tapControlsClientModule = defineModule<RpgClient>({
     engine: {
@@ -100,67 +98,63 @@ export function provideTapControls() {
 
 function installCanvasTapListener(engine: RpgClientEngine): void {
     detachCanvasListener?.();
-    detachCanvasListener = () => clearCanvasBindRetryTimer();
+    const handleTap = (clientX: number, clientY: number): void => {
+        if (isDuplicateTap(clientX, clientY)) return;
+        lastHandledTap = { x: clientX, y: clientY, at: Date.now() };
+        if (isBlockingUiOpen()) return;
+        const viewport = getViewport(engine);
+        const map = getTiledMap(engine);
+        const player = getCurrentPlayer(engine);
+        const canvas = getCanvasElement();
+        if (!viewport || !map || !player) return;
+        if (!canvas) return;
 
-    const bind = (attempt = 0): void => {
-        if (!getCanvasElement()) {
-            if (attempt < BIND_RETRY_MAX_ATTEMPTS) {
-                canvasBindRetryTimer = setTimeout(() => {
-                    canvasBindRetryTimer = null;
-                    bind(attempt + 1);
-                }, BIND_RETRY_MS);
-            }
+        const rect = canvas.getBoundingClientRect();
+        if (
+            clientX < rect.left ||
+            clientX > rect.right ||
+            clientY < rect.top ||
+            clientY > rect.bottom
+        ) {
             return;
         }
-
-        const handleTap = (clientX: number, clientY: number): void => {
-            if (isBlockingUiOpen()) return;
-            const viewport = getViewport(engine);
-            const map = getTiledMap(engine);
-            const player = getCurrentPlayer(engine);
-            const canvas = getCanvasElement();
-            if (!viewport || !map || !player) return;
-            if (!canvas) return;
-
-            const rect = canvas.getBoundingClientRect();
-            if (
-                clientX < rect.left ||
-                clientX > rect.right ||
-                clientY < rect.top ||
-                clientY > rect.bottom
-            ) {
-                return;
-            }
-            const screenX = clientX - rect.left;
-            const screenY = clientY - rect.top;
-            const currentHint = getCurrentInteractionHint(engine);
-            if (
-                currentHint &&
-                isPlayerSettledOnMovementGrid(player) &&
-                isCurrentPlayerTap(map, player, viewport, screenX, screenY)
-            ) {
-                issueHintInteraction(engine, currentHint);
-                return;
-            }
-            const worldPoint = viewport.toWorld(screenX, screenY);
-            const route = buildRoutePlan(engine, map, player, worldPoint.x, worldPoint.y);
-            if (!route) return;
-            engine.socket.emit(TAP_ROUTE_EVENT, route);
-        };
-        const handlePointerUp = (event: PointerEvent): void => {
-            if (!event.isPrimary || event.button !== 0) return;
-            if (isBlockingUiTarget(event.target)) return;
-            handleTap(event.clientX, event.clientY);
-        };
-
-        document.addEventListener("pointerup", handlePointerUp);
-        detachCanvasListener = () => {
-            clearCanvasBindRetryTimer();
-            document.removeEventListener("pointerup", handlePointerUp);
-        };
+        const screenX = clientX - rect.left;
+        const screenY = clientY - rect.top;
+        if (!isPlayerSettledOnMovementGrid(player)) {
+            snapClientPlayerToMovementGrid(engine, player);
+        }
+        const currentHint = getCurrentInteractionHint(engine);
+        if (
+            currentHint &&
+            isPlayerSettledOnMovementGrid(player) &&
+            isCurrentPlayerTap(map, player, viewport, screenX, screenY)
+        ) {
+            issueHintInteraction(engine, currentHint);
+            return;
+        }
+        const worldPoint = viewport.toWorld(screenX, screenY);
+        const route = buildRoutePlan(engine, map, player, worldPoint.x, worldPoint.y);
+        if (!route) return;
+        engine.socket.emit(TAP_ROUTE_EVENT, route);
+    };
+    const handlePointerUp = (event: PointerEvent): void => {
+        if (!event.isPrimary || event.button !== 0) return;
+        if (isBlockingUiTarget(event.target)) return;
+        handleTap(event.clientX, event.clientY);
+    };
+    const handleTouchEnd = (event: TouchEvent): void => {
+        const touch = event.changedTouches.item(0);
+        if (!touch) return;
+        if (isBlockingUiTarget(event.target)) return;
+        handleTap(touch.clientX, touch.clientY);
     };
 
-    bind();
+    document.addEventListener("pointerup", handlePointerUp, { capture: true });
+    document.addEventListener("touchend", handleTouchEnd, { capture: true, passive: true });
+    detachCanvasListener = () => {
+        document.removeEventListener("pointerup", handlePointerUp, { capture: true });
+        document.removeEventListener("touchend", handleTouchEnd, { capture: true });
+    };
 }
 
 function installTapRouteSnapListener(engine: RpgClientEngine): void {
@@ -194,6 +188,7 @@ function receiveTapRouteSnap(engine: RpgClientEngine, payload: TapRouteSnap): vo
 
     applyTapRouteSnap(engine, payload);
     latestTapRouteSnapVersion = payload.version;
+    stabilizeTapRouteSnap(engine, payload);
 }
 
 function schedulePendingTapRouteSnap(engine: RpgClientEngine): void {
@@ -217,10 +212,6 @@ function flushPendingTapRouteSnap(engine: RpgClientEngine): void {
     if (getCurrentMapId(engine) === payload.mapId) {
         applyTapRouteSnap(engine, payload);
         latestTapRouteSnapVersion = payload.version;
-        if (!pendingTapRouteSnapDeferred) {
-            clearPendingTapRouteSnap();
-            return;
-        }
         if (!pendingTapRouteSnapStabilizing) {
             pendingTapRouteSnapAttempts = 0;
             pendingTapRouteSnapStabilizing = true;
@@ -240,12 +231,6 @@ function flushPendingTapRouteSnap(engine: RpgClientEngine): void {
         return;
     }
     schedulePendingTapRouteSnap(engine);
-}
-
-function clearCanvasBindRetryTimer(): void {
-    if (!canvasBindRetryTimer) return;
-    clearTimeout(canvasBindRetryTimer);
-    canvasBindRetryTimer = null;
 }
 
 function clearPendingTapRouteSnapTimer(): void {
@@ -273,6 +258,15 @@ function deferPendingTapRouteSnap(engine: RpgClientEngine, payload: TapRouteSnap
     pendingTapRouteSnapAttempts = 0;
     pendingTapRouteSnapDeferred = true;
     pendingTapRouteSnapStabilizing = false;
+    schedulePendingTapRouteSnap(engine);
+}
+
+function stabilizeTapRouteSnap(engine: RpgClientEngine, payload: TapRouteSnap): void {
+    pendingTapRouteSnap = payload;
+    writeStoredPendingTapRouteSnap(payload);
+    pendingTapRouteSnapAttempts = 0;
+    pendingTapRouteSnapDeferred = false;
+    pendingTapRouteSnapStabilizing = true;
     schedulePendingTapRouteSnap(engine);
 }
 
@@ -576,11 +570,28 @@ function getCanvasElement(): HTMLCanvasElement | null {
 }
 
 function isBlockingUiOpen(): boolean {
-    return !!document.querySelector(BLOCKING_UI_SELECTOR);
+    return getBlockingUiMatches().length > 0;
 }
 
 function isBlockingUiTarget(target: EventTarget | null): boolean {
     return target instanceof Element && !!target.closest(TARGET_BLOCKING_UI_SELECTOR);
+}
+
+function getBlockingUiMatches(): string[] {
+    return Array.from(document.querySelectorAll(BLOCKING_UI_SELECTOR)).map((element) => {
+        const testId = element.getAttribute("data-testid");
+        const id = element.id ? `#${element.id}` : "";
+        const className = element.className ? `.${String(element.className).replace(/\s+/g, ".")}` : "";
+        return `${element.tagName.toLowerCase()}${id}${className}${testId ? `[${testId}]` : ""}`;
+    });
+}
+
+function isDuplicateTap(clientX: number, clientY: number): boolean {
+    if (!lastHandledTap) return false;
+    const elapsed = Date.now() - lastHandledTap.at;
+    const dx = Math.abs(clientX - lastHandledTap.x);
+    const dy = Math.abs(clientY - lastHandledTap.y);
+    return elapsed < 90 && dx < 2 && dy < 2;
 }
 
 function issueHintInteraction(
@@ -614,6 +625,23 @@ function isPlayerSettledOnMovementGrid(player: ClientPlayerLike): boolean {
 
 function isAlignedToMovementGrid(value: number): boolean {
     return value % MOVEMENT_TILE_SIZE === 0;
+}
+
+function snapClientPlayerToMovementGrid(engine: RpgClientEngine, player: ClientPlayerLike): void {
+    const sceneMap = getSceneMap(engine);
+    if (!player.id || !sceneMap) return;
+
+    const x = Math.round(player.x() / MOVEMENT_TILE_SIZE) * MOVEMENT_TILE_SIZE;
+    const y = Math.round(player.y() / MOVEMENT_TILE_SIZE) * MOVEMENT_TILE_SIZE;
+    const hitbox = typeof player.hitbox === "function" ? player.hitbox() : player.hitbox;
+    const width = hitbox?.w ?? 0;
+    const height = hitbox?.h ?? 0;
+    sceneMap.updateHitbox(player.id, x, y, width, height);
+    sceneMap.setBodyPosition(player.id, x, y, "top-left");
+    const playerX = player.x as unknown as { set?: (value: number) => void };
+    const playerY = player.y as unknown as { set?: (value: number) => void };
+    playerX.set?.(x);
+    playerY.set?.(y);
 }
 
 function toTilePoint(map: TiledMapLike, x: number, y: number): TilePoint {

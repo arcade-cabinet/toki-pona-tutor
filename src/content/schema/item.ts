@@ -1,8 +1,8 @@
 import { z } from "zod";
-import { translatable, translatableWord } from "./translatable";
+import { translatable } from "./translatable";
 
 /**
- * An item the player can hold. Poki (nets) catch creatures; healing items
+ * An item the player can hold. Capture tools catch creatures; healing items
  * restore HP; key items unlock world progression beats.
  */
 export const itemKind = z.enum(["poki", "heal", "key", "flavor"]);
@@ -10,7 +10,7 @@ export type ItemKind = z.infer<typeof itemKind>;
 
 export const item = z.object({
     id: z.string().regex(/^[a-z][a-z0-9_]*$/),
-    name: translatableWord,
+    name: translatable,
     description: translatable,
     kind: itemKind,
     /** For poki: base success rate multiplier (0.5 — flimsy, 1.0 — standard,

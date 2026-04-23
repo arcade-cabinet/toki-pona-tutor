@@ -37,8 +37,8 @@ describe('buildPartyPanelSlot', () => {
             },
         );
 
-        expect(slot.primaryLabel).toBe('kon moli');
-        expect(slot.secondaryLabel).toBe('kon');
+        expect(slot.primaryLabel).toBe('Ashcat');
+        expect(slot.secondaryLabel).toBe('kon moli');
         expect(slot.portraitSrc).toBe('/assets/creatures/wraith/wraith.png');
         expect(slot.portraitFrame).toMatchObject({
             src: '/assets/creatures/wraith/wraith.png',
@@ -47,7 +47,7 @@ describe('buildPartyPanelSlot', () => {
             frameX: 0,
             frameY: 0,
         });
-        expect(slot.typeLabel).toBe('seli');
+        expect(slot.typeLabel).toBe('fire');
         expect(slot.levelLabel).toBe('L5');
         expect(slot.hpLabel).toBe('HP 24 / 48');
         expect(slot.currentHp).toBe(24);
@@ -76,7 +76,7 @@ describe('buildPartyPanelSlot', () => {
         expect(slot.portraitFrame).toBeNull();
         expect(slot.portraitFallback).toBe('MB');
         expect(slot.hpLabel).toBe('HP 1 / 1');
-        expect(slot.moveSummary).toBe('moves: ala');
+        expect(slot.moveSummary).toBe('moves: none');
     });
 });
 
@@ -84,7 +84,7 @@ describe('kili healing item', () => {
     it('resolves heal amount from generated world content and clamps at max HP', () => {
         expect(healingItem('kili')).toEqual({
             id: 'kili',
-            label: 'kili',
+            label: 'Orchard Fruit',
             amount: 20,
         });
         expect(applyHeal({ currentHp: 9, maxHp: 44 }, 20)).toEqual({

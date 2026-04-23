@@ -21,8 +21,7 @@ export type NpcRole = z.infer<typeof npcRole>;
 
 export const npc = z.object({
     id: z.string().regex(/^[a-z][a-z0-9_]*$/),
-    /** Display name in TP (e.g. "jan Sewi"). These are names, not
-     *  translatable strings — they pass through unchanged. */
+    /** Legacy authored short name. */
     name_tp: z.string().min(1),
     /** English label shown above the sprite in the overworld. */
     name_en: z.string().min(1),
@@ -52,8 +51,7 @@ export const npc = z.object({
             }),
         )
         .optional(),
-    /** Short 1–3 word dictionary word the player earns by beating this
-     *  jan-lawa (e.g. "telo"). Added to their lipu soweli + vocabulary. */
-    reward_word: z.string().optional(),
+    /** Clue id the player earns by beating this leader. */
+    reward_clue: z.string().optional(),
 });
 export type Npc = z.infer<typeof npc>;

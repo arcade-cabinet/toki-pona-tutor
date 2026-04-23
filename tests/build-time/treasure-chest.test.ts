@@ -8,24 +8,24 @@ import {
 } from '../../src/modules/main/treasure-chest';
 
 const basicChest: ChestDef = {
-    id: 'chest_ma_telo_0',
-    mapId: 'ma_telo',
+    id: 'chest_lakehaven_0',
+    mapId: 'lakehaven',
     at: [5, 3],
     loot: [{ itemId: 'kili', count: 1, weight: 1 }],
-    openFlag: 'chest_ma_telo_0',
+    openFlag: 'chest_lakehaven_0',
 };
 
 const gatedChest: ChestDef = {
     ...basicChest,
-    id: 'chest_ma_lete_1',
-    openFlag: 'chest_ma_lete_1',
+    id: 'chest_frostvale_1',
+    openFlag: 'chest_frostvale_1',
     requiredFlag: 'badge_lete',
 };
 
 const wordGatedChest: ChestDef = {
     ...basicChest,
-    id: 'chest_nena_sewi_0',
-    openFlag: 'chest_nena_sewi_0',
+    id: 'chest_highridge_pass_0',
+    openFlag: 'chest_highridge_pass_0',
     requiredMasteredWord: 'sewi',
 };
 
@@ -37,7 +37,7 @@ describe('chestStatus', () => {
     });
 
     it('already-opened chest reports opened', () => {
-        expect(chestStatus(basicChest, { flags: { chest_ma_telo_0: '1' }, masteredWords: new Set() })).toBe('opened');
+        expect(chestStatus(basicChest, { flags: { chest_lakehaven_0: '1' }, masteredWords: new Set() })).toBe('opened');
     });
 
     it('flag-gated chest without the flag is locked', () => {
@@ -57,7 +57,7 @@ describe('chestStatus', () => {
     });
 
     it('opened takes priority over locked', () => {
-        expect(chestStatus(gatedChest, { flags: { chest_ma_lete_1: '1' }, masteredWords: new Set() })).toBe('opened');
+        expect(chestStatus(gatedChest, { flags: { chest_frostvale_1: '1' }, masteredWords: new Set() })).toBe('opened');
     });
 });
 
@@ -112,12 +112,12 @@ describe('openChest — one-shot transition', () => {
     it('first open on closed chest grants loot + flips openFlag', () => {
         const r = openChest(basicChest, emptyPlayer);
         expect(r.granted).toEqual({ itemId: 'kili', count: 1, weight: 1 });
-        expect(r.newFlags).toEqual({ chest_ma_telo_0: '1' });
+        expect(r.newFlags).toEqual({ chest_lakehaven_0: '1' });
         expect(r.alreadyOpened).toBe(false);
     });
 
     it('second open returns alreadyOpened + no loot', () => {
-        const opened: PlayerGateState = { flags: { chest_ma_telo_0: '1' }, masteredWords: new Set() };
+        const opened: PlayerGateState = { flags: { chest_lakehaven_0: '1' }, masteredWords: new Set() };
         const r = openChest(basicChest, opened);
         expect(r.granted).toBeNull();
         expect(r.alreadyOpened).toBe(true);
@@ -146,7 +146,7 @@ describe('openChest — one-shot transition', () => {
         expect(r.newFlags).toEqual({
             badge_sewi: '1',
             starter_chosen: '1',
-            chest_ma_telo_0: '1',
+            chest_lakehaven_0: '1',
         });
     });
 

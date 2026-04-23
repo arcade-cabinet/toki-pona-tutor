@@ -4,10 +4,8 @@
  *
  * Steps:
  *   1. Read every JSON under src/content/spine/.
- *   2. For every translatable string ({en, tp?} shape) inside content,
- *      resolve `tp` from the Tatoeba corpus. Single-word entries are exempt.
- *   3. Read emitted TMJ map object layers.
- *   4. Assemble a World object with shape
+ *   2. Read emitted TMJ map object layers.
+ *   3. Assemble a World object with shape
  *      { schema_version, title, start_region_id, species, moves, items, dialog, journey, maps }
  *      and write it to src/content/generated/world.json.
  *
@@ -17,8 +15,9 @@
  * journey manifest (`src/content/spine/journey.json`) is the ordered arc
  * through those maps and is the source of truth for the L4 interaction layer.
  *
- * Fails loudly on any missed translation — `validate-tp` is expected to have
- * been run first, but this script also re-runs the check as a safety net.
+ * English is now the runtime language. The compiler preserves authored
+ * `{ en: "..." }` translatables verbatim and does not resolve or require a
+ * parallel-language corpus.
  */
 import { readFileSync, writeFileSync, readdirSync, mkdirSync, existsSync } from "node:fs";
 import { resolve, dirname, join, relative } from "node:path";
@@ -27,18 +26,12 @@ import { fileURLToPath } from "node:url";
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const root = resolve(__dirname, "..");
 const spineDir = resolve(root, "src/content/spine");
-const corpusPath = resolve(root, "src/content/corpus/tatoeba.json");
 const outPath = resolve(root, "src/content/generated/world.json");
 const mapsDir = resolve(root, "public/assets/maps");
 const verbose = process.argv.includes("--verbose");
 
 function logVerbose(message) {
     if (verbose) console.log(`[build-spine] ${message}`);
-}
-
-if (!existsSync(corpusPath)) {
-    console.error("[build-spine] corpus missing — run scripts/fetch-tatoeba-corpus.mjs");
-    process.exit(1);
 }
 
 if (!existsSync(spineDir)) {
@@ -54,25 +47,6 @@ function readJsonFile(file, label) {
         const message = error instanceof Error ? error.message : String(error);
         throw new Error(`[build-spine] failed to parse ${label} ${rel}: ${message}`);
     }
-}
-
-const corpus = readJsonFile(corpusPath, "corpus JSON");
-
-const norm = (s) =>
-    s
-        .toLowerCase()
-        .trim()
-        .replace(/[.!?,"'\u2018\u2019\u201c\u201d]/g, "")
-        .replace(/\s+/g, " ");
-
-// en (normalized) → tp. If the corpus has multiple TP translations for the
-// same EN line, we pick the shortest — deterministic and usually the
-// cleanest.
-const enToTp = new Map();
-for (const { tp, en } of corpus) {
-    const key = norm(en);
-    const existing = enToTp.get(key);
-    if (!existing || tp.length < existing.length) enToTp.set(key, tp.trim());
 }
 
 function listJsonRecursive(dir) {
@@ -195,37 +169,6 @@ function allObjectPropertyValuesFromTmj(tmj) {
         .filter((value) => typeof value === "string");
 }
 
-/**
- * Walk an object and fill every { en: string, tp?: string } shape whose tp
- * is missing by looking up en in the corpus. Pushes any miss into `misses`
- * with its dotted path. Single-word en is exempt (dictionary-vetted).
- */
-function resolveTranslatables(obj, pathTrail, misses) {
-    if (obj == null) return;
-    if (Array.isArray(obj)) {
-        for (let i = 0; i < obj.length; i++) {
-            resolveTranslatables(obj[i], `${pathTrail}[${i}]`, misses);
-        }
-        return;
-    }
-    if (typeof obj !== "object") return;
-    if (typeof obj.en === "string" && (obj.tp === undefined || typeof obj.tp === "string")) {
-        const isWord = /^\S+$/.test(obj.en);
-        if (!isWord && !obj.tp) {
-            const match = enToTp.get(norm(obj.en));
-            if (match) {
-                obj.tp = match;
-            } else {
-                misses.push({ path: pathTrail, en: obj.en });
-            }
-        }
-        return;
-    }
-    for (const [k, v] of Object.entries(obj)) {
-        resolveTranslatables(v, `${pathTrail}.${k}`, misses);
-    }
-}
-
 const spineFiles = listJsonRecursive(spineDir);
 if (spineFiles.length === 0) {
     console.error(`[build-spine] no spine files found under ${spineDir} — cannot build world.json`);
@@ -318,27 +261,6 @@ for (const [i, beat] of collected.journey.beats.entries()) {
     }
 }
 
-const misses = [];
-resolveTranslatables(collected.species, "spine.species", misses);
-resolveTranslatables(collected.moves, "spine.moves", misses);
-resolveTranslatables(collected.items, "spine.items", misses);
-resolveTranslatables(collected.dialog, "spine.dialog", misses);
-// `journey.beats[].narrative` is a plain string, not a translatable — it's
-// dev-facing prose, exempt from corpus resolution. The walker skips it
-// because it does not match the {en, tp?} shape.
-resolveTranslatables(collected.journey, "spine.journey", misses);
-if (collected.world) resolveTranslatables(collected.world, "spine.world", misses);
-
-if (misses.length > 0) {
-    console.error(`\n[build-spine] ${misses.length} translatable field(s) could not be resolved:`);
-    for (const m of misses.slice(0, 20)) {
-        console.error(`  ${m.path}: "${m.en}"`);
-    }
-    if (misses.length > 20) console.error(`  ...and ${misses.length - 20} more`);
-    console.error("\nRun `pnpm validate-tp` for suggestions on how to rewrite the English.");
-    process.exit(1);
-}
-
 const itemIds = new Set(collected.items.map((item) => item?.id).filter(Boolean));
 for (const entry of collected.species) {
     const drop = entry?.item_drop;
@@ -403,7 +325,7 @@ if (world.start_region_id && world.start_region_id !== startRegionId) {
 }
 const output = {
     schema_version: 1,
-    title: world.title ?? { en: "land", tp: "ma" },
+    title: world.title ?? { en: "Rivers Reckoning" },
     start_region_id: world.start_region_id ?? startRegionId,
     species: collected.species,
     moves: collected.moves,

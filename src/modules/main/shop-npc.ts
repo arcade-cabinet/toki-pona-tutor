@@ -1,6 +1,7 @@
 import { type EventDefinition, RpgPlayer } from "@rpgjs/server";
 import { COIN_ITEM_ID, SHOP_UI_CONFIG } from "../../content/gameplay";
 import { formatGameplayTemplate } from "../../content/gameplay/templates";
+import { itemLabel } from "../../content/runtime-labels";
 import { playDialog } from "./dialog";
 import {
     buyShopItem,
@@ -23,7 +24,7 @@ export function JanMokuShop(): EventDefinition {
             for (;;) {
                 const choice = await player.showChoices(
                     formatGameplayTemplate(SHOP_UI_CONFIG.promptTemplate, {
-                        coin: COIN_ITEM_ID,
+                        coin: itemLabel(COIN_ITEM_ID),
                         balance: await getCoinCount(),
                     }),
                     [

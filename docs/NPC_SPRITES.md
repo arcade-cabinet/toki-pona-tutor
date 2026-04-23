@@ -553,36 +553,36 @@ Combat sheet (`sword-and-shield-fighter-combat.png`, 128 × 640, 32 × 32, 4 col
 
 | NPC id           | Map            | Canonical sprite ID              | Rationale |
 |------------------|----------------|----------------------------------|-----------|
-| `jan_sewi`       | ma_tomo_lili   | `npc_villager_fem_nel`           | Elder/distinguished elder; nel's purple robes read as wise authority |
-| `jan_pona_tomo`  | ma_tomo_lili   | `npc_villager_fem_nel`           | Welcoming home-village villager; reuses the soft elder silhouette |
-| `jan_telo_well`  | ma_tomo_lili   | `npc_villager_masc_reza`         | Water-well villager; reza's traveler palette reads calm and quiet |
-| `jan_poki_tomo`  | ma_tomo_lili   | `npc_villager_masc_artun`        | Starter-supplies villager; artun's youthful look fits readiness |
-| `jan_kili_tomo`  | ma_tomo_lili   | `npc_villager_fem_hana`          | Food/healing villager; hana's warm casual look suits starter-town flavor |
-| `jan_palisa_nasin` | nasin_wan    | `npc_villager_masc_janik`        | Route-marker walker; janik's artisan silhouette reads as a sign minder |
-| `jan_kasi_nasin` | nasin_wan      | `npc_villager_fem_vash`          | Grass-route villager; vash's outdoor gear fits forest edge flavor |
-| `jan_poki_nasin` | nasin_wan      | `npc_villager_masc_artun`        | Route-supplies walker; artun gives the first-route pack a friendly face |
-| `jan_lukin_nasin` | nasin_wan     | `npc_villager_masc_hark`         | Watcher near the rival route; hark's hooded ranger look fits patrol flavor |
-| `jan_kiwen`      | nena_sewi      | `npc_villager_masc_grym`         | Mountain rock villager; grym's heavy look fits highland stone |
-| `jan_kala`       | nena_sewi      | `npc_villager_masc_hark`         | Hiker on mountain pass; hark's hooded ranger look matches well |
-| `jan_waso_sewi`  | nena_sewi      | `npc_villager_fem_hana`          | High-bird watcher; hana keeps the mountain pass from feeling all-guard |
-| `jan_nasin_sewi` | nena_sewi      | `npc_villager_masc_janik`        | Path guide before the first gym; janik reads as a local route expert |
-| `jan_kala_lake`  | ma_telo        | `npc_villager_fem_vash`          | Lake fisher; vash's practical outdoor gear suits a shore-side angler |
-| `jan_moku`       | ma_telo        | `npc_villager_fem_seza`          | Food-stall cook; seza's apron/vendor look is a direct match |
-| `jan_olin_telo`  | ma_telo        | `npc_villager_masc_reza`         | Quiet lake-lover; reza's traveller look for a riverside contemplator |
-| `jan_sike_telo`  | ma_telo        | `npc_villager_fem_nel`           | Plaza villager; nel's rounded robe shape matches the central-town role |
-| `jan_anpa`       | ma_lete        | `npc_villager_masc_grym`         | Watchman in cold village; grym's heavy weathered look fits cold-region |
-| `jan_suno_lete`  | ma_lete        | `npc_villager_fem_hana`          | Cold-light villager; hana adds warmth against the snow palette |
-| `jan_poki_lete`  | ma_lete        | `npc_villager_masc_artun`        | Cold-route supply checker; artun fits a small pack/readiness role |
-| `jan_kasi`       | ma_lete        | `npc_villager_fem_vash`          | Garden-tender; vash's practical outdoors gear |
-| `jan_kiwen_suli` | nena_suli      | `npc_villager_masc_grym`         | Cave-stone villager; grym's heavy silhouette fits rock-wall flavor |
-| `jan_pi_kon`     | nena_suli      | `npc_villager_masc_nyro`         | Meditating figure on great peak; nyro's mystic robes fit perfectly |
-| `jan_pimeja_suli` | nena_suli     | `npc_villager_fem_seza`          | Torch-side cave villager; seza's apron shape reads clearly in low light |
-| `jan_pi_nasin`   | nena_suli      | `npc_villager_masc_janik`        | Trail-asking NPC; janik's distinguished artisan look |
-| `jan_kala_lili`  | nasin_pi_telo  | `npc_villager_fem_hana`          | Lighter-duty young fisher; hana's warm casual look |
-| `jan_moku_pona`  | nasin_pi_telo  | `npc_villager_masc_artun`        | Grillmaster; artun's youthful energetic look for a roadside cook |
-| `jan_kala_suli`  | nasin_pi_telo  | `npc_warrior_2h_sword`           | Veteran fisher — "suli" = big/veteran; heaviest warrior sprite |
-| `jan_olin_telo`  | nasin_pi_telo  | `npc_villager_masc_reza`         | Quiet lake-lover; reza's traveller look for a riverside contemplator |
-| `jan_suno_telo`  | nasin_pi_telo  | `npc_villager_fem_hana`          | Final riverbank villager; hana keeps the end route warm before the boss |
+| `jan_sewi`       | riverside_home   | `npc_villager_fem_nel`           | Elder/distinguished elder; nel's purple robes read as wise authority |
+| `jan_pona_tomo`  | riverside_home   | `npc_villager_fem_nel`           | Welcoming home-village villager; reuses the soft elder silhouette |
+| `jan_telo_well`  | riverside_home   | `npc_villager_masc_reza`         | Water-well villager; reza's traveler palette reads calm and quiet |
+| `jan_poki_tomo`  | riverside_home   | `npc_villager_masc_artun`        | Starter-supplies villager; artun's youthful look fits readiness |
+| `jan_kili_tomo`  | riverside_home   | `npc_villager_fem_hana`          | Food/healing villager; hana's warm casual look suits starter-town flavor |
+| `jan_palisa_nasin` | greenwood_road    | `npc_villager_masc_janik`        | Route-marker walker; janik's artisan silhouette reads as a sign minder |
+| `jan_kasi_nasin` | greenwood_road      | `npc_villager_fem_vash`          | Grass-route villager; vash's outdoor gear fits forest edge flavor |
+| `jan_poki_nasin` | greenwood_road      | `npc_villager_masc_artun`        | Route-supplies walker; artun gives the first-route pack a friendly face |
+| `jan_lukin_nasin` | greenwood_road     | `npc_villager_masc_hark`         | Watcher near the rival route; hark's hooded ranger look fits patrol flavor |
+| `jan_kiwen`      | highridge_pass      | `npc_villager_masc_grym`         | Mountain rock villager; grym's heavy look fits highland stone |
+| `jan_kala`       | highridge_pass      | `npc_villager_masc_hark`         | Hiker on mountain pass; hark's hooded ranger look matches well |
+| `jan_waso_sewi`  | highridge_pass      | `npc_villager_fem_hana`          | High-bird watcher; hana keeps the mountain pass from feeling all-guard |
+| `jan_nasin_sewi` | highridge_pass      | `npc_villager_masc_janik`        | Path guide before the first gym; janik reads as a local route expert |
+| `jan_kala_lake`  | lakehaven        | `npc_villager_fem_vash`          | Lake fisher; vash's practical outdoor gear suits a shore-side angler |
+| `jan_moku`       | lakehaven        | `npc_villager_fem_seza`          | Food-stall cook; seza's apron/vendor look is a direct match |
+| `jan_olin_telo`  | lakehaven        | `npc_villager_masc_reza`         | Quiet lake-lover; reza's traveller look for a riverside contemplator |
+| `jan_sike_telo`  | lakehaven        | `npc_villager_fem_nel`           | Plaza villager; nel's rounded robe shape matches the central-town role |
+| `jan_anpa`       | frostvale        | `npc_villager_masc_grym`         | Watchman in cold village; grym's heavy weathered look fits cold-region |
+| `jan_suno_lete`  | frostvale        | `npc_villager_fem_hana`          | Cold-light villager; hana adds warmth against the snow palette |
+| `jan_poki_lete`  | frostvale        | `npc_villager_masc_artun`        | Cold-route supply checker; artun fits a small pack/readiness role |
+| `jan_kasi`       | frostvale        | `npc_villager_fem_vash`          | Garden-tender; vash's practical outdoors gear |
+| `jan_kiwen_suli` | dreadpeak_cavern      | `npc_villager_masc_grym`         | Cave-stone villager; grym's heavy silhouette fits rock-wall flavor |
+| `jan_pi_kon`     | dreadpeak_cavern      | `npc_villager_masc_nyro`         | Meditating figure on great peak; nyro's mystic robes fit perfectly |
+| `jan_pimeja_suli` | dreadpeak_cavern     | `npc_villager_fem_seza`          | Torch-side cave villager; seza's apron shape reads clearly in low light |
+| `jan_pi_nasin`   | dreadpeak_cavern      | `npc_villager_masc_janik`        | Trail-asking NPC; janik's distinguished artisan look |
+| `jan_kala_lili`  | rivergate_approach  | `npc_villager_fem_hana`          | Lighter-duty young fisher; hana's warm casual look |
+| `jan_moku_pona`  | rivergate_approach  | `npc_villager_masc_artun`        | Grillmaster; artun's youthful energetic look for a roadside cook |
+| `jan_kala_suli`  | rivergate_approach  | `npc_warrior_2h_sword`           | Veteran fisher — "suli" = big/veteran; heaviest warrior sprite |
+| `jan_olin_telo`  | rivergate_approach  | `npc_villager_masc_reza`         | Quiet lake-lover; reza's traveller look for a riverside contemplator |
+| `jan_suno_telo`  | rivergate_approach  | `npc_villager_fem_hana`          | Final riverbank villager; hana keeps the end route warm before the boss |
 
 ### Unbound NPCs (in server.ts but not ambient — excluded from this manifest)
 

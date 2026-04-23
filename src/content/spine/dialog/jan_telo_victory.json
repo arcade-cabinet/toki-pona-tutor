@@ -1,11 +1,25 @@
 {
   "id": "jan_telo_victory",
   "npc_id": "jan_telo",
-  "when_flags": { "badge_telo": true },
+  "when_flags": {
+    "badge_telo": true
+  },
   "priority": 5,
   "beats": [
-    { "text": { "en": "You won." }, "mood": "sad", "glyph": "sina" },
-    { "text": { "en": "Let's go!" }, "mood": "thinking", "glyph": "tawa" }
+    {
+      "text": {
+        "en": "You stayed calm under pressure."
+      },
+      "mood": "sad",
+      "glyph": "companion-bond"
+    },
+    {
+      "text": {
+        "en": "Take the lake badge."
+      },
+      "mood": "thinking",
+      "glyph": "greenwood-watch"
+    }
   ],
   "triggers": {}
 }

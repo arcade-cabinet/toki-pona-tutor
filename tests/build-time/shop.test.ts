@@ -19,20 +19,20 @@ afterEach(async () => {
 });
 
 describe('ma economy and jan Moku shop', () => {
-    it('formats the ma_telo shop choices from stock definitions', () => {
+    it('formats the lakehaven shop choices from stock definitions', () => {
         expect(JAN_MOKU_STOCK.map(shopChoiceLabel)).toEqual([
-            'poki lili ×1 · ma 2',
-            'kili ×1 · ma 1',
-            'telo pona ×1 · ma 4',
-            'poki wawa ×1 · ma 6',
+            'Capture Pod ×1 · Trail Token 2',
+            'Orchard Fruit ×1 · Trail Token 1',
+            'Spring Tonic ×1 · Trail Token 4',
+            'Heavy Capture Pod ×1 · Trail Token 6',
         ]);
     });
 
-    it('grants ma as a stackable inventory currency', async () => {
+    it('grants trail tokens as a stackable inventory currency', async () => {
         await expect(grantCoins(4)).resolves.toBe(4);
         await expect(grantCoins(6)).resolves.toBe(10);
         expect(await getInventoryCount(COIN_ITEM_ID)).toBe(10);
-        expect(formatCoinGrant(6)).toBe('ma ×6');
+        expect(formatCoinGrant(6)).toBe('Trail Token ×6');
     });
 
     it('buys shop stock by spending ma and adding the purchased item', async () => {
@@ -43,12 +43,12 @@ describe('ma economy and jan Moku shop', () => {
         expect(result).toEqual({
             bought: true,
             itemId: 'poki_lili',
-            label: 'poki lili',
+            label: 'Capture Pod',
             count: 1,
             price: 2,
             balance: 2,
         });
-        expect(formatShopPurchaseResult(result)).toBe('poki lili +1\nma 2');
+        expect(formatShopPurchaseResult(result)).toBe('Capture Pod +1\nTrail Token 2');
         expect(await getInventoryCount(COIN_ITEM_ID)).toBe(2);
         expect(await getInventoryCount('poki_lili')).toBe(1);
     });
@@ -65,7 +65,7 @@ describe('ma economy and jan Moku shop', () => {
             price: 2,
             balance: 1,
         });
-        expect(formatShopPurchaseResult(result)).toBe('ma ala');
+        expect(formatShopPurchaseResult(result)).toBe('Not enough Trail Token');
         expect(await getInventoryCount(COIN_ITEM_ID)).toBe(1);
         expect(await getInventoryCount('poki_lili')).toBe(0);
     });

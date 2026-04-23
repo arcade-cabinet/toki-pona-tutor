@@ -12,13 +12,13 @@ Manual smoke checklist for the current v0.2 release-hardening gate. This checkli
 ## Inputs
 
 -   GitHub release tag created by `release-please`.
--   Web bundle attached to that release: `poki-soweli-web-<tag>.tar.gz`.
--   Android debug APK attached to that release: `poki-soweli-<tag>-debug.apk`.
+-   Web bundle attached to that release: `rivers-reckoning-web-<tag>.tar.gz`.
+-   Android debug APK attached to that release: `rivers-reckoning-<tag>-debug.apk`.
 -   GitHub Pages deployment for the same tag at `https://arcade-cabinet.github.io/poki-soweli/`.
 
 ## Android Debug APK Smoke
 
-1. Download `poki-soweli-<tag>-debug.apk` from the GitHub release assets.
+1. Download `rivers-reckoning-<tag>-debug.apk` from the GitHub release assets.
 2. Install on a physical Android device, with `APK_FILE` set to the downloaded release asset:
 
 ```sh
@@ -26,7 +26,7 @@ adb install -r "$APK_FILE"
 ```
 
 1. Launch the app and confirm it reaches the title screen without a blank canvas.
-2. Start a new game, pick a starter, walk to `nasin_wan`, trigger one wild encounter, use `utala`, then use `tawa`.
+2. Start a new game, pick a starter, walk to `greenwood_road`, trigger one wild encounter, use `utala`, then use `tawa`.
 3. Open the HUD menu and verify Party, Items, Settings, and Quit-to-title routes respond to touch.
 4. Quit to title, choose Continue, and verify the save resumes on the expected map.
 5. Rotate the device once each direction and verify the app remains playable with no orientation lock.
@@ -40,8 +40,8 @@ pnpm maestro:android
 
 ## GitHub Pages Smoke
 
-1. Download `poki-soweli-web-<tag>.tar.gz` from the GitHub release assets and inspect that release-attached artifact, not a local rebuild.
-2. Confirm the tarball contains `index.html`, `manifest.json`, `assets/`, `map/ma_tomo_lili.tmx`, and the other six runtime maps.
+1. Download `rivers-reckoning-web-<tag>.tar.gz` from the GitHub release assets and inspect that release-attached artifact, not a local rebuild.
+2. Confirm the tarball contains `index.html`, `manifest.json`, `assets/`, `map/riverside_home.tmx`, and the other six runtime maps.
 3. Confirm `index.html` references `/poki-soweli/manifest.json` and `/poki-soweli/assets/`, proving it was built for the Pages base.
 4. Open `https://arcade-cabinet.github.io/poki-soweli/` in a clean browser profile.
 5. Confirm the title screen appears and no asset 404s are visible in devtools.

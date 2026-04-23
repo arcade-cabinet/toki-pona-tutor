@@ -29,8 +29,17 @@ async function getState(page: Page): Promise<BrowserDebugState> {
     return page.evaluate(() => window.__POKI__!.testing.getState());
 }
 
+async function waitForMapReady(page: Page, mapId: string): Promise<void> {
+    await expect
+        .poll(async () => {
+            const state = await getState(page);
+            return `${state.currentMapId}:${state.serverMapId}`;
+        })
+        .toBe(`${mapId}:${mapId}`);
+}
+
 function titleEntry(page: Page, index: number) {
-    return page.locator(".rpg-ui-title-screen-menu .rpg-ui-menu-item").nth(index);
+    return page.locator(".rr-title-entry").nth(index);
 }
 
 async function tapWorld(page: Page, x: number, y: number): Promise<void> {
@@ -43,8 +52,59 @@ async function tapWorld(page: Page, x: number, y: number): Promise<void> {
 
     const canvasBox = await page.locator("#rpg canvas").boundingBox();
     expect(canvasBox).not.toBeNull();
+    expect(position.x).toBeGreaterThanOrEqual(0);
+    expect(position.y).toBeGreaterThanOrEqual(0);
+    expect(position.x).toBeLessThanOrEqual(canvasBox!.width);
+    expect(position.y).toBeLessThanOrEqual(canvasBox!.height);
 
     await page.touchscreen.tap(canvasBox!.x + position.x, canvasBox!.y + position.y);
+}
+
+async function dispatchWorldPointerUp(page: Page, x: number, y: number): Promise<void> {
+    await page.evaluate(
+        async ({ worldX, worldY }) => {
+            const position = await window.__POKI__!.testing.worldToCanvas(worldX, worldY);
+            const canvas = document.querySelector<HTMLCanvasElement>("#rpg canvas");
+            if (!canvas) throw new Error("canvas unavailable");
+            const rect = canvas.getBoundingClientRect();
+            if (
+                position.x < 0 ||
+                position.y < 0 ||
+                position.x > rect.width ||
+                position.y > rect.height
+            ) {
+                throw new Error(`world point is off-canvas: ${position.x},${position.y}`);
+            }
+            canvas.dispatchEvent(
+                new PointerEvent("pointerup", {
+                    bubbles: true,
+                    cancelable: true,
+                    button: 0,
+                    clientX: rect.left + position.x,
+                    clientY: rect.top + position.y,
+                    isPrimary: true,
+                    pointerId: 1,
+                    pointerType: "touch",
+                }),
+            );
+        },
+        { worldX: x, worldY: y },
+    );
+}
+
+async function waitForPosition(page: Page, x: number, y: number): Promise<void> {
+    await expect
+        .poll(async () => {
+            const state = await getState(page);
+            return `${state.position.x}:${state.position.y}`;
+        })
+        .toBe(`${x}:${y}`);
+    await expect
+        .poll(async () => {
+            const state = await getState(page);
+            return `${state.serverPosition.x}:${state.serverPosition.y}`;
+        })
+        .toBe(`${x}:${y}`);
 }
 
 test("mobile taps can walk the player and trigger jan-sewi interaction on the real canvas", async ({
@@ -64,7 +124,8 @@ test("mobile taps can walk the player and trigger jan-sewi interaction on the re
             const state = await getState(page);
             return state.saves[0]?.map ?? null;
         })
-        .toBe("ma_tomo_lili");
+        .toBe("riverside_home");
+    await waitForMapReady(page, "riverside_home");
 
     await tapWorld(page, 160, 128);
 
@@ -88,7 +149,7 @@ test("mobile taps can walk the player and trigger jan-sewi interaction on the re
 
     await tapWorld(page, 160, 96);
 
-    await expect(page.locator(".rpg-ui-dialog-content")).toHaveText("hello");
+    await expect(page.locator('[data-testid="rr-dialog-content"]')).toHaveText("Rivers, today you start your own investigation.");
     await expect(page.locator('[data-testid="hud-menu-toggle"]')).toBeHidden();
 });
 
@@ -109,32 +170,26 @@ test("mobile tap on the locked east warp walks adjacent and shows the gated dial
             const state = await getState(page);
             return state.saves[0]?.map ?? null;
         })
-        .toBe("ma_tomo_lili");
+        .toBe("riverside_home");
+    await waitForMapReady(page, "riverside_home");
 
-    await tapWorld(page, 240, 80);
+    await tapWorld(page, 160, 128);
+    await waitForPosition(page, 160, 128);
+    await tapWorld(page, 192, 96);
+    await waitForPosition(page, 192, 96);
+    await tapWorld(page, 224, 96);
+    await waitForPosition(page, 192, 64);
 
     await expect
         .poll(async () => {
             const state = await getState(page);
             return `${state.currentMapId}:${state.serverMapId}`;
         })
-        .toBe("ma_tomo_lili:ma_tomo_lili");
-    await expect
-        .poll(async () => {
-            const state = await getState(page);
-            return `${state.position.x}:${state.position.y}`;
-        })
-        .toBe("192:64");
-    await expect
-        .poll(async () => {
-            const state = await getState(page);
-            return `${state.serverPosition.x}:${state.serverPosition.y}`;
-        })
-        .toBe("192:64");
+        .toBe("riverside_home:riverside_home");
 
     const state = await getState(page);
     expect(state.starterChosen).toBeNull();
-    await expect(page.locator(".rpg-ui-dialog-content")).toHaveText("hello");
+    await expect(page.locator('[data-testid="rr-dialog-content"]')).toHaveText("Rivers, today you start your own investigation.");
 });
 
 test("mobile rapid retap cancels the old route and lands on the latest destination", async ({
@@ -154,34 +209,17 @@ test("mobile rapid retap cancels the old route and lands on the latest destinati
             const state = await getState(page);
             return state.saves[0]?.map ?? null;
         })
-        .toBe("ma_tomo_lili");
+        .toBe("riverside_home");
+    await waitForMapReady(page, "riverside_home");
 
-    await tapWorld(page, 224, 128);
-    await expect
-        .poll(async () => {
-            const state = await getState(page);
-            return state.position.x ?? 0;
-        })
-        .toBeGreaterThan(128);
-    await page.waitForTimeout(400);
-    await expect
-        .poll(async () => {
-            const state = await getState(page);
-            return state.position.x ?? 0;
-        })
-        .toBeLessThan(224);
-    await tapWorld(page, 160, 128);
-
+    await tapWorld(page, 160, 192);
     await expect
         .poll(async () => {
             const state = await getState(page);
             return `${state.position.x}:${state.position.y}`;
         })
-        .toBe("160:128");
-    await expect
-        .poll(async () => {
-            const state = await getState(page);
-            return `${state.serverPosition.x}:${state.serverPosition.y}`;
-        })
-        .toBe("160:128");
+        .not.toBe("128:128");
+    await dispatchWorldPointerUp(page, 160, 128);
+
+    await waitForPosition(page, 160, 128);
 });

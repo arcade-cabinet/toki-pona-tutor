@@ -1,6 +1,6 @@
 {
   "maps": {
-    "ma_tomo_lili": [
+    "riverside_home": [
       {
         "id": "jan-pona-tomo",
         "kind": "ambient_npc",
@@ -34,7 +34,7 @@
         "gated_dialog_id": "jan_sewi_starter_intro"
       }
     ],
-    "nasin_wan": [
+    "greenwood_road": [
       {
         "id": "jan-palisa-nasin",
         "kind": "ambient_npc",
@@ -69,7 +69,7 @@
       },
       { "id": "warp_east", "kind": "warp" }
     ],
-    "nena_sewi": [
+    "highridge_pass": [
       {
         "id": "jan-kiwen",
         "kind": "ambient_npc",
@@ -97,7 +97,7 @@
       { "id": "jan-wawa", "kind": "gym_leader", "trainer_id": "jan_wawa" },
       { "id": "warp_north", "kind": "warp", "position_offset": { "x": 8, "y": 0 } }
     ],
-    "ma_telo": [
+    "lakehaven": [
       {
         "id": "jan-kala-lake",
         "kind": "quest_npc",
@@ -121,7 +121,7 @@
       { "id": "jan-telo", "kind": "gym_leader", "trainer_id": "jan_telo" },
       { "id": "warp_north", "kind": "warp", "position_offset": { "x": 8, "y": 0 } }
     ],
-    "ma_lete": [
+    "frostvale": [
       {
         "id": "jan-anpa",
         "kind": "ambient_npc",
@@ -150,7 +150,7 @@
       { "id": "jan-lete", "kind": "gym_leader", "trainer_id": "jan_lete" },
       { "id": "warp_north", "kind": "warp", "position_offset": { "x": 8, "y": 0 } }
     ],
-    "nena_suli": [
+    "dreadpeak_cavern": [
       {
         "id": "jan-kiwen-suli",
         "kind": "ambient_npc",
@@ -179,7 +179,7 @@
       { "id": "jan-suli", "kind": "gym_leader", "trainer_id": "jan_suli" },
       { "id": "warp_north", "kind": "warp", "position_offset": { "x": 8, "y": 0 } }
     ],
-    "nasin_pi_telo": [
+    "rivergate_approach": [
       {
         "id": "jan-kala-lili",
         "kind": "ambient_npc",

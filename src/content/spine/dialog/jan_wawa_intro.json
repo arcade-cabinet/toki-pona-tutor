@@ -1,11 +1,25 @@
 {
   "id": "jan_wawa_intro",
   "npc_id": "jan_wawa",
-  "when_flags": { "badge_sewi": false },
+  "when_flags": {
+    "badge_sewi": false
+  },
   "priority": 10,
   "beats": [
-    { "text": { "en": "I'm plenty strong!" }, "mood": "excited", "glyph": "wawa" },
-    { "text": { "en": "Let's see!" }, "mood": "excited", "glyph": "lukin" }
+    {
+      "text": {
+        "en": "The pass belongs to teams that can take a hit."
+      },
+      "mood": "excited",
+      "glyph": "battle-ready"
+    },
+    {
+      "text": {
+        "en": "Stand firm."
+      },
+      "mood": "excited",
+      "glyph": "wild-signs"
+    }
   ],
   "triggers": {}
 }

@@ -3,8 +3,20 @@
   "npc_id": "jan_kili_tomo",
   "priority": 0,
   "beats": [
-    { "text": { "en": "Fresh fruit is good for the health." }, "mood": "happy", "glyph": "kili" },
-    { "text": { "en": "Ah. Good." }, "mood": "happy", "glyph": "pona" }
+    {
+      "text": {
+        "en": "Take fruit before the road."
+      },
+      "mood": "happy",
+      "glyph": "orchard-fruit"
+    },
+    {
+      "text": {
+        "en": "A fed companion fights longer."
+      },
+      "mood": "happy",
+      "glyph": "companion-bond"
+    }
   ],
   "triggers": {}
 }

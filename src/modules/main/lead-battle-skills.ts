@@ -2,6 +2,7 @@ import { ATK, MAXSP, PDEF, type RpgPlayer } from "@rpgjs/server";
 import worldRaw from "../../content/generated/world.json";
 import { COMBAT_UI_CONFIG } from "../../content/gameplay";
 import { formatGameplayTemplate } from "../../content/gameplay/templates";
+import { typeLabel } from "../../content/runtime-labels";
 import { getPartyWithHealth } from "../../platform/persistence/queries";
 import { buildPartyPanelSlot } from "./party-panel";
 import { leadHpSnapshot } from "./player-health";
@@ -199,7 +200,7 @@ export function buildLeadMoveBarModel(
             actionId,
             moveId: move.id,
             label: moveLabel(move),
-            typeLabel: move.type,
+            typeLabel: typeLabel(move.type),
             power: normalizePositiveInt(move.power, 1),
             accuracy: normalizePositiveInt(move.accuracy, 100),
             spCost,
@@ -208,7 +209,7 @@ export function buildLeadMoveBarModel(
             rangeTiles: moveRangeTiles(move),
             disabled,
             meta: formatGameplayTemplate(LEAD_MOVE_BAR_COPY.moveMetaTemplate, {
-                type: move.type,
+                type: typeLabel(move.type),
                 power: normalizePositiveInt(move.power, 1),
                 sp: spCost,
             }),
@@ -216,7 +217,7 @@ export function buildLeadMoveBarModel(
     });
 
     return {
-        leadLabel: species.name?.tp ?? species.name?.en ?? species.id.replace(/_/g, " "),
+        leadLabel: species.name?.en ?? species.name?.tp ?? species.id.replace(/_/g, " "),
         speciesId: species.id,
         levelLabel: formatGameplayTemplate(LEAD_MOVE_BAR_COPY.levelLabelTemplate, {
             level: normalizePositiveInt(lead.level, 1),

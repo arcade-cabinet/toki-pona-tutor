@@ -69,10 +69,10 @@ describe('applyBrandClasses — idempotent DOM effect', () => {
     });
 
     it('preserves non-brand classes (never touches foreign class names)', () => {
-        const el = mockElement(['third-party-theme', 'rpg-ui-body', 'poki-high-contrast']);
+        const el = mockElement(['third-party-theme', 'engine-body', 'poki-high-contrast']);
         applyBrandClasses(el as unknown as HTMLElement, { highContrast: false });
         expect(el._classes).toContain('third-party-theme');
-        expect(el._classes).toContain('rpg-ui-body');
+        expect(el._classes).toContain('engine-body');
         expect(el._classes).not.toContain('poki-high-contrast');
     });
 

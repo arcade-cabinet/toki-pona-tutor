@@ -25,7 +25,7 @@ async function getTaskStatus(page: Page, taskId: string): Promise<BrowserTaskSta
 }
 
 function titleEntry(page: Page, index: number) {
-    return page.locator('.rpg-ui-title-screen-menu .rpg-ui-menu-item').nth(index);
+    return page.locator('.rr-title-entry').nth(index);
 }
 
 function dialogChoice(page: Page, index: number) {
@@ -47,7 +47,7 @@ async function getPartyCount(page: Page): Promise<number> {
 }
 
 async function advanceDialog(page: Page, expectedText: string, taskId?: string): Promise<void> {
-    const content = page.locator('.rpg-ui-dialog-content');
+    const content = page.locator('[data-testid="rr-dialog-content"]');
     if (taskId) {
         await expect.poll(async () => {
             const status = await getTaskStatus(page, taskId);
@@ -73,9 +73,9 @@ test('player defeat shows a respawn fade before returning to the safe village', 
     await titleEntry(page, 0).click();
 
     const starterTask = await beginEvent(page, 'jan-sewi');
-    await advanceDialog(page, 'hello', starterTask);
-    await advanceDialog(page, 'kili sin li pona tawa sijelo.', starterTask);
-    await advanceDialog(page, 'kule seme li pona tawa sina?', starterTask);
+    await advanceDialog(page, 'Rivers, today you start your own investigation.', starterTask);
+    await advanceDialog(page, 'Three creatures answered the call.', starterTask);
+    await advanceDialog(page, 'Choose the partner you trust at your side.', starterTask);
     await dialogChoice(page, 0).click();
     await expect.poll(async () => {
         const status = await getTaskStatus(page, starterTask);
@@ -86,20 +86,20 @@ test('player defeat shows a respawn fade before returning to the safe village', 
     await expect.poll(async () => {
         const state = await getState(page);
         return `${state.currentMapId}:${state.serverMapId}`;
-    }).toBe('ma_tomo_lili:ma_tomo_lili');
+    }).toBe('riverside_home:riverside_home');
 
     const defeatTask = await beginPlayerDefeat(page);
     const defeatScreen = page.getByTestId('defeat-screen');
-    await expect(defeatScreen).toContainText('pakala!');
-    await expect(defeatScreen).toContainText('sina tawa ma tomo.');
+    await expect(defeatScreen).toContainText('Knocked down!');
+    await expect(defeatScreen).toContainText('Returning to the last safe place.');
     await expect(defeatScreen).toHaveAttribute('data-phase', /fallen|returning/);
     await expect(defeatScreen).toBeHidden({ timeout: 5_000 });
 
-    await advanceDialog(page, 'lukin la sina pilin pona...', defeatTask);
+    await advanceDialog(page, 'You are safe. Rest here, then try again.', defeatTask);
     await expect.poll(async () => {
         const state = await getState(page);
         return `${state.currentMapId}:${state.serverMapId}`;
-    }).toBe('ma_tomo_lili:ma_tomo_lili');
+    }).toBe('riverside_home:riverside_home');
     await expect.poll(async () => {
         const status = await getTaskStatus(page, defeatTask);
         return status?.done && !status.error;

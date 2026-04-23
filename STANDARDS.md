@@ -1,10 +1,10 @@
 ---
-title: poki soweli — Standards
+title: Rivers Reckoning — Standards
 updated: 2026-04-22
 status: current
 ---
 
-# Standards for poki soweli
+# Standards for Rivers Reckoning
 
 Non-negotiables for code, content, and asset work on this repo. If a PR violates these, the PR is wrong — not the standards.
 
@@ -31,7 +31,7 @@ Strict dependency chain. Docs describe what the game must be. Tests describe wha
 
 ### No copyrighted references
 
-Never reference trademarked properties in docs, code, comments, commit messages, or asset names. The genre is "creature-catching RPG." The in-game catalog is "lipu soweli." Wild captures use a "poki" (net).
+Never reference trademarked properties in docs, code, comments, commit messages, or asset names. The genre is "creature-catching RPG." Wild captures use capture pods.
 
 This is a kid's game in a public repo. Copyrighted references create legal exposure and undermine the game's original identity.
 
@@ -48,25 +48,18 @@ The green dragon is reserved for the endgame set-piece — it's the only creatur
 
 ### Audience
 
-Kids. Kid-friendly wording. "Dread knight" > "death knight." Fierce-but-friendly tone. Combat log uses TP creature names; English is functional and short.
+Kids. Kid-friendly wording. "Dread knight" > "death knight." Fierce-but-friendly tone. English is functional, vivid, and short in combat.
 
 ## Content
 
-### No hand-authored toki pona
+### Native-English narrative
 
-Every user-facing TP string must round-trip through the Tatoeba corpus (`src/content/corpus/tatoeba.json`, 37,666 CC BY 2.0 FR sentence pairs). Authors edit EN; the build pipeline resolves canonical TP.
-
-If `pnpm validate-tp` rejects a line:
-
--   Rewrite the EN, never invent TP.
--   See `docs/WRITING_RULES.md` for the complexity rules EN must satisfy.
--   Single-word dictionary words (`kili`, `soweli`, `moku`) are exempt.
+Rivers Reckoning is now authored directly in English. Do not reintroduce translation, corpus validation, or language-learning mechanics. Use `src/content/clues.json` for curated investigation clues.
 
 ### Content authoring boundaries
 
 -   **Authors edit only** `src/content/spine/<kind>/<id>.json`.
 -   **Never edit** `src/content/generated/world.json` — it's compiled output.
--   **Never edit** `src/content/corpus/tatoeba.json` — it's vendored upstream data.
 -   **Schema changes** require a schema update (`src/content/schema/`) and a build-spine re-run.
 
 ### Map authoring — specs, not hand-edited XML
@@ -133,7 +126,7 @@ Every sprite in the game comes from one of these:
 | Bosses (animated)             | Various                  | `public/assets/bosses/`                                              |
 | Creatures (static wild)       | Creature Extended        | `public/assets/creatures/`                                           |
 | NPCs                          | Citizens-Guards-Warriors | `public/assets/npcs/`                                                |
-| Combatants (rivals, jan lawa) | warriors_rogues_mages    | `public/assets/combatants/`                                          |
+| Combatants (rivals, region masters) | warriors_rogues_mages    | `public/assets/combatants/`                                          |
 | Effects                       | warriors_rogues_mages    | `public/assets/effects/`                                             |
 
 See `docs/SPRITE_CURATION.md` for curation rules, with runtime catalog details in

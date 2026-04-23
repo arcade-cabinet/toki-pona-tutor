@@ -39,11 +39,11 @@ describe('preferences key contract', () => {
 
     it('filters raw adapter keys through the typed preference union', async () => {
         setPreferencesImpl(new InMemoryPrefs(new Map([
-            [KEYS.currentMapId, 'nasin_wan'],
+            [KEYS.currentMapId, 'greenwood_road'],
             ['poki-soweli.world.unknown', 'stale'],
         ])));
 
         expect(await preferences.keys()).toEqual([KEYS.currentMapId]);
-        expect(await preferences.get(KEYS.currentMapId)).toBe('nasin_wan');
+        expect(await preferences.get(KEYS.currentMapId)).toBe('greenwood_road');
     });
 });

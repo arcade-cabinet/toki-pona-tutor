@@ -1,5 +1,12 @@
 {
   "types": ["seli", "telo", "kasi", "lete", "wawa"],
+  "type_labels": {
+    "seli": "fire",
+    "telo": "water",
+    "kasi": "wild",
+    "lete": "frost",
+    "wawa": "stone"
+  },
   "type_matchups": {
     "default_multiplier": 1,
     "attacker_defaults": {

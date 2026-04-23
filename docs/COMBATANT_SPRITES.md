@@ -7,7 +7,7 @@ domain: technical
 
 # Combatant Sprite Manifest
 
-Human trainer sprites for rivals and jan lawa (jan Ike, jan Wawa, jan Telo, jan Lete, jan Suli).
+Human trainer sprites for rivals and region masters.
 Located in `public/assets/combatants/` under three sub-packs: `mages/`, `rogues/`, `warriors/`.
 
 Combatants are **NOT catchable creatures**. They do not appear in `src/content/spine/species/`.
@@ -27,10 +27,10 @@ action-battle trainers do not fall back to a walk-only preset.
 | NPC                          | Sprite ID                     | Source file                                           | Rationale                                                |
 | ---------------------------- | ----------------------------- | ----------------------------------------------------- | -------------------------------------------------------- |
 | jan Ike (rival)              | `combatant_rogue_hooded`      | `rogues/hooded-rogue-non-combat-daggers-equipped.png` | Hooded rogue = sneaky rival archetype                    |
-| jan Wawa (region 3 jan lawa) | `combatant_warrior_axe`       | `warriors/axe-warrior-16x16.png`                      | Axe warrior = raw physical strength, wawa type           |
-| jan Telo (region 4 jan lawa) | `combatant_mage_fem_red`      | `mages/mage-fem-red.png`                              | Red mage, elemental caster; fits water/lake aesthetic    |
-| jan Lete (region 5 jan lawa) | `combatant_mage_hooded_brown` | `mages/mage-hooded-brown.png`                         | Hooded/cloaked mage = cold, northern, ice master         |
-| jan Suli (region 6 jan lawa) | `combatant_warrior_paladin`   | `warriors/paladin/non-combat-animations.png`          | Paladin = champion-tier, hardest jan lawa before endgame |
+| Highridge master | `combatant_warrior_axe`       | `warriors/axe-warrior-16x16.png`                      | Axe warrior = raw physical strength, force type          |
+| Lakehaven master | `combatant_mage_fem_red`      | `mages/mage-fem-red.png`                              | Red mage, elemental caster; fits water/lake aesthetic    |
+| Frostvale master | `combatant_mage_hooded_brown` | `mages/mage-hooded-brown.png`                         | Hooded/cloaked mage = cold, northern, ice master         |
+| Dreadpeak master | `combatant_warrior_paladin`   | `warriors/paladin/non-combat-animations.png`          | Paladin = champion-tier, hardest master before endgame   |
 
 ---
 
@@ -42,7 +42,7 @@ action-battle trainers do not fall back to a walk-only preset.
 **Dimensions:** 64×496  
 **Frame size:** 16×16  
 **Grid:** 4 cols × 31 rows  
-**Used by:** jan Telo (region 4 jan lawa)
+**Used by:** Lakehaven master
 
 4-directional overworld walk sheet. Red-robed feminine mage with elemental casting stance at bottom.
 
@@ -90,7 +90,7 @@ Close-up combat sheet. 2 frames wide, 8 animation rows.
 **Dimensions:** 64×496  
 **Frame size:** 16×16  
 **Grid:** 4 cols × 31 rows  
-**Used by:** jan Lete (region 5 jan lawa)
+**Used by:** Frostvale master
 
 4-directional overworld walk sheet. Hooded brown-robed mage; cowl pulled low — fits the cold, withdrawn ice-master character.
 
@@ -386,9 +386,9 @@ Unhooded rogue, bow equipped. Same animation layout as other non-combat overworl
 **Dimensions:** 64×496  
 **Frame size:** 16×16  
 **Grid:** 4 cols × 31 rows  
-**Used by:** jan Wawa (region 3 jan lawa)
+**Used by:** Highridge master
 
-4-directional overworld walk sheet. Orange-armored warrior with large axe. Heavy-set silhouette reads as physical strength — fitting for the wawa-type mountain jan lawa.
+4-directional overworld walk sheet. Orange-armored warrior with large axe. Heavy-set silhouette reads as physical strength — fitting for the force-type mountain master.
 
 | Row range | Frames | Animation    | fps | loop |
 | --------- | ------ | ------------ | --- | ---- |
@@ -535,9 +535,9 @@ Same directional layout as `combatant_warrior_axe_combat`. Caped silhouette with
 **Dimensions:** 96×744  
 **Frame size:** 24×24  
 **Grid:** 4 cols × 31 rows  
-**Used by:** jan Suli (region 6 jan lawa — champion tier)
+**Used by:** Dreadpeak master
 
-4-directional overworld walk + extended animation sheet. White/red-accented paladin with shield and sword. The paladin archetype — disciplined champion — fits jan Suli as the hardest jan lawa before the endgame.
+4-directional overworld walk + extended animation sheet. White/red-accented paladin with shield and sword. The paladin archetype — disciplined champion — fits the hardest region master before the endgame.
 
 | Row range | Frames | Animation    | fps | loop |
 | --------- | ------ | ------------ | --- | ---- |

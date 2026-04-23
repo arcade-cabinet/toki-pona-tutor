@@ -1,27 +1,10 @@
 import { VOCABULARY_SCREEN_CONFIG } from "../../content/gameplay";
 import { formatGameplayTemplate } from "../../content/gameplay/templates";
 
-/**
- * lipu nasin — personal sentence log — T8-01.
- *
- * Every dialog line the player hears is logged. The log powers:
- *   - "I've seen this before" highlighting in dialog (deferred to UI)
- *   - Per-species description re-read from inventory (T8-02)
- *   - End-of-playthrough personal dictionary card export (T8-06)
- *
- * Log entries are append-only with a `first_seen` timestamp. Re-encounters
- * bump a `sightings` counter but never overwrite the first-seen row. The
- * pure-logic here decides what to insert vs what to bump; the SQLite
- * table (`sentence_log` — a v5→v6 migration in `database.ts`) is the
- * caller's responsibility.
- *
- * The log is NOT an EN-gloss tool. We log the TP line the player heard;
- * the EN source is stored alongside for eventual export but never shown
- * to the player during play (per DESIGN.md — no translation UI).
- */
+/** Append-only field note log for player-facing investigation text. */
 
 export interface SentenceRecord {
-    tp: string;
+    text: string;
     en: string;
     first_seen: string; // ISO timestamp
     sightings: number;
@@ -37,33 +20,33 @@ export interface LogObserveResult {
 }
 
 /**
- * Merge an incoming (tp, en, source) observation against the existing
- * row for that tp sentence. Returns the updated row + a flag indicating
+ * Merge an incoming field-note observation against the existing
+ * row for that note text. Returns the updated row + a flag indicating
  * whether this was the player's first encounter.
  *
  * @example
  * observe(
- *   { tp: 'mi moku', en: 'I eat', source: 'jan_sewi_intro', now: '2026-04-20T00:00:00Z' },
+ *   { text: 'The orchard path is safe.', source: 'jan_sewi_intro', now: '2026-04-20T00:00:00Z' },
  *   undefined,
  * )
- * // → { record: { tp: 'mi moku', en: 'I eat', first_seen: '...', sightings: 1,
+ * // → { record: { text: 'The orchard path is safe.', first_seen: '...', sightings: 1,
  * //               source: 'jan_sewi_intro' }, isNewSighting: true }
  *
  * observe(
- *   { tp: 'mi moku', en: 'I eat', source: 'jan_moku_stall', now: '2026-04-20T01:00:00Z' },
+ *   { text: 'The orchard path is safe.', source: 'jan_moku_stall', now: '2026-04-20T01:00:00Z' },
  *   existingRecord,
  * )
  * // → { record: { ..., sightings: 2 }, isNewSighting: false }
  */
 export function observe(
-    input: { tp: string; en: string; source: string; now: string },
+    input: { text: string; en?: string; source: string; now: string },
     existing: SentenceRecord | undefined,
 ): LogObserveResult {
     if (!existing) {
         return {
             record: {
-                tp: input.tp,
-                en: input.en,
+                text: input.text,
+                en: input.en ?? input.text,
                 first_seen: input.now,
                 sightings: 1,
                 source: input.source,
@@ -81,17 +64,17 @@ export function observe(
 }
 
 /**
- * Index entries by TP sentence. Returns a new map; does not mutate input.
+ * Index entries by note text. Returns a new map; does not mutate input.
  */
 export function buildIndex(entries: SentenceRecord[]): Map<string, SentenceRecord> {
     const map = new Map<string, SentenceRecord>();
-    for (const entry of entries) map.set(entry.tp, entry);
+    for (const entry of entries) map.set(entry.text, entry);
     return map;
 }
 
 /**
  * Most-sighted N sentences, sorted by sightings desc then first_seen asc.
- * Useful for a "your most-heard lines" view in the vocabulary screen.
+ * Useful for a "most-seen notes" view in the clues screen.
  */
 export function mostSighted(entries: SentenceRecord[], limit = 10): SentenceRecord[] {
     return [...entries]
@@ -120,16 +103,14 @@ export function recentEntries(
 
 /**
  * Export the full log as a newline-delimited text dump suitable for
- * sharing. One line per sentence: `TP    // sightings=N    first=ISO`.
- * EN is omitted from the export for the same reason the runtime hides
- * it — the whole point is that the player now knows the TP.
+ * sharing. One line per note: `text    // sightings=N    first=ISO`.
  */
 export function exportDump(entries: SentenceRecord[]): string {
     return [...entries]
-        .sort((a, b) => a.tp.localeCompare(b.tp))
+        .sort((a, b) => a.text.localeCompare(b.text))
         .map((e) =>
             formatGameplayTemplate(VOCABULARY_SCREEN_CONFIG.sentenceDumpLineTemplate, {
-                tp: e.tp,
+                text: e.text,
                 sightings: e.sightings,
                 first_seen: e.first_seen,
             }),

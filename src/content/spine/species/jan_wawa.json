@@ -1,13 +1,31 @@
 {
   "id": "jan_wawa",
-  "name": { "en": "wawa" },
-  "description": { "en": "That animal is strong." },
+  "name": {
+    "en": "Stone Bruiser"
+  },
+  "description": {
+    "en": "A steady rock-backed creature that wins by refusing to move."
+  },
   "type": "wawa",
-  "base_stats": { "hp": 62, "attack": 55, "defense": 48, "speed": 34 },
+  "base_stats": {
+    "hp": 62,
+    "attack": 55,
+    "defense": 48,
+    "speed": 34
+  },
   "learnset": [
-    { "level": 1, "move_id": "utala" },
-    { "level": 1, "move_id": "kiwen_wawa" },
-    { "level": 12, "move_id": "utala_lili" }
+    {
+      "level": 1,
+      "move_id": "utala"
+    },
+    {
+      "level": 1,
+      "move_id": "kiwen_wawa"
+    },
+    {
+      "level": 12,
+      "move_id": "utala_lili"
+    }
   ],
   "catch_rate": 0.28,
   "xp_yield": 85,
@@ -18,13 +36,55 @@
     "frame_width": 16,
     "frame_height": 32,
     "animations": {
-      "idle": { "row": 0, "col_start": 0, "cols": 4, "fps": 4, "loop": true },
-      "walk": { "row": 1, "col_start": 0, "cols": 4, "fps": 10, "loop": true },
-      "defend": { "row": 2, "col_start": 0, "cols": 4, "fps": 6, "loop": false },
-      "taunt": { "row": 3, "col_start": 0, "cols": 4, "fps": 8, "loop": false },
-      "attack": { "row": 4, "col_start": 0, "cols": 4, "fps": 12, "loop": false },
-      "hurt": { "row": 5, "col_start": 0, "cols": 4, "fps": 8, "loop": false },
-      "death": { "row": 6, "col_start": 0, "cols": 4, "fps": 6, "loop": false }
+      "idle": {
+        "row": 0,
+        "col_start": 0,
+        "cols": 4,
+        "fps": 4,
+        "loop": true
+      },
+      "walk": {
+        "row": 1,
+        "col_start": 0,
+        "cols": 4,
+        "fps": 10,
+        "loop": true
+      },
+      "defend": {
+        "row": 2,
+        "col_start": 0,
+        "cols": 4,
+        "fps": 6,
+        "loop": false
+      },
+      "taunt": {
+        "row": 3,
+        "col_start": 0,
+        "cols": 4,
+        "fps": 8,
+        "loop": false
+      },
+      "attack": {
+        "row": 4,
+        "col_start": 0,
+        "cols": 4,
+        "fps": 12,
+        "loop": false
+      },
+      "hurt": {
+        "row": 5,
+        "col_start": 0,
+        "cols": 4,
+        "fps": 8,
+        "loop": false
+      },
+      "death": {
+        "row": 6,
+        "col_start": 0,
+        "cols": 4,
+        "fps": 6,
+        "loop": false
+      }
     },
     "tier": "common"
   }

@@ -3,8 +3,20 @@
   "npc_id": "jan_suno_telo",
   "priority": 0,
   "beats": [
-    { "text": { "en": "He likes fishing." }, "mood": "happy", "glyph": "kala" },
-    { "text": { "en": "Let's go!" }, "mood": "excited", "glyph": "tawa" }
+    {
+      "text": {
+        "en": "The final river bends toward old trouble."
+      },
+      "mood": "happy",
+      "glyph": "water-edge"
+    },
+    {
+      "text": {
+        "en": "If you hear wings, save your best throw."
+      },
+      "mood": "excited",
+      "glyph": "greenwood-watch"
+    }
   ],
   "triggers": {}
 }

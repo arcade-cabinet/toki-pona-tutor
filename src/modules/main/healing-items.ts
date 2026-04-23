@@ -81,6 +81,6 @@ export function applyHeal(input: { currentHp: number; maxHp: number }, amount: n
 }
 
 function resolveName(name: TranslatableName | undefined): string | null {
-    const candidate = name?.tp?.trim() || name?.en?.trim();
+    const candidate = name?.en?.trim() || name?.tp?.trim();
     return candidate || null;
 }

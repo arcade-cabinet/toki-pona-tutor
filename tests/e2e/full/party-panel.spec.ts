@@ -51,7 +51,7 @@ async function getTaskStatus(page: Page, taskId: string): Promise<BrowserTaskSta
 }
 
 function titleEntry(page: Page, index: number) {
-    return page.locator('.rpg-ui-title-screen-menu .rpg-ui-menu-item').nth(index);
+    return page.locator('.rr-title-entry').nth(index);
 }
 
 function dialogChoice(page: Page, index: number) {
@@ -88,7 +88,7 @@ async function beginShape(page: Page): Promise<string> {
 }
 
 async function advanceDialog(page: Page, expectedText: string | RegExp, taskId?: string): Promise<void> {
-    const content = page.locator('.rpg-ui-dialog-content');
+    const content = page.locator('[data-testid="rr-dialog-content"]');
     if (typeof expectedText === 'string' && taskId) {
         await expect.poll(async () => {
             const status = await getTaskStatus(page, taskId);
@@ -114,9 +114,9 @@ test('mobile party panel renders details and can promote a caught creature to le
     await titleEntry(page, 0).tap();
 
     const starterTask = await beginEvent(page, 'jan-sewi');
-    await advanceDialog(page, 'hello', starterTask);
-    await advanceDialog(page, 'kili sin li pona tawa sijelo.', starterTask);
-    await advanceDialog(page, 'kule seme li pona tawa sina?', starterTask);
+    await advanceDialog(page, 'Rivers, today you start your own investigation.', starterTask);
+    await advanceDialog(page, 'Three creatures answered the call.', starterTask);
+    await advanceDialog(page, 'Choose the partner you trust at your side.', starterTask);
     await dialogChoice(page, 0).tap();
 
     await expect.poll(async () => (await getParty(page)).map((member) => member.speciesId).join(','))
@@ -128,23 +128,23 @@ test('mobile party panel renders details and can promote a caught creature to le
     await setLeadHp(page, 5);
 
     const encounterTask = await beginShape(page);
-    await advanceDialog(page, 'sina soweli.', encounterTask);
-    await expect(dialogChoice(page, 0)).toContainText('utala');
-    await expect(dialogChoice(page, 1)).toContainText('poki');
-    await expect(dialogChoice(page, 2)).toContainText('ijo');
+    await advanceDialog(page, 'Something wild jumps from the grass.', encounterTask);
+    await expect(dialogChoice(page, 0)).toContainText('Fight');
+    await expect(dialogChoice(page, 1)).toContainText('Catch');
+    await expect(dialogChoice(page, 2)).toContainText('Item');
     await dialogChoice(page, 2).tap();
-    await expect(page.locator('.rpg-ui-dialog-content')).toHaveText('ijo');
-    await expect(dialogChoice(page, 0)).toContainText('kili');
+    await expect(page.locator('[data-testid="rr-dialog-content"]')).toHaveText('Choose an item');
+    await expect(dialogChoice(page, 0)).toContainText('Orchard Fruit');
     await dialogChoice(page, 0).tap();
-    await advanceDialog(page, /kili: \+20 HP\nHP 25 \/ \d+/, encounterTask);
+    await advanceDialog(page, /Orchard Fruit: \+20 HP\nHP 25 \/ \d+/, encounterTask);
     await expect.poll(async () => getInventoryCount(page, 'kili')).toBe(0);
 
-    await expect(dialogChoice(page, 0)).toContainText('utala');
+    await expect(dialogChoice(page, 0)).toContainText('Fight');
     await dialogChoice(page, 0).tap();
-    await advanceDialog(page, /utala: -\d+ HP/, encounterTask);
-    await expect(dialogChoice(page, 1)).toContainText('poki');
+    await advanceDialog(page, /Attack: -\d+ HP/, encounterTask);
+    await expect(dialogChoice(page, 1)).toContainText('Catch');
     await dialogChoice(page, 1).tap();
-    await advanceDialog(page, 'a. pona.', encounterTask);
+    await advanceDialog(page, 'Captured. It settles into the pod.', encounterTask);
     await expect.poll(async () => {
         const status = await getTaskStatus(page, encounterTask);
         return status?.done ?? false;
@@ -161,20 +161,20 @@ test('mobile party panel renders details and can promote a caught creature to le
     await expect(page.locator('[data-testid="pause-overlay"]')).toBeVisible();
 
     await page.locator('[data-testid="pause-bestiary"]').tap();
-    await expect(page.locator('.poki-pause-panel-heading')).toHaveText(/lipu soweli 2 \/ 43/);
-    await expect(page.locator('[data-testid="bestiary-entry-kon_moli"]')).toContainText('kon moli');
-    await expect(page.locator('[data-testid="bestiary-entry-kon_moli"]')).toContainText('jo');
-    await expect(page.locator('[data-testid="bestiary-entry-jan_ike_lili"]')).toContainText('jan ike lili');
-    await expect(page.locator('[data-testid="bestiary-entry-jan_ike_lili"]')).toContainText('jo');
+    await expect(page.locator('.rr-pause-panel-heading')).toHaveText(/Bestiary 2 \/ 43/);
+    await expect(page.locator('[data-testid="bestiary-entry-kon_moli"]')).toContainText('Ashcat');
+    await expect(page.locator('[data-testid="bestiary-entry-kon_moli"]')).toContainText('caught');
+    await expect(page.locator('[data-testid="bestiary-entry-jan_ike_lili"]')).toContainText('Bramble Imp');
+    await expect(page.locator('[data-testid="bestiary-entry-jan_ike_lili"]')).toContainText('caught');
     await page.locator('[data-testid="bestiary-entry-kon_moli"]').tap();
-    await advanceDialog(page, 'kon moli\nsoweli tomo li suwi mute.');
+    await advanceDialog(page, 'Ashcat\nA smoky little cat with ember-bright eyes and a loyal streak.');
     await expect(page.locator('[data-testid="pause-overlay"]')).toBeVisible();
 
     await page.locator('[data-testid="pause-party"]').tap();
-    await expect(page.locator('[data-testid="party-slot-0"]')).toContainText('kon moli');
-    await expect(page.locator('[data-testid="party-slot-1"]')).toContainText('jan ike lili');
+    await expect(page.locator('[data-testid="party-slot-0"]')).toContainText('Ashcat');
+    await expect(page.locator('[data-testid="party-slot-1"]')).toContainText('Bramble Imp');
     await expect(page.locator('[data-testid="party-slot-0"]')).toContainText(/HP 5 \//);
-    await expect(page.locator('[data-testid="party-slot-0"] .poki-party-hp-fill')).toHaveAttribute('style', /width:/);
+    await expect(page.locator('[data-testid="party-slot-0"] .rr-hp-fill')).toHaveAttribute('style', /width:/);
 
     await page.locator('[data-testid="party-slot-0"]').tap();
     await expect(page.locator('[data-testid="party-heal-0"]')).toContainText('+20 HP | ×2');
@@ -183,7 +183,7 @@ test('mobile party panel renders details and can promote a caught creature to le
     await expect(page.locator('[data-testid="party-slot-0"]')).toContainText(/HP 25 \//);
 
     await page.locator('[data-testid="party-slot-1"]').tap();
-    await expect(page.locator('[data-testid="party-detail-card"]')).toContainText('type: kasi');
+    await expect(page.locator('[data-testid="party-detail-card"]')).toContainText('type: wild');
     await expect(page.locator('[data-testid="party-detail-card"]')).toContainText('moves: leaf');
     await expect(page.locator('[data-testid="party-heal-1"]')).toContainText('+20 HP | ×1');
     await page.locator('[data-testid="party-heal-1"]').tap();
@@ -194,5 +194,5 @@ test('mobile party panel renders details and can promote a caught creature to le
     await page.locator('[data-testid="party-promote-1"]').tap();
     await expect.poll(async () => (await getParty(page)).map((member) => `${member.slot}:${member.speciesId}`).join(','))
         .toBe('0:jan_ike_lili,1:kon_moli');
-    await expect(page.locator('[data-testid="party-slot-0"]')).toContainText('jan ike lili');
+    await expect(page.locator('[data-testid="party-slot-0"]')).toContainText('Bramble Imp');
 });

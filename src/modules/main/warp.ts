@@ -20,9 +20,9 @@ export interface WarpOptions {
     requiredFlag?: string;
     gatedDialogId?: string;
     /**
-     * Optional override for the T3-07 loading overlay destination
-     * label. When omitted, `warp-loading.ts` derives a TP-ish label
-     * from the target map id.
+     * Optional override for the loading overlay destination label.
+     * When omitted, `warp-loading.ts` derives a readable label from
+     * the target map id.
      */
     loadingLabel?: string;
 }

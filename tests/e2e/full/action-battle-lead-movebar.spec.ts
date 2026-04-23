@@ -88,7 +88,7 @@ async function setEventHp(page: Page, eventId: string, hp: number): Promise<void
 }
 
 function titleEntry(page: Page, index: number) {
-    return page.locator(".rpg-ui-title-screen-menu .rpg-ui-menu-item").nth(index);
+    return page.locator(".rr-title-entry").nth(index);
 }
 
 function dialogChoice(page: Page, index: number) {
@@ -222,7 +222,7 @@ async function advanceDialog(
     expectedText: string | RegExp,
     taskId: string,
 ): Promise<void> {
-    const content = page.locator(".rpg-ui-dialog-content");
+    const content = page.locator('[data-testid="rr-dialog-content"]');
     await expect
         .poll(async () => {
             const status = await getTaskStatus(page, taskId);
@@ -268,20 +268,20 @@ test("mobile action-battle lead movebar taps spend SP and damage the live rival"
         await page.reload();
         await waitForReady(page);
 
-        await expect(titleEntry(page, 0)).toContainText("open sin");
+        await expect(titleEntry(page, 0)).toContainText("New Game");
         await titleEntry(page, 0).tap();
         await expect
             .poll(async () => {
                 const state = await getState(page);
                 return state.saves[0]?.map ?? null;
             })
-            .toBe("ma_tomo_lili");
+            .toBe("riverside_home");
 
         const starterTask = await beginEvent(page, "jan-sewi");
-        await advanceDialog(page, "hello", starterTask);
-        await advanceDialog(page, "kili sin li pona tawa sijelo.", starterTask);
-        await advanceDialog(page, "kule seme li pona tawa sina?", starterTask);
-        await expect(dialogChoice(page, 0)).toContainText("kon moli");
+        await advanceDialog(page, "Rivers, today you start your own investigation.", starterTask);
+        await advanceDialog(page, "Three creatures answered the call.", starterTask);
+        await advanceDialog(page, "Choose the partner you trust at your side.", starterTask);
+        await expect(dialogChoice(page, 0)).toContainText("Ashcat");
         await dialogChoice(page, 0).tap();
         await expect
             .poll(async () => {
@@ -308,16 +308,16 @@ test("mobile action-battle lead movebar taps spend SP and damage the live rival"
                 const state = await getState(page);
                 return `${state.currentMapId}:${state.serverMapId}`;
             })
-            .toBe("nasin_wan:nasin_wan");
+            .toBe("greenwood_road:greenwood_road");
 
         const catchTask = await beginForestEncounter(page, "soweli_kili");
-        await advanceDialog(page, "sina soweli.", catchTask);
-        await expect(dialogChoice(page, 0)).toContainText("utala");
+        await advanceDialog(page, "Something wild jumps from the grass.", catchTask);
+        await expect(dialogChoice(page, 0)).toContainText("Fight");
         await dialogChoice(page, 0).tap();
-        await advanceDialog(page, /utala: -\d+ HP/, catchTask);
-        await expect(dialogChoice(page, 1)).toContainText("poki");
+        await advanceDialog(page, /Attack: -\d+ HP/, catchTask);
+        await expect(dialogChoice(page, 1)).toContainText("Catch");
         await dialogChoice(page, 1).tap();
-        await advanceDialog(page, "a. pona.", catchTask);
+        await advanceDialog(page, "Captured. It settles into the pod.", catchTask);
         await expect
             .poll(async () => {
                 const status = await getTaskStatus(page, catchTask);
@@ -330,8 +330,8 @@ test("mobile action-battle lead movebar taps spend SP and damage the live rival"
 
         await setLeadHp(page, 200);
         const rivalIntroTask = await beginEvent(page, "jan-ike");
-        await advanceDialog(page, "mi mute o lukin!", rivalIntroTask);
-        await advanceDialog(page, "mi ala.", rivalIntroTask);
+        await advanceDialog(page, "You've made it past the village. Let's see what your companion can do.", rivalIntroTask);
+        await advanceDialog(page, "I'm not going easy on you.", rivalIntroTask);
         await expect
             .poll(async () => {
                 const status = await getTaskStatus(page, rivalIntroTask);
@@ -342,7 +342,7 @@ test("mobile action-battle lead movebar taps spend SP and damage the live rival"
         await setEventHp(page, "jan-ike", 999);
 
         await page.evaluate(() =>
-            window.__POKI__!.testing.moveServerPlayer({ x: 416, y: 88 }, "nasin_wan"),
+            window.__POKI__!.testing.moveServerPlayer({ x: 416, y: 88 }, "greenwood_road"),
         );
         await expect
             .poll(async () => {
@@ -384,14 +384,14 @@ test("mobile action-battle lead movebar taps spend SP and damage the live rival"
             .toBe("kon_moli,soweli_kili");
 
         await expect(page.getByTestId("lead-switch-panel")).toBeVisible();
-        await expect(page.getByTestId("lead-switch-label")).toContainText("soweli");
-        await expect(page.getByTestId("lead-switch-slot-0")).toContainText("kon moli");
+        await expect(page.getByTestId("lead-switch-label")).toContainText("Party");
+        await expect(page.getByTestId("lead-switch-slot-0")).toContainText("Ashcat");
         await expect(page.getByTestId("lead-switch-slot-0")).toHaveAttribute(
             "aria-disabled",
             "true",
         );
         const benchSwitch = page.getByTestId("lead-switch-slot-1");
-        await expect(benchSwitch).toContainText("soweli kili");
+        await expect(benchSwitch).toContainText("Applepup");
         await expect(benchSwitch).toHaveAttribute("aria-disabled", "false");
         await expectTouchTarget(benchSwitch, "lead switch slot 1");
 
@@ -405,7 +405,7 @@ test("mobile action-battle lead movebar taps spend SP and damage the live rival"
                 return state.serverGraphic;
             })
             .toBe("species_soweli_kili");
-        await expect(movebar).toContainText("soweli kili");
+        await expect(movebar).toContainText("Applepup");
         await expect(page.getByTestId("lead-move-kasi_lili")).toBeVisible();
         await expect(page.getByTestId("lead-move-utala_lili")).toBeVisible();
         await expect(page.getByTestId("lead-move-seli_lili")).toHaveCount(0);
@@ -438,7 +438,7 @@ test("mobile action-battle lead movebar taps spend SP and damage the live rival"
         await expect(usedMove).toHaveAttribute("aria-disabled", "true");
 
         await page.evaluate(() =>
-            window.__POKI__!.testing.moveServerPlayer({ x: 192, y: 88 }, "nasin_wan"),
+            window.__POKI__!.testing.moveServerPlayer({ x: 192, y: 88 }, "greenwood_road"),
         );
         await setLeadHp(page, 200);
         await page.waitForTimeout(250);

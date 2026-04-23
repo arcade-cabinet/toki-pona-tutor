@@ -2,6 +2,14 @@
   "id": "wild_encounter_caught",
   "npc_id": null,
   "priority": 10,
-  "beats": [{ "text": { "en": "Ah. Good." }, "mood": "happy", "glyph": "pona" }],
+  "beats": [
+    {
+      "text": {
+        "en": "Captured. It settles into the pod."
+      },
+      "mood": "happy",
+      "glyph": "companion-bond"
+    }
+  ],
   "triggers": {}
 }

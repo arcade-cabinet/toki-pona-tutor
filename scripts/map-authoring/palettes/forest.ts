@@ -4,106 +4,34 @@
  * Local IDs come from the pack's Cherry Hill sample via `pnpm author:inspect`.
  */
 import type { Palette } from "../lib/types";
-import surfaceConfig from "../config/fantasy-surfaces.json";
+import { curatedTile } from "../config/art-curation";
 import { collectionAtlasEntry } from "../config/collection-atlases";
 
-const seasons = surfaceConfig.seasons;
-const ground = seasons.ground;
 const seasonsTrees = "seasons/Objects_Trees_Seasons";
 
 export const forestPalette: Palette = {
     // Ground + path.
-    g: {
-        tsx: "seasons/Tileset_Ground_Seasons",
-        local_id: ground.grass.base,
-        description: "summer forest grass",
-    },
-    f: {
-        tsx: "seasons/Tileset_Ground_Seasons",
-        local_id: ground.grass.darkVariant,
+    g: curatedTile("fan_tasy.seasons.ground.grass_base", { description: "summer forest grass" }),
+    f: curatedTile("fan_tasy.seasons.ground.grass_dark", {
         description: "darker summer forest grass",
-    },
-    v: {
-        tsx: "seasons/Tileset_Ground_Seasons",
-        local_id: ground.grass.lightVariant,
+    }),
+    v: curatedTile("fan_tasy.seasons.ground.grass_light", {
         description: "light forest grass variation",
-    },
-    d: {
-        tsx: "seasons/Tileset_Road",
-        local_id: seasons.road.dirt,
-        description: "soft dirt forest trail",
-    },
-    gd_n: {
-        tsx: "seasons/Tileset_Ground_Seasons",
-        local_id: ground.grassDirtTransitions.n,
-        description: "grass-to-dirt transition, dirt north",
-        surface: "smooth-grass",
-        role: "transition",
-        walkable: true,
-    },
-    gd_e: {
-        tsx: "seasons/Tileset_Ground_Seasons",
-        local_id: ground.grassDirtTransitions.e,
-        description: "grass-to-dirt transition, dirt east",
-        surface: "smooth-grass",
-        role: "transition",
-        walkable: true,
-    },
-    gd_s: {
-        tsx: "seasons/Tileset_Ground_Seasons",
-        local_id: ground.grassDirtTransitions.s,
-        description: "grass-to-dirt transition, dirt south",
-        surface: "smooth-grass",
-        role: "transition",
-        walkable: true,
-    },
-    gd_w: {
-        tsx: "seasons/Tileset_Ground_Seasons",
-        local_id: ground.grassDirtTransitions.w,
-        description: "grass-to-dirt transition, dirt west",
-        surface: "smooth-grass",
-        role: "transition",
-        walkable: true,
-    },
-    gd_ne: {
-        tsx: "seasons/Tileset_Ground_Seasons",
-        local_id: ground.grassDirtTransitions.ne,
-        description: "grass-to-dirt transition, dirt north and east",
-        surface: "smooth-grass",
-        role: "transition",
-        walkable: true,
-    },
-    gd_nw: {
-        tsx: "seasons/Tileset_Ground_Seasons",
-        local_id: ground.grassDirtTransitions.nw,
-        description: "grass-to-dirt transition, dirt north and west",
-        surface: "smooth-grass",
-        role: "transition",
-        walkable: true,
-    },
-    gd_se: {
-        tsx: "seasons/Tileset_Ground_Seasons",
-        local_id: ground.grassDirtTransitions.se,
-        description: "grass-to-dirt transition, dirt south and east",
-        surface: "smooth-grass",
-        role: "transition",
-        walkable: true,
-    },
-    gd_sw: {
-        tsx: "seasons/Tileset_Ground_Seasons",
-        local_id: ground.grassDirtTransitions.sw,
-        description: "grass-to-dirt transition, dirt south and west",
-        surface: "smooth-grass",
-        role: "transition",
-        walkable: true,
-    },
+    }),
+    d: curatedTile("fan_tasy.seasons.road.dirt", { description: "soft dirt forest trail" }),
+    gd_n: curatedTile("fan_tasy.seasons.ground.grass_dirt_n"),
+    gd_e: curatedTile("fan_tasy.seasons.ground.grass_dirt_e"),
+    gd_s: curatedTile("fan_tasy.seasons.ground.grass_dirt_s"),
+    gd_w: curatedTile("fan_tasy.seasons.ground.grass_dirt_w"),
+    gd_ne: curatedTile("fan_tasy.seasons.ground.grass_dirt_ne"),
+    gd_nw: curatedTile("fan_tasy.seasons.ground.grass_dirt_nw"),
+    gd_se: curatedTile("fan_tasy.seasons.ground.grass_dirt_se"),
+    gd_sw: curatedTile("fan_tasy.seasons.ground.grass_dirt_sw"),
 
     // Encounter grass.
-    G: {
-        tsx: "seasons/Tileset_TallGrass",
-        local_id: seasons.tallGrass.summer,
-        description: "summer tall grass encounter tile",
-    },
+    G: curatedTile("fan_tasy.seasons.tall_grass.transparent_summer", {
+        description: "transparent summer encounter brush overlay",
+    }),
 
     // Tree and underbrush collection images.
     tree_a: { ...collectionAtlasEntry(seasonsTrees, 0), description: "emerald tree 2" },

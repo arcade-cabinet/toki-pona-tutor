@@ -45,7 +45,7 @@ describe('combat healing items', () => {
             {
                 id: 'kili',
                 value: 'item:kili',
-                label: 'kili',
+                label: 'Orchard Fruit',
                 count: 2,
                 healAmount: 20,
                 previewHealed: 20,
@@ -61,7 +61,7 @@ describe('combat healing items', () => {
         await expect(useCombatHealingItem(player, 'kili')).resolves.toEqual({
             used: true,
             itemId: 'kili',
-            label: 'kili',
+            label: 'Orchard Fruit',
             healed: 20,
             nextHp: 25,
             maxHp: 44,
@@ -108,7 +108,7 @@ describe('combat healing items', () => {
             used: false,
             itemId: 'kili',
             reason: 'full',
-        })).toBe('sijelo li pona');
+        })).toBe('Already at full HP');
     });
 });
 
@@ -152,10 +152,10 @@ describe('wild encounter combat helpers', () => {
         expect(wildDamageTone(2)).toBe('super');
         expect(wildDamageTone(0.5)).toBe('resisted');
         expect(wildDamageTone(0)).toBe('miss');
-        expect(wildDamageToneLabel('super')).toBe('pona mute');
-        expect(wildDamageToneLabel('resisted')).toBe('awen');
-        expect(formatWildDamagePopup(40, 2)).toBe('-40 HP · pona mute');
-        expect(formatWildDamagePopup(0, 0)).toBe('pakala');
+        expect(wildDamageToneLabel('super')).toBe('strong');
+        expect(wildDamageToneLabel('resisted')).toBe('resisted');
+        expect(formatWildDamagePopup(40, 2)).toBe('-40 HP · strong');
+        expect(formatWildDamagePopup(0, 0)).toBe('Miss');
     });
 
     it('keeps full-HP catch chance at zero and raises it after a fight', () => {
@@ -178,10 +178,10 @@ describe('wild encounter combat helpers', () => {
             { id: 'jan_ike_lili', name: { en: 'jan ike lili' } },
             3,
             { targetHp: 20, targetMaxHp: 48 },
-        )).toBe('jan ike lili L3\nHP 20 / 48 · pakala');
+        )).toBe('jan ike lili L3\nHP 20 / 48 · hurt');
         expect(formatWildFightResult(9, { targetHp: 1, targetMaxHp: 48 }))
-            .toBe('utala: -9 HP · pona\nsoweli HP 1 / 48 · moli');
+            .toBe('Attack: -9 HP · hit\nTarget HP 1 / 48 · critical');
         expect(formatWildFightResult(18, { targetHp: 2, targetMaxHp: 48 }, 2))
-            .toBe('utala: -18 HP · pona mute\nsoweli HP 2 / 48 · moli');
+            .toBe('Attack: -18 HP · strong\nTarget HP 2 / 48 · critical');
     });
 });

@@ -3,8 +3,20 @@
   "npc_id": "jan_poki_nasin",
   "priority": 0,
   "beats": [
-    { "text": { "en": "Good choice!" }, "mood": "happy", "glyph": "pona" },
-    { "text": { "en": "You seem well..." }, "mood": "thinking", "glyph": "pona" }
+    {
+      "text": {
+        "en": "Good timing. I need field notes from Greenwood."
+      },
+      "mood": "happy",
+      "glyph": "companion-bond"
+    },
+    {
+      "text": {
+        "en": "Catch two route creatures and I'll trade you a stronger pod."
+      },
+      "mood": "thinking",
+      "glyph": "companion-bond"
+    }
   ],
   "triggers": {}
 }

@@ -109,6 +109,7 @@ export interface PokiDebugTesting {
     ): Promise<string> | string;
     beginDefeatEvent(eventId: string): Promise<string> | string;
     beginPlayerDefeat(): Promise<string> | string;
+    beginText(text: string): Promise<string> | string;
     getTaskStatus(taskId: string): Promise<PokiDebugTaskStatus | null>;
     closeGui(guiId?: string, data?: unknown): Promise<void>;
     processAction(action: "action" | "escape" | "up" | "down" | "left" | "right"): Promise<void>;
@@ -120,7 +121,8 @@ export interface PokiDebugTesting {
     getInventoryCount(itemId: string): Promise<number>;
     addInventoryItem(itemId: string, count: number): Promise<void>;
     setInventoryItemCount(itemId: string, count: number): Promise<void>;
-    recordMasteredWord(tpWord: string): Promise<void>;
+    recordClue(clueId: string): Promise<void>;
+    recordMasteredWord(clueId: string): Promise<void>;
     setLeadHp(hp: number): Promise<void>;
     setEventHp(eventId: string, hp: number): Promise<void>;
     setPartyCurrentHp(slot: number, hp: number): Promise<void>;

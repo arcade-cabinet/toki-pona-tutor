@@ -7,7 +7,7 @@ describe('formatVictoryRewardToast', () => {
             kind: 'xp',
             speciesId: 'kon_moli',
             amount: 27,
-        })).toBe('kon moli +27 XP');
+        })).toBe('Ashcat +27 XP');
     });
 
     it('formats level-up boundaries without blocking dialog input', () => {
@@ -16,7 +16,7 @@ describe('formatVictoryRewardToast', () => {
             speciesId: 'kon_moli',
             from: 5,
             to: 6,
-        })).toBe('kon moli L5 -> L6');
+        })).toBe('Ashcat L5 -> L6');
     });
 
     it('formats newly learned moves with display labels', () => {
@@ -24,6 +24,6 @@ describe('formatVictoryRewardToast', () => {
             kind: 'move',
             speciesId: 'kon_moli',
             moveId: 'utala_wawa',
-        })).toBe('kon moli sona sin: utala wawa');
+        })).toBe('Ashcat learned utala wawa');
     });
 });

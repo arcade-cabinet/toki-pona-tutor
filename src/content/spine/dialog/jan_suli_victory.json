@@ -1,11 +1,25 @@
 {
   "id": "jan_suli_victory",
   "npc_id": "jan_suli",
-  "when_flags": { "badge_suli": true },
+  "when_flags": {
+    "badge_suli": true
+  },
   "priority": 5,
   "beats": [
-    { "text": { "en": "You seem well..." }, "mood": "sad", "glyph": "pona" },
-    { "text": { "en": "Let's go!" }, "mood": "thinking", "glyph": "tawa" }
+    {
+      "text": {
+        "en": "You climbed higher than I expected."
+      },
+      "mood": "sad",
+      "glyph": "companion-bond"
+    },
+    {
+      "text": {
+        "en": "The final road is open."
+      },
+      "mood": "thinking",
+      "glyph": "greenwood-watch"
+    }
   ],
   "triggers": {}
 }

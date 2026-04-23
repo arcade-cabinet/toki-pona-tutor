@@ -16,9 +16,9 @@
   "bgm_selection": {
     "default_combat_track": "bgm_battle",
     "gym_combat_track": "bgm_gym",
-    "gym_map_prefixes": ["nena_", "ma_"],
+    "gym_map_prefixes": ["highridge_pass", "lakehaven", "frostvale", "dreadpeak_cavern"],
     "map_combat_overrides": {
-      "nasin_pi_telo": "bgm_boss"
+      "rivergate_approach": "bgm_boss"
     }
   },
   "sfx": {
@@ -54,7 +54,7 @@
     "active_ai_states": ["alert", "combat", "flee", "stunned"]
   },
   "runtime": {
-    "bgm_override_event": "poki-soweli:audio:bgm-override",
+    "bgm_override_event": "rivers-reckoning:audio:bgm-override",
     "bgm_crossfade_ms": 800,
     "bgm_stop_delay_padding_ms": 50,
     "footstep_min_interval_ms": 140

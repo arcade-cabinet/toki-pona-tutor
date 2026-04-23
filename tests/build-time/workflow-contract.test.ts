@@ -35,7 +35,7 @@ describe("GitHub Actions run/release/deploy contract", () => {
         expect(ci).toMatch(/CAPACITOR:\s+['"]true['"]/);
         expect(ci).toContain("pnpm exec cap sync android");
         expect(ci).toContain("./gradlew assembleDebug");
-        expect(ci).toContain("poki-soweli-debug-apk-${{ github.event.pull_request.number }}");
+        expect(ci).toContain("rivers-reckoning-debug-apk-${{ github.event.pull_request.number }}");
     });
 
     it("keeps browser E2E headed, with xvfb only providing the CI display", () => {
@@ -125,7 +125,7 @@ describe("GitHub Actions run/release/deploy contract", () => {
         expect(cd).toContain('--pattern "$WEB_FILE"');
         expect(cd).toContain("web bundle was not built with the GitHub Pages base");
         expect(cd).toContain("web bundle is missing required runtime file: $file");
-        expect(cd).toContain("map/nena_suli.tmx");
+        expect(cd).toContain("map/dreadpeak_cavern.tmx");
         expect(cd).toContain("actions/deploy-pages@");
         expect(cd).not.toContain("types: [published]");
     });

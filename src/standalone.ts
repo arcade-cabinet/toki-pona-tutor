@@ -1,13 +1,10 @@
-// RPG.js UI CSS — imported here so Vite bundles them into the build output
-// rather than pointing at ./node_modules/ paths that don't exist in dist/.
-// Order matters: library tokens first, then brand overrides win without
-// needing !important. See docs/BRAND.md.
 import "@rpgjs/ui-css/reset.css";
-import "@rpgjs/ui-css/tokens.css";
-import "@rpgjs/ui-css/index.css";
-import "@rpgjs/ui-css/theme-default.css";
+import "@fontsource-variable/fraunces/wght.css";
 import "./styles/fonts.css";
 import "./styles/brand.css";
+import "./ui/styles/rr-tokens.css";
+import "./ui/styles/rr-effects.css";
+import "./ui/styles/rr-ui.css";
 
 import { mergeConfig } from "@signe/di";
 import { provideRpg, startGame, inject, RpgClientEngine } from "@rpgjs/client";
@@ -21,11 +18,13 @@ import configClient from "./config/config.client";
 import { installPixiFxAliasGuard } from "./config/pixi-assets";
 import { applyBrandBoot } from "./styles/boot";
 import { DIALOG_UI_CONFIG } from "./content/gameplay";
+import { mountRiversUi } from "./ui/mount";
 
 // Apply brand prefs (high-contrast, etc.) before first render so the
 // initial paint matches the user's stored settings. Fire-and-forget;
 // applyBrandBoot guards against missing DOM (SSR / tests).
 void applyBrandBoot();
+mountRiversUi();
 installCanvasViewportMaskPatch();
 installCanvasSpriteDeferredAssetCleanupPatch();
 installCanvasSpriteHitboxAnchorPatch();
@@ -60,7 +59,7 @@ function installEscapeShortcutFallback(): void {
 
             window.addEventListener("keydown", (event) => {
                 if (event.key !== "Escape" || event.repeat) return;
-                if (document.querySelector(".rpg-ui-dialog")) return;
+                if (document.querySelector(".rr-dialog")) return;
 
                 const active = document.activeElement;
                 if (
@@ -190,6 +189,7 @@ if (import.meta.env.DEV || import.meta.env.MODE === "test") {
         param?: Record<string, unknown>;
         sp?: number;
         graphics?: () => unknown;
+        showText?: (text: string) => Promise<unknown>;
         teleport?: (position: MapPosition) => Promise<unknown>;
         x?: () => number;
         y?: () => number;
@@ -403,9 +403,9 @@ if (import.meta.env.DEV || import.meta.env.MODE === "test") {
         const { setInventoryCount } = await import("./platform/persistence/queries");
         await setInventoryCount(itemId, count);
     };
-    const writeMasteredWord = async (tpWord: string): Promise<void> => {
-        const { recordMasteredWord } = await import("./platform/persistence/queries");
-        await recordMasteredWord(tpWord);
+    const writeClue = async (clueId: string): Promise<void> => {
+        const { recordClue } = await import("./platform/persistence/queries");
+        await recordClue(clueId);
     };
     const writePartyCurrentHp = async (slot: number, hp: number): Promise<void> => {
         const { setPartyCurrentHp } = await import("./platform/persistence/queries");
@@ -552,6 +552,14 @@ if (import.meta.env.DEV || import.meta.env.MODE === "test") {
         beginTask(() => triggerShape(target, options));
     const beginDefeatEvent = (eventId: string): string => beginTask(() => defeatEvent(eventId));
     const beginPlayerDefeat = (): string => beginTask(defeatPlayer);
+    const beginText = (text: string): string =>
+        beginTask(async () => {
+            const player = requireServerPlayer();
+            if (!player.showText) {
+                throw new Error("window.__POKI__.testing: server player cannot show text");
+            }
+            await player.showText(text);
+        });
     const readTask = async (taskId: string): Promise<DebugTaskStatus | null> => {
         const status = debugTasks.get(taskId);
         if (!status) return null;
@@ -637,6 +645,7 @@ if (import.meta.env.DEV || import.meta.env.MODE === "test") {
             beginShape: async () => "",
             beginDefeatEvent: async () => "",
             beginPlayerDefeat: async () => "",
+            beginText: async () => "",
             getTaskStatus: async () => null,
             closeGui: notReady,
             processAction: notReady,
@@ -646,6 +655,7 @@ if (import.meta.env.DEV || import.meta.env.MODE === "test") {
             getInventoryCount: async () => 0,
             addInventoryItem: notReady,
             setInventoryItemCount: notReady,
+            recordClue: notReady,
             recordMasteredWord: notReady,
             setLeadHp: notReady,
             setEventHp: notReady,
@@ -697,6 +707,7 @@ if (import.meta.env.DEV || import.meta.env.MODE === "test") {
                     beginShape,
                     beginDefeatEvent,
                     beginPlayerDefeat,
+                    beginText,
                     getTaskStatus: readTask,
                     closeGui,
                     processAction,
@@ -706,7 +717,8 @@ if (import.meta.env.DEV || import.meta.env.MODE === "test") {
                     getInventoryCount: readInventoryCount,
                     addInventoryItem,
                     setInventoryItemCount: writeInventoryItemCount,
-                    recordMasteredWord: writeMasteredWord,
+                    recordClue: writeClue,
+                    recordMasteredWord: writeClue,
                     setLeadHp: writeLeadHp,
                     setEventHp: writeEventHp,
                     setPartyCurrentHp: writePartyCurrentHp,

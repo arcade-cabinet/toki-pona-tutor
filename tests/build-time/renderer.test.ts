@@ -135,7 +135,7 @@ describe('renderTmj — object-layer overlay', () => {
             type: 'Warp',
             name: 'east',
             rect: [2, 0, 1, 3],
-            props: { target_map: 'nasin_wan', target_spawn: 'from_west' },
+            props: { target_map: 'greenwood_road', target_spawn: 'from_west' },
           },
         ],
       },

@@ -1,15 +1,19 @@
 import worldRaw from "../../content/generated/world.json";
 import { BESTIARY_PANEL_CONFIG } from "../../content/gameplay";
 import { formatGameplayTemplate } from "../../content/gameplay/templates";
+import {
+    resolveRuntimeName,
+    speciesLabel,
+    typeLabel,
+    type RuntimeName,
+} from "../../content/runtime-labels";
 import { bestiaryTier, progressRatio, type BestiaryState, type BestiaryTier } from "./bestiary";
 
 type SpeciesEntry = {
     id: string;
+    name?: RuntimeName;
     type?: string;
-    description?: {
-        en?: string;
-        tp?: string;
-    };
+    description?: RuntimeName;
 };
 
 type ContentWorld = {
@@ -59,7 +63,7 @@ export function buildBestiaryPanel(state: BestiaryState): BestiaryPanel {
                     ? formatGameplayTemplate(BESTIARY_PANEL_CONFIG.unknownLabelTemplate, {
                           index: index + 1,
                       })
-                    : prettifyId(species.id);
+                    : speciesLabel(species.id);
             const description = bestiaryDescription(tier, species);
             const readText = bestiaryReadText(tier, label, description);
             const entry: BestiaryPanelEntry = {
@@ -77,25 +81,21 @@ export function buildBestiaryPanel(state: BestiaryState): BestiaryPanel {
 }
 
 function bestiaryMeta(tier: BestiaryTier, type: string | undefined): string {
-    const typeLabel = type ?? BESTIARY_PANEL_CONFIG.unknownTypeLabel;
+    const label = type ? typeLabel(type) : BESTIARY_PANEL_CONFIG.unknownTypeLabel;
     if (tier === "caught") {
         return formatGameplayTemplate(BESTIARY_PANEL_CONFIG.caughtMetaTemplate, {
-            type: typeLabel,
+            type: label,
         });
     }
     if (tier === "seen") {
-        return formatGameplayTemplate(BESTIARY_PANEL_CONFIG.seenMetaTemplate, { type: typeLabel });
+        return formatGameplayTemplate(BESTIARY_PANEL_CONFIG.seenMetaTemplate, { type: label });
     }
     return BESTIARY_PANEL_CONFIG.unknownMeta;
 }
 
-function prettifyId(id: string): string {
-    return id.replace(/_/g, " ");
-}
-
 function bestiaryDescription(tier: BestiaryTier, species: SpeciesEntry): string | undefined {
     if (tier === "unknown") return undefined;
-    return species.description?.tp?.trim() || species.description?.en?.trim() || undefined;
+    return resolveRuntimeName(species.description) ?? undefined;
 }
 
 function bestiaryReadText(

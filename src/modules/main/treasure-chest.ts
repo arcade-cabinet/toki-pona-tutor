@@ -4,7 +4,7 @@
  * Maps scatter 1-3 chests per region. Each chest has:
  *  - stable id (`chest_<map>_<slot>`)
  *  - loot table (weighted item drops)
- *  - optional gate (TP dialog check — player must know a word to open)
+ *  - optional clue gate
  *  - optional flag write on first-open (for one-shot chests)
  *
  * The state machine is simple: never-opened → opened. Once a chest is
@@ -31,8 +31,7 @@ export interface ChestDef {
     /** Optional flag to check before open. If set, chest displays as
      *  locked; player needs the flag via some other quest/event. */
     requiredFlag?: string;
-    /** Optional TP word the player must have mastered to open. Powers
-     *  the "language gate" design — some chests are reward for vocab. */
+    /** Optional clue id the player must have discovered to open. */
     requiredMasteredWord?: string;
     /** Stable SQLite flag id flipped on first open. */
     openFlag: string;
@@ -43,7 +42,7 @@ export type ChestStatus = "closed" | "locked" | "opened";
 export interface PlayerGateState {
     /** SQLite flags that are set (e.g. `badge_sewi: '1'`). */
     flags: Record<string, string>;
-    /** TP words the player has seen ≥ N times. */
+    /** Clues the player has seen enough times. */
     masteredWords: Set<string>;
 }
 
@@ -52,7 +51,7 @@ export interface PlayerGateState {
  * player's gate state.
  *
  * @example
- * chestStatus(def, { flags: { chest_ma_telo_0: '1' }, masteredWords: new Set() })
+ * chestStatus(def, { flags: { chest_lakehaven_0: '1' }, masteredWords: new Set() })
  * // → 'opened' (already opened before)
  */
 export function chestStatus(chest: ChestDef, player: PlayerGateState): ChestStatus {
@@ -88,12 +87,12 @@ export function rollLoot(chest: ChestDef, rng: () => number = Math.random): Ches
  *
  * @example
  * openChest(
- *   { id: 'chest_ma_telo_0', mapId: 'ma_telo', at: [5, 3],
- *     loot: [{ itemId: 'kili', count: 1, weight: 1 }], openFlag: 'chest_ma_telo_0' },
+ *   { id: 'chest_lakehaven_0', mapId: 'lakehaven', at: [5, 3],
+ *     loot: [{ itemId: 'kili', count: 1, weight: 1 }], openFlag: 'chest_lakehaven_0' },
  *   { flags: {}, masteredWords: new Set() },
  * )
  * // → { granted: { itemId: 'kili', count: 1, weight: 1 },
- * //     newFlags: { chest_ma_telo_0: '1' },
+ * //     newFlags: { chest_lakehaven_0: '1' },
  * //     alreadyOpened: false }
  */
 export function openChest(

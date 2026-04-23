@@ -1,35 +1,56 @@
-appId: com.pokisoweli.game
+appId: com.riversreckoning.game
 name: Android debug APK smoke
 tags:
   - android
   - release-qa
 ---
-- clearState: com.pokisoweli.game
+- clearState: com.riversreckoning.game
 - launchApp:
     clearState: true
+- setOrientation: LANDSCAPE_LEFT
 - extendedWaitUntil:
-    visible: "poki soweli"
+    visible: "Rivers Reckoning"
     timeout: 30000
-- assertVisible: "open sin"
-- assertVisible: "nasin"
-- assertVisible: "pini"
-- tapOn: "open sin"
+- assertVisible: "New Game"
+- assertVisible: "Settings"
+- assertVisible: "Quit"
+- tapOn: "New Game"
 - extendedWaitUntil:
-    visible: "kili sin li pona tawa sijelo."
+    visible: "Pause menu"
     timeout: 30000
-- tapOn: "kili sin li pona tawa sijelo."
+- tapOn:
+    point: "68%,56%"
+- waitForAnimationToEnd:
+    timeout: 6000
+- tapOn:
+    point: "68%,31%"
 - extendedWaitUntil:
-    visible: "kule seme li pona tawa sina?"
+    visible: "Rivers, today you start your own investigation."
+    timeout: 30000
+- tapOn:
+    point: "50%,84%"
+- extendedWaitUntil:
+    visible: "Three creatures answered the call."
+    timeout: 30000
+- tapOn:
+    point: "50%,84%"
+- extendedWaitUntil:
+    visible: "Choose the partner you trust at your side."
     timeout: 10000
-- tapOn: "kon moli"
+- tapOn:
+    point: "50%,84%"
 - extendedWaitUntil:
-    visible: "≡"
+    visible: "Ashcat"
+    timeout: 10000
+- tapOn: "Ashcat"
+- extendedWaitUntil:
+    visible: "Pause menu"
     timeout: 20000
-- tapOn: "≡"
+- tapOn: "Pause menu"
 - extendedWaitUntil:
-    visible: "soweli"
+    visible: "Party"
     timeout: 10000
-- assertVisible: "nasin"
-- assertVisible: "ijo"
-- assertVisible: "awen"
-- assertVisible: "pini"
+- assertVisible: "Settings"
+- assertVisible: "Gear"
+- assertVisible: "Save"
+- assertVisible: "Title"

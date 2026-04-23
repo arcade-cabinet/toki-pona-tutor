@@ -5,24 +5,9 @@ status: current
 domain: ops
 ---
 
-# poki soweli — contributor setup
+# Rivers Reckoning Contributor Setup
 
-Fresh clone → running dev server in under five minutes.
-
-## Prerequisites
-
--   **Node 22+** (LTS) — enforce via `corepack enable`
--   **pnpm 10+** — `npm install -g pnpm` or corepack
--   **Git 2.40+** with LFS for binary assets (`git lfs install` once per machine)
--   **`sql.js` pin:** keep the direct dependency and `pnpm.overrides` entry at `1.11.0` unless the Capacitor SQLite + `jeep-sqlite` web shim is revalidated end to end; Vite copies the matching `sql-wasm.*` files into `public/assets/`.
-
-Optional:
-
--   **Tiled editor** — for _inspecting_ `.tmx` maps (authoring is spec-based; Tiled is read-only here)
--   **Android SDK 34 + Java 21 Temurin** — only needed if you're building APKs locally (CI handles debug APK builds)
--   **actionlint + shellcheck** — only needed for local `pnpm workflow:check` before editing GitHub Actions
-
-## First-run bootstrap
+Fresh clone to running game:
 
 ```sh
 git clone git@github.com:arcade-cabinet/poki-soweli.git
@@ -31,78 +16,82 @@ pnpm install
 pnpm dev
 ```
 
-`pnpm dev` opens a Vite server at `http://localhost:5173/` in RPG.js v5 standalone mode (client + server in one process). No separate backend.
+`pnpm dev` serves `http://localhost:5173/` in RPG.js standalone mode.
 
-## Validating your changes
+Base paths:
 
-The three commands you'll run most often:
+- local dev/preview is `/`
+- GitHub Pages is `/poki-soweli/`
+- Capacitor is `./`
 
-```sh
-pnpm validate    # content-pipeline gate (validate-challenges + validate-tp + author:verify)
-pnpm typecheck   # tsc --noEmit across src/vite + map-authoring + unit/integration TS
-pnpm build       # prebuild (validate + build-spine + typecheck) then vite build
-```
+## Prerequisites
 
-`pnpm validate` runs in CI on every PR; CI failure here almost always maps to a local `pnpm validate` rerun reproducing the error.
+- Node 22 LTS. The repo includes `.node-version`, and `package.json` constrains `engines.node` to Node 22 because CI/release builds are pinned there.
+- pnpm 10+
+- Git 2.40+
+- Java 21 and Android SDK for local APK work
+- actionlint and shellcheck if editing GitHub Actions
 
-If you touch `.github/workflows/*.yml`, also run:
+`sql.js` remains pinned to `1.11.0` in dependencies and overrides until the Capacitor SQLite web shim is revalidated end to end.
 
-```sh
-pnpm workflow:check   # actionlint + shellcheck over every workflow run: block
-```
+If a local Pages or Capacitor build hangs after Vite starts, first verify `node -v` reports `v22.x`; do not treat a Node 24 build result as release evidence.
 
-## The content pipeline
-
-Maps and species are **build artifacts**, not hand-edited files. The source of truth is:
-
--   **Maps:** `scripts/map-authoring/specs/<id>.ts` → `pnpm author:build <id>` or `pnpm author:all --all` → emits `src/tiled/<id>.tmx` + `public/assets/maps/<id>.tmj` + preview PNG.
--   **Species / moves / items / dialog / journey + map object registry:** `src/content/spine/**/*.json` + `public/assets/maps/*.tmj` → `pnpm build-spine` → emits `src/content/generated/world.json`.
--   **Toki Pona strings:** every multi-word `en` field on a translatable goes through the Tatoeba corpus at `src/content/corpus/tatoeba.json`. If `pnpm validate-tp` rejects your sentence, **rewrite the EN, don't hand-author the TP**.
-
-See `docs/ARCHITECTURE.md` for the full shape.
-
-## Sprite curation
-
-When adding or updating a sprite sheet under `public/assets/`, follow `docs/SPRITE_CURATION.md`. Every sheet is hand-inspected once; no scripting, no auto-grid detection. The rat (`soweli_jaki`) is the worked reference.
-
-## Running tests
+## Common Gates
 
 ```sh
-pnpm test:unit            # pure/build-time suite, serialized for singleton safety
-pnpm test:integration     # in-process RPG.js engine tests via @rpgjs/testing
-pnpm test:e2e:smoke       # real-browser boot smoke (matches CI)
-pnpm test:e2e:full        # broader Playwright suite (local)
+pnpm validate
+pnpm build-spine
+pnpm typecheck
+pnpm test:unit
+pnpm test:integration
+pnpm test:e2e:smoke
+pnpm build
 ```
 
-## Common gotchas
-
--   **Dev server or smoke spec uses the wrong URL:** local dev/preview is `/`, GitHub Pages is `/poki-soweli/`, and Capacitor is `./`. If you hit `http://localhost:5173/poki-soweli/` in local dev, you're testing the wrong base.
--   **Playwright reports the wrong app or port 5173 is occupied:** the E2E config starts this repo with `vite --strictPort` on `127.0.0.1:5173` and no longer reuses arbitrary servers by default. Stop the conflicting server or run with an explicit port, for example `E2E_PORT=5174 pnpm test:e2e:full`.
--   **Dev server fails with `window is not defined` at startup:** you imported from `@rpgjs/action-battle` directly instead of `/server` or `/client` subpath. See `src/types/rpgjs-tiledmap.d.ts`.
--   **`pnpm typecheck` filters `@rpgjs/common/src/rooms/WorldMaps.ts`:** that's an upstream TS bug; our grep in the typecheck script hides it. Don't remove the filter.
--   **Local Android build fails immediately:** build the Capacitor bundle first, then ensure the Android scaffold exists before Gradle:
+If you touch workflows:
 
 ```sh
-CAPACITOR=true pnpm build
-pnpm exec cap add android    # only if android/ is missing
-pnpm exec cap sync android
-cd android && ./gradlew assembleDebug
+pnpm workflow:check
 ```
 
-## Worktrees for parallel agent work
-
-Long-lived feature branches live under `.worktrees/<branch-name>/`. Spawn one with:
+If you touch maps:
 
 ```sh
-git worktree add .worktrees/my-feature -b feat/my-feature
-cd .worktrees/my-feature
-pnpm install   # first time only per worktree (pnpm uses hardlinks from the root node_modules)
+pnpm author:all --all
+pnpm author:verify
 ```
 
-This lets multiple Claude agents work on orthogonal branches without stomping on each other's file state.
+## Content Pipeline
+
+- Maps: edit `scripts/map-authoring/specs/<id>.ts`, then run `pnpm author:build <id>` or `pnpm author:all --all`.
+- Spine content: edit `src/content/spine/**/*.json`, then run `pnpm build-spine`.
+- Gameplay config: edit `src/content/gameplay/*.json`; schemas validate on import/build.
+- Clues: edit `src/content/clues.json`; `pnpm validate-challenges` checks challenge references.
+
+Do not hand-edit generated `src/tiled/*.tmx`, `public/assets/maps/*.tmj`, preview PNGs, or `src/content/generated/world.json`.
+
+## Android Debug APK
+
+```sh
+pnpm android:build-debug
+adb install -r android/app/build/outputs/apk/debug/app-debug.apk
+```
+
+The Android scaffold is generated when missing and is not committed.
+
+## Tests
+
+```sh
+pnpm test:unit
+pnpm test:integration
+pnpm test:e2e:smoke
+pnpm test:e2e:full
+```
+
+Full E2E is local and visual-diagnostic. Inspect screenshots/diagnostics when UI, art, or maps change.
 
 ## Next
 
--   Read `CLAUDE.md` for the critical rules (Fan-tasy only, no hand-authored TP, every monster catchable, maps are build artifacts).
--   Read `docs/STATE.md` for what just landed and what's queued.
--   Read `docs/ROADMAP.md` for the full phase backlog.
+- Read `CLAUDE.md` and `AGENTS.md`.
+- Read `docs/STATE.md` for current limits.
+- Read `docs/ROADMAP.md` before changing scope.

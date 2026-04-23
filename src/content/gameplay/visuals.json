@@ -10,9 +10,20 @@
     "hp_label_template": "HP {current} / {max}",
     "damage_label_template": "-{damage}",
     "tiers": [
-      { "class": "hp-healthy", "label": "wawa", "above_ratio": 0.5 },
-      { "class": "hp-wounded", "label": "pakala", "above_ratio": 0.2 },
-      { "class": "hp-critical", "label": "moli" }
+      {
+        "class": "hp-healthy",
+        "label": "healthy",
+        "above_ratio": 0.5
+      },
+      {
+        "class": "hp-wounded",
+        "label": "hurt",
+        "above_ratio": 0.2
+      },
+      {
+        "class": "hp-critical",
+        "label": "critical"
+      }
     ],
     "colors": {
       "hp-healthy": "#4a9d5a",
@@ -34,35 +45,48 @@
   },
   "tap_controls": {
     "blocking_ui_selectors": [
-      ".rpg-ui-title-screen",
-      ".rpg-ui-dialog",
-      ".rpg-ui-save-load",
+      ".rr-dialog",
+      ".rr-save-load",
       "[data-testid=\"pause-overlay\"]"
     ],
     "target_blocking_ui_selectors": [
-      ".poki-lead-movebar",
-      ".poki-hud-menu-toggle",
-      ".poki-hud-hint-glyph"
+      ".rr-title-screen",
+      ".rr-lead-movebar",
+      ".rr-hud-menu-toggle",
+      ".rr-hud-hint"
     ]
   },
   "map_viewport": {
     "default_tile_px": 16,
     "desktop_zoom": 3,
     "mobile_zoom": 3,
-    "min_tile_screen_px": 48,
-    "max_zoom": 3,
+    "min_tile_screen_px": 56,
+    "max_zoom": 5,
     "poll_ms": 100
   },
   "pixi": {
-    "guarded_fx_aliases": ["fx_settings", "fx_spritesheet"]
+    "guarded_fx_aliases": [
+      "fx_settings",
+      "fx_spritesheet"
+    ]
   },
   "sprite_layouts": {
     "player_three_frame": {
       "frames_width": 3,
       "frames_height": 4,
       "stand_frame_x": 1,
-      "stand_rows": { "down": 0, "left": 1, "right": 2, "up": 3 },
-      "walk_rows": { "down": 0, "left": 1, "right": 2, "up": 3 },
+      "stand_rows": {
+        "down": 0,
+        "left": 1,
+        "right": 2,
+        "up": 3
+      },
+      "walk_rows": {
+        "down": 0,
+        "left": 1,
+        "right": 2,
+        "up": 3
+      },
       "walk_frame_count": 3,
       "walk_speed": 10,
       "attack_speed": 6
@@ -71,8 +95,18 @@
       "frames_width": 4,
       "frames_height": 31,
       "stand_frame_x": 1,
-      "stand_rows": { "down": 1, "left": 4, "right": 7, "up": 10 },
-      "walk_rows": { "down": 0, "left": 3, "right": 6, "up": 9 },
+      "stand_rows": {
+        "down": 1,
+        "left": 4,
+        "right": 7,
+        "up": 10
+      },
+      "walk_rows": {
+        "down": 0,
+        "left": 3,
+        "right": 6,
+        "up": 9
+      },
       "walk_frame_count": 3,
       "walk_speed": 10
     },
@@ -80,8 +114,18 @@
       "frames_width": 4,
       "frames_height": 31,
       "stand_frame_x": 1,
-      "stand_rows": { "down": 1, "left": 4, "right": 7, "up": 10 },
-      "walk_rows": { "down": 0, "left": 3, "right": 6, "up": 9 },
+      "stand_rows": {
+        "down": 1,
+        "left": 4,
+        "right": 7,
+        "up": 10
+      },
+      "walk_rows": {
+        "down": 0,
+        "left": 3,
+        "right": 6,
+        "up": 9
+      },
       "walk_frame_count": 4,
       "walk_speed": 10,
       "attack_speed": 6,
@@ -91,8 +135,16 @@
     }
   },
   "player_spritesheets": [
-    { "id": "hero", "image": "spritesheets/hero.png", "layout_id": "player_three_frame" },
-    { "id": "female", "image": "spritesheets/female.png", "layout_id": "player_three_frame" }
+    {
+      "id": "hero",
+      "image": "spritesheets/hero.png",
+      "layout_id": "player_three_frame"
+    },
+    {
+      "id": "female",
+      "image": "spritesheets/female.png",
+      "layout_id": "player_three_frame"
+    }
   ],
   "npc_spritesheets": [
     {
@@ -243,9 +295,27 @@
       "frames_width": 32,
       "frames_height": 1,
       "animations": {
-        "idle": { "frame_range": [0, 31], "duration": 1500 },
-        "stand": { "frame_range": [0, 31], "duration": 1500 },
-        "default": { "frame_range": [0, 31], "duration": 1500 }
+        "idle": {
+          "frame_range": [
+            0,
+            31
+          ],
+          "duration": 1500
+        },
+        "stand": {
+          "frame_range": [
+            0,
+            31
+          ],
+          "duration": 1500
+        },
+        "default": {
+          "frame_range": [
+            0,
+            31
+          ],
+          "duration": 1500
+        }
       }
     },
     {
@@ -254,10 +324,34 @@
       "frames_width": 9,
       "frames_height": 1,
       "animations": {
-        "idle": { "frame_range": [0, 8], "duration": 1200 },
-        "stand": { "frame_range": [0, 8], "duration": 1200 },
-        "death": { "frame_range": [0, 8], "duration": 1200 },
-        "default": { "frame_range": [0, 8], "duration": 1200 }
+        "idle": {
+          "frame_range": [
+            0,
+            8
+          ],
+          "duration": 1200
+        },
+        "stand": {
+          "frame_range": [
+            0,
+            8
+          ],
+          "duration": 1200
+        },
+        "death": {
+          "frame_range": [
+            0,
+            8
+          ],
+          "duration": 1200
+        },
+        "default": {
+          "frame_range": [
+            0,
+            8
+          ],
+          "duration": 1200
+        }
       }
     }
   ]

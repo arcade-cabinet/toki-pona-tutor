@@ -71,16 +71,16 @@ export function reducePartyLevel(member: PartySlot): PartySlot {
  *   flags: { game_cleared: '1', badge_sewi: '1', starter_chosen: '1' },
  *   masteredWords: { soweli: 12, poki: 8 },
  *   inventory: { poki_lili: 2, kili: 5 },
- *   currentMapId: 'nasin_pi_telo',
- *   journeyBeat: 'beat_07_nasin_pi_telo',
+ *   currentMapId: 'rivergate_approach',
+ *   journeyBeat: 'beat_07_rivergate_approach',
  * })
  * // → {
  * //     party: [{ slot: 0, species_id: 'kon_moli', level: 25, xp: 15625 }],
  * //     flags: {},  // all flags cleared
  * //     masteredWords: { soweli: 12, poki: 8 },  // preserved
  * //     inventory: { poki_wawa: 1 },  // only the NG+ reward
- * //     currentMapId: 'ma_tomo_lili',
- * //     journeyBeat: 'beat_01_ma_tomo_lili',
+ * //     currentMapId: 'riverside_home',
+ * //     journeyBeat: 'beat_01_riverside_home',
  * //     ngPlusCount: 1,
  * //   }
  */

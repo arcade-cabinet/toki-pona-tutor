@@ -9,7 +9,7 @@
  * - Fresh loot: each victory pays `rematch_reward_<n>` — a cycling
  *   reward table that hands out `poki_wawa` on rematch #1, `telo_pona`
  *   on #2, a rare species-egg on #3, and a trophy flag on #4+.
- * - Cooldown: a jan lawa can only be rematched once per in-game day
+ * - Cooldown: a region master can only be rematched once per in-game day
  *   so the player can't farm them.
  *
  * State machine:

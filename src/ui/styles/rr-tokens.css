@@ -1,0 +1,78 @@
+:root {
+    --rr-font-display: "Fraunces Variable", Fraunces, Georgia, serif;
+    --rr-font-body: "Nunito", "Trebuchet MS", sans-serif;
+    --rr-font-mono: "JetBrains Mono", ui-monospace, monospace;
+
+    --rr-vellum: #fff6df;
+    --rr-vellum-soft: #f9edcc;
+    --rr-parchment: #ead3a4;
+    --rr-parchment-deep: #d9b875;
+    --rr-ink: #312419;
+    --rr-ink-soft: #624936;
+    --rr-river: #367c92;
+    --rr-river-deep: #1f5368;
+    --rr-forest: #37673f;
+    --rr-forest-bright: #5c935b;
+    --rr-brass: #b9853a;
+    --rr-gold: #e8b34e;
+    --rr-umber: #72472c;
+    --rr-danger: #ad4e3f;
+    --rr-ice: #b8dfdf;
+
+    --rr-surface: color-mix(in srgb, var(--rr-vellum) 86%, var(--rr-parchment));
+    --rr-surface-raised: color-mix(in srgb, var(--rr-vellum) 74%, white);
+    --rr-border: color-mix(in srgb, var(--rr-brass) 72%, var(--rr-ink));
+    --rr-shadow-soft: 0 18px 48px rgba(49, 36, 25, 0.26);
+    --rr-shadow-hard: 0 10px 0 rgba(49, 36, 25, 0.12), 0 24px 58px rgba(49, 36, 25, 0.36);
+    --rr-touch: 44px;
+    --rr-radius-sm: 12px;
+    --rr-radius-md: 18px;
+    --rr-radius-lg: 28px;
+    --rr-safe-top: max(12px, env(safe-area-inset-top));
+    --rr-safe-right: max(12px, env(safe-area-inset-right));
+    --rr-safe-bottom: max(12px, env(safe-area-inset-bottom));
+    --rr-safe-left: max(12px, env(safe-area-inset-left));
+
+    --font-display: var(--rr-font-display);
+    --font-body: var(--rr-font-body);
+    --font-mono: var(--rr-font-mono);
+    --surface: var(--rr-surface);
+    --surface-high: var(--rr-surface-raised);
+    --text: var(--rr-ink);
+    --text-mute: var(--rr-ink-soft);
+    --border: var(--rr-border);
+    --primary: var(--rr-forest);
+    --primary-deep: var(--rr-river-deep);
+    --success: var(--rr-forest);
+    --danger: var(--rr-danger);
+    --info: var(--rr-river);
+    --touch-min: var(--rr-touch);
+    --touch-combat: 56px;
+    --poki-emerald: var(--rr-forest);
+    --poki-emerald-deep: var(--rr-forest);
+    --poki-telo: var(--rr-river);
+    --poki-lete: var(--rr-ice);
+    --poki-seli: var(--rr-danger);
+    --poki-kasi: var(--rr-forest);
+    --poki-wawa: var(--rr-umber);
+    --poki-danger: var(--rr-danger);
+    --poki-caution: var(--rr-gold);
+    --poki-border: var(--rr-border);
+}
+
+body {
+    background: var(--rr-ink);
+    color: var(--rr-ink);
+    font-family: var(--rr-font-body);
+}
+
+#rr-ui-root {
+    position: fixed;
+    inset: 0;
+    z-index: 2147483000;
+    pointer-events: none;
+}
+
+#rpg {
+    background: #151f16;
+}

@@ -8,9 +8,11 @@ import { provideDictionaryExportRuntime } from "./provide-dictionary-export";
 import { provideHudMenuGui } from "./provide-hud-menu-gui";
 import { provideLeadMoveBarGui } from "./provide-lead-movebar-gui";
 import { provideMapViewport } from "./provide-map-viewport";
+import { provideNotificationGui } from "./provide-notification-gui";
 import { providePauseGui } from "./provide-pause-gui";
 import { provideTapControls } from "./provide-tap-controls";
 import { provideTiledMap } from "./provide-tiled-map";
+import { provideTitleGui } from "./provide-title-gui";
 import { provideWildBattleGui } from "./provide-wild-battle-gui";
 import { provideWarpLoadingGui } from "./provide-warp-loading-gui";
 import { provideActionBattle } from "@rpgjs/action-battle/client";
@@ -31,7 +33,9 @@ export default {
         provideClientGlobalConfig(),
         provideAudioRuntime(),
         provideDictionaryExportRuntime(),
+        provideTitleGui(),
         provideDialogGui(),
+        provideNotificationGui(),
         provideDefeatScreenGui(),
         provideWildBattleGui(),
         provideWarpLoadingGui(),

@@ -1,6 +1,7 @@
 import worldRaw from "../content/generated/world.json";
 import { HUD_STATUS_CONFIG } from "../content/gameplay";
 import { formatGameplayTemplate } from "../content/gameplay/templates";
+import { speciesLabel } from "../content/runtime-labels";
 import {
     resolveSpeciesPortraitFrame,
     type SpeciesAnimationStrip,
@@ -65,8 +66,8 @@ const speciesIndex = new Map(world.species.map((species) => [species.id, species
 
 export function buildHudLeadStatus(input: HudLeadStatusInput): HudLeadStatus {
     const species = speciesIndex.get(input.speciesId);
-    const primaryLabel = prettifySpeciesId(input.speciesId);
-    const secondaryLabel = resolveSecondaryLabel(primaryLabel, species?.name);
+    const primaryLabel = speciesLabel(input.speciesId);
+    const secondaryLabel = resolveSecondaryLabel(primaryLabel, input.speciesId, species?.name);
     const portraitFrame = resolveSpeciesPortraitFrame(species);
     const hpPercent = Math.round(hpRatio(input.currentHp, input.maxHp) * 100);
     const hpClass = hpClassFor(input.currentHp, input.maxHp);
@@ -93,18 +94,20 @@ export function buildHudLeadStatus(input: HudLeadStatusInput): HudLeadStatus {
     };
 }
 
-function prettifySpeciesId(speciesId: string): string {
-    return speciesId.replace(/_/g, " ");
-}
-
-function resolveSecondaryLabel(primaryLabel: string, name: SpeciesName | undefined): string | null {
-    const candidates = [name?.tp, name?.en].map((value) => value?.trim() ?? "").filter(Boolean);
+function resolveSecondaryLabel(
+    primaryLabel: string,
+    speciesId: string,
+    name: SpeciesName | undefined,
+): string | null {
+    const candidates = [name?.tp, name?.en, speciesId.replace(/_/g, " ")]
+        .map((value) => value?.trim() ?? "")
+        .filter(Boolean);
     for (const candidate of candidates) {
         if (normalize(candidate) !== normalize(primaryLabel)) {
             return candidate;
         }
     }
-    return candidates[0] ?? null;
+    return null;
 }
 
 function normalize(value: string): string {

@@ -2,7 +2,7 @@ import type { PlaywrightTestConfig } from "@playwright/test";
 import { devices } from "@playwright/test";
 
 /**
- * Real-browser E2E suite for poki soweli.
+ * Real-browser E2E suite for Rivers Reckoning.
  *
  * Runs the actual Vite dev server and drives headed Chromium with GPU
  * WebGL via ANGLE so Pixi / CanvasEngine render the way they do in
@@ -84,7 +84,7 @@ const config: PlaywrightTestConfig = {
     //   full  — runs locally on `pnpm test:e2e`. Opt-in in CI via a
     //           label / scheduled workflow once that's wired. This is
     //           where feature-level E2E lives (starter ceremony flow,
-    //           encounter + catch, jan lawa defeat, save round-trip).
+    //           encounter + catch, region-master defeat, save round-trip).
     //
     // New tests default to `full`. Only promote a test to `smoke` if
     // it's a boot/sanity invariant — smoke must stay fast.

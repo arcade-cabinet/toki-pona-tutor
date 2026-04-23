@@ -16,8 +16,7 @@ import { z } from "zod";
  * beat. See `docs/JOURNEY.md` for the prose source and
  * `src/content/spine/journey.json` for the materialized arc.
  *
- * `narrative` is dev-facing only — it is NOT a translatable string and does
- * NOT round-trip through the Tatoeba corpus. The player never sees it.
+ * `narrative` is dev-facing only. The player never sees it.
  */
 
 const beatId = z.string().regex(/^[a-z][a-z0-9_]*$/, "beat id must be lower-snake-case");
@@ -30,7 +29,7 @@ const beatId = z.string().regex(/^[a-z][a-z0-9_]*$/, "beat id must be lower-snak
  */
 export const journeyGate = z.discriminatedUnion("kind", [
     /** Player must have picked a starter creature (sets the `starter_chosen`
-     *  save flag). Used in `ma_tomo_lili`. */
+     *  save flag). Used in `riverside_home`. */
     z.object({
         kind: z.literal("starter_chosen"),
     }),
@@ -99,8 +98,8 @@ export const journeyBeat = z.object({
      *  spine id and the eventual `public/assets/maps/<map_id>.tmj` filename. */
     map_id: z.string().regex(/^[a-z][a-z0-9_]*$/),
     /** Dev-facing prose describing what happens in this beat. Mirrors the
-     *  matching section in `docs/JOURNEY.md`. NOT shown to the player; NOT
-     *  Tatoeba-validated. Keep it under ~200 words (~1 500 chars). */
+     *  matching section in `docs/JOURNEY.md`. NOT shown to the player. Keep
+     *  it under ~200 words (~1 500 chars). */
     narrative: z.string().min(20).max(1500),
     /** What the player must do here before the next beat is reachable.
      *  Optional — beats without a gate are pass-through (currently none in

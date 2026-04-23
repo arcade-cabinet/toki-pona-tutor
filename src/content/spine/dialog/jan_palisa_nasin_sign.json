@@ -3,8 +3,20 @@
   "npc_id": "jan_palisa_nasin",
   "priority": 0,
   "beats": [
-    { "text": { "en": "Let's see!" }, "mood": "thinking", "glyph": "lukin" },
-    { "text": { "en": "Let's go!" }, "mood": "excited", "glyph": "tawa" }
+    {
+      "text": {
+        "en": "Greenwood Road: stay on the path unless you want a fight."
+      },
+      "mood": "thinking",
+      "glyph": "wild-signs"
+    },
+    {
+      "text": {
+        "en": "New trainers should keep capture pods ready."
+      },
+      "mood": "excited",
+      "glyph": "greenwood-watch"
+    }
   ],
   "triggers": {}
 }

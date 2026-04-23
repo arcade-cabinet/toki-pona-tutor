@@ -2,41 +2,41 @@
   "micro_game": {
     "seed": 20260420,
     "round_count": 3,
-    "action": { "label": "wan sitelen", "meta": "musi toki" },
+    "action": { "label": "Field Notes", "meta": "clue check" },
     "prompt_template": "{prompt}\n{round}/{total}",
-    "correct_template": "pona! {score}/{total}",
-    "wrong_template": "ala. {answer}\n{score}/{total}",
-    "complete_template": "pini: {score}/{total}",
+    "correct_template": "Correct. {score}/{total}",
+    "wrong_template": "Not that one. {answer}\n{score}/{total}",
+    "complete_template": "Field notes complete: {score}/{total}",
     "pool": [
       {
         "id": "fruit_health",
         "prompt_tag": "🍎",
-        "tp": "kili sin li pona tawa sijelo."
+        "text": "Fresh fruit can restore strength."
       },
       {
         "id": "color_choice",
         "prompt_tag": "🎨",
-        "tp": "kule seme li pona tawa sina?"
+        "text": "Choose the color that feels right."
       },
       {
         "id": "animal_here",
         "prompt_tag": "🐾",
-        "tp": "soweli li lon ni."
+        "text": "A creature is waiting nearby."
       },
       {
         "id": "bird_flying",
         "prompt_tag": "🐦",
-        "tp": "waso li tawa kon."
+        "text": "A bird circles in the wind."
       },
       {
         "id": "house_here",
         "prompt_tag": "🏠",
-        "tp": "mi lon tomo."
+        "text": "The house is safe for now."
       },
       {
         "id": "strong_fire",
         "prompt_tag": "🔥",
-        "tp": "seli li wawa."
+        "text": "The fire burns bright and strong."
       }
     ]
   }

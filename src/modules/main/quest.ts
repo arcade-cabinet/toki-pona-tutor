@@ -41,7 +41,7 @@ export interface QuestDef {
         xp?: number;
         itemId?: string;
         itemCount?: number;
-        rewardWord?: string;
+        rewardClue?: string;
     };
 }
 

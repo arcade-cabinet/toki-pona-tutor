@@ -1,11 +1,25 @@
 {
   "id": "jan_ike_victory",
   "npc_id": "jan_ike",
-  "when_flags": { "jan_ike_defeated": true },
+  "when_flags": {
+    "jan_ike_defeated": true
+  },
   "priority": 5,
   "beats": [
-    { "text": { "en": "You won." }, "mood": "sad", "glyph": "sina" },
-    { "text": { "en": "Let's go!" }, "mood": "thinking", "glyph": "tawa" }
+    {
+      "text": {
+        "en": "You handled yourself."
+      },
+      "mood": "sad",
+      "glyph": "companion-bond"
+    },
+    {
+      "text": {
+        "en": "Greenwood Road is yours."
+      },
+      "mood": "thinking",
+      "glyph": "greenwood-watch"
+    }
   ],
   "triggers": {}
 }

@@ -194,7 +194,7 @@ Identical layout to `extra-elemental-spellcasting-effects-14x14.png` (56×126, 1
 
 **Suggested spritesheet id:** `fx_spell_bursts_14_glow`
 
-**Move-vfx binding:** Boss-tier version of the same bindings above. Use for jan lawa (region master) encounters.
+**Move-vfx binding:** Boss-tier version of the same bindings above. Use for region-master encounters.
 
 ---
 

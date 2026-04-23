@@ -2,7 +2,7 @@ import { type EventDefinition, RpgPlayer, ATK, MAXHP, PDEF } from "@rpgjs/server
 import { BattleAi, EnemyType } from "@rpgjs/action-battle/server";
 import { playDialog } from "./dialog";
 import { ensureBattleAi, scheduleBattleAi } from "./battle-ai";
-import { getFlag, setFlag, recordMasteredWord } from "../../platform/persistence/queries";
+import { getFlag, setFlag, recordClue } from "../../platform/persistence/queries";
 import { preferences, KEYS } from "../../platform/persistence/preferences";
 import { cueAmbientBgm, cueCombatBgm, cueSfx } from "./audio-cues";
 import { BATTLE_COIN_REWARDS, grantBattleCoins } from "./shop";
@@ -23,7 +23,7 @@ import {
 } from "../../content/gameplay";
 
 /**
- * Shared factory for the current four jan lawa (region masters).
+ * Shared factory for the current four region masters.
  *
  * Single-phase mode (omit `phase2`): one BattleAi entity for the
  * whole fight. Used for jan_ike (rival) and any leader whose
@@ -46,8 +46,8 @@ export interface GymLeaderOptions {
     npcId: string;
     /** Flag set in SQLite on defeat — checked by the Warp event. */
     badgeFlag?: string;
-    /** TP word granted as a mastered-word on defeat (one sightings bump). */
-    rewardWord?: string;
+    /** Investigation clue granted on defeat. */
+    rewardClue?: string;
     /** Journey beat id to advance to on defeat (persisted to preferences). */
     nextBeatId: string;
     /** Phase-1 HP (or combined HP if no phase2 is set). */
@@ -92,7 +92,7 @@ export { REGION_XP_CURVE };
 
 export function GymLeader(opts: GymLeaderOptions): EventDefinition {
     const badgeFlag = requiredGymConfig(opts.badgeFlag, opts.npcId, "badgeFlag");
-    const rewardWord = requiredGymConfig(opts.rewardWord, opts.npcId, "rewardWord");
+    const rewardClue = requiredGymConfig(opts.rewardClue, opts.npcId, "rewardClue");
     const graphic = requiredGymConfig(opts.graphic, opts.npcId, "graphic");
     return {
         onInit() {
@@ -118,7 +118,7 @@ export function GymLeader(opts: GymLeaderOptions): EventDefinition {
                             animationName: "hurt",
                         });
                         await setFlag(badgeFlag, "1");
-                        await recordMasteredWord(rewardWord);
+                        await recordClue(rewardClue);
                         await preferences.set(KEYS.journeyBeat, opts.nextBeatId);
                         if (attacker) {
                             await cueSfx(attacker as RpgPlayer, SFX_CUE_CONFIG.trainerFaint);

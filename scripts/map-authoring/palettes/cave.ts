@@ -5,14 +5,17 @@
  * behave as blockers instead of decorative floor paint.
  */
 import type { Palette } from '../lib/types';
+import { curatedTile } from '../config/art-curation';
 
 export const cavePalette: Palette = {
-  f: { tsx: 'fortress/Castle_Floor', local_id: 14, description: 'plain cave floor' },
-  p: { tsx: 'fortress/Castle_Floor', local_id: 158, description: 'stone shrine floor' },
-  v: { tsx: 'fortress/Castle_Floor', local_id: 164, description: 'stone floor variation' },
-  w: { tsx: 'fortress/Tileset_RockSlope', local_id: 194, description: 'blocked cave wall' },
-  G: { tsx: 'fortress/Tileset_Castle_Grass', local_id: 2, description: 'cave encounter overgrowth' },
+  f: curatedTile('fan_tasy.fortress.floor.cave_plain', { description: 'plain cave floor' }),
+  p: curatedTile('fan_tasy.fortress.floor.shrine_stone', { description: 'stone shrine floor' }),
+  v: curatedTile('fan_tasy.fortress.floor.variation', { description: 'stone floor variation' }),
+  w: curatedTile('fan_tasy.fortress.rock_slope.wall', { description: 'blocked cave wall' }),
+  G: curatedTile('fan_tasy.fortress.castle_grass.cave_overgrowth', {
+    description: 'cave encounter overgrowth',
+  }),
 
-  torch: { tsx: 'fortress/Animation_Torch_1', local_id: 0, description: 'animated cave torch' },
-  torch_wall: { tsx: 'fortress/Animation_Torch_1', local_id: 32, description: 'wall-mounted cave torch' },
+  torch: curatedTile('fan_tasy.fortress.torch.floor', { description: 'animated cave torch' }),
+  torch_wall: curatedTile('fan_tasy.fortress.torch.wall', { description: 'wall-mounted cave torch' }),
 };

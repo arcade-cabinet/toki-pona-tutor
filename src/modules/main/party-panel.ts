@@ -1,6 +1,7 @@
 import worldRaw from "../../content/generated/world.json";
 import { PARTY_PANEL_CONFIG } from "../../content/gameplay";
 import { formatGameplayTemplate } from "../../content/gameplay/templates";
+import { moveLabel, speciesLabel, typeLabel } from "../../content/runtime-labels";
 import {
     resolveSpeciesPortraitFrame,
     type SpeciesAnimationStrip,
@@ -101,8 +102,8 @@ export function buildPartyPanelSlot(
     } = {},
 ): PartyPanelSlot {
     const species = speciesIndex.get(member.species_id);
-    const primaryLabel = prettifyId(member.species_id);
-    const secondaryLabel = resolveSecondaryLabel(primaryLabel, species?.name);
+    const primaryLabel = speciesLabel(member.species_id);
+    const secondaryLabel = resolveSecondaryLabel(primaryLabel, member.species_id, species?.name);
     const { currentHp, maxHp } = resolvePartyPanelHp(member, options);
     const hpPercent = Math.round(hpRatio(currentHp, maxHp) * 100);
     const currentXp = canonicalXpTotal(member.xp, member.level);
@@ -116,7 +117,9 @@ export function buildPartyPanelSlot(
         speciesId: member.species_id,
         primaryLabel,
         secondaryLabel,
-        typeLabel: species?.type ?? PARTY_PANEL_CONFIG.unknownTypeLabel,
+        typeLabel: species?.type
+            ? typeLabel(species.type)
+            : PARTY_PANEL_CONFIG.unknownTypeLabel,
         portraitSrc: portraitFrame?.src ?? null,
         portraitFrame,
         portraitFallback: portraitFallbackFor(secondaryLabel ?? primaryLabel),
@@ -178,26 +181,30 @@ function knownMovesFor(species: SpeciesEntry | undefined, level: number): string
     return species.learnset
         .filter((entry) => entry.level <= level)
         .sort((a, b) => a.level - b.level || a.move_id.localeCompare(b.move_id))
-        .map((entry) => moveLabel(entry.move_id));
+        .map((entry) => partyMoveLabel(entry.move_id));
 }
 
-function moveLabel(moveId: string): string {
+function partyMoveLabel(moveId: string): string {
     const move = moveIndex.get(moveId);
-    return resolveName(move?.name) ?? prettifyId(moveId);
+    return resolveName(move?.name) ?? moveLabel(moveId);
 }
 
 function resolveSecondaryLabel(
     primaryLabel: string,
+    speciesId: string,
     name: TranslatableName | undefined,
 ): string | null {
-    const value = resolveName(name);
-    if (!value) return null;
-    if (normalize(value) === normalize(primaryLabel)) return value;
-    return value;
+    const candidates = [name?.tp, name?.en, speciesId.replace(/_/g, " ")]
+        .map((value) => value?.trim() ?? "")
+        .filter(Boolean);
+    for (const candidate of candidates) {
+        if (normalize(candidate) !== normalize(primaryLabel)) return candidate;
+    }
+    return null;
 }
 
 function resolveName(name: TranslatableName | undefined): string | null {
-    const candidate = name?.tp?.trim() || name?.en?.trim();
+    const candidate = name?.en?.trim() || name?.tp?.trim();
     return candidate || null;
 }
 

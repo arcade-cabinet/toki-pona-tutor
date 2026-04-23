@@ -21,13 +21,13 @@ afterEach(async () => {
 });
 
 describe('game boot (integration)', () => {
-    it('spawns the player on ma_tomo_lili at (128, 128)', async () => {
+    it('spawns the player on riverside_home at (128, 128)', async () => {
         const fixture = await testing(integrationModules());
         const client = await fixture.createClient();
 
-        const player = await client.waitForMapChange('ma_tomo_lili', 5000);
+        const player = await client.waitForMapChange('riverside_home', 5000);
 
-        expect(player.getCurrentMap()?.id).toBe('ma_tomo_lili');
+        expect(player.getCurrentMap()?.id).toBe('riverside_home');
         expect(player.x()).toBe(128);
         expect(player.y()).toBe(128);
     });

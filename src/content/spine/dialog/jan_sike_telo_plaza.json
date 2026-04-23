@@ -3,8 +3,20 @@
   "npc_id": "jan_sike_telo",
   "priority": 0,
   "beats": [
-    { "text": { "en": "The shop is open." }, "mood": "happy", "glyph": "open" },
-    { "text": { "en": "He likes fishing." }, "mood": "thinking", "glyph": "kala" }
+    {
+      "text": {
+        "en": "The shop is open by the fountain."
+      },
+      "mood": "happy",
+      "glyph": "water-edge"
+    },
+    {
+      "text": {
+        "en": "Lake trainers compare catches at sunset."
+      },
+      "mood": "thinking",
+      "glyph": "water-edge"
+    }
   ],
   "triggers": {}
 }

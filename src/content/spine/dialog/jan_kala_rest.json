@@ -2,6 +2,14 @@
   "id": "jan_kala_rest",
   "npc_id": "jan_kala",
   "priority": 0,
-  "beats": [{ "text": { "en": "I'm getting tired." }, "mood": "thinking", "glyph": "lape" }],
+  "beats": [
+    {
+      "text": {
+        "en": "The lake wind makes everyone slow down."
+      },
+      "mood": "thinking",
+      "glyph": "safe-house"
+    }
+  ],
   "triggers": {}
 }

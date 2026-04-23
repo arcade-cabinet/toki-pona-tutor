@@ -1,13 +1,31 @@
 {
   "id": "jan_wawa_linja",
-  "name": { "en": "linja" },
-  "description": { "en": "The birds are red." },
+  "name": {
+    "en": "Chainback"
+  },
+  "description": {
+    "en": "A long-bodied stone creature with a spine like linked iron."
+  },
   "type": "wawa",
-  "base_stats": { "hp": 52, "attack": 60, "defense": 40, "speed": 44 },
+  "base_stats": {
+    "hp": 52,
+    "attack": 60,
+    "defense": 40,
+    "speed": 44
+  },
   "learnset": [
-    { "level": 1, "move_id": "utala" },
-    { "level": 1, "move_id": "wawa_waso" },
-    { "level": 10, "move_id": "utala_lili" }
+    {
+      "level": 1,
+      "move_id": "utala"
+    },
+    {
+      "level": 1,
+      "move_id": "wawa_waso"
+    },
+    {
+      "level": 10,
+      "move_id": "utala_lili"
+    }
   ],
   "catch_rate": 0.3,
   "xp_yield": 88,
@@ -18,13 +36,55 @@
     "frame_width": 16,
     "frame_height": 32,
     "animations": {
-      "idle": { "row": 0, "col_start": 0, "cols": 4, "fps": 4, "loop": true },
-      "walk": { "row": 1, "col_start": 0, "cols": 4, "fps": 10, "loop": true },
-      "defend": { "row": 2, "col_start": 0, "cols": 4, "fps": 6, "loop": false },
-      "taunt": { "row": 3, "col_start": 0, "cols": 4, "fps": 6, "loop": false },
-      "cast": { "row": 4, "col_start": 0, "cols": 4, "fps": 10, "loop": false },
-      "hurt": { "row": 5, "col_start": 0, "cols": 4, "fps": 8, "loop": false },
-      "death": { "row": 6, "col_start": 0, "cols": 4, "fps": 6, "loop": false }
+      "idle": {
+        "row": 0,
+        "col_start": 0,
+        "cols": 4,
+        "fps": 4,
+        "loop": true
+      },
+      "walk": {
+        "row": 1,
+        "col_start": 0,
+        "cols": 4,
+        "fps": 10,
+        "loop": true
+      },
+      "defend": {
+        "row": 2,
+        "col_start": 0,
+        "cols": 4,
+        "fps": 6,
+        "loop": false
+      },
+      "taunt": {
+        "row": 3,
+        "col_start": 0,
+        "cols": 4,
+        "fps": 6,
+        "loop": false
+      },
+      "cast": {
+        "row": 4,
+        "col_start": 0,
+        "cols": 4,
+        "fps": 10,
+        "loop": false
+      },
+      "hurt": {
+        "row": 5,
+        "col_start": 0,
+        "cols": 4,
+        "fps": 8,
+        "loop": false
+      },
+      "death": {
+        "row": 6,
+        "col_start": 0,
+        "cols": 4,
+        "fps": 6,
+        "loop": false
+      }
     },
     "tier": "common"
   }

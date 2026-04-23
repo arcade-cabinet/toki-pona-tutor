@@ -48,7 +48,7 @@ describe('bestiary persistence', () => {
 });
 
 describe('buildBestiaryPanel', () => {
-    it('builds lipu soweli rows with caught, seen, and unknown tiers', async () => {
+    it('builds bestiary rows with caught, seen, and unknown tiers', async () => {
         const panel = buildBestiaryPanel({
             kon_moli: {
                 seenAt: '2026-04-01T00:00:00.000Z',
@@ -59,24 +59,24 @@ describe('buildBestiaryPanel', () => {
             },
         });
 
-        expect(panel.title).toBe('lipu soweli 1 / 43');
+        expect(panel.title).toBe('Bestiary 1 / 43');
         expect(panel.rows.find((row) => row.speciesId === 'kon_moli')).toEqual({
             speciesId: 'kon_moli',
             tier: 'caught',
-            label: 'kon moli',
-            meta: 'jo · seli',
+            label: 'Ashcat',
+            meta: 'caught · fire',
             testId: 'bestiary-entry-kon_moli',
-            description: 'soweli tomo li suwi mute.',
-            readText: 'kon moli\nsoweli tomo li suwi mute.',
+            description: 'A smoky little cat with ember-bright eyes and a loyal streak.',
+            readText: 'Ashcat\nA smoky little cat with ember-bright eyes and a loyal streak.',
         });
         expect(panel.rows.find((row) => row.speciesId === 'jan_ike_lili')).toEqual({
             speciesId: 'jan_ike_lili',
             tier: 'seen',
-            label: 'jan ike lili',
-            meta: 'lukin · kasi',
+            label: 'Bramble Imp',
+            meta: 'seen · wild',
             testId: 'bestiary-entry-jan_ike_lili',
-            description: 'pipi li awen lon.',
-            readText: 'jan ike lili\npipi li awen lon.',
+            description: 'A small thorny trickster that darts through brush and laughs at fences.',
+            readText: 'Bramble Imp\nA small thorny trickster that darts through brush and laughs at fences.',
         });
         expect(panel.rows.some((row) => row.tier === 'unknown' && row.label.startsWith('???'))).toBe(true);
         expect(panel.rows.find((row) => row.tier === 'unknown')).not.toHaveProperty('readText');

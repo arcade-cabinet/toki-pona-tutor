@@ -71,23 +71,21 @@ describe('quest runtime', () => {
         await acceptQuest(quest);
 
         expect(await listQuestJournalLines()).toEqual([
-            '  · pali poki: 0 / 2',
+            '  · Field Notes: 0 / 2',
         ]);
 
         await recordQuestEventForActive(null, { type: 'catch', speciesId: 'soweli_jaki', biome: 'forest' });
         await recordQuestEventForActive(null, { type: 'catch', speciesId: 'soweli_kili', biome: 'forest' });
 
         expect(await listQuestJournalLines()).toEqual([
-            '  · pali poki: 2 / 2',
+            '  · Field Notes: 2 / 2',
         ]);
     });
 
-    it('keeps quest offers in the in-game language layer', () => {
+    it('keeps quest offers in the English in-game layer', () => {
         const quest = findQuestOrThrow('quest_nasin_poki_pack');
 
-        expect(formatQuestOffer(quest)).toBe('pali poki\npoki: x2');
-        expect(formatQuestOffer(quest)).not.toContain('Catch');
-        expect(formatQuestOffer(quest)).not.toContain('catch');
+        expect(formatQuestOffer(quest)).toBe('Field Notes\nCatch: x2');
         expect(formatQuestOffer(quest)).not.toContain('forest route');
     });
 });

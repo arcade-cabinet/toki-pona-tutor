@@ -7,7 +7,7 @@ async function waitForReady(page: Page): Promise<void> {
 }
 
 function titleEntry(page: Page, index: number) {
-    return page.locator('.rpg-ui-title-screen-menu .rpg-ui-menu-item').nth(index);
+    return page.locator('.rr-title-entry').nth(index);
 }
 
 async function setTextSpeed(page: Page, cps: number): Promise<void> {
@@ -37,35 +37,37 @@ test('text-speed 0 renders RPG.js dialog text instantly', async ({ page }) => {
     await prepareFreshTitle(page, 0);
 
     await titleEntry(page, 1).click();
-    const dialog = page.locator('.rpg-ui-dialog-content');
+    const dialog = page.locator('[data-testid="rr-dialog-content"]');
     await expect(dialog).toBeVisible();
     await page.waitForTimeout(80);
 
-    await expect(dialog).toContainText('kalama');
+    await expect(dialog).toContainText('Settings:');
+    await expect(dialog).toContainText('text      instant');
 });
 
 test('nonzero text speed keeps RPG.js dialog text on the typewriter path', async ({ page }) => {
     await prepareFreshTitle(page, 24);
 
     await titleEntry(page, 1).click();
-    const dialog = page.locator('.rpg-ui-dialog-content');
+    const dialog = page.locator('[data-testid="rr-dialog-content"]');
     await expect(dialog).toBeVisible();
     await page.waitForTimeout(80);
 
-    expect(await dialog.textContent()).not.toContain('kalama');
+    expect(await dialog.textContent()).not.toContain('text      24 / sec');
 });
 
-test('sitelen overlay setting renders a glyph line during RPG.js dialog', async ({ page }) => {
+test('clue overlay setting renders a glyph line during RPG.js dialog', async ({ page }) => {
     await prepareFreshTitle(page, 0);
     await setSitelenOverlay(page, true);
-    const kalamaGlyph = await page.evaluate(async () => {
+    const clueGlyph = await page.evaluate(async () => {
         const { glyphForDisplay } = await import('./src/styles/sitelen-glyph.ts');
-        return glyphForDisplay('kalama');
+        return glyphForDisplay('wild-signs');
     });
 
-    await titleEntry(page, 1).click();
+    await titleEntry(page, 0).click();
+    await page.evaluate(() => window.__POKI__!.testing.beginText('wild-signs'));
     const overlay = page.locator('[data-testid="dialog-sitelen-overlay"]');
     await expect(overlay).toBeVisible();
-    await expect(overlay).toContainText(kalamaGlyph);
-    await expect(overlay).not.toContainText('kalama');
+    await expect(overlay).toContainText(clueGlyph);
+    await expect(overlay).not.toContainText('wild-signs');
 });

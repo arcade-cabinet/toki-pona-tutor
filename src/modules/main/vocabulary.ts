@@ -1,49 +1,50 @@
-import dictionaryRaw from "../../content/dictionary.json";
-import { recordMasteredWord } from "../../platform/persistence/queries";
+import cluesRaw from "../../content/clues.json";
+import { recordClue } from "../../platform/persistence/queries";
 
-type DictionaryEntry = {
-    word: string;
-    definition: string;
-    book: string;
-    usage_category: string;
-    source_language: string;
-    ucsur?: string;
-    sitelen_emosi?: string;
+type ClueEntry = {
+    id: string;
+    label: string;
+    summary: string;
+    category: string;
+    icon: string;
 };
 
-const dictionary = dictionaryRaw as DictionaryEntry[];
-const wordSet = new Set(dictionary.map((e) => e.word));
-const wordMap = new Map<string, DictionaryEntry>(dictionary.map((e) => [e.word, e]));
+const clues = cluesRaw as ClueEntry[];
+const clueSet = new Set(clues.map((entry) => entry.id));
+const clueMap = new Map<string, ClueEntry>(clues.map((entry) => [entry.id, entry]));
 
-/**
- * Tokenize a TP line into word tokens. Strips punctuation, lowercases,
- * drops any token not in the dictionary (filters `ni`, `li`, etc. are
- * kept since they ARE dictionary entries; filters quoted names, numerals,
- * and proper nouns that aren't).
- */
-export function tokenize(tp: string): string[] {
-    const cleaned = tp
+export function tokenize(text: string): string[] {
+    const cleaned = text
         .toLowerCase()
-        .replace(/[^\p{L}\p{M}\s']+/gu, " ")
+        .replace(/[^\p{L}\p{M}\s'-]+/gu, " ")
         .split(/\s+/)
         .filter(Boolean);
-    return cleaned.filter((tok) => wordSet.has(tok));
+    return cleaned.filter((token) => clueSet.has(token));
 }
 
-export function lookupWord(tp: string): DictionaryEntry | undefined {
-    return wordMap.get(tp);
+export function lookupClue(id: string): ClueEntry | undefined {
+    return clueMap.get(id);
 }
 
-/**
- * Record every TP dictionary word in a line as a sighting.
- */
-export async function observeTpLine(tp: string): Promise<void> {
-    const tokens = tokenize(tp);
+export function clueLabel(id: string): string {
+    return clueMap.get(id)?.label ?? id.replace(/[-_:]+/g, " ");
+}
+
+export function clueIcon(id: string): string {
+    return clueMap.get(id)?.icon ?? "•";
+}
+
+export async function observeClueText(text: string): Promise<void> {
+    const tokens = tokenize(text);
     for (const token of new Set(tokens)) {
-        await recordMasteredWord(token);
+        await recordClue(token);
     }
 }
 
-export function dictionarySize(): number {
-    return dictionary.length;
+export function clueCount(): number {
+    return clues.length;
 }
+
+export const dictionarySize = clueCount;
+export const lookupWord = lookupClue;
+export const observeTpLine = observeClueText;

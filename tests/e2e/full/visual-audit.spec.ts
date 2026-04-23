@@ -27,6 +27,7 @@ type TmjMap = {
     height: number;
     tilewidth: number;
     tileheight: number;
+    tilesets?: Array<{ source: string }>;
     layers?: TmjLayer[];
 };
 
@@ -75,6 +76,28 @@ const mapVisualTargets = Object.entries(mapsConfig.maps)
                     ? { x: spawn.x, y: spawn.y }
                     : fallback),
             previewSize: `${preview.width}x${preview.height}`,
+            tmjDimensions: {
+                width: tmj.width,
+                height: tmj.height,
+                tilewidth: tmj.tilewidth,
+                tileheight: tmj.tileheight,
+                pixelWidth: tmj.width * tmj.tilewidth,
+                pixelHeight: tmj.height * tmj.tileheight,
+            },
+            layers: {
+                tile: tmj.layers
+                    ?.filter((layer) => layer.type === 'tilelayer')
+                    .map((layer) => layer.name)
+                    .filter((name): name is string => typeof name === 'string') ?? [],
+                object: tmj.layers
+                    ?.filter((layer) => layer.type === 'objectgroup')
+                    .map((layer) => layer.name)
+                    .filter((name): name is string => typeof name === 'string') ?? [],
+            },
+            tilesetFamilies: Array.from(
+                new Set(tmj.tilesets?.map((tileset) => tilesetFamily(tileset.source)) ?? []),
+            ).sort(),
+            tilesetSources: tmj.tilesets?.map((tileset) => tileset.source) ?? [],
         };
     })
     .sort((a, b) => a.mapId.localeCompare(b.mapId));
@@ -86,7 +109,7 @@ async function waitForReady(page: Page): Promise<void> {
 }
 
 function titleEntry(page: Page, index: number) {
-    return page.locator('.rpg-ui-title-screen-menu .rpg-ui-menu-item').nth(index);
+    return page.locator('.rr-title-entry').nth(index);
 }
 
 async function visibleMapId(page: Page): Promise<string | null> {
@@ -104,7 +127,7 @@ async function resetToFreshTitle(page: Page): Promise<void> {
     await page.evaluate(() => window.__POKI__!.testing.resetPersistence({ includeSaves: true }));
     await page.reload();
     await waitForReady(page);
-    await expect(page.locator('.rpg-ui-title-screen-title')).toContainText('poki soweli');
+    await expect(page.locator('[data-testid="rr-title-title"]')).toContainText('Rivers Reckoning');
 }
 
 async function captureCanvasPixels(
@@ -112,6 +135,7 @@ async function captureCanvasPixels(
     testInfo: TestInfo,
     selector: string,
     name: string,
+    metadata: Record<string, unknown> = {},
 ): Promise<string> {
     const path = testInfo.outputPath(`${name}.png`);
     const dataUrl = await page.locator(selector).evaluate(async (element) => {
@@ -136,6 +160,7 @@ async function captureCanvasPixels(
         path,
         contentType: 'image/png',
     });
+    await attachPngDiagnostics(testInfo, name, path, metadata);
     return path;
 }
 
@@ -144,6 +169,7 @@ async function captureElementPixels(
     testInfo: TestInfo,
     selector: string,
     name: string,
+    metadata: Record<string, unknown> = {},
 ): Promise<string> {
     const path = testInfo.outputPath(`${name}.png`);
     const dataUrl = await page.locator(selector).evaluate(async (element) => {
@@ -204,7 +230,67 @@ async function captureElementPixels(
         path,
         contentType: 'image/png',
     });
+    await attachPngDiagnostics(testInfo, name, path, metadata);
     return path;
+}
+
+async function attachPngDiagnostics(
+    testInfo: TestInfo,
+    name: string,
+    path: string,
+    metadata: Record<string, unknown>,
+): Promise<void> {
+    const diagnosticPath = testInfo.outputPath(`${name}.diagnostics.json`);
+    await writeFile(
+        diagnosticPath,
+        `${JSON.stringify({ name, path, metadata, image: pngDiagnostics(path) }, null, 2)}\n`,
+    );
+    await testInfo.attach(`${name} diagnostics`, {
+        path: diagnosticPath,
+        contentType: 'application/json',
+    });
+}
+
+function pngDiagnostics(path: string) {
+    const png = PNG.sync.read(readFileSync(path));
+    const sampledColors = new Set<string>();
+    let opaquePixels = 0;
+    let transparentPixels = 0;
+    let darkPixels = 0;
+    let blackishPixels = 0;
+    const stride = Math.max(1, Math.floor((png.width * png.height) / 12_000));
+    for (let pixel = 0; pixel < png.width * png.height; pixel += stride) {
+        const index = pixel * 4;
+        const r = png.data[index];
+        const g = png.data[index + 1];
+        const b = png.data[index + 2];
+        const a = png.data[index + 3];
+        if (a === 0) {
+            transparentPixels += 1;
+            continue;
+        }
+        opaquePixels += 1;
+        if ((r + g + b) / 3 < 24) darkPixels += 1;
+        if (r < 8 && g < 8 && b < 8) blackishPixels += 1;
+        sampledColors.add(`${r >> 4},${g >> 4},${b >> 4},${a >> 4}`);
+    }
+    const sampledPixels = opaquePixels + transparentPixels;
+
+    return {
+        width: png.width,
+        height: png.height,
+        sampledPixels,
+        sampledColorBuckets: sampledColors.size,
+        darkPixelRatio: sampledPixels > 0 ? darkPixels / sampledPixels : 1,
+        blackishPixelRatio: sampledPixels > 0 ? blackishPixels / sampledPixels : 1,
+        transparentPixelRatio: sampledPixels > 0 ? transparentPixels / sampledPixels : 1,
+    };
+}
+
+function tilesetFamily(source: string): string {
+    const normalized = source.replaceAll('\\', '/');
+    const match = normalized.match(/(?:^|\/)tilesets\/([^/]+)/);
+    return match?.[1] ?? 'unknown';
 }
 
 function countReticlePrimaryPixels(path: string): number {
@@ -235,22 +321,27 @@ function expectNoIdleCombatReticle(path: string, label: string): void {
 }
 
 async function advanceDialog(page: Page, expectedText: string | RegExp): Promise<void> {
-    await expect(page.locator('.rpg-ui-dialog')).toContainText(expectedText);
+    await expect(page.locator('.rr-dialog')).toContainText(expectedText);
     await page.evaluate(() => window.__POKI__!.testing.closeGui());
 }
 
 test('captures desktop title and starter-map canvas for visual audit', async ({ page }, testInfo) => {
     await resetToFreshTitle(page);
-    await expect(titleEntry(page, 0)).toContainText('open sin');
-    await expect(titleEntry(page, 1)).toContainText('nasin');
-    await expect(titleEntry(page, 2)).toContainText('pini');
-    await captureElementPixels(page, testInfo, '.rpg-ui-title-screen', 'desktop-title-choices');
+    await expect(titleEntry(page, 0)).toContainText('New Game');
+    await expect(titleEntry(page, 1)).toContainText('Settings');
+    await expect(titleEntry(page, 2)).toContainText('Quit');
+    await captureElementPixels(page, testInfo, '.rr-title-screen', 'desktop-title-choices', {
+        surface: 'title',
+    });
 
     await titleEntry(page, 0).click();
-    await expect.poll(async () => visibleMapId(page)).toBe('ma_tomo_lili');
+    await expect.poll(async () => visibleMapId(page)).toBe('riverside_home');
     await expect(page.locator('#rpg canvas')).toBeVisible();
     await page.waitForTimeout(500);
-    await captureCanvasPixels(page, testInfo, '#rpg canvas', 'desktop-starter-map-canvas');
+    await captureCanvasPixels(page, testInfo, '#rpg canvas', 'desktop-starter-map-canvas', {
+        mapId: 'riverside_home',
+        surface: 'starter-map',
+    });
 });
 
 test('captures mobile starter choice dialog and pause HUD for visual audit', async ({ browser, baseURL }, testInfo) => {
@@ -266,24 +357,36 @@ test('captures mobile starter choice dialog and pause HUD for visual audit', asy
         await resetToFreshTitle(page);
 
         await titleEntry(page, 0).tap();
-        await expect.poll(async () => visibleMapId(page)).toBe('ma_tomo_lili');
+        await expect.poll(async () => visibleMapId(page)).toBe('riverside_home');
         await expect(page.locator('[data-testid="hud-menu-toggle"]')).toBeVisible();
 
         const starterTask = await page.evaluate(() => window.__POKI__!.testing.beginEvent('jan-sewi'));
-        await advanceDialog(page, 'hello');
-        await advanceDialog(page, 'kili sin li pona tawa sijelo.');
-        await advanceDialog(page, 'kule seme li pona tawa sina?');
-        await expect(page.locator('.rpg-ui-dialog-choice')).toHaveCount(3);
-        await captureElementPixels(page, testInfo, '.rpg-ui-dialog-container', 'mobile-starter-choice-dialog');
+        await advanceDialog(page, 'Rivers, today you start your own investigation.');
+        await advanceDialog(page, 'Three creatures answered the call.');
+        await advanceDialog(page, 'Choose the partner you trust at your side.');
+        await expect(page.locator('.rr-dialog-choice')).toHaveCount(3);
+        await captureElementPixels(
+            page,
+            testInfo,
+            '.rr-dialog-stage',
+            'mobile-starter-choice-dialog',
+            { surface: 'mobile-starter-dialog' },
+        );
         await page.getByTestId('dialog-choice-0').tap();
         await expect.poll(async () => page.evaluate((id) => window.__POKI__!.testing.getTaskStatus(id), starterTask))
             .toMatchObject({ done: true });
 
         await page.locator('[data-testid="hud-menu-toggle"]').tap();
         await expect(page.locator('[data-testid="pause-overlay"]')).toBeVisible();
-        await expect(page.getByTestId('pause-party')).toContainText('soweli');
-        await expect(page.getByTestId('pause-save')).toContainText('awen');
-        await captureElementPixels(page, testInfo, '[data-testid="pause-overlay"]', 'mobile-pause-overlay');
+        await expect(page.getByTestId('pause-party')).toContainText('Party');
+        await expect(page.getByTestId('pause-save')).toContainText('Save');
+        await captureElementPixels(
+            page,
+            testInfo,
+            '[data-testid="pause-overlay"]',
+            'mobile-pause-overlay',
+            { surface: 'mobile-pause-overlay' },
+        );
     } finally {
         await context.close();
     }
@@ -292,7 +395,7 @@ test('captures mobile starter choice dialog and pause HUD for visual audit', asy
 test('captures every authored map canvas for visual audit', async ({ page }, testInfo) => {
     await resetToFreshTitle(page);
     await titleEntry(page, 0).click();
-    await expect.poll(async () => visibleMapId(page)).toBe('ma_tomo_lili');
+    await expect.poll(async () => visibleMapId(page)).toBe('riverside_home');
     await expect(page.locator('#rpg canvas')).toBeVisible();
 
     for (const target of mapVisualTargets) {
@@ -309,6 +412,16 @@ test('captures every authored map canvas for visual audit', async ({ page }, tes
             testInfo,
             '#rpg canvas',
             `map-${target.mapId}-${target.previewSize}`,
+            {
+                mapId: target.mapId,
+                label: target.label,
+                previewSize: target.previewSize,
+                capturePosition: target.position,
+                tmj: target.tmjDimensions,
+                layers: target.layers,
+                tilesetFamilies: target.tilesetFamilies,
+                tilesetSources: target.tilesetSources,
+            },
         );
         expectNoIdleCombatReticle(path, target.mapId);
     }

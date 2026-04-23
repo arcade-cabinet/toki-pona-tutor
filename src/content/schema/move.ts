@@ -22,10 +22,9 @@ export type MoveEffect = z.infer<typeof moveEffect>;
 
 export const move = z.object({
     id: z.string().regex(/^[a-z][a-z0-9_]*$/),
-    /** Canonical TP verb (e.g. "utala", "pona"). Authored in English; the
-     *  build step looks up its short EN gloss via Tatoeba if missing. */
+    /** Compact English display name. */
     name: translatableWord,
-    /** Player-facing description. Must round-trip through Tatoeba. */
+    /** Player-facing description. */
     description: translatable,
     type: typeId,
     power: z.number().int().min(0).max(250),

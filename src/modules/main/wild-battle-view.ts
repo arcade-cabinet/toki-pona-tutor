@@ -2,6 +2,7 @@ import { hpClassFor, hpRatio, type HpClass } from "../../styles/hp-bar";
 import { wildDamageTone, type WildCombatState, type WildDamageTone } from "./wild-combat";
 import { COMBAT_UI_CONFIG } from "../../content/gameplay";
 import { formatGameplayTemplate } from "../../content/gameplay/templates";
+import { resolveRuntimeName, typeLabel } from "../../content/runtime-labels";
 import { wildHpLabel, wildLevelLabel } from "./wild-combat-ui";
 
 export const WILD_BATTLE_GUI_ID = COMBAT_UI_CONFIG.wildBattleGuiId;
@@ -208,7 +209,9 @@ function buildCombatant(params: {
         id: params.id,
         label: speciesLabel(params.species),
         levelLabel: wildLevelLabel(params.level),
-        typeLabel: params.species.type ?? COMBAT_UI_CONFIG.wildBattle.unknownTypeLabel,
+        typeLabel: params.species.type
+            ? typeLabel(params.species.type)
+            : COMBAT_UI_CONFIG.wildBattle.unknownTypeLabel,
         hpLabel: wildHpLabel(params.currentHp, params.maxHp),
         hpPercent: Math.round(hpRatio(params.currentHp, params.maxHp) * 100),
         hpClass: hpClassFor(params.currentHp, params.maxHp),
@@ -218,7 +221,7 @@ function buildCombatant(params: {
 }
 
 function speciesLabel(species: WildBattleSpecies): string {
-    return species.id.replace(/_/g, " ");
+    return resolveRuntimeName(species.name) ?? species.id.replace(/_/g, " ");
 }
 
 function normalizedMaxHp(value: number | null | undefined): number {

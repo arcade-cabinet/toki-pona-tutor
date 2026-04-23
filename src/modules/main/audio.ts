@@ -80,9 +80,9 @@ function ambientBgmForMap(mapId: string): BgmId {
  * the higher-intensity `bgm_gym` variant; final boss gets `bgm_boss`.
  *
  * @example
- * bgmForContext({ mapId: 'ma_tomo_lili', inCombat: false })
+ * bgmForContext({ mapId: 'riverside_home', inCombat: false })
  * // → 'bgm_village'
- * bgmForContext({ mapId: 'nena_sewi', inCombat: true })
+ * bgmForContext({ mapId: 'highridge_pass', inCombat: true })
  * // → 'bgm_gym'
  */
 export function bgmForContext(ctx: MapContext): BgmId {

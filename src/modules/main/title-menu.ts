@@ -83,6 +83,7 @@ async function showTitleScreen(
     return gui.open(
         {
             title: TITLE_MENU_CONFIG.menuTitle,
+            nonce: Date.now(),
             entries: buildTitleMenuEntries(filled),
         },
         {

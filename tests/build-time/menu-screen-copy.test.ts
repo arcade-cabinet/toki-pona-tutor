@@ -16,21 +16,23 @@ describe('secondary pause screen copy', () => {
     });
 
     it('formats vocabulary detail rows through gameplay JSON templates', () => {
-        expect(formatVocabularySummary(7, 131)).toBe('7 / 131');
-        expect(formatVocabularyEntry('soweli', 4)).toBe('soweli  (4x)');
-        expect(formatVocabularyRowLabel('soweli')).toBe(`${glyphForDisplay('soweli')} soweli`);
-        expect(formatVocabularyGlyphCard('soweli', 4)).toBe(
-            `${glyphForDisplay('soweli')}\nsoweli\nlukin: 4x`,
+        expect(formatVocabularySummary(7, 27)).toBe('7 / 27');
+        expect(formatVocabularyEntry('wild-signs', 4)).toBe('Wild signs  (4x)');
+        expect(formatVocabularyRowLabel('wild-signs')).toBe(
+            `${glyphForDisplay('wild-signs')} Wild signs`,
         );
-        expect(formatSentenceLogSummary(2)).toBe('lipu nasin: 2');
+        expect(formatVocabularyGlyphCard('wild-signs', 4)).toBe(
+            `${glyphForDisplay('wild-signs')}\nWild signs\nseen: 4x`,
+        );
+        expect(formatSentenceLogSummary(2)).toBe('Field log: 2');
     });
 
     it('formats save-slot labels through gameplay JSON templates', () => {
-        expect(formatSlotLabel('1', null)).toBe('1 — ala');
-        expect(formatSlotLabel('', null)).toBe('ala');
+        expect(formatSlotLabel('1', null)).toBe('1 — empty');
+        expect(formatSlotLabel('', null)).toBe('empty');
         expect(formatSlotLabel('2', {
             savedAt: '2026-04-21T19:15:00.000Z',
-            beatId: 'beat_01_ma_tomo_lili',
-        })).toBe('2 — 2026-04-21 · beat_01_ma_tomo_lili');
+            beatId: 'beat_01_riverside_home',
+        })).toBe('2 — 2026-04-21 · beat_01_riverside_home');
     });
 });

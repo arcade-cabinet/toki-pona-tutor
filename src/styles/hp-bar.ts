@@ -21,7 +21,7 @@ export const HP_WOUNDED_THRESHOLD = thresholdFor("hp-healthy");
 export const HP_CRITICAL_THRESHOLD = thresholdFor("hp-wounded");
 
 const HP_TERMINAL_TIER = HP_TIERS[HP_TIERS.length - 1];
-const HP_TP_LABELS = Object.fromEntries(
+const HP_STATUS_LABELS = Object.fromEntries(
     HP_TIERS.map((tier) => [tier.className, tier.label]),
 ) as Record<HpClass, string>;
 
@@ -52,13 +52,13 @@ export function hpClassFor(current: number, max: number): HpClass {
 }
 
 /**
- * Single-word TP status label for the HP tier. Used by accessibility
- * readouts + status tooltips. TP labels map 1:1 to the threshold
- * classes so the text reinforces the color, not duplicates it.
+ * Single-word status label for the HP tier. Used by accessibility
+ * readouts + status tooltips. Labels map 1:1 to the threshold classes
+ * so the text reinforces the color, not duplicates it.
  */
-export function hpTpLabel(current: number, max: number): string {
+export function hpStatusLabel(current: number, max: number): string {
     const cls = hpClassFor(current, max);
-    return HP_TP_LABELS[cls];
+    return HP_STATUS_LABELS[cls];
 }
 
 function thresholdFor(className: HpClass): number {

@@ -1,9 +1,9 @@
 {
   "badges": [
-    { "flag": "badge_sewi", "label": "sewi", "region": "nena sewi" },
-    { "flag": "badge_telo", "label": "telo", "region": "ma telo" },
-    { "flag": "badge_lete", "label": "lete", "region": "ma lete" },
-    { "flag": "badge_suli", "label": "suli", "region": "nena suli" }
+    { "flag": "badge_sewi", "label": "Highridge", "region": "Highridge Pass" },
+    { "flag": "badge_telo", "label": "Lakehaven", "region": "Lakehaven" },
+    { "flag": "badge_lete", "label": "Frostvale", "region": "Frostvale" },
+    { "flag": "badge_suli", "label": "Dreadpeak", "region": "Dreadpeak Cavern" }
   ],
   "gym_xp_curve": {
     "badge_sewi": 120,
@@ -24,8 +24,8 @@
   "new_game_plus": {
     "required_cleared_flag": "game_cleared",
     "level_reduction": 10,
-    "start_map_id": "ma_tomo_lili",
-    "start_journey_beat_id": "beat_01_ma_tomo_lili",
+    "start_map_id": "riverside_home",
+    "start_journey_beat_id": "beat_01_riverside_home",
     "reward_inventory": [{ "item_id": "poki_wawa", "count": 1 }],
     "legendary_multiplier_base": 1,
     "legendary_multiplier_per_clear": 1,

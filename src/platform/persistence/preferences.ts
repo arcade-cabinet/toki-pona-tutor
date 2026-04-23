@@ -23,10 +23,7 @@ export const KEYS = {
     sfxVolume: "poki-soweli.settings.sfx_volume",
     bgmVolume: "poki-soweli.settings.bgm_volume",
     theme: "poki-soweli.settings.theme",
-    // T8-04: optional sitelen-pona glyph overlay toggle during dialog.
-    // Off by default (the game is diegetic TP). When on, each TP line
-    // during dialog shows its sitelen-pona glyph row above the text.
-    // Still never shows EN — this is a reading aid, not a translator.
+    // Optional clue-icon overlay toggle during dialog.
     sitelenOverlay: "poki-soweli.settings.sitelen_overlay",
     // T3-06: text speed — characters per second for showText. Lower
     // = slower reveal. 0 disables animation (instant text).

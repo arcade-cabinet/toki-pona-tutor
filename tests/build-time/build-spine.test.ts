@@ -85,8 +85,8 @@ describe('T6-03: build-spine writes every expected key into world.json', () => {
 
     it('compiled maps expose the object-layer coordinates runtime events resolve from', () => {
         expect(WORLD.maps).toHaveLength(7);
-        const starterMap = WORLD.maps.find((map) => map.id === 'ma_tomo_lili');
-        const routeMap = WORLD.maps.find((map) => map.id === 'nasin_wan');
+        const starterMap = WORLD.maps.find((map) => map.id === 'riverside_home');
+        const routeMap = WORLD.maps.find((map) => map.id === 'greenwood_road');
         expect(starterMap?.objects.some((object) => object.name === 'warp_east' && object.type === 'Warp'))
             .toBe(true);
         expect(routeMap?.objects.some((object) => object.properties.id === 'jan_ike'))
@@ -102,12 +102,10 @@ describe('T6-03: build-spine writes every expected key into world.json', () => {
         expect(WORLD.maps).toHaveLength(7);
     });
 
-    it('species.description.tp exists (build-spine resolved Tatoeba TP)', () => {
+    it('species descriptions stay authored in English without generated legacy text', () => {
         for (const s of WORLD.species as { id: string; description: { en: string; tp?: string } }[]) {
-            // tp is optional at authoring time but the build emits it for
-            // every multi-word en string; single-word ens are exempt. None
-            // of our species descriptions are single-word so all must have tp.
-            expect(s.description.tp, `${s.id} missing tp`).toBeTruthy();
+            expect(s.description.en, `${s.id} missing English description`).toBeTruthy();
+            expect(s.description.tp, `${s.id} should not emit generated legacy text`).toBeUndefined();
         }
     });
 });

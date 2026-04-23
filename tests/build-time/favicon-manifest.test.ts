@@ -15,9 +15,9 @@ describe('favicon and web manifest', () => {
         icons: Array<{ src: string; sizes: string; type: string; purpose?: string }>;
     };
 
-    it('declares the poki soweli app manifest metadata', () => {
-        expect(manifest.name).toBe('poki soweli');
-        expect(manifest.short_name).toBe('poki soweli');
+    it('declares the Rivers Reckoning app manifest metadata', () => {
+        expect(manifest.name).toBe('Rivers Reckoning');
+        expect(manifest.short_name).toBe('Rivers');
         expect(manifest.icons.map((icon) => icon.sizes)).toEqual([
             '16x16',
             '32x32',

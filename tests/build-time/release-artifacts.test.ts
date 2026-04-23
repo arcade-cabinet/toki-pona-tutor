@@ -92,9 +92,9 @@ describe("release artifact handoff contract", () => {
     it("derives deterministic release artifact names from the tag", () => {
         expect(releaseArtifacts.releaseArtifactNames("v0.2.3")).toEqual({
             web_bundle_artifact: "web-bundle-v0.2.3",
-            web_bundle_file: "poki-soweli-web-v0.2.3.tar.gz",
+            web_bundle_file: "rivers-reckoning-web-v0.2.3.tar.gz",
             android_debug_apk_artifact: "android-debug-apk-v0.2.3",
-            android_debug_apk_file: "poki-soweli-v0.2.3-debug.apk",
+            android_debug_apk_file: "rivers-reckoning-v0.2.3-debug.apk",
         });
     });
 
@@ -116,7 +116,7 @@ describe("release artifact handoff contract", () => {
                 version: "0.2.3",
                 sha: "0123456789abcdef0123456789abcdef01234567",
             }),
-            web_bundle_file: "poki-soweli-web-v0.2.2.tar.gz",
+            web_bundle_file: "rivers-reckoning-web-v0.2.2.tar.gz",
         };
 
         expect(() => releaseArtifacts.validateReleaseMetadata(metadata)).toThrow(
@@ -153,7 +153,7 @@ describe("release artifact handoff contract", () => {
             [
                 '<link rel="manifest" href="/poki-soweli/manifest.json">',
                 '<script type="module" src="/poki-soweli/assets/index.js"></script>',
-                "<main>poki soweli</main>",
+                "<main>Rivers Reckoning</main>",
             ].join("\n"),
         );
         writeRequiredWebBundleFiles(root);
@@ -167,8 +167,8 @@ describe("release artifact handoff contract", () => {
             sha: "local",
         });
 
-        expect(result.metadata.web_bundle_file).toBe("poki-soweli-web-v0.2.3.tar.gz");
-        expect(result.metadata.android_debug_apk_file).toBe("poki-soweli-v0.2.3-debug.apk");
+        expect(result.metadata.web_bundle_file).toBe("rivers-reckoning-web-v0.2.3.tar.gz");
+        expect(result.metadata.android_debug_apk_file).toBe("rivers-reckoning-v0.2.3-debug.apk");
         expect(readFileSync(result.metadataPath, "utf8")).toContain('"tag_name": "v0.2.3"');
         expect(readFileSync(result.apkPath, "utf8")).toBe("apk\n");
     });

@@ -3,7 +3,13 @@
   "npc_id": "jan_kasi",
   "priority": 0,
   "beats": [
-    { "text": { "en": "Fresh fruit is good for the health." }, "mood": "happy", "glyph": "kasi" }
+    {
+      "text": {
+        "en": "The garden herbs make the best healing fruit."
+      },
+      "mood": "happy",
+      "glyph": "forest-cover"
+    }
   ],
   "triggers": {}
 }

@@ -9,7 +9,7 @@ domain: ops
 
 ## Targets
 
-poki soweli is built for these surfaces from the same Vite bundle:
+Rivers Reckoning is built for these surfaces from the same Vite bundle:
 
 | Target                     | How                                           | Where                                              |
 | -------------------------- | --------------------------------------------- | -------------------------------------------------- |
@@ -33,8 +33,8 @@ Those bases are selected in `vite.config.ts` via `GITHUB_PAGES=true` and `CAPACI
 
 `capacitor.config.ts` at repo root:
 
--   `appId: com.pokisoweli.game`
--   `appName: poki soweli`
+-   `appId: com.riversreckoning.game`
+-   `appName: Rivers Reckoning`
 -   `webDir: dist`
 -   SplashScreen: 1200ms, `#111111` bg, no spinner
 -   StatusBar: DARK style, `#111111` bg
@@ -64,7 +64,7 @@ Before editing any workflow, run `pnpm workflow:check` locally. It combines `act
 
 Runs on every PR:
 
-1. `unit` job: `validate-challenges`, `validate-tp`, `author:verify`, `build-spine`, `typecheck`, and `test:coverage`
+1. `unit` job: `validate-challenges`, `author:verify`, `build-spine`, `typecheck`, and `test:coverage`
 2. `integration` job: `pnpm test:integration`
 3. `e2e-smoke` job: Playwright boot smoke in headed Chromium under `xvfb`
 4. `build` job: `GITHUB_PAGES=true pnpm build` plus the web-size audit
@@ -76,7 +76,7 @@ Artifacts produced on PRs:
 
 -   `web-bundle`
 -   `coverage-lcov`
--   `poki-soweli-debug-apk-<PR_NUMBER>`
+-   `rivers-reckoning-debug-apk-<PR_NUMBER>`
 
 Reviewers sideload the APK to test on a device:
 
@@ -91,8 +91,8 @@ Runs on `push: main`.
 1. `release-please` runs with `secrets.CI_GITHUB_TOKEN_PAT`
 2. when `release_created == true`, the workflow checks out the released SHA, not moving `main`
 3. it builds:
-    - `poki-soweli-web-<tag>.tar.gz` with `GITHUB_PAGES=true`
-    - `poki-soweli-<tag>-debug.apk` with `CAPACITOR=true`
+    - `rivers-reckoning-web-<tag>.tar.gz` with `GITHUB_PAGES=true`
+    - `rivers-reckoning-<tag>-debug.apk` with `CAPACITOR=true`
 4. it uploads workflow artifacts:
     - `release-metadata`
     - `web-bundle-<tag>`

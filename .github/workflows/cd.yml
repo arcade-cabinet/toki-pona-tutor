@@ -92,9 +92,9 @@ jobs:
             echo "version=${version:-}"
             echo "sha=${sha:-}"
             echo "web_artifact=${web_artifact:-web-bundle-$tag}"
-            echo "web_file=${web_file:-poki-soweli-web-$tag.tar.gz}"
+            echo "web_file=${web_file:-rivers-reckoning-web-$tag.tar.gz}"
             echo "apk_artifact=${apk_artifact:-android-debug-apk-$tag}"
-            echo "apk_file=${apk_file:-poki-soweli-$tag-debug.apk}"
+            echo "apk_file=${apk_file:-rivers-reckoning-$tag-debug.apk}"
           } >> "$GITHUB_OUTPUT"
           echo "Deploying release $tag"
 
@@ -166,13 +166,13 @@ jobs:
             manifest.json
             default-bundle.json
             revoltfx-spritesheet.json
-            map/ma_lete.tmx
-            map/ma_telo.tmx
-            map/ma_tomo_lili.tmx
-            map/nasin_pi_telo.tmx
-            map/nasin_wan.tmx
-            map/nena_sewi.tmx
-            map/nena_suli.tmx
+            map/frostvale.tmx
+            map/lakehaven.tmx
+            map/riverside_home.tmx
+            map/rivergate_approach.tmx
+            map/greenwood_road.tmx
+            map/highridge_pass.tmx
+            map/dreadpeak_cavern.tmx
           )
           for file in "${required_files[@]}"; do
             if [ ! -f "dist/$file" ]; then

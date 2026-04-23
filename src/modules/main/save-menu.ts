@@ -17,8 +17,8 @@ import { formatGameplayTemplate } from "../../content/gameplay/templates";
  *            overwrite or load.
  *
  * Uses showChoices pagination rather than a dedicated CanvasEngine GUI, consistent with
- * vocabulary-screen.ts and inventory-screen.ts. Choice/status copy is authored in
- * `src/content/gameplay/ui.json`; no authored TP sentences live in this module.
+ * the clues and inventory screens. Choice/status copy is authored in
+ * `src/content/gameplay/ui.json`.
  */
 
 export async function showSaveMenu(player: RpgPlayer): Promise<void> {

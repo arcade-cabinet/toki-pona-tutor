@@ -1,0 +1,35 @@
+<DOMContainer width="0" height="0"></DOMContainer>
+
+<script>
+    import { computed, effect, mount } from "canvasengine";
+    import { inject, RpgClientEngine } from "@rpgjs/client";
+    import { riversUiBridge } from "../ui/bridge";
+
+    const engine = inject(RpgClientEngine);
+    const notifications = computed(() => engine.notificationManager.stack());
+
+    effect(() => {
+        const rowHeight = 68;
+        const list = notifications();
+        list.forEach((notif, index) => {
+            notif.layoutY?.set?.(index * rowHeight);
+        });
+        riversUiBridge.update({
+            notifications: list.map((notif, index) => ({
+                id: `${index}-${String(notif.message ?? "")}`,
+                message: String(notif.message ?? ""),
+                type: notif.type || "info",
+                opacity: typeof notif.opacity === "function" ? notif.opacity() : 1,
+                offsetY:
+                    (typeof notif.layoutY === "function" ? notif.layoutY() : 0) +
+                    (typeof notif.offset === "function" ? notif.offset() : 0),
+            })),
+        });
+    });
+
+    mount(() => {
+        return () => {
+            riversUiBridge.update({ notifications: [] });
+        };
+    });
+</script>

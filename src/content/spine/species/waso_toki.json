@@ -1,13 +1,31 @@
 {
   "id": "waso_toki",
-  "name": { "en": "toki" },
-  "description": { "en": "The child loves the birds." },
+  "name": {
+    "en": "Songbird"
+  },
+  "description": {
+    "en": "A chatty forest bird that answers whistles."
+  },
   "type": "kasi",
-  "base_stats": { "hp": 44, "attack": 50, "defense": 30, "speed": 60 },
+  "base_stats": {
+    "hp": 44,
+    "attack": 50,
+    "defense": 30,
+    "speed": 60
+  },
   "learnset": [
-    { "level": 1, "move_id": "utala_lili" },
-    { "level": 1, "move_id": "wawa_waso" },
-    { "level": 9, "move_id": "kasi_lili" }
+    {
+      "level": 1,
+      "move_id": "utala_lili"
+    },
+    {
+      "level": 1,
+      "move_id": "wawa_waso"
+    },
+    {
+      "level": 9,
+      "move_id": "kasi_lili"
+    }
   ],
   "catch_rate": 0.38,
   "xp_yield": 54,
@@ -16,14 +34,62 @@
     "frame_width": 32,
     "frame_height": 32,
     "animations": {
-      "idle": { "row": 0, "col_start": 0, "cols": 3, "fps": 4, "loop": true },
-      "idle_alt": { "row": 1, "col_start": 0, "cols": 3, "fps": 4, "loop": true },
-      "walk": { "row": 2, "col_start": 0, "cols": 6, "fps": 8, "loop": true },
-      "fly": { "row": 3, "col_start": 0, "cols": 7, "fps": 10, "loop": true },
-      "attack": { "row": 4, "col_start": 0, "cols": 5, "fps": 12, "loop": false },
-      "cast": { "row": 5, "col_start": 0, "cols": 3, "fps": 10, "loop": false },
-      "hurt": { "row": 6, "col_start": 0, "cols": 2, "fps": 8, "loop": false },
-      "death": { "row": 7, "col_start": 0, "cols": 3, "fps": 6, "loop": false }
+      "idle": {
+        "row": 0,
+        "col_start": 0,
+        "cols": 3,
+        "fps": 4,
+        "loop": true
+      },
+      "idle_alt": {
+        "row": 1,
+        "col_start": 0,
+        "cols": 3,
+        "fps": 4,
+        "loop": true
+      },
+      "walk": {
+        "row": 2,
+        "col_start": 0,
+        "cols": 6,
+        "fps": 8,
+        "loop": true
+      },
+      "fly": {
+        "row": 3,
+        "col_start": 0,
+        "cols": 7,
+        "fps": 10,
+        "loop": true
+      },
+      "attack": {
+        "row": 4,
+        "col_start": 0,
+        "cols": 5,
+        "fps": 12,
+        "loop": false
+      },
+      "cast": {
+        "row": 5,
+        "col_start": 0,
+        "cols": 3,
+        "fps": 10,
+        "loop": false
+      },
+      "hurt": {
+        "row": 6,
+        "col_start": 0,
+        "cols": 2,
+        "fps": 8,
+        "loop": false
+      },
+      "death": {
+        "row": 7,
+        "col_start": 0,
+        "cols": 3,
+        "fps": 6,
+        "loop": false
+      }
     },
     "tier": "common"
   }

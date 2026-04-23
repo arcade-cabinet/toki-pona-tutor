@@ -1,233 +1,109 @@
-<DOMContainer width="100%" height="100%" controls={dialogControls}>
-    <div
-        class="rpg-ui-dialog-container"
-        data-position={dialogPosition()}
-        data-full-width={isFullWidth() ? "true" : "false"}
-        data-has-face={hasFace() ? "true" : "false"}
-        click={consumeClickEvent}
-        pointerdown={capturePointerEvent}
-        pointerup={capturePointerEvent}
-        mousedown={capturePointerEvent}
-        mouseup={capturePointerEvent}
-        touchstart={capturePointerEvent}
-        touchend={capturePointerEvent}
-    >
-        <div class="rpg-ui-dialog rpg-anim-fade-in">
-            <div class="rpg-ui-dialog-body">
-               <div>
-                    @if (speakerName()) {
-                        <div class="rpg-ui-dialog-speaker">{speakerName()}</div>
-                    }
-                    <div class="rpg-ui-dialog-content">
-                        {displayMessage()}
-                    </div>
-                    <div
-                        class="poki-dialog-sitelen"
-                        data-testid={sitelenOverlayTestId}
-                        data-visible={sitelenOverlayText() ? "true" : "false"}
-                    >{sitelenOverlayText()}</div>
-                    @if (hasChoices()) {
-                        <Navigation tabindex={selectedItem} controls={controls}>
-                            <div class="rpg-ui-dialog-choices">
-                                @for ((choice,index) of choices) {
-                                    <div
-                                        class="rpg-ui-dialog-choice"
-                                        class={{active: selectedItem() === index}}
-                                        tabindex={index}
-                                        data-testid={choiceTestId(index)}
-                                        data-choice-index={index}
-                                        pointerdown={capturePointerEvent}
-                                        pointerup={capturePointerEvent}
-                                        mousedown={capturePointerEvent}
-                                        mouseup={capturePointerEvent}
-                                        touchstart={capturePointerEvent}
-                                        touchend={capturePointerEvent}
-                                        click={selectChoice(index)}
-                                    >{{ choice.text }}</div>
-                                }
-                            </div>
-                        </Navigation>
-                    }
-               </div>
-                @if (hasFace()) {
-                    <div class="rpg-ui-dialog-face">
-                        <DOMSprite sheet={faceSheet(face.id, face.expression)} />
-                    </div>
-                }
-            </div>
-            @if (showIndicator) {
-                <div class="rpg-ui-dialog-indicator"></div>
-            }
-        </div>
-    </div>
-</DOMContainer>
-    
+<DOMContainer width="0" height="0" controls={dialogControls}></DOMContainer>
+
 <script>
-    import { effect, signal, computed, createTabindexNavigator, mount } from "canvasengine";
+    import { computed, mount, signal, effect } from "canvasengine";
     import { inject, RpgClientEngine } from "@rpgjs/client";
     import { delay } from "@rpgjs/common";
     import { DIALOG_UI_CONFIG } from "../content/gameplay";
-    import { getSitelenOverlay, getTextSpeed } from "../platform/persistence/settings";
+    import { getSitelenOverlay } from "../platform/persistence/settings";
     import { sitelenOverlayForText } from "../styles/sitelen-overlay";
-    import { DEFAULT_TEXT_SPEED_CPS, typewriterIntervalMsForCps } from "./typewriter-speed";
     import { playClientSfx } from "./client-sfx";
+    import { riversUiBridge } from "../ui/bridge";
 
     const engine = inject(RpgClientEngine);
     const keyboardControls = engine.globalConfig.keyboardControls;
-
     engine.stopProcessingInput = true;
 
-    const {
-        data,
-        onFinish,
-    } = defineProps();
-
-    const { message, choices, face, speaker, position, typewriterEffect } = data();
-    const fullWidth = computed(() => data().fullWidth || false);
+    const { data, onFinish } = defineProps({
+        data: {
+            default: () => ({})
+        }
+    });
 
     const resolveProp = (value) => typeof value === "function" ? value() : value;
-
-    const speakerName = computed(() => {
-        const value = resolveProp(speaker);
-        return value ? String(value) : "";
+    const view = computed(() => data() || {});
+    const choices = computed(() => {
+        const list = resolveProp(view().choices);
+        return Array.isArray(list) ? list : [];
     });
-
-    const dialogPosition = computed(() => resolveProp(position) || DIALOG_UI_CONFIG.defaultPosition);
-    const sitelenOverlayTestId = DIALOG_UI_CONFIG.sitelenOverlayTestId;
-    const isFullWidth = computed(() => resolveProp(fullWidth) !== false);
-    const hasFace = computed(() => !!resolveProp(face));
-
-    const displayMessage = signal("");
-    const fullMessage = signal("");
-    const isTyping = signal(false);
-    const sitelenOverlayText = signal("");
-    let typewriterTimer = null;
-    let typewriterRunId = 0;
-    let sitelenOverlayRunId = 0;
-
-    const clearTypewriterTimer = () => {
-        if (typewriterTimer) clearInterval(typewriterTimer);
-        typewriterTimer = null;
-    };
-
-    const startTypewriter = async (text) => {
-        const runId = ++typewriterRunId;
-        clearTypewriterTimer();
-        displayMessage.set("");
-        if (!text) {
-            isTyping.set(false);
-            return;
-        }
-        isTyping.set(true);
-
-        let cps = DEFAULT_TEXT_SPEED_CPS;
-        try {
-            cps = await getTextSpeed();
-        } catch {
-            // Keep dialog readable if the platform preference backend fails.
-        }
-
-        if (runId !== typewriterRunId) return;
-
-        const intervalMs = typewriterIntervalMsForCps(cps);
-        if (intervalMs === null) {
-            displayMessage.set(text);
-            isTyping.set(false);
-            return;
-        }
-
-        let index = 0;
-        const timer = setInterval(() => {
-            if (runId !== typewriterRunId) {
-                clearInterval(timer);
-                if (typewriterTimer === timer) typewriterTimer = null;
-                return;
-            }
-            index += 1;
-            displayMessage.set(text.slice(0, index));
-            if (index >= text.length) {
-                clearInterval(timer);
-                if (typewriterTimer === timer) typewriterTimer = null;
-                isTyping.set(false);
-            }
-        }, intervalMs);
-        typewriterTimer = timer;
-    };
-
-    const finishTyping = () => {
-        typewriterRunId += 1;
-        clearTypewriterTimer();
-        displayMessage.set(fullMessage());
-        isTyping.set(false);
-    };
-
-    const refreshSitelenOverlay = async (text) => {
-        const runId = ++sitelenOverlayRunId;
-        sitelenOverlayText.set("");
-        let enabled = false;
-        try {
-            enabled = await getSitelenOverlay();
-        } catch {
-            // Dialog remains readable if preferences are unavailable.
-        }
-        if (runId === sitelenOverlayRunId) {
-            sitelenOverlayText.set(enabled ? sitelenOverlayForText(text) : "");
-        }
-    };
-
-    effect(() => {
-        const text = resolveProp(message) || "";
-        fullMessage.set(text);
-        void refreshSitelenOverlay(text);
-        const useTypewriter = resolveProp(typewriterEffect) !== false;
-        if (!useTypewriter) {
-            finishTyping();
-            return;
-        }
-        startTypewriter(text);
-    });
-
-    const hasChoices = computed(() => choices.length > 0);
-    const showIndicator = computed(() => !hasChoices() && !isTyping());
+    const hasChoices = computed(() => choices().length > 0);
     const selectedItem = signal(0);
-    const nav = createTabindexNavigator(selectedItem, { count: () => choices.length }, 'wrap');
-    const choiceTestId = (index) => `dialog-choice-${index}`;
-
-    function capturePointerEvent(event) {
-        event?.stopPropagation?.();
-    }
-
-    function consumeClickEvent(event) {
-        event?.preventDefault?.();
-        event?.stopPropagation?.();
-    }
-
-    function selectChoice(index) {
-        return function(event) {
-            consumeClickEvent(event);
-            selectedItem.set(index);
-            onSelect(index);
-        }
-    }
+    const messageText = computed(() => String(resolveProp(view().message) || ""));
+    const clueText = signal("");
+    let clueRunId = 0;
 
     function finishDialog(value) {
         if (onFinish) onFinish(value);
     }
 
-    const onSelect = (index) => {
+    function onSelect(index) {
+        selectedItem.set(index);
         void playClientSfx(engine, DIALOG_UI_CONFIG.confirmSfxId);
         finishDialog(index);
-    };
+    }
 
-    const controls = signal({
+    function continueDialog() {
+        if (hasChoices()) return;
+        finishDialog();
+    }
+
+    function moveSelection(delta) {
+        const count = choices().length;
+        if (!count) return;
+        const next = (selectedItem() + delta + count) % count;
+        if (next !== selectedItem()) {
+            void playClientSfx(engine, DIALOG_UI_CONFIG.tickSfxId);
+        }
+        selectedItem.set(next);
+    }
+
+    async function refreshClueOverlay(text) {
+        const runId = ++clueRunId;
+        let enabled = false;
+        try {
+            enabled = await getSitelenOverlay();
+        } catch {
+            enabled = false;
+        }
+        if (runId !== clueRunId) return;
+        clueText.set(enabled ? sitelenOverlayForText(text) : "");
+    }
+
+    effect(() => {
+        void refreshClueOverlay(messageText());
+    });
+
+    effect(() => {
+        const model = view();
+        const speaker = resolveProp(model.speaker);
+        const position = resolveProp(model.position) || DIALOG_UI_CONFIG.defaultPosition;
+        const face = resolveProp(model.face);
+        riversUiBridge.update({
+            dialog: {
+                message: messageText(),
+                choices: choices().map((choice) => ({
+                    text: String(choice?.text ?? ""),
+                    value: choice?.value,
+                })),
+                speaker: speaker ? String(speaker) : undefined,
+                position,
+                fullWidth: resolveProp(model.fullWidth) !== false,
+                typewriter: resolveProp(model.typewriterEffect) !== false,
+                clueText: clueText(),
+                face: face ? { id: String(face.id), expression: String(face.expression || "idle") } : undefined,
+                onContinue: continueDialog,
+                onChoice: onSelect,
+            },
+        });
+    });
+
+    const dialogControls = signal({
         up: {
             repeat: true,
             bind: keyboardControls.up,
             throttle: 150,
             keyDown() {
-                if (!hasChoices()) return;
-                void playClientSfx(engine, DIALOG_UI_CONFIG.tickSfxId);
-                nav.next(-1);
+                moveSelection(-1);
             }
         },
         down: {
@@ -235,50 +111,27 @@
             bind: keyboardControls.down,
             throttle: 150,
             keyDown() {
-                if (!hasChoices()) return;
-                void playClientSfx(engine, DIALOG_UI_CONFIG.tickSfxId);
-                nav.next(1);
+                moveSelection(1);
             }
         },
         action: {
             bind: keyboardControls.action,
             keyDown() {
-                if (isTyping()) {
-                    finishTyping();
+                if (hasChoices()) {
+                    onSelect(selectedItem());
                     return;
                 }
-                if (!hasChoices()) return;
-                onSelect(selectedItem());
+                continueDialog();
             }
         },
         gamepad: {
             enabled: true
         }
     });
-    
-    const dialogControls = signal({
-        action: {
-            bind: keyboardControls.action,
-            keyDown() {
-                if (isTyping()) {
-                    finishTyping();
-                    return;
-                }
-                if (hasChoices()) return;
-                finishDialog();
-            }
-        },
-    });
-
-    const faceSheet = (graphicId, animationName) => {
-        return {
-            definition: engine.getSpriteSheet(graphicId),
-            playing: animationName,
-        };
-    };
 
     mount(() => {
         return () => {
+            riversUiBridge.update({ dialog: null });
             delay(() => {
                 engine.stopProcessingInput = false;
             });

@@ -3,8 +3,20 @@
   "npc_id": "jan_poki_tomo",
   "priority": 0,
   "beats": [
-    { "text": { "en": "Good choice!" }, "mood": "happy", "glyph": "pona" },
-    { "text": { "en": "Let's go!" }, "mood": "excited", "glyph": "tawa" }
+    {
+      "text": {
+        "en": "Capture pods are packed."
+      },
+      "mood": "happy",
+      "glyph": "companion-bond"
+    },
+    {
+      "text": {
+        "en": "Bring home anything you can care for."
+      },
+      "mood": "excited",
+      "glyph": "greenwood-watch"
+    }
   ],
   "triggers": {}
 }

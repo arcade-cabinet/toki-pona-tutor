@@ -13,7 +13,7 @@ const dayPhaseSchema = z.enum(["night", "dawn", "day", "dusk"]);
 const weatherSchema = z.enum(["clear", "rain", "snow", "fog"]);
 const ambientBiomeSchema = z.enum(["village", "kasi", "lete", "seli", "telo", "nena", "indoor"]);
 const mapBiomeSchema = z.enum(["town", "forest", "water", "ice", "peak", "cave"]);
-const tpTypeSchema = z.enum(["seli", "telo", "kasi", "lete", "wawa"]);
+const combatTypeSchema = z.enum(["seli", "telo", "kasi", "lete", "wawa"]);
 const directionRowsSchema = z.object({
     down: nonNegativeIntSchema,
     left: nonNegativeIntSchema,
@@ -35,7 +35,7 @@ const settingsChoiceValueSchema = z.enum([
     "sfx",
     "cancel",
 ]);
-const interactionHintGlyphSchema = z.enum(["toki", "utala", "tawa", "alasa"]);
+const interactionHintGlyphSchema = z.enum(["talk", "battle", "travel", "search"]);
 const defeatScreenPhaseSchema = z.enum(["fallen", "returning"]);
 const warpLoadingPhaseSchema = z.enum(["enter", "settle"]);
 const wildDamageToneSchema = z.enum(["super", "resisted", "neutral", "miss"]);
@@ -226,9 +226,9 @@ export const progressionConfigSchema = z.object({
             parent_inherited_move_level: positiveIntSchema,
             child_learnset_max_level: positiveIntSchema,
             type_inheritance: z.object({
-                dominant_types: z.array(tpTypeSchema),
-                defer_to_other_types: z.array(tpTypeSchema),
-                pair_overrides: z.record(idSchema, tpTypeSchema),
+                dominant_types: z.array(combatTypeSchema),
+                defer_to_other_types: z.array(combatTypeSchema),
+                pair_overrides: z.record(idSchema, combatTypeSchema),
             }),
         })
         .refine((config) => config.stat_max >= config.stat_min, "stat_max must be >= stat_min"),
@@ -269,7 +269,7 @@ export const startersConfigSchema = z.object({
             z.object({
                 id: idSchema,
                 label: idSchema,
-                mastered_words: z.array(idSchema).min(1),
+                starting_clues: z.array(idSchema).min(1),
             }),
         )
         .min(1),
@@ -320,7 +320,7 @@ export const languageConfigSchema = z.object({
                 z.object({
                     id: idSchema,
                     prompt_tag: idSchema,
-                    tp: idSchema,
+                    text: idSchema,
                 }),
             )
             .min(4),
@@ -376,14 +376,15 @@ export const ambientConfigSchema = z.object({
 });
 
 export const combatConfigSchema = z.object({
-    types: z.array(tpTypeSchema).min(1),
+    types: z.array(combatTypeSchema).min(1),
+    type_labels: z.record(combatTypeSchema, z.string().min(1)),
     type_matchups: z.object({
         default_multiplier: z.number().positive(),
-        attacker_defaults: z.partialRecord(tpTypeSchema, z.number().positive()),
-        matrix: z.partialRecord(tpTypeSchema, z.partialRecord(tpTypeSchema, z.number().positive())),
+        attacker_defaults: z.partialRecord(combatTypeSchema, z.number().positive()),
+        matrix: z.partialRecord(combatTypeSchema, z.partialRecord(combatTypeSchema, z.number().positive())),
         defender_tag_overrides: z.array(
             z.object({
-                attacker: tpTypeSchema,
+                attacker: combatTypeSchema,
                 defender_tag: idSchema,
                 multiplier: z.number().positive(),
             }),
@@ -393,7 +394,7 @@ export const combatConfigSchema = z.object({
         application_rules: z
             .array(
                 z.object({
-                    move_type: tpTypeSchema,
+                    move_type: combatTypeSchema,
                     status_id: statusIdSchema,
                     chance: chanceSchema,
                     turns: positiveIntSchema,
@@ -411,7 +412,7 @@ export const combatConfigSchema = z.object({
         ),
         damage_multipliers: z.array(
             z.object({
-                incoming_type: tpTypeSchema,
+                incoming_type: combatTypeSchema,
                 target_status: statusIdSchema,
                 multiplier: z.number().nonnegative(),
             }),
@@ -674,7 +675,7 @@ export const trainersConfigSchema = z.object({
         defeated_flag: idSchema,
         cleared_flag: idSchema,
         required_badge_flags: z.array(idSchema).min(1),
-        reward_word: idSchema,
+        reward_clue: idSchema,
         ending_beat_id: idSchema,
         dialog_base: idSchema,
         graphic: idSchema,
@@ -698,7 +699,7 @@ export const trainersConfigSchema = z.object({
             npc_id: idSchema,
             defeated_flag: idSchema.optional(),
             badge_flag: idSchema.optional(),
-            reward_word: idSchema.optional(),
+            reward_clue: idSchema.optional(),
             next_beat_id: idSchema,
             dialog_base: idSchema,
             graphic: idSchema,
@@ -892,7 +893,7 @@ export const uiConfigSchema = z.object({
                 cooldown_power_ms: positiveIntSchema,
                 cooldown_priority_ms: positiveIntSchema,
                 default_range_tiles: positiveIntSchema,
-                range_tiles_by_type: z.partialRecord(tpTypeSchema, positiveIntSchema),
+                range_tiles_by_type: z.partialRecord(combatTypeSchema, positiveIntSchema),
             })
             .refine(
                 (config) => config.sp_cost_max >= config.sp_cost_min,
@@ -1272,7 +1273,7 @@ export const questsConfigSchema = z.object({
                     xp: positiveIntSchema.optional(),
                     item_id: idSchema.optional(),
                     item_count: positiveIntSchema.optional(),
-                    reward_word: idSchema.optional(),
+                    reward_clue: idSchema.optional(),
                 }),
             }),
         )

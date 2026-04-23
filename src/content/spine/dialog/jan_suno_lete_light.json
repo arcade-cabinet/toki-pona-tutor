@@ -3,8 +3,20 @@
   "npc_id": "jan_suno_lete",
   "priority": 0,
   "beats": [
-    { "text": { "en": "Brr! This water's really cold!" }, "mood": "thinking", "glyph": "lete" },
-    { "text": { "en": "I'm getting tired." }, "mood": "sad", "glyph": "lape" }
+    {
+      "text": {
+        "en": "Frost glows blue before a storm."
+      },
+      "mood": "thinking",
+      "glyph": "cold-hands"
+    },
+    {
+      "text": {
+        "en": "Follow the lighted fences if you get turned around."
+      },
+      "mood": "sad",
+      "glyph": "safe-house"
+    }
   ],
   "triggers": {}
 }

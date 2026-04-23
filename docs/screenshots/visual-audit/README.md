@@ -23,10 +23,10 @@ The source spec captures the live browser canvas and high-risk GUI shells. It al
 | `desktop-starter-map-canvas.png`   | Starter village canvas placement after new game.                           |
 | `mobile-starter-choice-dialog.png` | Mobile starter choice readability and touch layout.                        |
 | `mobile-pause-overlay.png`         | Mobile HUD/pause shell and route tabs.                                     |
-| `map-ma_tomo_lili.png`             | Starter village tile placement.                                            |
-| `map-nasin_wan.png`                | First route tile placement and NPC spacing.                                |
-| `map-nena_sewi.png`                | First mountain/gym route tile placement.                                   |
-| `map-ma_telo.png`                  | Lake village tile placement, water/shore boundaries, and NPC/shop spacing. |
-| `map-ma_lete.png`                  | Ice region tile placement.                                                 |
-| `map-nena_suli.png`                | Final mountain/cave tile placement.                                        |
-| `map-nasin_pi_telo.png`            | Endgame water route tile placement and green-dragon approach.              |
+| `map-riverside_home.png`             | Starter village tile placement.                                            |
+| `map-greenwood_road.png`                | First route tile placement and NPC spacing.                                |
+| `map-highridge_pass.png`                | First mountain/gym route tile placement.                                   |
+| `map-lakehaven.png`                  | Lake village tile placement, water/shore boundaries, and NPC/shop spacing. |
+| `map-frostvale.png`                  | Ice region tile placement.                                                 |
+| `map-dreadpeak_cavern.png`                | Final mountain/cave tile placement.                                        |
+| `map-rivergate_approach.png`            | Endgame water route tile placement and green-dragon approach.              |

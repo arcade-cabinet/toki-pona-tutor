@@ -1,5 +1,6 @@
 import { describe, expect, it } from "vitest";
 import { resolve } from "node:path";
+import canvasPkg from "canvas";
 import { parseTsx } from "../../scripts/map-authoring/lib/parser";
 import {
     classifyPaletteEntry,
@@ -9,11 +10,15 @@ import {
 } from "../../scripts/map-authoring/lib/semantics";
 import surfaceConfig from "../../scripts/map-authoring/config/fantasy-surfaces.json";
 import { forestPalette } from "../../scripts/map-authoring/palettes/forest";
+import { icePalette } from "../../scripts/map-authoring/palettes/ice";
+import { mountainPalette } from "../../scripts/map-authoring/palettes/mountain";
 import { waterPalette } from "../../scripts/map-authoring/palettes/water";
 import { collectionAtlasEntry } from "../../scripts/map-authoring/config/collection-atlases";
 import type { PaletteEntry, ParsedTileset } from "../../scripts/map-authoring/lib/types";
 
+const { createCanvas, loadImage } = canvasPkg;
 const SEASONS_TSX = resolve(__dirname, "../../public/assets/tilesets/seasons/Tiled/Tilesets");
+const SNOW_TSX = resolve(__dirname, "../../public/assets/tilesets/snow/Tiled/Tilesets");
 const GENERATED_TSX = resolve(__dirname, "../../public/assets/tilesets/generated/Tiled/Tilesets");
 const WANG_EDGE_INDEX = {
     top: 0,
@@ -56,6 +61,34 @@ describe("TSX metadata parser", () => {
         });
         expect(trees.objectGroups[treeWide.local_id]).toHaveLength(1);
         expect(tileHasCollision(trees, treeWide.local_id)).toBe(true);
+    });
+
+    it("uses transparent encounter overlays or biome-native solid fill tiles", async () => {
+        const tallGrass = await parseTsx(resolve(SEASONS_TSX, "Tileset_TallGrass.tsx"));
+        const snow = await parseTsx(resolve(SNOW_TSX, "Tileset_Snow.tsx"));
+
+        for (const entry of [forestPalette.G, waterPalette.G, mountainPalette.G]) {
+            expect(entry).toMatchObject({
+                tsx: "seasons/Tileset_TallGrass",
+                local_id: surfaceConfig.seasons.tallGrass.summer,
+                surface: "rough-grass",
+                role: "encounter",
+                walkable: true,
+            });
+            expect(tileHasCollision(tallGrass, entry.local_id)).toBe(false);
+            expect(await tileHasTransparentPixels(tallGrass, entry.local_id)).toBe(true);
+        }
+
+        expect(icePalette.G).toMatchObject({
+            tsx: "snow/Tileset_Snow",
+            local_id: surfaceConfig.snow.snow.roughEncounter,
+            surface: "rough-grass",
+            role: "encounter",
+            walkable: true,
+        });
+        expect(wangColorNamesForTile(snow, icePalette.G.local_id)).toEqual(["Snow"]);
+        expect(tileHasCollision(snow, icePalette.G.local_id)).toBe(false);
+        expect(await tileHasTransparentPixels(snow, icePalette.G.local_id)).toBe(false);
     });
 
     it("parses wangsets and probability hints from ground tilesets", async () => {
@@ -227,6 +260,36 @@ describe("TSX metadata parser", () => {
 
 function sourceEntry(localId: number): PaletteEntry {
     return { tsx: "seasons/Tileset_Water", local_id: localId };
+}
+
+async function tileHasTransparentPixels(
+    tileset: ParsedTileset,
+    localId: number,
+): Promise<boolean> {
+    const image = await loadImage(tileset.image.absolutePath);
+    const columns = tileset.columns;
+    const x0 = (localId % columns) * tileset.tileWidth;
+    const y0 = Math.floor(localId / columns) * tileset.tileHeight;
+    const canvas = createCanvas(tileset.tileWidth, tileset.tileHeight);
+    const context = canvas.getContext("2d");
+    context.imageSmoothingEnabled = false;
+    context.drawImage(
+        image,
+        x0,
+        y0,
+        tileset.tileWidth,
+        tileset.tileHeight,
+        0,
+        0,
+        tileset.tileWidth,
+        tileset.tileHeight,
+    );
+    const imageData = context.getImageData(0, 0, tileset.tileWidth, tileset.tileHeight);
+
+    for (let index = 3; index < imageData.data.length; index += 4) {
+        if (imageData.data[index] < 255) return true;
+    }
+    return false;
 }
 
 function expectWangEdges(

@@ -50,14 +50,14 @@ describe('wild battle view model', () => {
 
         expect(view.lead).toMatchObject({
             id: 'kon_moli',
-            label: 'kon moli',
+            label: 'Ashcat',
             levelLabel: 'L5',
             hpLabel: 'HP 34 / 44',
             hpClass: 'hp-healthy',
         });
         expect(view.target).toMatchObject({
             id: 'jan_ike_lili',
-            label: 'jan ike lili',
+            label: 'Bramble Imp',
             levelLabel: 'L3',
             hpLabel: 'HP 20 / 48',
             hpClass: 'hp-wounded',
@@ -83,7 +83,7 @@ describe('wild battle view model', () => {
             tone: 'super',
         });
         expect(buildWildBattleDamage(0, 0)).toEqual({
-            label: 'pakala',
+            label: 'Miss',
             damage: 0,
             tone: 'miss',
         });
@@ -92,15 +92,15 @@ describe('wild battle view model', () => {
     it('models catch throw and result states for the wild overlay', () => {
         expect(buildWildBattleCapture('throw')).toEqual({
             state: 'throw',
-            label: 'poki li tawa',
+            label: 'Throw!',
         });
         expect(buildWildBattleCapture('caught')).toEqual({
             state: 'caught',
-            label: 'poki li awen',
+            label: 'Caught!',
         });
         expect(buildWildBattleCapture('escaped')).toEqual({
             state: 'escaped',
-            label: 'soweli li weka',
+            label: 'It broke free!',
         });
 
         const target = species.get('jan_ike_lili')!;
@@ -114,7 +114,7 @@ describe('wild battle view model', () => {
             capture: 'caught',
         }).capture).toEqual({
             state: 'caught',
-            label: 'poki li awen',
+            label: 'Caught!',
         });
     });
 });

@@ -3,8 +3,20 @@
   "npc_id": "jan_kiwen",
   "priority": 0,
   "beats": [
-    { "text": { "en": "This thing is big." }, "mood": "thinking", "glyph": "suli" },
-    { "text": { "en": "I'm plenty strong!" }, "mood": "excited", "glyph": "wawa" }
+    {
+      "text": {
+        "en": "Stone paths break careless boots."
+      },
+      "mood": "thinking",
+      "glyph": "dreadpeak-proof"
+    },
+    {
+      "text": {
+        "en": "Strong companions can push through the pass."
+      },
+      "mood": "excited",
+      "glyph": "battle-ready"
+    }
   ],
   "triggers": {}
 }

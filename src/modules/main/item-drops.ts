@@ -4,6 +4,7 @@ import {
     NOTIFICATION_CONFIG,
 } from "../../content/gameplay";
 import { formatGameplayTemplate } from "../../content/gameplay/templates";
+import { itemLabel } from "../../content/runtime-labels";
 
 export type SpeciesItemDrop = {
     item_id: string;
@@ -57,7 +58,7 @@ export function resolveSpeciesItemDrop(source: SpeciesDropSource): SpeciesItemDr
 
 export function formatItemDrop(drop: RolledItemDrop): string {
     return formatGameplayTemplate(NOTIFICATION_CONFIG.itemDrop.template, {
-        item: drop.itemId.replace(/_/g, " "),
+        item: itemLabel(drop.itemId),
         count: drop.count,
     });
 }

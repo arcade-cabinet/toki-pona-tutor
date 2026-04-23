@@ -48,7 +48,7 @@ async function getTaskStatus(page: Page, taskId: string): Promise<BrowserTaskSta
 }
 
 function titleEntry(page: Page, index: number) {
-    return page.locator('.rpg-ui-title-screen-menu .rpg-ui-menu-item').nth(index);
+    return page.locator('.rr-title-entry').nth(index);
 }
 
 function dialogChoice(page: Page, index: number) {
@@ -85,7 +85,7 @@ async function beginForestEncounter(page: Page, speciesId: string): Promise<stri
 }
 
 async function advanceDialog(page: Page, expectedText: string | RegExp, taskId?: string): Promise<void> {
-    const content = page.locator('.rpg-ui-dialog-content');
+    const content = page.locator('[data-testid="rr-dialog-content"]');
     if (typeof expectedText === 'string' && taskId) {
         await expect.poll(async () => {
             const status = await getTaskStatus(page, taskId);
@@ -121,9 +121,9 @@ async function startRouteGame(page: Page): Promise<void> {
     await titleEntry(page, 0).tap();
 
     const starterTask = await beginEvent(page, 'jan-sewi');
-    await advanceDialog(page, 'hello', starterTask);
-    await advanceDialog(page, 'kili sin li pona tawa sijelo.', starterTask);
-    await advanceDialog(page, 'kule seme li pona tawa sina?', starterTask);
+    await advanceDialog(page, 'Rivers, today you start your own investigation.', starterTask);
+    await advanceDialog(page, 'Three creatures answered the call.', starterTask);
+    await advanceDialog(page, 'Choose the partner you trust at your side.', starterTask);
     await dialogChoice(page, 0).tap();
 
     await expect.poll(async () => (await getParty(page)).map((member) => member.speciesId).join(','))
@@ -133,29 +133,29 @@ async function startRouteGame(page: Page): Promise<void> {
     await expect.poll(async () => {
         const state = await getState(page);
         return `${state.currentMapId}:${state.serverMapId}`;
-    }).toBe('nasin_wan:nasin_wan');
+    }).toBe('greenwood_road:greenwood_road');
 }
 
 async function acceptForestPokiQuest(page: Page): Promise<void> {
     const taskId = await beginEvent(page, 'jan-poki-nasin');
-    await advanceDialog(page, 'wile pona a!', taskId);
-    await advanceDialog(page, 'lukin la sina pilin pona...', taskId);
-    await expect(page.locator('.rpg-ui-dialog-content')).toHaveText('pali poki\npoki: x2');
-    await expect(dialogChoice(page, 0)).toContainText('pali');
+    await advanceDialog(page, 'Good timing. I need field notes from Greenwood.', taskId);
+    await advanceDialog(page, "Catch two route creatures and I'll trade you a stronger pod.", taskId);
+    await expect(page.locator('[data-testid="rr-dialog-content"]')).toHaveText('Field Notes\nCatch: x2');
+    await expect(dialogChoice(page, 0)).toContainText('Accept');
     await dialogChoice(page, 0).tap();
-    await advanceDialog(page, 'pali: 0 / 2', taskId);
+    await advanceDialog(page, 'Quest: 0 / 2', taskId);
     await expectTaskDone(page, taskId);
 }
 
 async function catchForestCreature(page: Page, speciesId: string): Promise<void> {
     const taskId = await beginForestEncounter(page, speciesId);
-    await advanceDialog(page, 'sina soweli.', taskId);
-    await expect(dialogChoice(page, 0)).toContainText('utala');
+    await advanceDialog(page, 'Something wild jumps from the grass.', taskId);
+    await expect(dialogChoice(page, 0)).toContainText('Fight');
     await dialogChoice(page, 0).tap();
-    await advanceDialog(page, /utala: -\d+ HP/, taskId);
-    await expect(dialogChoice(page, 1)).toContainText('poki');
+    await advanceDialog(page, /Attack: -\d+ HP/, taskId);
+    await expect(dialogChoice(page, 1)).toContainText('Catch');
     await dialogChoice(page, 1).tap();
-    await advanceDialog(page, 'a. pona.', taskId);
+    await advanceDialog(page, 'Captured. It settles into the pod.', taskId);
     await expectTaskDone(page, taskId);
 }
 
@@ -180,34 +180,34 @@ test('mobile HUD inventory shows side quest progress through reward collection',
     await expect.poll(async () => getFlag(page, 'quest_quest_nasin_poki_pack_status')).toBe('active');
 
     await openPauseInventory(page);
-    await expect(page.locator('[data-testid="pause-quest-heading"]')).toContainText('pali:');
+    await expect(page.locator('[data-testid="pause-quest-heading"]')).toContainText('Quests:');
     await expect(page.locator('[data-testid="pause-quest-heading"]')).toContainText('1');
-    await expect(page.locator('[data-testid="pause-quest-0"]')).toContainText('· pali poki: 0 / 2');
+    await expect(page.locator('[data-testid="pause-quest-0"]')).toContainText('· Field Notes: 0 / 2');
     await resumeFromPause(page);
 
     await catchForestCreature(page, 'soweli_jaki');
     await expect.poll(async () => getFlag(page, 'quest_quest_nasin_poki_pack_progress')).toBe('1');
 
     await openPauseInventory(page);
-    await expect(page.locator('[data-testid="pause-quest-0"]')).toContainText('· pali poki: 1 / 2');
+    await expect(page.locator('[data-testid="pause-quest-0"]')).toContainText('· Field Notes: 1 / 2');
     await resumeFromPause(page);
 
     await catchForestCreature(page, 'soweli_kili');
     await expect.poll(async () => getFlag(page, 'quest_quest_nasin_poki_pack_progress')).toBe('2');
 
     await openPauseInventory(page);
-    await expect(page.locator('[data-testid="pause-quest-0"]')).toContainText('· pali poki: 2 / 2');
+    await expect(page.locator('[data-testid="pause-quest-0"]')).toContainText('· Field Notes: 2 / 2');
     await resumeFromPause(page);
 
     const rewardTask = await beginEvent(page, 'jan-poki-nasin');
-    await advanceDialog(page, 'wile pona a!', rewardTask);
-    await advanceDialog(page, 'lukin la sina pilin pona...', rewardTask);
-    await advanceDialog(page, 'pali pini: pali poki\npoki wawa x1\nXP +50\nnimi: poki', rewardTask);
+    await advanceDialog(page, 'Good timing. I need field notes from Greenwood.', rewardTask);
+    await advanceDialog(page, "Catch two route creatures and I'll trade you a stronger pod.", rewardTask);
+    await advanceDialog(page, 'Quest complete: Field Notes\nHeavy Capture Pod x1\nXP +50\nClue: Capture pods', rewardTask);
     await expectTaskDone(page, rewardTask);
 
     await expect.poll(async () => getFlag(page, 'quest_quest_nasin_poki_pack_done')).toBe('1');
     await expect.poll(async () => getInventoryCount(page, 'poki_wawa')).toBe(1);
 
     await openPauseInventory(page);
-    await expect(page.locator('[data-testid="pause-quest-0"]')).toContainText('✓ pali poki: 2 / 2');
+    await expect(page.locator('[data-testid="pause-quest-0"]')).toContainText('✓ Field Notes: 2 / 2');
 });

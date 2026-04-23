@@ -31,9 +31,9 @@ function parseNumber(raw: string | null, min: number, max: number, defaultValue:
     return Math.max(min, Math.min(max, n));
 }
 
-// ─── sitelen overlay (T8-04) ────────────────────────────────────────
+// ─── clue-icon overlay ──────────────────────────────────────────────
 
-/** Defaults to OFF — diegetic TP is the point. Players opt in. */
+/** Defaults to OFF. Players opt in. */
 export async function getSitelenOverlay(): Promise<boolean> {
     return parseBool(await preferences.get(KEYS.sitelenOverlay), false);
 }

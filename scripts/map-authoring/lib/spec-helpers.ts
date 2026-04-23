@@ -67,6 +67,10 @@ export function paintRect(
     }
 }
 
+export function emptyGrid(width: number, height: number): string[][] {
+    return Array.from({ length: height }, () => Array.from({ length: width }, () => "."));
+}
+
 export type EdgeTransitionKey = "n" | "e" | "s" | "w" | "ne" | "nw" | "se" | "sw";
 
 export interface EdgeTransitionRule {

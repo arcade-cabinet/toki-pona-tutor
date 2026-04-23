@@ -11,6 +11,7 @@ import {
     SHOPS,
 } from "../../content/gameplay";
 import { formatGameplayTemplate } from "../../content/gameplay/templates";
+import { itemLabel } from "../../content/runtime-labels";
 
 export const COIN_ITEM_ID = CONFIGURED_COIN_ITEM_ID;
 
@@ -66,7 +67,7 @@ export async function grantBattleCoins(player: RpgPlayer, amount: number): Promi
 
 export function formatCoinGrant(amount: number): string {
     return formatGameplayTemplate(SHOP_UI_CONFIG.coinGrantTemplate, {
-        coin: COIN_ITEM_ID,
+        coin: itemLabel(COIN_ITEM_ID),
         amount,
     });
 }
@@ -75,7 +76,7 @@ export function shopChoiceLabel(item: ShopStockItem): string {
     return formatGameplayTemplate(SHOP_UI_CONFIG.choiceTemplate, {
         item: itemLabel(item.itemId),
         count: item.count,
-        coin: COIN_ITEM_ID,
+        coin: itemLabel(COIN_ITEM_ID),
         price: item.price,
     });
 }
@@ -120,20 +121,16 @@ export function formatShopPurchaseResult(result: ShopPurchaseResult): string {
         return formatGameplayTemplate(SHOP_UI_CONFIG.purchaseSuccessTemplate, {
             item: result.label,
             count: result.count,
-            coin: COIN_ITEM_ID,
+            coin: itemLabel(COIN_ITEM_ID),
             balance: result.balance,
         });
     }
     if (result.reason === "insufficient") {
         return formatGameplayTemplate(SHOP_UI_CONFIG.insufficientTemplate, {
-            coin: COIN_ITEM_ID,
+            coin: itemLabel(COIN_ITEM_ID),
         });
     }
     return SHOP_UI_CONFIG.missingTemplate;
-}
-
-function itemLabel(itemId: string): string {
-    return itemId.replace(/_/g, " ");
 }
 
 function assertPositiveInteger(value: number, message: string): void {

@@ -18,7 +18,7 @@ import { test, expect, type Page } from "@playwright/test";
  */
 
 function titleEntry(page: Page, index: number) {
-    return page.locator(".rpg-ui-title-screen-menu .rpg-ui-menu-item").nth(index);
+    return page.locator(".rr-title-entry").nth(index);
 }
 
 async function assertSqlWasmAsset(page: Page): Promise<void> {
@@ -56,12 +56,12 @@ async function clearBrowserPersistence(page: Page): Promise<void> {
 }
 
 async function assertTitleMenu(page: Page): Promise<void> {
-    await expect(page.locator(".rpg-ui-title-screen-title")).toContainText("poki soweli", {
+    await expect(page.locator('[data-testid="rr-title-title"]')).toContainText("Rivers Reckoning", {
         timeout: 30_000,
     });
-    await expect(titleEntry(page, 0)).toContainText("open sin");
-    await expect(titleEntry(page, 1)).toContainText("nasin");
-    await expect(titleEntry(page, 2)).toContainText("pini");
+    await expect(titleEntry(page, 0)).toContainText("New Game");
+    await expect(titleEntry(page, 1)).toContainText("Settings");
+    await expect(titleEntry(page, 2)).toContainText("Quit");
 }
 
 test("boots on the starter map and shows the title menu with brand chrome applied", async ({
@@ -98,15 +98,15 @@ test("boots on the starter map and shows the title menu with brand chrome applie
         "href",
         /icons\/poki-soweli-192\.png$/,
     );
-    await expect(page.locator('main[aria-label="poki soweli game"]')).toBeVisible();
+    await expect(page.locator('main[aria-label="Rivers Reckoning game"]')).toBeVisible();
     await expect(page.locator("#rpg")).toHaveAttribute("role", "application");
-    await expect(page.locator("#rpg")).toHaveAttribute("aria-label", "poki soweli game canvas");
+    await expect(page.locator("#rpg")).toHaveAttribute("aria-label", "Rivers Reckoning game canvas");
     await expect(page.locator("#rpg canvas")).toBeVisible();
 
     await page.waitForFunction(
         () =>
             Boolean(window.__POKI__) ||
-            Boolean(document.querySelector(".rpg-ui-title-screen-title")),
+            Boolean(document.querySelector('[data-testid="rr-title-title"]')),
         { timeout: 30_000 },
     );
 

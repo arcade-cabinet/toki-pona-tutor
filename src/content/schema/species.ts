@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { translatable, translatableWord } from "./translatable";
+import { translatable } from "./translatable";
 import { typeId } from "./types";
 
 /**
@@ -82,17 +82,17 @@ export const itemDrop = z.object({
 export type ItemDrop = z.infer<typeof itemDrop>;
 
 /**
- * A creature species — the lipu soweli entry.
+ * A creature species — the bestiary entry.
  *
- * Every species is catchable. Tier differentiates rarity + animation
- * depth, not whether the poki works. Bosses are harder catches with
+ * Every species is catchable. Tier differentiates rarity + animation depth,
+ * not whether a capture tool works. Bosses are harder catches with
  * richer animation; the green dragon is the legendary final catch.
  */
 export const species = z.object({
     id: z.string().regex(/^[a-z][a-z0-9_]*$/),
-    /** Canonical TP name — must be a dictionary word. */
-    name: translatableWord,
-    /** One-sentence lipu soweli flavor. Must round-trip through Tatoeba. */
+    /** Compact English display name. */
+    name: translatable,
+    /** One-sentence bestiary flavor. */
     description: translatable,
     type: typeId,
     base_stats: baseStats,

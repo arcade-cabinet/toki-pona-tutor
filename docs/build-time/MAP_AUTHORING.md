@@ -48,7 +48,7 @@ Plus:
 -   `scripts/map-authoring/specs/<map-id>.ts` — my authored map specs, TypeScript, high-level.
 -   `scripts/map-authoring/lib/` — shared implementation: TSX parser, TMJ emitter, renderer, palette resolver, validator.
 -   `public/assets/tilesets/generated/` — deterministic, project-owned composite tilesets. Current generated output is `Tileset_Water_Shore_Seasons`, which bakes opaque sand under vendor water-shore wang tiles so shoreline previews/runtime tiles do not expose transparency holes.
--   Current biome palettes include `forest.ts` for `nasin_wan`, `water.ts` for `nasin_pi_telo`, `lake-town.ts` for `ma_telo`, `ice.ts` for `ma_lete`, `mountain.ts` for `nena_sewi`, and `cave.ts` for `nena_suli`; water, lake, mountain, and cave palettes deliberately point at Fan-tasy tiles that carry Tiled collision objects when the gameplay contract says terrain is blocked.
+-   Current biome palettes include `forest.ts` for `greenwood_road`, `water.ts` for `rivergate_approach`, `lake-town.ts` for `lakehaven`, `ice.ts` for `frostvale`, `mountain.ts` for `highridge_pass`, and `cave.ts` for `dreadpeak_cavern`; water, lake, mountain, and cave palettes deliberately point at Fan-tasy tiles that carry Tiled collision objects when the gameplay contract says terrain is blocked.
 -   The current seven-map arc now carries the T4-15 NPC floor: every shipped spec has at least five `NPC` objects, each backed by a runtime event factory payload in `src/content/gameplay/events.json` and a dialog node under `src/content/spine/dialog/`. Runtime placement resolves from the emitted object coordinates compiled into `world.json`.
 
 ## Spec format — what I actually write
@@ -56,12 +56,12 @@ Plus:
 A map spec is a TypeScript module exporting a `MapSpec` object. The spec compiles to `.tmj`.
 
 ```typescript
-// scripts/map-authoring/specs/ma_tomo_lili.ts
+// scripts/map-authoring/specs/riverside_home.ts
 import { defineMap, paint, place } from "../lib";
 import { corePalette } from "../palettes/core";
 
 export default defineMap({
-    id: "ma_tomo_lili",
+    id: "riverside_home",
     biome: "town",
     music_track: "bgm_village",
     width: 30,
@@ -89,10 +89,10 @@ export default defineMap({
             { type: "SpawnPoint", at: [15, 12], name: "default" },
             { type: "Sign", at: [14, 12], name: "welcome", props: { text: "ma tomo lili" } },
             { type: "NPC", at: [16, 10], name: "jan_sewi", props: { id: "jan_sewi", dialog_id: "jan_sewi_intro" } },
-            { type: "Warp", rect: [29, 10, 1, 4], name: "to_nasin_wan", props: { target_map: "nasin_wan", target_spawn: "from_ma_tomo_lili" } },
+            { type: "Warp", rect: [29, 10, 1, 4], name: "to_greenwood_road", props: { target_map: "greenwood_road", target_spawn: "from_riverside_home" } },
         ],
 
-        Encounters: [], // ma_tomo_lili is a safe village — no encounters
+        Encounters: [], // riverside_home is a safe village — no encounters
     },
 });
 ```
@@ -130,7 +130,7 @@ export const corePalette: Palette = {
 
 Short (1–2 char) palette keys are for `paint` grids. Long names are for `place`. Same palette, just different ergonomics per use site.
 
-**Palette ownership**: I populate palettes incrementally as I discover I need a tile. The first time `ma_tomo_lili` needs a red-roof house, I add `house_wood_red_small` to `corePalette` with the right local_id. Palettes grow bottom-up from actual spec needs.
+**Palette ownership**: I populate palettes incrementally as I discover I need a tile. The first time `riverside_home` needs a red-roof house, I add `house_wood_red_small` to `corePalette` with the right local_id. Palettes grow bottom-up from actual spec needs.
 
 **Surface semantics**: palette entries can explicitly declare `surface`, `role`, and `walkable`. Use explicit semantics for anything that visual metadata alone cannot classify safely, especially generated composites and tiles whose description includes words like "shore" but should still behave as base sand.
 
@@ -172,7 +172,7 @@ Where tile data for each tile layer is a flat array of ints (firstgid + local_id
 
 4. Map-level metadata carries Tiled's `properties` array for `biome` and `music_track`.
 
-5. Object-layer objects also carry Tiled's `properties` array: `[{ name: 'target_map', type: 'string', value: 'nasin_wan' }, ...]`. The emitter translates each spec `props: {...}` object into this format.
+5. Object-layer objects also carry Tiled's `properties` array: `[{ name: 'target_map', type: 'string', value: 'greenwood_road' }, ...]`. The emitter translates each spec `props: {...}` object into this format.
 
 6. The emitter writes `public/assets/maps/<map-id>.tmj` for archive/review and `src/tiled/<map-id>.tmx` for RPG.js runtime loading.
 
@@ -222,12 +222,12 @@ Checks:
 ## CLI
 
 ```sh
-pnpm author:build  ma_tomo_lili            # spec → .tmj + .tmx
-pnpm author:render ma_tomo_lili [--grid]   # .tmj → .preview.png
-pnpm author:validate ma_tomo_lili           # spec-side validation
+pnpm author:build  riverside_home            # spec → .tmj + .tmx
+pnpm author:render riverside_home [--grid]   # .tmj → .preview.png
+pnpm author:validate riverside_home           # spec-side validation
 pnpm author:tilesets                        # rebuild generated composite tilesets
 pnpm author:audit-surfaces                  # inspect surface/collision semantics
-pnpm author:all ma_tomo_lili                # validate → build → render
+pnpm author:all riverside_home                # validate → build → render
 pnpm author:all --all                       # iterate every spec in specs/
 pnpm author:all --all --dry-run             # validate/emits/renders without rewriting repo artifacts
 ```
@@ -302,9 +302,9 @@ Fan-tasy's tileset author ships sample `.tmx` maps inside each pack — `Village
 
 ### Why fixtures, not runtime
 
--   **Runtime maps must be poki-soweli-specific.** `ma_tomo_lili`, `nasin_wan`, etc. are narrative beats from `docs/LORE.md` and need layouts that serve _those_ stories — jan Sewi at a specific shrine, tall grass on a specific path, a specific warp to region 2. Vendor sample layouts don't encode any of that.
--   **Tonal coherence comes from the tileset, not the layout.** If my toolchain correctly paints any Fan-tasy tile, a hand-authored `ma_tomo_lili.tmj` using Fan-tasy's `core` pack will look as coherent as `Village Bridge.tmx` does. The risk was sprite mismatch (Kenney next to Lonesome Forest); that's a tileset-mixing problem, not a layout problem.
--   **The game's identity is in its authoring.** Using sample layouts would bake vendor-specific aesthetic choices (cobblestone paths arranged _their_ way, buildings grouped _their_ way) into our story locations. We'd lose the argument for "this is poki soweli's world, not a Fan-tasy demo."
+-   **Runtime maps must be Rivers Reckoning-specific.** `riverside_home`, `greenwood_road`, etc. are narrative beats from `docs/LORE.md` and need layouts that serve _those_ stories — starter mentor at a specific shrine, tall grass on a specific path, a specific warp to region 2. Vendor sample layouts don't encode any of that.
+-   **Tonal coherence comes from the tileset, not the layout.** If my toolchain correctly paints any Fan-tasy tile, a hand-authored `riverside_home.tmj` using Fan-tasy's `core` pack will look as coherent as `Village Bridge.tmx` does. The risk was sprite mismatch (Kenney next to Lonesome Forest); that's a tileset-mixing problem, not a layout problem.
+-   **The game's identity is in its authoring.** Using sample layouts would bake vendor-specific aesthetic choices (cobblestone paths arranged _their_ way, buildings grouped _their_ way) into our story locations. We'd lose the argument for "this is Rivers Reckoning's world, not a Fan-tasy demo."
 
 ### Where they earn their keep — the test suite
 
@@ -312,7 +312,7 @@ Each pack ships ≥ 1 sample map; each sample is an upstream fixture:
 
 -   **Parser coverage**: my `.tsx` parser runs against every tileset that pack's samples reference. If any tileset fails to parse, a sample fails to round-trip, and I see it.
 -   **Tileset coverage**: if the sample uses tile ID 1847 of `Tileset_Ground`, my palette inspector can pull that ID and I know what tile ID 1847 _is_ — the sample is a visual decoder ring for the tileset.
--   **Renderer smoke validation**: with `tiled` available, I convert the `.tmx` → temporary `.tmj` via `tiled --export-map json`, render my `.tmj` through my compositor, and assert correct dimensions plus non-trivial drawn pixels. Exact-pixel regression coverage belongs to the committed poki-soweli preview PNGs, not the vendor samples.
+-   **Renderer smoke validation**: with `tiled` available, I convert the `.tmx` → temporary `.tmj` via `tiled --export-map json`, render my `.tmj` through my compositor, and assert correct dimensions plus non-trivial drawn pixels. Exact-pixel regression coverage belongs to the committed Rivers Reckoning preview PNGs, not the vendor samples.
 -   **Per-pack completeness**: a test asserts every pack has at least one sample fixture; with `tiled` installed, the same file also renders one converted sample per pack. This means whenever a new pack lands (or we update a pack), the test suite catches parser and renderer smoke regressions immediately.
 
 The fixtures themselves are not vendored separately. `tests/build-time/fixtures.test.ts` reads the already-present samples under `public/assets/tilesets/<pack>/Tiled/Tilemaps/` and writes any converted TMJ files to temporary directories that are removed after the test.

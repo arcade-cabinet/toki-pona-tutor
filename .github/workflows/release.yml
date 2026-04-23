@@ -72,13 +72,13 @@ jobs:
       - name: Package web bundle
         env:
           TAG_NAME: ${{ needs.release-please.outputs.tag_name }}
-        run: tar -czf "poki-soweli-web-${TAG_NAME}.tar.gz" -C dist .
+        run: tar -czf "rivers-reckoning-web-${TAG_NAME}.tar.gz" -C dist .
 
       - name: Upload web bundle artifact
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
           name: web-bundle-${{ needs.release-please.outputs.tag_name }}
-          path: poki-soweli-web-${{ needs.release-please.outputs.tag_name }}.tar.gz
+          path: rivers-reckoning-web-${{ needs.release-please.outputs.tag_name }}.tar.gz
           retention-days: 14
           if-no-files-found: error
 
@@ -140,13 +140,13 @@ jobs:
       - name: Rename APK for release artifact flow
         env:
           TAG_NAME: ${{ needs.release-please.outputs.tag_name }}
-        run: cp android/app/build/outputs/apk/debug/app-debug.apk "poki-soweli-${TAG_NAME}-debug.apk"
+        run: cp android/app/build/outputs/apk/debug/app-debug.apk "rivers-reckoning-${TAG_NAME}-debug.apk"
 
       - name: Upload Android debug APK artifact
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
           name: android-debug-apk-${{ needs.release-please.outputs.tag_name }}
-          path: poki-soweli-${{ needs.release-please.outputs.tag_name }}-debug.apk
+          path: rivers-reckoning-${{ needs.release-please.outputs.tag_name }}-debug.apk
           retention-days: 14
           if-no-files-found: error
 
@@ -179,9 +179,9 @@ jobs:
             sha: process.env.RELEASE_SHA,
             body,
             web_bundle_artifact: `web-bundle-${tag}`,
-            web_bundle_file: `poki-soweli-web-${tag}.tar.gz`,
+            web_bundle_file: `rivers-reckoning-web-${tag}.tar.gz`,
             android_debug_apk_artifact: `android-debug-apk-${tag}`,
-            android_debug_apk_file: `poki-soweli-${tag}-debug.apk`,
+            android_debug_apk_file: `rivers-reckoning-${tag}-debug.apk`,
           };
           fs.writeFileSync(
             'release-metadata/release.json',

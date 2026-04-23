@@ -38,6 +38,9 @@ const dictionaryExportClientModule = defineModule<RpgClient>({
         onStart(engine) {
             installDictionaryExportRuntime(engine);
         },
+        onConnected(engine, socket) {
+            installDictionaryExportRuntime(engine, socket as AbstractWebsocket);
+        },
     },
     sceneMap: {
         onAfterLoading() {
@@ -55,29 +58,45 @@ export function provideDictionaryExportRuntime() {
     ]);
 }
 
-function installDictionaryExportRuntime(engine?: RpgClientEngine): void {
-    const socket = resolveSocket(engine);
-    if (installedExportSockets.has(socket as object)) return;
-    installedExportSockets.add(socket as object);
-    recordRuntimeStatus("installed");
-    socket.on(DICTIONARY_EXPORT_EVENT, (payload: unknown) => {
-        if (!isDictionaryExportPayload(payload)) {
-            recordRuntimeStatus("invalid");
-            return;
-        }
-        if (isDuplicatePayload(payload)) return;
-        recordRuntimeStatus("received");
-        void exportDictionaryPayload(payload);
-    });
+function installDictionaryExportRuntime(
+    engine?: RpgClientEngine,
+    connectedSocket?: AbstractWebsocket,
+): void {
+    for (const socket of resolveSockets(engine, connectedSocket)) {
+        if (installedExportSockets.has(socket as object)) continue;
+        installedExportSockets.add(socket as object);
+        recordRuntimeStatus("installed");
+        socket.on(DICTIONARY_EXPORT_EVENT, (payload: unknown) => {
+            if (!isDictionaryExportPayload(payload)) {
+                recordRuntimeStatus("invalid");
+                return;
+            }
+            if (isDuplicatePayload(payload)) return;
+            recordRuntimeStatus("received");
+            void exportDictionaryPayload(payload);
+        });
+    }
 }
 
-function resolveSocket(engine?: RpgClientEngine): AbstractWebsocket {
+function resolveSockets(
+    engine?: RpgClientEngine,
+    connectedSocket?: AbstractWebsocket,
+): AbstractWebsocket[] {
+    const sockets: AbstractWebsocket[] = [];
+    if (connectedSocket) sockets.push(connectedSocket);
     try {
-        return inject<AbstractWebsocket>(WebSocketToken);
+        const injected = inject<AbstractWebsocket>(WebSocketToken);
+        if (!sockets.includes(injected)) sockets.push(injected);
     } catch {
-        if (!engine) throw new Error("Dictionary export runtime requires a client socket");
-        return engine.socket;
+        // The scene-map hook can run outside the inject context; fall back to the engine socket.
     }
+    if (engine?.socket && !sockets.includes(engine.socket)) {
+        sockets.push(engine.socket);
+    }
+    if (sockets.length === 0) {
+        throw new Error("Dictionary export runtime requires a client socket");
+    }
+    return sockets;
 }
 
 function isDuplicatePayload(payload: DictionaryExportPayload): boolean {
@@ -101,7 +120,7 @@ async function exportDictionaryPayload(payload: DictionaryExportPayload): Promis
         notifyDictionaryExport(debug);
         try {
             await share({
-                title: "lipu nimi",
+                title: "Clue Journal",
                 text: payload.textCard,
                 files: [svgFile],
             });

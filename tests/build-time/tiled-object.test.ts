@@ -18,11 +18,11 @@ describe("Tiled object helpers", () => {
         const object = {
             properties: {
                 type: "Warp",
-                target_map: "nasin_wan",
+                target_map: "greenwood_road",
             },
         };
 
-        expect(readTiledObjectProperty(object, "target_map")).toBe("nasin_wan");
+        expect(readTiledObjectProperty(object, "target_map")).toBe("greenwood_road");
         expect(readTiledObjectType(object)).toBe("Warp");
     });
 });

@@ -1,4 +1,4 @@
-import { hpTpLabel } from "../../styles/hp-bar";
+import { hpStatusLabel } from "../../styles/hp-bar";
 import { creatureSpriteId } from "../../config/creature-sprites";
 import { COMBAT_UI_CONFIG } from "../../content/gameplay";
 import { formatGameplayTemplate } from "../../content/gameplay/templates";
@@ -22,7 +22,7 @@ export function formatWildCombatPrompt(
     combat: WildCombatState,
 ): string {
     const label = target.name?.tp ?? target.name?.en ?? target.id.replace(/_/g, " ");
-    const hpLabel = hpTpLabel(combat.targetHp, combat.targetMaxHp);
+    const hpLabel = hpStatusLabel(combat.targetHp, combat.targetMaxHp);
     const config = COMBAT_UI_CONFIG.wildBattle;
     return formatGameplayTemplate(config.promptTemplate, {
         label,
@@ -43,7 +43,7 @@ export function formatWildFightResult(
         damage: formatWildDamagePopup(damage, multiplier),
         target: config.fightResultTargetLabel,
         hp: wildHpLabel(combat.targetHp, combat.targetMaxHp),
-        tier: hpTpLabel(combat.targetHp, combat.targetMaxHp),
+        tier: hpStatusLabel(combat.targetHp, combat.targetMaxHp),
     });
 }
 

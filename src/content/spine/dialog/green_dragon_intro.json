@@ -1,8 +1,18 @@
 {
   "id": "green_dragon_intro",
   "npc_id": "green_dragon",
-  "when_flags": { "green_dragon_defeated": false },
+  "when_flags": {
+    "green_dragon_defeated": false
+  },
   "priority": 10,
-  "beats": [{ "text": { "en": "I'm plenty strong!" }, "mood": "excited", "glyph": "wawa" }],
+  "beats": [
+    {
+      "text": {
+        "en": "The rivergate burns with green fire. I am done hiding."
+      },
+      "mood": "excited",
+      "glyph": "battle-ready"
+    }
+  ],
   "triggers": {}
 }

@@ -9,7 +9,7 @@ import {
     logEncounter,
     recordBestiaryCaught,
     recordBestiarySeen,
-    recordMasteredWord,
+    recordClue,
 } from "../../platform/persistence/queries";
 import { playDialog } from "./dialog";
 import worldRaw from "../../content/generated/world.json";
@@ -173,7 +173,7 @@ async function runCaptureDialog(
 ): Promise<void> {
     await cueSfx(player, SFX_CUE_CONFIG.encounterAppear);
     await playDialog(player, COMBAT_UI_CONFIG.wildBattle.dialogIds.appear);
-    await recordMasteredWord(meta.id.split("_")[0]);
+    await recordClue("wild-signs");
     await recordBestiarySeen(meta.id);
 
     let combat: WildCombatState = {

@@ -23,20 +23,25 @@ describe("Maestro mobile QA contract", () => {
         expect(pkg.scripts["maestro:ios"]).toContain(".maestro/ios/pages-safari-smoke.yaml");
         expect(pkg.scripts["android:build-debug"]).toContain("node scripts/android-build-debug.mjs");
         expect(androidBuildScript).toContain("CAPACITOR");
+        expect(androidBuildScript).toContain("syncAndroidAppIdentity");
         expect(androidBuildScript).toContain("assembleDebug");
     });
 
     it("keeps Android debug APK flow pointed at the Capacitor package", () => {
         const flow = text(".maestro/android/debug-apk-smoke.yaml");
 
-        expect(flow).toContain("appId: com.pokisoweli.game");
+        expect(flow).toContain("appId: com.riversreckoning.game");
         expect(flow).toContain("name: Android debug APK smoke");
-        expect(flow).toContain("clearState: com.pokisoweli.game");
-        expect(flow).toContain('visible: "poki soweli"');
-        expect(flow).toContain('tapOn: "open sin"');
-        expect(flow).toContain('tapOn: "kon moli"');
-        expect(flow).toContain('tapOn: "≡"');
-        expect(flow).not.toContain("point:");
+        expect(flow).toContain("clearState: com.riversreckoning.game");
+        expect(flow).toContain("setOrientation: LANDSCAPE_LEFT");
+        expect(flow).toContain('visible: "Rivers Reckoning"');
+        expect(flow).toContain('tapOn: "New Game"');
+        expect(flow).toContain('visible: "Rivers, today you start your own investigation."');
+        expect(flow).toContain('point: "68%,56%"');
+        expect(flow).toContain('point: "68%,31%"');
+        expect(flow).toContain('point: "50%,84%"');
+        expect(flow).toContain('tapOn: "Ashcat"');
+        expect(flow).toContain('tapOn: "Pause menu"');
     });
 
     it("keeps iOS flow on Mobile Safari Pages until a native iOS target exists", () => {
@@ -45,10 +50,14 @@ describe("Maestro mobile QA contract", () => {
         expect(flow).toContain("appId: com.apple.mobilesafari");
         expect(flow).toContain("https://arcade-cabinet.github.io/poki-soweli/");
         expect(flow).toContain("name: iOS Safari Pages smoke");
-        expect(flow).toContain('visible: "poki soweli"');
-        expect(flow).toContain('tapOn: "open sin"');
-        expect(flow).toContain('tapOn: "kon moli"');
-        expect(flow).not.toContain("point:");
+        expect(flow).toContain("setOrientation: LANDSCAPE_LEFT");
+        expect(flow).toContain('visible: "Rivers Reckoning"');
+        expect(flow).toContain('tapOn: "New Game"');
+        expect(flow).toContain('visible: "Rivers, today you start your own investigation."');
+        expect(flow).toContain('point: "68%,56%"');
+        expect(flow).toContain('point: "68%,31%"');
+        expect(flow).toContain('point: "50%,84%"');
+        expect(flow).toContain('tapOn: "Ashcat"');
     });
 
     it("keeps release QA docs wired to Maestro without overstating device proof", () => {
@@ -62,7 +71,8 @@ describe("Maestro mobile QA contract", () => {
         expect(docs).toContain("pnpm maestro:check");
         expect(docs).toContain("pnpm maestro:android");
         expect(docs).toContain("pnpm maestro:ios");
-        expect(docs).toContain("Maestro is scaffolded, not device-proven yet");
-        expect(docs).toContain("actual Android emulator execution");
+        expect(docs).toContain("Android emulator smoke passed");
+        expect(docs).toContain("release-attached APK proof");
+        expect(docs).toContain("iOS Pages simulator proof");
     });
 });

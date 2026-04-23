@@ -1,21 +1,38 @@
 {
   "starter_level": 5,
-  "initial_items": [{ "item_id": "poki_lili", "count": 3 }],
+  "initial_items": [
+    {
+      "item_id": "poki_lili",
+      "count": 3
+    }
+  ],
   "starters": [
     {
       "id": "kon_moli",
-      "label": "kon moli",
-      "mastered_words": ["kon", "moli", "poki"]
+      "label": "Ashcat",
+      "starting_clues": [
+        "companion-bond",
+        "capture-pods",
+        "starter-ashcat"
+      ]
     },
     {
       "id": "telo_jaki",
-      "label": "telo jaki",
-      "mastered_words": ["telo", "jaki", "poki"]
+      "label": "Mireling",
+      "starting_clues": [
+        "companion-bond",
+        "capture-pods",
+        "starter-mireling"
+      ]
     },
     {
       "id": "jan_ike_lili",
-      "label": "jan ike lili",
-      "mastered_words": ["jan", "ike", "lili", "poki"]
+      "label": "Bramble Imp",
+      "starting_clues": [
+        "companion-bond",
+        "capture-pods",
+        "starter-bramble-imp"
+      ]
     }
   ]
 }

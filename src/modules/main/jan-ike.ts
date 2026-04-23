@@ -20,9 +20,9 @@ import { resolveEnemyType } from "./gym-leader";
 const JAN_IKE_CONFIG = TRAINER_BATTLE_CONFIGS.jan_ike;
 
 /**
- * beat_02 rival — jan Ike, blocks the east warp on nasin_wan until
+ * beat_02 rival — jan Ike, blocks the east warp on greenwood_road until
  * defeated in an action-battle. Defeat sets the `jan_ike_defeated`
- * flag so Warp(warp_east → nena_sewi) opens.
+ * flag so Warp(warp_east → highridge_pass) opens.
  *
  * Stats and AI: aggressive melee bruiser, level-5-equivalent HP/ATK.
  * The first real-time fight the player faces — intentionally simple.

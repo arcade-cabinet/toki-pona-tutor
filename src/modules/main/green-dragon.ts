@@ -3,7 +3,7 @@ import { BattleAi } from "@rpgjs/action-battle/server";
 import { ensureBattleAi, scheduleBattleAi } from "./battle-ai";
 import { playDialog } from "./dialog";
 import { showCredits } from "./credits-screen";
-import { getFlag, setFlag, recordMasteredWord } from "../../platform/persistence/queries";
+import { getFlag, setFlag, recordClue } from "../../platform/persistence/queries";
 import { preferences, KEYS } from "../../platform/persistence/preferences";
 import { cueAmbientBgm, cueCombatBgm, cueSfx } from "./audio-cues";
 import { BATTLE_COIN_REWARDS, grantBattleCoins } from "./shop";
@@ -22,10 +22,9 @@ import { resolveEnemyType } from "./gym-leader";
  * the gym leaders; this is the endgame and winning is the ending.
  *
  * Stat check: significantly harder than jan Suli (the hardest gym).
- * Player should have a full party and 4 badges worth of mastered
- * words before reaching this fight.
+ * Player should have a full party and all four region badges before reaching this fight.
  *
- * Gating: the final_boss_trigger on the nasin_pi_telo map only fires
+ * Gating: the final_boss_trigger on the rivergate_approach map only fires
  * the dragon if all four region badges are set. This is checked by
  * `allBadgesEarned()` below, not a separate persisted flag.
  */
@@ -84,7 +83,7 @@ export function GreenDragon(): EventDefinition {
                             }
                             await setFlag(config.defeatedFlag, "1");
                             await setFlag(config.clearedFlag, "1");
-                            await recordMasteredWord(config.rewardWord);
+                            await recordClue(config.rewardClue);
                             await preferences.set(KEYS.journeyBeat, config.endingBeatId);
                             if (attacker) {
                                 await cueSfx(attacker, SFX_CUE_CONFIG.trainerFaint);
@@ -138,7 +137,7 @@ export function GreenDragon(): EventDefinition {
 
 /**
  * Shape handler — the `final_boss_trigger` Tiled Trigger object on
- * nasin_pi_telo fires when the player walks onto it. Gated by the
+ * rivergate_approach fires when the player walks onto it. Gated by the
  * four-badge check; if any badge is missing, the trigger is silent
  * (the player can still explore the rest of the route).
  */
@@ -151,6 +150,6 @@ export async function handleFinalBossTrigger(player: RpgPlayer): Promise<void> {
     await activateLeadBattleAvatar(player);
     await cueCombatBgm(player);
     // The actual BattleAi is attached to the green_dragon event on the
-    // nasin_pi_telo map; the trigger's job is just to gate entry and
+    // rivergate_approach map; the trigger's job is just to gate entry and
     // prime the intro dialog. Combat begins when the player attacks.
 }

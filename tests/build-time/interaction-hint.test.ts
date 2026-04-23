@@ -71,7 +71,7 @@ function createEngine(options: {
 }
 
 describe("interaction hint detection", () => {
-    it("returns toki for a talkable npc within the mobile landing tolerance", () => {
+    it("returns talk for a talkable npc within the mobile landing tolerance", () => {
         const { engine } = createEngine({
             player: {
                 x: () => 160,
@@ -86,13 +86,13 @@ describe("interaction hint detection", () => {
         });
 
         expect(getInteractionHintForPlayer(engine, engine.getCurrentPlayer())).toEqual({
-            glyph: "toki",
+            glyph: "talk",
             targetId: "jan-sewi",
             interaction: { kind: "action" },
         });
     });
 
-    it("returns utala for a gym-leader event in range", () => {
+    it("returns battle for a region-master event in range", () => {
         const { engine } = createEngine({
             player: {
                 x: () => 160,
@@ -107,7 +107,7 @@ describe("interaction hint detection", () => {
         });
 
         expect(getInteractionHintForPlayer(engine, engine.getCurrentPlayer())).toEqual({
-            glyph: "utala",
+            glyph: "battle",
             targetId: "jan-wawa",
             interaction: { kind: "action" },
         });
@@ -151,7 +151,7 @@ describe("interaction hint detection", () => {
         });
 
         expect(getInteractionHintForPlayer(engine, engine.getCurrentPlayer())).toEqual({
-            glyph: "alasa",
+            glyph: "search",
             targetId: "encounter_test",
             interaction: { kind: "touch", direction: Direction.Right },
         });
@@ -176,7 +176,7 @@ describe("interaction hint detection", () => {
         });
 
         expect(getInteractionHintForPlayer(engine, engine.getCurrentPlayer())).toEqual({
-            glyph: "toki",
+            glyph: "talk",
             targetId: "jan-near",
             interaction: { kind: "action" },
         });
@@ -205,7 +205,7 @@ describe("interaction hint triggering", () => {
         const { engine, processAction, processInput } = createEngine({});
 
         const handled = triggerInteractionHint(engine, {
-            glyph: "toki",
+            glyph: "talk",
             targetId: "jan-sewi",
             interaction: { kind: "action" },
         });
@@ -219,7 +219,7 @@ describe("interaction hint triggering", () => {
         const { engine, processAction, processInput } = createEngine({});
 
         const handled = triggerInteractionHint(engine, {
-            glyph: "tawa",
+            glyph: "travel",
             targetId: "warp_east",
             interaction: { kind: "touch", direction: Direction.Right },
         });
@@ -233,7 +233,7 @@ describe("interaction hint triggering", () => {
         const { engine, processAction, processInput } = createEngine({});
 
         const handled = triggerInteractionHint(engine, {
-            glyph: "tawa",
+            glyph: "travel",
             targetId: "warp_east",
             interaction: { kind: "touch", direction: null },
         });

@@ -4,7 +4,7 @@ import {
     consumeInventoryItem,
     getFlag,
     getInventoryCount,
-    recordMasteredWord,
+    recordClue,
     setFlag,
 } from "../../platform/persistence/queries";
 import {
@@ -21,7 +21,9 @@ import {
 } from "./quest";
 import { QUEST_UI_CONFIG } from "../../content/gameplay";
 import { formatGameplayTemplate } from "../../content/gameplay/templates";
+import { itemLabel, speciesLabel } from "../../content/runtime-labels";
 import { awardLeadVictoryXp } from "./victory-rewards";
+import { clueLabel } from "./vocabulary";
 
 const ACTIVE_STATUS = "active";
 const COMPLETED_STATUS = "completed";
@@ -240,11 +242,11 @@ async function grantQuestReward(player: RpgPlayer, def: QuestDef): Promise<strin
         );
     }
 
-    if (reward.rewardWord) {
-        await recordMasteredWord(reward.rewardWord);
+    if (reward.rewardClue) {
+        await recordClue(reward.rewardClue);
         labels.push(
             formatGameplayTemplate(QUEST_UI_CONFIG.rewardTemplates.word, {
-                word: reward.rewardWord,
+                word: clueLabel(reward.rewardClue),
             }),
         );
     }
@@ -296,7 +298,7 @@ function formatGoal(goal: QuestGoal): string {
     switch (goal.kind) {
         case "catch_count":
             return formatGameplayTemplate(QUEST_UI_CONFIG.goalTemplates.catch_count, {
-                species: goal.speciesId.replace(/_/g, " "),
+                species: speciesLabel(goal.speciesId),
                 target: goal.target,
             });
         case "catch_any_in_biome":
@@ -313,8 +315,4 @@ function formatGoal(goal: QuestGoal): string {
                 npc: goal.toNpcId.replace(/_/g, " "),
             });
     }
-}
-
-function itemLabel(itemId: string): string {
-    return itemId.replace(/_/g, " ");
 }

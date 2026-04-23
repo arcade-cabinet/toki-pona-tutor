@@ -2,6 +2,14 @@
   "id": "jan_olin_telo_quiet",
   "npc_id": "jan_olin_telo",
   "priority": 0,
-  "beats": [{ "text": { "en": "You seem well..." }, "mood": "thinking", "glyph": "olin" }],
+  "beats": [
+    {
+      "text": {
+        "en": "Lakehaven listens better than it speaks."
+      },
+      "mood": "thinking",
+      "glyph": "companion-bond"
+    }
+  ],
   "triggers": {}
 }

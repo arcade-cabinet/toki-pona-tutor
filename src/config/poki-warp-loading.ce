@@ -1,31 +1,8 @@
-<DOMContainer width="100%" height="100%" class="poki-warp-loading-root" style={rootStyle}>
-    @if (view()) {
-        <div
-            class={loadingClass()}
-            data-testid="warp-loading"
-            data-phase={phase()}
-            aria-label={ariaLabel()}
-        >
-            <div class="poki-warp-loading-card">
-                <div class="poki-warp-loading-sigil" aria-hidden="true">
-                    <span></span>
-                    <span></span>
-                    <span></span>
-                </div>
-                <div class="poki-warp-loading-copy">
-                    <div class="poki-warp-loading-status">{statusLabel()}</div>
-                    <div class="poki-warp-loading-label">{label()}</div>
-                    <div class="poki-warp-loading-detail">{detailLabel()}</div>
-                </div>
-            </div>
-        </div>
-    }
-</DOMContainer>
+<DOMContainer width="0" height="0"></DOMContainer>
 
 <script>
-    import { computed } from "canvasengine";
-    import { WARP_LOADING_CONFIG } from "../content/gameplay";
-    import { formatGameplayTemplate } from "../content/gameplay/templates";
+    import { computed, effect, mount } from "canvasengine";
+    import { riversUiBridge } from "../ui/bridge";
 
     const { data } = defineProps({
         data: {
@@ -33,16 +10,15 @@
         }
     });
 
-    const rootStyle = { pointerEvents: "none" };
     const view = computed(() => data() || null);
-    const phase = computed(() => view()?.phase || WARP_LOADING_CONFIG.defaultPhase);
-    const label = computed(() => view()?.label || "");
-    const phaseDefaults = computed(() => WARP_LOADING_CONFIG.phaseLabels[phase()] || WARP_LOADING_CONFIG.phaseLabels[WARP_LOADING_CONFIG.defaultPhase]);
-    const statusLabel = computed(() => view()?.statusLabel || phaseDefaults().statusLabel);
-    const detailLabel = computed(() => view()?.detailLabel || phaseDefaults().detailLabel);
-    const loadingClass = computed(() => `poki-warp-loading phase-${phase()}`);
-    const ariaLabel = computed(() => formatGameplayTemplate(WARP_LOADING_CONFIG.ariaLabelTemplate, {
-        status: statusLabel(),
-        label: label()
-    }));
+
+    effect(() => {
+        riversUiBridge.update({ warpLoading: view() });
+    });
+
+    mount(() => {
+        return () => {
+            riversUiBridge.update({ warpLoading: null });
+        };
+    });
 </script>

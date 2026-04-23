@@ -130,7 +130,7 @@ describe("BgmCrossfadeController", () => {
     it("starts the ambient map track at the user volume", async () => {
         const { controller, sounds } = makeController();
 
-        await controller.playContext({ mapId: "ma_tomo_lili", inCombat: false }, 70);
+        await controller.playContext({ mapId: "riverside_home", inCombat: false }, 70);
 
         expect(controller.currentTrack).toBe("bgm_village");
         expect(sounds.get("bgm_village")!.calls).toEqual([
@@ -144,8 +144,8 @@ describe("BgmCrossfadeController", () => {
     it("cross-fades and stops the previous track after the fade window", async () => {
         const { controller, sounds, scheduled } = makeController();
 
-        await controller.playContext({ mapId: "ma_tomo_lili", inCombat: false }, 70);
-        await controller.playContext({ mapId: "nasin_wan", inCombat: false }, 60);
+        await controller.playContext({ mapId: "riverside_home", inCombat: false }, 70);
+        await controller.playContext({ mapId: "greenwood_road", inCombat: false }, 60);
 
         expect(controller.currentTrack).toBe("bgm_forest");
         expect(sounds.get("bgm_forest")!.calls).toContain(
@@ -164,8 +164,8 @@ describe("BgmCrossfadeController", () => {
     it("switches to combat override without requiring a map transition", async () => {
         const { controller } = makeController();
 
-        await controller.playContext({ mapId: "ma_tomo_lili", inCombat: false }, 70);
-        await controller.playContext({ mapId: "ma_tomo_lili", inCombat: true }, 70);
+        await controller.playContext({ mapId: "highridge_pass", inCombat: false }, 70);
+        await controller.playContext({ mapId: "highridge_pass", inCombat: true }, 70);
 
         expect(controller.currentTrack).toBe("bgm_gym");
     });
@@ -173,8 +173,8 @@ describe("BgmCrossfadeController", () => {
     it("does not replay when only the volume changes on the same track", async () => {
         const { controller, sounds } = makeController();
 
-        await controller.playContext({ mapId: "ma_tomo_lili", inCombat: false }, 70);
-        await controller.playContext({ mapId: "ma_tomo_lili", inCombat: false }, 30);
+        await controller.playContext({ mapId: "riverside_home", inCombat: false }, 70);
+        await controller.playContext({ mapId: "riverside_home", inCombat: false }, 30);
 
         const villageCalls = sounds.get("bgm_village")!.calls;
         expect(villageCalls.filter((call) => call === "play")).toHaveLength(1);
@@ -184,9 +184,9 @@ describe("BgmCrossfadeController", () => {
     it("does not let stale fade timers stop a reactivated track", async () => {
         const { controller, sounds, scheduled } = makeController();
 
-        await controller.playContext({ mapId: "ma_tomo_lili", inCombat: false }, 70);
-        await controller.playContext({ mapId: "nasin_wan", inCombat: false }, 60);
-        await controller.playContext({ mapId: "ma_tomo_lili", inCombat: false }, 70);
+        await controller.playContext({ mapId: "riverside_home", inCombat: false }, 70);
+        await controller.playContext({ mapId: "greenwood_road", inCombat: false }, 60);
+        await controller.playContext({ mapId: "riverside_home", inCombat: false }, 70);
 
         scheduled[0].callback();
 

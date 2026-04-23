@@ -1,11 +1,11 @@
 /**
- * wan sitelen — pick-the-sentence micro-game — T8-05.
+ * Field-notes prompt micro-game — T8-05.
  *
  * Optional language-practice mini-game at the starter village. The
  * player sees a pictorial prompt (a scene / emoji / glyph) and picks
- * which of 4 TP sentences describes it. No EN shown anywhere.
+ * which of 4 English field-note lines describes it.
  *
- * The round generator is pure: given a pool of (prompt, correctTp)
+ * The round generator is pure: given a pool of (prompt, correctText)
  * pairs plus a RNG, it builds a round with 3 distractors drawn from
  * the same pool (never the correct answer) and a shuffled option
  * order. Same seed → same round — deterministic for tests and for
@@ -25,13 +25,13 @@ export interface SentencePrompt {
     /** What the player sees. For v1 this is a short EN phrase used as
      *  a pointer to a glyph asset — runtime swaps it for the actual image. */
     prompt_tag: string;
-    /** Canonical TP sentence that matches the prompt. */
-    tp: string;
+    /** English field-note line that matches the prompt. */
+    text: string;
 }
 
 export interface Round {
     prompt: SentencePrompt;
-    /** 4 shuffled options; exactly one matches prompt.tp. */
+    /** 4 shuffled options; exactly one matches prompt.text. */
     options: string[];
     /** Index into `options` of the correct answer. */
     correctIndex: number;
@@ -82,44 +82,44 @@ export function shuffle<T>(items: readonly T[], rng: () => number): T[] {
 
 /**
  * Build one round from the pool. Throws if the pool has < 4 distinct
- * TP strings (need 1 correct + 3 distractors). Distractors are drawn
- * without replacement; if two pool entries share the same TP (possible
+ * text strings (need 1 correct + 3 distractors). Distractors are drawn
+ * without replacement; if two pool entries share the same text (possible
  * after dedup bugs) we skip duplicates.
  *
  * @example
  * const pool = [
- *   { id: 'soweli', prompt_tag: 'animal', tp: 'soweli li lon.' },
- *   { id: 'kala',   prompt_tag: 'fish',   tp: 'kala li lon telo.' },
- *   { id: 'waso',   prompt_tag: 'bird',   tp: 'waso li tawa sewi.' },
- *   { id: 'kili',   prompt_tag: 'fruit',  tp: 'kili li suwi.' },
+ *   { id: 'wolf', prompt_tag: 'animal', text: 'A creature waits nearby.' },
+ *   { id: 'fish', prompt_tag: 'fish', text: 'Something moves under the water.' },
+ *   { id: 'bird', prompt_tag: 'bird', text: 'A bird circles overhead.' },
+ *   { id: 'fruit', prompt_tag: 'fruit', text: 'Fresh fruit can restore strength.' },
  * ];
  * const round = buildRound(pool, pool[0], makeRng(42));
- * // → { prompt: pool[0], options: [...4 shuffled tp strings...], correctIndex: N }
+ * // → { prompt: pool[0], options: [...4 shuffled text strings...], correctIndex: N }
  */
 export function buildRound(
     pool: readonly SentencePrompt[],
     prompt: SentencePrompt,
     rng: () => number,
 ): Round {
-    const pickedTps = new Set<string>([prompt.tp]);
+    const pickedTexts = new Set<string>([prompt.text]);
     const distractors: string[] = [];
 
-    // Shuffle pool once; walk it picking unique-TP distractors.
+    // Shuffle pool once; walk it picking unique-text distractors.
     const shuffled = shuffle(pool, rng);
     for (const entry of shuffled) {
         if (distractors.length >= 3) break;
-        if (pickedTps.has(entry.tp)) continue;
-        distractors.push(entry.tp);
-        pickedTps.add(entry.tp);
+        if (pickedTexts.has(entry.text)) continue;
+        distractors.push(entry.text);
+        pickedTexts.add(entry.text);
     }
     if (distractors.length < 3) {
         throw new Error(
-            `buildRound: pool has ${pickedTps.size} distinct TP strings, need at least 4`,
+            `buildRound: pool has ${pickedTexts.size} distinct text strings, need at least 4`,
         );
     }
 
-    const options = shuffle([prompt.tp, ...distractors], rng);
-    const correctIndex = options.indexOf(prompt.tp);
+    const options = shuffle([prompt.text, ...distractors], rng);
+    const correctIndex = options.indexOf(prompt.text);
 
     return { prompt, options, correctIndex };
 }
@@ -184,7 +184,7 @@ export async function playMicroGame(
         score = result.score;
         await player.showText(
             formatGameplayTemplate(result.correct ? config.correctTemplate : config.wrongTemplate, {
-                answer: round.prompt.tp,
+                answer: round.prompt.text,
                 score,
                 total,
             }),

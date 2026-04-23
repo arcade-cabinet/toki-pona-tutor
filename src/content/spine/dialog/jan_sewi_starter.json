@@ -1,16 +1,32 @@
 {
   "id": "jan_sewi_starter_intro",
   "npc_id": "jan_sewi",
-  "when_flags": { "starter_chosen": false },
+  "when_flags": {
+    "starter_chosen": false
+  },
   "priority": 10,
   "beats": [
-    { "text": { "en": "hello" }, "mood": "happy", "glyph": "toki" },
     {
-      "text": { "en": "Fresh fruit is good for the health." },
-      "mood": "thinking",
-      "glyph": "pona"
+      "text": {
+        "en": "Rivers, today you start your own investigation."
+      },
+      "mood": "happy",
+      "glyph": "companion-bond"
     },
-    { "text": { "en": "Which color do you prefer?" }, "mood": "excited", "glyph": "seme" }
+    {
+      "text": {
+        "en": "Three creatures answered the call."
+      },
+      "mood": "thinking",
+      "glyph": "companion-bond"
+    },
+    {
+      "text": {
+        "en": "Choose the partner you trust at your side."
+      },
+      "mood": "excited",
+      "glyph": "wild-signs"
+    }
   ],
   "triggers": {}
 }

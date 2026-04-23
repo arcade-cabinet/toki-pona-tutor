@@ -3,7 +3,7 @@ import { AUDIO_BGM_OVERRIDE_EVENT, bgmFile, bgmForContext, effectiveVolume } fro
 
 describe('AUDIO_BGM_OVERRIDE_EVENT', () => {
     it('uses the configured socket event contract', () => {
-        expect(AUDIO_BGM_OVERRIDE_EVENT).toBe('poki-soweli:audio:bgm-override');
+        expect(AUDIO_BGM_OVERRIDE_EVENT).toBe('rivers-reckoning:audio:bgm-override');
     });
 });
 
@@ -22,32 +22,32 @@ describe('bgmFile — canonical file path', () => {
 });
 
 describe('bgmForContext — context → BGM resolver', () => {
-    it('ma_tomo_lili (starter village) → bgm_village', () => {
-        expect(bgmForContext({ mapId: 'ma_tomo_lili', inCombat: false })).toBe('bgm_village');
+    it('riverside_home (starter village) → bgm_village', () => {
+        expect(bgmForContext({ mapId: 'riverside_home', inCombat: false })).toBe('bgm_village');
     });
 
-    it('ma_telo (lake village) → bgm_village', () => {
-        expect(bgmForContext({ mapId: 'ma_telo', inCombat: false })).toBe('bgm_village');
+    it('lakehaven (lake village) → bgm_village', () => {
+        expect(bgmForContext({ mapId: 'lakehaven', inCombat: false })).toBe('bgm_village');
     });
 
-    it('ma_lete (cold village) → bgm_snow', () => {
-        expect(bgmForContext({ mapId: 'ma_lete', inCombat: false })).toBe('bgm_snow');
+    it('frostvale (cold village) → bgm_snow', () => {
+        expect(bgmForContext({ mapId: 'frostvale', inCombat: false })).toBe('bgm_snow');
     });
 
-    it('nasin_wan (forest path) → bgm_forest', () => {
-        expect(bgmForContext({ mapId: 'nasin_wan', inCombat: false })).toBe('bgm_forest');
+    it('greenwood_road (forest path) → bgm_forest', () => {
+        expect(bgmForContext({ mapId: 'greenwood_road', inCombat: false })).toBe('bgm_forest');
     });
 
-    it('nena_sewi (mountain pass) → bgm_mountain', () => {
-        expect(bgmForContext({ mapId: 'nena_sewi', inCombat: false })).toBe('bgm_mountain');
+    it('highridge_pass (mountain pass) → bgm_mountain', () => {
+        expect(bgmForContext({ mapId: 'highridge_pass', inCombat: false })).toBe('bgm_mountain');
     });
 
-    it('nena_suli (great peak) → bgm_mountain', () => {
-        expect(bgmForContext({ mapId: 'nena_suli', inCombat: false })).toBe('bgm_mountain');
+    it('dreadpeak_cavern (great peak) → bgm_mountain', () => {
+        expect(bgmForContext({ mapId: 'dreadpeak_cavern', inCombat: false })).toBe('bgm_mountain');
     });
 
-    it('nasin_pi_telo (riverside) → bgm_water', () => {
-        expect(bgmForContext({ mapId: 'nasin_pi_telo', inCombat: false })).toBe('bgm_water');
+    it('rivergate_approach (riverside) → bgm_water', () => {
+        expect(bgmForContext({ mapId: 'rivergate_approach', inCombat: false })).toBe('bgm_water');
     });
 
     it('unknown map → bgm_menu fallback', () => {
@@ -55,15 +55,15 @@ describe('bgmForContext — context → BGM resolver', () => {
     });
 
     it('inCombat on village map → bgm_gym', () => {
-        expect(bgmForContext({ mapId: 'ma_telo', inCombat: true })).toBe('bgm_gym');
+        expect(bgmForContext({ mapId: 'lakehaven', inCombat: true })).toBe('bgm_gym');
     });
 
     it('inCombat on mountain → bgm_gym', () => {
-        expect(bgmForContext({ mapId: 'nena_sewi', inCombat: true })).toBe('bgm_gym');
+        expect(bgmForContext({ mapId: 'highridge_pass', inCombat: true })).toBe('bgm_gym');
     });
 
-    it('inCombat on nasin_pi_telo → configured boss override', () => {
-        expect(bgmForContext({ mapId: 'nasin_pi_telo', inCombat: true })).toBe('bgm_boss');
+    it('inCombat on rivergate_approach → configured boss override', () => {
+        expect(bgmForContext({ mapId: 'rivergate_approach', inCombat: true })).toBe('bgm_boss');
     });
 
     it('inCombat on unknown map → bgm_battle generic', () => {

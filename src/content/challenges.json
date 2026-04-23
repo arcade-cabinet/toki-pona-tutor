@@ -1,62 +1,62 @@
 [
   {
-    "prompt": "A good person (friend)",
-    "target": ["jan", "pona"],
-    "hint": "In Toki Pona, the adjective always comes AFTER the noun. 'Person' + 'Good'.",
-    "type": "concept"
+    "prompt": "Rivers needs a partner he can trust.",
+    "target": ["companion-bond"],
+    "hint": "Look for the clue about captured creatures becoming trusted partners.",
+    "type": "field_note"
   },
   {
-    "prompt": "Hot water (coffee/tea)",
-    "target": ["telo", "seli"],
-    "hint": "Think: 'Water' + 'Hot'. Modifiers follow the main word.",
-    "type": "concept"
+    "prompt": "The first pod upgrade comes from proving field skill.",
+    "target": ["capture-pods"],
+    "hint": "This clue explains why stronger pods matter.",
+    "type": "field_note"
   },
   {
-    "prompt": "School (building of knowledge)",
-    "target": ["tomo", "sona"],
-    "hint": "How do you say 'Room of Knowledge'?",
-    "type": "concept"
+    "prompt": "A safe place lets Rivers recover before the road.",
+    "target": ["safe-house"],
+    "hint": "Home is safety, not just a map origin.",
+    "type": "field_note"
   },
   {
-    "prompt": "I eat.",
-    "target": ["mi", "moku"],
-    "hint": "When 'mi' or 'sina' is the subject, you just put the verb right after.",
-    "type": "sentence"
+    "prompt": "Rustling grass and odd tracks warn of nearby creatures.",
+    "target": ["wild-signs"],
+    "hint": "This clue belongs to encounter-zone readability.",
+    "type": "field_note"
   },
   {
-    "prompt": "You look.",
-    "target": ["sina", "lukin"],
-    "hint": "Simple Subject + Verb.",
-    "type": "sentence"
+    "prompt": "The orchard quest teaches the first healing loop.",
+    "target": ["orchard-fruit"],
+    "hint": "Find the clue about fruit restoring a companion.",
+    "type": "field_note"
   },
   {
-    "prompt": "The person eats.",
-    "target": ["jan", "li", "moku"],
-    "hint": "If the subject is NOT 'mi' or 'sina', you MUST put 'li' before the verb.",
-    "type": "sentence"
+    "prompt": "The first master yields after a courage check.",
+    "target": ["highridge-proof"],
+    "hint": "This is the Highridge badge clue.",
+    "type": "field_note"
   },
   {
-    "prompt": "The big animal waits.",
-    "target": ["soweli", "suli", "li", "awen"],
-    "hint": "Subject (Animal Big) + 'li' + Verb (Wait/Stay). 'awen' means to stay or wait, not to sleep.",
-    "type": "sentence"
+    "prompt": "The lake master rewards patience and control.",
+    "target": ["lakehaven-proof"],
+    "hint": "This is the Lakehaven badge clue.",
+    "type": "field_note"
   },
   {
-    "prompt": "I eat the fruit.",
-    "target": ["mi", "moku", "e", "kili"],
-    "hint": "Put 'e' right before the thing being acted upon (the direct object).",
-    "type": "sentence"
+    "prompt": "The frost road punishes standing still.",
+    "target": ["frostvale-proof"],
+    "hint": "This is the Frostvale badge clue.",
+    "type": "field_note"
   },
   {
-    "prompt": "You want water.",
-    "target": ["sina", "wile", "e", "telo"],
-    "hint": "Subject + Verb + 'e' + Object.",
-    "type": "sentence"
+    "prompt": "The cave torches are landmarks, not decoration.",
+    "target": ["torch-path"],
+    "hint": "This clue belongs to Dreadpeak route readability.",
+    "type": "field_note"
   },
   {
-    "prompt": "The good person makes a house.",
-    "target": ["jan", "pona", "li", "pali", "e", "tomo"],
-    "hint": "Putting it all together: Subject (Person Good) + 'li' + Verb (Make) + 'e' + Object (House).",
-    "type": "sentence"
+    "prompt": "The final proof comes after the green dragon falls.",
+    "target": ["green-dragon-proof"],
+    "hint": "This is the ending clue.",
+    "type": "field_note"
   }
 ]

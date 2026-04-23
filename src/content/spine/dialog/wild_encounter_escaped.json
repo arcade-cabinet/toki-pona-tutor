@@ -2,6 +2,14 @@
   "id": "wild_encounter_escaped",
   "npc_id": null,
   "priority": 10,
-  "beats": [{ "text": { "en": "That's it." }, "mood": "sad", "glyph": "ni" }],
+  "beats": [
+    {
+      "text": {
+        "en": "It breaks loose and bolts."
+      },
+      "mood": "sad",
+      "glyph": "wild-signs"
+    }
+  ],
   "triggers": {}
 }

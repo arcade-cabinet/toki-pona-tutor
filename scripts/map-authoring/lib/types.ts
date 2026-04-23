@@ -139,6 +139,8 @@ export interface ParsedWangset {
  * specific tileset. Populated by authors (bottom-up from spec needs).
  */
 export interface PaletteEntry {
+    /** Curated art manifest id. Required for direct non-generated palette entries. */
+    art_id?: string;
     /** The name of the `.tsx` file (without extension), e.g. "Tileset_Ground". */
     tsx: string;
     /** Local tile id within that tileset (0-indexed). */
@@ -255,6 +257,8 @@ export interface MapSpec {
     layers: {
         /** Grid of palette names — use `paint` tagged template or a 2D array. */
         "Below Player": TileGrid;
+        /** Transparent ground-detail overlays such as encounter grass. */
+        "Ground Detail"?: TileGrid | PlacedTile[];
         World?: TileGrid | PlacedTile[];
         "Above Player"?: TileGrid | PlacedTile[];
         Objects?: ObjectMarker[];

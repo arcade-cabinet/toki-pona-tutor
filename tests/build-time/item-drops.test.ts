@@ -41,7 +41,7 @@ describe('rollSpeciesItemDrop', () => {
     });
 
     it('formats inventory notifications consistently', () => {
-        expect(formatItemDrop({ itemId: 'poki_lili', count: 1 })).toBe('poki lili ×1');
+        expect(formatItemDrop({ itemId: 'poki_lili', count: 1 })).toBe('Capture Pod ×1');
     });
 
     it('falls back to type/tier loot when a species has no explicit drop', () => {

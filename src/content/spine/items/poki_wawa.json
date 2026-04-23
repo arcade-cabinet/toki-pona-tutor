@@ -1,7 +1,11 @@
 {
   "id": "poki_wawa",
-  "name": { "en": "poki" },
-  "description": { "en": "Tom opened the box." },
+  "name": {
+    "en": "Heavy Capture Pod"
+  },
+  "description": {
+    "en": "A reinforced pod with better odds against stubborn companions."
+  },
   "kind": "poki",
   "power": 1.5,
   "stackable": true,

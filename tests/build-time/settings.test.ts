@@ -76,8 +76,8 @@ describe('parseNumber helper', () => {
     });
 });
 
-describe('sitelen overlay — T8-04', () => {
-    it('defaults to false (diegetic TP)', async () => {
+describe('clue glyph overlay — T8-04', () => {
+    it('defaults to false', async () => {
         expect(await getSitelenOverlay()).toBe(false);
     });
 
@@ -172,19 +172,19 @@ describe('settings screen copy', () => {
 
     it('formats the settings summary from gameplay JSON', () => {
         expect(buildSettingsSummary(state)).toBe([
-            'nasin:',
-            '  sitelen    lon',
-            '  tenpo      48 / sec',
-            '  wawa       ala',
-            '  suli       lon',
-            '  kalama     bgm 70   sfx 80',
+            'Settings:',
+            '  glyphs    on',
+            '  text      48 / sec',
+            '  contrast       off',
+            '  access       on',
+            '  sound     bgm 70   sfx 80',
         ].join('\n'));
     });
 
     it('formats choice labels from gameplay JSON', () => {
-        expect(settingsChoiceLabel('sitelen', { label: 'sitelen', ...state })).toBe('sitelen  [lon]');
-        expect(settingsChoiceLabel('text_speed', { label: 'tenpo', ...state })).toBe('tenpo   48 / sec');
-        expect(settingsChoiceLabel('contrast', { label: 'wawa', ...state })).toBe('wawa  [ala]');
-        expect(settingsChoiceLabel('bgm', { label: 'kalama bgm', ...state })).toBe('kalama bgm 70');
+        expect(settingsChoiceLabel('sitelen', { label: 'glyph overlay', ...state })).toBe('glyph overlay  [on]');
+        expect(settingsChoiceLabel('text_speed', { label: 'text speed', ...state })).toBe('text speed   48 / sec');
+        expect(settingsChoiceLabel('contrast', { label: 'high contrast', ...state })).toBe('high contrast  [off]');
+        expect(settingsChoiceLabel('bgm', { label: 'music volume', ...state })).toBe('music volume 70');
     });
 });

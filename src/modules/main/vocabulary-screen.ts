@@ -5,28 +5,20 @@ import {
     getSentenceLogCount,
     listSentenceLog,
 } from "../../platform/persistence/queries";
-import { dictionarySize } from "./vocabulary";
+import { clueCount, clueLabel } from "./vocabulary";
 import { VOCABULARY_SCREEN_CONFIG } from "../../content/gameplay";
 import { formatGameplayTemplate } from "../../content/gameplay/templates";
 import { glyphForDisplay, type GlyphOptions } from "../../styles/sitelen-glyph";
 import { exportDump } from "./sentence-log";
 
 /**
- * Shows the player's vocabulary progress: count of mastered words vs
- * dictionary total, then pages through the mastered list showing each
- * word and its sighting count.
- *
- * No English glosses are shown — vocabulary is learned diegetically
- * through play, never via an in-game translation dictionary. A richer
- * sitelen-pona glyph view can land when a dedicated CanvasEngine GUI
- * surface is wired up.
- *
- * Uses showText (plain dialog) rather than a custom GUI because this
- * lightweight route is still serviceable through the shared dialog layer.
+ * Shows clue progress, then pages through the discovered list with
+ * sighting counts. The file name is kept for compatibility while the
+ * old language-learning layer is removed.
  */
 export async function showVocabulary(player: RpgPlayer): Promise<void> {
     const mastered = await listMasteredWords(VOCABULARY_SCREEN_CONFIG.masteryThreshold);
-    const total = dictionarySize();
+    const total = clueCount();
     await player.showText(formatVocabularySummary(mastered.length, total));
 
     if (mastered.length === 0) return;
@@ -60,12 +52,15 @@ export function formatVocabularySummary(mastered: number, total: number): string
 }
 
 export function formatVocabularyEntry(word: string, sightings: number): string {
-    return formatGameplayTemplate(VOCABULARY_SCREEN_CONFIG.entryTemplate, { word, sightings });
+    return formatGameplayTemplate(VOCABULARY_SCREEN_CONFIG.entryTemplate, {
+        word: clueLabel(word),
+        sightings,
+    });
 }
 
 export function formatVocabularyRowLabel(word: string, opts: GlyphOptions = {}): string {
     return formatGameplayTemplate(VOCABULARY_SCREEN_CONFIG.rowLabelTemplate, {
-        word,
+        word: clueLabel(word),
         glyph: glyphForDisplay(word, opts),
     });
 }
@@ -76,7 +71,7 @@ export function formatVocabularyGlyphCard(
     opts: GlyphOptions = {},
 ): string {
     return formatGameplayTemplate(VOCABULARY_SCREEN_CONFIG.glyphCardTemplate, {
-        word,
+        word: clueLabel(word),
         sightings,
         glyph: glyphForDisplay(word, opts),
     });

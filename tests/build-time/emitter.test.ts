@@ -201,7 +201,7 @@ describe("emitTmj — object layer", () => {
                     type: "Warp",
                     name: "to_east",
                     rect: [1, 0, 1, 2],
-                    props: { target_map: "nasin_wan", target_spawn: "from_west" },
+                    props: { target_map: "greenwood_road", target_spawn: "from_west" },
                 },
             ],
         },
@@ -248,7 +248,7 @@ describe("emitTmj — object layer", () => {
         expect(targetMap).toEqual({
             name: "target_map",
             type: "string",
-            value: "nasin_wan",
+            value: "greenwood_road",
         });
     });
 

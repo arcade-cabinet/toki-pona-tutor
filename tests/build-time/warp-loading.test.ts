@@ -7,28 +7,28 @@ import {
 } from '../../src/modules/main/warp-loading';
 
 describe('warp loading overlay model', () => {
-    it('uses canonical TP-ish destination labels for authored maps', () => {
-        expect(resolveWarpLoadingLabel('nasin_pi_telo')).toBe('nasin pi telo');
-        expect(resolveWarpLoadingLabel('ma_lete')).toBe('ma lete');
+    it('uses English destination labels for authored maps', () => {
+        expect(resolveWarpLoadingLabel('rivergate_approach')).toBe('Rivergate Approach');
+        expect(resolveWarpLoadingLabel('frostvale')).toBe('Frostvale');
     });
 
     it('allows explicit labels and falls back from unknown map ids', () => {
-        expect(resolveWarpLoadingLabel('ma_telo', 'ma tomo')).toBe('ma tomo');
+        expect(resolveWarpLoadingLabel('lakehaven', 'ma tomo')).toBe('ma tomo');
         expect(resolveWarpLoadingLabel('unknown_map')).toBe('unknown map');
     });
 
     it('models enter and settle phases for the GUI', () => {
-        expect(buildWarpLoadingView({ targetMap: 'nasin_wan' })).toMatchObject({
-            label: 'nasin wan',
+        expect(buildWarpLoadingView({ targetMap: 'greenwood_road' })).toMatchObject({
+            label: 'Greenwood Road',
             phase: 'enter',
-            statusLabel: 'tawa ma',
-            detailLabel: 'o awen lili',
+            statusLabel: 'Crossing over',
+            detailLabel: 'Hold on',
         });
-        expect(buildWarpLoadingView({ targetMap: 'nasin_wan', phase: 'settle' })).toMatchObject({
-            label: 'nasin wan',
+        expect(buildWarpLoadingView({ targetMap: 'greenwood_road', phase: 'settle' })).toMatchObject({
+            label: 'Greenwood Road',
             phase: 'settle',
-            statusLabel: 'kama pona',
-            detailLabel: 'ma li kama',
+            statusLabel: 'Arrived',
+            detailLabel: 'The path opens',
         });
     });
 

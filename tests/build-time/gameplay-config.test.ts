@@ -100,7 +100,7 @@ describe('gameplay JSON config', () => {
             y: DEFAULT_RESPAWN.y,
         });
         expect(Object.values(GAMEPLAY_MAPS).filter((map) => map.safe_spawn)).toHaveLength(3);
-        expect(GAMEPLAY_MAPS.nasin_pi_telo?.label).toBe('nasin pi telo');
+        expect(GAMEPLAY_MAPS.rivergate_approach?.label).toBe('Rivergate Approach');
     });
 
     it('keeps badge, starter, and shop data referentially valid', () => {
@@ -124,7 +124,7 @@ describe('gameplay JSON config', () => {
             manualSaveSlots: [1, 2, 3],
         });
         expect(mapIds.has(NEW_GAME_PLUS_CONFIG.startMapId)).toBe(true);
-        expect(NEW_GAME_PLUS_CONFIG.startJourneyBeatId).toBe('beat_01_ma_tomo_lili');
+        expect(NEW_GAME_PLUS_CONFIG.startJourneyBeatId).toBe('beat_01_riverside_home');
         expect(NEW_GAME_PLUS_CONFIG.requiredClearedFlag).toBe('game_cleared');
         expect(NEW_GAME_PLUS_CONFIG.levelReduction).toBeGreaterThan(0);
         expect(NEW_GAME_PLUS_CONFIG.legendaryMultiplierCap).toBeGreaterThanOrEqual(
@@ -138,7 +138,7 @@ describe('gameplay JSON config', () => {
 
         for (const starter of STARTERS) {
             expect(speciesIds.has(starter.id), starter.id).toBe(true);
-            expect(starter.mastered_words).toContain('poki');
+            expect(starter.starting_clues).toContain('capture-pods');
         }
         for (const item of STARTER_INITIAL_ITEMS) {
             expect(itemIds.has(item.itemId), item.itemId).toBe(true);
@@ -209,13 +209,13 @@ describe('gameplay JSON config', () => {
                 }
             }
         }
-        expect(MAP_EVENT_CONFIGS.nasin_pi_telo?.some((event) => event.kind === 'green_dragon')).toBe(true);
-        expect(runtimeEventPosition('nasin_wan', MAP_EVENT_CONFIGS.nasin_wan!.find((event) => event.id === 'jan-ike')!))
+        expect(MAP_EVENT_CONFIGS.rivergate_approach?.some((event) => event.kind === 'green_dragon')).toBe(true);
+        expect(runtimeEventPosition('greenwood_road', MAP_EVENT_CONFIGS.greenwood_road!.find((event) => event.id === 'jan-ike')!))
             .toEqual({ x: 448, y: 88 });
         expect(runtimeWarpTarget(
-            'ma_tomo_lili',
-            MAP_EVENT_CONFIGS.ma_tomo_lili!.find((event) => event.id === 'warp_east') as Extract<
-                (typeof MAP_EVENT_CONFIGS.ma_tomo_lili)[number],
+            'riverside_home',
+            MAP_EVENT_CONFIGS.riverside_home!.find((event) => event.id === 'warp_east') as Extract<
+                (typeof MAP_EVENT_CONFIGS.riverside_home)[number],
                 { kind: 'warp' }
             >,
         ).position).toEqual({ x: 32, y: 96 });
@@ -232,11 +232,11 @@ describe('gameplay JSON config', () => {
         expect(ITEM_DROP_TIER_DEFAULTS.legendary.chance).toBe(1);
     });
 
-    it('keeps wan sitelen micro-game data in gameplay JSON', () => {
-        expect(MICRO_GAME_CONFIG.action).toEqual({ label: 'wan sitelen', meta: 'musi toki' });
+    it('keeps Field Notes micro-game data in gameplay JSON', () => {
+        expect(MICRO_GAME_CONFIG.action).toEqual({ label: 'Field Notes', meta: 'clue check' });
         expect(MICRO_GAME_CONFIG.roundCount).toBe(3);
         expect(MICRO_GAME_CONFIG.pool.length).toBeGreaterThanOrEqual(4);
-        expect(new Set(MICRO_GAME_CONFIG.pool.map((entry) => entry.tp)).size).toBe(
+        expect(new Set(MICRO_GAME_CONFIG.pool.map((entry) => entry.text)).size).toBe(
             MICRO_GAME_CONFIG.pool.length,
         );
     });
@@ -284,8 +284,13 @@ describe('gameplay JSON config', () => {
         expect(Object.values(BGM_FILES).every((file) => file.endsWith('.ogg'))).toBe(true);
         expect(BGM_FILES[BGM_SELECTION_CONFIG.defaultCombatTrack]).toMatch(/\.ogg$/);
         expect(BGM_FILES[BGM_SELECTION_CONFIG.gymCombatTrack]).toMatch(/\.ogg$/);
-        expect(BGM_SELECTION_CONFIG.gymMapPrefixes).toEqual(['nena_', 'ma_']);
-        expect(BGM_SELECTION_CONFIG.mapCombatOverrides).toEqual({ nasin_pi_telo: 'bgm_boss' });
+        expect(BGM_SELECTION_CONFIG.gymMapPrefixes).toEqual([
+            'highridge_pass',
+            'lakehaven',
+            'frostvale',
+            'dreadpeak_cavern',
+        ]);
+        expect(BGM_SELECTION_CONFIG.mapCombatOverrides).toEqual({ rivergate_approach: 'bgm_boss' });
         expect(SFX_EVENTS).toHaveLength(12);
         expect(new Set(SFX_EVENTS).size).toBe(SFX_EVENTS.length);
         for (const eventId of SFX_EVENTS) {
@@ -303,20 +308,20 @@ describe('gameplay JSON config', () => {
 
         expect(mapIds.has(TITLE_START.mapId)).toBe(true);
         expect(TITLE_START.spawn).toEqual(GAMEPLAY_MAPS[TITLE_START.mapId]?.safe_spawn);
-        expect(TITLE_START.journeyBeatId).toBe('beat_01_ma_tomo_lili');
+        expect(TITLE_START.journeyBeatId).toBe('beat_01_riverside_home');
         expect(PLAYER_CONFIG.defaultGraphic).toBe('hero');
         expect(TITLE_MENU_CONFIG.guiId).toBe('rpg-title-screen');
-        expect(TITLE_MENU_CONFIG.menuTitle).toBe('poki soweli');
+        expect(TITLE_MENU_CONFIG.menuTitle).toBe('Rivers Reckoning');
         expect(TITLE_MENU_CONFIG.continueLabelTemplate).toBe('{prefix} — {slot}');
         expect(TITLE_MENU_CONFIG.confirmNewChoices.map((choice) => choice.value)).toEqual(['confirm', 'cancel']);
         expect(TITLE_MENU_CONFIG.entries.map((entry) => entry.id)).toEqual(['new', 'settings', 'quit']);
         expect(STARTER_CEREMONY_CONFIG).toMatchObject({
             mentorGraphic: 'npc_villager_fem_nel',
-            choicePrompt: '?',
+            choicePrompt: 'Choose your first companion.',
             notificationMs: 3500,
         });
         expect(PAUSE_MENU_CONFIG.guiId).toBe('poki-pause-screen');
-        expect(PAUSE_MENU_CONFIG.title).toBe('nasin');
+        expect(PAUSE_MENU_CONFIG.title).toBe('Menu');
         expect(PAUSE_MENU_CONFIG.routesAriaLabel).toBe('Pause routes');
         expect(PAUSE_MENU_CONFIG.defaultRouteId).toBe('party');
         expect(PAUSE_ROUTES_CONFIG.map((route) => route.id)).toEqual([
@@ -327,12 +332,12 @@ describe('gameplay JSON config', () => {
             'settings',
         ]);
         expect(PAUSE_FOOTER_ENTRIES.map((entry) => entry.id)).toEqual(['resume', 'save', 'title']);
-        expect(PAUSE_MENU_CONFIG.party.titleTemplate).toBe('soweli {count} / {max}');
+        expect(PAUSE_MENU_CONFIG.party.titleTemplate).toBe('Party {count} / {max}');
         expect(PAUSE_MENU_CONFIG.party.healMetaTemplate).toBe('+{healed} HP | ×{count}');
         expect(PAUSE_MENU_CONFIG.vocabulary.previewLimit).toBe(6);
         expect(PAUSE_MENU_CONFIG.vocabulary.sentenceLogAction).toEqual({
-            label: 'lipu nasin',
-            meta: '{count} toki',
+            label: 'Field Log',
+            meta: '{count} entries',
         });
         expect(PAUSE_MENU_CONFIG.inventory.badgeHeldState).toBe('✓');
         expect(itemIds.has(PARTY_PANEL_HEAL_ITEM_ID)).toBe(true);
@@ -351,15 +356,15 @@ describe('gameplay JSON config', () => {
         });
         expect(HUD_NON_BLOCKING_GUI_IDS).toContain('poki-hud-menu-toggle');
         expect(INTERACTION_HINT_CONFIG.glyphs).toEqual({
-            default: 'toki',
-            battle: 'utala',
-            warp: 'tawa',
-            encounter: 'alasa',
+            default: 'talk',
+            battle: 'battle',
+            warp: 'travel',
+            encounter: 'search',
         });
         expect(INTERACTION_HINT_CONFIG.encounterFallbackTargetId).toBe('encounter');
         expect(INTERACTION_HINT_BATTLE_EVENT_IDS).toContain('green-dragon');
         expect(DIALOG_UI_CONFIG.guiId).toBe('rpg-dialog');
-        expect(AUDIO_RUNTIME_CONFIG.bgmOverrideEvent).toBe('poki-soweli:audio:bgm-override');
+        expect(AUDIO_RUNTIME_CONFIG.bgmOverrideEvent).toBe('rivers-reckoning:audio:bgm-override');
         expect(COMBAT_UI_CONFIG).toMatchObject({
             leadMoveBarGuiId: 'poki-lead-movebar',
             leadMoveBarLimit: 4,
@@ -368,11 +373,11 @@ describe('gameplay JSON config', () => {
                 energyLabelTemplate: '{sp} SP',
                 defaultTargetStatus: 'move close, then tap a move',
                 inRangeTemplate: 'in range · {tiles} {tile_label}',
-                moveMetaTemplate: '{type} · w{power} · {sp} SP',
+                moveMetaTemplate: '{type} · power {power} · {sp} SP',
                 emptyAriaLabel: 'lead creature moves',
                 readyLabel: 'ready',
-                switchActionLabel: 'soweli',
-                switchTitle: 'ante e lead',
+                switchActionLabel: 'Party',
+                switchTitle: 'Switch lead',
             },
             leadMoveTuning: {
                 maxSpFloor: 12,
@@ -390,23 +395,23 @@ describe('gameplay JSON config', () => {
                 hpLabelTemplate: '{prefix} {current} / {max}',
                 promptTemplate: '{label} {level}\n{hp} · {tier}',
                 fightResultTemplate: '{action}: {damage}\n{target} {hp} · {tier}',
-                damageMissLabel: 'pakala',
+                damageMissLabel: 'Miss',
                 damageLabelTemplate: '-{damage} {hp_label}',
                 damagePopupTemplate: '{damage} · {tone}',
                 damageNotificationMs: 1200,
                 captureLabels: {
-                    throw: 'poki li tawa',
-                    caught: 'poki li awen',
-                    escaped: 'soweli li weka',
+                    throw: 'Throw!',
+                    caught: 'Caught!',
+                    escaped: 'It broke free!',
                 },
                 choiceLabels: {
-                    fight: 'utala',
-                    catch: 'poki',
-                    item: 'ijo',
-                    flee: 'tawa',
+                    fight: 'Fight',
+                    catch: 'Catch',
+                    item: 'Item',
+                    flee: 'Run',
                 },
-                missingPokiText: 'poki ala',
-                missingLeadLabel: 'soweli ala',
+                missingPokiText: 'No capture tools',
+                missingLeadLabel: 'No companion',
                 missingLeadTypeLabel: 'party',
                 battleLabelTemplate: '{lead} vs {target}',
                 dialogIds: {
@@ -424,13 +429,13 @@ describe('gameplay JSON config', () => {
         expect(DEFEAT_SCREEN_CONFIG.defaultPhase).toBe('fallen');
         expect(dialogIds.has(DEFEAT_SCREEN_CONFIG.reviveDialogId)).toBe(true);
         expect(DEFEAT_SCREEN_CONFIG.ariaLabelTemplate).toBe('{status}: {label}');
-        expect(DEFEAT_SCREEN_CONFIG.messageLabel).toBe('sina tawa ma tomo.');
-        expect(DEFEAT_SCREEN_CONFIG.phaseLabels.returning.statusLabel).toBe('sina tawa ma tomo');
+        expect(DEFEAT_SCREEN_CONFIG.messageLabel).toBe('Returning to the last safe place.');
+        expect(DEFEAT_SCREEN_CONFIG.phaseLabels.returning.statusLabel).toBe('Heading back');
         expect(WARP_LOADING_CONFIG.guiId).toBe('poki-warp-loading');
         expect(WARP_LOADING_CONFIG.enterMs + WARP_LOADING_CONFIG.settleMs).toBeGreaterThanOrEqual(600);
         expect(WARP_LOADING_CONFIG.defaultPhase).toBe('enter');
         expect(WARP_LOADING_CONFIG.ariaLabelTemplate).toBe('{status}: {label}');
-        expect(WARP_LOADING_CONFIG.phaseLabels.enter.statusLabel).toBe('tawa ma');
+        expect(WARP_LOADING_CONFIG.phaseLabels.enter.statusLabel).toBe('Crossing over');
         expect(TAP_ROUTE_CONFIG).toMatchObject({
             event: 'poki:tap-route',
             maxLength: 256,
@@ -447,20 +452,20 @@ describe('gameplay JSON config', () => {
             summaryTemplate: '{mastered} / {total}',
             rowLabelTemplate: '{glyph} {word}',
             entryTemplate: '{word}  ({sightings}x)',
-            glyphCardTemplate: '{glyph}\n{word}\nlukin: {sightings}x',
-            sentenceLogSummaryTemplate: 'lipu nasin: {count}',
-            sentenceLogEmptyText: 'toki ala lon lipu nasin.',
-            sentenceDumpLineTemplate: '{tp}    // sightings={sightings}    first={first_seen}',
+            glyphCardTemplate: '{glyph}\n{word}\nseen: {sightings}x',
+            sentenceLogSummaryTemplate: 'Field log: {count}',
+            sentenceLogEmptyText: 'No field notes yet.',
+            sentenceDumpLineTemplate: '{text}    // sightings={sightings}    first={first_seen}',
         });
-        expect(INVENTORY_SCREEN_CONFIG.partyHeaderTemplate).toBe('poki: {count} / {max}');
+        expect(INVENTORY_SCREEN_CONFIG.partyHeaderTemplate).toBe('Party: {count} / {max}');
         expect(INVENTORY_SCREEN_CONFIG.itemLineTemplate).toBe('  {item} ×{count}');
         expect(PARTY_PANEL_CONFIG.hpLabelTemplate).toBe('HP {current} / {max}');
-        expect(PARTY_PANEL_CONFIG.movesEmptyLabel).toBe('moves: ala');
-        expect(BESTIARY_PANEL_CONFIG.titleTemplate).toBe('lipu soweli {caught} / {total}');
+        expect(PARTY_PANEL_CONFIG.movesEmptyLabel).toBe('moves: none');
+        expect(BESTIARY_PANEL_CONFIG.titleTemplate).toBe('Bestiary {caught} / {total}');
         expect(BESTIARY_PANEL_CONFIG.unknownLabelTemplate).toBe('??? {index}');
         expect(BESTIARY_PANEL_CONFIG.descriptionTextTemplate).toBe('{label}\n{description}');
-        expect(BESTIARY_PANEL_CONFIG.missingDescriptionText).toBe('sona li awen.');
-        expect(SAVE_MENU_CONFIG.prompt).toBe('poki awen');
+        expect(BESTIARY_PANEL_CONFIG.missingDescriptionText).toBe('Details are still unknown.');
+        expect(SAVE_MENU_CONFIG.prompt).toBe('Save');
         expect(SAVE_MENU_CONFIG.actions.map((action) => action.value)).toEqual(['save', 'load', 'cancel']);
         expect(SAVE_MENU_CONFIG.loadedPositionSnapDelayMs).toEqual([500, 1500]);
         expect(DIALOG_UI_CONFIG.missingNodeTemplate).toBe('({dialog_id})');
@@ -468,14 +473,14 @@ describe('gameplay JSON config', () => {
         expect(DIALOG_UI_CONFIG.sitelenOverlayTestId).toBe('dialog-sitelen-overlay');
         expect(DIALOG_UI_CONFIG.confirmSfxId).toBe('sfx_menu_confirm');
         expect(DIALOG_UI_CONFIG.tickSfxId).toBe('sfx_menu_tick');
-        expect(QUEST_UI_CONFIG.acceptLabel).toBe('pali');
-        expect(QUEST_UI_CONFIG.goalTemplates.deliver_item).toBe('pana: {item} -> {npc}');
+        expect(QUEST_UI_CONFIG.acceptLabel).toBe('Accept');
+        expect(QUEST_UI_CONFIG.goalTemplates.deliver_item).toBe('Deliver: {item} -> {npc}');
         expect(QUEST_UI_CONFIG.journalLineTemplate).toBe('  {mark} {title}: {progress}');
         expect(QUEST_UI_CONFIG.notificationMs).toBe(2500);
         expect(DICTIONARY_EXPORT_CONFIG.runtime).toEqual({
-            action: { label: 'lipu nimi', meta: 'SVG' },
-            defaultPlayerName: 'sina',
-            downloadFilename: 'poki-soweli-lipu-nimi.svg',
+            action: { label: 'Export Clues', meta: 'SVG' },
+            defaultPlayerName: 'Rivers',
+            downloadFilename: 'rivers-reckoning-clues.svg',
         });
         expect(DICTIONARY_EXPORT_CONFIG.textCard.topWordsLimit).toBe(20);
         expect(DICTIONARY_EXPORT_CONFIG.svgCard.viewBox).toBe('0 0 400 600');
@@ -486,16 +491,16 @@ describe('gameplay JSON config', () => {
         expect(NOTIFICATION_CONFIG.itemDrop.template).toBe('{item} ×{count}');
         expect(NOTIFICATION_CONFIG.benchSwitch.timeMs).toBe(1500);
         expect(CREDITS_PAGES.length).toBeGreaterThan(0);
-        expect(CREDITS_PAGES[0]).toContain('poki soweli');
+        expect(CREDITS_PAGES[0]).toContain('Rivers Reckoning');
     });
 
     it('keeps visual config usable by runtime render adapters', () => {
         expect(COMBAT_CHROME_CONFIG.hpBar.hpLabelTemplate).toBe('HP {current} / {max}');
         expect(COMBAT_CHROME_CONFIG.hpBar.damageLabelTemplate).toBe('-{damage}');
         expect(COMBAT_CHROME_CONFIG.hpBar.tiers).toEqual([
-            { className: 'hp-healthy', label: 'wawa', aboveRatio: 0.5 },
-            { className: 'hp-wounded', label: 'pakala', aboveRatio: 0.2 },
-            { className: 'hp-critical', label: 'moli', aboveRatio: undefined },
+            { className: 'hp-healthy', label: 'healthy', aboveRatio: 0.5 },
+            { className: 'hp-wounded', label: 'hurt', aboveRatio: 0.2 },
+            { className: 'hp-critical', label: 'critical', aboveRatio: undefined },
         ]);
         expect(COMBAT_CHROME_CONFIG.hpBar.colors['hp-healthy']).toBe(0x4a9d5a);
         expect(COMBAT_CHROME_CONFIG.targetReticle).toMatchObject({
@@ -504,8 +509,8 @@ describe('gameplay JSON config', () => {
             primaryColor: 0x4fd8ff,
             shadowColor: 0x12333d,
         });
-        expect(TAP_CONTROL_BLOCKING_UI_SELECTORS).toContain('.rpg-ui-dialog');
-        expect(TAP_CONTROL_TARGET_BLOCKING_UI_SELECTORS).toContain('.poki-lead-movebar');
+        expect(TAP_CONTROL_BLOCKING_UI_SELECTORS).toContain('.rr-dialog');
+        expect(TAP_CONTROL_TARGET_BLOCKING_UI_SELECTORS).toContain('.rr-lead-movebar');
         expect(PIXI_GUARDED_FX_ALIASES).toEqual(['fx_settings', 'fx_spritesheet']);
         expect(SPRITE_LAYOUTS.player_three_frame).toMatchObject({
             framesWidth: 3,
@@ -565,10 +570,10 @@ describe('gameplay JSON config', () => {
         expect(SETTINGS_CONFIG.defaultVolume).toBeGreaterThanOrEqual(0);
         expect(SETTINGS_CONFIG.defaultVolume).toBeLessThanOrEqual(100);
         expect(SETTINGS_CONFIG.stateLabels).toEqual({
-            on: 'lon',
-            off: 'ala',
-            instant: 'wawa',
-            muted: 'ala',
+            on: 'on',
+            off: 'off',
+            instant: 'instant',
+            muted: 'muted',
         });
         expect(SETTINGS_CONFIG.summaryRows.map((row) => row.value)).toEqual([
             'sitelen',
@@ -577,7 +582,7 @@ describe('gameplay JSON config', () => {
             'accessible',
             'volume',
         ]);
-        expect(SETTINGS_CONFIG.pauseSummary.title).toBe('awen / nasin');
+        expect(SETTINGS_CONFIG.pauseSummary.title).toBe('Save / Settings');
         expect(SETTINGS_CONFIG.choiceFormats.boolean).toBe('{label}  [{state}]');
     });
 
@@ -586,7 +591,7 @@ describe('gameplay JSON config', () => {
         expect(COMBAT_AUDIO_CONFIG.monitorMs).toBeGreaterThan(0);
         expect(COMBAT_AUDIO_CONFIG.activeAiStates).toEqual(['alert', 'combat', 'flee', 'stunned']);
         expect(AUDIO_RUNTIME_CONFIG).toEqual({
-            bgmOverrideEvent: 'poki-soweli:audio:bgm-override',
+            bgmOverrideEvent: 'rivers-reckoning:audio:bgm-override',
             bgmCrossfadeMs: 800,
             bgmStopDelayPaddingMs: 50,
             footstepMinIntervalMs: 140,
@@ -642,7 +647,7 @@ describe('gameplay JSON config', () => {
         });
         expect(TRAINER_BATTLE_CONFIGS.jan_wawa).toMatchObject({
             badgeFlag: 'badge_sewi',
-            rewardWord: 'sewi',
+            rewardClue: 'highridge-proof',
             phase2: {
                 hp: 80,
                 enemyType: 'tank',
@@ -657,7 +662,7 @@ describe('gameplay JSON config', () => {
             npcId: 'green_dragon',
             defeatedFlag: 'green_dragon_defeated',
             clearedFlag: 'game_cleared',
-            rewardWord: 'kala',
+            rewardClue: 'green-dragon-proof',
             endingBeatId: 'ending',
             dialogBase: 'green_dragon',
             graphic: 'green_dragon_idle',

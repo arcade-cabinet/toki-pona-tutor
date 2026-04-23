@@ -25,7 +25,7 @@ async function getState(page: Page): Promise<BrowserDebugState> {
 }
 
 function titleEntry(page: Page, index: number) {
-    return page.locator('.rpg-ui-title-screen-menu .rpg-ui-menu-item').nth(index);
+    return page.locator('.rr-title-entry').nth(index);
 }
 
 test('escape opens the pause menu and quit-to-title returns to the title shell', async ({ page }) => {
@@ -36,34 +36,34 @@ test('escape opens the pause menu and quit-to-title returns to the title shell',
     await page.reload();
     await waitForReady(page);
 
-    await expect(page.locator('.rpg-ui-title-screen-title')).toContainText('poki soweli');
-    await expect(titleEntry(page, 0)).toContainText('open sin');
+    await expect(page.locator('[data-testid="rr-title-title"]')).toContainText('Rivers Reckoning');
+    await expect(titleEntry(page, 0)).toContainText('New Game');
     await titleEntry(page, 0).click();
 
     await expect.poll(async () => {
         const state = await getState(page);
         return state.saves[0]?.map ?? null;
-    }).toBe('ma_tomo_lili');
+    }).toBe('riverside_home');
 
     await page.keyboard.press('Escape');
-    await expect(page.locator('[data-testid="pause-overlay"] .rpg-ui-title-screen-title')).toContainText('nasin');
-    await expect(page.getByTestId('pause-party')).toContainText('soweli');
-    await expect(page.getByTestId('pause-vocab')).toContainText('nasin');
-    await expect(page.getByTestId('pause-inventory')).toContainText('ijo');
-    await expect(page.getByTestId('pause-bestiary')).toContainText('lipu');
-    await expect(page.getByTestId('pause-settings')).toContainText('awen');
-    await expect(page.getByTestId('pause-resume')).toContainText('kama');
-    await expect(page.getByTestId('pause-save')).toContainText('awen');
-    await expect(page.getByTestId('pause-title')).toContainText('pini');
+    await expect(page.locator('[data-testid="pause-overlay"] [data-testid="rr-pause-title"]')).toContainText('Menu');
+    await expect(page.getByTestId('pause-party')).toContainText('Party');
+    await expect(page.getByTestId('pause-vocab')).toContainText('Clues');
+    await expect(page.getByTestId('pause-inventory')).toContainText('Gear');
+    await expect(page.getByTestId('pause-bestiary')).toContainText('Bestiary');
+    await expect(page.getByTestId('pause-settings')).toContainText('Settings');
+    await expect(page.getByTestId('pause-resume')).toContainText('Resume');
+    await expect(page.getByTestId('pause-save')).toContainText('Save');
+    await expect(page.getByTestId('pause-title')).toContainText('Title');
 
     await page.getByTestId('pause-title').click();
 
-    await expect(page.locator('.rpg-ui-title-screen-title')).toContainText('poki soweli');
-    await expect(titleEntry(page, 0)).toContainText('kama');
+    await expect(page.locator('[data-testid="rr-title-title"]')).toContainText('Rivers Reckoning');
+    await expect(titleEntry(page, 0)).toContainText('Continue');
     await expect(titleEntry(page, 0)).toContainText('0');
-    await expect(titleEntry(page, 1)).toContainText('open sin');
-    await expect(titleEntry(page, 2)).toContainText('nasin');
-    await expect(titleEntry(page, 3)).toContainText('pini');
+    await expect(titleEntry(page, 1)).toContainText('New Game');
+    await expect(titleEntry(page, 2)).toContainText('Settings');
+    await expect(titleEntry(page, 3)).toContainText('Quit');
 
     await titleEntry(page, 0).click();
     await waitForReady(page);
@@ -71,11 +71,11 @@ test('escape opens the pause menu and quit-to-title returns to the title shell',
     await expect.poll(async () => {
         const state = await getState(page);
         return state.currentMapId;
-    }).toBe('ma_tomo_lili');
+    }).toBe('riverside_home');
     await expect.poll(async () => {
         const state = await getState(page);
         return state.serverMapId;
-    }).toBe('ma_tomo_lili');
+    }).toBe('riverside_home');
     await expect.poll(async () => {
         const state = await getState(page);
         return `${state.position.x},${state.position.y}`;

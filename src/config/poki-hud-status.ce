@@ -1,43 +1,14 @@
-<DOMContainer width="100%" height="100%">
-    @if (shouldShow() && hudStatus()) {
-        <div class="poki-hud-status" data-testid="hud-status" aria-label={hudStatus().hpLabel}>
-            <div class={{"poki-hud-status-portrait": true, "has-image": hasPortraitImage()}} aria-hidden="true">
-                <div class="poki-hud-status-portrait-image" style={portraitStyle()}></div>
-                <span class="poki-hud-status-portrait-fallback">{hudStatus().portraitFallback}</span>
-            </div>
-            <div class="poki-hud-status-copy">
-                <div class="poki-hud-status-heading">
-                    <div class="poki-hud-status-name">
-                        {hudStatus().primaryLabel}
-                    </div>
-                    <div class="poki-hud-status-level">
-                        {hudStatus().levelLabel}
-                    </div>
-                </div>
-                <div class="poki-hud-status-subtitle">{secondaryLabel()}</div>
-                <div class="poki-hud-status-metrics">
-                    <div class={["poki-hud-status-hp", hudStatus().hpClass]}>
-                        <div class="poki-hud-status-hp-track">
-                            <div class="poki-hud-status-hp-fill hp-fill" style={hpFillStyle()}></div>
-                        </div>
-                    </div>
-                    <div class="poki-hud-status-toki">{hudStatus().masteredLabel}</div>
-                </div>
-            </div>
-        </div>
-    }
-</DOMContainer>
+<DOMContainer width="0" height="0"></DOMContainer>
 
 <script>
     import { computed, effect, mount, signal } from "canvasengine";
-    import { inject } from "@rpgjs/client";
-    import { RpgClientEngine } from "@rpgjs/client";
-    import { RpgGui } from "@rpgjs/client";
+    import { inject, RpgClientEngine, RpgGui } from "@rpgjs/client";
     import { PERSISTENCE_CHANGED_EVENT } from "../platform/persistence/database";
     import { getParty, listMasteredWords } from "../platform/persistence/queries";
     import { publicAssetPath } from "./asset-paths";
     import { hasBlockingGui } from "./hud-gui-visibility";
     import { buildHudLeadStatus } from "./hud-status";
+    import { riversUiBridge } from "../ui/bridge";
 
     const engine = inject(RpgClientEngine);
     const guiService = inject(RpgGui);
@@ -48,9 +19,9 @@
     let refreshToken = 0;
 
     const hudStatus = computed(() => {
-        const base = snapshot();
+        const baseSnapshot = snapshot();
         const player = currentPlayer();
-        if (!base || !player) return null;
+        if (!baseSnapshot || !player) return null;
 
         const currentHp = typeof player.__hpSignal === "function"
             ? Number(player.__hpSignal())
@@ -58,18 +29,15 @@
         const maxHp = Number(player._parametersSignal?.maxHp?.start ?? currentHp);
 
         return buildHudLeadStatus({
-            ...base,
+            ...baseSnapshot,
             currentHp,
             maxHp,
         });
     });
 
-    const shouldShow = computed(() => {
-        return !!currentPlayer() && !!hudStatus() && !hasBlockingGui(guiService);
-    });
-    const hasPortraitImage = computed(() => !!hudStatus()?.portraitFrame);
-    const portraitStyle = computed(() => {
-        const frame = hudStatus()?.portraitFrame;
+    const shouldShow = computed(() => !!currentPlayer() && !!hudStatus() && !hasBlockingGui(guiService));
+
+    const portraitStyle = (frame) => {
         if (!frame?.src) return {};
         const framesWidth = Math.max(1, Number(frame.framesWidth || 1));
         const framesHeight = Math.max(1, Number(frame.framesHeight || 1));
@@ -82,15 +50,36 @@
             backgroundSize: `${framesWidth * 100}% ${framesHeight * 100}%`,
             backgroundPosition: `${positionX}% ${positionY}%`,
         };
-    });
-    const secondaryLabel = computed(() => hudStatus()?.secondaryLabel ?? "");
-    const hpFillStyle = computed(() => `width: ${hudStatus()?.hpPercent ?? 0}%`);
+    };
 
     effect(() => {
         currentPlayer();
         engine.scene.data();
         refreshVersion();
         void refreshSnapshot();
+    });
+
+    effect(() => {
+        const status = hudStatus();
+        if (!shouldShow() || !status) {
+            riversUiBridge.update({ hudStatus: null });
+            return;
+        }
+        const frame = status.portraitFrame;
+        riversUiBridge.update({
+            hudStatus: {
+                primaryLabel: status.primaryLabel,
+                levelLabel: status.levelLabel,
+                secondaryLabel: status.secondaryLabel ?? "",
+                hpLabel: status.hpLabel,
+                hpPercent: status.hpPercent,
+                hpClass: status.hpClass,
+                masteredLabel: status.masteredLabel,
+                portraitFallback: status.portraitFallback,
+                portraitStyle: portraitStyle(frame),
+                hasPortraitImage: !!frame,
+            },
+        });
     });
 
     async function refreshSnapshot() {
@@ -132,6 +121,7 @@
         return () => {
             window.clearInterval(pollId);
             window.removeEventListener(PERSISTENCE_CHANGED_EVENT, onPersistenceChanged);
+            riversUiBridge.update({ hudStatus: null });
         };
     });
 </script>

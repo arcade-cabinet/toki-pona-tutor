@@ -211,20 +211,20 @@ describe('isGoalMet', () => {
 
 describe('quest runtime copy', () => {
     it('formats quest offers, progress, and reward results through gameplay JSON templates', () => {
-        expect(formatQuestOffer(catchThree)).toBe('catch three kon\npoki: kon moli x3');
+        expect(formatQuestOffer(catchThree)).toBe('catch three kon\nCatch: Ashcat x3');
         expect(formatQuestProgress(catchThree, { status: 'active', progress: 9 })).toBe('3 / 3');
         expect(formatQuestRewardResult({
             collected: true,
             quest: deliverKili,
             state: { status: 'completed', progress: 1 },
             rewards: ['kili x2', 'XP +40'],
-        })).toBe('pali pini: deliver kili\nkili x2\nXP +40');
+        })).toBe('Quest complete: deliver kili\nkili x2\nXP +40');
         expect(formatQuestRewardResult({
             collected: false,
             quest: catchThree,
             state: { status: 'active', progress: 1 },
             reason: 'not_ready',
-        })).toBe('pali: 1 / 3');
+        })).toBe('Quest: 1 / 3');
     });
 });
 

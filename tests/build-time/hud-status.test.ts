@@ -11,8 +11,8 @@ describe('buildHudLeadStatus', () => {
             maxHp: 48,
         });
 
-        expect(status.primaryLabel).toBe('kon moli');
-        expect(status.secondaryLabel).toBe('kon');
+        expect(status.primaryLabel).toBe('Ashcat');
+        expect(status.secondaryLabel).toBe('kon moli');
         expect(status.portraitSrc).toBe('/assets/creatures/wraith/wraith.png');
         expect(status.portraitFrame).toMatchObject({
             src: '/assets/creatures/wraith/wraith.png',
@@ -22,7 +22,7 @@ describe('buildHudLeadStatus', () => {
             frameY: 0,
         });
         expect(status.levelLabel).toBe('L5');
-        expect(status.masteredLabel).toBe('toki: 3');
+        expect(status.masteredLabel).toBe('clues: 3');
         expect(status.hpPercent).toBe(50);
         expect(status.hpClass).toBe('hp-wounded');
     });

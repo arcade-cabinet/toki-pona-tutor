@@ -1,18 +1,18 @@
 ---
-title: poki soweli
+title: Rivers Reckoning
 updated: 2026-04-22
 status: current
 ---
 
-# poki soweli
+# Rivers Reckoning
 
-![43 species](https://img.shields.io/badge/soweli-43-4a9d5a)
-![7 regions](https://img.shields.io/badge/ma-7-e8a04a)
-![4 region masters](https://img.shields.io/badge/jan%20lawa-4-c87a26)
-![toki pona corpus-gated](https://img.shields.io/badge/toki%20pona-Tatoeba--only-4da3d4)
+![43 species](https://img.shields.io/badge/creatures-43-4a9d5a)
+![7 regions](https://img.shields.io/badge/regions-7-e8a04a)
+![4 region masters](https://img.shields.io/badge/masters-4-c87a26)
+![native English](https://img.shields.io/badge/narrative-English-4da3d4)
 ![RPG.js v5](https://img.shields.io/badge/engine-RPG.js%20v5-6fb35c)
 
-A cozy creature-catching RPG whose world is named in toki pona. Players walk between villages, catch creatures with a **poki** (net), build a party of up to six, and beat the current four **jan lawa** (region masters) to reach the final boss. Vocabulary lands **diegetically** — the player never translates; the language simply saturates the world.
+Rivers Reckoning is a cozy creature-catching RPG built for a kid audience. Rivers explores a fantasy region, catches creatures with capture pods, builds a party of up to six, solves local problems, defeats four region masters, and investigates the green-dragon endgame.
 
 Cozy village-fable energy. Kid-safe, no permadeath, no punishing mechanics. Warm and cute, not edgy.
 
@@ -20,7 +20,7 @@ Cozy village-fable energy. Kid-safe, no permadeath, no punishing mechanics. Warm
 
 | Title                                                                                                       | Mobile HUD                                                                                            | Endgame Route                                                                                                         |
 | ----------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------- |
-| <img src="docs/screenshots/visual-audit/desktop-title-choices.png" alt="Desktop title choices" width="280"> | <img src="docs/screenshots/visual-audit/mobile-pause-overlay.png" alt="Mobile pause HUD" width="180"> | <img src="docs/screenshots/visual-audit/map-nasin_pi_telo.png" alt="Endgame water route live map canvas" width="280"> |
+| <img src="docs/screenshots/visual-audit/desktop-title-choices.png" alt="Desktop title choices" width="280"> | <img src="docs/screenshots/visual-audit/mobile-pause-overlay.png" alt="Mobile pause HUD" width="180"> | <img src="docs/screenshots/visual-audit/map-rivergate_approach.png" alt="Endgame water route live map canvas" width="280"> |
 
 Curated Playwright captures live in `docs/screenshots/visual-audit/`; the source audit also captures every authored map canvas for tile-placement review.
 
@@ -31,13 +31,15 @@ pnpm install
 pnpm dev            # vite at http://localhost:5173/ (or next free port)
 ```
 
+Use Node 22 LTS (`.node-version`) and pnpm 10.x. CI and release builds run on Node 22; newer local Node majors can diverge from the deployed build toolchain.
+
 ## What makes it interesting
 
--   **No translation UI.** The player never sees an English gloss. Over a playthrough they pick up ~120 TP words simply by playing.
--   **Every line of user-facing TP is corpus-verified.** `src/content/corpus/tatoeba.json` is a vendored 37,666-pair CC BY 2.0 FR Tatoeba corpus. Authors write English; the build pipeline round-trips every line through the corpus to produce canonical TP. Hand-authored TP is banned; `pnpm validate-tp` gates every PR.
+-   **Native-English narrative.** Story, quests, NPCs, combat feedback, and clues are authored directly in English so the game can carry richer quest writing without translation constraints.
+-   **Clue journal instead of language lessons.** `src/content/clues.json` defines investigation clues used by the HUD, field log, quest rewards, and export card.
 -   **Maps are build artifacts.** Hand-edited `.tmx` / `.tmj` files never land in this repo. Every map is authored as a TypeScript spec under `scripts/map-authoring/specs/<id>.ts` and emitted by `pnpm author:build <id>`, including the review preview PNG. `pnpm author:verify` enforces TMX/TMJ drift in `validate` + `prebuild` + CI, and the unit suite pixel-diffs committed previews against fresh renderer output.
 -   **Single coherent art direction** using the Fan-tasy tileset family (6 biome packs) plus creature tiering by animation depth — rare encounters animate, common encounters are static. See `docs/ARCHITECTURE.md`.
--   **Mobile-first HUD, native RPG.js GUI.** `.ce` (CanvasEngine) components for every overlay, tap-to-walk input, warm cream + emerald + amber palette via `src/styles/brand.css` with self-hosted Nunito / Fredoka / JetBrains Mono / nasin-nanpa fonts. No CDN, no external dependencies at runtime. See `docs/UX.md`.
+-   **Mobile-first HUD, rr-ui chrome.** RPG.js runs the game and `.ce` bridge adapters complete GUI lifecycles, while React renders the title, dialog, HUD, pause, combat, loading, defeat, and notifications through `src/ui/`. Tap-to-walk remains primary input; Fantasy Field Kit tokens live under `--rr-*`. See `docs/UX.md`.
 -   **Docs > tests > code order.** Docs describe what the game must be; tests describe what the code must do; code satisfies both. See `CLAUDE.md` + `AGENTS.md`.
 
 ## Commands
@@ -51,8 +53,7 @@ pnpm preview              # preview the built bundle
 GITHUB_PAGES=true pnpm build   # Pages build (base = /poki-soweli/)
 CAPACITOR=true pnpm build      # Capacitor build (base = ./)
 
-pnpm validate             # validate-challenges + validate-tp + author:verify
-pnpm validate-tp          # every EN string must resolve through the Tatoeba corpus
+pnpm validate             # validate-challenges + author:verify
 pnpm build-spine          # compile spine JSON + map objects → generated/world.json
 pnpm typecheck            # tsc --noEmit across src/vite + map-authoring + unit/integration TS
 pnpm format:src           # Prettier pass over supported src/ TS/JSON/CSS/MD files
@@ -91,7 +92,7 @@ pnpm maestro:ios          # run iOS Safari Pages smoke on a booted simulator
 | `src/tiled/`                | Generated `.tmx` maps (build artifacts) consumed by `tiledMapFolderPlugin`                                                              |
 | `src/content/spine/`        | Hand-authored content JSON (species, moves, journey, items, dialog)                                                                     |
 | `src/content/generated/`    | Compiled `world.json` (committed for reproducibility)                                                                                   |
-| `src/content/corpus/`       | Vendored Tatoeba TP↔EN corpus (immutable)                                                                                              |
+| `src/content/clues.json`    | Curated English clue records used by the field log and clue journal                                                                     |
 | `src/content/schema/`       | Zod schemas — source of truth for content shape                                                                                         |
 | `scripts/map-authoring/`    | Map spec compiler + renderer + verifier                                                                                                 |
 | `public/assets/`            | Fan-tasy tilesets, player sprites, creatures, NPCs, effects, fonts                                                                      |
@@ -112,6 +113,5 @@ pnpm maestro:ios          # run iOS Safari Pages smoke on a booted simulator
 ## License
 
 -   **Code** — see `LICENSE`.
--   **Tatoeba corpus** — `src/content/corpus/tatoeba.json` is CC BY 2.0 FR. See `src/content/corpus/LICENSE.md`.
 -   **Fonts** — Nunito, Fredoka, JetBrains Mono, and nasin-nanpa all ship under SIL Open Font License 1.1. Each family directory under `public/assets/fonts/` retains its original `OFL.txt`.
 -   **Art assets** — Fan-tasy tileset packs; see `public/assets/CREDITS.md` for per-pack provenance.

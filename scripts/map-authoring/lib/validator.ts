@@ -19,6 +19,7 @@ import type {
     ObjectMarker,
 } from "./types";
 import { hasLocalTileId, tsxQualifiedKey, tsxStem } from "./palette";
+import { curatedArtEntry } from "../config/art-curation";
 import {
     classifyPaletteEntry,
     isActorSurface,
@@ -101,6 +102,9 @@ export async function validateSpec(
                 message: `palette entry "${name}" has local_id ${entry.local_id} out of range for tileset "${entry.tsx}"`,
             });
         }
+        if (entry.art_id) {
+            checkCuratedPaletteEntry(name, entry, issues);
+        }
     }
 
     // Check each layer.
@@ -115,7 +119,7 @@ export async function validateSpec(
         checkGridDims(belowGrid, spec, "Below Player", issues);
         checkGridPalette(belowGrid, spec, "Below Player", issues);
     }
-    for (const layerName of ["World", "Above Player"] as const) {
+    for (const layerName of ["Ground Detail", "World", "Above Player"] as const) {
         const content = spec.layers[layerName];
         if (!content) continue;
         if (isTileGrid(content)) {
@@ -237,6 +241,24 @@ function checkGameplaySurfacePlacement(
                 });
             }
         }
+        const groundDetail = paletteCellAt(spec, tilesets, "Ground Detail", x, y);
+        if (groundDetail) {
+            const semantic = classifyPaletteEntry(
+                groundDetail.name,
+                groundDetail.entry,
+                groundDetail.tileset,
+            );
+            if (isEncounterSurface(semantic)) {
+                issues.push({
+                    severity: "error",
+                    code: "actor_on_encounter_detail",
+                    message:
+                        `object "${object.name}" (${object.type}) at (${x}, ${y}) sits on encounter detail ` +
+                        `"${groundDetail.name}"; actors must stand outside random-encounter paint`,
+                    at: { x, y, layer: "Ground Detail", name: object.name },
+                });
+            }
+        }
 
         for (const obstruction of obstructions) {
             if (obstruction.collisionBounds.some((bounds) => boundsContainsCell(bounds, x, y))) {
@@ -274,14 +296,38 @@ function checkGameplaySurfacePlacement(
                 const below = paletteCellAt(spec, tilesets, "Below Player", x, y);
                 if (below) {
                     const semantic = classifyPaletteEntry(below.name, below.entry, below.tileset);
-                    if (!isEncounterSurface(semantic)) {
+                    if (!isActorSurface(semantic)) {
                         issues.push({
                             severity: "error",
                             code: "encounter_on_bad_surface",
                             message:
                                 `encounter cell (${x}, ${y}) sits on "${below.name}" ` +
-                                `(${semantic.surface}/${semantic.role}); encounter zones must be painted with rough grass`,
+                                `(${semantic.surface}/${semantic.role}); encounter zones need walkable base terrain`,
                             at: { x, y, layer: "Encounters" },
+                        });
+                    }
+                }
+
+                const detail = paletteCellAt(spec, tilesets, "Ground Detail", x, y);
+                if (!detail) {
+                    issues.push({
+                        severity: "error",
+                        code: "encounter_missing_detail",
+                        message:
+                            `encounter cell (${x}, ${y}) has no Ground Detail encounter tile; ` +
+                            `random-encounter regions must be visually marked`,
+                        at: { x, y, layer: "Ground Detail" },
+                    });
+                } else {
+                    const semantic = classifyPaletteEntry(detail.name, detail.entry, detail.tileset);
+                    if (!isEncounterSurface(semantic)) {
+                        issues.push({
+                            severity: "error",
+                            code: "encounter_on_bad_detail",
+                            message:
+                                `encounter cell (${x}, ${y}) detail "${detail.name}" ` +
+                                `(${semantic.surface}/${semantic.role}) is not an encounter surface`,
+                            at: { x, y, layer: "Ground Detail" },
                         });
                     }
                 }
@@ -309,6 +355,41 @@ function checkGameplaySurfacePlacement(
     }
 }
 
+function checkCuratedPaletteEntry(
+    name: string,
+    entry: PaletteEntry,
+    issues: ValidationIssue[],
+): void {
+    if (!entry.art_id) return;
+    try {
+        const curated = curatedArtEntry(entry.art_id);
+        if (curated.status === "reject") {
+            issues.push({
+                severity: "error",
+                code: "palette_art_rejected",
+                message: `palette entry "${name}" uses rejected curated art "${entry.art_id}"`,
+            });
+        }
+        if (curated.source !== entry.tsx || curated.local_id !== entry.local_id) {
+            issues.push({
+                severity: "error",
+                code: "palette_art_mismatch",
+                message:
+                    `palette entry "${name}" art_id "${entry.art_id}" resolves to ` +
+                    `${curated.source}#${curated.local_id}, not ${entry.tsx}#${entry.local_id}`,
+            });
+        }
+    } catch (error) {
+        issues.push({
+            severity: "error",
+            code: "palette_art_unknown",
+            message:
+                `palette entry "${name}" references unknown curated art id "${entry.art_id}": ` +
+                `${error instanceof Error ? error.message : String(error)}`,
+        });
+    }
+}
+
 function isTileGrid(x: TileGrid | PlacedTile[] | undefined): x is TileGrid {
     if (!Array.isArray(x) || x.length === 0) return false;
     return Array.isArray(x[0]);
@@ -321,7 +402,7 @@ function inBounds(x: number, y: number, spec: MapSpec): boolean {
 function paletteCellAt(
     spec: MapSpec,
     tilesets: ParsedTileset[],
-    layerName: "Below Player" | "World" | "Above Player",
+    layerName: "Below Player" | "Ground Detail" | "World" | "Above Player",
     x: number,
     y: number,
 ): PaletteCell | null {
@@ -558,7 +639,7 @@ function boundsContainsCell(bounds: CellBounds, x: number, y: number): boolean {
 
 function collectUsedPaletteNames(spec: MapSpec): Set<string> {
     const used = new Set<string>();
-    for (const layerName of ["Below Player", "World", "Above Player"] as const) {
+    for (const layerName of ["Below Player", "Ground Detail", "World", "Above Player"] as const) {
         const content = spec.layers[layerName];
         if (!content) continue;
         if (isTileGrid(content)) {

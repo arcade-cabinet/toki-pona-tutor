@@ -77,7 +77,7 @@ describe('lead battle skills', () => {
             10_000,
         );
 
-        expect(model.leadLabel).toBe('kon');
+        expect(model.leadLabel).toBe('Ashcat');
         expect(model.levelLabel).toBe('L20');
         expect(model.energyLabel).toBe('36 SP');
         expect(model.target).toEqual({
@@ -98,10 +98,10 @@ describe('lead battle skills', () => {
             readyAt: 10_500,
             spCost: 5,
             rangeTiles: 3,
-            meta: 'seli · w75 · 5 SP',
+            meta: 'fire · power 75 · 5 SP',
         });
         expect(model.moves.find((move) => move.moveId === 'utala_lili')).toMatchObject({
-            typeLabel: 'wawa',
+            typeLabel: 'stone',
             rangeTiles: 1,
             disabled: false,
         });

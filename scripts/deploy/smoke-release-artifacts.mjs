@@ -41,9 +41,9 @@ export function releaseArtifactNames(tagName) {
     assertTagName(tagName);
     return {
         web_bundle_artifact: `web-bundle-${tagName}`,
-        web_bundle_file: `poki-soweli-web-${tagName}.tar.gz`,
+        web_bundle_file: `rivers-reckoning-web-${tagName}.tar.gz`,
         android_debug_apk_artifact: `android-debug-apk-${tagName}`,
-        android_debug_apk_file: `poki-soweli-${tagName}-debug.apk`,
+        android_debug_apk_file: `rivers-reckoning-${tagName}-debug.apk`,
     };
 }
 
@@ -165,7 +165,7 @@ function prepareOutputDirectory(outDir, tagName) {
         return resolved;
     }
 
-    return mkdtempSync(join(tmpdir(), `poki-soweli-release-smoke-${tagName}-`));
+    return mkdtempSync(join(tmpdir(), `rivers-reckoning-release-smoke-${tagName}-`));
 }
 
 function versionFromTagName(tagName) {

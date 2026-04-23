@@ -27,7 +27,7 @@ async function getState(page: Page): Promise<BrowserDebugState> {
 }
 
 function titleEntry(page: Page, index: number) {
-    return page.locator('.rpg-ui-title-screen-menu .rpg-ui-menu-item').nth(index);
+    return page.locator('.rr-title-entry').nth(index);
 }
 
 async function seedRouteSave(page: Page): Promise<void> {
@@ -54,10 +54,10 @@ async function seedRouteSave(page: Page): Promise<void> {
 
         const { preferences, KEYS } = await import('./src/platform/persistence/preferences.ts');
         const { getDatabase, saveWebStore } = await import('./src/platform/persistence/database.ts');
-        await preferences.set(KEYS.currentMapId, 'nasin_wan');
-        await preferences.set(KEYS.journeyBeat, 'beat_02_nasin_wan');
+        await preferences.set(KEYS.currentMapId, 'greenwood_road');
+        await preferences.set(KEYS.journeyBeat, 'beat_02_greenwood_road');
         await preferences.set(KEYS.starterChosen, 'kon_moli');
-        await player.save(3, { map: 'nasin_wan' });
+        await player.save(3, { map: 'greenwood_road' });
 
         const playerKey = `default:${player.conn?.id ?? player.id ?? 'anonymous'}`;
         const db = await getDatabase();
@@ -84,7 +84,7 @@ async function seedRouteSave(page: Page): Promise<void> {
         slots[0] = null;
         slots[3] = {
             ...slot,
-            map: 'nasin_wan',
+            map: 'greenwood_road',
             snapshot: JSON.stringify(snapshot),
         };
 
@@ -101,18 +101,18 @@ test('title quit row acknowledges web quit intent and returns to the title menu'
     await page.reload();
     await waitForReady(page);
 
-    await expect(page.locator('.rpg-ui-title-screen-title')).toContainText('poki soweli');
-    await expect(titleEntry(page, 0)).toContainText('open sin');
-    await expect(titleEntry(page, 1)).toContainText('nasin');
-    await expect(titleEntry(page, 2)).toContainText('pini');
+    await expect(page.locator('[data-testid="rr-title-title"]')).toContainText('Rivers Reckoning');
+    await expect(titleEntry(page, 0)).toContainText('New Game');
+    await expect(titleEntry(page, 1)).toContainText('Settings');
+    await expect(titleEntry(page, 2)).toContainText('Quit');
 
     await titleEntry(page, 2).click();
-    await expect(page.locator('.rpg-ui-dialog-content')).toContainText('pini la o weka e lipu ni.');
+    await expect(page.locator('[data-testid="rr-dialog-content"]')).toContainText('You can close this browser tab.');
     await page.evaluate(() => window.__POKI__!.testing.closeGui('rpg-dialog'));
 
-    await expect(page.locator('.rpg-ui-title-screen-title')).toContainText('poki soweli');
-    await expect(titleEntry(page, 0)).toContainText('open sin');
-    await expect(titleEntry(page, 2)).toContainText('pini');
+    await expect(page.locator('[data-testid="rr-title-title"]')).toContainText('Rivers Reckoning');
+    await expect(titleEntry(page, 0)).toContainText('New Game');
+    await expect(titleEntry(page, 2)).toContainText('Quit');
 });
 
 test('reload shows Continue and restores the saved map, beat, and tile', async ({ page }) => {
@@ -134,22 +134,22 @@ test('reload shows Continue and restores the saved map, beat, and tile', async (
     await page.evaluate(() => window.__POKI__!.testing.resetPersistence({ includeSaves: true }));
     await page.reload();
     await waitForReady(page);
-    await expect(page.locator('.rpg-ui-title-screen-title')).toContainText('poki soweli');
-    await expect(titleEntry(page, 0)).toContainText('open sin');
+    await expect(page.locator('[data-testid="rr-title-title"]')).toContainText('Rivers Reckoning');
+    await expect(titleEntry(page, 0)).toContainText('New Game');
     await titleEntry(page, 0).click();
     await expect.poll(async () => {
         const state = await getState(page);
         return state.saves[0]?.map ?? null;
-    }).toBe('ma_tomo_lili');
+    }).toBe('riverside_home');
 
     await seedRouteSave(page);
 
     await page.reload();
 
-    await expect(page.locator('.rpg-ui-title-screen-title')).toContainText('poki soweli');
-    await expect(titleEntry(page, 0)).toContainText('kama');
+    await expect(page.locator('[data-testid="rr-title-title"]')).toContainText('Rivers Reckoning');
+    await expect(titleEntry(page, 0)).toContainText('Continue');
     await expect(titleEntry(page, 0)).toContainText('3');
-    await expect(titleEntry(page, 1)).toContainText('open sin');
+    await expect(titleEntry(page, 1)).toContainText('New Game');
 
     await titleEntry(page, 0).click();
     await waitForReady(page);
@@ -157,15 +157,15 @@ test('reload shows Continue and restores the saved map, beat, and tile', async (
     await expect.poll(async () => {
         const state = await getState(page);
         return state.currentMapId;
-    }).toBe('nasin_wan');
+    }).toBe('greenwood_road');
     await expect.poll(async () => {
         const state = await getState(page);
         return state.serverMapId;
-    }).toBe('nasin_wan');
+    }).toBe('greenwood_road');
     await expect.poll(async () => {
         const state = await getState(page);
         return state.journeyBeat;
-    }).toBe('beat_02_nasin_wan');
+    }).toBe('beat_02_greenwood_road');
     await expect.poll(async () => {
         const state = await getState(page);
         return `${state.serverPosition.x},${state.serverPosition.y}`;
@@ -177,8 +177,8 @@ test('reload shows Continue and restores the saved map, beat, and tile', async (
     }).toBe(true);
 
     const resumed = await getState(page);
-    expect(resumed.currentMapId).toBe('nasin_wan');
-    expect(resumed.journeyBeat).toBe('beat_02_nasin_wan');
+    expect(resumed.currentMapId).toBe('greenwood_road');
+    expect(resumed.journeyBeat).toBe('beat_02_greenwood_road');
     expect(resumed.serverPosition).toEqual({ x: 32, y: 96 });
     expect(Math.abs((resumed.position.x ?? 0) - 32)).toBeLessThanOrEqual(16);
     expect(Math.abs((resumed.position.y ?? 0) - 96)).toBeLessThanOrEqual(16);
@@ -197,54 +197,54 @@ test('new game prompts before wiping an existing save and resets to the starter 
     await page.reload();
     await waitForReady(page);
 
-    await expect(page.locator('.rpg-ui-title-screen-title')).toContainText('poki soweli');
-    await expect(titleEntry(page, 0)).toContainText('open sin');
+    await expect(page.locator('[data-testid="rr-title-title"]')).toContainText('Rivers Reckoning');
+    await expect(titleEntry(page, 0)).toContainText('New Game');
     await titleEntry(page, 0).click();
 
     await expect.poll(async () => {
         const state = await getState(page);
         return state.saves[0]?.map ?? null;
-    }).toBe('ma_tomo_lili');
+    }).toBe('riverside_home');
 
     await seedRouteSave(page);
     await page.reload();
 
-    await expect(page.locator('.rpg-ui-title-screen-title')).toContainText('poki soweli');
-    await expect(titleEntry(page, 0)).toContainText('kama');
-    await expect(titleEntry(page, 1)).toContainText('open sin');
+    await expect(page.locator('[data-testid="rr-title-title"]')).toContainText('Rivers Reckoning');
+    await expect(titleEntry(page, 0)).toContainText('Continue');
+    await expect(titleEntry(page, 1)).toContainText('New Game');
 
     await titleEntry(page, 1).click();
-    await expect(page.locator('.rpg-ui-dialog-content')).toContainText('open sin?');
-    await expect(page.getByTestId('dialog-choice-0')).toContainText('lon');
-    await expect(page.getByTestId('dialog-choice-1')).toContainText('ala');
+    await expect(page.locator('[data-testid="rr-dialog-content"]')).toContainText('Start a new game?');
+    await expect(page.getByTestId('dialog-choice-0')).toContainText('Yes');
+    await expect(page.getByTestId('dialog-choice-1')).toContainText('Cancel');
 
     await page.getByTestId('dialog-choice-1').click();
-    await expect(page.locator('.rpg-ui-title-screen-title')).toContainText('poki soweli');
-    await expect(titleEntry(page, 0)).toContainText('kama');
+    await expect(page.locator('[data-testid="rr-title-title"]')).toContainText('Rivers Reckoning');
+    await expect(titleEntry(page, 0)).toContainText('Continue');
 
     await titleEntry(page, 1).click();
-    await expect(page.locator('.rpg-ui-dialog-content')).toContainText('open sin?');
+    await expect(page.locator('[data-testid="rr-dialog-content"]')).toContainText('Start a new game?');
     await page.getByTestId('dialog-choice-0').click();
     await waitForReady(page);
 
     await expect.poll(async () => {
         const state = await getState(page);
         return state.currentMapId;
-    }).toBe('ma_tomo_lili');
+    }).toBe('riverside_home');
     await expect.poll(async () => {
         const state = await getState(page);
         return state.serverMapId;
-    }).toBe('ma_tomo_lili');
+    }).toBe('riverside_home');
     await expect.poll(async () => {
         const state = await getState(page);
         return state.journeyBeat;
-    }).toBe('beat_01_ma_tomo_lili');
+    }).toBe('beat_01_riverside_home');
     await expect.poll(async () => {
         const state = await getState(page);
-        return state.saves.some((slot) => slot?.map === 'nasin_wan');
+        return state.saves.some((slot) => slot?.map === 'greenwood_road');
     }).toBe(false);
     await expect.poll(async () => {
         const state = await getState(page);
         return state.saves[0]?.map ?? null;
-    }).toBe('ma_tomo_lili');
+    }).toBe('riverside_home');
 });

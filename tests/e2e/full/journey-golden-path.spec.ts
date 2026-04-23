@@ -90,7 +90,7 @@ async function expectActionBattleReady(page: Page, taskId: string): Promise<void
 }
 
 function titleEntry(page: Page, index: number) {
-    return page.locator(".rpg-ui-title-screen-menu .rpg-ui-menu-item").nth(index);
+    return page.locator(".rr-title-entry").nth(index);
 }
 
 function dialogChoice(page: Page, index: number) {
@@ -156,7 +156,7 @@ async function expectDialog(
     expectedText: string | RegExp,
     taskId?: string,
 ): Promise<void> {
-    const content = page.locator(".rpg-ui-dialog-content");
+    const content = page.locator('[data-testid="rr-dialog-content"]');
     if (typeof expectedText === "string" && taskId) {
         await expect
             .poll(async () => {
@@ -198,8 +198,8 @@ test("browser golden path covers starter ceremony through the clear credits", as
     await page.reload();
     await waitForReady(page);
 
-    await expect(page.locator(".rpg-ui-title-screen-title")).toContainText("poki soweli");
-    await expect(titleEntry(page, 0)).toContainText("open sin");
+    await expect(page.locator('[data-testid="rr-title-title"]')).toContainText("Rivers Reckoning");
+    await expect(titleEntry(page, 0)).toContainText("New Game");
     await captureGoldenPathCheckpoint(page, testInfo, {
         id: "01-title-menu",
         title: "Fresh title menu before new game",
@@ -216,16 +216,16 @@ test("browser golden path covers starter ceremony through the clear credits", as
             const state = await getState(page);
             return state.saves[0]?.map ?? null;
         })
-        .toBe("ma_tomo_lili");
+        .toBe("riverside_home");
 
     const gatedWarpTask = await beginEvent(page, "warp_east", "touch");
-    await advanceDialog(page, "hello", gatedWarpTask);
-    await advanceDialog(page, "kili sin li pona tawa sijelo.", gatedWarpTask);
-    await advanceDialog(page, "kule seme li pona tawa sina?", gatedWarpTask);
+    await advanceDialog(page, "Rivers, today you start your own investigation.", gatedWarpTask);
+    await advanceDialog(page, "Three creatures answered the call.", gatedWarpTask);
+    await advanceDialog(page, "Choose the partner you trust at your side.", gatedWarpTask);
     await captureGoldenPathCheckpoint(page, testInfo, {
         id: "02-gated-starter-dialog",
         title: "Starter-gated east warp dialog",
-        expectedMapId: "ma_tomo_lili",
+        expectedMapId: "riverside_home",
         expectedHiddenTestIds: COMBAT_HUD_TEST_IDS,
         focus: [
             "Dialog chrome remains readable over the starter village.",
@@ -238,20 +238,20 @@ test("browser golden path covers starter ceremony through the clear credits", as
             const state = await getState(page);
             return `${state.currentMapId}:${state.serverMapId}:${state.starterChosen}`;
         })
-        .toBe("ma_tomo_lili:ma_tomo_lili:null");
+        .toBe("riverside_home:riverside_home:null");
 
     const starterTask = await beginEvent(page, "jan-sewi");
-    await advanceDialog(page, "hello", starterTask);
-    await advanceDialog(page, "kili sin li pona tawa sijelo.", starterTask);
-    await advanceDialog(page, "kule seme li pona tawa sina?", starterTask);
+    await advanceDialog(page, "Rivers, today you start your own investigation.", starterTask);
+    await advanceDialog(page, "Three creatures answered the call.", starterTask);
+    await advanceDialog(page, "Choose the partner you trust at your side.", starterTask);
 
-    await expect(dialogChoice(page, 0)).toContainText("kon moli");
-    await expect(dialogChoice(page, 1)).toContainText("telo jaki");
-    await expect(dialogChoice(page, 2)).toContainText("jan ike lili");
+    await expect(dialogChoice(page, 0)).toContainText("Ashcat");
+    await expect(dialogChoice(page, 1)).toContainText("Mireling");
+    await expect(dialogChoice(page, 2)).toContainText("Bramble Imp");
     await captureGoldenPathCheckpoint(page, testInfo, {
         id: "03-starter-choice",
         title: "Starter ceremony choice dialog",
-        expectedMapId: "ma_tomo_lili",
+        expectedMapId: "riverside_home",
         expectedHiddenTestIds: COMBAT_HUD_TEST_IDS,
         focus: [
             "Starter choices are visually balanced, readable, and large enough for pointer/tap selection.",
@@ -286,7 +286,7 @@ test("browser golden path covers starter ceremony through the clear credits", as
     await captureGoldenPathCheckpoint(page, testInfo, {
         id: "04-starter-selected-village",
         title: "Starter selected on the village map",
-        expectedMapId: "ma_tomo_lili",
+        expectedMapId: "riverside_home",
         expectedHiddenTestIds: COMBAT_HUD_TEST_IDS,
         focus: [
             "Hero placement is not inside village collision or NPC/object overlap.",
@@ -295,7 +295,7 @@ test("browser golden path covers starter ceremony through the clear credits", as
     });
 
     const unlockedWarpTask = await beginEvent(page, "warp_east", "touch");
-    await expect(page.getByTestId("warp-loading")).toContainText("nasin wan");
+    await expect(page.getByTestId("warp-loading")).toContainText("Greenwood Road");
     await expect(page.getByTestId("warp-loading")).toHaveAttribute("data-phase", /enter|settle/);
     await captureGoldenPathCheckpoint(page, testInfo, {
         id: "05-first-warp-loading",
@@ -320,11 +320,11 @@ test("browser golden path covers starter ceremony through the clear credits", as
             const state = await getState(page);
             return `${state.currentMapId}:${state.serverMapId}`;
         })
-        .toBe("nasin_wan:nasin_wan");
+        .toBe("greenwood_road:greenwood_road");
     await captureGoldenPathCheckpoint(page, testInfo, {
         id: "06-forest-entry",
         title: "Forest route entry after first warp",
-        expectedMapId: "nasin_wan",
+        expectedMapId: "greenwood_road",
         expectedHiddenTestIds: ["warp-loading", ...COMBAT_HUD_TEST_IDS],
         focus: [
             "Forest palette reads as a new biome while staying in the Fan-tasy visual family.",
@@ -346,19 +346,19 @@ test("browser golden path covers starter ceremony through the clear credits", as
         },
         Array.from({ length: 16 }, () => 0),
     );
-    await advanceDialog(page, "sina soweli.", encounterTask);
+    await advanceDialog(page, "Something wild jumps from the grass.", encounterTask);
 
     await expect(page.getByTestId("wild-battle")).toBeVisible();
-    await expect(page.getByTestId("wild-battle-lead")).toContainText("kon moli");
-    await expect(page.getByTestId("wild-battle-target")).toContainText("jan ike lili");
-    await expect(dialogChoice(page, 0)).toContainText("utala");
-    await expect(dialogChoice(page, 1)).toContainText("poki");
-    await expect(dialogChoice(page, 2)).toContainText("ijo");
-    await expect(dialogChoice(page, 3)).toContainText("tawa");
+    await expect(page.getByTestId("wild-battle-lead")).toContainText("Ashcat");
+    await expect(page.getByTestId("wild-battle-target")).toContainText("Bramble Imp");
+    await expect(dialogChoice(page, 0)).toContainText("Fight");
+    await expect(dialogChoice(page, 1)).toContainText("Catch");
+    await expect(dialogChoice(page, 2)).toContainText("Item");
+    await expect(dialogChoice(page, 3)).toContainText("Run");
     await captureGoldenPathCheckpoint(page, testInfo, {
         id: "07-wild-battle-open",
         title: "Wild encounter action menu opens",
-        expectedMapId: "nasin_wan",
+        expectedMapId: "greenwood_road",
         expectedVisibleTestIds: ["wild-battle", "wild-battle-lead", "wild-battle-target"],
         expectedHiddenTestIds: COMBAT_HUD_TEST_IDS,
         focus: [
@@ -372,7 +372,7 @@ test("browser golden path covers starter ceremony through the clear credits", as
     await captureGoldenPathCheckpoint(page, testInfo, {
         id: "08-wild-battle-damage",
         title: "Wild encounter damage feedback",
-        expectedMapId: "nasin_wan",
+        expectedMapId: "greenwood_road",
         expectedVisibleTestIds: ["wild-battle", "wild-battle-damage"],
         expectedHiddenTestIds: COMBAT_HUD_TEST_IDS,
         focus: [
@@ -380,16 +380,16 @@ test("browser golden path covers starter ceremony through the clear credits", as
             "HP bar and target card state visually match the attack result.",
         ],
     });
-    await advanceDialog(page, /utala: -\d+ HP/, encounterTask);
-    await expect(dialogChoice(page, 1)).toContainText("poki");
+    await advanceDialog(page, /Attack: -\d+ HP/, encounterTask);
+    await expect(dialogChoice(page, 1)).toContainText("Catch");
     await dialogChoice(page, 1).click();
 
-    await expect(page.getByTestId("wild-battle-capture")).toContainText("poki li tawa");
-    await expect(page.getByTestId("wild-battle-capture")).toContainText("poki li awen");
+    await expect(page.getByTestId("wild-battle-capture")).toContainText("Throw!");
+    await expect(page.getByTestId("wild-battle-capture")).toContainText("Caught!");
     await captureGoldenPathCheckpoint(page, testInfo, {
         id: "09-capture-feedback",
         title: "Capture throw and caught feedback",
-        expectedMapId: "nasin_wan",
+        expectedMapId: "greenwood_road",
         expectedVisibleTestIds: ["wild-battle", "wild-battle-capture"],
         expectedHiddenTestIds: COMBAT_HUD_TEST_IDS,
         focus: [
@@ -397,7 +397,7 @@ test("browser golden path covers starter ceremony through the clear credits", as
             "Creature/card scale stays consistent with the map and HUD.",
         ],
     });
-    await advanceDialog(page, "a. pona.", encounterTask);
+    await advanceDialog(page, "Captured. It settles into the pod.", encounterTask);
     await expect
         .poll(async () => {
             const status = await getTaskStatus(page, encounterTask);
@@ -408,7 +408,7 @@ test("browser golden path covers starter ceremony through the clear credits", as
     await captureGoldenPathCheckpoint(page, testInfo, {
         id: "10-post-catch-forest",
         title: "Forest returns to overworld after first catch",
-        expectedMapId: "nasin_wan",
+        expectedMapId: "greenwood_road",
         expectedHiddenTestIds: ["wild-battle", ...COMBAT_HUD_TEST_IDS],
         focus: [
             "Wild-battle chrome fully tears down and leaves no visual residue on the map.",
@@ -442,7 +442,7 @@ test("browser golden path covers starter ceremony through the clear credits", as
         .toBe(
             JSON.stringify({
                 speciesId: "jan_ike_lili",
-                mapId: "nasin_wan",
+                mapId: "greenwood_road",
                 outcome: "caught",
             }),
         );
@@ -452,11 +452,11 @@ test("browser golden path covers starter ceremony through the clear credits", as
             const state = await getState(page);
             return state.journeyBeat;
         })
-        .toBe("beat_01_ma_tomo_lili");
+        .toBe("beat_01_riverside_home");
 
     const rivalIntroTask = await beginEvent(page, "jan-ike");
-    await advanceDialog(page, "mi mute o lukin!", rivalIntroTask);
-    await advanceDialog(page, "mi ala.", rivalIntroTask);
+    await advanceDialog(page, "You've made it past the village. Let's see what your companion can do.", rivalIntroTask);
+    await advanceDialog(page, "I'm not going easy on you.", rivalIntroTask);
     await expect
         .poll(async () => {
             const state = await getState(page);
@@ -468,7 +468,7 @@ test("browser golden path covers starter ceremony through the clear credits", as
     await captureGoldenPathCheckpoint(page, testInfo, {
         id: "11-rival-lead-avatar",
         title: "Rival battle uses lead creature avatar",
-        expectedMapId: "nasin_wan",
+        expectedMapId: "greenwood_road",
         expectedVisibleTestIds: ["lead-movebar"],
         focus: [
             "Lead creature battle sprite replaces the field hero clearly and at the correct scale.",
@@ -477,8 +477,8 @@ test("browser golden path covers starter ceremony through the clear credits", as
     });
 
     const rivalDefeatTask = await beginDefeatEvent(page, "jan-ike");
-    await advanceDialog(page, "sina pini pona.", rivalDefeatTask);
-    await advanceDialog(page, "mi mute o tawa!", rivalDefeatTask);
+    await advanceDialog(page, "You handled yourself.", rivalDefeatTask);
+    await advanceDialog(page, "Greenwood Road is yours.", rivalDefeatTask);
 
     await expect.poll(async () => getFlag(page, "jan_ike_defeated")).toBe("1");
     await expect
@@ -486,7 +486,7 @@ test("browser golden path covers starter ceremony through the clear credits", as
             const state = await getState(page);
             return state.journeyBeat;
         })
-        .toBe("beat_03_nena_sewi");
+        .toBe("beat_03_highridge_pass");
     await expect
         .poll(async () => {
             const state = await getState(page);
@@ -496,7 +496,7 @@ test("browser golden path covers starter ceremony through the clear credits", as
     await captureGoldenPathCheckpoint(page, testInfo, {
         id: "12-post-rival-hero-restored",
         title: "Hero restored after rival victory",
-        expectedMapId: "nasin_wan",
+        expectedMapId: "greenwood_road",
         expectedHiddenTestIds: COMBAT_HUD_TEST_IDS,
         focus: [
             "Field hero graphic returns after action-battle without stale combat sprite artifacts.",
@@ -510,11 +510,11 @@ test("browser golden path covers starter ceremony through the clear credits", as
             const state = await getState(page);
             return `${state.currentMapId}:${state.serverMapId}`;
         })
-        .toBe("nena_sewi:nena_sewi");
+        .toBe("highridge_pass:highridge_pass");
     await captureGoldenPathCheckpoint(page, testInfo, {
         id: "13-mountain-pass-entry",
         title: "Mountain pass entry",
-        expectedMapId: "nena_sewi",
+        expectedMapId: "highridge_pass",
         expectedHiddenTestIds: COMBAT_HUD_TEST_IDS,
         focus: [
             "Mountain/cliff tiles face the correct direction and read as blocked where they should.",
@@ -523,13 +523,13 @@ test("browser golden path covers starter ceremony through the clear credits", as
     });
 
     const gymIntroTask = await beginEvent(page, "jan-wawa");
-    await advanceDialog(page, "mi wawa mute!", gymIntroTask);
-    await advanceDialog(page, "mi mute o lukin!", gymIntroTask);
+    await advanceDialog(page, "The pass belongs to teams that can take a hit.", gymIntroTask);
+    await advanceDialog(page, "Stand firm.", gymIntroTask);
     await expectActionBattleReady(page, gymIntroTask);
 
     const gymDefeatTask = await beginDefeatEvent(page, "jan-wawa");
-    await advanceDialog(page, "sina pini pona.", gymDefeatTask);
-    await advanceDialog(page, "lukin la sina pilin pona...", gymDefeatTask);
+    await advanceDialog(page, "You took the hit and kept going.", gymDefeatTask);
+    await advanceDialog(page, "Highridge Pass is open.", gymDefeatTask);
 
     await expect.poll(async () => getFlag(page, "badge_sewi")).toBe("1");
     await expect
@@ -537,7 +537,7 @@ test("browser golden path covers starter ceremony through the clear credits", as
             const state = await getState(page);
             return state.journeyBeat;
         })
-        .toBe("beat_04_ma_telo");
+        .toBe("beat_04_lakehaven");
     await expect
         .poll(async () => {
             const party = await getParty(page);
@@ -566,12 +566,12 @@ test("browser golden path covers starter ceremony through the clear credits", as
             const state = await getState(page);
             return `${state.currentMapId}:${state.serverMapId}`;
         })
-        .toBe("ma_telo:ma_telo");
+        .toBe("lakehaven:lakehaven");
     await expect.poll(async () => getInventoryCount(page, "ma")).toBe(10);
     await captureGoldenPathCheckpoint(page, testInfo, {
         id: "14-lake-town-entry",
         title: "Lake town entry before shop",
-        expectedMapId: "ma_telo",
+        expectedMapId: "lakehaven",
         expectedHiddenTestIds: COMBAT_HUD_TEST_IDS,
         focus: [
             "Lake-town palette, water/shore edges, buildings, and path tiles are coherent.",
@@ -580,14 +580,14 @@ test("browser golden path covers starter ceremony through the clear credits", as
     });
 
     const shopTask = await beginEvent(page, "jan-moku");
-    await advanceDialog(page, "kili sin li pona tawa sijelo.", shopTask);
+    await advanceDialog(page, "Fruit, pods, and tonics. Nothing fancy, all useful.", shopTask);
 
-    await expect(dialogChoice(page, 0)).toContainText("poki lili ×1");
-    await expect(dialogChoice(page, 1)).toContainText("kili ×1");
+    await expect(dialogChoice(page, 0)).toContainText("Capture Pod ×1");
+    await expect(dialogChoice(page, 1)).toContainText("Orchard Fruit ×1");
     await captureGoldenPathCheckpoint(page, testInfo, {
         id: "15-shop-menu",
         title: "jan Moku shop menu",
-        expectedMapId: "ma_telo",
+        expectedMapId: "lakehaven",
         expectedHiddenTestIds: COMBAT_HUD_TEST_IDS,
         focus: [
             "Shop dialog choices are readable, consistently styled, and do not cover the NPC/player relationship confusingly.",
@@ -595,15 +595,15 @@ test("browser golden path covers starter ceremony through the clear credits", as
         ],
     });
     await dialogChoice(page, 0).click();
-    await advanceDialog(page, /poki lili \+1\s+ma 8/, shopTask);
+    await advanceDialog(page, /Capture Pod \+1\s+Trail Token 8/, shopTask);
 
-    await expect(dialogChoice(page, 1)).toContainText("kili ×1");
+    await expect(dialogChoice(page, 1)).toContainText("Orchard Fruit ×1");
     await dialogChoice(page, 1).click();
-    await advanceDialog(page, /kili \+1\s+ma 7/, shopTask);
+    await advanceDialog(page, /Orchard Fruit \+1\s+Trail Token 7/, shopTask);
 
-    await expect(dialogChoice(page, 2)).toContainText("telo pona ×1");
-    await expect(dialogChoice(page, 3)).toContainText("poki wawa ×1");
-    await expect(dialogChoice(page, 4)).toContainText("tawa");
+    await expect(dialogChoice(page, 2)).toContainText("Spring Tonic ×1");
+    await expect(dialogChoice(page, 3)).toContainText("Heavy Capture Pod ×1");
+    await expect(dialogChoice(page, 4)).toContainText("Back");
     await dialogChoice(page, 4).click();
     await expect
         .poll(async () => {
@@ -616,13 +616,13 @@ test("browser golden path covers starter ceremony through the clear credits", as
     await expect.poll(async () => getInventoryCount(page, "kili")).toBe(2);
 
     const lakeGymIntroTask = await beginEvent(page, "jan-telo");
-    await advanceDialog(page, "mi mute o lukin!", lakeGymIntroTask);
-    await advanceDialog(page, "mi wawa mute!", lakeGymIntroTask);
+    await advanceDialog(page, "Lakehaven watches the water and the trainer.", lakeGymIntroTask);
+    await advanceDialog(page, "Let's see if you can read both.", lakeGymIntroTask);
     await expectActionBattleReady(page, lakeGymIntroTask);
 
     const lakeGymDefeatTask = await beginDefeatEvent(page, "jan-telo");
-    await advanceDialog(page, "sina pini pona.", lakeGymDefeatTask);
-    await advanceDialog(page, "mi mute o tawa!", lakeGymDefeatTask);
+    await advanceDialog(page, "You stayed calm under pressure.", lakeGymDefeatTask);
+    await advanceDialog(page, "Take the lake badge.", lakeGymDefeatTask);
 
     await expect.poll(async () => getFlag(page, "badge_telo")).toBe("1");
     await expect
@@ -630,7 +630,7 @@ test("browser golden path covers starter ceremony through the clear credits", as
             const state = await getState(page);
             return state.journeyBeat;
         })
-        .toBe("beat_05_ma_lete");
+        .toBe("beat_05_frostvale");
     await expect
         .poll(async () => {
             const party = await getParty(page);
@@ -659,11 +659,11 @@ test("browser golden path covers starter ceremony through the clear credits", as
             const state = await getState(page);
             return `${state.currentMapId}:${state.serverMapId}`;
         })
-        .toBe("ma_lete:ma_lete");
+        .toBe("frostvale:frostvale");
     await captureGoldenPathCheckpoint(page, testInfo, {
         id: "16-ice-village-entry",
         title: "Ice village entry",
-        expectedMapId: "ma_lete",
+        expectedMapId: "frostvale",
         expectedHiddenTestIds: COMBAT_HUD_TEST_IDS,
         focus: [
             "Snow/ice palette is visually distinct from lake town while staying in the same art family.",
@@ -672,13 +672,13 @@ test("browser golden path covers starter ceremony through the clear credits", as
     });
 
     const coldGymIntroTask = await beginEvent(page, "jan-lete");
-    await advanceDialog(page, "mi mute o lukin!", coldGymIntroTask);
-    await advanceDialog(page, "mi wawa mute!", coldGymIntroTask);
+    await advanceDialog(page, "Frostvale tests patience first.", coldGymIntroTask);
+    await advanceDialog(page, "Show me your warmest heart.", coldGymIntroTask);
     await expectActionBattleReady(page, coldGymIntroTask);
 
     const coldGymDefeatTask = await beginDefeatEvent(page, "jan-lete");
-    await advanceDialog(page, "sina pini pona.", coldGymDefeatTask);
-    await advanceDialog(page, "mi mute o tawa!", coldGymDefeatTask);
+    await advanceDialog(page, "You kept moving through the cold.", coldGymDefeatTask);
+    await advanceDialog(page, "Carry this badge onward.", coldGymDefeatTask);
 
     await expect.poll(async () => getFlag(page, "badge_lete")).toBe("1");
     await expect
@@ -686,7 +686,7 @@ test("browser golden path covers starter ceremony through the clear credits", as
             const state = await getState(page);
             return state.journeyBeat;
         })
-        .toBe("beat_06_nena_suli");
+        .toBe("beat_06_dreadpeak_cavern");
     await expect
         .poll(async () => {
             const party = await getParty(page);
@@ -715,11 +715,11 @@ test("browser golden path covers starter ceremony through the clear credits", as
             const state = await getState(page);
             return `${state.currentMapId}:${state.serverMapId}`;
         })
-        .toBe("nena_suli:nena_suli");
+        .toBe("dreadpeak_cavern:dreadpeak_cavern");
     await captureGoldenPathCheckpoint(page, testInfo, {
         id: "17-cave-shrine-entry",
         title: "Cave shrine entry",
-        expectedMapId: "nena_suli",
+        expectedMapId: "dreadpeak_cavern",
         expectedHiddenTestIds: COMBAT_HUD_TEST_IDS,
         focus: [
             "Cave walls, shrine floor, torches, and blocked slopes face correctly and feel cohesive.",
@@ -728,13 +728,13 @@ test("browser golden path covers starter ceremony through the clear credits", as
     });
 
     const peakGymIntroTask = await beginEvent(page, "jan-suli");
-    await advanceDialog(page, "mi mute o lukin!", peakGymIntroTask);
-    await advanceDialog(page, "mi wawa mute!", peakGymIntroTask);
+    await advanceDialog(page, "Dreadpeak doesn't forgive sloppy teams.", peakGymIntroTask);
+    await advanceDialog(page, "Show me why the mountain should let you pass.", peakGymIntroTask);
     await expectActionBattleReady(page, peakGymIntroTask);
 
     const peakGymDefeatTask = await beginDefeatEvent(page, "jan-suli");
-    await advanceDialog(page, "lukin la sina pilin pona...", peakGymDefeatTask);
-    await advanceDialog(page, "mi mute o tawa!", peakGymDefeatTask);
+    await advanceDialog(page, "You climbed higher than I expected.", peakGymDefeatTask);
+    await advanceDialog(page, "The final road is open.", peakGymDefeatTask);
 
     await expect.poll(async () => getFlag(page, "badge_suli")).toBe("1");
     await expect
@@ -742,7 +742,7 @@ test("browser golden path covers starter ceremony through the clear credits", as
             const state = await getState(page);
             return state.journeyBeat;
         })
-        .toBe("beat_07_nasin_pi_telo");
+        .toBe("beat_07_rivergate_approach");
     await expect
         .poll(async () => {
             const party = await getParty(page);
@@ -771,11 +771,11 @@ test("browser golden path covers starter ceremony through the clear credits", as
             const state = await getState(page);
             return `${state.currentMapId}:${state.serverMapId}:${state.journeyBeat}`;
         })
-        .toBe("nasin_pi_telo:nasin_pi_telo:beat_07_nasin_pi_telo");
+        .toBe("rivergate_approach:rivergate_approach:beat_07_rivergate_approach");
     await captureGoldenPathCheckpoint(page, testInfo, {
         id: "18-final-water-route-entry",
         title: "Final water route entry",
-        expectedMapId: "nasin_pi_telo",
+        expectedMapId: "rivergate_approach",
         expectedHiddenTestIds: COMBAT_HUD_TEST_IDS,
         focus: [
             "Water, shore, sandbar, and pier tiles face the correct direction and communicate blocked/open terrain.",
@@ -790,12 +790,12 @@ test("browser golden path covers starter ceremony through the clear credits", as
             required_flag: "badges_all_four",
         },
     });
-    await advanceDialog(page, "mi wawa mute!", finalBossIntroTask);
+    await advanceDialog(page, "The rivergate burns with green fire. I am done hiding.", finalBossIntroTask);
     await expectActionBattleReady(page, finalBossIntroTask);
     await captureGoldenPathCheckpoint(page, testInfo, {
         id: "19-green-dragon-combat-intro",
         title: "Green dragon combat intro",
-        expectedMapId: "nasin_pi_telo",
+        expectedMapId: "rivergate_approach",
         expectedVisibleTestIds: ["lead-movebar"],
         focus: [
             "Green dragon set-piece reads as endgame scale and does not reuse mid-game visual language accidentally.",
@@ -804,12 +804,12 @@ test("browser golden path covers starter ceremony through the clear credits", as
     });
 
     const finalBossDefeatTask = await beginDefeatEvent(page, "green-dragon");
-    await advanceDialog(page, "a. pona.", finalBossDefeatTask);
-    await expectDialog(page, /poki soweli\s+thanks for playing\./, finalBossDefeatTask);
+    await advanceDialog(page, "The storm is finally quiet.", finalBossDefeatTask);
+    await expectDialog(page, /Rivers Reckoning\s+thanks for playing\./, finalBossDefeatTask);
     await captureGoldenPathCheckpoint(page, testInfo, {
         id: "20-ending-credits-title",
         title: "Ending credits title page",
-        expectedMapId: "nasin_pi_telo",
+        expectedMapId: "rivergate_approach",
         expectedHiddenTestIds: COMBAT_HUD_TEST_IDS,
         focus: [
             "Credits typography, spacing, and contrast match the game brand.",
@@ -825,7 +825,7 @@ test("browser golden path covers starter ceremony through the clear credits", as
     await captureGoldenPathCheckpoint(page, testInfo, {
         id: "21-ending-credits-team",
         title: "Ending credits team page",
-        expectedMapId: "nasin_pi_telo",
+        expectedMapId: "rivergate_approach",
         expectedHiddenTestIds: COMBAT_HUD_TEST_IDS,
         focus: [
             "Credits page two remains readable and consistently aligned after paging.",
@@ -835,13 +835,13 @@ test("browser golden path covers starter ceremony through the clear credits", as
     await closeDialog(page);
     await expectDialog(
         page,
-        /art \/ tiles \/ creatures\s+Fan-tasy asset family\s+language corpus\s+Tatoeba/,
+        /art \/ tiles \/ creatures\s+Fan-tasy asset family\s+special thanks\s+Rivers/,
         finalBossDefeatTask,
     );
     await captureGoldenPathCheckpoint(page, testInfo, {
         id: "22-ending-credits-art",
-        title: "Ending credits art and corpus page",
-        expectedMapId: "nasin_pi_telo",
+        title: "Ending credits art and thanks page",
+        expectedMapId: "rivergate_approach",
         expectedHiddenTestIds: COMBAT_HUD_TEST_IDS,
         focus: [
             "Credits page three preserves the same visual identity and text rhythm.",

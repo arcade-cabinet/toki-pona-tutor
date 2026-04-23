@@ -20,7 +20,7 @@ async function getTaskStatus(page: Page, taskId: string): Promise<BrowserTaskSta
 }
 
 function titleEntry(page: Page, index: number) {
-    return page.locator('.rpg-ui-title-screen-menu .rpg-ui-menu-item').nth(index);
+    return page.locator('.rr-title-entry').nth(index);
 }
 
 function dialogChoice(page: Page, index: number) {
@@ -34,7 +34,7 @@ async function beginEvent(page: Page, eventId: string, trigger: 'action' | 'touc
 }
 
 async function advanceDialog(page: Page, expectedText: string | RegExp, taskId?: string): Promise<void> {
-    const content = page.locator('.rpg-ui-dialog-content');
+    const content = page.locator('[data-testid="rr-dialog-content"]');
     if (typeof expectedText === 'string' && taskId) {
         await expect.poll(async () => {
             const status = await getTaskStatus(page, taskId);
@@ -49,6 +49,16 @@ async function advanceDialog(page: Page, expectedText: string | RegExp, taskId?:
     await page.evaluate(() => window.__POKI__!.testing.closeGui('rpg-dialog'));
 }
 
+async function closeOpenDialogs(page: Page): Promise<void> {
+    await page.waitForTimeout(250);
+    for (let attempt = 0; attempt < 8; attempt += 1) {
+        const dialog = page.locator('.rr-dialog').first();
+        if (!(await dialog.isVisible().catch(() => false))) return;
+        await page.evaluate(() => window.__POKI__!.testing.closeGui('rpg-dialog'));
+        await page.waitForTimeout(100);
+    }
+}
+
 test('mobile HUD status strip appears after starter choice and hides during dialog', async ({ page }) => {
     await page.goto('/');
     await waitForReady(page);
@@ -61,26 +71,26 @@ test('mobile HUD status strip appears after starter choice and hides during dial
     await titleEntry(page, 0).tap();
 
     const starterTask = await beginEvent(page, 'jan-sewi');
-    await advanceDialog(page, 'hello', starterTask);
-    await advanceDialog(page, 'kili sin li pona tawa sijelo.', starterTask);
-    await advanceDialog(page, 'kule seme li pona tawa sina?', starterTask);
+    await advanceDialog(page, 'Rivers, today you start your own investigation.', starterTask);
+    await advanceDialog(page, 'Three creatures answered the call.', starterTask);
+    await advanceDialog(page, 'Choose the partner you trust at your side.', starterTask);
 
-    await expect(dialogChoice(page, 0)).toContainText('kon moli');
+    await expect(dialogChoice(page, 0)).toContainText('Ashcat');
     await dialogChoice(page, 0).tap();
 
     const status = page.locator('[data-testid="hud-status"]');
     await expect(status).toBeVisible();
-    await expect(status).toContainText('kon moli');
+    await expect(status).toContainText('Ashcat');
     await expect(status).toContainText('L5');
-    await expect(status).toContainText(/toki:\s*\d+/);
-    await expect(status.locator('.poki-hud-status-portrait')).toHaveClass(/has-image/);
-    await expect(status.locator('.poki-hud-status-portrait-image')).toHaveAttribute('style', /wraith\.png/);
+    await expect(status).toContainText(/clues:\s*\d+/);
+    await expect(status.locator('.rr-hud-portrait')).toHaveClass(/has-image/);
+    await expect(status.locator('.rr-hud-portrait-image')).toHaveAttribute('style', /wraith\.png/);
 
     const revisitTask = await beginEvent(page, 'jan-sewi');
-    await expect(page.locator('.rpg-ui-dialog')).toBeVisible();
+    await expect(page.locator('.rr-dialog')).toBeVisible();
     await expect(status).toBeHidden();
 
-    await page.evaluate(() => window.__POKI__!.testing.closeGui('rpg-dialog'));
+    await closeOpenDialogs(page);
     await expect(status).toBeVisible();
 
     await expect.poll(async () => {

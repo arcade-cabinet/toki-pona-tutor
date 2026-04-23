@@ -22,7 +22,7 @@ type ClientEventLike = {
     y(): number;
 };
 
-export type InteractionHintGlyph = "toki" | "utala" | "tawa" | "alasa";
+export type InteractionHintGlyph = "talk" | "battle" | "travel" | "search";
 
 export type InteractionHint = {
     glyph: InteractionHintGlyph;

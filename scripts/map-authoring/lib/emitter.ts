@@ -27,7 +27,7 @@ import { assignFirstGids, resolvePaletteName, tsxQualifiedKey, tsxStem } from ".
 const TILED_VERSION = "1.11.2";
 const PUBLIC_DIR_SEGMENT = "/public/";
 
-const LAYER_ORDER = ["Below Player", "World", "Above Player"] as const;
+const LAYER_ORDER = ["Below Player", "Ground Detail", "World", "Above Player"] as const;
 
 export interface EmitTmjOptions {
     /**

@@ -48,7 +48,13 @@
       }
     },
     "tallGrass": {
-      "summer": 0
+      "summer": 26
+    }
+  },
+  "snow": {
+    "snow": {
+      "base": 8,
+      "roughEncounter": 50
     }
   }
 }

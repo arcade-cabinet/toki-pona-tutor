@@ -1,30 +1,30 @@
 import { getDatabase, saveWebStore } from "./database";
 import { PARTY_SIZE_MAX } from "./constants";
 import { markCaught, markSeen, type BestiaryState } from "../../modules/main/bestiary";
-import type { MasteredWord } from "../../modules/main/dictionary-export";
+import type { ClueRecord } from "../../modules/main/dictionary-export";
 import { observe, type SentenceRecord } from "../../modules/main/sentence-log";
 
-export async function recordMasteredWord(tpWord: string): Promise<void> {
+export async function recordClue(clueId: string): Promise<void> {
     const db = await getDatabase();
     await db.run(
         `INSERT INTO mastered_words (tp_word, sightings, mastered_at)
          VALUES (?, 1, ?)
          ON CONFLICT(tp_word) DO UPDATE SET sightings = sightings + 1`,
-        [tpWord, new Date().toISOString()],
+        [clueId, new Date().toISOString()],
     );
     await saveWebStore();
 }
 
-export async function getWordSightings(tpWord: string): Promise<number> {
+export async function getClueSightings(clueId: string): Promise<number> {
     const db = await getDatabase();
     const result = await db.query(`SELECT sightings FROM mastered_words WHERE tp_word = ?`, [
-        tpWord,
+        clueId,
     ]);
     const row = result.values?.[0];
     return row ? Number(row.sightings) : 0;
 }
 
-export async function listMasteredWords(threshold = 3): Promise<string[]> {
+export async function listClues(threshold = 3): Promise<string[]> {
     const db = await getDatabase();
     const result = await db.query(
         `SELECT tp_word FROM mastered_words WHERE sightings >= ? ORDER BY tp_word`,
@@ -33,7 +33,7 @@ export async function listMasteredWords(threshold = 3): Promise<string[]> {
     return (result.values ?? []).map((row) => String(row.tp_word));
 }
 
-export async function listMasteredWordRecords(threshold = 3): Promise<MasteredWord[]> {
+export async function listClueRecords(threshold = 3): Promise<ClueRecord[]> {
     const db = await getDatabase();
     const result = await db.query(
         `SELECT tp_word, sightings, mastered_at
@@ -43,24 +43,31 @@ export async function listMasteredWordRecords(threshold = 3): Promise<MasteredWo
         [threshold],
     );
     return (result.values ?? []).map((row) => ({
-        tp: String(row.tp_word),
+        id: String(row.tp_word),
         sightings: Number(row.sightings ?? 0),
         mastered_at: String(row.mastered_at),
     }));
 }
 
+export const recordMasteredWord = recordClue;
+export const getWordSightings = getClueSightings;
+export const listMasteredWords = listClues;
+export const listMasteredWordRecords = listClueRecords;
+
 export async function recordSentenceLine(input: {
-    tp: string;
-    en: string;
+    text?: string;
+    tp?: string;
+    en?: string;
     source: string;
     now?: string;
 }): Promise<SentenceRecord> {
     const db = await getDatabase();
-    const existing = await getSentenceRecord(input.tp);
+    const text = input.text ?? input.tp ?? input.en ?? "";
+    const existing = await getSentenceRecord(text);
     const observed = observe(
         {
-            tp: input.tp,
-            en: input.en,
+            text,
+            en: input.en ?? text,
             source: input.source,
             now: input.now ?? new Date().toISOString(),
         },
@@ -72,7 +79,7 @@ export async function recordSentenceLine(input: {
          VALUES (?, ?, ?, ?, ?)
          ON CONFLICT(tp) DO UPDATE SET sightings = excluded.sightings`,
         [
-            observed.record.tp,
+            observed.record.text,
             observed.record.en,
             observed.record.first_seen,
             observed.record.sightings,
@@ -83,11 +90,11 @@ export async function recordSentenceLine(input: {
     return observed.record;
 }
 
-export async function getSentenceRecord(tp: string): Promise<SentenceRecord | undefined> {
+export async function getSentenceRecord(text: string): Promise<SentenceRecord | undefined> {
     const db = await getDatabase();
     const result = await db.query(
         `SELECT tp, en, first_seen, sightings, source FROM sentence_log WHERE tp = ? LIMIT 1`,
-        [tp],
+        [text],
     );
     const row = result.values?.[0];
     return row ? mapSentenceRecord(row) : undefined;
@@ -113,7 +120,7 @@ export async function listSentenceLog(limit = 10): Promise<SentenceRecord[]> {
 
 function mapSentenceRecord(row: Record<string, unknown>): SentenceRecord {
     return {
-        tp: String(row.tp),
+        text: String(row.tp),
         en: String(row.en),
         first_seen: String(row.first_seen),
         sightings: Number(row.sightings ?? 0),

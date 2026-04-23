@@ -1,7 +1,7 @@
 {
-  "name": "poki soweli",
-  "short_name": "poki soweli",
-  "description": "A mobile-first creature-catching RPG for learning toki pona through play.",
+  "name": "Rivers Reckoning",
+  "short_name": "Rivers",
+  "description": "A mobile-first fantasy creature-catching RPG about exploration, monsters, and mystery.",
   "start_url": ".",
   "display": "standalone",
   "background_color": "#fdf6e3",

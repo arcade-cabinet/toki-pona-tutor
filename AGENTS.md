@@ -1,10 +1,10 @@
 ---
-title: poki soweli — Extended Operating Protocols
+title: Rivers Reckoning — Extended Operating Protocols
 updated: 2026-04-22
 status: current
 ---
 
-# Operating protocols for agents working on poki soweli
+# Operating protocols for agents working on Rivers Reckoning
 
 Companion to `CLAUDE.md`. CLAUDE.md is the quick-orient entry point; this file is the extended reference for how work happens here.
 
@@ -24,19 +24,18 @@ When adding a feature, the first question is "what does the doc say this should 
 
 **RPG.js v5 beta** (`@rpgjs/server`, `@rpgjs/client`, `@rpgjs/common`, `@rpgjs/tiledmap`, `@rpgjs/action-battle`, `@rpgjs/ui-css`, `@rpgjs/vite`) runs on **CanvasEngine 2 beta** + **Pixi 8**. Save storage goes through **Capacitor 8** (`@capacitor/preferences` for KV, `@capacitor-community/sqlite` with `jeep-sqlite` + `sql.js` web shim for structured data).
 
-The GUI layer is **RPG.js-native**: `.ce` (CanvasEngine) files for every custom HUD surface, registered via `defineModule<RpgClient>({ gui: [...] })`. No SolidJS, no Vue, no React. See `docs/UX.md`.
+The player-facing GUI layer is **rr-ui**: React + Radix primitives + Motion mounted at `#rr-ui-root`. RPG.js still owns GUI lifecycles through `.ce` bridge adapters under `src/config/`, but those adapters publish state into `RiversUiBridge` instead of rendering product chrome. See `docs/UX.md`.
 
-Typography is **self-hosted**: Nunito + Fredoka + JetBrains Mono + nasin-nanpa, all under SIL OFL 1.1, shipped as `.woff2` under `public/assets/fonts/`. No CDN at runtime.
+Typography is **self-hosted or bundled**: Fraunces Variable for display, Nunito for UI/body, JetBrains Mono for diagnostics, and nasin-nanpa for legacy glyph compatibility. No CDN at runtime.
 
 ## The content pipeline is load-bearing
 
 Every piece of game content flows through this pipeline:
 
 ```
-src/content/spine/<kind>/<id>.json   (hand-authored, EN strings tagged for TP resolution)
+src/content/spine/<kind>/<id>.json   (hand-authored English content)
    ↓ scripts/build-spine.mjs
    ↓   validates Zod schemas
-   ↓   resolves EN → canonical TP via src/content/corpus/tatoeba.json
    ↓ src/content/generated/world.json   (committed for reproducibility)
    ↓ src/modules/main/content.ts (runtime-guarded with assertContentWorld)
    ↓ player hooks, NPC events, gym-leader factories
@@ -44,7 +43,7 @@ src/content/spine/<kind>/<id>.json   (hand-authored, EN strings tagged for TP re
 
 Authors edit `spine/`, never `generated/`. `pnpm prebuild` runs the full pipeline and gates `pnpm build`. CI enforces it on every PR via `ci.yml` under the `unit` job.
 
-Runtime gameplay catalogs live in `src/content/gameplay/*.json` and are validated by `src/content/gameplay/schema.ts`. Do not hardcode authored tables in RPG.js modules for map labels/safe spawns, runtime map events, starters, badges, party/save-slot limits, shop stock/NPC graphic/dialog/delivery target, battle rewards, level curves, trainer/final-boss battle stats/AI/rewards/death visuals, NG+ reset/scaling, daycare offspring tuning, gym XP/rematch tuning, type matchups, status-effect rules, wild-combat formulas, encounter timing, side quests, item-drop defaults, ambient weather/tint tables, combat chrome values, HP tiers/colors/labels, HUD/tap/combat UI IDs/timing/copy/retry tuning, lead movebar SP/cooldown/range tuning/copy/templates, sprite layouts, player/NPC/trainer/boss/effect manifests, BGM/SFX paths/volumes/selection/runtime timing/cue mapping, title/starter/pause/settings/inventory/save/vocabulary/party-panel/bestiary/quest journal/dialog fallback/defaults/SFX/shop/wild-encounter copy/choices/templates/dialog IDs, defeat/warp overlay ARIA/default phase copy, defeat revive dialog IDs, dictionary export text/SVG layout, notification templates/durations, save-position snap timing, or credits. TypeScript modules should consume the normalized exports from `src/content/gameplay/index.ts` and keep behavior separate from authored data.
+Runtime gameplay catalogs live in `src/content/gameplay/*.json` and are validated by `src/content/gameplay/schema.ts`. Do not hardcode authored tables in RPG.js modules for map labels/safe spawns, runtime map events, starters, badges, party/save-slot limits, shop stock/NPC graphic/dialog/delivery target, battle rewards, level curves, trainer/final-boss battle stats/AI/rewards/death visuals, NG+ reset/scaling, daycare offspring tuning, gym XP/rematch tuning, type matchups, status-effect rules, wild-combat formulas, encounter timing, side quests, item-drop defaults, ambient weather/tint tables, combat chrome values, HP tiers/colors/labels, HUD/tap/combat UI IDs/timing/copy/retry tuning, lead movebar SP/cooldown/range tuning/copy/templates, sprite layouts, player/NPC/trainer/boss/effect manifests, BGM/SFX paths/volumes/selection/runtime timing/cue mapping, title/starter/pause/settings/inventory/save/clues/party-panel/bestiary/quest journal/dialog fallback/defaults/SFX/shop/wild-encounter copy/choices/templates/dialog IDs, defeat/warp overlay ARIA/default phase copy, defeat revive dialog IDs, clue export text/SVG layout, notification templates/durations, save-position snap timing, or credits. TypeScript modules should consume the normalized exports from `src/content/gameplay/index.ts` and keep behavior separate from authored data.
 
 Runtime event coordinates and warp target positions come from the compiled map-object layer in `src/content/generated/world.json`, not from hand-copied numbers in `server.ts` or `events.json`. If placement is wrong, fix the map spec or the intentional offset in `events.json`, then rebuild.
 
@@ -117,14 +116,13 @@ Every CI build step that produces a deployable artifact sets the right env. See 
 ## Languages + formats
 
 - **TypeScript strict** for all game code.
-- **`.ce`** for CanvasEngine GUI components. Reactive signals, native mouse + touch events. See `docs/UX.md` + https://canvasengine.net/llms.txt for the component model.
+- **`.ce`** only for RPG.js GUI bridge adapters. Player-facing UI lives in `src/ui/` React components. See `docs/UX.md` + https://canvasengine.net/llms.txt for adapter conventions.
 - **JSON** for content (Zod-validated).
 - **Tiled `.tmx`/`.tsx`** for tilemaps — but `.tmx` under `src/tiled/` and `.tmj` under `public/assets/maps/` are **emitted artifacts**, never hand-edited.
 
 ## When something fights you
 
 - **`pnpm author:verify` fails** — the `.tmx`/`.tmj` on disk drifted from the spec (or is orphaned, or missing). DO NOT edit artifacts directly. Edit the spec under `scripts/map-authoring/specs/` and re-run `pnpm author:build <id>`. If orphaned, remove the `.tmx`/`.tmj` or add the matching spec.
-- **`pnpm validate-tp` rejects a line** — rewrite the EN, never hand-author TP. See `docs/WRITING_RULES.md`.
 - **`tsc` fails on a `@rpgjs/*` type** — upstream ships named exports as `default` only in several packages. Add a shim under `src/types/rpgjs-*.d.ts` mirroring the runtime surface. The typecheck script already filters one known upstream bug (`@rpgjs/common/rooms/WorldMaps.ts`) via pipefail grep.
 - **Dev server shows blank canvas / tilemap doesn't render** — check the vite `base` matches how you're requesting the URL (dev = `/`, not `/poki-soweli/`). The tilemap plugin prefixes requests with `${base}map`.
 - **Font 404 on deployed Pages** — make sure the CI build step has `GITHUB_PAGES=true` so vite rewrites `/assets/fonts/...` to `/poki-soweli/assets/fonts/...`.
@@ -134,9 +132,9 @@ Every CI build step that produces a deployable artifact sets the right env. See 
 
 - **Player has no stats.** The party of ≤ 6 creatures is the character sheet.
 - **Five creature types**: seli (fire) / telo (water) / kasi (plant) / lete (ice) / wawa (strong). Each has specific matchup multipliers; wawa is the neutral bruiser.
-- **Every monster is catchable.** Tiering is rarity + catch difficulty + animation depth — not whether the poki works.
-- **No translation UI.** Vocabulary is picked up diegetically through play. The player never sees an English gloss dictionary.
-- **Seven regions → four current `jan lawa` → one final boss (green dragon).** Green dragon is the only creature with a dedicated death animation; the final-boss defeat path plays it, and the species is also a rare final-route catch.
+- **Every monster is catchable.** Tiering is rarity + catch difficulty + animation depth — not whether the capture pod works.
+- **Native-English story.** The former corpus/translation layer is removed; use richer English writing and curated clues instead.
+- **Seven regions → four current region masters → one final boss (green dragon).** Green dragon is the only creature with a dedicated death animation; the final-boss defeat path plays it, and the species is also a rare final-route catch.
 - **Kid audience.** "Dread knight" > "death knight". Tone is fierce-but-friendly, never punishing, no permadeath.
 - **Mobile-first.** Tap-to-walk primary, keyboard as desktop shortcut, no orientation lock, responsive via container queries, safe-area-aware.
 - **No trademarked references** in any doc, code, comment, or asset. The game is a "creature-catching RPG" — never compared to any specific franchise by name.

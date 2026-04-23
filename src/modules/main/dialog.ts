@@ -2,14 +2,12 @@ import type { RpgPlayer } from "@rpgjs/server";
 import { DIALOG_UI_CONFIG } from "../../content/gameplay";
 import { formatGameplayTemplate } from "../../content/gameplay/templates";
 import { getDialogById } from "./content";
-import { observeTpLine } from "./vocabulary";
-import { recordMasteredWord, recordSentenceLine } from "../../platform/persistence/queries";
+import { recordClue } from "../../platform/persistence/queries";
 
 /**
  * Play a dialog node through to completion:
  * - speaks each beat via showText
- * - tokenizes the TP line and records every dictionary word as a sighting
- * - additionally records the explicit `glyph` (sitelen-pona lesson) if present
+ * - records the explicit `glyph` token as a clue sighting if present
  */
 export async function playDialog(player: RpgPlayer, dialogId: string): Promise<boolean> {
     const node = getDialogById(dialogId);
@@ -26,17 +24,8 @@ export async function playDialog(player: RpgPlayer, dialogId: string): Promise<b
         return false;
     }
     for (const beat of node.beats) {
-        const line = beat.text.tp ?? beat.text.en;
-        await player.showText(line);
-        if (beat.text.tp) {
-            await recordSentenceLine({
-                tp: beat.text.tp,
-                en: beat.text.en ?? "",
-                source: dialogId,
-            });
-            await observeTpLine(beat.text.tp);
-        }
-        if (beat.glyph) await recordMasteredWord(beat.glyph);
+        await player.showText(beat.text.en);
+        if (beat.glyph) await recordClue(beat.glyph);
     }
     return true;
 }

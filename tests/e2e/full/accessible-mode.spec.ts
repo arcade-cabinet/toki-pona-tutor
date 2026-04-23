@@ -7,7 +7,7 @@ async function waitForReady(page: Page): Promise<void> {
 }
 
 function titleEntry(page: Page, index: number) {
-    return page.locator('.rpg-ui-title-screen-menu .rpg-ui-menu-item').nth(index);
+    return page.locator('.rr-title-entry').nth(index);
 }
 
 function dialogChoice(page: Page, index: number) {
@@ -23,12 +23,12 @@ test('settings accessible mode toggle applies larger-type reduced-motion body cl
     await waitForReady(page);
 
     await titleEntry(page, 1).click();
-    await expect(page.locator('.rpg-ui-dialog-content')).toContainText('nasin:');
-    await expect(page.locator('.rpg-ui-dialog-content')).toContainText('suli       ala');
+    await expect(page.locator('[data-testid="rr-dialog-content"]')).toContainText('Settings:');
+    await expect(page.locator('[data-testid="rr-dialog-content"]')).toContainText('access       off');
     await page.evaluate(() => window.__POKI__!.testing.closeGui('rpg-dialog'));
 
-    await expect(dialogChoice(page, 3)).toContainText('suli');
-    await expect(dialogChoice(page, 3)).toContainText('[ala]');
+    await expect(dialogChoice(page, 3)).toContainText('accessible mode');
+    await expect(dialogChoice(page, 3)).toContainText('[off]');
     await dialogChoice(page, 3).click();
 
     await expect(page.locator('body')).toHaveClass(/poki-accessible-mode/);

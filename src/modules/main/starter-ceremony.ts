@@ -4,7 +4,7 @@ import {
     addToInventory,
     addToParty,
     recordBestiaryCaught,
-    recordMasteredWord,
+    recordClue,
     setFlag,
 } from "../../platform/persistence/queries";
 import {
@@ -52,8 +52,8 @@ export async function runStarterCeremony(player: RpgPlayer): Promise<void> {
     }
     await recordBestiaryCaught(picked.id);
 
-    for (const word of picked.mastered_words) {
-        await recordMasteredWord(word);
+    for (const clueId of picked.starting_clues) {
+        await recordClue(clueId);
     }
 
     await player.showNotification(picked.label, { time: STARTER_CEREMONY_CONFIG.notificationMs });

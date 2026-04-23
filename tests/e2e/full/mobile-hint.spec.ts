@@ -5,6 +5,8 @@ test.use({
 });
 
 type BrowserDebugState = {
+    currentMapId: string | null;
+    serverMapId: string | null;
     position: {
         x: number | null;
         y: number | null;
@@ -28,8 +30,15 @@ async function getState(page: Page): Promise<BrowserDebugState> {
     return page.evaluate(() => window.__POKI__!.testing.getState());
 }
 
+async function waitForMapReady(page: Page, mapId: string): Promise<void> {
+    await expect.poll(async () => {
+        const state = await getState(page);
+        return `${state.currentMapId}:${state.serverMapId}`;
+    }).toBe(`${mapId}:${mapId}`);
+}
+
 function titleEntry(page: Page, index: number) {
-    return page.locator('.rpg-ui-title-screen-menu .rpg-ui-menu-item').nth(index);
+    return page.locator('.rr-title-entry').nth(index);
 }
 
 async function tapWorld(page: Page, x: number, y: number): Promise<void> {
@@ -46,7 +55,7 @@ async function tapWorld(page: Page, x: number, y: number): Promise<void> {
     );
 }
 
-test('mobile contextual hint glyph appears near jan-sewi and can trigger dialog', async ({ page }) => {
+test('mobile contextual hint appears near jan-sewi and can trigger dialog', async ({ page }) => {
     await page.goto('/');
     await waitForReady(page);
 
@@ -59,7 +68,8 @@ test('mobile contextual hint glyph appears near jan-sewi and can trigger dialog'
     await expect.poll(async () => {
         const state = await getState(page);
         return state.saves[0]?.map ?? null;
-    }).toBe('ma_tomo_lili');
+    }).toBe('riverside_home');
+    await waitForMapReady(page, 'riverside_home');
 
     await tapWorld(page, 160, 128);
     await expect.poll(async () => {
@@ -69,8 +79,8 @@ test('mobile contextual hint glyph appears near jan-sewi and can trigger dialog'
 
     const hint = page.locator('[data-testid="hint-glyph"]');
     await expect(hint).toBeVisible();
-    await expect(hint).toContainText('toki');
-    await expect(hint).toHaveAttribute('aria-label', /Interact hint toki/);
+    await expect(hint).toContainText('talk');
+    await expect(hint).toHaveAttribute('aria-label', /Interact hint talk/);
 
     const hintBox = await hint.boundingBox();
     expect(hintBox).not.toBeNull();
@@ -79,7 +89,10 @@ test('mobile contextual hint glyph appears near jan-sewi and can trigger dialog'
 
     await hint.tap();
 
-    await expect(page.locator('.rpg-ui-dialog')).toBeVisible();
+    await expect(page.locator('.rr-dialog')).toBeVisible();
+    await expect(page.locator('[data-testid="rr-dialog-content"]')).toHaveText('Rivers, today you start your own investigation.');
+    await page.locator('[data-testid="rr-dialog"]').tap();
+    await expect(page.locator('[data-testid="rr-dialog-content"]')).toHaveText('Three creatures answered the call.');
     await expect(hint).toBeHidden();
     await expect(page.locator('[data-testid="hud-menu-toggle"]')).toBeHidden();
 });
@@ -97,7 +110,8 @@ test('mobile tap on the player sprite triggers the current adjacent interaction'
     await expect.poll(async () => {
         const state = await getState(page);
         return state.saves[0]?.map ?? null;
-    }).toBe('ma_tomo_lili');
+    }).toBe('riverside_home');
+    await waitForMapReady(page, 'riverside_home');
 
     await tapWorld(page, 160, 128);
     await expect.poll(async () => {
@@ -117,8 +131,8 @@ test('mobile tap on the player sprite triggers the current adjacent interaction'
         (state.position.y ?? 0) + TILE_SIZE,
     );
 
-    await expect(page.locator('.rpg-ui-dialog')).toBeVisible();
-    await expect(page.locator('.rpg-ui-dialog-content')).toHaveText('hello');
+    await expect(page.locator('.rr-dialog')).toBeVisible();
+    await expect(page.locator('[data-testid="rr-dialog-content"]')).toHaveText('Rivers, today you start your own investigation.');
 });
 
 test('mobile canvas taps are ignored while dialog is open', async ({ page }) => {
@@ -134,7 +148,8 @@ test('mobile canvas taps are ignored while dialog is open', async ({ page }) => 
     await expect.poll(async () => {
         const state = await getState(page);
         return state.saves[0]?.map ?? null;
-    }).toBe('ma_tomo_lili');
+    }).toBe('riverside_home');
+    await waitForMapReady(page, 'riverside_home');
 
     await tapWorld(page, 160, 128);
     await expect.poll(async () => {
@@ -143,14 +158,14 @@ test('mobile canvas taps are ignored while dialog is open', async ({ page }) => 
     }).toBe('160:128');
 
     await page.locator('[data-testid="hint-glyph"]').tap();
-    await expect(page.locator('.rpg-ui-dialog-content')).toHaveText('hello');
+    await expect(page.locator('[data-testid="rr-dialog-content"]')).toHaveText('Rivers, today you start your own investigation.');
 
     const before = await getState(page);
     await tapWorld(page, 224, 128);
     await page.waitForTimeout(750);
 
     const after = await getState(page);
-    await expect(page.locator('.rpg-ui-dialog-content')).toHaveText('hello');
+    await expect(page.locator('[data-testid="rr-dialog-content"]')).toHaveText('Rivers, today you start your own investigation.');
     expect(after.position).toEqual(before.position);
     expect(after.serverPosition).toEqual(before.serverPosition);
 });

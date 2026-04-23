@@ -21,19 +21,14 @@ import { formatGameplayTemplate } from "../../content/gameplay/templates";
  *
  * Pause-menu overlay reached via the `settings` input action (or from
  * the in-progress T3-09 full pause menu when it lands). Uses the same
- * plain-showText + showChoices pattern as vocabulary-screen.ts and
- * inventory-screen.ts — no dedicated GUI dependency, and the brand theme
- * in brand.css already tints these native RPG.js overlays via the
- * @rpgjs/ui-css token overrides.
+ * plain-showText + showChoices pattern as the clues screen and
+ * inventory-screen.ts. The rr-ui dialog adapter renders the visible
+ * settings chrome while RPG.js still owns the showText/showChoices flow.
  *
  * Layout (per BRAND.md §Chrome patterns):
  *   1. Header: current values summary
- *   2. Choice list: `awen` (sitelen overlay) / `wawa` (contrast) /
- *      `suli` (accessible mode) / `kalama` (volumes) /
- *      `tenpo` (text speed) / `tawa` (back)
- *
- * Choice labels use single TP dictionary words per BRAND.md §UI
- * principle 5 (TP first, English is a fallback).
+ *   2. Choice list: glyph overlay / contrast / accessible mode /
+ *      volumes / text speed / back.
  */
 
 export async function showSettings(player: RpgPlayer): Promise<void> {

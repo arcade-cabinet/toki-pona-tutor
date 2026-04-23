@@ -69,7 +69,7 @@ describe('dialog content — code references match shipped nodes', () => {
         const missing = DIALOG_IDS_REFERENCED_IN_CODE.filter((id) => !availableIds.has(id));
         // Not a hard fail — the configured dialog fallback surfaces missing ids to
         // the player, and some ids listed above may be legitimately
-        // unimplemented (e.g. a jan lawa's victory line not yet authored).
+        // unimplemented (e.g. a region master's victory line not yet authored).
         // Just print the report; the build-time test is informational.
         if (missing.length > 0) {
             console.warn(`[dialog-content] ${missing.length} code-referenced dialog ids not found in world.json:`);

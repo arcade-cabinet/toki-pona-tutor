@@ -134,8 +134,8 @@ async function initDatabase(): Promise<DatabaseConnection> {
  *            already-migrated v3 DB is a no-op.
  *   v3 → v4: adds current_hp to party_roster so the pause Party panel can
  *            heal and persist individual creature HP.
- *   v4 → v5: adds bestiary_entries for lipu soweli seen/caught state.
- *   v5 → v6: adds sentence_log for the player-visible lipu nasin route.
+ *   v4 → v5: adds bestiary_entries for seen/caught state.
+ *   v5 → v6: adds sentence_log for the player-visible field log.
  */
 async function migrateSchema(db: DatabaseConnection): Promise<void> {
     const versionResult = await db.query("PRAGMA user_version");

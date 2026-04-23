@@ -1,13 +1,10 @@
 import { z } from "zod";
 
 /**
- * A translatable string — authored as English, filled with canonical Toki
- * Pona at build time. Authors write `{ en: "..." }`; the build step resolves
- * `tp` from the Tatoeba corpus. After `scripts/build-spine.mjs` runs, both
- * fields are present. Before it runs, only `en` is guaranteed.
+ * A player-facing string authored directly in English.
  *
- * Validators accept both shapes (post-translation and pre-translation) so
- * the same Zod schema vets authored spine files and generated output.
+ * The optional `tp` field is accepted only for legacy generated saves/content
+ * while the Rivers Reckoning pivot removes the old translation layer.
  */
 export const translatable = z.object({
     en: z.string().min(1, "en required"),
@@ -16,14 +13,13 @@ export const translatable = z.object({
 export type Translatable = z.infer<typeof translatable>;
 
 /**
- * Same as `translatable` but the source English must be a single dictionary
- * word (no spaces). These bypass Tatoeba validation — the word dictionary
- * is already vetted. Use for names, move keywords, type words, etc.
+ * Same as `translatable` but constrained to a single display word. Use for
+ * compact names, move keywords, type words, etc.
  */
 export const translatableWord = z
     .object({
         en: z.string().regex(/^\S+$/, "single word required"),
         tp: z.string().optional(),
     })
-    .describe("single word — exempt from Tatoeba validation");
+    .describe("single display word");
 export type TranslatableWord = z.infer<typeof translatableWord>;
