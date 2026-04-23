@@ -10,6 +10,13 @@ All notable changes to poki soweli. Format based on [Keep a Changelog](https://k
 
 This branch (`feat/rpgjs-v5-pivot`) descends from commit `0a582e0` — the pre-Godot tip. The Godot era between `1d924fe` (pivot) and `0edfe61` (feat/anchor-to-template) lives on `main` and is not represented here. Release-please releases `v0.1.0`…`v0.1.3` tagged on `main` cover the Godot build and do not apply to this branch.
 
+## [0.10.0](https://github.com/arcade-cabinet/poki-soweli/compare/v0.9.1...v0.10.0) (2026-04-23)
+
+
+### Added
+
+* **hud:** goal chrome on gameplay surfaces (T11-05) ([#140](https://github.com/arcade-cabinet/poki-soweli/issues/140)) ([42620e2](https://github.com/arcade-cabinet/poki-soweli/commit/42620e28e7f7e6dcdf9d210929a133e08897cf68))
+
 ## [0.9.1](https://github.com/arcade-cabinet/poki-soweli/compare/v0.9.0...v0.9.1) (2026-04-23)
 
 
