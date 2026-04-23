@@ -3,6 +3,14 @@
     "gui_id": "rpg-title-screen",
     "menu_title": "Rivers Reckoning",
     "player_default_graphic": "hero",
+    "player_name_tag": {
+      "text": "Rivers",
+      "fill": "#fef3c7",
+      "stroke": "#1f1305",
+      "font_size": 12,
+      "font_weight": "bold",
+      "margin_bottom": -4
+    },
     "start_map_id": "riverside_home",
     "start_spawn": { "x": 128, "y": 128 },
     "start_journey_beat_id": "beat_01_riverside_home",
