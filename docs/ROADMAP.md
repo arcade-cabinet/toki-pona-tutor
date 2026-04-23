@@ -15,7 +15,7 @@ The project has pivoted to native-English Rivers Reckoning. The old language-lea
 | ----- | ------------------ | ---------------------------------------------------------- | --: | --: | --: |
 | 1     | Stabilize          | Keep the pivot runnable/buildable                          |   3 |   1 |   1 |
 | 2     | English Content    | Replace product-facing language mechanics with clues/story |   3 |   1 |   1 |
-| 3     | Art Direction      | Choose and enforce a cohesive v1 visual stack              |   1 |   2 |   3 |
+| 3     | Art Direction      | Choose and enforce a cohesive v1 visual stack              |   4 |   1 |   1 |
 | 4     | Map Rebuild        | Recompose maps for density, transitions, and tap space     |   1 |   2 |   5 |
 | 5     | Journey            | Expand the complete beginning-to-end game                  |   1 |   1 |   3 |
 | 6     | Combat And Economy | Tune repeated play for fun and fairness                    |   2 |   2 |   2 |
@@ -50,9 +50,9 @@ The project has pivoted to native-English Rivers Reckoning. The old language-lea
 | ----- | ---------------------------------------------------------------- | ------ | ---------------------------------------------------------------------------------------- |
 | T3-01 | Add curated art manifest and reject-list boundary                | ✅     | Map palette code can reference curated tile IDs.                                         |
 | T3-02 | Audit current tiles for visual cohesion and transparent overlays | 🟡     | Known bad rectangular overlays are rejected; full pack-wide classification remains open. |
-| T3-03 | Evaluate pending asset archives in bakeoff form                  | 🟡     | Pending pack inventory exists; final v1 visual stack is not chosen.                      |
-| T3-04 | Choose primary overworld identity                                | ⬜     | Must be evidence-backed by contact sheets/sample maps.                                   |
-| T3-05 | Choose compatible interior/cave identity                         | ⬜     | Do not mix styles opportunistically.                                                     |
+| T3-03 | Evaluate pending asset archives in bakeoff form                  | ✅     | Pending pack inventory + audit tooling both shipped. Evaluation done and recorded in `docs/ART_DIRECTION.md`. |
+| T3-04 | Choose primary overworld identity                                | ✅     | **Fan-tasy family, full v1 stack.** Decision + alt rejections + per-region pack map live in `docs/ART_DIRECTION.md`. |
+| T3-05 | Choose compatible interior/cave identity                         | ✅     | Fan-tasy Castles and Fortresses for caves/shrines/endgame architecture; Fan-tasy Medieval Interiors for lake/frost/indoor surfaces. All in-family. |
 | T3-06 | Render collection landmarks from generated atlases               | ⬜     | Salvage from closed PR #81: map specs should render landmark tiles from `src/content/art/tilesets.json` atlas IDs, not hardcoded coordinates. Fresh PR against current main. |
 
 ## Phase 4: Map Rebuild

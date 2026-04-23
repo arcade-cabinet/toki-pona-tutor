@@ -11,9 +11,30 @@ Rivers Reckoning is moving from a technically proven `v0.3.1` release toward a p
 
 ## Current Decision
 
-The visual strategy is **open pivot**. The shipped Fan-tasy assets remain the current baseline, but the newly supplied `pending/` packs are valid candidates. We should replace current tiles whenever a pending pack gives a more cohesive, readable, mobile-friendly result.
+The visual strategy is **Fan-tasy family, full v1 stack**. The shipped Fan-tasy packs (core + seasons + snow + desert + fortress + indoor) cover the first five regions; the Fan-tasy packs already extracted under `pending/extracted/` (Castles and Fortresses, Desert Oasis, Medieval Interiors, Snow Adventures, Turning of the Seasons, Premium) close the remaining gaps. This is the lowest-risk, highest-cohesion choice because every candidate inside the Fan-tasy family shares outline weight, saturation band, and grid alignment.
 
-The manifest at `src/content/art/tilesets.json` is the curation boundary. Palette code should refer to curated IDs through `curatedTile(...)` for direct non-generated tiles. Generated atlases and generated derived tilesets may still own their output local IDs, but their source assets must be audited before promotion.
+Alternative families evaluated and **rejected for v1**:
+
+-   **Lonesome Forest** (SUMMER + WINTER + Extra Trees) — beautiful but the tree volumes and ground tone fight the existing Fan-tasy grass. Mixing would trigger the same cohesion break that sank the previous playthrough. Individual Extra Trees tiles may still be promoted if they pass the micro audit.
+-   **Old Town** (Exteriors + Interiors) — the perspective is slightly higher than Fan-tasy's and the stone palette is cooler. Rejected for cohesion.
+-   **Classic Dungeons** — duplicative with Fan-tasy Castles + Fortresses, with a slightly different lighting model. Fan-tasy wins on internal consistency.
+-   **Natural Interior Tilesets** — covered by Fan-tasy Medieval Interiors in-family.
+
+Adopting a non-Fan-tasy family remains allowed as a post-v1 visual refresh, tracked separately from this plan.
+
+### V1 stack by region
+
+| Region | Role | Primary pack |
+| --- | --- | --- |
+| `riverside_home` | home village, warm | Fan-tasy core + seasons |
+| `greenwood_road` | first route, forest | Fan-tasy seasons (+ selected Lonesome Forest Extra Trees only if each tile passes the micro audit) |
+| `highridge_pass` | mountain pass, shrine | Fan-tasy seasons + Fan-tasy Castles and Fortresses |
+| `lakehaven` | lake village | Fan-tasy seasons + Fan-tasy Medieval Interiors |
+| `frostvale` | snow village | Fan-tasy snow + Fan-tasy Medieval Interiors |
+| `dreadpeak_cavern` | endgame cavern | Fan-tasy Castles and Fortresses (cave + shrine surfaces) |
+| `rivergate_approach` | endgame river route + dragon encounter | Fan-tasy seasons + Fan-tasy Castles and Fortresses (gate architecture) |
+
+The manifest at `src/content/art/tilesets.json` remains the curation boundary. Palette code should refer to curated IDs through `curatedTile(...)` for direct non-generated tiles. Generated atlases and generated derived tilesets may still own their output local IDs, but their source assets must be audited before promotion.
 
 ## Tile Roles
 
