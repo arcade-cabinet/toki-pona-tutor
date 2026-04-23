@@ -1,4 +1,10 @@
-import { useEffect, useState, useSyncExternalStore, type CSSProperties } from "react";
+import {
+    useEffect,
+    useRef,
+    useState,
+    useSyncExternalStore,
+    type CSSProperties,
+} from "react";
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import { Progress, Separator, VisuallyHidden } from "radix-ui";
 import {
@@ -332,6 +338,7 @@ function DialogSurface({ state }: { state: RiversUiDialogState }) {
     const reducedMotion = useReducedMotion();
     const { display, typing, finishTyping } = useDialogTypewriter(state);
     const hasChoices = state.choices.length > 0;
+    const stageRef = useRef<HTMLElement | null>(null);
 
     function continueOrFinish() {
         if (typing) {
@@ -341,8 +348,41 @@ function DialogSurface({ state }: { state: RiversUiDialogState }) {
         if (!hasChoices) state.onContinue();
     }
 
+    // Auto-focus the dialog stage on mount and whenever the message
+    // changes so keyboard handlers attached to it receive Enter/Space
+    // presses. Without this, focus remains on document.body after the
+    // dialog opens from a non-keyboard trigger (e.g. map warp or
+    // `player.showText` from the opening scene) and desktop users are
+    // silently locked out of advancing.
+    useEffect(() => {
+        stageRef.current?.focus();
+    }, [state.message]);
+
+    // Document-level fallback so dialogs advance even if focus has
+    // drifted (e.g. user clicked outside the dialog stage since the
+    // last frame). Only active while the dialog surface is mounted.
+    useEffect(() => {
+        function handleKey(event: KeyboardEvent) {
+            if (event.key !== "Enter" && event.key !== " ") return;
+            // Don't steal input from form fields or buttons.
+            const target = event.target as HTMLElement | null;
+            if (target) {
+                const tag = target.tagName;
+                if (tag === "INPUT" || tag === "TEXTAREA" || tag === "SELECT") return;
+                if (target.isContentEditable) return;
+                // Buttons inside the dialog (choices) handle their own clicks.
+                if (tag === "BUTTON") return;
+            }
+            event.preventDefault();
+            continueOrFinish();
+        }
+        window.addEventListener("keydown", handleKey);
+        return () => window.removeEventListener("keydown", handleKey);
+    });
+
     return (
         <motion.section
+            ref={stageRef}
             className={cx(
                 "rr-dialog-stage",
                 `position-${state.position}`,
@@ -406,7 +446,7 @@ function DialogSurface({ state }: { state: RiversUiDialogState }) {
                         </div>
                     ) : (
                         <div className="rr-dialog-continue" aria-hidden="true">
-                            {typing ? "..." : "tap to continue"}
+                            {typing ? "..." : "tap or press Enter"}
                         </div>
                     )}
                 </div>
