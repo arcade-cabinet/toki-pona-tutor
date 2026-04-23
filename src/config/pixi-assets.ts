@@ -8,11 +8,6 @@ type PixiAssetLike = {
     src?: unknown;
 };
 
-const GUARDED_FX_SOURCES = {
-    fx_settings: "default-bundle.json",
-    fx_spritesheet: "revoltfx-spritesheet.json",
-} as const;
-
 export function shouldSkipPixiAssetAdd(
     asset: unknown,
     hasKey: (alias: string) => boolean,
@@ -25,6 +20,17 @@ export function shouldSkipPixiAssetAdd(
         return false;
     }
     return rawAliases.every((alias) => hasKey(alias));
+}
+
+function guardedFxSource(alias: string): string | undefined {
+    switch (alias) {
+        case "fx_settings":
+            return "default-bundle.json";
+        case "fx_spritesheet":
+            return "revoltfx-spritesheet.json";
+        default:
+            return undefined;
+    }
 }
 
 export function publicAssetUrl(relativePath: string, baseUrl = import.meta.env.BASE_URL): string {
@@ -52,17 +58,15 @@ export function normalizePixiFxAssetSource(
         : typeof candidate.alias === "string"
           ? [candidate.alias]
           : [];
-    const guardedAlias = aliases.find(
-        (alias): alias is keyof typeof GUARDED_FX_SOURCES => alias in GUARDED_FX_SOURCES,
-    );
+    const guardedSource = aliases.map(guardedFxSource).find((source) => source !== undefined);
 
-    if (!guardedAlias) {
+    if (!guardedSource) {
         return asset;
     }
 
     return {
         ...candidate,
-        src: publicAssetUrl(GUARDED_FX_SOURCES[guardedAlias], baseUrl),
+        src: publicAssetUrl(guardedSource, baseUrl),
     };
 }
 
