@@ -27,8 +27,8 @@
       "move_id": "gust_strike"
     }
   ],
-  "catch_rate": 0.28,
-  "xp_yield": 82,
+  "catch_rate": 0.3,
+  "xp_yield": 110,
   "sprite": {
     "src": "/assets/animals/fox.png",
     "frame_width": 64,

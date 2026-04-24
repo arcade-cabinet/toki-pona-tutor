@@ -27,8 +27,8 @@
       "move_id": "wing_gust"
     }
   ],
-  "catch_rate": 0.25,
-  "xp_yield": 100,
+  "catch_rate": 0.28,
+  "xp_yield": 110,
   "sprite": {
     "src": "/assets/animals/vulture.png",
     "frame_width": 64,

@@ -27,8 +27,8 @@
       "move_id": "wing_gust"
     }
   ],
-  "catch_rate": 0.44,
-  "xp_yield": 46,
+  "catch_rate": 0.49,
+  "xp_yield": 70,
   "item_drop": {
     "item_id": "capture_pod",
     "chance": 0.15,

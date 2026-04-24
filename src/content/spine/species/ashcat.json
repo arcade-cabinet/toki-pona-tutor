@@ -31,8 +31,8 @@
       "move_id": "gust_strike"
     }
   ],
-  "catch_rate": 0.45,
-  "xp_yield": 60,
+  "catch_rate": 0.5,
+  "xp_yield": 70,
   "sprite_frame": 0,
   "portrait_src": "/assets/creatures/wraith/wraith.png",
   "sprite": {

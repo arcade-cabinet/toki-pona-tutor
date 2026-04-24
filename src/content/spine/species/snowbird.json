@@ -27,8 +27,8 @@
       "move_id": "splash"
     }
   ],
-  "catch_rate": 0.4,
-  "xp_yield": 56,
+  "catch_rate": 0.45,
+  "xp_yield": 70,
   "sprite": {
     "src": "/assets/animals/penguin.png",
     "frame_width": 32,

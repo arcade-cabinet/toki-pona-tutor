@@ -27,8 +27,8 @@
       "move_id": "strike"
     }
   ],
-  "catch_rate": 0.48,
-  "xp_yield": 48,
+  "catch_rate": 0.5,
+  "xp_yield": 70,
   "item_drop": {
     "item_id": "orchard_fruit",
     "chance": 0.15,

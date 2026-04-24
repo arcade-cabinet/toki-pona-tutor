@@ -27,8 +27,8 @@
       "move_id": "strike"
     }
   ],
-  "catch_rate": 0.42,
-  "xp_yield": 55,
+  "catch_rate": 0.47,
+  "xp_yield": 70,
   "sprite": {
     "src": "/assets/animals/armadillo.png",
     "frame_width": 32,

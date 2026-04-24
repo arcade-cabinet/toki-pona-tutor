@@ -27,8 +27,8 @@
       "move_id": "frost_nip"
     }
   ],
-  "catch_rate": 0.46,
-  "xp_yield": 42,
+  "catch_rate": 0.5,
+  "xp_yield": 70,
   "sprite": {
     "src": "/assets/animals/jellyfish.png",
     "frame_width": 32,

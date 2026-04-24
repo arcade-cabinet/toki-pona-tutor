@@ -6,10 +6,10 @@
     { "flag": "badge_suli", "label": "Dreadpeak", "region": "Dreadpeak Cavern" }
   ],
   "gym_xp_curve": {
-    "badge_sewi": 120,
-    "badge_telo": 150,
-    "badge_lete": 180,
-    "badge_suli": 220
+    "badge_sewi": 600,
+    "badge_telo": 1400,
+    "badge_lete": 3200,
+    "badge_suli": 6500
   },
   "level_curve": {
     "min_level": 1,

@@ -27,8 +27,8 @@
       "move_id": "wing_gust"
     }
   ],
-  "catch_rate": 0.24,
-  "xp_yield": 90,
+  "catch_rate": 0.27,
+  "xp_yield": 110,
   "sprite": {
     "src": "/assets/animals/raven.png",
     "frame_width": 64,

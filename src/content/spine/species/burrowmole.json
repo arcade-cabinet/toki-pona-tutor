@@ -27,8 +27,8 @@
       "move_id": "stone_slam"
     }
   ],
-  "catch_rate": 0.44,
-  "xp_yield": 46,
+  "catch_rate": 0.49,
+  "xp_yield": 70,
   "sprite": {
     "src": "/assets/animals/naked-mole-rat.png",
     "frame_width": 32,

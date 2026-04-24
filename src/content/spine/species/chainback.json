@@ -27,7 +27,7 @@
       "move_id": "quick_jab"
     }
   ],
-  "catch_rate": 0.3,
+  "catch_rate": 0.35,
   "xp_yield": 88,
   "sprite_frame": 0,
   "portrait_src": "/assets/creatures/orc/archer.png",

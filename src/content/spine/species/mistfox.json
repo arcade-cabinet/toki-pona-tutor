@@ -27,8 +27,8 @@
       "move_id": "leaf_jab"
     }
   ],
-  "catch_rate": 0.42,
-  "xp_yield": 48,
+  "catch_rate": 0.47,
+  "xp_yield": 70,
   "sprite": {
     "src": "/assets/animals/skunk.png",
     "frame_width": 32,
