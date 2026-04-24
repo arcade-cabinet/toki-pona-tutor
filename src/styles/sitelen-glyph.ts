@@ -1,14 +1,8 @@
 /** Pure lookup from a clue id to a compact display icon. */
 
-import cluesRaw from "../content/clues.json";
-
-type ClueEntry = {
-    id: string;
-    icon: string;
-};
-
-const clues = cluesRaw as ClueEntry[];
-const byId = new Map<string, ClueEntry>(clues.map((entry) => [entry.id, entry]));
+// v1 clues.json retired in T109. Lookup returns null until v2 bestiary
+// + discovery surface lands.
+const byId = new Map<string, { id: string; icon: string }>();
 
 export function ucsurCodepoint(_word: string): string | null {
     return null;

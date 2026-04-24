@@ -1,4 +1,3 @@
-import cluesRaw from "../../content/clues.json";
 import { recordClue } from "../../platform/persistence/queries";
 
 type ClueEntry = {
@@ -9,9 +8,12 @@ type ClueEntry = {
     icon: string;
 };
 
-const clues = cluesRaw as ClueEntry[];
-const clueSet = new Set(clues.map((entry) => entry.id));
-const clueMap = new Map<string, ClueEntry>(clues.map((entry) => [entry.id, entry]));
+// v1 clues.json retired in T109. The clue/bestiary system is kept
+// structurally for v2 but the authored list is empty until the v2
+// bestiary + world-discovery system lands.
+const clues: ClueEntry[] = [];
+const clueSet = new Set<string>();
+const clueMap = new Map<string, ClueEntry>();
 
 export function tokenize(text: string): string[] {
     const cleaned = text

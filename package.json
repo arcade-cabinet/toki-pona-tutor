@@ -10,10 +10,8 @@
   },
   "scripts": {
     "dev": "vite",
-    "validate-challenges": "node scripts/validate-challenges.mjs",
-    "build-spine": "node scripts/build-spine.mjs",
-    "validate": "pnpm validate-challenges && pnpm author:verify",
-    "prebuild": "pnpm validate && pnpm build-spine && pnpm typecheck",
+    "validate": "pnpm typecheck",
+    "prebuild": "pnpm typecheck",
     "build": "vite build",
     "postbuild": "node scripts/deploy/prune-deploy-assets.mjs",
     "preview": "vite preview",
