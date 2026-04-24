@@ -10,6 +10,13 @@ All notable changes to poki soweli. Format based on [Keep a Changelog](https://k
 
 This branch (`feat/rpgjs-v5-pivot`) descends from commit `0a582e0` — the pre-Godot tip. The Godot era between `1d924fe` (pivot) and `0edfe61` (feat/anchor-to-template) lives on `main` and is not represented here. Release-please releases `v0.1.0`…`v0.1.3` tagged on `main` cover the Godot build and do not apply to this branch.
 
+## [0.21.0](https://github.com/arcade-cabinet/poki-soweli/compare/v0.20.0...v0.21.0) (2026-04-24)
+
+
+### Added
+
+* **content:** cleanup sweep — all 11 remaining flat NPC dialogs migrated (T58) ([#192](https://github.com/arcade-cabinet/poki-soweli/issues/192)) ([c63c022](https://github.com/arcade-cabinet/poki-soweli/commit/c63c0226dd0fbd57499504a74fff708da6ca937c))
+
 ## [0.20.0](https://github.com/arcade-cabinet/poki-soweli/compare/v0.19.0...v0.20.0) (2026-04-24)
 
 
