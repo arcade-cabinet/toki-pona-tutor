@@ -9,7 +9,7 @@
   "dialog_states": [
     {
       "id": "tarn_plaza",
-      "when": {},
+      "when": { "flag_absent": "badge_telo" },
       "priority": 0,
       "beats": [
         {
@@ -21,6 +21,18 @@
           "text": { "en": "Lake trainers compare catches at sunset." },
           "mood": "thinking",
           "glyph": "water-edge"
+        }
+      ]
+    },
+    {
+      "id": "tarn_post_fight",
+      "when": { "flag_present": "badge_telo", "flag_absent": "game_cleared" },
+      "priority": 5,
+      "beats": [
+        {
+          "text": { "en": "Marin doesn't fight unless it's worth doing. You saw that." },
+          "mood": "happy",
+          "glyph": "companion-bond"
         }
       ]
     }

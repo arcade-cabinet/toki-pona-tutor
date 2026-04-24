@@ -9,7 +9,7 @@
   "dialog_states": [
     {
       "id": "boulder_mountain",
-      "when": {},
+      "when": { "flag_absent": "quest_shrine_stones_complete" },
       "priority": 0,
       "beats": [
         {
@@ -26,6 +26,18 @@
           "text": { "en": "Catch two Pebblebacks and the shrine will know your name." },
           "mood": "excited",
           "glyph": "stone-type"
+        }
+      ]
+    },
+    {
+      "id": "boulder_post_quest",
+      "when": { "flag_present": "quest_shrine_stones_complete", "flag_absent": "game_cleared" },
+      "priority": 5,
+      "beats": [
+        {
+          "text": { "en": "The shrine knows your name. I watched Stoneminder carve it." },
+          "mood": "happy",
+          "glyph": "shrine-stones"
         }
       ]
     }

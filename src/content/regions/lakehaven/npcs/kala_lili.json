@@ -10,7 +10,7 @@
   "dialog_states": [
     {
       "id": "kala_lili_intro",
-      "when": {},
+      "when": { "flag_absent": "badge_suli" },
       "priority": 0,
       "beats": [
         {
@@ -22,6 +22,30 @@
           "text": { "en": "The fish are moving inland. All of them. It's weird." },
           "mood": "thinking",
           "glyph": "wild-signs"
+        }
+      ]
+    },
+    {
+      "id": "kala_lili_rivergate",
+      "when": { "flag_present": "badge_suli", "flag_absent": "game_cleared" },
+      "priority": 5,
+      "beats": [
+        {
+          "text": { "en": "I came up to see. The fish are still running, Rivers. I'm scared." },
+          "mood": "sad",
+          "glyph": "wild-signs"
+        }
+      ]
+    },
+    {
+      "id": "kala_lili_post_clear",
+      "when": { "flag_present": "game_cleared" },
+      "priority": 3,
+      "beats": [
+        {
+          "text": { "en": "The fish are going back downstream. I watched them turn. It was beautiful." },
+          "mood": "happy",
+          "glyph": "companion-bond"
         }
       ]
     }

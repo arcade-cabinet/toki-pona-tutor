@@ -9,7 +9,7 @@
   "dialog_states": [
     {
       "id": "oren_ready",
-      "when": {},
+      "when": { "flag_absent": "rook_defeated" },
       "priority": 0,
       "beats": [
         {
@@ -21,6 +21,35 @@
           "text": { "en": "Bring home anything you can care for." },
           "mood": "excited",
           "glyph": "greenwood-watch"
+        }
+      ]
+    },
+    {
+      "id": "oren_post_rival",
+      "when": { "flag_present": "rook_defeated", "flag_absent": "game_cleared" },
+      "priority": 5,
+      "beats": [
+        {
+          "text": { "en": "You beat Rook? Rook?" },
+          "mood": "excited",
+          "glyph": "battle-ready"
+        },
+        {
+          "text": { "en": "The ribbon I gave you — keep it. Please." },
+          "mood": "sad",
+          "glyph": "companion-bond"
+        }
+      ]
+    },
+    {
+      "id": "oren_post_clear",
+      "when": { "flag_present": "game_cleared" },
+      "priority": 3,
+      "beats": [
+        {
+          "text": { "en": "The ribbon still in your pack? Good." },
+          "mood": "happy",
+          "glyph": "companion-bond"
         }
       ]
     }

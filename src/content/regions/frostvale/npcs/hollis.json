@@ -9,7 +9,7 @@
   "dialog_states": [
     {
       "id": "hollis_garden",
-      "when": {},
+      "when": { "flag_absent": "snowbird_sighting_complete" },
       "priority": 0,
       "beats": [
         {
@@ -26,6 +26,18 @@
           "text": { "en": "Catch one Snowbird and Frostvale keeps its garden through winter." },
           "mood": "excited",
           "glyph": "frost-type"
+        }
+      ]
+    },
+    {
+      "id": "hollis_post_sighting",
+      "when": { "flag_present": "snowbird_sighting_complete" },
+      "priority": 5,
+      "beats": [
+        {
+          "text": { "en": "The garden still grows. Your Snowbird told the sky what was coming." },
+          "mood": "happy",
+          "glyph": "companion-bond"
         }
       ]
     }

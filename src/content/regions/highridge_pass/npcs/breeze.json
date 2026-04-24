@@ -9,7 +9,7 @@
   "dialog_states": [
     {
       "id": "breeze_intro",
-      "when": {},
+      "when": { "flag_absent": "badge_sewi" },
       "priority": 0,
       "beats": [
         {
@@ -19,6 +19,17 @@
         },
         {
           "text": { "en": "Keep your hood tight or lose it." },
+          "mood": "happy"
+        }
+      ]
+    },
+    {
+      "id": "breeze_post_fight",
+      "when": { "flag_present": "badge_sewi", "flag_absent": "game_cleared" },
+      "priority": 5,
+      "beats": [
+        {
+          "text": { "en": "Wind sounds different since you rang Tarrin's bell. Lighter." },
           "mood": "happy"
         }
       ]

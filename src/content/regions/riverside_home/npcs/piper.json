@@ -9,7 +9,7 @@
   "dialog_states": [
     {
       "id": "piper_welcome",
-      "when": {},
+      "when": { "flag_absent": "badge_sewi" },
       "priority": 0,
       "beats": [
         {
@@ -25,6 +25,35 @@
         {
           "text": { "en": "Bring one back and I'll make the spare room yours for good." },
           "mood": "excited",
+          "glyph": "safe-house"
+        }
+      ]
+    },
+    {
+      "id": "piper_post_first_gym",
+      "when": { "flag_present": "badge_sewi", "flag_absent": "game_cleared" },
+      "priority": 5,
+      "beats": [
+        {
+          "text": { "en": "Stone badge. Look at you, Rivers." },
+          "mood": "happy",
+          "glyph": "companion-bond"
+        },
+        {
+          "text": { "en": "My cousin Reeve runs a stall in Lakehaven. She'll know who you are by the time you arrive." },
+          "mood": "thinking",
+          "glyph": "orchard-fruit"
+        }
+      ]
+    },
+    {
+      "id": "piper_post_clear",
+      "when": { "flag_present": "game_cleared" },
+      "priority": 3,
+      "beats": [
+        {
+          "text": { "en": "Welcome home, Rivers. The spare room's yours. Forever, if you want it." },
+          "mood": "happy",
           "glyph": "safe-house"
         }
       ]

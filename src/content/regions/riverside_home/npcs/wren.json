@@ -9,7 +9,7 @@
   "dialog_states": [
     {
       "id": "wren_well_water",
-      "when": {},
+      "when": { "flag_absent": "badge_telo" },
       "priority": 0,
       "beats": [
         {
@@ -21,6 +21,30 @@
           "text": { "en": "Good water keeps companions steady. Four stones at the base, laid by the four valley wardens. Read them sometime." },
           "mood": "happy",
           "glyph": "companion-bond"
+        }
+      ]
+    },
+    {
+      "id": "wren_post_second_gym",
+      "when": { "flag_present": "badge_telo", "flag_absent": "game_cleared" },
+      "priority": 5,
+      "beats": [
+        {
+          "text": { "en": "You drank from Lakehaven's water. Different taste, isn't it? Same river, though." },
+          "mood": "thinking",
+          "glyph": "water-edge"
+        }
+      ]
+    },
+    {
+      "id": "wren_post_clear",
+      "when": { "flag_present": "game_cleared" },
+      "priority": 3,
+      "beats": [
+        {
+          "text": { "en": "Five stones at the well now, Rivers. The new one is yours." },
+          "mood": "happy",
+          "glyph": "shrine-stones"
         }
       ]
     }

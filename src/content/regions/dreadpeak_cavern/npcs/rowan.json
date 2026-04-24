@@ -9,13 +9,25 @@
   "dialog_states": [
     {
       "id": "rowan_ask",
-      "when": {},
+      "when": { "flag_absent": "badge_suli" },
       "priority": 0,
       "beats": [
         {
           "text": { "en": "If the path narrows, check your supplies before you commit." },
           "mood": "thinking",
           "glyph": "greenwood-watch"
+        }
+      ]
+    },
+    {
+      "id": "rowan_post_cliff",
+      "when": { "flag_present": "badge_suli", "flag_absent": "game_cleared" },
+      "priority": 5,
+      "beats": [
+        {
+          "text": { "en": "You came out the other side. That means my supplies were enough." },
+          "mood": "happy",
+          "glyph": "companion-bond"
         }
       ]
     }

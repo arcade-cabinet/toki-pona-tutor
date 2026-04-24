@@ -95,15 +95,14 @@ describe('T6-03: build-spine writes every expected key into world.json', () => {
             .toBe(true);
     });
 
-    it('expected content counts: 43 species, 17 moves, 5 items, 90 dialog, 7 beats, 7 maps', () => {
+    it('expected content counts: 43 species, 17 moves, 5 items, 121 dialog, 7 beats, 7 maps', () => {
         expect(WORLD.species).toHaveLength(43);
         expect(WORLD.moves).toHaveLength(17);
         expect(WORLD.items).toHaveLength(5);
-        // Flat legacy files + expanded dossier states. Bumps as more
-        // NPCs migrate to regions/<id>/npcs/. Growth comes from adding
-        // new states (post-first-gym, post-clear) to migrated NPCs so
-        // the world reacts to plot progression.
-        expect(WORLD.dialog).toHaveLength(90);
+        // Flat legacy files + expanded dossier states. Growth comes
+        // from adding post-region-gym / post-clear states to migrated
+        // NPCs so the world reacts to plot progression.
+        expect(WORLD.dialog).toHaveLength(121);
         expect(WORLD.journey.beats).toHaveLength(7);
         expect(WORLD.maps).toHaveLength(7);
     });

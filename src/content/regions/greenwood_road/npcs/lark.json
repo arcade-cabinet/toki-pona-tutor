@@ -9,7 +9,7 @@
   "dialog_states": [
     {
       "id": "lark_watch",
-      "when": {},
+      "when": { "flag_absent": "badge_lete" },
       "priority": 0,
       "beats": [
         {
@@ -21,6 +21,18 @@
           "text": { "en": "Something has been driving the wild ones toward town." },
           "mood": "sad",
           "glyph": "battle-ready"
+        }
+      ]
+    },
+    {
+      "id": "lark_post_third_gym",
+      "when": { "flag_present": "badge_lete", "flag_absent": "game_cleared" },
+      "priority": 5,
+      "beats": [
+        {
+          "text": { "en": "Frost said the word. Dragon. I can say it now too." },
+          "mood": "sad",
+          "glyph": "wild-signs"
         }
       ]
     }
