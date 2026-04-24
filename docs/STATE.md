@@ -1,6 +1,6 @@
 ---
 title: Current State
-updated: 2026-04-23
+updated: 2026-04-24
 status: current
 domain: context
 ---
@@ -11,7 +11,7 @@ domain: context
 
 **Product:** Rivers Reckoning, a native-English creature-catching RPG for web and Android debug APK builds. Rivers explores a fantasy world, catches monsters, investigates local trouble, solves quests, defeats four region masters, and reaches the green-dragon finale.
 
-**Latest verified release:** `v0.12.0` on 2026-04-23 — carries the full Phase 11 onboarding and T21 quest-dialog set atop the v0.3.1 remote-release proof.
+**Latest verified release:** `v0.30.0` on 2026-04-24 — carries the full content-depth pass (dossier scaffold, per-region NPC/sign dossiers, multi-state dialog selector, dossier NPC runtime spawning, post-clear world states, per-NPC graphics, Tiled sign objects) atop the shipped Phase 11 onboarding and T21 quest-dialog set.
 
 **Latest verified remote release proof:** feature merge commit `d68fed9e4aebad3aea226d248e7e0cdca3873827` -> release merge commit `a546843137137a57dc782fb4f99e32123a661d36` -> artifact-producing `release.yml` run `24819206623` -> consuming `cd.yml` run `24819295738`.
 
@@ -67,8 +67,12 @@ pnpm android:build-debug
 -   **Playable current arc:** starter ceremony, wild encounters, capture/defeat, first rival, four region masters, side quests, shops, final route, green dragon, credits, save/continue, and respawn are wired.
 -   **Mobile HUD:** tap-to-walk, contextual hint, HUD menu, pause routes, party/bestiary/inventory/clues/settings/save flows, and touch-target tests exist.
 -   **Release plumbing:** `automerge.yml` handles safe bot squash auto-merge, `ci.yml` handles PR gates and reviewer artifacts, `release.yml` creates versioned release artifacts through release-please, and `cd.yml` consumes the completed `workflow_run` to attach release assets and deploy Pages.
--   **Remote release proof is complete:** `v0.3.1` proved the full `ci.yml` -> `release.yml` -> `cd.yml` chain with attached release assets and a live Pages deploy. `v0.4.0` → `v0.12.0` followed through the same pipeline with no regressions.
+-   **Remote release proof is complete:** `v0.3.1` proved the full `ci.yml` -> `release.yml` -> `cd.yml` chain with attached release assets and a live Pages deploy. `v0.4.0` → `v0.30.0` followed through the same pipeline with no regressions.
 -   **Phase 11 onboarding is closed:** scripted opening scene, starter chain, dialog keyboard-advance, player name tag, jan Sewi first-play cue, scenic starter village, goal HUD chrome, pause glance dashboard. See `docs/ROADMAP.md` Phase 11 rows for PR refs.
+-   **Per-region content dossiers:** every region under `src/content/regions/<id>/` owns its own NPC dossiers (`npcs/*.json`) and signs (`signs.json`). The map-authoring pipeline merges appearances into MapSpec Objects at author time; `build-spine` compiles multi-state dialog into `world.json`.
+-   **Dossier-driven NPC runtime:** dossier NPCs spawn at server init from `world.maps[].objects` with per-NPC graphics, `required_flag` interaction gating, and a flag-aware `selectDialogState` selector that picks the best matching dialog state (AND-match on `when_flags`, tiebreak by priority then authoring order).
+-   **Content density:** 81 NPCs in-world across 7 regions, 152 dialog nodes (every non-trivial NPC has ≥2 reactive states, most have a `game_cleared` "world heals" line), 35 signs (≥5 per region), 47 distinct NPC sprites.
+-   **Signs in Tiled:** signs emit as Sign objects into every `.tmj` Objects layer alongside NPCs and warps, so authors can see them when editing in Tiled and in preview PNGs.
 
 ## Verified Baseline
 
@@ -130,8 +134,9 @@ These artifacts are acceptance inputs, not decorative output. For any UI/map/til
 
 ## Current Limits
 
--   **The game is not a finished v1.0.** The current arc is playable, but still needs deeper quest density, richer narrative payoff, combat tuning, final audio, stronger art direction, and broader device proof.
+-   **The game is not a finished v1.0.** The current arc is playable with deep dialog density (152 nodes, every NPC multi-state and post-clear-aware), but still needs expanded quest-chain payoff, combat tuning, final audio, stronger art direction, and broader device proof.
 -   **Map composition remains the largest product-quality gap.** Several maps are functionally valid but still too sparse or visually inconsistent for a polished 16-bit RPG feel.
+-   **Visual hiding for required_flag NPCs deferred.** Pre-gate dossier NPCs currently render their sprite but are silent on action; proper hiding needs engine visibility-API work.
 -   **The Android APK is debug-only.** Signed release APK support is deferred until keystore, `assembleRelease`, release-asset attachment, and physical-device QA are implemented.
 -   **Maestro is partially device-proven.** Android debug APK smoke passed on a visible Android emulator with a locally built debug APK; iOS Pages simulator proof and physical-device release-artifact proof remain release-QA work.
 -   **Playwright in CI is smoke-only.** Full browser progression and visual audit are local gates today.
