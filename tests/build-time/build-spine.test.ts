@@ -95,19 +95,18 @@ describe('T6-03: build-spine writes every expected key into world.json', () => {
             .toBe(true);
     });
 
-    it('expected content counts: 43 species, 17 moves, 5 items, 156 dialog, 7 beats, 7 maps', () => {
+    it('expected content counts: 43 species, 17 moves, 5 items, 159 dialog, 7 beats, 7 maps', () => {
         expect(WORLD.species).toHaveLength(43);
         expect(WORLD.moves).toHaveLength(17);
         expect(WORLD.items).toHaveLength(5);
         // Flat legacy files + expanded dossier states. T63 added
         // post-clear to 15 quest-giver/named NPCs; T68 extended the
         // "world heals" pass to the 16 remaining 2-state NPCs. T71
-        // added 4 quest turn-in states (loren_hiker_arrives,
-        // brindle_braid_arrives, hollis_snowbird_seen,
-        // marsha_survey_returns) that set completion flags on exit,
-        // unblocking the post-quest states that were previously
-        // authored but unreachable.
-        expect(WORLD.dialog).toHaveLength(156);
+        // added 4 quest turn-in states. T82 added 3 Rivergate
+        // pre-dragon states (lily_pre_dragon, sola_pre_dragon,
+        // grill_pre_dragon) so the endgame region reacts to the
+        // player arriving with badge_suli before the fight.
+        expect(WORLD.dialog).toHaveLength(159);
         expect(WORLD.journey.beats).toHaveLength(7);
         expect(WORLD.maps).toHaveLength(7);
     });

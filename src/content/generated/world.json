@@ -7135,6 +7135,32 @@
       }
     },
     {
+      "id": "grill_pre_dragon",
+      "npc_id": "grill",
+      "priority": 10,
+      "beats": [
+        {
+          "text": {
+            "en": "Free soup for the four-proof crowd. That's the rule my grandfather wrote, and I'm not breaking it."
+          },
+          "mood": "happy",
+          "glyph": "safe-house"
+        },
+        {
+          "text": {
+            "en": "Don't thank me. Thank the stew. It's been simmering since you were born."
+          },
+          "mood": "happy",
+          "glyph": "orchard-fruit"
+        }
+      ],
+      "triggers": {},
+      "when_flags": {
+        "badge_suli": true,
+        "green_dragon_defeated": false
+      }
+    },
+    {
       "id": "grill_post_clear",
       "npc_id": "grill",
       "priority": 5,
@@ -7185,6 +7211,39 @@
       }
     },
     {
+      "id": "lily_pre_dragon",
+      "npc_id": "lily",
+      "priority": 10,
+      "beats": [
+        {
+          "text": {
+            "en": "You made it. Four proofs. The river knows you now."
+          },
+          "mood": "excited",
+          "glyph": "companion-bond"
+        },
+        {
+          "text": {
+            "en": "Lead with a water creature. The dragon's fire follows the lead. If your lead is water, the fire loses shape."
+          },
+          "mood": "thinking",
+          "glyph": "water-edge"
+        },
+        {
+          "text": {
+            "en": "One more quiet breath. Then go."
+          },
+          "mood": "happy",
+          "glyph": "safe-house"
+        }
+      ],
+      "triggers": {},
+      "when_flags": {
+        "badge_suli": true,
+        "green_dragon_defeated": false
+      }
+    },
+    {
       "id": "lily_post_clear",
       "npc_id": "lily",
       "priority": 5,
@@ -7231,6 +7290,32 @@
       ],
       "triggers": {},
       "when_flags": {
+        "green_dragon_defeated": false
+      }
+    },
+    {
+      "id": "sola_pre_dragon",
+      "npc_id": "sola",
+      "priority": 10,
+      "beats": [
+        {
+          "text": {
+            "en": "The chain dropped two links overnight. I counted. Two."
+          },
+          "mood": "sad",
+          "glyph": "wild-signs"
+        },
+        {
+          "text": {
+            "en": "If you're going up the path, go fast. The dragon can smell hesitation, my grandmother used to say."
+          },
+          "mood": "thinking",
+          "glyph": "cave-shadow"
+        }
+      ],
+      "triggers": {},
+      "when_flags": {
+        "badge_suli": true,
         "green_dragon_defeated": false
       }
     },

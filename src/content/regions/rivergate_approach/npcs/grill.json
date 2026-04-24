@@ -38,6 +38,30 @@
       ]
     },
     {
+      "id": "grill_pre_dragon",
+      "when": {
+        "flag_present": "badge_suli",
+        "flag_absent": "green_dragon_defeated"
+      },
+      "priority": 10,
+      "beats": [
+        {
+          "text": {
+            "en": "Free soup for the four-proof crowd. That's the rule my grandfather wrote, and I'm not breaking it."
+          },
+          "mood": "happy",
+          "glyph": "safe-house"
+        },
+        {
+          "text": {
+            "en": "Don't thank me. Thank the stew. It's been simmering since you were born."
+          },
+          "mood": "happy",
+          "glyph": "orchard-fruit"
+        }
+      ]
+    },
+    {
       "id": "grill_post_clear",
       "when": {
         "flag_present": "game_cleared"
