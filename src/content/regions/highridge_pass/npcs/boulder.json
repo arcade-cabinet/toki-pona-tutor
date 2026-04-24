@@ -1,0 +1,33 @@
+{
+  "id": "boulder",
+  "display_name": "Boulder",
+  "home_region": "highridge_pass",
+  "role": "shrine_stones_quest_giver",
+  "appearances": [
+    { "region": "highridge_pass", "spawn": [16, 4], "default": true }
+  ],
+  "dialog_states": [
+    {
+      "id": "boulder_mountain",
+      "when": {},
+      "priority": 0,
+      "beats": [
+        {
+          "text": { "en": "The old shrine at the summit is missing its stones." },
+          "mood": "thinking",
+          "glyph": "stone-type"
+        },
+        {
+          "text": { "en": "Only Pebbleback keeps shrine stones in its shell. Other stone-types leave them scattered." },
+          "mood": "thinking",
+          "glyph": "stone-type"
+        },
+        {
+          "text": { "en": "Catch two Pebblebacks and the shrine will know your name." },
+          "mood": "excited",
+          "glyph": "stone-type"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,28 @@
+{
+  "id": "cave_kid",
+  "display_name": "Cave-kid",
+  "home_region": "dreadpeak_cavern",
+  "role": "sneaking_kid",
+  "appearances": [
+    { "region": "dreadpeak_cavern", "spawn": [5, 16], "default": true }
+  ],
+  "dialog_states": [
+    {
+      "id": "cave_kid_intro",
+      "when": { "flag_absent": "badge_suli" },
+      "priority": 0,
+      "beats": [
+        {
+          "text": { "en": "Don't tell my parents I'm in here." },
+          "mood": "happy",
+          "glyph": "wild-signs"
+        },
+        {
+          "text": { "en": "I want to catch a Stoneclaw. Or a mudgrub. Either one, whichever." },
+          "mood": "thinking",
+          "glyph": "companion-bond"
+        }
+      ]
+    }
+  ]
+}

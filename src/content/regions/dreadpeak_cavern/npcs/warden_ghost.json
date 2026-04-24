@@ -1,0 +1,23 @@
+{
+  "id": "warden_ghost",
+  "display_name": "Warden's Effigy",
+  "home_region": "dreadpeak_cavern",
+  "role": "stone_effigy",
+  "appearances": [
+    { "region": "dreadpeak_cavern", "spawn": [8, 5], "default": true }
+  ],
+  "dialog_states": [
+    {
+      "id": "warden_ghost_speaks",
+      "when": { "flag_present": "proofs_all_four", "flag_absent": "game_cleared" },
+      "priority": 10,
+      "beats": [
+        {
+          "text": { "en": "Take the four. Open the gate. End this." },
+          "mood": "sad",
+          "glyph": "shrine-stones"
+        }
+      ]
+    }
+  ]
+}

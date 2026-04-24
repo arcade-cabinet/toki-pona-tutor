@@ -1,0 +1,15 @@
+{
+  "id": "dreadpeak_cavern",
+  "display_name": "Dreadpeak Cavern",
+  "biome": "cave",
+  "music": "bgm_cave",
+  "size": { "w": 16, "h": 20 },
+  "neighbors": { "south": "frostvale", "north": "rivergate_approach" },
+  "summary": "Dark cavern with torchlight pools. Cliff — the last of the four valley wardens — waits in the final chamber. The confront-beat of the green-dragon mystery happens here.",
+  "flavor_beats": [
+    "Wet cold, not dry like Frostvale. Drip-echoes constant.",
+    "The floor is stone, but every few steps there's a deeper stone — polished, set in a pattern.",
+    "The polished stones mirror the four-stone layout at Highridge. A careful walker notices.",
+    "At the final chamber, Cliff sits on a stone bench facing the entrance, waiting."
+  ]
+}
