@@ -1,9 +1,11 @@
 ---
-title: Story Beats — the spine every agent reads
+title: Story Beats (v1 — archived)
 updated: 2026-04-24
-status: draft
+status: archived
 domain: creative
 ---
+
+> **Archived.** This doc captured the v1 seven-beat finite spine. v2 is open-world with no finite beats — see `docs/DESIGN.md`. Kept for reference.
 
 # Story Beats
 

@@ -6,7 +6,9 @@ status: current
 
 # Rivers Reckoning
 
-A creature-catching RPG about Rivers exploring a fantasy region, catching creatures with capture pods, building a party of up to six, helping NPCs, defeating the current four region masters, and investigating the green-dragon endgame encounter.
+A cozy open-world creature-catching RPG. The player is Rivers, a kid who steps into a procedurally generated world and wanders indefinitely — catching creatures, building a party, talking to NPCs, taking optional challenges, spending gold at shops and inns. **No finite story, no badge gates, no final boss.**
+
+**v2 is the current design.** v1 shipped a finite seven-beat story with four region masters and a green-dragon ending; that frame is retired. v1 remains preserved at tag `v1.0.0-final`. v2 work happens on the `v2-main` long-lived feature branch.
 
 Repo path: clone-dependent; use `git rev-parse --show-toplevel` instead of assuming a fixed local path.
 
@@ -14,115 +16,105 @@ Repo path: clone-dependent; use `git rev-parse --show-toplevel` instead of assum
 
 Before touching code, read these in order:
 
-1. `docs/README.md` — documentation map by logical domain.
-2. `docs/STATE.md` — current verified release/build/test state.
-3. `docs/PRODUCTION.md` — pillar-level remaining work.
-4. `docs/ROADMAP.md` — stable task IDs and phase status.
-5. `docs/ARCHITECTURE.md` — stack layout + the three layers (content pipeline → pure game modules → runtime wiring).
-6. `docs/DESIGN.md` — product vision (what the game IS and IS NOT).
-7. `docs/BRAND.md` — palette, typography, chrome patterns. Every UI surface draws from these tokens.
-8. `docs/UX.md` — rr-ui bridge architecture, tap-to-walk input model, mobile HUD, data-testid naming.
-9. `docs/TESTING.md` — five-layer testing strategy + integration first for player-visible behavior, then E2E, then unit coverage for pure logic.
+1. `docs/DESIGN.md` — product vision (what v2 IS and IS NOT).
+2. `docs/ROADMAP.md` — v2 10-phase map; current phase status.
+3. `docs/plans/rivers-reckoning-v2.prq.md` — full PRD with task IDs and acceptance criteria.
+4. `docs/WORLD_GENERATION.md` — chunk grid, biome/village archetypes, adjacency rules, first-chunk Guide, seed-name generator.
+5. `docs/ECONOMY.md` — universal reward function, tier-band scaling, XP curve, shop/inn pricing.
+6. `docs/DIALOG_POOL.md` — role × context × mood × level-band schema, NPC realization.
+7. `docs/QUESTS.md` — 10 challenge cause kinds, effect primitives, challenge lifecycle.
+8. `docs/ARCHITECTURE.md` — stack layout (RPG.js v5 + Capacitor + vite + SQLite persistence).
+9. `docs/BRAND.md`, `docs/UX.md`, `docs/TESTING.md` — visual, input, and testing rules (carried forward from v1).
+
+Archived v1 creative docs: `docs/archive/v1-story/` — reference only; not authoritative.
 
 Then: `git status && git log --oneline -10 && gh pr list`.
 
 ## Critical rules (override defaults)
 
--   **Docs > tests > code.** Docs describe the game; tests describe the code; code satisfies both. Never write tests to match code, and never write code without a doc-driven test. See `AGENTS.md`.
--   **Fan-tasy is the only tileset family.** `public/assets/tilesets/{core,seasons,snow,desert,fortress,indoor}/` is the source of truth. Do not mix in other tilesets — tonal inconsistency is what sank the previous playthrough. See `docs/SPRITE_CURATION.md`.
--   **Maps are build artifacts, never hand-authored.** The only way a map enters the repo is via a spec in `scripts/map-authoring/specs/<id>.ts` built by `pnpm author:build <id>` (or `pnpm author:all --all`). `src/tiled/<id>.tmx` (runtime), `public/assets/maps/<id>.tmj` (archive), and `public/assets/maps/<id>.preview.png` (review PNG) are regenerated from the spec. `pnpm author:verify` runs in `validate` + `prebuild` + CI and fails on any hand-edited, missing, orphaned, or drifted `.tmx`/`.tmj`; `tests/build-time/map-preview-regression.test.ts` pixel-diffs preview PNG drift. If you need to change a map: edit the spec, rebuild, commit the spec plus emitted artifacts.
--   **Map object coordinates are compiled, not copied.** `pnpm build-spine` reads `public/assets/maps/*.tmj` object layers into `src/content/generated/world.json`; runtime event placement resolves from that registry. Do not paste absolute NPC/warp coordinates into `server.ts` or `events.json`.
--   **Every monster is catchable.** Tiering is about rarity + catch difficulty + animation depth — not whether the capture pod works. Animated sprites live in `public/assets/bosses/` (tier-2: rare spawns + set-piece fights, harder catch); static sprites in `public/assets/creatures/` (tier-1: common random encounters). Green dragon (`green_dragon`) is the endgame set-piece and a legendary final-route catch; its dedicated defeat animation plays on the green-dragon clear.
--   **Native-English content.** Story, quests, NPCs, combat feedback, and clues are authored directly in English. Do not rebuild the retired corpus/translation pipeline.
--   **Always use pull requests.** Work on branches; don't push to `main`. Never merge with `--admin` / bypass checks. Branch names are ephemeral; check `git branch --show-current` rather than assuming.
--   **Integration → E2E → unit.** Player-visible behavior is proven with integration tests first, headed-browser E2E second, and unit coverage only for pure logic/math/formulas. See `docs/TESTING.md`.
--   **Mobile-first, no fixed layout.** Tap-to-walk is primary input; keyboard is a desktop shortcut. No persistent A/B/d-pad cluster. Full HUD spec in `docs/UX.md`.
--   **GitHub Actions pinned to exact SHAs** (latest stable). Never use `@vN` tags.
--   **No CDN at runtime.** Fonts, wasm, assets — all self-hosted under `public/assets/`.
--   **No copyrighted / trademarked references** in docs, code, comments, or assets. The game is "Rivers Reckoning — a creature-catching RPG." Never compare it to named franchises or use franchise-derived terminology.
--   **No direct `localStorage` or `IndexedDB`** in feature code. Use `src/platform/persistence/preferences.ts` (small KV) or `src/platform/persistence/database.ts` (structured) — Capacitor-backed with web shims inside the wrapper only.
+-   **Docs > tests > code.** Docs describe the game; tests describe the code; code satisfies both. Never write tests to match code, and never write code without a doc-driven spec.
+-   **Every monster is catchable.** Catching is the core verb. No species is locked out of the capture pod. Rare species exist but gate nothing.
+-   **Determinism per seed.** Same seed + same player actions produce the same world. Never use `Math.random()` in world-gen; always route through the seeded PRNG factory.
+-   **No finite gates.** No `badge_*` flags, no `proofs_all_four`, no `game_cleared`. No area refuses entry because of player level or flag state. Tier scaling is how difficulty gradients are expressed — the math in `docs/ECONOMY.md` is the contract.
+-   **One universal reward function.** Every gold + item drop calls `reward()` in `src/modules/v2/reward-function.ts`. No second code path.
+-   **Dialog pool, not per-NPC scripts.** NPC lines come from the role-keyed pool in `src/content/v2/dialog_pool/`. Per-NPC profiles are deterministic subsets of the pool. Never author lines tied to a specific hand-placed NPC.
+-   **Challenges are optional.** Challenge → response → resolve. No chain, no gate, no story payoff. Resolve → gold + loot roll; NPC dialog shifts once to thanks, then degrades.
+-   **Persistence via wrapper only.** Use `src/platform/persistence/preferences.ts` (small KV), `src/platform/persistence/database.ts` (SQLite), `src/modules/v2/chunk-store.ts` (chunk deltas). No direct `localStorage`/`IndexedDB` in feature code.
+-   **Always use pull requests.** Work on branches under `v2-main`; don't push to `v2-main` or `main` directly. Never `--admin`.
+-   **Mobile-first.** Tap-to-walk is primary input. Touch targets ≥ 44×44dp. HUD doesn't hide targets. Keyboard is a desktop shortcut.
+-   **GitHub Actions pinned to exact SHAs.** Never `@vN` tags.
+-   **No CDN at runtime.** Fonts, wasm, assets all self-hosted under `public/assets/`.
+-   **No copyrighted / trademarked references** in docs, code, comments, or assets. The game is "Rivers Reckoning — a creature-catching RPG." Never compare to named franchises.
+-   **Native English content.** No translation pipeline, no corpus, no toki-pona artifacts in new v2 code.
+-   **Cozy dark-fantasy tone.** Skellies, goblins, wraiths — but never grim. Defeats are faints, not deaths. ≤ 20-word dialog lines. No condescension.
 
-## Commands
+## Commands (v1-era, being rebuilt in v2)
 
 ```sh
 pnpm install              # bootstrap
 pnpm dev                  # vite dev server at http://localhost:5173/
-pnpm build-spine          # compile src/content/spine/ → generated/world.json
-pnpm validate             # validate-challenges + author:verify
-pnpm typecheck            # split tsc surfaces: src/vite + map-authoring + unit/integration TS
-pnpm workflow:check       # actionlint + shellcheck for GitHub Actions
-pnpm release:smoke-artifacts "$RELEASE_TAG"  # package/validate local handoff artifacts
-pnpm maestro:check        # syntax-check Android/iOS mobile QA flows
-pnpm test                 # both vitest projects (unit + integration)
-pnpm test:unit            # pure/build-time suite only, serialized
+pnpm typecheck            # split tsc surfaces
+pnpm test:unit            # vitest build-time + pure-logic tests
 pnpm test:integration     # real RPG.js engine in-process via @rpgjs/testing
-pnpm test:coverage        # unit coverage gate — 95% lines / 95% functions / 90% branches / 95% statements
-pnpm test:e2e:smoke       # real browser via Playwright — boot smoke
-pnpm test:e2e:full        # full Playwright suite (local only, not CI per-push)
-pnpm build                # prebuild (validate + build-spine + typecheck) then vite build
-pnpm android:build-debug  # build Capacitor debug APK locally
-pnpm maestro:android      # run Android debug APK smoke on a booted emulator
-pnpm maestro:ios          # run iOS Safari Pages smoke on a booted simulator
+pnpm test:e2e:smoke       # Playwright boot smoke
+pnpm build                # vite build with prebuild gate
+pnpm android:build-debug  # Capacitor debug APK
 ```
 
-Playwright starts Vite on `127.0.0.1:5173` with `--strictPort` and does not reuse arbitrary existing servers by default. If another local app owns that port, use `E2E_PORT=5174 pnpm test:e2e:full` (or another free port).
+Playwright starts Vite on `127.0.0.1:5173` with `--strictPort`.
 
-Build env for deploy targets (CI sets these; rarely needed locally):
+Build env for deploy targets:
 
 ```sh
-GITHUB_PAGES=true pnpm build   # base='/poki-soweli/' for Pages
+GITHUB_PAGES=true pnpm build   # base='/poki-soweli/' for Pages (repo slug, not game name)
 CAPACITOR=true    pnpm build   # base='./' for native WebView
 # No env set → base='/' for dev/preview
 ```
 
+v1 map-authoring commands (`pnpm author:*`) are scheduled for retirement in Phase 9 of the v2 work. They still run while v2 is under construction; artifacts remain in place until v2-main replaces them.
+
 ## Structure
+
+v1 structure is preserved at `v1.0.0-final`. v2 adds:
 
 ```
 src/
-├── standalone.ts           # dev entry: provideRpg(startServer) — client+server in one process
-├── server.ts               # createServer with CapacitorSaveStrategy + tiledmap + main module
-├── client.ts               # startGame with provideMmorpg (production)
-├── config/
-│   └── config.client.ts    # tilemap basePath, spritesheets
 ├── modules/
-│   └── main/               # player hooks, NPC events, map registrations
-├── platform/
-│   └── persistence/        # Capacitor preferences + sqlite adapters + RPG.js save hook
-├── tiled/                  # generated runtime .tmx maps consumed by tiledMapFolderPlugin
+│   ├── main/             # v1 engine (frozen during v2 build)
+│   └── v2/               # v2 engine (world-generator, chunk-store, reward, dialog, challenges)
 └── content/
-    ├── spine/              # hand-authored content JSON (species, moves, items, dialog)
-    ├── gameplay/           # hand-authored runtime config JSON (quests, shops, maps, UI, audio, exports)
-    ├── generated/          # compiled world.json (committed for reproducibility)
-    ├── clues.json          # curated English clue records
-    └── schema/             # Zod schemas — source of truth for content shape
+    ├── gameplay/         # v1 config JSON (frozen)
+    ├── spine/            # v1 authored JSON (frozen)
+    ├── regions/          # v1 dossiers (frozen, extractable to v2 pool)
+    ├── generated/        # v1 compiled world.json (frozen)
+    └── v2/               # v2 authoring surface (dialog_pool, names, challenges, economy config)
 
-public/assets/
-├── tilesets/{core,…,indoor}/    # Fan-tasy 6-biome family, .tsx/.tmx intact
-├── player/                       # Fan-tasy Main Character (idle/walk/slash)
-├── bosses/                       # animated: green-dragon, dread-knight, slime, fire-skull, zombie-burster
-├── creatures/                    # static wild-encounter sprites
-├── npcs/                         # villagers, guards, warriors
-├── combatants/                   # rival trainers and region-master combatants
-└── effects/                      # weapon + magical FX
-
-docs/                      # specs — see list in docs/STATE.md
-tests/
-├── build-time/            # unit — pure-logic, vitest node env
-├── integration/           # real engine in-process via @rpgjs/testing
-└── e2e/
-    ├── smoke/             # runs in CI — boot smoke only
-    └── *.spec.ts          # full Playwright suite, local default
+docs/
+├── DESIGN.md             # v2 product spec
+├── WORLD_GENERATION.md   # v2 world-gen spec
+├── ECONOMY.md            # v2 economy spec
+├── DIALOG_POOL.md        # v2 dialog spec
+├── QUESTS.md             # v2 challenge spec
+├── ROADMAP.md            # v2 phase map
+└── archive/v1-story/     # v1 creative docs (reference)
 ```
 
 ## What NOT to do
 
--   Don't introduce tilesets outside the Fan-tasy family.
--   Don't reintroduce translation/corpus mechanics.
--   Don't edit `src/content/generated/world.json` directly — `pnpm build-spine` compiles it from `src/content/spine/` plus map object layers from `public/assets/maps/*.tmj`.
--   Don't use the green dragon for mid-game encounters — it's endgame material.
--   Don't write code before docs and tests exist for it.
+-   Don't write v1-style hand-authored per-NPC dialog. Use the role pool.
+-   Don't add `badge_*` / `proofs_*` / `game_cleared` / `green_dragon_defeated` flags to any new code.
+-   Don't place NPCs by absolute `(x, y)` in any v2 module. NPC placement is realization-driven from `(seed, chunk_xy, spawn_idx)`.
+-   Don't special-case the green dragon. In v2 it's a rare creature in far chunks, not a cutscene.
+-   Don't introduce finite progression. No counting-down checklists, no "chapters complete," no ending.
+-   Don't fork the reward function. One function, all sources.
+-   Don't use `Math.random` in v2 world-gen. Always the seeded PRNG factory.
+-   Don't edit archived v1 docs (`docs/archive/v1-story/*`) as if they're current. They're reference.
 
 ## Active context
 
-Start with `docs/STATE.md` for shipped truth, `docs/PRODUCTION.md` for remaining
-work, and `docs/RELEASE.md` if the task touches the release/deploy chain.
+- **Current phase**: 0 (spec lock) — specs being written, no code changes yet.
+- **Current branch**: `docs/v2-phase-0-spec-lock` — merges to `main` when Phase 0 completes.
+- **Next phase**: 1 (scaffolding) — create `v2-main`, stub modules, tag v1 final.
+- **v1 shipped state**: `v1.0.0-final` (pending tag) on `main`. Pages deployment stable.
+
+See `docs/ROADMAP.md` for the full phase map and `docs/plans/rivers-reckoning-v2.prq.md` for per-task detail.

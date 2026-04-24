@@ -30,8 +30,8 @@ remaining work by pillar. `docs/ROADMAP.md` owns the task-level backlog and IDs.
 | Domain    | What It Owns                                                   | Core Docs                                                                                                                                                 |
 | --------- | -------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | Context   | current shipped state, doc map, glossary                       | `STATE.md`, `README.md` (this index), `GLOSSARY.md`                                                                                                       |
-| Product   | game identity and player journey                               | `DESIGN.md`, `JOURNEY.md`                                                                                                                                 |
-| Creative  | world canon and writing voice                                  | `LORE.md`, `WRITING_RULES.md`                                                                                                                             |
+| Product   | game identity and open-world design                            | `DESIGN.md`, `WORLD_GENERATION.md`, `ECONOMY.md`, `DIALOG_POOL.md`, `QUESTS.md`                                                                            |
+| Creative  | v1 cast + species archive (reference)                          | `archive/v1-story/*`, `WRITING_RULES.md`                                                                                                                  |
 | Planning  | phase/task backlog and status accounting                       | `ROADMAP.md`                                                                                                                                              |
 | Design    | brand system, UI behavior, combat presentation, visual review  | `BRAND.md`, `UX.md`, `COMBAT.md`, `VISUAL_REVIEW.md`                                                                                                      |
 | Technical | architecture, map/build pipeline, sprite manifests, curation   | `ARCHITECTURE.md`, `ART_DIRECTION.md`, `SPRITE_CURATION.md`, `NPC_SPRITES.md`, `COMBATANT_SPRITES.md`, `EFFECT_SPRITES.md`, `build-time/MAP_AUTHORING.md` |
@@ -45,7 +45,7 @@ These are the pillars the game still has to satisfy for a polished v1:
 
 | Pillar                                              | Source Of Truth                                         |
 | --------------------------------------------------- | ------------------------------------------------------- |
-| Story, questing, and player journey                 | `JOURNEY.md`, `LORE.md`, `PRODUCTION.md`                |
+| Procedural world, challenges, dialog                | `WORLD_GENERATION.md`, `QUESTS.md`, `DIALOG_POOL.md`    |
 | Maps, tiles, and world cohesion                     | `ART_DIRECTION.md`, `VISUAL_REVIEW.md`, `PRODUCTION.md` |
 | Combat, capture, economy, and progression           | `COMBAT.md`, `PRODUCTION.md`                            |
 | HUD, mobile controls, and UX fit-and-finish         | `UX.md`, `MOBILE_QA.md`, `PRODUCTION.md`                |

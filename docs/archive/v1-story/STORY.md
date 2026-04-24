@@ -1,9 +1,11 @@
 ---
-title: Story Bible
+title: Story Bible (v1 — archived)
 updated: 2026-04-24
-status: current
+status: archived
 domain: creative
 ---
+
+> **Archived.** This doc captured the v1 seven-beat finite story with four region masters, proofs, and a green-dragon ending. That frame is retired in v2 — see `docs/DESIGN.md` for the current open-world design. Kept here for cast + creature + tone reference only.
 
 # Rivers Reckoning — Story Bible
 
