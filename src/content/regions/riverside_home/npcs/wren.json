@@ -1,0 +1,28 @@
+{
+  "id": "wren",
+  "display_name": "Wren",
+  "home_region": "riverside_home",
+  "role": "well_tender",
+  "appearances": [
+    { "region": "riverside_home", "spawn": [3, 8], "default": true }
+  ],
+  "dialog_states": [
+    {
+      "id": "wren_well_water",
+      "when": {},
+      "priority": 0,
+      "beats": [
+        {
+          "text": { "en": "The well runs cold even in summer." },
+          "mood": "thinking",
+          "glyph": "water-edge"
+        },
+        {
+          "text": { "en": "Good water keeps companions steady. Four stones at the base, laid by the four valley wardens. Read them sometime." },
+          "mood": "happy",
+          "glyph": "companion-bond"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,23 @@
+{
+  "id": "rowan",
+  "display_name": "Rowan",
+  "home_region": "dreadpeak_cavern",
+  "role": "supplies_keeper",
+  "appearances": [
+    { "region": "dreadpeak_cavern", "spawn": [10, 12], "default": true }
+  ],
+  "dialog_states": [
+    {
+      "id": "rowan_ask",
+      "when": {},
+      "priority": 0,
+      "beats": [
+        {
+          "text": { "en": "If the path narrows, check your supplies before you commit." },
+          "mood": "thinking",
+          "glyph": "greenwood-watch"
+        }
+      ]
+    }
+  ]
+}

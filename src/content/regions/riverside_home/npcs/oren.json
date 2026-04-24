@@ -1,0 +1,28 @@
+{
+  "id": "oren",
+  "display_name": "Oren",
+  "home_region": "riverside_home",
+  "role": "carpenter_kid",
+  "appearances": [
+    { "region": "riverside_home", "spawn": [3, 5], "default": true }
+  ],
+  "dialog_states": [
+    {
+      "id": "oren_ready",
+      "when": {},
+      "priority": 0,
+      "beats": [
+        {
+          "text": { "en": "Capture pods are packed." },
+          "mood": "happy",
+          "glyph": "companion-bond"
+        },
+        {
+          "text": { "en": "Bring home anything you can care for." },
+          "mood": "excited",
+          "glyph": "greenwood-watch"
+        }
+      ]
+    }
+  ]
+}

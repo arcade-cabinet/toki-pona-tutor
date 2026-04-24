@@ -1,0 +1,28 @@
+{
+  "id": "kestrel",
+  "display_name": "Kestrel",
+  "home_region": "highridge_pass",
+  "role": "sky_watcher",
+  "appearances": [
+    { "region": "highridge_pass", "spawn": [24, 6], "default": true }
+  ],
+  "dialog_states": [
+    {
+      "id": "kestrel_sky",
+      "when": {},
+      "priority": 0,
+      "beats": [
+        {
+          "text": { "en": "Birds circle when someone strays from the high path." },
+          "mood": "happy",
+          "glyph": "wild-signs"
+        },
+        {
+          "text": { "en": "Watch the shadows, not just the road." },
+          "mood": "thinking",
+          "glyph": "wild-signs"
+        }
+      ]
+    }
+  ]
+}

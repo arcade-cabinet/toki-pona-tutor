@@ -1,0 +1,23 @@
+{
+  "id": "meadow",
+  "display_name": "Meadow",
+  "home_region": "dreadpeak_cavern",
+  "role": "cave_meditator",
+  "appearances": [
+    { "region": "dreadpeak_cavern", "spawn": [6, 10], "default": true }
+  ],
+  "dialog_states": [
+    {
+      "id": "meadow_meditate",
+      "when": {},
+      "priority": 0,
+      "beats": [
+        {
+          "text": { "en": "Breathe with the cave draft. It points toward safe stone." },
+          "mood": "thinking",
+          "glyph": "wild-signs"
+        }
+      ]
+    }
+  ]
+}
