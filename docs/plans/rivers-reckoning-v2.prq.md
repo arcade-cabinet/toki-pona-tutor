@@ -15,7 +15,7 @@ Rivers Reckoning pivots from a finite 7-map creature-catching story to a **proce
 
 ## Priority: P0 — this is the new game
 
-The v1 game at `v0.40.0` remains on `main` and stays playable on GitHub Pages for existing players. v2 lands on a long-lived feature branch, tagged as `v2.0.0` on merge.
+**Refactored in place on `main`.** The game does not need to stay working during the pivot; each phase deletes v1 code and adds v2 code. `v1.0.0-final` tag is already pushed as a historical snapshot only (not a rollback target, not a deployment branch). PRs land directly on `main` through feature branches; the current engine may fail to boot cleanly between Phase 1 (v1 teardown) and Phase 2 (world-gen wire-up), which is expected.
 
 ## Success Criteria (from DESIGN.md)
 
@@ -54,12 +54,14 @@ Before any code change, finalize the specs so tasks in later phases don't churn.
 - **T106** Update `CLAUDE.md` project section — point at v2 docs, kill stale v1 rules (e.g. "four region masters" is gone).
 - **T107** Update `README.md` — v2 pitch for a reader stumbling into the repo.
 
-### Phase 1 — Scaffolding on Long-Lived Branch
+### Phase 1 — Scaffolding + v1 teardown
 
-- **T108** Create `v2-main` branch from `main`. All v2 work merges to `v2-main` via PRs. `main` stays frozen at v1 (bugfixes only).
-- **T109** Add `src/content/v2/` directory structure per WORLD_GENERATION / DIALOG_POOL specs. Empty at first; file skeletons + JSON schemas.
-- **T110** Add `src/modules/v2/` with stub modules matching the new engine shape: `world-generator.ts`, `chunk-store.ts`, `reward-function.ts`, `dialog-pool.ts`, `challenge-template.ts`, `rumor-resolver.ts`.
-- **T111** Tag v1 as `v1.0.0-final` on `main` — the stable v1 release. Release notes: "final v1 tag. v2 lives on `v2-main`."
+In-place. Delete v1 runtime modules and scaffold the new module shape. Engine may not boot after this phase — acceptable until Phase 2.
+
+- **T108** Delete v1 runtime progression modules: `src/modules/main/green-dragon.ts`, `new-game-plus.ts`, `rematch.ts`, `quest-runtime.ts`, `quest.ts`, `quest-npc.ts`, `badge-derivation.ts`, `journey-beat.ts` (if present). Delete their unit tests. Update any remaining import sites to fail-closed or stub.
+- **T109** Restructure `src/content/` — retain `spine/species/`, `spine/moves/`, `spine/items/` (pure data, carries forward); delete `spine/dialog/`, `spine/journey.json`; move `regions/` dossier NPCs to `legacy/v1-npcs/` if useful as dialog-pool seed corpus, else delete; delete `gameplay/quests.json`, `gameplay/events.json` (quest turn-ins), `gameplay/progression.json` (badge config).
+- **T110** Scaffold new module skeletons: `src/modules/world-generator.ts`, `src/modules/chunk-store.ts`, `src/modules/reward-function.ts`, `src/modules/dialog-pool.ts`, `src/modules/challenge-template.ts`, `src/modules/rumor-resolver.ts`. All stubs with typed signatures + `throw new Error('unimplemented')` bodies. No `v2/` subdirectory — the whole codebase is v2 after this phase.
+- **T111** `v1.0.0-final` tag — **already pushed**. No further work.
 
 ### Phase 2 — World Generator Core
 
@@ -127,23 +129,25 @@ Before any code change, finalize the specs so tasks in later phases don't churn.
 - **T155** Bestiary rework: remove "completion %" nag (no dex panic). Show count + recent encounters instead.
 - **T156** New Game flow: seed picker (random button + manual entry field + preset "famous seeds" list for demos).
 
-### Phase 9 — Integration + Cleanup
+### Phase 9 — Integration + test cleanup
 
-- **T157** Wire v2 world-generator into `src/standalone.ts` dev entry. Dev server boots into a v2 seed.
-- **T158** Retire v1 content paths: delete `src/modules/main/green-dragon.ts`, `new-game-plus.ts`, `rematch.ts`, journey-beat progression, badge-derivation, quest-runtime (v1), shopkeep_first_sale flag wiring.
-- **T159** Retire v1 content files: archive `src/content/regions/`, `src/content/gameplay/quests.json`, `src/content/spine/journey.json`, `src/content/spine/dialog/jan_*`, `src/tiled/*`, `public/assets/maps/*` to `legacy-v1/` or delete.
-- **T160** Retire v1 build-time tests tied to retired content: dossier-reachability, dossier-cross-references, events-dialog-ids, roadmap-inventory, any test referencing badge_* / proofs_all_four / game_cleared / green_dragon.
-- **T161** Retire v1 integration tests: journey-golden-path, dossier-npc-runtime.
+Most v1 teardown happened in Phase 1. Phase 9 wraps tests that survived and adds v2 test coverage.
+
+- **T157** Wire world-generator into `src/standalone.ts` dev entry — replaces v1 tiled-map folder registration with the chunk-realize pipeline.
+- **T158** Delete any remaining v1-only tests (surface check after Phase 2-8 work).
+- **T159** Delete v1 integration tests (journey-golden-path, dossier-npc-runtime).
+- **T160** Delete v1 build-time tests tied to retired content (dossier-*, events-dialog-ids, etc.).
+- **T161** (retired — subsumed by T159/T160.)
 - **T162** Add v2 build-time tests: chunk-type determinism, village-density sweep, biome-compass consistency, loot-table log-scaling, dialog-pool role coverage.
 - **T163** Add v2 integration tests: fresh-save spawns Guide, challenge accept→resolve→reward round-trips, chunk-delta save/resume, faint→respawn.
 
 ### Phase 10 — Release
 
-- **T164** Update `ci.yml` / `release.yml` / `cd.yml` if needed (mostly unchanged — v2 still builds as vite bundle).
-- **T165** Tag `v2.0.0-alpha.1` from `v2-main`. Deploy Pages preview.
+- **T164** Update `ci.yml` / `release.yml` / `cd.yml` if needed (mostly unchanged — still a vite bundle).
+- **T165** Tag `v2.0.0-alpha.1` on `main`. Deploy Pages.
 - **T166** Playtest on iPhone Safari + Android debug APK. Fix surfaced blockers.
-- **T167** Iterate alpha → beta → v2.0.0 based on playtest feedback.
-- **T168** Merge `v2-main` to `main` on v2.0.0 tag. v1 code that was preserved at `v1.0.0-final` stays accessible via tag.
+- **T167** Iterate alpha → beta → v2.0.0 (tags on `main`).
+- **T168** Tag `v2.0.0` on `main`. v1 remains accessible via `v1.0.0-final` tag.
 
 ---
 
@@ -156,14 +160,14 @@ Before any code change, finalize the specs so tasks in later phases don't churn.
 - Phase 4 (economy) blocks Phase 5 (items — loot table needs reward function).
 - Phase 6 (dialog pool) blocks Phase 7 (challenges — templates reference dialog pool).
 - Phase 8 (UI) depends on Phase 2 + 6 + 7 (needs world + dialog + challenges to surface).
-- Phase 9 (integration/cleanup) requires everything above live on v2-main.
+- Phase 9 (integration/cleanup) requires everything above live on main.
 - Phase 10 (release) is terminal.
 
 ## Acceptance Criteria per Phase
 
 **Phase 0**: All 8 docs (WORLD_GENERATION, ECONOMY, DIALOG_POOL, QUESTS, ROADMAP, archive pointers, CLAUDE.md, README.md) committed on a docs-only branch. Reviewed and merged.
 
-**Phase 1**: `v2-main` branch exists. Empty skeleton committed with JSON schemas. `v1.0.0-final` tag on main.
+**Phase 1**: `main` branch exists. Empty skeleton committed with JSON schemas. `v1.0.0-final` tag on main.
 
 **Phase 2**: `pnpm dev` boots into a seeded world. Player can walk between generated chunks. Chunk types visibly vary. Biome compass visible on pause-menu map.
 
@@ -194,7 +198,7 @@ Before any code change, finalize the specs so tasks in later phases don't churn.
 
 ## Technical Notes
 
-- All v2 code lives under `src/modules/v2/`, `src/content/v2/` until Phase 9 cleanup. v1 paths preserved until cleanup so dev can still run v1 for comparison.
+- New code lives in flat `src/modules/` and `src/content/` paths (no `v2/` prefix). v1 modules are deleted in Phase 1 rather than preserved alongside.
 - Determinism sanctity: a single `createRng(seed)` factory is the ONLY RNG entry point for world-gen. Tests enforce this.
 - Dialog pool authoring can parallelize — spin a content agent for each role's line pool once the schema is locked.
 - Map-authoring pipeline (`scripts/map-authoring/`) retires in Phase 9. Its learnings inform the world-generator's grammar but the spec files themselves become reference-only.

@@ -117,10 +117,10 @@ Close enough to the 3000 target. Variance allowed — authoring can flex within 
 
 ## Authoring format
 
-Pool lines live in `src/content/v2/dialog_pool/` as one JSON file per role:
+Pool lines live in `src/content/dialog_pool/` as one JSON file per role:
 
 ```
-src/content/v2/dialog_pool/
+src/content/dialog_pool/
   guide.json
   shopkeep.json
   innkeep.json
@@ -264,7 +264,7 @@ Challenge-related lines (`challenge_offer`, `challenge_thanks`, `idle_after_reso
 Separate from dialog pool but shares the authoring surface.
 
 ```
-src/content/v2/names/
+src/content/names/
   adjective_first.json    # 60 warm/neutral adjectives (Bright, Quiet, Soft, Still)
   noun_first.json         # 80 first-name-like nouns (Pine, Wren, Ash, Clay, Fen)
 ```
@@ -295,7 +295,7 @@ The 200-ish hand-authored beats from v1's 81 dossier NPCs are seed corpus, not w
 4. **Strip v1-specific references**: delete beats mentioning badges, specific names (Rook, Selby, etc.), specific flags (game_cleared, proofs_all_four). Rewrite generic-able beats; drop the rest.
 5. **Rewrite player-specific callbacks**: "You've made it past the village" (Rook-specific) → "You've come a long way" (generic, band 1).
 6. **Tag** with `seed_from: "v1/<original_npc_id>"` for provenance.
-7. **Dump** into the appropriate `src/content/v2/dialog_pool/<role>.json` file.
+7. **Dump** into the appropriate `src/content/dialog_pool/<role>.json` file.
 
 Expected yield: ~150 usable lines from 200 original. Some beats are too context-specific to reuse (e.g. "the four polished stones at the shrine" — pure v1 dragon-mystery content).
 
@@ -328,7 +328,7 @@ Sub-tasks spawn one content-author agent per role (batchable; see PRD T140).
 
 ## Runtime integration
 
-### Module: `src/modules/v2/dialog-pool.ts`
+### Module: `src/modules/dialog-pool.ts`
 
 ```typescript
 export function loadDialogPool(): DialogPool;
@@ -353,7 +353,7 @@ export function resolveChallengeTokens(line: DialogLine, challenge: ChallengeIns
 3. If line has tokens, resolve them via context (rumor resolver / challenge instance).
 4. Show via existing rr-ui bridge with NPC's name as speaker.
 
-Existing `src/modules/main/dialog.ts` retired in Phase 9 cleanup; replaced by `src/modules/v2/dialog.ts`.
+Existing `src/modules/main/dialog.ts` retired in Phase 9 cleanup; replaced by `src/modules/dialog.ts`.
 
 ## Validation
 

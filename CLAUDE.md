@@ -8,7 +8,7 @@ status: current
 
 A cozy open-world creature-catching RPG. The player is Rivers, a kid who steps into a procedurally generated world and wanders indefinitely — catching creatures, building a party, talking to NPCs, taking optional challenges, spending gold at shops and inns. **No finite story, no badge gates, no final boss.**
 
-**v2 is the current design.** v1 shipped a finite seven-beat story with four region masters and a green-dragon ending; that frame is retired. v1 remains preserved at tag `v1.0.0-final`. v2 work happens on the `v2-main` long-lived feature branch.
+**v2 is the current design.** v1 shipped a finite seven-beat story with four region masters and a green-dragon ending; that frame is retired. v1 remains preserved at tag `v1.0.0-final` (snapshot only — not a rollback or deploy branch). v2 work is an **in-place refactor on `main`**. The engine may not boot cleanly during Phase 1-8 of the work; that's expected until Phase 2 wires the world-generator.
 
 Repo path: clone-dependent; use `git rev-parse --show-toplevel` instead of assuming a fixed local path.
 
@@ -36,11 +36,11 @@ Then: `git status && git log --oneline -10 && gh pr list`.
 -   **Every monster is catchable.** Catching is the core verb. No species is locked out of the capture pod. Rare species exist but gate nothing.
 -   **Determinism per seed.** Same seed + same player actions produce the same world. Never use `Math.random()` in world-gen; always route through the seeded PRNG factory.
 -   **No finite gates.** No `badge_*` flags, no `proofs_all_four`, no `game_cleared`. No area refuses entry because of player level or flag state. Tier scaling is how difficulty gradients are expressed — the math in `docs/ECONOMY.md` is the contract.
--   **One universal reward function.** Every gold + item drop calls `reward()` in `src/modules/v2/reward-function.ts`. No second code path.
--   **Dialog pool, not per-NPC scripts.** NPC lines come from the role-keyed pool in `src/content/v2/dialog_pool/`. Per-NPC profiles are deterministic subsets of the pool. Never author lines tied to a specific hand-placed NPC.
+-   **One universal reward function.** Every gold + item drop calls `reward()` in `src/modules/reward-function.ts`. No second code path.
+-   **Dialog pool, not per-NPC scripts.** NPC lines come from the role-keyed pool in `src/content/dialog_pool/`. Per-NPC profiles are deterministic subsets of the pool. Never author lines tied to a specific hand-placed NPC.
 -   **Challenges are optional.** Challenge → response → resolve. No chain, no gate, no story payoff. Resolve → gold + loot roll; NPC dialog shifts once to thanks, then degrades.
--   **Persistence via wrapper only.** Use `src/platform/persistence/preferences.ts` (small KV), `src/platform/persistence/database.ts` (SQLite), `src/modules/v2/chunk-store.ts` (chunk deltas). No direct `localStorage`/`IndexedDB` in feature code.
--   **Always use pull requests.** Work on branches under `v2-main`; don't push to `v2-main` or `main` directly. Never `--admin`.
+-   **Persistence via wrapper only.** Use `src/platform/persistence/preferences.ts` (small KV), `src/platform/persistence/database.ts` (SQLite), `src/modules/chunk-store.ts` (chunk deltas). No direct `localStorage`/`IndexedDB` in feature code.
+-   **Always use pull requests.** Work on feature branches off `main`; don't push to `main` directly. Never `--admin`.
 -   **Mobile-first.** Tap-to-walk is primary input. Touch targets ≥ 44×44dp. HUD doesn't hide targets. Keyboard is a desktop shortcut.
 -   **GitHub Actions pinned to exact SHAs.** Never `@vN` tags.
 -   **No CDN at runtime.** Fonts, wasm, assets all self-hosted under `public/assets/`.
@@ -71,50 +71,58 @@ CAPACITOR=true    pnpm build   # base='./' for native WebView
 # No env set → base='/' for dev/preview
 ```
 
-v1 map-authoring commands (`pnpm author:*`) are scheduled for retirement in Phase 9 of the v2 work. They still run while v2 is under construction; artifacts remain in place until v2-main replaces them.
+v1 map-authoring commands (`pnpm author:*`) are being removed during Phase 1 teardown. They may still run until that landing; don't rely on them for new work.
 
 ## Structure
 
-v1 structure is preserved at `v1.0.0-final`. v2 adds:
+v1 code is deleted as v2 replaces it. The final shape (after Phase 1 teardown + Phase 2+ build-out):
 
 ```
 src/
 ├── modules/
-│   ├── main/             # v1 engine (frozen during v2 build)
-│   └── v2/               # v2 engine (world-generator, chunk-store, reward, dialog, challenges)
+│   ├── world-generator.ts
+│   ├── chunk-store.ts
+│   ├── reward-function.ts
+│   ├── dialog-pool.ts
+│   ├── challenge-template.ts
+│   ├── rumor-resolver.ts
+│   └── main/             # v1 engine modules — being torn down in Phase 1
 └── content/
-    ├── gameplay/         # v1 config JSON (frozen)
-    ├── spine/            # v1 authored JSON (frozen)
-    ├── regions/          # v1 dossiers (frozen, extractable to v2 pool)
-    ├── generated/        # v1 compiled world.json (frozen)
-    └── v2/               # v2 authoring surface (dialog_pool, names, challenges, economy config)
+    ├── spine/species/    # 43 species (carry forward)
+    ├── spine/moves/      # 17 moves (carry forward)
+    ├── spine/items/      # items (extended in Phase 5)
+    ├── dialog_pool/      # authored in Phase 6
+    ├── names/            # NPC name pools (Phase 6)
+    ├── challenges/       # challenge templates (Phase 7)
+    └── economy.json      # tuning config (Phase 4)
 
 docs/
 ├── DESIGN.md             # v2 product spec
-├── WORLD_GENERATION.md   # v2 world-gen spec
-├── ECONOMY.md            # v2 economy spec
-├── DIALOG_POOL.md        # v2 dialog spec
-├── QUESTS.md             # v2 challenge spec
-├── ROADMAP.md            # v2 phase map
+├── WORLD_GENERATION.md
+├── ECONOMY.md
+├── DIALOG_POOL.md
+├── QUESTS.md
+├── ROADMAP.md
 └── archive/v1-story/     # v1 creative docs (reference)
 ```
+
+The v1 history is preserved at tag `v1.0.0-final`. No `legacy/` folder, no `v2/` subdir — the repo is v2 after the refactor.
 
 ## What NOT to do
 
 -   Don't write v1-style hand-authored per-NPC dialog. Use the role pool.
 -   Don't add `badge_*` / `proofs_*` / `game_cleared` / `green_dragon_defeated` flags to any new code.
--   Don't place NPCs by absolute `(x, y)` in any v2 module. NPC placement is realization-driven from `(seed, chunk_xy, spawn_idx)`.
+-   Don't place NPCs by absolute `(x, y)` in any new module. NPC placement is realization-driven from `(seed, chunk_xy, spawn_idx)`.
 -   Don't special-case the green dragon. In v2 it's a rare creature in far chunks, not a cutscene.
 -   Don't introduce finite progression. No counting-down checklists, no "chapters complete," no ending.
 -   Don't fork the reward function. One function, all sources.
--   Don't use `Math.random` in v2 world-gen. Always the seeded PRNG factory.
+-   Don't use `Math.random` in world-gen. Always the seeded PRNG factory.
 -   Don't edit archived v1 docs (`docs/archive/v1-story/*`) as if they're current. They're reference.
 
 ## Active context
 
-- **Current phase**: 0 (spec lock) — specs being written, no code changes yet.
-- **Current branch**: `docs/v2-phase-0-spec-lock` — merges to `main` when Phase 0 completes.
-- **Next phase**: 1 (scaffolding) — create `v2-main`, stub modules, tag v1 final.
-- **v1 shipped state**: `v1.0.0-final` (pending tag) on `main`. Pages deployment stable.
+- **Current phase**: 1 (v1 teardown + scaffolding). Phase 0 (spec lock) merged as PR #254.
+- **Working branch**: feature branches off `main`; in-place refactor, no parallel long-lived branch.
+- **v1 snapshot**: `v1.0.0-final` tag pushed. Reference only.
 
 See `docs/ROADMAP.md` for the full phase map and `docs/plans/rivers-reckoning-v2.prq.md` for per-task detail.

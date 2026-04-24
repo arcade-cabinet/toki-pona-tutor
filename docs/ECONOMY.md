@@ -353,7 +353,7 @@ Calibration is subject to playtest. All constants above (`BASE_XP`, `SCALE`, `BA
 ## Single-source tuning config
 
 ```
-src/content/v2/economy.json   (authored config, hot-reloadable in dev)
+src/content/economy.json   (authored config, hot-reloadable in dev)
   {
     "xp": { "base": 20, "scale": 12, "cap": 99 },
     "gold": { "base": 5, "noise_pct": 0.2 },
@@ -393,7 +393,7 @@ All formulas reference this config. Changing tuning = editing JSON; no code chan
 - `src/modules/main/victory-rewards.ts` — retired (awardLeadVictoryXp reshaped into universal reward).
 - `src/modules/main/badge-derivation.ts` — retired entirely.
 - `src/modules/main/quest-runtime.ts` reward-grant path — replaced by universal reward function.
-- `src/content/gameplay/progression.json` — retired. Tuning config lives in `src/content/v2/economy.json`.
+- `src/content/gameplay/progression.json` — retired. Tuning config lives in `src/content/economy.json`.
 - Shop inventory from `src/content/gameplay/shops.json` — retired. Procedural via shop templates.
 
 ## Related specs

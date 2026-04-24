@@ -287,6 +287,6 @@ Based on the pivot discussion:
 
 ## What happens to the current codebase
 
-The v1 game is at `v0.40.0` on `main` and runs end-to-end. We don't tear it down immediately — we build v2 in parallel on a long-lived feature branch, land it when it's playable, and tag v1.0.0 as a stable final v1 release before the pivot merge. v1 players on Pages keep what's there; v2 lands as a clean break at some future tag (likely v2.0.0).
+The v1 game was at `v0.40.1` on `main` when the pivot started. **v2 is an in-place refactor** — each phase deletes v1 code and adds v2 code on `main`. The game may not boot cleanly during the refactor (Phase 1-2 especially), which is expected. `v1.0.0-final` tag preserves the last v1 runtime snapshot as a historical reference only, not a deploy target.
 
-The branching plan and work sequencing live in `docs/ROADMAP.md` (to be rewritten).
+Work sequencing lives in `docs/ROADMAP.md` and `docs/plans/rivers-reckoning-v2.prq.md`.

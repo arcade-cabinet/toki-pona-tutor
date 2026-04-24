@@ -312,7 +312,7 @@ Not part of world-gen proper but closely tied.
 
 ## What this replaces from v1
 
-- `scripts/map-authoring/specs/*.ts` — retired. Grammar codified here and in `src/modules/v2/world-generator.ts`.
+- `scripts/map-authoring/specs/*.ts` — retired. Grammar codified here and in `src/modules/world-generator.ts`.
 - Hand-placed warps, NPC spawns, sign text — retired. All procedural.
 - Fixed map registry in `src/standalone.ts` — retired. Engine asks the world-gen module for chunks by `(seed, x, y)`.
 
