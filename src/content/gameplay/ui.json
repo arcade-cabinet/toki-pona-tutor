@@ -64,7 +64,7 @@
       "clues_row_meta_template": "{count} mastered",
       "bestiary_row_label_template": "Seen {seen} | Caught {caught}",
       "bestiary_row_meta_total_template": "{total} known species",
-      "objective_row_label_pre_starter": "Next: Speak with jan Sewi",
+      "objective_row_label_pre_starter": "Next: Speak with Selby",
       "objective_row_label_post_starter": "Next: Explore beyond the village",
       "objective_row_meta": "your current goal"
     },
@@ -121,7 +121,7 @@
       "party_label_template": "party {current} / {max}",
       "heading_pre_starter": "next step",
       "heading_post_starter": "on your path",
-      "objective_pre_starter": "Speak with jan Sewi",
+      "objective_pre_starter": "Speak with Selby",
       "objective_post_starter": "Explore beyond the village",
       "poll_ms": 500
     },
