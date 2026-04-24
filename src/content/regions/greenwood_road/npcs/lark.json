@@ -1,0 +1,28 @@
+{
+  "id": "lark",
+  "display_name": "Lark",
+  "home_region": "greenwood_road",
+  "role": "route_watcher",
+  "appearances": [
+    { "region": "greenwood_road", "spawn": [25, 5], "default": true }
+  ],
+  "dialog_states": [
+    {
+      "id": "lark_watch",
+      "when": {},
+      "priority": 0,
+      "beats": [
+        {
+          "text": { "en": "I watch the Greenwood crossings." },
+          "mood": "thinking",
+          "glyph": "wild-signs"
+        },
+        {
+          "text": { "en": "Something has been driving the wild ones toward town." },
+          "mood": "sad",
+          "glyph": "battle-ready"
+        }
+      ]
+    }
+  ]
+}

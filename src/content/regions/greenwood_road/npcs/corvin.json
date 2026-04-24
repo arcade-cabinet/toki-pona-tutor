@@ -1,0 +1,40 @@
+{
+  "id": "corvin",
+  "display_name": "Corvin",
+  "home_region": "greenwood_road",
+  "role": "route_watcher",
+  "appearances": [
+    { "region": "greenwood_road", "spawn": [2, 6], "default": true }
+  ],
+  "dialog_states": [
+    {
+      "id": "corvin_watch",
+      "when": { "flag_absent": "rook_defeated" },
+      "priority": 0,
+      "beats": [
+        {
+          "text": { "en": "The low trail looks harmless until the grass starts moving." },
+          "mood": "thinking",
+          "glyph": "cave-shadow"
+        }
+      ]
+    },
+    {
+      "id": "corvin_post_rook",
+      "when": { "flag_present": "rook_defeated", "flag_absent": "badge_sewi" },
+      "priority": 5,
+      "beats": [
+        {
+          "text": { "en": "You dealt with Rook. Good. They needed the reminder." },
+          "mood": "happy",
+          "glyph": "greenwood-watch"
+        },
+        {
+          "text": { "en": "I found odd tracks in the third grass patch. Too big for anything I know." },
+          "mood": "sad",
+          "glyph": "wild-signs"
+        }
+      ]
+    }
+  ]
+}

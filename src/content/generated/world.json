@@ -4226,35 +4226,6 @@
       "triggers": {}
     },
     {
-      "id": "briar_sign",
-      "npc_id": "briar",
-      "priority": 0,
-      "beats": [
-        {
-          "text": {
-            "en": "Greenwood Road runs thick with wild creatures this season."
-          },
-          "mood": "thinking",
-          "glyph": "wild-signs"
-        },
-        {
-          "text": {
-            "en": "Every bonded forest creature tells us something about what's moving through the trees."
-          },
-          "mood": "thinking",
-          "glyph": "wild-signs"
-        },
-        {
-          "text": {
-            "en": "Catch two from the forest biome and I'll read their signs with you."
-          },
-          "mood": "excited",
-          "glyph": "wild-signs"
-        }
-      ],
-      "triggers": {}
-    },
-    {
       "id": "brindle_cold",
       "npc_id": "brindle",
       "priority": 0,
@@ -4337,21 +4308,6 @@
           },
           "mood": "excited",
           "glyph": "water-edge"
-        }
-      ],
-      "triggers": {}
-    },
-    {
-      "id": "corvin_watch",
-      "npc_id": "corvin",
-      "priority": 0,
-      "beats": [
-        {
-          "text": {
-            "en": "The low trail looks harmless until the grass starts moving."
-          },
-          "mood": "thinking",
-          "glyph": "cave-shadow"
         }
       ],
       "triggers": {}
@@ -4597,28 +4553,6 @@
       "triggers": {}
     },
     {
-      "id": "lark_watch",
-      "npc_id": "lark",
-      "priority": 0,
-      "beats": [
-        {
-          "text": {
-            "en": "I watch the Greenwood crossings."
-          },
-          "mood": "thinking",
-          "glyph": "wild-signs"
-        },
-        {
-          "text": {
-            "en": "Something has been driving the wild ones toward town."
-          },
-          "mood": "sad",
-          "glyph": "battle-ready"
-        }
-      ],
-      "triggers": {}
-    },
-    {
       "id": "lily_flavor",
       "npc_id": "lily",
       "priority": 0,
@@ -4830,28 +4764,6 @@
       "triggers": {}
     },
     {
-      "id": "pack_runner",
-      "npc_id": "pack",
-      "priority": 0,
-      "beats": [
-        {
-          "text": {
-            "en": "Good timing. I need field notes from Greenwood."
-          },
-          "mood": "happy",
-          "glyph": "companion-bond"
-        },
-        {
-          "text": {
-            "en": "Catch two route creatures and I'll trade you a stronger pod."
-          },
-          "mood": "thinking",
-          "glyph": "companion-bond"
-        }
-      ],
-      "triggers": {}
-    },
-    {
       "id": "piper_welcome",
       "npc_id": "piper",
       "priority": 0,
@@ -4876,56 +4788,6 @@
           },
           "mood": "excited",
           "glyph": "safe-house"
-        }
-      ],
-      "triggers": {}
-    },
-    {
-      "id": "rook_intro",
-      "npc_id": "rook",
-      "when_flags": {
-        "rook_defeated": false
-      },
-      "priority": 10,
-      "beats": [
-        {
-          "text": {
-            "en": "You've made it past the village. Let's see what your companion can do."
-          },
-          "mood": "excited",
-          "glyph": "wild-signs"
-        },
-        {
-          "text": {
-            "en": "I'm not going easy on you."
-          },
-          "mood": "excited",
-          "glyph": "battle-ready"
-        }
-      ],
-      "triggers": {}
-    },
-    {
-      "id": "rook_victory",
-      "npc_id": "rook",
-      "when_flags": {
-        "rook_defeated": true
-      },
-      "priority": 5,
-      "beats": [
-        {
-          "text": {
-            "en": "You handled yourself."
-          },
-          "mood": "sad",
-          "glyph": "companion-bond"
-        },
-        {
-          "text": {
-            "en": "Greenwood Road is yours."
-          },
-          "mood": "thinking",
-          "glyph": "greenwood-watch"
         }
       ],
       "triggers": {}
@@ -5055,28 +4917,6 @@
       "triggers": {}
     },
     {
-      "id": "thorn_grass",
-      "npc_id": "thorn",
-      "priority": 0,
-      "beats": [
-        {
-          "text": {
-            "en": "Deep grass means wild creatures nearby."
-          },
-          "mood": "happy",
-          "glyph": "forest-cover"
-        },
-        {
-          "text": {
-            "en": "If the grass rustles twice, back up or be ready."
-          },
-          "mood": "thinking",
-          "glyph": "wild-signs"
-        }
-      ],
-      "triggers": {}
-    },
-    {
       "id": "wild_encounter_appear",
       "npc_id": null,
       "priority": 10,
@@ -5139,6 +4979,240 @@
           },
           "mood": "happy",
           "glyph": "companion-bond"
+        }
+      ],
+      "triggers": {}
+    },
+    {
+      "id": "briar_sign",
+      "npc_id": "briar",
+      "priority": 0,
+      "beats": [
+        {
+          "text": {
+            "en": "Greenwood Road runs thick with wild creatures this season."
+          },
+          "mood": "thinking",
+          "glyph": "wild-signs"
+        },
+        {
+          "text": {
+            "en": "Every bonded forest creature tells us something about what's moving through the trees."
+          },
+          "mood": "thinking",
+          "glyph": "wild-signs"
+        },
+        {
+          "text": {
+            "en": "Catch two from the forest biome and I'll read their signs with you."
+          },
+          "mood": "excited",
+          "glyph": "wild-signs"
+        }
+      ],
+      "triggers": {}
+    },
+    {
+      "id": "corvin_watch",
+      "npc_id": "corvin",
+      "priority": 0,
+      "beats": [
+        {
+          "text": {
+            "en": "The low trail looks harmless until the grass starts moving."
+          },
+          "mood": "thinking",
+          "glyph": "cave-shadow"
+        }
+      ],
+      "triggers": {},
+      "when_flags": {
+        "rook_defeated": false
+      }
+    },
+    {
+      "id": "corvin_post_rook",
+      "npc_id": "corvin",
+      "priority": 5,
+      "beats": [
+        {
+          "text": {
+            "en": "You dealt with Rook. Good. They needed the reminder."
+          },
+          "mood": "happy",
+          "glyph": "greenwood-watch"
+        },
+        {
+          "text": {
+            "en": "I found odd tracks in the third grass patch. Too big for anything I know."
+          },
+          "mood": "sad",
+          "glyph": "wild-signs"
+        }
+      ],
+      "triggers": {},
+      "when_flags": {
+        "rook_defeated": true,
+        "badge_sewi": false
+      }
+    },
+    {
+      "id": "lark_watch",
+      "npc_id": "lark",
+      "priority": 0,
+      "beats": [
+        {
+          "text": {
+            "en": "I watch the Greenwood crossings."
+          },
+          "mood": "thinking",
+          "glyph": "wild-signs"
+        },
+        {
+          "text": {
+            "en": "Something has been driving the wild ones toward town."
+          },
+          "mood": "sad",
+          "glyph": "battle-ready"
+        }
+      ],
+      "triggers": {}
+    },
+    {
+      "id": "pack_runner",
+      "npc_id": "pack",
+      "priority": 0,
+      "beats": [
+        {
+          "text": {
+            "en": "Good timing. I need field notes from Greenwood."
+          },
+          "mood": "happy",
+          "glyph": "companion-bond"
+        },
+        {
+          "text": {
+            "en": "Catch two route creatures and I'll trade you a stronger pod."
+          },
+          "mood": "thinking",
+          "glyph": "companion-bond"
+        }
+      ],
+      "triggers": {}
+    },
+    {
+      "id": "rook_intro",
+      "npc_id": "rook",
+      "priority": 10,
+      "beats": [
+        {
+          "text": {
+            "en": "You've made it past the village. Let's see what your companion can do."
+          },
+          "mood": "excited",
+          "glyph": "wild-signs"
+        },
+        {
+          "text": {
+            "en": "I'm not going easy on you."
+          },
+          "mood": "excited",
+          "glyph": "battle-ready"
+        }
+      ],
+      "triggers": {},
+      "when_flags": {
+        "rook_defeated": false
+      }
+    },
+    {
+      "id": "rook_victory",
+      "npc_id": "rook",
+      "priority": 5,
+      "beats": [
+        {
+          "text": {
+            "en": "You handled yourself."
+          },
+          "mood": "sad",
+          "glyph": "companion-bond"
+        },
+        {
+          "text": {
+            "en": "Greenwood Road is yours."
+          },
+          "mood": "thinking",
+          "glyph": "greenwood-watch"
+        }
+      ],
+      "triggers": {},
+      "when_flags": {
+        "rook_defeated": true,
+        "badge_sewi": false
+      }
+    },
+    {
+      "id": "rook_post_first_gym",
+      "npc_id": "rook",
+      "priority": 5,
+      "beats": [
+        {
+          "text": {
+            "en": "Tarrin's stones. I felt them hum when you came back past."
+          },
+          "mood": "thinking",
+          "glyph": "shrine-stones"
+        },
+        {
+          "text": {
+            "en": "Something upstream is waking. Keep walking, Rivers."
+          },
+          "mood": "excited",
+          "glyph": "wild-signs"
+        }
+      ],
+      "triggers": {},
+      "when_flags": {
+        "badge_sewi": true,
+        "badge_suli": false
+      }
+    },
+    {
+      "id": "rook_post_clear",
+      "npc_id": "rook",
+      "priority": 3,
+      "beats": [
+        {
+          "text": {
+            "en": "You walked up to a dragon, Rivers. That's the sentence I'll tell."
+          },
+          "mood": "happy",
+          "glyph": "companion-bond"
+        }
+      ],
+      "triggers": {},
+      "when_flags": {
+        "game_cleared": true
+      }
+    },
+    {
+      "id": "thorn_grass",
+      "npc_id": "thorn",
+      "priority": 0,
+      "beats": [
+        {
+          "text": {
+            "en": "Deep grass means wild creatures nearby."
+          },
+          "mood": "happy",
+          "glyph": "forest-cover"
+        },
+        {
+          "text": {
+            "en": "If the grass rustles twice, back up or be ready."
+          },
+          "mood": "thinking",
+          "glyph": "wild-signs"
         }
       ],
       "triggers": {}
@@ -6181,6 +6255,26 @@
   ],
   "regions": [
     {
+      "id": "greenwood_road",
+      "display_name": "Greenwood Road",
+      "biome": "forest",
+      "music": "bgm_village",
+      "size": {
+        "w": 32,
+        "h": 12
+      },
+      "neighbors": {
+        "west": "riverside_home",
+        "east": "highridge_pass"
+      },
+      "summary": "Old trade route east of Riverside Home, flanked by Fan-tasy forest. Three tall-grass clumps host the player's first encounters. Rook is waiting at the east edge.",
+      "flavor_beats": [
+        "A wooden footbridge crosses a dry creek halfway along the route.",
+        "Light filters through leaves the color of the valley's old flag.",
+        "At the east end a stone marker reads HIGHRIDGE PASS, NORTH-EAST."
+      ]
+    },
+    {
       "id": "riverside_home",
       "display_name": "Riverside Home",
       "biome": "town",
@@ -6200,6 +6294,39 @@
     }
   ],
   "signs": [
+    {
+      "region": "greenwood_road",
+      "at": [
+        1,
+        6
+      ],
+      "title": "GREENWOOD ROAD",
+      "body": {
+        "en": "Slow walkers welcome. Fast ones too."
+      }
+    },
+    {
+      "region": "greenwood_road",
+      "at": [
+        15,
+        6
+      ],
+      "title": "BRIDGE OUT IN WINTER",
+      "body": {
+        "en": "Use the north ford when the ice comes."
+      }
+    },
+    {
+      "region": "greenwood_road",
+      "at": [
+        30,
+        5
+      ],
+      "title": "HIGHRIDGE PASS AHEAD",
+      "body": {
+        "en": "The wind hits harder above the second switchback."
+      }
+    },
     {
       "region": "riverside_home",
       "at": [

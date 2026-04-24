@@ -1,0 +1,28 @@
+{
+  "id": "pack",
+  "display_name": "Pack",
+  "home_region": "greenwood_road",
+  "role": "field_notes_quest_giver",
+  "appearances": [
+    { "region": "greenwood_road", "spawn": [20, 5], "default": true }
+  ],
+  "dialog_states": [
+    {
+      "id": "pack_runner",
+      "when": {},
+      "priority": 0,
+      "beats": [
+        {
+          "text": { "en": "Good timing. I need field notes from Greenwood." },
+          "mood": "happy",
+          "glyph": "companion-bond"
+        },
+        {
+          "text": { "en": "Catch two route creatures and I'll trade you a stronger pod." },
+          "mood": "thinking",
+          "glyph": "companion-bond"
+        }
+      ]
+    }
+  ]
+}

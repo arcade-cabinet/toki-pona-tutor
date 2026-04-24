@@ -1,0 +1,14 @@
+{
+  "id": "greenwood_road",
+  "display_name": "Greenwood Road",
+  "biome": "forest",
+  "music": "bgm_village",
+  "size": { "w": 32, "h": 12 },
+  "neighbors": { "west": "riverside_home", "east": "highridge_pass" },
+  "summary": "Old trade route east of Riverside Home, flanked by Fan-tasy forest. Three tall-grass clumps host the player's first encounters. Rook is waiting at the east edge.",
+  "flavor_beats": [
+    "A wooden footbridge crosses a dry creek halfway along the route.",
+    "Light filters through leaves the color of the valley's old flag.",
+    "At the east end a stone marker reads HIGHRIDGE PASS, NORTH-EAST."
+  ]
+}

@@ -1,0 +1,28 @@
+{
+  "id": "thorn",
+  "display_name": "Thorn",
+  "home_region": "greenwood_road",
+  "role": "route_walker",
+  "appearances": [
+    { "region": "greenwood_road", "spawn": [11, 5], "default": true }
+  ],
+  "dialog_states": [
+    {
+      "id": "thorn_grass",
+      "when": {},
+      "priority": 0,
+      "beats": [
+        {
+          "text": { "en": "Deep grass means wild creatures nearby." },
+          "mood": "happy",
+          "glyph": "forest-cover"
+        },
+        {
+          "text": { "en": "If the grass rustles twice, back up or be ready." },
+          "mood": "thinking",
+          "glyph": "wild-signs"
+        }
+      ]
+    }
+  ]
+}
