@@ -31,7 +31,7 @@
       "move_id": "stone_slam"
     }
   ],
-  "catch_rate": 0.22,
+  "catch_rate": 0.25,
   "xp_yield": 118,
   "sprite": {
     "src": "/assets/animals/wolf.png",

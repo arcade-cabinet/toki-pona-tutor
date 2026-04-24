@@ -27,7 +27,7 @@
       "move_id": "quick_jab"
     }
   ],
-  "catch_rate": 0.2,
+  "catch_rate": 0.23,
   "xp_yield": 120,
   "sprite_frame": 0,
   "portrait_src": "/assets/creatures/orc/champion.png",

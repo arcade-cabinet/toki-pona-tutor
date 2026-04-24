@@ -27,7 +27,7 @@
       "move_id": "quick_jab"
     }
   ],
-  "catch_rate": 0.32,
+  "catch_rate": 0.37,
   "xp_yield": 80,
   "sprite_frame": 0,
   "portrait_src": "/assets/creatures/orc/soldier.png",

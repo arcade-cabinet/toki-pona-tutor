@@ -27,8 +27,8 @@
       "move_id": "leaf_jab"
     }
   ],
-  "catch_rate": 0.45,
-  "xp_yield": 44,
+  "catch_rate": 0.5,
+  "xp_yield": 70,
   "sprite": {
     "src": "/assets/animals/hedgehog.png",
     "frame_width": 32,

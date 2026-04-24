@@ -114,9 +114,9 @@ describe('journey golden path (integration)', () => {
             level: 3,
         }));
         expect(lead?.level).toBe(5);
-        expect(lead?.xp).toBe(152);
+        expect(lead?.xp).toBe(160);
         expect(ui.texts.some((line) => line.includes('Attack: -'))).toBe(true);
-        expect(ui.notifications).toContain('Ashcat +27 XP');
+        expect(ui.notifications).toContain('Ashcat +35 XP');
         expect(ui.notifications).toContain('Orchard Fruit ×1');
         expect(await inventoryCount('capture_pod')).toBe(2);
         expect(await inventoryCount('orchard_fruit')).toBe(1);
@@ -281,8 +281,10 @@ describe('journey golden path (integration)', () => {
         expect(await getClueSightings('highridge-proof')).toBeGreaterThan(0);
         expect(await inventoryCount('trail_token')).toBe(10);
         expect(ui.notifications).toContain('Trail Token ×6');
-        expect(ui.notifications).toContain('Ashcat +120 XP');
+        expect(ui.notifications).toContain('Ashcat +600 XP');
         expect(ui.notifications).toContain('Ashcat L6 -> L7');
+        expect(ui.notifications).toContain('Ashcat L7 -> L8');
+        expect(ui.notifications).toContain('Ashcat L8 -> L9');
 
         const waitForVillage = client.waitForMapChange('lakehaven', 5000);
         await warpNorth!.execMethod('onPlayerTouch', [player]);

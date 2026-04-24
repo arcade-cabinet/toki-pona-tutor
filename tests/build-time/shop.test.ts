@@ -23,8 +23,8 @@ describe('trail_token economy and jan Moku shop', () => {
         expect(JAN_MOKU_STOCK.map(shopChoiceLabel)).toEqual([
             'Capture Pod ×1 · Trail Token 2',
             'Orchard Fruit ×1 · Trail Token 1',
-            'Spring Tonic ×1 · Trail Token 4',
-            'Heavy Capture Pod ×1 · Trail Token 6',
+            'Spring Tonic ×1 · Trail Token 3',
+            'Heavy Capture Pod ×1 · Trail Token 5',
         ]);
     });
 

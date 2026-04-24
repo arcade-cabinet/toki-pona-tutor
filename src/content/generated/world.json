@@ -34,8 +34,8 @@
           "move_id": "gust_strike"
         }
       ],
-      "catch_rate": 0.46,
-      "xp_yield": 42,
+      "catch_rate": 0.5,
+      "xp_yield": 70,
       "item_drop": {
         "item_id": "orchard_fruit",
         "chance": 0.75,
@@ -132,8 +132,8 @@
           "move_id": "gust_strike"
         }
       ],
-      "catch_rate": 0.45,
-      "xp_yield": 60,
+      "catch_rate": 0.5,
+      "xp_yield": 70,
       "sprite_frame": 0,
       "portrait_src": "/assets/creatures/wraith/wraith.png",
       "sprite": {
@@ -223,8 +223,8 @@
           "move_id": "frost_nip"
         }
       ],
-      "catch_rate": 0.46,
-      "xp_yield": 42,
+      "catch_rate": 0.5,
+      "xp_yield": 70,
       "sprite": {
         "src": "/assets/animals/jellyfish.png",
         "frame_width": 32,
@@ -298,8 +298,8 @@
           "move_id": "leaf_storm"
         }
       ],
-      "catch_rate": 0.4,
-      "xp_yield": 64,
+      "catch_rate": 0.45,
+      "xp_yield": 70,
       "sprite_frame": 0,
       "portrait_src": "/assets/creatures/zombie/zombie.png",
       "sprite": {
@@ -500,8 +500,8 @@
           "move_id": "leaf_storm"
         }
       ],
-      "catch_rate": 0.45,
-      "xp_yield": 55,
+      "catch_rate": 0.5,
+      "xp_yield": 70,
       "item_drop": {
         "item_id": "orchard_fruit",
         "chance": 0.35,
@@ -596,8 +596,8 @@
           "move_id": "stone_slam"
         }
       ],
-      "catch_rate": 0.44,
-      "xp_yield": 46,
+      "catch_rate": 0.49,
+      "xp_yield": 70,
       "sprite": {
         "src": "/assets/animals/naked-mole-rat.png",
         "frame_width": 32,
@@ -685,7 +685,7 @@
           "move_id": "quick_jab"
         }
       ],
-      "catch_rate": 0.3,
+      "catch_rate": 0.35,
       "xp_yield": 88,
       "sprite_frame": 0,
       "portrait_src": "/assets/creatures/orc/archer.png",
@@ -864,8 +864,8 @@
           "move_id": "wing_gust"
         }
       ],
-      "catch_rate": 0.25,
-      "xp_yield": 100,
+      "catch_rate": 0.28,
+      "xp_yield": 110,
       "sprite": {
         "src": "/assets/animals/vulture.png",
         "frame_width": 64,
@@ -939,8 +939,8 @@
           "move_id": "wing_gust"
         }
       ],
-      "catch_rate": 0.24,
-      "xp_yield": 95,
+      "catch_rate": 0.27,
+      "xp_yield": 110,
       "sprite": {
         "src": "/assets/animals/owl.png",
         "frame_width": 32,
@@ -1021,8 +1021,8 @@
           "move_id": "flame_strike"
         }
       ],
-      "catch_rate": 0.26,
-      "xp_yield": 95,
+      "catch_rate": 0.29,
+      "xp_yield": 110,
       "sprite": {
         "src": "/assets/animals/cobra.png",
         "frame_width": 32,
@@ -1096,8 +1096,8 @@
           "move_id": "strike"
         }
       ],
-      "catch_rate": 0.28,
-      "xp_yield": 88,
+      "catch_rate": 0.3,
+      "xp_yield": 110,
       "sprite": {
         "src": "/assets/animals/boar.png",
         "frame_width": 64,
@@ -1178,8 +1178,8 @@
           "move_id": "gust_strike"
         }
       ],
-      "catch_rate": 0.28,
-      "xp_yield": 82,
+      "catch_rate": 0.3,
+      "xp_yield": 110,
       "sprite": {
         "src": "/assets/animals/fox.png",
         "frame_width": 64,
@@ -1267,7 +1267,7 @@
           "move_id": "frost_surge"
         }
       ],
-      "catch_rate": 0.35,
+      "catch_rate": 0.4,
       "xp_yield": 75,
       "sprite_frame": 0,
       "portrait_src": "/assets/creatures/skelly/archer.png",
@@ -1358,7 +1358,7 @@
           "move_id": "frost_crash"
         }
       ],
-      "catch_rate": 0.26,
+      "catch_rate": 0.31,
       "xp_yield": 95,
       "sprite_frame": 0,
       "portrait_src": "/assets/creatures/skelly/warrior.png",
@@ -1557,8 +1557,8 @@
           "move_id": "leaf_jab"
         }
       ],
-      "catch_rate": 0.45,
-      "xp_yield": 44,
+      "catch_rate": 0.5,
+      "xp_yield": 70,
       "sprite": {
         "src": "/assets/animals/hedgehog.png",
         "frame_width": 32,
@@ -1831,8 +1831,8 @@
           "move_id": "stone_slam"
         }
       ],
-      "catch_rate": 0.38,
-      "xp_yield": 68,
+      "catch_rate": 0.43,
+      "xp_yield": 70,
       "sprite_frame": 0,
       "portrait_src": "/assets/creatures/orc/soldier-unarmoured.png",
       "sprite": {
@@ -1998,8 +1998,8 @@
           "move_id": "gust_strike"
         }
       ],
-      "catch_rate": 0.4,
-      "xp_yield": 52,
+      "catch_rate": 0.45,
+      "xp_yield": 70,
       "item_drop": {
         "item_id": "orchard_fruit",
         "chance": 0.25,
@@ -2113,8 +2113,8 @@
           "move_id": "leaf_jab"
         }
       ],
-      "catch_rate": 0.42,
-      "xp_yield": 48,
+      "catch_rate": 0.47,
+      "xp_yield": 70,
       "sprite": {
         "src": "/assets/animals/skunk.png",
         "frame_width": 32,
@@ -2188,7 +2188,7 @@
           "move_id": "quick_jab"
         }
       ],
-      "catch_rate": 0.2,
+      "catch_rate": 0.23,
       "xp_yield": 120,
       "sprite_frame": 0,
       "portrait_src": "/assets/creatures/orc/champion.png",
@@ -2279,8 +2279,8 @@
           "move_id": "strike"
         }
       ],
-      "catch_rate": 0.48,
-      "xp_yield": 48,
+      "catch_rate": 0.5,
+      "xp_yield": 70,
       "item_drop": {
         "item_id": "orchard_fruit",
         "chance": 0.15,
@@ -2380,8 +2380,8 @@
           "move_id": "wing_gust"
         }
       ],
-      "catch_rate": 0.44,
-      "xp_yield": 46,
+      "catch_rate": 0.49,
+      "xp_yield": 70,
       "item_drop": {
         "item_id": "capture_pod",
         "chance": 0.15,
@@ -2446,7 +2446,7 @@
           "move_id": "frost_crash"
         }
       ],
-      "catch_rate": 0.35,
+      "catch_rate": 0.4,
       "xp_yield": 70,
       "sprite_frame": 0,
       "portrait_src": "/assets/creatures/mummy/mummy.png",
@@ -2537,8 +2537,8 @@
           "move_id": "strike"
         }
       ],
-      "catch_rate": 0.42,
-      "xp_yield": 55,
+      "catch_rate": 0.47,
+      "xp_yield": 70,
       "sprite": {
         "src": "/assets/animals/armadillo.png",
         "frame_width": 32,
@@ -2612,7 +2612,7 @@
           "move_id": "frost_crash"
         }
       ],
-      "catch_rate": 0.38,
+      "catch_rate": 0.43,
       "xp_yield": 70,
       "sprite_frame": 0,
       "portrait_src": "/assets/creatures/skelly/skelly.png",
@@ -2703,8 +2703,8 @@
           "move_id": "wing_gust"
         }
       ],
-      "catch_rate": 0.24,
-      "xp_yield": 90,
+      "catch_rate": 0.27,
+      "xp_yield": 110,
       "sprite": {
         "src": "/assets/animals/raven.png",
         "frame_width": 64,
@@ -2806,8 +2806,8 @@
           "move_id": "stone_slam"
         }
       ],
-      "catch_rate": 0.42,
-      "xp_yield": 48,
+      "catch_rate": 0.47,
+      "xp_yield": 70,
       "sprite": {
         "src": "/assets/animals/hermit-crab.png",
         "frame_width": 32,
@@ -2881,7 +2881,7 @@
           "move_id": "tidal_strike"
         }
       ],
-      "catch_rate": 0.22,
+      "catch_rate": 0.25,
       "xp_yield": 112,
       "sprite": {
         "src": "/assets/animals/octopus.png",
@@ -2970,8 +2970,8 @@
           "move_id": "stone_slam"
         }
       ],
-      "catch_rate": 0.38,
-      "xp_yield": 58,
+      "catch_rate": 0.43,
+      "xp_yield": 70,
       "sprite": {
         "src": "/assets/animals/crab.png",
         "frame_width": 32,
@@ -3038,8 +3038,8 @@
           "move_id": "splash"
         }
       ],
-      "catch_rate": 0.4,
-      "xp_yield": 56,
+      "catch_rate": 0.45,
+      "xp_yield": 70,
       "sprite": {
         "src": "/assets/animals/penguin.png",
         "frame_width": 32,
@@ -3131,7 +3131,7 @@
           "move_id": "stone_slam"
         }
       ],
-      "catch_rate": 0.22,
+      "catch_rate": 0.25,
       "xp_yield": 118,
       "sprite": {
         "src": "/assets/animals/wolf.png",
@@ -3213,8 +3213,8 @@
           "move_id": "leaf_jab"
         }
       ],
-      "catch_rate": 0.38,
-      "xp_yield": 54,
+      "catch_rate": 0.43,
+      "xp_yield": 70,
       "sprite": {
         "src": "/assets/animals/parrot.png",
         "frame_width": 32,
@@ -3422,7 +3422,7 @@
           "move_id": "quick_jab"
         }
       ],
-      "catch_rate": 0.28,
+      "catch_rate": 0.33,
       "xp_yield": 85,
       "sprite_frame": 0,
       "portrait_src": "/assets/creatures/orc/orc.png",
@@ -3513,8 +3513,8 @@
           "move_id": "strike"
         }
       ],
-      "catch_rate": 0.42,
-      "xp_yield": 58,
+      "catch_rate": 0.47,
+      "xp_yield": 70,
       "item_drop": {
         "item_id": "capture_pod",
         "chance": 0.2,
@@ -3609,8 +3609,8 @@
           "move_id": "leaf_jab"
         }
       ],
-      "catch_rate": 0.42,
-      "xp_yield": 50,
+      "catch_rate": 0.47,
+      "xp_yield": 70,
       "sprite": {
         "src": "/assets/animals/porcupine.png",
         "frame_width": 32,
@@ -3684,8 +3684,8 @@
           "move_id": "splash"
         }
       ],
-      "catch_rate": 0.4,
-      "xp_yield": 52,
+      "catch_rate": 0.45,
+      "xp_yield": 70,
       "sprite": {
         "src": "/assets/animals/snake.png",
         "frame_width": 32,
@@ -3794,7 +3794,7 @@
           "move_id": "quick_jab"
         }
       ],
-      "catch_rate": 0.32,
+      "catch_rate": 0.37,
       "xp_yield": 80,
       "sprite_frame": 0,
       "portrait_src": "/assets/creatures/orc/soldier.png",

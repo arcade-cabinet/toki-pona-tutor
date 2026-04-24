@@ -27,8 +27,8 @@
       "move_id": "strike"
     }
   ],
-  "catch_rate": 0.42,
-  "xp_yield": 58,
+  "catch_rate": 0.47,
+  "xp_yield": 70,
   "item_drop": {
     "item_id": "capture_pod",
     "chance": 0.2,

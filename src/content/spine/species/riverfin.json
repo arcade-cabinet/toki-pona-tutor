@@ -27,7 +27,7 @@
       "move_id": "tidal_strike"
     }
   ],
-  "catch_rate": 0.22,
+  "catch_rate": 0.25,
   "xp_yield": 112,
   "sprite": {
     "src": "/assets/animals/octopus.png",

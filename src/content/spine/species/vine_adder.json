@@ -27,8 +27,8 @@
       "move_id": "splash"
     }
   ],
-  "catch_rate": 0.4,
-  "xp_yield": 52,
+  "catch_rate": 0.45,
+  "xp_yield": 70,
   "sprite": {
     "src": "/assets/animals/snake.png",
     "frame_width": 32,

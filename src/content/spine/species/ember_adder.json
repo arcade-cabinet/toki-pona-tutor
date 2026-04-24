@@ -27,8 +27,8 @@
       "move_id": "flame_strike"
     }
   ],
-  "catch_rate": 0.26,
-  "xp_yield": 95,
+  "catch_rate": 0.29,
+  "xp_yield": 110,
   "sprite": {
     "src": "/assets/animals/cobra.png",
     "frame_width": 32,

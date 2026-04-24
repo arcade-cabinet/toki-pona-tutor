@@ -27,8 +27,8 @@
       "move_id": "stone_slam"
     }
   ],
-  "catch_rate": 0.42,
-  "xp_yield": 48,
+  "catch_rate": 0.47,
+  "xp_yield": 70,
   "sprite": {
     "src": "/assets/animals/hermit-crab.png",
     "frame_width": 32,

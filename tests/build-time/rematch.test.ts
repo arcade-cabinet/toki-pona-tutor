@@ -54,20 +54,20 @@ describe('rematchStatus', () => {
 
 describe('scaledRematchXp — 50% per clear, cap 4×', () => {
     it('first rematch (timesCleared=0) → base', () => {
-        expect(scaledRematchXp('badge_sewi', 0)).toBe(120);
+        expect(scaledRematchXp('badge_sewi', 0)).toBe(600);
     });
 
     it('second rematch (timesCleared=1) → 1.5×', () => {
-        expect(scaledRematchXp('badge_sewi', 1)).toBe(180);
+        expect(scaledRematchXp('badge_sewi', 1)).toBe(900);
     });
 
     it('fourth rematch → 2.5×', () => {
-        expect(scaledRematchXp('badge_sewi', 3)).toBe(300);
+        expect(scaledRematchXp('badge_sewi', 3)).toBe(1500);
     });
 
     it('caps at 4× after 6+ clears', () => {
-        expect(scaledRematchXp('badge_sewi', 6)).toBe(480);
-        expect(scaledRematchXp('badge_sewi', 100)).toBe(480);
+        expect(scaledRematchXp('badge_sewi', 6)).toBe(2400);
+        expect(scaledRematchXp('badge_sewi', 100)).toBe(2400);
     });
 
     it('unknown badge defaults to 100 base', () => {
@@ -75,7 +75,7 @@ describe('scaledRematchXp — 50% per clear, cap 4×', () => {
     });
 
     it('negative timesCleared clamps to 0', () => {
-        expect(scaledRematchXp('badge_sewi', -5)).toBe(120);
+        expect(scaledRematchXp('badge_sewi', -5)).toBe(600);
     });
 });
 
