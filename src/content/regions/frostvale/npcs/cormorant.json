@@ -1,0 +1,45 @@
+{
+  "id": "cormorant",
+  "display_name": "Cormorant",
+  "home_region": "frostvale",
+  "role": "botanist_quest_giver",
+  "appearances": [
+    { "region": "frostvale", "spawn": [18, 3], "default": true }
+  ],
+  "dialog_states": [
+    {
+      "id": "cormorant_tuneup",
+      "when": { "flag_absent": "snowbird_sighting_complete" },
+      "priority": 0,
+      "beats": [
+        {
+          "text": { "en": "Big catches live near deep water. Keep your team ready." },
+          "mood": "excited",
+          "glyph": "water-edge"
+        },
+        {
+          "text": { "en": "If you catch a Snowbird, bring it by the garden. I'm updating the cold-season roster." },
+          "mood": "thinking",
+          "glyph": "frost-type"
+        }
+      ]
+    },
+    {
+      "id": "cormorant_post_sighting",
+      "when": { "flag_present": "snowbird_sighting_complete" },
+      "priority": 5,
+      "beats": [
+        {
+          "text": { "en": "Snowbird confirmed. Thank you, Rivers." },
+          "mood": "happy",
+          "glyph": "companion-bond"
+        },
+        {
+          "text": { "en": "I wrote you a note for the Dreadpeak warden. It skips you past the first encounter wall." },
+          "mood": "thinking",
+          "glyph": "safe-house"
+        }
+      ]
+    }
+  ]
+}

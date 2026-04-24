@@ -1,0 +1,15 @@
+{
+  "id": "frostvale",
+  "display_name": "Frostvale",
+  "biome": "ice",
+  "music": "bgm_snow",
+  "size": { "w": 22, "h": 16 },
+  "neighbors": { "south": "lakehaven", "north": "dreadpeak_cavern" },
+  "summary": "Snow-covered village with timber houses on stilts. Frost's trial-shrine is heated from inside. The word 'dragon' is spoken aloud for the first time in the game here.",
+  "flavor_beats": [
+    "Smoke rises from every chimney.",
+    "A fenced herb garden on the north wall still grows in the snow.",
+    "When Rivers walks into Frost's shrine, steam blooms off their clothes.",
+    "Frost keeps a pot of soup on a stone brazier and offers a bowl before the fight."
+  ]
+}

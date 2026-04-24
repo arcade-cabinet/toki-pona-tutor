@@ -4211,28 +4211,6 @@
       "triggers": {}
     },
     {
-      "id": "brindle_cold",
-      "npc_id": "brindle",
-      "priority": 0,
-      "beats": [
-        {
-          "text": {
-            "en": "Cold hands fumble capture pods."
-          },
-          "mood": "happy",
-          "glyph": "companion-bond"
-        },
-        {
-          "text": {
-            "en": "Warm them before you throw."
-          },
-          "mood": "excited",
-          "glyph": "greenwood-watch"
-        }
-      ],
-      "triggers": {}
-    },
-    {
       "id": "cliff_intro",
       "npc_id": "cliff",
       "when_flags": {
@@ -4283,21 +4261,6 @@
       "triggers": {}
     },
     {
-      "id": "cormorant_tuneup",
-      "npc_id": "cormorant",
-      "priority": 0,
-      "beats": [
-        {
-          "text": {
-            "en": "Big catches live near deep water. Keep your team ready."
-          },
-          "mood": "excited",
-          "glyph": "water-edge"
-        }
-      ],
-      "triggers": {}
-    },
-    {
       "id": "ember_torch",
       "npc_id": "ember",
       "priority": 0,
@@ -4337,56 +4300,6 @@
           },
           "mood": "happy",
           "glyph": "companion-bond"
-        }
-      ],
-      "triggers": {}
-    },
-    {
-      "id": "frost_intro",
-      "npc_id": "frost",
-      "when_flags": {
-        "badge_lete": false
-      },
-      "priority": 10,
-      "beats": [
-        {
-          "text": {
-            "en": "Frostvale tests patience first."
-          },
-          "mood": "excited",
-          "glyph": "wild-signs"
-        },
-        {
-          "text": {
-            "en": "Show me your warmest heart."
-          },
-          "mood": "excited",
-          "glyph": "battle-ready"
-        }
-      ],
-      "triggers": {}
-    },
-    {
-      "id": "frost_victory",
-      "npc_id": "frost",
-      "when_flags": {
-        "badge_lete": true
-      },
-      "priority": 5,
-      "beats": [
-        {
-          "text": {
-            "en": "You kept moving through the cold."
-          },
-          "mood": "sad",
-          "glyph": "companion-bond"
-        },
-        {
-          "text": {
-            "en": "Carry this badge onward."
-          },
-          "mood": "thinking",
-          "glyph": "greenwood-watch"
         }
       ],
       "triggers": {}
@@ -4834,6 +4747,341 @@
           },
           "mood": "happy",
           "glyph": "companion-bond"
+        }
+      ],
+      "triggers": {}
+    },
+    {
+      "id": "brindle_cold",
+      "npc_id": "brindle",
+      "priority": 0,
+      "beats": [
+        {
+          "text": {
+            "en": "Cold hands fumble capture pods."
+          },
+          "mood": "happy",
+          "glyph": "companion-bond"
+        },
+        {
+          "text": {
+            "en": "Warm them before you throw. And show me if anyone on the lake sent you — I'll read the braid."
+          },
+          "mood": "excited",
+          "glyph": "cold-hands"
+        }
+      ],
+      "triggers": {},
+      "when_flags": {
+        "cold_hands_complete": false
+      }
+    },
+    {
+      "id": "brindle_post_cold_hands",
+      "npc_id": "brindle",
+      "priority": 5,
+      "beats": [
+        {
+          "text": {
+            "en": "Loren's braid. I lost my brother to this mountain the winter it was made."
+          },
+          "mood": "sad",
+          "glyph": "cold-hands"
+        },
+        {
+          "text": {
+            "en": "Free spring tonic whenever you pass. Don't argue with me, Rivers."
+          },
+          "mood": "happy"
+        }
+      ],
+      "triggers": {},
+      "when_flags": {
+        "cold_hands_complete": true,
+        "badge_lete": false
+      }
+    },
+    {
+      "id": "cormorant_tuneup",
+      "npc_id": "cormorant",
+      "priority": 0,
+      "beats": [
+        {
+          "text": {
+            "en": "Big catches live near deep water. Keep your team ready."
+          },
+          "mood": "excited",
+          "glyph": "water-edge"
+        },
+        {
+          "text": {
+            "en": "If you catch a Snowbird, bring it by the garden. I'm updating the cold-season roster."
+          },
+          "mood": "thinking",
+          "glyph": "frost-type"
+        }
+      ],
+      "triggers": {},
+      "when_flags": {
+        "snowbird_sighting_complete": false
+      }
+    },
+    {
+      "id": "cormorant_post_sighting",
+      "npc_id": "cormorant",
+      "priority": 5,
+      "beats": [
+        {
+          "text": {
+            "en": "Snowbird confirmed. Thank you, Rivers."
+          },
+          "mood": "happy",
+          "glyph": "companion-bond"
+        },
+        {
+          "text": {
+            "en": "I wrote you a note for the Dreadpeak warden. It skips you past the first encounter wall."
+          },
+          "mood": "thinking",
+          "glyph": "safe-house"
+        }
+      ],
+      "triggers": {},
+      "when_flags": {
+        "snowbird_sighting_complete": true
+      }
+    },
+    {
+      "id": "ember_frostvale",
+      "npc_id": "ember",
+      "priority": 0,
+      "beats": [
+        {
+          "text": {
+            "en": "I'm through Frostvale on my way home. Dreadpeak's colder than this."
+          },
+          "mood": "thinking",
+          "glyph": "cave-shadow"
+        },
+        {
+          "text": {
+            "en": "Bring a light. A real one, with a named flame."
+          },
+          "mood": "sad",
+          "glyph": "last-light"
+        }
+      ],
+      "triggers": {},
+      "when_flags": {
+        "badge_lete": false
+      }
+    },
+    {
+      "id": "ember_dreadpeak_intro",
+      "npc_id": "ember",
+      "priority": 5,
+      "beats": [
+        {
+          "text": {
+            "en": "Told you it was colder. Give me your lantern — I'll relight it free."
+          },
+          "mood": "happy",
+          "glyph": "last-light"
+        },
+        {
+          "text": {
+            "en": "Walk the torch path first. Then come find me if you want to map the shadows."
+          },
+          "mood": "thinking",
+          "glyph": "cave-shadow"
+        }
+      ],
+      "triggers": {},
+      "when_flags": {
+        "badge_lete": true,
+        "badge_suli": false
+      }
+    },
+    {
+      "id": "frost_intro",
+      "npc_id": "frost",
+      "priority": 10,
+      "beats": [
+        {
+          "text": {
+            "en": "Frostvale tests patience first."
+          },
+          "mood": "excited",
+          "glyph": "wild-signs"
+        },
+        {
+          "text": {
+            "en": "Have some soup. Read Marin's letter while it warms."
+          },
+          "mood": "thinking"
+        },
+        {
+          "text": {
+            "en": "That's a dragon path she's describing. They don't walk these in peace."
+          },
+          "mood": "sad",
+          "glyph": "wild-signs"
+        },
+        {
+          "text": {
+            "en": "Show me your warmest heart."
+          },
+          "mood": "excited",
+          "glyph": "battle-ready"
+        }
+      ],
+      "triggers": {},
+      "when_flags": {
+        "badge_lete": false
+      }
+    },
+    {
+      "id": "frost_victory",
+      "npc_id": "frost",
+      "priority": 5,
+      "beats": [
+        {
+          "text": {
+            "en": "You kept moving through the cold."
+          },
+          "mood": "sad",
+          "glyph": "companion-bond"
+        },
+        {
+          "text": {
+            "en": "Carry this badge onward. And this lantern — Last Light. Dreadpeak eats flames that aren't named."
+          },
+          "mood": "thinking",
+          "glyph": "last-light"
+        }
+      ],
+      "triggers": {},
+      "when_flags": {
+        "badge_lete": true,
+        "badge_suli": false
+      }
+    },
+    {
+      "id": "frost_post_fourth_gym",
+      "npc_id": "frost",
+      "priority": 5,
+      "beats": [
+        {
+          "text": {
+            "en": "Cliff was the last of the four. Now there's only the Rivergate left."
+          },
+          "mood": "thinking",
+          "glyph": "wild-signs"
+        },
+        {
+          "text": {
+            "en": "Walk it with Last Light high. Don't put it out until you're home."
+          },
+          "mood": "sad",
+          "glyph": "last-light"
+        }
+      ],
+      "triggers": {},
+      "when_flags": {
+        "badge_suli": true,
+        "game_cleared": false
+      }
+    },
+    {
+      "id": "frost_post_clear",
+      "npc_id": "frost",
+      "priority": 3,
+      "beats": [
+        {
+          "text": {
+            "en": "The soup's still warm, Rivers. Sit. Tell me what the dragon said."
+          },
+          "mood": "happy",
+          "glyph": "companion-bond"
+        }
+      ],
+      "triggers": {},
+      "when_flags": {
+        "game_cleared": true
+      }
+    },
+    {
+      "id": "frost_uncle_intro",
+      "npc_id": "frost_uncle",
+      "priority": 0,
+      "beats": [
+        {
+          "text": {
+            "en": "Sit with me a minute. The bench is warmer than it looks."
+          },
+          "mood": "happy"
+        },
+        {
+          "text": {
+            "en": "I don't tell the four-warden story to people on their way up the mountain. Come back after."
+          },
+          "mood": "thinking",
+          "glyph": "shrine-stones"
+        }
+      ],
+      "triggers": {},
+      "when_flags": {
+        "badge_lete": false
+      }
+    },
+    {
+      "id": "frost_uncle_warden_story",
+      "npc_id": "frost_uncle",
+      "priority": 5,
+      "beats": [
+        {
+          "text": {
+            "en": "Four wardens were chosen when the chain was forged. Tarrin at the stone. Marin at the water. Me for a season, then Frost."
+          },
+          "mood": "thinking",
+          "glyph": "shrine-stones"
+        },
+        {
+          "text": {
+            "en": "Cliff at the cavern is the fourth. And there was a fifth, before my time. We don't say that name out loud."
+          },
+          "mood": "sad",
+          "glyph": "wild-signs"
+        },
+        {
+          "text": {
+            "en": "Go to Highridge when you've time. The shrine stones remember four names. Look for the one that wasn't there yesterday."
+          },
+          "mood": "happy"
+        }
+      ],
+      "triggers": {},
+      "when_flags": {
+        "badge_lete": true
+      }
+    },
+    {
+      "id": "snow_kid_intro",
+      "npc_id": "snow_kid",
+      "priority": 0,
+      "beats": [
+        {
+          "text": {
+            "en": "Dad said the old dragon story is real this year."
+          },
+          "mood": "thinking",
+          "glyph": "wild-signs"
+        },
+        {
+          "text": {
+            "en": "He said it without a joke after. That's how I knew."
+          },
+          "mood": "sad"
         }
       ],
       "triggers": {}
@@ -6720,6 +6968,27 @@
   ],
   "regions": [
     {
+      "id": "frostvale",
+      "display_name": "Frostvale",
+      "biome": "ice",
+      "music": "bgm_snow",
+      "size": {
+        "w": 22,
+        "h": 16
+      },
+      "neighbors": {
+        "south": "lakehaven",
+        "north": "dreadpeak_cavern"
+      },
+      "summary": "Snow-covered village with timber houses on stilts. Frost's trial-shrine is heated from inside. The word 'dragon' is spoken aloud for the first time in the game here.",
+      "flavor_beats": [
+        "Smoke rises from every chimney.",
+        "A fenced herb garden on the north wall still grows in the snow.",
+        "When Rivers walks into Frost's shrine, steam blooms off their clothes.",
+        "Frost keeps a pot of soup on a stone brazier and offers a bowl before the fight."
+      ]
+    },
+    {
       "id": "greenwood_road",
       "display_name": "Greenwood Road",
       "biome": "forest",
@@ -6801,6 +7070,39 @@
     }
   ],
   "signs": [
+    {
+      "region": "frostvale",
+      "at": [
+        2,
+        12
+      ],
+      "title": "FROSTVALE",
+      "body": {
+        "en": "Warmth kept here since the cold came down."
+      }
+    },
+    {
+      "region": "frostvale",
+      "at": [
+        18,
+        3
+      ],
+      "title": "COLD GARDEN",
+      "body": {
+        "en": "Some plants only grow in winter."
+      }
+    },
+    {
+      "region": "frostvale",
+      "at": [
+        11,
+        5
+      ],
+      "title": "TRIAL OF FROST",
+      "body": {
+        "en": "Warm yourself before the bell rings."
+      }
+    },
     {
       "region": "greenwood_road",
       "at": [

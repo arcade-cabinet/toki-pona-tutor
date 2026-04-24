@@ -1,0 +1,27 @@
+{
+  "id": "snow_kid",
+  "display_name": "Snow-kid",
+  "home_region": "frostvale",
+  "role": "ambient_villager",
+  "appearances": [
+    { "region": "frostvale", "spawn": [17, 5], "default": true }
+  ],
+  "dialog_states": [
+    {
+      "id": "snow_kid_intro",
+      "when": {},
+      "priority": 0,
+      "beats": [
+        {
+          "text": { "en": "Dad said the old dragon story is real this year." },
+          "mood": "thinking",
+          "glyph": "wild-signs"
+        },
+        {
+          "text": { "en": "He said it without a joke after. That's how I knew." },
+          "mood": "sad"
+        }
+      ]
+    }
+  ]
+}
