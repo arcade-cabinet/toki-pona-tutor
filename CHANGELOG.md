@@ -10,6 +10,13 @@ All notable changes to poki soweli. Format based on [Keep a Changelog](https://k
 
 This branch (`feat/rpgjs-v5-pivot`) descends from commit `0a582e0` — the pre-Godot tip. The Godot era between `1d924fe` (pivot) and `0edfe61` (feat/anchor-to-template) lives on `main` and is not represented here. Release-please releases `v0.1.0`…`v0.1.3` tagged on `main` cover the Godot build and do not apply to this branch.
 
+## [0.39.0](https://github.com/arcade-cabinet/poki-soweli/compare/v0.38.0...v0.39.0) (2026-04-24)
+
+
+### Added
+
+* **content:** mid-states for Lark + Kestrel — shorter intro windows (T85) ([#242](https://github.com/arcade-cabinet/poki-soweli/issues/242)) ([3e681a8](https://github.com/arcade-cabinet/poki-soweli/commit/3e681a8eb257dc113c354baa0eb772405708556b))
+
 ## [0.38.0](https://github.com/arcade-cabinet/poki-soweli/compare/v0.37.0...v0.38.0) (2026-04-24)
 
 
