@@ -10,6 +10,13 @@ All notable changes to poki soweli. Format based on [Keep a Changelog](https://k
 
 This branch (`feat/rpgjs-v5-pivot`) descends from commit `0a582e0` — the pre-Godot tip. The Godot era between `1d924fe` (pivot) and `0edfe61` (feat/anchor-to-template) lives on `main` and is not represented here. Release-please releases `v0.1.0`…`v0.1.3` tagged on `main` cover the Godot build and do not apply to this branch.
 
+## [0.35.0](https://github.com/arcade-cabinet/poki-soweli/compare/v0.34.3...v0.35.0) (2026-04-24)
+
+
+### Added
+
+* **runtime:** pass NPC display_name as dialog speaker (T81) ([#234](https://github.com/arcade-cabinet/poki-soweli/issues/234)) ([743d458](https://github.com/arcade-cabinet/poki-soweli/commit/743d45818a7e016da0ea5967daf1142da6125ce6))
+
 ## [0.34.3](https://github.com/arcade-cabinet/poki-soweli/compare/v0.34.2...v0.34.3) (2026-04-24)
 
 
