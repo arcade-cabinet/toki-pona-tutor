@@ -128,7 +128,7 @@
      <property name="graphic" value="npc_villager_masc_serek"/>
    </properties>
   </object>
-  <object id="9" name="npc-torch_bearer" type="NPC" x="112" y="128" width="0" height="0" visible="1" rotation="0">
+  <object id="9" name="npc-torch_bearer" type="NPC" x="144" y="128" width="0" height="0" visible="1" rotation="0">
    <properties>
      <property name="id" value="torch_bearer"/>
      <property name="dialog_id" value="torch_bearer_intro"/>
