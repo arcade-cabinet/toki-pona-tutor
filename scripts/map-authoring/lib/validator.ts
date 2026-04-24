@@ -223,7 +223,11 @@ function checkGameplaySurfacePlacement(
     const obstructions = collectObstructionFootprints(spec, tilesets);
     for (const object of spec.layers.Objects ?? []) {
         if (!("at" in object)) continue;
-        if (!["SpawnPoint", "NPC", "Sign"].includes(object.type)) continue;
+        // Signs are environmental markers, not actors: they legitimately
+        // live on walls (carved stones), posts, rock footprints, and
+        // along water edges. Only SpawnPoint and NPC need walkable-ground
+        // + no-encounter-paint + no-obstruction rules.
+        if (!["SpawnPoint", "NPC"].includes(object.type)) continue;
 
         const [x, y] = object.at;
         if (!inBounds(x, y, spec)) continue;

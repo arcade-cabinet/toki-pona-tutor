@@ -11,7 +11,7 @@
   "infinite": false,
   "compressionlevel": -1,
   "nextlayerid": 5,
-  "nextobjectid": 14,
+  "nextobjectid": 19,
   "properties": [
     {
       "name": "biome",
@@ -1140,6 +1140,121 @@
               "value": "green_dragon_intro"
             }
           ]
+        },
+        {
+          "id": 12,
+          "name": "sign-4-12",
+          "type": "Sign",
+          "x": 64,
+          "y": 192,
+          "width": 0,
+          "height": 0,
+          "visible": true,
+          "rotation": 0,
+          "properties": [
+            {
+              "name": "text",
+              "type": "string",
+              "value": "Beyond here is the source."
+            },
+            {
+              "name": "title",
+              "type": "string",
+              "value": "RIVERGATE APPROACH"
+            }
+          ]
+        },
+        {
+          "id": 13,
+          "name": "sign-14-8",
+          "type": "Sign",
+          "x": 224,
+          "y": 128,
+          "width": 0,
+          "height": 0,
+          "visible": true,
+          "rotation": 0,
+          "properties": [
+            {
+              "name": "text",
+              "type": "string",
+              "value": "The current above the lock is stronger than it looks."
+            },
+            {
+              "name": "title",
+              "type": "string",
+              "value": "DEEP WATER — USE THE SANDBAR"
+            }
+          ]
+        },
+        {
+          "id": 14,
+          "name": "sign-14-2",
+          "type": "Sign",
+          "x": 224,
+          "y": 32,
+          "width": 0,
+          "height": 0,
+          "visible": true,
+          "rotation": 0,
+          "properties": [
+            {
+              "name": "text",
+              "type": "string",
+              "value": "Four stones make a door. The door waits."
+            },
+            {
+              "name": "title",
+              "type": "string",
+              "value": "THE RIVERGATE"
+            }
+          ]
+        },
+        {
+          "id": 15,
+          "name": "sign-2-11",
+          "type": "Sign",
+          "x": 32,
+          "y": 176,
+          "width": 0,
+          "height": 0,
+          "visible": true,
+          "rotation": 0,
+          "properties": [
+            {
+              "name": "text",
+              "type": "string",
+              "value": "Hot food. Free soup if the dragon watched you pass."
+            },
+            {
+              "name": "title",
+              "type": "string",
+              "value": "GRILL'S LODGE"
+            }
+          ]
+        },
+        {
+          "id": 16,
+          "name": "sign-24-6",
+          "type": "Sign",
+          "x": 384,
+          "y": 96,
+          "width": 0,
+          "height": 0,
+          "visible": true,
+          "rotation": 0,
+          "properties": [
+            {
+              "name": "text",
+              "type": "string",
+              "value": "Iron teeth set into the stone. Whatever was here snapped free."
+            },
+            {
+              "name": "title",
+              "type": "string",
+              "value": "OLD CHAIN MOUNT"
+            }
+          ]
         }
       ]
     },
@@ -1153,7 +1268,7 @@
       "opacity": 1,
       "objects": [
         {
-          "id": 12,
+          "id": 17,
           "name": "encounter_0",
           "type": "Encounter",
           "x": 64,
@@ -1181,7 +1296,7 @@
           ]
         },
         {
-          "id": 13,
+          "id": 18,
           "name": "encounter_1",
           "type": "Encounter",
           "x": 224,

@@ -13,6 +13,11 @@
  * Requires-flag appearances attach a `required_flag` custom property so the
  * runtime can gate visibility (the existing Warp handler already supports
  * this shape; NPC handling will be extended separately).
+ *
+ * T69: this merger also emits Sign objects from src/content/regions/<id>/signs.json
+ * so signs surface as editable Tiled objects next to the NPC markers. Runtime
+ * still reads signs from the compiled world.json signs[] array — the Tiled
+ * emission is for authoring visibility only (Tiled editor, preview PNG).
  */
 import { readdirSync, readFileSync, existsSync } from "node:fs";
 import { join, resolve, dirname } from "node:path";
@@ -53,6 +58,23 @@ function loadDossiersForRegion(mapId: string): NpcDossier[] {
         }
     }
     return out;
+}
+
+type SignDoc = {
+    region: string;
+    signs: Array<{
+        at: [number, number];
+        title: string;
+        body: { en: string };
+    }>;
+};
+
+function loadSignsForRegion(mapId: string): SignDoc["signs"] {
+    const signsPath = join(worktreeRoot, "src", "content", "regions", mapId, "signs.json");
+    if (!existsSync(signsPath)) return [];
+    const doc = JSON.parse(readFileSync(signsPath, "utf8")) as SignDoc;
+    if (doc.region !== mapId) return [];
+    return doc.signs ?? [];
 }
 
 /**
@@ -96,6 +118,55 @@ export function mergeDossierNpcsIntoSpec(spec: MapSpec): MapSpec {
             name: `npc-${dossier.id}`,
             at: appearance.spawn,
             props,
+        } as ObjectMarker);
+    }
+
+    if (injected.length === 0) return spec;
+
+    return {
+        ...spec,
+        layers: {
+            ...spec.layers,
+            Objects: [...existingObjects, ...injected],
+        },
+    };
+}
+
+/**
+ * Merge dossier signs into a MapSpec's Objects layer. Each sign in the
+ * region's signs.json becomes a Sign marker at its tile coordinates. Name
+ * is `sign-<x>-<y>` so it's stable and collision-resistant with any
+ * hand-authored Sign markers that use `sign_<x>_<y>` (the runtime id from
+ * server.ts).
+ *
+ * Runtime still reads signs directly from world.signs[] — this emission
+ * is for Tiled authoring visibility only (so signs appear alongside NPCs
+ * and warps when editing a map).
+ */
+export function mergeDossierSignsIntoSpec(spec: MapSpec): MapSpec {
+    const mapId = spec.id;
+    const signs = loadSignsForRegion(mapId);
+    if (signs.length === 0) return spec;
+
+    const existingObjects = spec.layers.Objects ?? [];
+    const existingSignCoords = new Set(
+        existingObjects
+            .filter((o): o is Extract<ObjectMarker, { type: "Sign" }> => o.type === "Sign")
+            .map((o) => `${o.at[0]},${o.at[1]}`),
+    );
+
+    const injected: ObjectMarker[] = [];
+    for (const sign of signs) {
+        const key = `${sign.at[0]},${sign.at[1]}`;
+        if (existingSignCoords.has(key)) continue;
+        injected.push({
+            type: "Sign",
+            name: `sign-${sign.at[0]}-${sign.at[1]}`,
+            at: sign.at,
+            props: {
+                text: sign.body.en,
+                title: sign.title,
+            },
         } as ObjectMarker);
     }
 

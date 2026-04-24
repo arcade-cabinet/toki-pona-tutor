@@ -10,7 +10,7 @@ import { tmpdir } from "node:os";
 import { PNG } from "pngjs";
 import { emitTmj, emitTmx, loadTilesetsForSpec, renderTmj, validateSpec } from "../lib/index";
 import { buildDerivedTilesets } from "../lib/derived-tilesets";
-import { mergeDossierNpcsIntoSpec } from "../lib/dossier-merge";
+import { mergeDossierNpcsIntoSpec, mergeDossierSignsIntoSpec } from "../lib/dossier-merge";
 import type { MapSpec, ValidationIssue } from "../lib/index";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
@@ -83,8 +83,9 @@ async function processOne(id: string, options: { dryRun: boolean }): Promise<voi
             `spec.id "${specRaw.id}" does not match requested id "${id}"; they must match`,
         );
     }
-    // Merge dossier NPC appearances. Hand-authored wins on id collision.
-    const spec = mergeDossierNpcsIntoSpec(specRaw);
+    // Merge dossier NPC appearances + signs. Hand-authored wins on id
+    // collision; signs merge at matching tile coordinates.
+    const spec = mergeDossierSignsIntoSpec(mergeDossierNpcsIntoSpec(specRaw));
     const tilesets = await loadTilesetsForSpec(spec, worktreeRoot);
 
     // Validate

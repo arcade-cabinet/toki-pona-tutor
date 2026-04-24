@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-down"
      width="16" height="20" tilewidth="16" tileheight="16" infinite="0"
-     nextlayerid="6" nextobjectid="13">
+     nextlayerid="6" nextobjectid="18">
  <properties>
    <property name="biome" value="cave"/>
    <property name="music_track" value="bgm_mountain"/>
@@ -142,16 +142,46 @@
      <property name="graphic" value="npc_villager_masc_grym"/>
    </properties>
   </object>
+  <object id="11" name="sign-8-18" type="Sign" x="128" y="288" width="0" height="0" visible="1" rotation="0">
+   <properties>
+     <property name="text" value="Mind the torches. Mind the stones."/>
+     <property name="title" value="DREADPEAK CAVERN"/>
+   </properties>
+  </object>
+  <object id="12" name="sign-8-12" type="Sign" x="128" y="192" width="0" height="0" visible="1" rotation="0">
+   <properties>
+     <property name="text" value="The loop is for the tired. The chamber is for the ready."/>
+     <property name="title" value="NORTH PATH — FINAL CHAMBER / SOUTH PATH — LOOPS BACK"/>
+   </properties>
+  </object>
+  <object id="13" name="sign-10-8" type="Sign" x="160" y="128" width="0" height="0" visible="1" rotation="0">
+   <properties>
+     <property name="text" value="One of four. The shrine is twelve paces off, somewhere under the sky."/>
+     <property name="title" value="THE FOURTH STONE"/>
+   </properties>
+  </object>
+  <object id="14" name="sign-6-14" type="Sign" x="96" y="224" width="0" height="0" visible="1" rotation="0">
+   <properties>
+     <property name="text" value="A dark brazier means something walked past. Note the time."/>
+     <property name="title" value="BRAZIER — DON&apos;T LET IT GO OUT"/>
+   </properties>
+  </object>
+  <object id="15" name="sign-4-6" type="Sign" x="64" y="96" width="0" height="0" visible="1" rotation="0">
+   <properties>
+     <property name="text" value="Listen. The cavern floor is directly above the source."/>
+     <property name="title" value="THE RIVER BELOW"/>
+   </properties>
+  </object>
  </objectgroup>
  <objectgroup id="5" name="Encounters" visible="1" opacity="1">
-  <object id="11" name="encounter_0" type="Encounter" x="48" y="240" width="64" height="48" visible="1" rotation="0">
+  <object id="16" name="encounter_0" type="Encounter" x="48" y="240" width="64" height="48" visible="1" rotation="0">
    <properties>
      <property name="species" value="{&quot;mountain_bear&quot;:22,&quot;warback&quot;:18,&quot;fangrunner&quot;:12,&quot;glacier_talon&quot;:18,&quot;coalbeak&quot;:12,&quot;raven_shade&quot;:12,&quot;snowhare&quot;:6}"/>
      <property name="level_min" type="int" value="10"/>
      <property name="level_max" type="int" value="13"/>
    </properties>
   </object>
-  <object id="12" name="encounter_1" type="Encounter" x="160" y="192" width="64" height="48" visible="1" rotation="0">
+  <object id="17" name="encounter_1" type="Encounter" x="160" y="192" width="64" height="48" visible="1" rotation="0">
    <properties>
      <property name="species" value="{&quot;mountain_bear&quot;:18,&quot;warback&quot;:18,&quot;stoneclaw&quot;:6,&quot;glacier_talon&quot;:22,&quot;coalbeak&quot;:14,&quot;foxhound&quot;:14,&quot;boulderhorn&quot;:8}"/>
      <property name="level_min" type="int" value="12"/>
