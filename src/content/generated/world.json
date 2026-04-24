@@ -4867,56 +4867,6 @@
       "triggers": {}
     },
     {
-      "id": "tarrin_intro",
-      "npc_id": "tarrin",
-      "when_flags": {
-        "badge_sewi": false
-      },
-      "priority": 10,
-      "beats": [
-        {
-          "text": {
-            "en": "The pass belongs to teams that can take a hit."
-          },
-          "mood": "excited",
-          "glyph": "battle-ready"
-        },
-        {
-          "text": {
-            "en": "Stand firm."
-          },
-          "mood": "excited",
-          "glyph": "wild-signs"
-        }
-      ],
-      "triggers": {}
-    },
-    {
-      "id": "tarrin_victory",
-      "npc_id": "tarrin",
-      "when_flags": {
-        "badge_sewi": true
-      },
-      "priority": 5,
-      "beats": [
-        {
-          "text": {
-            "en": "You took the hit and kept going."
-          },
-          "mood": "sad",
-          "glyph": "companion-bond"
-        },
-        {
-          "text": {
-            "en": "Highridge Pass is open."
-          },
-          "mood": "thinking",
-          "glyph": "companion-bond"
-        }
-      ],
-      "triggers": {}
-    },
-    {
       "id": "wild_encounter_appear",
       "npc_id": null,
       "priority": 10,
@@ -5216,6 +5166,301 @@
         }
       ],
       "triggers": {}
+    },
+    {
+      "id": "ansel_greenwood",
+      "npc_id": "ansel",
+      "priority": 0,
+      "beats": [
+        {
+          "text": {
+            "en": "I'm heading south. Tarrin teaches. They don't hurt."
+          },
+          "mood": "happy",
+          "glyph": "battle-ready"
+        }
+      ],
+      "triggers": {},
+      "when_flags": {
+        "rook_defeated": false
+      }
+    },
+    {
+      "id": "ansel_highridge",
+      "npc_id": "ansel",
+      "priority": 5,
+      "beats": [
+        {
+          "text": {
+            "en": "Back up the ridge. I hear you're building a good team."
+          },
+          "mood": "happy",
+          "glyph": "companion-bond"
+        },
+        {
+          "text": {
+            "en": "Tarrin will read your companions before they read you. Be honest with them."
+          },
+          "mood": "thinking"
+        }
+      ],
+      "triggers": {},
+      "when_flags": {
+        "rook_defeated": true,
+        "badge_sewi": false
+      }
+    },
+    {
+      "id": "breeze_intro",
+      "npc_id": "breeze",
+      "priority": 0,
+      "beats": [
+        {
+          "text": {
+            "en": "Third switchback. The wind gets loud here."
+          },
+          "mood": "thinking",
+          "glyph": "wild-signs"
+        },
+        {
+          "text": {
+            "en": "Keep your hood tight or lose it."
+          },
+          "mood": "happy"
+        }
+      ],
+      "triggers": {}
+    },
+    {
+      "id": "hiker_intro",
+      "npc_id": "hiker",
+      "priority": 5,
+      "beats": [
+        {
+          "text": {
+            "en": "My leg's done for today. I can't make the walk down to Lakehaven."
+          },
+          "mood": "sad",
+          "glyph": "torch-path"
+        },
+        {
+          "text": {
+            "en": "Take this marker to Loren on the pier. They'll send help up."
+          },
+          "mood": "thinking",
+          "glyph": "torch-path"
+        }
+      ],
+      "triggers": {},
+      "when_flags": {
+        "lost_hiker_delivered": false
+      }
+    },
+    {
+      "id": "hiker_post_delivery",
+      "npc_id": "hiker",
+      "priority": 5,
+      "beats": [
+        {
+          "text": {
+            "en": "Loren's people carried me half the way home last night. You bought me a life, Rivers."
+          },
+          "mood": "happy",
+          "glyph": "companion-bond"
+        }
+      ],
+      "triggers": {},
+      "when_flags": {
+        "lost_hiker_delivered": true
+      }
+    },
+    {
+      "id": "shrine_kid_intro",
+      "npc_id": "shrine_kid",
+      "priority": 0,
+      "beats": [
+        {
+          "text": {
+            "en": "I run messages between the huts. I'm Tarrin's apprentice."
+          },
+          "mood": "happy",
+          "glyph": "shrine-stones"
+        },
+        {
+          "text": {
+            "en": "The middle stone is cracked. We don't know what cracked it. Tarrin doesn't either."
+          },
+          "mood": "thinking",
+          "glyph": "wild-signs"
+        }
+      ],
+      "triggers": {},
+      "when_flags": {
+        "badge_sewi": false
+      }
+    },
+    {
+      "id": "shrine_kid_post_fight",
+      "npc_id": "shrine_kid",
+      "priority": 5,
+      "beats": [
+        {
+          "text": {
+            "en": "Tarrin said your team fought clean. That's a high compliment from them."
+          },
+          "mood": "happy",
+          "glyph": "companion-bond"
+        }
+      ],
+      "triggers": {},
+      "when_flags": {
+        "badge_sewi": true
+      }
+    },
+    {
+      "id": "stoneminder_intro",
+      "npc_id": "stoneminder",
+      "priority": 0,
+      "beats": [
+        {
+          "text": {
+            "en": "I carve names into the stones. For a small fee, mind."
+          },
+          "mood": "thinking",
+          "glyph": "shrine-stones"
+        },
+        {
+          "text": {
+            "en": "Earn one proof and I'll carve yours for nothing."
+          },
+          "mood": "happy",
+          "glyph": "shrine-stones"
+        }
+      ],
+      "triggers": {},
+      "when_flags": {
+        "badge_sewi": false
+      }
+    },
+    {
+      "id": "stoneminder_post_fight",
+      "npc_id": "stoneminder",
+      "priority": 5,
+      "beats": [
+        {
+          "text": {
+            "en": "Hold still, Rivers. The chisel knows your name already."
+          },
+          "mood": "happy",
+          "glyph": "shrine-stones"
+        },
+        {
+          "text": {
+            "en": "Four wardens, four stones. Someone told me there were five once."
+          },
+          "mood": "thinking",
+          "glyph": "wild-signs"
+        }
+      ],
+      "triggers": {},
+      "when_flags": {
+        "badge_sewi": true
+      }
+    },
+    {
+      "id": "tarrin_intro",
+      "npc_id": "tarrin",
+      "priority": 10,
+      "beats": [
+        {
+          "text": {
+            "en": "The pass belongs to teams that can take a hit."
+          },
+          "mood": "excited",
+          "glyph": "battle-ready"
+        },
+        {
+          "text": {
+            "en": "Stand firm."
+          },
+          "mood": "excited",
+          "glyph": "wild-signs"
+        }
+      ],
+      "triggers": {},
+      "when_flags": {
+        "badge_sewi": false
+      }
+    },
+    {
+      "id": "tarrin_victory",
+      "npc_id": "tarrin",
+      "priority": 5,
+      "beats": [
+        {
+          "text": {
+            "en": "You took the hit and kept going."
+          },
+          "mood": "sad",
+          "glyph": "companion-bond"
+        },
+        {
+          "text": {
+            "en": "Highridge Pass is open."
+          },
+          "mood": "thinking",
+          "glyph": "companion-bond"
+        }
+      ],
+      "triggers": {},
+      "when_flags": {
+        "badge_sewi": true,
+        "badge_telo": false
+      }
+    },
+    {
+      "id": "tarrin_post_second_gym",
+      "npc_id": "tarrin",
+      "priority": 5,
+      "beats": [
+        {
+          "text": {
+            "en": "Marin wrote me about the water. Her hand doesn't shake unless it's real."
+          },
+          "mood": "thinking",
+          "glyph": "shrine-stones"
+        },
+        {
+          "text": {
+            "en": "The cracked stone has been cracked since before I was a warden. I still don't know what did it."
+          },
+          "mood": "sad",
+          "glyph": "wild-signs"
+        }
+      ],
+      "triggers": {},
+      "when_flags": {
+        "badge_telo": true,
+        "badge_lete": false
+      }
+    },
+    {
+      "id": "tarrin_post_clear",
+      "npc_id": "tarrin",
+      "priority": 3,
+      "beats": [
+        {
+          "text": {
+            "en": "The stones have a fifth name on them now, Rivers. Read it when the sun is high."
+          },
+          "mood": "happy",
+          "glyph": "companion-bond"
+        }
+      ],
+      "triggers": {},
+      "when_flags": {
+        "game_cleared": true
+      }
     },
     {
       "id": "selby_starter_intro",
@@ -6275,6 +6520,27 @@
       ]
     },
     {
+      "id": "highridge_pass",
+      "display_name": "Highridge Pass",
+      "biome": "peak",
+      "music": "bgm_mountain",
+      "size": {
+        "w": 32,
+        "h": 14
+      },
+      "neighbors": {
+        "west": "greenwood_road",
+        "north": "lakehaven"
+      },
+      "summary": "Stone switchbacks climbing a grass-over-granite ridge. Tarrin's shrine sits at the top: four stones in a square, a fifth cracked in the middle. First region-master trial.",
+      "flavor_beats": [
+        "The wind gets audible on the third switchback.",
+        "Crows overhead the whole climb.",
+        "Sun washes the shrine stones gold at the top.",
+        "The fifth stone — the middle one — has a claw-scar that doesn't match any catalog creature."
+      ]
+    },
+    {
       "id": "riverside_home",
       "display_name": "Riverside Home",
       "biome": "town",
@@ -6325,6 +6591,39 @@
       "title": "HIGHRIDGE PASS AHEAD",
       "body": {
         "en": "The wind hits harder above the second switchback."
+      }
+    },
+    {
+      "region": "highridge_pass",
+      "at": [
+        4,
+        11
+      ],
+      "title": "HIGHRIDGE PASS",
+      "body": {
+        "en": "Three switchbacks. Take them slow."
+      }
+    },
+    {
+      "region": "highridge_pass",
+      "at": [
+        12,
+        7
+      ],
+      "title": "FEEL THE WIND",
+      "body": {
+        "en": "It's the mountain breathing."
+      }
+    },
+    {
+      "region": "highridge_pass",
+      "at": [
+        20,
+        3
+      ],
+      "title": "THE FIRST STONE",
+      "body": {
+        "en": "One of four, laid by the first wardens."
       }
     },
     {

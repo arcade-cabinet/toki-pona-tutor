@@ -1,0 +1,40 @@
+{
+  "id": "hiker",
+  "display_name": "Hiker",
+  "home_region": "highridge_pass",
+  "role": "lost_hiker_quest_giver",
+  "appearances": [
+    { "region": "highridge_pass", "spawn": [22, 6], "default": true }
+  ],
+  "dialog_states": [
+    {
+      "id": "hiker_intro",
+      "when": { "flag_absent": "lost_hiker_delivered" },
+      "priority": 5,
+      "beats": [
+        {
+          "text": { "en": "My leg's done for today. I can't make the walk down to Lakehaven." },
+          "mood": "sad",
+          "glyph": "torch-path"
+        },
+        {
+          "text": { "en": "Take this marker to Loren on the pier. They'll send help up." },
+          "mood": "thinking",
+          "glyph": "torch-path"
+        }
+      ]
+    },
+    {
+      "id": "hiker_post_delivery",
+      "when": { "flag_present": "lost_hiker_delivered" },
+      "priority": 5,
+      "beats": [
+        {
+          "text": { "en": "Loren's people carried me half the way home last night. You bought me a life, Rivers." },
+          "mood": "happy",
+          "glyph": "companion-bond"
+        }
+      ]
+    }
+  ]
+}

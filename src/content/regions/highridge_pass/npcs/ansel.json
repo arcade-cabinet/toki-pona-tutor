@@ -1,0 +1,40 @@
+{
+  "id": "ansel",
+  "display_name": "Ansel",
+  "home_region": "greenwood_road",
+  "role": "recurring_route_walker",
+  "appearances": [
+    { "region": "greenwood_road", "spawn": [16, 5], "default": true },
+    { "region": "highridge_pass", "spawn": [10, 9] }
+  ],
+  "dialog_states": [
+    {
+      "id": "ansel_greenwood",
+      "when": { "flag_absent": "rook_defeated" },
+      "priority": 0,
+      "beats": [
+        {
+          "text": { "en": "I'm heading south. Tarrin teaches. They don't hurt." },
+          "mood": "happy",
+          "glyph": "battle-ready"
+        }
+      ]
+    },
+    {
+      "id": "ansel_highridge",
+      "when": { "flag_present": "rook_defeated", "flag_absent": "badge_sewi" },
+      "priority": 5,
+      "beats": [
+        {
+          "text": { "en": "Back up the ridge. I hear you're building a good team." },
+          "mood": "happy",
+          "glyph": "companion-bond"
+        },
+        {
+          "text": { "en": "Tarrin will read your companions before they read you. Be honest with them." },
+          "mood": "thinking"
+        }
+      ]
+    }
+  ]
+}

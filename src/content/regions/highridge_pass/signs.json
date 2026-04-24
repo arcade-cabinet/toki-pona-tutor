@@ -1,0 +1,20 @@
+{
+  "region": "highridge_pass",
+  "signs": [
+    {
+      "at": [4, 11],
+      "title": "HIGHRIDGE PASS",
+      "body": { "en": "Three switchbacks. Take them slow." }
+    },
+    {
+      "at": [12, 7],
+      "title": "FEEL THE WIND",
+      "body": { "en": "It's the mountain breathing." }
+    },
+    {
+      "at": [20, 3],
+      "title": "THE FIRST STONE",
+      "body": { "en": "One of four, laid by the first wardens." }
+    }
+  ]
+}
