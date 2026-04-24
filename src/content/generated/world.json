@@ -7425,6 +7425,32 @@
       }
     },
     {
+      "id": "oren_post_first_gym",
+      "npc_id": "oren",
+      "priority": 5,
+      "beats": [
+        {
+          "text": {
+            "en": "I heard you went up the pass. Tarrin doesn't just hand out badges."
+          },
+          "mood": "thinking",
+          "glyph": "companion-bond"
+        },
+        {
+          "text": {
+            "en": "My dad's fixing the bridge. He says your name like it's a weather forecast."
+          },
+          "mood": "happy",
+          "glyph": "safe-house"
+        }
+      ],
+      "triggers": {},
+      "when_flags": {
+        "badge_sewi": true,
+        "badge_telo": false
+      }
+    },
+    {
       "id": "oren_post_rival",
       "npc_id": "oren",
       "priority": 5,
@@ -7666,6 +7692,32 @@
       ],
       "triggers": {},
       "when_flags": {
+        "badge_telo": false
+      }
+    },
+    {
+      "id": "wren_post_first_gym",
+      "npc_id": "wren",
+      "priority": 5,
+      "beats": [
+        {
+          "text": {
+            "en": "The well ran clear yesterday. For about an hour. Then back to normal."
+          },
+          "mood": "thinking",
+          "glyph": "wild-signs"
+        },
+        {
+          "text": {
+            "en": "That used to happen when the wardens were alive, Grandpa said. Before my time."
+          },
+          "mood": "sad",
+          "glyph": "shrine-stones"
+        }
+      ],
+      "triggers": {},
+      "when_flags": {
+        "badge_sewi": true,
         "badge_telo": false
       }
     },

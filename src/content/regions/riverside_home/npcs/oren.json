@@ -39,6 +39,30 @@
       ]
     },
     {
+      "id": "oren_post_first_gym",
+      "when": {
+        "flag_present": "badge_sewi",
+        "flag_absent": "badge_telo"
+      },
+      "priority": 5,
+      "beats": [
+        {
+          "text": {
+            "en": "I heard you went up the pass. Tarrin doesn't just hand out badges."
+          },
+          "mood": "thinking",
+          "glyph": "companion-bond"
+        },
+        {
+          "text": {
+            "en": "My dad's fixing the bridge. He says your name like it's a weather forecast."
+          },
+          "mood": "happy",
+          "glyph": "safe-house"
+        }
+      ]
+    },
+    {
       "id": "oren_post_rival",
       "when": {
         "flag_present": "rook_defeated",
