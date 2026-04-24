@@ -1,0 +1,75 @@
+{
+  "id": "rook",
+  "display_name": "Rook",
+  "home_region": "greenwood_road",
+  "role": "rival",
+  "appearances": [
+    { "region": "greenwood_road", "spawn": [28, 5], "default": true },
+    { "region": "rivergate_approach", "spawn": [2, 7], "requires_flag": "badge_suli" }
+  ],
+  "dialog_states": [
+    {
+      "id": "rook_intro",
+      "when": { "flag_absent": "rook_defeated" },
+      "priority": 10,
+      "beats": [
+        {
+          "text": { "en": "You've made it past the village. Let's see what your companion can do." },
+          "mood": "excited",
+          "glyph": "wild-signs"
+        },
+        {
+          "text": { "en": "I'm not going easy on you." },
+          "mood": "excited",
+          "glyph": "battle-ready"
+        }
+      ]
+    },
+    {
+      "id": "rook_victory",
+      "when": { "flag_present": "rook_defeated", "flag_absent": "badge_sewi" },
+      "priority": 5,
+      "beats": [
+        {
+          "text": { "en": "You handled yourself." },
+          "mood": "sad",
+          "glyph": "companion-bond"
+        },
+        {
+          "text": { "en": "Greenwood Road is yours." },
+          "mood": "thinking",
+          "glyph": "greenwood-watch"
+        }
+      ]
+    },
+    {
+      "id": "rook_post_first_gym",
+      "when": { "flag_present": "badge_sewi", "flag_absent": "badge_suli" },
+      "priority": 5,
+      "beats": [
+        {
+          "text": { "en": "Tarrin's stones. I felt them hum when you came back past." },
+          "mood": "thinking",
+          "glyph": "shrine-stones"
+        },
+        {
+          "text": { "en": "Something upstream is waking. Keep walking, Rivers." },
+          "mood": "excited",
+          "glyph": "wild-signs"
+        }
+      ]
+    },
+    {
+      "id": "rook_post_clear",
+      "when": { "flag_present": "game_cleared" },
+      "priority": 3,
+      "beats": [
+        {
+          "text": { "en": "You walked up to a dragon, Rivers. That's the sentence I'll tell." },
+          "mood": "happy",
+          "glyph": "companion-bond"
+        }
+      ]
+    }
+  ]
+}

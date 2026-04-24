@@ -1,0 +1,33 @@
+{
+  "id": "briar",
+  "display_name": "Briar",
+  "home_region": "greenwood_road",
+  "role": "field_notes_giver",
+  "appearances": [
+    { "region": "greenwood_road", "spawn": [4, 5], "default": true }
+  ],
+  "dialog_states": [
+    {
+      "id": "briar_sign",
+      "when": {},
+      "priority": 0,
+      "beats": [
+        {
+          "text": { "en": "Greenwood Road runs thick with wild creatures this season." },
+          "mood": "thinking",
+          "glyph": "wild-signs"
+        },
+        {
+          "text": { "en": "Every bonded forest creature tells us something about what's moving through the trees." },
+          "mood": "thinking",
+          "glyph": "wild-signs"
+        },
+        {
+          "text": { "en": "Catch two from the forest biome and I'll read their signs with you." },
+          "mood": "excited",
+          "glyph": "wild-signs"
+        }
+      ]
+    }
+  ]
+}

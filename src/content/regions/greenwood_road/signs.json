@@ -1,0 +1,20 @@
+{
+  "region": "greenwood_road",
+  "signs": [
+    {
+      "at": [1, 6],
+      "title": "GREENWOOD ROAD",
+      "body": { "en": "Slow walkers welcome. Fast ones too." }
+    },
+    {
+      "at": [15, 6],
+      "title": "BRIDGE OUT IN WINTER",
+      "body": { "en": "Use the north ford when the ice comes." }
+    },
+    {
+      "at": [30, 5],
+      "title": "HIGHRIDGE PASS AHEAD",
+      "body": { "en": "The wind hits harder above the second switchback." }
+    }
+  ]
+}

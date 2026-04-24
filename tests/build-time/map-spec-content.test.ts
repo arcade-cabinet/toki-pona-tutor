@@ -76,19 +76,45 @@ function npcNames(spec: { layers: { Objects?: Array<{ type: string; name: string
 }
 
 function dialogNodesById(): Map<string, { id: string; npc_id: string | null; beats: unknown[] }> {
-    const dir = resolve(__dirname, "../../src/content/spine/dialog");
-    return new Map(
-        readdirSync(dir)
-            .filter((name) => name.endsWith(".json"))
-            .map((name) => {
-                const node = JSON.parse(readFileSync(resolve(dir, name), "utf8")) as {
-                    id: string;
-                    npc_id: string | null;
-                    beats: unknown[];
-                };
-                return [node.id, node] as const;
-            }),
-    );
+    const nodes = new Map<string, { id: string; npc_id: string | null; beats: unknown[] }>();
+
+    // Legacy flat dialog files.
+    const flatDir = resolve(__dirname, "../../src/content/spine/dialog");
+    for (const name of readdirSync(flatDir).filter((n) => n.endsWith(".json"))) {
+        const node = JSON.parse(readFileSync(resolve(flatDir, name), "utf8")) as {
+            id: string;
+            npc_id: string | null;
+            beats: unknown[];
+        };
+        nodes.set(node.id, node);
+    }
+
+    // Region dossier NPC states (src/content/regions/<id>/npcs/*.json).
+    // Each state becomes a dialog node keyed by state.id, matching what
+    // build-spine emits into world.json.
+    const regionsDir = resolve(__dirname, "../../src/content/regions");
+    try {
+        for (const regionName of readdirSync(regionsDir)) {
+            const npcsDir = resolve(regionsDir, regionName, "npcs");
+            try {
+                for (const npcFile of readdirSync(npcsDir).filter((n) => n.endsWith(".json"))) {
+                    const dossier = JSON.parse(readFileSync(resolve(npcsDir, npcFile), "utf8")) as {
+                        id: string;
+                        dialog_states: Array<{ id: string; beats: unknown[] }>;
+                    };
+                    for (const state of dossier.dialog_states ?? []) {
+                        nodes.set(state.id, {
+                            id: state.id,
+                            npc_id: dossier.id,
+                            beats: state.beats,
+                        });
+                    }
+                }
+            } catch { /* no npcs dir */ }
+        }
+    } catch { /* no regions dir */ }
+
+    return nodes;
 }
 
 describe("authored map content contracts", () => {
