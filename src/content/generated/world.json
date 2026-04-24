@@ -4575,38 +4575,6 @@
       "triggers": {}
     },
     {
-      "id": "selby_starter_intro",
-      "npc_id": "selby",
-      "when_flags": {
-        "starter_chosen": false
-      },
-      "priority": 10,
-      "beats": [
-        {
-          "text": {
-            "en": "Rivers, today you start your own investigation."
-          },
-          "mood": "happy",
-          "glyph": "companion-bond"
-        },
-        {
-          "text": {
-            "en": "Three creatures answered the call."
-          },
-          "mood": "thinking",
-          "glyph": "companion-bond"
-        },
-        {
-          "text": {
-            "en": "Choose the partner you trust at your side."
-          },
-          "mood": "excited",
-          "glyph": "wild-signs"
-        }
-      ],
-      "triggers": {}
-    },
-    {
       "id": "kestrel_sky",
       "npc_id": "kestrel",
       "priority": 0,
@@ -4978,31 +4946,6 @@
       "triggers": {}
     },
     {
-      "id": "selby_after_pick",
-      "npc_id": "selby",
-      "when_flags": {
-        "starter_chosen": true
-      },
-      "priority": 5,
-      "beats": [
-        {
-          "text": {
-            "en": "Good. Your first partner chose you back."
-          },
-          "mood": "happy",
-          "glyph": "companion-bond"
-        },
-        {
-          "text": {
-            "en": "The eastern gate is open now."
-          },
-          "mood": "thinking",
-          "glyph": "safe-house"
-        }
-      ],
-      "triggers": {}
-    },
-    {
       "id": "shopkeep_stall",
       "npc_id": "shopkeep",
       "priority": 0,
@@ -5199,6 +5142,106 @@
         }
       ],
       "triggers": {}
+    },
+    {
+      "id": "selby_starter_intro",
+      "npc_id": "selby",
+      "priority": 10,
+      "beats": [
+        {
+          "text": {
+            "en": "Rivers, today you start your own investigation."
+          },
+          "mood": "happy",
+          "glyph": "companion-bond"
+        },
+        {
+          "text": {
+            "en": "Three creatures answered the call."
+          },
+          "mood": "thinking",
+          "glyph": "companion-bond"
+        },
+        {
+          "text": {
+            "en": "Choose the partner you trust at your side."
+          },
+          "mood": "excited",
+          "glyph": "wild-signs"
+        }
+      ],
+      "triggers": {},
+      "when_flags": {
+        "starter_chosen": false
+      }
+    },
+    {
+      "id": "selby_after_pick",
+      "npc_id": "selby",
+      "priority": 5,
+      "beats": [
+        {
+          "text": {
+            "en": "Good. Your first partner chose you back."
+          },
+          "mood": "happy",
+          "glyph": "companion-bond"
+        },
+        {
+          "text": {
+            "en": "The eastern gate is open now."
+          },
+          "mood": "thinking",
+          "glyph": "safe-house"
+        }
+      ],
+      "triggers": {},
+      "when_flags": {
+        "starter_chosen": true
+      }
+    },
+    {
+      "id": "selby_post_first_gym",
+      "npc_id": "selby",
+      "priority": 5,
+      "beats": [
+        {
+          "text": {
+            "en": "The shrine stone cracked before I was a warden, Rivers."
+          },
+          "mood": "thinking",
+          "glyph": "shrine-stones"
+        },
+        {
+          "text": {
+            "en": "Go to Lakehaven. The fishers there read the water better than I do."
+          },
+          "mood": "happy"
+        }
+      ],
+      "triggers": {},
+      "when_flags": {
+        "badge_sewi": true,
+        "badge_telo": false
+      }
+    },
+    {
+      "id": "selby_post_clear",
+      "npc_id": "selby",
+      "priority": 3,
+      "beats": [
+        {
+          "text": {
+            "en": "You came home. That matters more than the dragon, Rivers."
+          },
+          "mood": "happy",
+          "glyph": "companion-bond"
+        }
+      ],
+      "triggers": {},
+      "when_flags": {
+        "game_cleared": true
+      }
     }
   ],
   "journey": {
@@ -6134,6 +6177,61 @@
           }
         }
       ]
+    }
+  ],
+  "regions": [
+    {
+      "id": "riverside_home",
+      "display_name": "Riverside Home",
+      "biome": "town",
+      "music": "bgm_village",
+      "size": {
+        "w": 16,
+        "h": 12
+      },
+      "neighbors": {
+        "east": "greenwood_road"
+      },
+      "summary": "Rivers's home village. Green-ringed, river-adjacent. The starter ceremony happens here.",
+      "flavor_beats": [
+        "Clay-tile roofs. The same ones Selby was born under.",
+        "The well in the center is older than the village's oldest story."
+      ]
+    }
+  ],
+  "signs": [
+    {
+      "region": "riverside_home",
+      "at": [
+        7,
+        8
+      ],
+      "title": "RIVERSIDE HOME",
+      "body": {
+        "en": "Where the river remembers your name."
+      }
+    },
+    {
+      "region": "riverside_home",
+      "at": [
+        10,
+        5
+      ],
+      "title": "ELDER'S HOUSE",
+      "body": {
+        "en": "Selby has lived here since before anyone else."
+      }
+    },
+    {
+      "region": "riverside_home",
+      "at": [
+        15,
+        5
+      ],
+      "title": "GREENWOOD ROAD",
+      "body": {
+        "en": "East out of the village. First rook east of the elm."
+      }
     }
   ]
 }

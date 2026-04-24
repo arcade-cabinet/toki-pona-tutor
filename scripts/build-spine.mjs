@@ -273,6 +273,113 @@ for (const entry of collected.species) {
     }
 }
 
+/*
+ * Region dossier pass (CONTENT_ARCHITECTURE.md).
+ *
+ * For every `src/content/regions/<id>/` directory, ingest:
+ *   - `region.json`   — manifest, added to `regions` top-level array
+ *   - `signs.json`    — signs, added to `signs` top-level array
+ *   - `npcs/*.json`   — NPC dossiers, each state expanded to a legacy
+ *                       flat dialog record with synthesized id
+ *                       `{npc_id}__{state_id}` and when_flags derived
+ *                       from the state's `when` clause.
+ *
+ * Runtime is unchanged: the expanded dialog records match the existing
+ * `dialogNode` schema. The new `regions` + `signs` arrays are additive;
+ * consumers that don't read them see today's shape.
+ */
+const regionsDir = resolve(root, "src/content/regions");
+/** @type {{regions: any[], signs: any[]}} */
+const dossier = { regions: [], signs: [] };
+
+function gateToLegacyWhenFlags(gate) {
+    /** @type {Record<string, boolean>} */
+    const out = {};
+    if (!gate) return out;
+    if (typeof gate.flag_present === "string" && gate.flag_present.length > 0) {
+        out[gate.flag_present] = true;
+    }
+    if (typeof gate.flag_absent === "string" && gate.flag_absent.length > 0) {
+        out[gate.flag_absent] = false;
+    }
+    return out;
+}
+
+if (existsSync(regionsDir)) {
+    const regionIds = readdirSync(regionsDir, { withFileTypes: true })
+        .filter((e) => e.isDirectory())
+        .map((e) => e.name);
+
+    for (const regionId of regionIds) {
+        const regionDir = join(regionsDir, regionId);
+        const manifestPath = join(regionDir, "region.json");
+        if (!existsSync(manifestPath)) {
+            console.error(
+                `[build-spine] region dossier ${regionId}/ missing region.json — dossier directories must declare a manifest`,
+            );
+            process.exit(1);
+        }
+        const manifest = readJsonFile(manifestPath, "region manifest");
+        if (manifest.id !== regionId) {
+            console.error(
+                `[build-spine] region dossier ${regionId}/region.json id=${manifest.id} does not match directory name`,
+            );
+            process.exit(1);
+        }
+        dossier.regions.push(manifest);
+        logVerbose(`regions/${regionId}/region.json: manifest`);
+
+        // Signs
+        const signsPath = join(regionDir, "signs.json");
+        if (existsSync(signsPath)) {
+            const signsDoc = readJsonFile(signsPath, "region signs");
+            if (signsDoc.region !== regionId) {
+                console.error(
+                    `[build-spine] regions/${regionId}/signs.json region=${signsDoc.region} mismatches directory`,
+                );
+                process.exit(1);
+            }
+            for (const sign of signsDoc.signs ?? []) {
+                dossier.signs.push({ region: regionId, ...sign });
+            }
+            logVerbose(`regions/${regionId}/signs.json: ${(signsDoc.signs ?? []).length} sign(s)`);
+        }
+
+        // NPC dossiers → expand each state into a flat dialog record.
+        const npcsDir = join(regionDir, "npcs");
+        if (existsSync(npcsDir)) {
+            for (const file of readdirSync(npcsDir).filter((f) => f.endsWith(".json"))) {
+                const npc = readJsonFile(join(npcsDir, file), "npc dossier");
+                for (const state of npc.dialog_states ?? []) {
+                    /**
+                     * Expand to legacy dialogNode shape. The dossier's
+                     * state id is used verbatim as the runtime dialog id,
+                     * so existing runtime references (ui.json,
+                     * events.json, Tiled maps) continue to resolve.
+                     * Authors picking state ids must keep them unique
+                     * across the whole dialog pool.
+                     */
+                    const record = {
+                        id: state.id,
+                        npc_id: npc.id,
+                        priority: state.priority ?? 0,
+                        beats: state.beats,
+                        triggers: state.on_exit ?? {},
+                    };
+                    const whenFlags = gateToLegacyWhenFlags(state.when);
+                    if (Object.keys(whenFlags).length > 0) {
+                        record.when_flags = whenFlags;
+                    }
+                    collected.dialog.push(record);
+                }
+                logVerbose(
+                    `regions/${regionId}/npcs/${file}: ${(npc.dialog_states ?? []).length} state(s) → dialog`,
+                );
+            }
+        }
+    }
+}
+
 // Enforce the green-dragon endgame rule: the green dragon species and event
 // must never appear in encounter tables or trigger wiring before the final beat.
 const GREEN_DRAGON_SPECIES_ID = "green_dragon";
@@ -333,10 +440,12 @@ const output = {
     dialog: collected.dialog,
     journey: collected.journey,
     maps: collectCompiledMaps(),
+    regions: dossier.regions,
+    signs: dossier.signs,
 };
 
 mkdirSync(dirname(outPath), { recursive: true });
 writeFileSync(outPath, JSON.stringify(output, null, 2) + "\n");
 console.log(
-    `[build-spine] ✓ ${collected.species.length} species, ${collected.moves.length} moves, ${collected.items.length} items, ${collected.dialog.length} dialog node(s), ${collected.journey.beats.length} journey beat(s) → ${outPath.replace(root + "/", "")}`,
+    `[build-spine] ✓ ${collected.species.length} species, ${collected.moves.length} moves, ${collected.items.length} items, ${collected.dialog.length} dialog node(s), ${collected.journey.beats.length} journey beat(s), ${dossier.regions.length} region dossier(s), ${dossier.signs.length} sign(s) → ${outPath.replace(root + "/", "")}`,
 );
