@@ -44,7 +44,8 @@ const KNOWN_FLAG_SETTERS = new Set<string>([
     // Green dragon finale (src/modules/main/green-dragon.ts)
     'green_dragon_defeated',
     'game_cleared',
-    // Post-clear proof (set after all four badges — derived elsewhere)
+    // Derived flag: set by gym-leader.ts after every badge write when
+    // all four FINAL_BOSS_CONFIG.requiredBadgeFlags are present (T74).
     'proofs_all_four',
     // Quest runtime (src/modules/main/quest-runtime.ts questDoneFlag prefix).
     // questDoneFlag returns `quest_${questId}_done` and quest ids already

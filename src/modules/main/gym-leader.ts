@@ -15,12 +15,28 @@ import { awardLeadVictoryXp } from "./victory-rewards";
 import { activateLeadBattleAvatar, restoreLeadBattleAvatar } from "./lead-battle-avatar";
 import { recordQuestEventForActive } from "./quest-runtime";
 import {
+    FINAL_BOSS_CONFIG,
     GYM_PHASE_POLL_MS,
     REGION_XP_CURVE,
     SFX_CUE_CONFIG,
     type RuntimeActionBattleConfig,
     type RuntimeEnemyType,
 } from "../../content/gameplay";
+
+/**
+ * After a badge flag is set, check whether every required badge is now
+ * present. If so, fire `proofs_all_four` — the derived flag gating
+ * warden_ghost's dossier dialog at Dreadpeak. Called from the single
+ * place a badge is ever set (gym-leader.ts onDefeated) so the check
+ * runs exactly when progression changes, not on every map load.
+ */
+async function maybeSetProofsAllFour(): Promise<void> {
+    for (const flag of FINAL_BOSS_CONFIG.requiredBadgeFlags) {
+        const value = await getFlag(flag);
+        if (!value || value === "0") return;
+    }
+    await setFlag("proofs_all_four", "1");
+}
 
 /**
  * Shared factory for the current four region masters.
@@ -118,6 +134,7 @@ export function GymLeader(opts: GymLeaderOptions): EventDefinition {
                             animationName: "hurt",
                         });
                         await setFlag(badgeFlag, "1");
+                        await maybeSetProofsAllFour();
                         await recordClue(rewardClue);
                         await preferences.set(KEYS.journeyBeat, opts.nextBeatId);
                         if (attacker) {
