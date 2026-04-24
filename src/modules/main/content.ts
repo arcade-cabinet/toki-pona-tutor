@@ -48,6 +48,16 @@ export function getDialogById(id: string): DialogNode | undefined {
     return world.dialog.find((d) => d.id === id);
 }
 
+/**
+ * All dialog states authored for the same NPC, in authoring order.
+ * Returns [] for unknown or npc-less (system) dialogs. The selector
+ * in dialog.ts uses this to pick the best-matching state when a
+ * dossier-authored NPC has multiple reactive variants.
+ */
+export function getDialogsForNpc(npcId: string): DialogNode[] {
+    return world.dialog.filter((d) => d.npc_id === npcId);
+}
+
 export function getStartMapId(): string {
     return world.start_region_id;
 }

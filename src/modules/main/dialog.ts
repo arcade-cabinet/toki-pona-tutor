@@ -1,21 +1,28 @@
 import type { RpgPlayer } from "@rpgjs/server";
 import { DIALOG_UI_CONFIG } from "../../content/gameplay";
 import { formatGameplayTemplate } from "../../content/gameplay/templates";
-import { getDialogById } from "./content";
-import { recordClue } from "../../platform/persistence/queries";
+import { getDialogById, getDialogsForNpc } from "./content";
+import { recordClue, getFlag } from "../../platform/persistence/queries";
+import type { DialogNode } from "../../content/schema/dialog";
 
 /**
  * Play a dialog node through to completion:
  * - speaks each beat via showText
  * - records the explicit `glyph` token as a clue sighting if present
+ *
+ * When the supplied dialog id belongs to a dossier-authored NPC with
+ * sibling states (multi-state reactive content from T60/T63), the best
+ * matching state is selected based on current player flags. This makes
+ * NPCs react to plot progression without requiring each caller to know
+ * which state to play.
+ *
+ * Fallback: when no sibling matches, the originally-requested node runs.
+ * Legacy flat dialogs (system messages, one-shot cues) have no siblings
+ * and always play the exact node.
  */
 export async function playDialog(player: RpgPlayer, dialogId: string): Promise<boolean> {
     const node = getDialogById(dialogId);
     if (!node) {
-        // Surface authoring misses to the player instead of silent-no-op.
-        // The id shows up verbatim so the author can grep content/spine/
-        // and add the missing node. Ships with a kid-friendly framing —
-        // never a stack trace or "undefined".
         await player.showText(
             formatGameplayTemplate(DIALOG_UI_CONFIG.missingNodeTemplate, {
                 dialog_id: dialogId,
@@ -23,9 +30,69 @@ export async function playDialog(player: RpgPlayer, dialogId: string): Promise<b
         );
         return false;
     }
-    for (const beat of node.beats) {
+    const siblings = node.npc_id ? getDialogsForNpc(node.npc_id) : [];
+    const selected = (await selectDialogState(node, siblings, getFlag)) ?? node;
+    for (const beat of selected.beats) {
         await player.showText(beat.text.en);
         if (beat.glyph) await recordClue(beat.glyph);
+    }
+    return true;
+}
+
+/**
+ * Pure, test-friendly selector for the best-matching dialog state. Exported
+ * so unit tests can exercise the rule engine without hitting the persistence
+ * layer. Call sites pass in the list of sibling states (typically from
+ * getDialogsForNpc) and a flag lookup shim.
+ *
+ * Matching rules:
+ * - A state matches when every key in its `when_flags` agrees with the
+ *   player's current flag state (flag set = truthy; flag unset, null,
+ *   empty, or "0" = falsy).
+ * - Among matching states, higher `priority` wins.
+ * - Ties are broken by authoring order (first state in the list wins).
+ * - Returns null if there are no siblings, or if nothing matches — caller
+ *   falls back to the originally requested node.
+ */
+export async function selectDialogState(
+    requested: DialogNode,
+    siblings: DialogNode[],
+    lookupFlag: (flagId: string) => Promise<string | null>,
+): Promise<DialogNode | null> {
+    if (!requested.npc_id) return null;
+    if (siblings.length <= 1) return null;
+
+    const flagCache = new Map<string, boolean>();
+    const isSet = async (flagId: string): Promise<boolean> => {
+        if (flagCache.has(flagId)) return flagCache.get(flagId)!;
+        const value = await lookupFlag(flagId);
+        const set = value != null && value !== "" && value !== "0";
+        flagCache.set(flagId, set);
+        return set;
+    };
+
+    const matches: DialogNode[] = [];
+    for (const state of siblings) {
+        if (await stateMatches(state, isSet)) matches.push(state);
+    }
+    if (matches.length === 0) return null;
+
+    // Stable sort by priority desc; siblings' authoring order is preserved
+    // as the tiebreaker because Array.prototype.sort is stable on all
+    // supported engines.
+    matches.sort((a, b) => (b.priority ?? 0) - (a.priority ?? 0));
+    return matches[0];
+}
+
+async function stateMatches(
+    state: DialogNode,
+    isSet: (flagId: string) => Promise<boolean>,
+): Promise<boolean> {
+    const whenFlags = state.when_flags;
+    if (!whenFlags) return true;
+    for (const [flagId, expected] of Object.entries(whenFlags)) {
+        const current = await isSet(flagId);
+        if (current !== expected) return false;
     }
     return true;
 }
