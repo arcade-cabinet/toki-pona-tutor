@@ -10,6 +10,13 @@ All notable changes to poki soweli. Format based on [Keep a Changelog](https://k
 
 This branch (`feat/rpgjs-v5-pivot`) descends from commit `0a582e0` — the pre-Godot tip. The Godot era between `1d924fe` (pivot) and `0edfe61` (feat/anchor-to-template) lives on `main` and is not represented here. Release-please releases `v0.1.0`…`v0.1.3` tagged on `main` cover the Godot build and do not apply to this branch.
 
+## [0.27.0](https://github.com/arcade-cabinet/poki-soweli/compare/v0.26.0...v0.27.0) (2026-04-24)
+
+
+### Added
+
+* **content:** post-clear world-state dialog for 15 NPCs (T63) ([#202](https://github.com/arcade-cabinet/poki-soweli/issues/202)) ([7d781de](https://github.com/arcade-cabinet/poki-soweli/commit/7d781ded76e5eebe50b8889a84a8fd7d292d3a35))
+
 ## [0.26.0](https://github.com/arcade-cabinet/poki-soweli/compare/v0.25.0...v0.26.0) (2026-04-24)
 
 
