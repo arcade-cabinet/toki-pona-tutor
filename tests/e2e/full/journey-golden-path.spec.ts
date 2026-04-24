@@ -586,7 +586,7 @@ test("browser golden path covers starter ceremony through the clear credits", as
     await expect(dialogChoice(page, 1)).toContainText("Orchard Fruit ×1");
     await captureGoldenPathCheckpoint(page, testInfo, {
         id: "15-shop-menu",
-        title: "jan Moku shop menu",
+        title: "Shopkeep menu",
         expectedMapId: "lakehaven",
         expectedHiddenTestIds: COMBAT_HUD_TEST_IDS,
         focus: [

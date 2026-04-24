@@ -13,7 +13,7 @@ import { HUD_GOAL_CONFIG } from '../../src/content/gameplay';
  */
 
 describe('buildHudGoal', () => {
-    it('pre-starter state points the player at jan Sewi', () => {
+    it('pre-starter state points the player at Selby', () => {
         const out = buildHudGoal({
             partySize: 0,
             partyMax: 6,

@@ -19,7 +19,7 @@ afterEach(async () => {
     await resetPersistedRuntimeState({ includeSaves: true });
 });
 
-describe('trail_token economy and jan Moku shop', () => {
+describe('trail_token economy and Shopkeep store', () => {
     it('formats the lakehaven shop choices from stock definitions', () => {
         expect(JAN_MOKU_STOCK.map(shopChoiceLabel)).toEqual([
             'Capture Pod ×1 · Trail Token 2',
