@@ -1,6 +1,6 @@
 ---
 title: Lore
-updated: 2026-04-22
+updated: 2026-04-24
 status: current
 domain: creative
 ---
@@ -117,11 +117,11 @@ Master of the `dreadpeak_cavern` great-peak trial. Final region master challenge
 
 ### Other named NPCs
 
--   **jan Kala** (small-fish person, big-fish person) — fisher NPCs in water regions
--   **jan Moku** (food person) — cook NPC
--   **jan Anpa, jan Kasi** — minor villagers in `frostvale`
--   **jan Pi Kon, jan Pi Nasin** — minor villagers in `dreadpeak_cavern`
--   **jan Moku Pona, jan Olin Telo** — minor villagers in `rivergate_approach`
+-   **Kala-Lili, Kala-Suli** (fisher siblings, small + big) — appear in every water region
+-   **Shopkeep (Meza)** — stall-keeper at Lakehaven, free soup from Grill at Rivergate
+-   **Corvin, Ansel, Marsha, Stoneminder** — route-watchers and shrine figures
+-   **Frost's Uncle, Brindle, Hollis, Cormorant** — Frostvale residents anchoring the warden lore
+-   **Grill, Lily, Sola** — Rivergate approach NPCs near the endgame
 
 ## Names the game uses for its own things
 

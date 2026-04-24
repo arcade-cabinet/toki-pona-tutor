@@ -38,7 +38,7 @@ the player; each is *earned* by the player noticing something at the right time.
 | 2. **Rise** | Highridge Pass | The shrine at the top was built to mark *where the chains were forged*. A stone bearing a claw-scar no catalog creature could make. | The `shrine-stones` clue plus the sense that something above is bigger than the creatures Rivers catches. |
 | 3. **Turn** | Lakehaven + Frostvale | The fisher-siblings tell Rivers the fish are moving inland because *something upstream is warming the water*. A Frostvale elder tells Rivers point-blank: that's a dragon path. | Explicit confirmation; `dragon-path` clue. |
 | 4. **Confront** | Dreadpeak Cavern | The Dreadpeak master is the last of the four wardens who were charged — generations ago — with keeping the chain tight. The four proofs are literal keys to the Rivergate lock. | Inventory check: Rivers now carries all four proofs. |
-| 5. **Reckoning** | Rivergate Approach | The chain has already broken. The dragon can be caught, befriended, or defeated — the story recognizes all three. Elder Selby's final letter (delivered by jan Ike/Rook at the Rivergate entrance) reveals that Selby is the fifth warden. | Endgame. |
+| 5. **Reckoning** | Rivergate Approach | The chain has already broken. The dragon can be caught, befriended, or defeated — the story recognizes all three. Elder Selby's final letter (delivered by Rook at the Rivergate entrance) reveals that Selby is the fifth warden. | Endgame. |
 
 Every region-level beat contributes to one clue in `src/content/clues.json`. Every
 NPC in a region references their regional beat in at least one dialog state.

@@ -1,6 +1,6 @@
 ---
 title: Combatant Sprites
-updated: 2026-04-22
+updated: 2026-04-24
 status: current
 domain: technical
 ---
@@ -26,7 +26,7 @@ action-battle trainers do not fall back to a walk-only preset.
 
 | NPC                          | Sprite ID                     | Source file                                           | Rationale                                                |
 | ---------------------------- | ----------------------------- | ----------------------------------------------------- | -------------------------------------------------------- |
-| jan Ike (rival)              | `combatant_rogue_hooded`      | `rogues/hooded-rogue-non-combat-daggers-equipped.png` | Hooded rogue = sneaky rival archetype                    |
+| Rook (rival)                 | `combatant_rogue_hooded`      | `rogues/hooded-rogue-non-combat-daggers-equipped.png` | Hooded rogue = sneaky rival archetype                    |
 | Highridge master | `combatant_warrior_axe`       | `warriors/axe-warrior-16x16.png`                      | Axe warrior = raw physical strength, force type          |
 | Lakehaven master | `combatant_mage_fem_red`      | `mages/mage-fem-red.png`                              | Red mage, elemental caster; fits water/lake aesthetic    |
 | Frostvale master | `combatant_mage_hooded_brown` | `mages/mage-hooded-brown.png`                         | Hooded/cloaked mage = cold, northern, ice master         |
@@ -197,9 +197,9 @@ Same animation row layout as `mage-fem-red-combat.png`.
 **Dimensions:** 64×496  
 **Frame size:** 16×16  
 **Grid:** 4 cols × 31 rows  
-**Used by:** jan Ike (rival)
+**Used by:** Rook (rival)
 
-4-directional overworld walk sheet. Dark-hooded rogue with paired daggers at belt. The hood and daggers match jan Ike's competitive-but-not-malicious rival archetype — quick and sneaky but not a villain.
+4-directional overworld walk sheet. Dark-hooded rogue with paired daggers at belt. The hood and daggers match Rook's competitive-but-not-malicious rival archetype — quick and sneaky but not a villain.
 
 | Row range | Frames | Animation    | fps | loop |
 | --------- | ------ | ------------ | --- | ---- |
