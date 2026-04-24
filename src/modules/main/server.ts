@@ -50,7 +50,7 @@ function signEventsForMap(mapId: string) {
             id: `sign_${s.at[0]}_${s.at[1]}`,
             x: s.at[0] * 16,
             y: (s.at[1] + 1) * 16,
-            event: SignEvent(s.body.en),
+            event: SignEvent(s.body.en, s.title),
         }));
 }
 
