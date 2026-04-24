@@ -39,6 +39,30 @@
       ]
     },
     {
+      "id": "kestrel_post_first_gym",
+      "when": {
+        "flag_present": "badge_sewi",
+        "flag_absent": "badge_lete"
+      },
+      "priority": 5,
+      "beats": [
+        {
+          "text": {
+            "en": "You rang Tarrin's bell. The birds noticed. They're flying differently now."
+          },
+          "mood": "happy",
+          "glyph": "shrine-stones"
+        },
+        {
+          "text": {
+            "en": "Watch the sky on your way down. Hawks pair when the weather shifts."
+          },
+          "mood": "thinking",
+          "glyph": "wild-signs"
+        }
+      ]
+    },
+    {
       "id": "kestrel_post_third_gym",
       "when": {
         "flag_present": "badge_lete",

@@ -5483,6 +5483,32 @@
       }
     },
     {
+      "id": "lark_post_first_gym",
+      "npc_id": "lark",
+      "priority": 5,
+      "beats": [
+        {
+          "text": {
+            "en": "Stone badge. The road up the pass gets weirder after the first."
+          },
+          "mood": "thinking",
+          "glyph": "shrine-stones"
+        },
+        {
+          "text": {
+            "en": "I saw a snowbird last week. Greenwood. They shouldn't be this far south."
+          },
+          "mood": "sad",
+          "glyph": "wild-signs"
+        }
+      ],
+      "triggers": {},
+      "when_flags": {
+        "badge_sewi": true,
+        "badge_lete": false
+      }
+    },
+    {
       "id": "lark_post_third_gym",
       "npc_id": "lark",
       "priority": 5,
@@ -6011,6 +6037,32 @@
       ],
       "triggers": {},
       "when_flags": {
+        "badge_lete": false
+      }
+    },
+    {
+      "id": "kestrel_post_first_gym",
+      "npc_id": "kestrel",
+      "priority": 5,
+      "beats": [
+        {
+          "text": {
+            "en": "You rang Tarrin's bell. The birds noticed. They're flying differently now."
+          },
+          "mood": "happy",
+          "glyph": "shrine-stones"
+        },
+        {
+          "text": {
+            "en": "Watch the sky on your way down. Hawks pair when the weather shifts."
+          },
+          "mood": "thinking",
+          "glyph": "wild-signs"
+        }
+      ],
+      "triggers": {},
+      "when_flags": {
+        "badge_sewi": true,
         "badge_lete": false
       }
     },
