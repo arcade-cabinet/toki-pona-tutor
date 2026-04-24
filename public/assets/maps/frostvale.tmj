@@ -11,7 +11,7 @@
   "infinite": false,
   "compressionlevel": -1,
   "nextlayerid": 6,
-  "nextobjectid": 10,
+  "nextobjectid": 14,
   "properties": [
     {
       "name": "biome",
@@ -1316,6 +1316,98 @@
               "value": "badge_lete"
             }
           ]
+        },
+        {
+          "id": 8,
+          "name": "npc-cormorant",
+          "type": "NPC",
+          "x": 288,
+          "y": 48,
+          "width": 0,
+          "height": 0,
+          "visible": true,
+          "rotation": 0,
+          "properties": [
+            {
+              "name": "id",
+              "type": "string",
+              "value": "cormorant"
+            },
+            {
+              "name": "dialog_id",
+              "type": "string",
+              "value": "cormorant_tuneup"
+            }
+          ]
+        },
+        {
+          "id": 9,
+          "name": "npc-ember",
+          "type": "NPC",
+          "x": 224,
+          "y": 128,
+          "width": 0,
+          "height": 0,
+          "visible": true,
+          "rotation": 0,
+          "properties": [
+            {
+              "name": "id",
+              "type": "string",
+              "value": "ember"
+            },
+            {
+              "name": "dialog_id",
+              "type": "string",
+              "value": "ember_frostvale"
+            }
+          ]
+        },
+        {
+          "id": 10,
+          "name": "npc-frost_uncle",
+          "type": "NPC",
+          "x": 64,
+          "y": 176,
+          "width": 0,
+          "height": 0,
+          "visible": true,
+          "rotation": 0,
+          "properties": [
+            {
+              "name": "id",
+              "type": "string",
+              "value": "frost_uncle"
+            },
+            {
+              "name": "dialog_id",
+              "type": "string",
+              "value": "frost_uncle_intro"
+            }
+          ]
+        },
+        {
+          "id": 11,
+          "name": "npc-snow_kid",
+          "type": "NPC",
+          "x": 272,
+          "y": 80,
+          "width": 0,
+          "height": 0,
+          "visible": true,
+          "rotation": 0,
+          "properties": [
+            {
+              "name": "id",
+              "type": "string",
+              "value": "snow_kid"
+            },
+            {
+              "name": "dialog_id",
+              "type": "string",
+              "value": "snow_kid_intro"
+            }
+          ]
         }
       ]
     },
@@ -1329,7 +1421,7 @@
       "opacity": 1,
       "objects": [
         {
-          "id": 8,
+          "id": 12,
           "name": "encounter_0",
           "type": "Encounter",
           "x": 64,
@@ -1357,7 +1449,7 @@
           ]
         },
         {
-          "id": 9,
+          "id": 13,
           "name": "encounter_1",
           "type": "Encounter",
           "x": 192,

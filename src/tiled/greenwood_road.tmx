@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-down"
      width="32" height="12" tilewidth="16" tileheight="16" infinite="0"
-     nextlayerid="6" nextobjectid="11">
+     nextlayerid="6" nextobjectid="13">
  <properties>
    <property name="biome" value="forest"/>
    <property name="music_track" value="bgm_forest"/>
@@ -97,23 +97,35 @@
      <property name="required_flag" value="rook_defeated"/>
    </properties>
   </object>
+  <object id="8" name="npc-corvin" type="NPC" x="32" y="96" width="0" height="0" visible="1" rotation="0">
+   <properties>
+     <property name="id" value="corvin"/>
+     <property name="dialog_id" value="corvin_watch"/>
+   </properties>
+  </object>
+  <object id="9" name="npc-ansel" type="NPC" x="256" y="80" width="0" height="0" visible="1" rotation="0">
+   <properties>
+     <property name="id" value="ansel"/>
+     <property name="dialog_id" value="ansel_greenwood"/>
+   </properties>
+  </object>
  </objectgroup>
  <objectgroup id="5" name="Encounters" visible="1" opacity="1">
-  <object id="8" name="encounter_0" type="Encounter" x="96" y="48" width="64" height="32" visible="1" rotation="0">
+  <object id="10" name="encounter_0" type="Encounter" x="96" y="48" width="64" height="32" visible="1" rotation="0">
    <properties>
      <property name="species" value="{&quot;bramble_imp&quot;:20,&quot;thornling&quot;:18,&quot;mirthcat&quot;:18,&quot;applepup&quot;:14,&quot;mudgrub&quot;:10,&quot;nightjar&quot;:10,&quot;burrowmole&quot;:10}"/>
      <property name="level_min" type="int" value="3"/>
      <property name="level_max" type="int" value="5"/>
    </properties>
   </object>
-  <object id="9" name="encounter_1" type="Encounter" x="224" y="96" width="80" height="32" visible="1" rotation="0">
+  <object id="11" name="encounter_1" type="Encounter" x="224" y="96" width="80" height="32" visible="1" rotation="0">
    <properties>
      <property name="species" value="{&quot;bramble_imp&quot;:18,&quot;thornling&quot;:22,&quot;bog_wisp&quot;:14,&quot;mirthcat&quot;:14,&quot;applepup&quot;:14,&quot;songbird&quot;:10,&quot;mistfox&quot;:8}"/>
      <property name="level_min" type="int" value="4"/>
      <property name="level_max" type="int" value="6"/>
    </properties>
   </object>
-  <object id="10" name="encounter_2" type="Encounter" x="352" y="48" width="64" height="32" visible="1" rotation="0">
+  <object id="12" name="encounter_2" type="Encounter" x="352" y="48" width="64" height="32" visible="1" rotation="0">
    <properties>
      <property name="species" value="{&quot;bramble_imp&quot;:15,&quot;bog_wisp&quot;:25,&quot;applepup&quot;:20,&quot;mudgrub&quot;:20,&quot;vine_adder&quot;:10,&quot;hillbuck&quot;:10}"/>
      <property name="level_min" type="int" value="5"/>

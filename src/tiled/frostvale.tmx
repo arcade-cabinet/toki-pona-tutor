@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-down"
      width="22" height="16" tilewidth="16" tileheight="16" infinite="0"
-     nextlayerid="6" nextobjectid="10">
+     nextlayerid="6" nextobjectid="14">
  <properties>
    <property name="biome" value="ice"/>
    <property name="music_track" value="bgm_snow"/>
@@ -113,16 +113,40 @@
      <property name="required_flag" value="badge_lete"/>
    </properties>
   </object>
+  <object id="8" name="npc-cormorant" type="NPC" x="288" y="48" width="0" height="0" visible="1" rotation="0">
+   <properties>
+     <property name="id" value="cormorant"/>
+     <property name="dialog_id" value="cormorant_tuneup"/>
+   </properties>
+  </object>
+  <object id="9" name="npc-ember" type="NPC" x="224" y="128" width="0" height="0" visible="1" rotation="0">
+   <properties>
+     <property name="id" value="ember"/>
+     <property name="dialog_id" value="ember_frostvale"/>
+   </properties>
+  </object>
+  <object id="10" name="npc-frost_uncle" type="NPC" x="64" y="176" width="0" height="0" visible="1" rotation="0">
+   <properties>
+     <property name="id" value="frost_uncle"/>
+     <property name="dialog_id" value="frost_uncle_intro"/>
+   </properties>
+  </object>
+  <object id="11" name="npc-snow_kid" type="NPC" x="272" y="80" width="0" height="0" visible="1" rotation="0">
+   <properties>
+     <property name="id" value="snow_kid"/>
+     <property name="dialog_id" value="snow_kid_intro"/>
+   </properties>
+  </object>
  </objectgroup>
  <objectgroup id="5" name="Encounters" visible="1" opacity="1">
-  <object id="8" name="encounter_0" type="Encounter" x="64" y="192" width="80" height="48" visible="1" rotation="0">
+  <object id="12" name="encounter_0" type="Encounter" x="64" y="192" width="80" height="48" visible="1" rotation="0">
    <properties>
      <property name="species" value="{&quot;frostcoil&quot;:20,&quot;quartz_shell&quot;:15,&quot;nightspike&quot;:15,&quot;snowbird&quot;:20,&quot;hillbuck&quot;:15,&quot;pebbleback&quot;:15}"/>
      <property name="level_min" type="int" value="7"/>
      <property name="level_max" type="int" value="10"/>
    </properties>
   </object>
-  <object id="9" name="encounter_1" type="Encounter" x="192" y="192" width="96" height="48" visible="1" rotation="0">
+  <object id="13" name="encounter_1" type="Encounter" x="192" y="192" width="96" height="48" visible="1" rotation="0">
    <properties>
      <property name="species" value="{&quot;frostcoil&quot;:15,&quot;quartz_shell&quot;:20,&quot;nightspike&quot;:15,&quot;glacier_talon&quot;:15,&quot;snowbird&quot;:15,&quot;pebbleback&quot;:20}"/>
      <property name="level_min" type="int" value="9"/>

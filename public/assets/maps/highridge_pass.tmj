@@ -11,7 +11,7 @@
   "infinite": false,
   "compressionlevel": -1,
   "nextlayerid": 6,
-  "nextobjectid": 10,
+  "nextobjectid": 15,
   "properties": [
     {
       "name": "biome",
@@ -1596,6 +1596,121 @@
               "value": "badge_sewi"
             }
           ]
+        },
+        {
+          "id": 8,
+          "name": "npc-ansel",
+          "type": "NPC",
+          "x": 160,
+          "y": 144,
+          "width": 0,
+          "height": 0,
+          "visible": true,
+          "rotation": 0,
+          "properties": [
+            {
+              "name": "id",
+              "type": "string",
+              "value": "ansel"
+            },
+            {
+              "name": "dialog_id",
+              "type": "string",
+              "value": "ansel_greenwood"
+            }
+          ]
+        },
+        {
+          "id": 9,
+          "name": "npc-breeze",
+          "type": "NPC",
+          "x": 224,
+          "y": 128,
+          "width": 0,
+          "height": 0,
+          "visible": true,
+          "rotation": 0,
+          "properties": [
+            {
+              "name": "id",
+              "type": "string",
+              "value": "breeze"
+            },
+            {
+              "name": "dialog_id",
+              "type": "string",
+              "value": "breeze_intro"
+            }
+          ]
+        },
+        {
+          "id": 10,
+          "name": "npc-hiker",
+          "type": "NPC",
+          "x": 352,
+          "y": 96,
+          "width": 0,
+          "height": 0,
+          "visible": true,
+          "rotation": 0,
+          "properties": [
+            {
+              "name": "id",
+              "type": "string",
+              "value": "hiker"
+            },
+            {
+              "name": "dialog_id",
+              "type": "string",
+              "value": "hiker_intro"
+            }
+          ]
+        },
+        {
+          "id": 11,
+          "name": "npc-shrine_kid",
+          "type": "NPC",
+          "x": 320,
+          "y": 80,
+          "width": 0,
+          "height": 0,
+          "visible": true,
+          "rotation": 0,
+          "properties": [
+            {
+              "name": "id",
+              "type": "string",
+              "value": "shrine_kid"
+            },
+            {
+              "name": "dialog_id",
+              "type": "string",
+              "value": "shrine_kid_intro"
+            }
+          ]
+        },
+        {
+          "id": 12,
+          "name": "npc-stoneminder",
+          "type": "NPC",
+          "x": 176,
+          "y": 80,
+          "width": 0,
+          "height": 0,
+          "visible": true,
+          "rotation": 0,
+          "properties": [
+            {
+              "name": "id",
+              "type": "string",
+              "value": "stoneminder"
+            },
+            {
+              "name": "dialog_id",
+              "type": "string",
+              "value": "stoneminder_intro"
+            }
+          ]
         }
       ]
     },
@@ -1609,7 +1724,7 @@
       "opacity": 1,
       "objects": [
         {
-          "id": 8,
+          "id": 13,
           "name": "encounter_0",
           "type": "Encounter",
           "x": 64,
@@ -1637,7 +1752,7 @@
           ]
         },
         {
-          "id": 9,
+          "id": 14,
           "name": "encounter_1",
           "type": "Encounter",
           "x": 224,

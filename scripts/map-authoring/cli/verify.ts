@@ -25,6 +25,7 @@ import { emitTmj } from '../lib/emitter';
 import { emitTmx } from '../lib/tmx-emitter';
 import { loadTilesetsForSpec } from '../lib/loader';
 import type { MapSpec } from '../lib/types';
+import { mergeDossierNpcsIntoSpec } from '../lib/dossier-merge';
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const worktreeRoot = resolve(__dirname, '..', '..', '..');
@@ -84,15 +85,18 @@ async function main(): Promise<void> {
         if (!tmxIds.has(id) && !tmjIds.has(id)) continue;
         const specPath = join(specsDir, `${id}.ts`);
         const mod = (await import(pathToFileURL(specPath).href)) as { default?: MapSpec };
-        const spec = mod.default;
-        if (!spec) {
+        const specRaw = mod.default;
+        if (!specRaw) {
             errors.push(`specs/${id}.ts has no default export`);
             continue;
         }
-        if (spec.id !== id) {
-            errors.push(`specs/${id}.ts declares spec.id="${spec.id}" — must match filename`);
+        if (specRaw.id !== id) {
+            errors.push(`specs/${id}.ts declares spec.id="${specRaw.id}" — must match filename`);
             continue;
         }
+        // Merge region-dossier NPC appearances before emitting, matching
+        // what author:build and author:all do at emission time.
+        const spec = mergeDossierNpcsIntoSpec(specRaw);
         const tilesets = await loadTilesetsForSpec(spec, worktreeRoot);
         if (tmjIds.has(id)) {
             const tmjPath = join(mapsDir, `${id}.tmj`);

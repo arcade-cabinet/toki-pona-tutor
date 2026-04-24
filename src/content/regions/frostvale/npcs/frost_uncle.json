@@ -4,7 +4,7 @@
   "home_region": "frostvale",
   "role": "warden_lore_keeper",
   "appearances": [
-    { "region": "frostvale", "spawn": [5, 7], "default": true }
+    { "region": "frostvale", "spawn": [4, 11], "default": true }
   ],
   "dialog_states": [
     {

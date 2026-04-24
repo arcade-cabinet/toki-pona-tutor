@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-down"
      width="20" height="16" tilewidth="16" tileheight="16" infinite="0"
-     nextlayerid="4" nextobjectid="8">
+     nextlayerid="4" nextobjectid="13">
  <properties>
    <property name="biome" value="town"/>
    <property name="music_track" value="bgm_village"/>
@@ -90,6 +90,36 @@
      <property name="target_map" value="frostvale"/>
      <property name="target_spawn" value="from_lakehaven"/>
      <property name="required_flag" value="badge_telo"/>
+   </properties>
+  </object>
+  <object id="8" name="npc-angler" type="NPC" x="64" y="112" width="0" height="0" visible="1" rotation="0">
+   <properties>
+     <property name="id" value="angler"/>
+     <property name="dialog_id" value="angler_rest"/>
+   </properties>
+  </object>
+  <object id="9" name="npc-kala_lili" type="NPC" x="144" y="208" width="0" height="0" visible="1" rotation="0">
+   <properties>
+     <property name="id" value="kala_lili"/>
+     <property name="dialog_id" value="kala_lili_intro"/>
+   </properties>
+  </object>
+  <object id="10" name="npc-kala_suli" type="NPC" x="240" y="192" width="0" height="0" visible="1" rotation="0">
+   <properties>
+     <property name="id" value="kala_suli"/>
+     <property name="dialog_id" value="kala_suli_intro"/>
+   </properties>
+  </object>
+  <object id="11" name="npc-lodge_keeper" type="NPC" x="256" y="48" width="0" height="0" visible="1" rotation="0">
+   <properties>
+     <property name="id" value="lodge_keeper"/>
+     <property name="dialog_id" value="lodge_keeper_intro"/>
+   </properties>
+  </object>
+  <object id="12" name="npc-piper_cousin" type="NPC" x="176" y="160" width="0" height="0" visible="1" rotation="0">
+   <properties>
+     <property name="id" value="piper_cousin"/>
+     <property name="dialog_id" value="piper_cousin_intro"/>
    </properties>
   </object>
  </objectgroup>

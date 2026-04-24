@@ -11,7 +11,7 @@
   "infinite": false,
   "compressionlevel": -1,
   "nextlayerid": 4,
-  "nextobjectid": 8,
+  "nextobjectid": 13,
   "properties": [
     {
       "name": "biome",
@@ -881,6 +881,121 @@
               "name": "required_flag",
               "type": "string",
               "value": "badge_telo"
+            }
+          ]
+        },
+        {
+          "id": 8,
+          "name": "npc-angler",
+          "type": "NPC",
+          "x": 64,
+          "y": 112,
+          "width": 0,
+          "height": 0,
+          "visible": true,
+          "rotation": 0,
+          "properties": [
+            {
+              "name": "id",
+              "type": "string",
+              "value": "angler"
+            },
+            {
+              "name": "dialog_id",
+              "type": "string",
+              "value": "angler_rest"
+            }
+          ]
+        },
+        {
+          "id": 9,
+          "name": "npc-kala_lili",
+          "type": "NPC",
+          "x": 144,
+          "y": 208,
+          "width": 0,
+          "height": 0,
+          "visible": true,
+          "rotation": 0,
+          "properties": [
+            {
+              "name": "id",
+              "type": "string",
+              "value": "kala_lili"
+            },
+            {
+              "name": "dialog_id",
+              "type": "string",
+              "value": "kala_lili_intro"
+            }
+          ]
+        },
+        {
+          "id": 10,
+          "name": "npc-kala_suli",
+          "type": "NPC",
+          "x": 240,
+          "y": 192,
+          "width": 0,
+          "height": 0,
+          "visible": true,
+          "rotation": 0,
+          "properties": [
+            {
+              "name": "id",
+              "type": "string",
+              "value": "kala_suli"
+            },
+            {
+              "name": "dialog_id",
+              "type": "string",
+              "value": "kala_suli_intro"
+            }
+          ]
+        },
+        {
+          "id": 11,
+          "name": "npc-lodge_keeper",
+          "type": "NPC",
+          "x": 256,
+          "y": 48,
+          "width": 0,
+          "height": 0,
+          "visible": true,
+          "rotation": 0,
+          "properties": [
+            {
+              "name": "id",
+              "type": "string",
+              "value": "lodge_keeper"
+            },
+            {
+              "name": "dialog_id",
+              "type": "string",
+              "value": "lodge_keeper_intro"
+            }
+          ]
+        },
+        {
+          "id": 12,
+          "name": "npc-piper_cousin",
+          "type": "NPC",
+          "x": 176,
+          "y": 160,
+          "width": 0,
+          "height": 0,
+          "visible": true,
+          "rotation": 0,
+          "properties": [
+            {
+              "name": "id",
+              "type": "string",
+              "value": "piper_cousin"
+            },
+            {
+              "name": "dialog_id",
+              "type": "string",
+              "value": "piper_cousin_intro"
             }
           ]
         }
