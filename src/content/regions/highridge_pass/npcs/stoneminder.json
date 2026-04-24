@@ -4,7 +4,7 @@
   "home_region": "highridge_pass",
   "role": "shrine_carver",
   "appearances": [
-    { "region": "highridge_pass", "spawn": [18, 3], "default": true }
+    { "region": "highridge_pass", "spawn": [11, 5], "default": true }
   ],
   "dialog_states": [
     {

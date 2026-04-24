@@ -6469,6 +6469,45 @@
           }
         },
         {
+          "layer": "Objects",
+          "name": "npc-cave_kid",
+          "type": "NPC",
+          "x": 48,
+          "y": 224,
+          "width": 0,
+          "height": 0,
+          "properties": {
+            "id": "cave_kid",
+            "dialog_id": "cave_kid_intro"
+          }
+        },
+        {
+          "layer": "Objects",
+          "name": "npc-torch_bearer",
+          "type": "NPC",
+          "x": 112,
+          "y": 128,
+          "width": 0,
+          "height": 0,
+          "properties": {
+            "id": "torch_bearer",
+            "dialog_id": "torch_bearer_intro"
+          }
+        },
+        {
+          "layer": "Objects",
+          "name": "npc-warden_ghost",
+          "type": "NPC",
+          "x": 128,
+          "y": 80,
+          "width": 0,
+          "height": 0,
+          "properties": {
+            "id": "warden_ghost",
+            "dialog_id": "warden_ghost_speaks"
+          }
+        },
+        {
           "layer": "Encounters",
           "name": "encounter_0",
           "type": "Encounter",
@@ -6595,6 +6634,58 @@
           }
         },
         {
+          "layer": "Objects",
+          "name": "npc-cormorant",
+          "type": "NPC",
+          "x": 288,
+          "y": 48,
+          "width": 0,
+          "height": 0,
+          "properties": {
+            "id": "cormorant",
+            "dialog_id": "cormorant_tuneup"
+          }
+        },
+        {
+          "layer": "Objects",
+          "name": "npc-ember",
+          "type": "NPC",
+          "x": 224,
+          "y": 128,
+          "width": 0,
+          "height": 0,
+          "properties": {
+            "id": "ember",
+            "dialog_id": "ember_frostvale"
+          }
+        },
+        {
+          "layer": "Objects",
+          "name": "npc-frost_uncle",
+          "type": "NPC",
+          "x": 64,
+          "y": 176,
+          "width": 0,
+          "height": 0,
+          "properties": {
+            "id": "frost_uncle",
+            "dialog_id": "frost_uncle_intro"
+          }
+        },
+        {
+          "layer": "Objects",
+          "name": "npc-snow_kid",
+          "type": "NPC",
+          "x": 272,
+          "y": 80,
+          "width": 0,
+          "height": 0,
+          "properties": {
+            "id": "snow_kid",
+            "dialog_id": "snow_kid_intro"
+          }
+        },
+        {
           "layer": "Encounters",
           "name": "encounter_0",
           "type": "Encounter",
@@ -6718,6 +6809,32 @@
             "target_map": "highridge_pass",
             "target_spawn": "from_greenwood_road",
             "required_flag": "rook_defeated"
+          }
+        },
+        {
+          "layer": "Objects",
+          "name": "npc-corvin",
+          "type": "NPC",
+          "x": 32,
+          "y": 96,
+          "width": 0,
+          "height": 0,
+          "properties": {
+            "id": "corvin",
+            "dialog_id": "corvin_watch"
+          }
+        },
+        {
+          "layer": "Objects",
+          "name": "npc-ansel",
+          "type": "NPC",
+          "x": 256,
+          "y": 80,
+          "width": 0,
+          "height": 0,
+          "properties": {
+            "id": "ansel",
+            "dialog_id": "ansel_greenwood"
           }
         },
         {
@@ -6861,6 +6978,71 @@
           }
         },
         {
+          "layer": "Objects",
+          "name": "npc-ansel",
+          "type": "NPC",
+          "x": 160,
+          "y": 144,
+          "width": 0,
+          "height": 0,
+          "properties": {
+            "id": "ansel",
+            "dialog_id": "ansel_greenwood"
+          }
+        },
+        {
+          "layer": "Objects",
+          "name": "npc-breeze",
+          "type": "NPC",
+          "x": 224,
+          "y": 128,
+          "width": 0,
+          "height": 0,
+          "properties": {
+            "id": "breeze",
+            "dialog_id": "breeze_intro"
+          }
+        },
+        {
+          "layer": "Objects",
+          "name": "npc-hiker",
+          "type": "NPC",
+          "x": 352,
+          "y": 96,
+          "width": 0,
+          "height": 0,
+          "properties": {
+            "id": "hiker",
+            "dialog_id": "hiker_intro"
+          }
+        },
+        {
+          "layer": "Objects",
+          "name": "npc-shrine_kid",
+          "type": "NPC",
+          "x": 320,
+          "y": 80,
+          "width": 0,
+          "height": 0,
+          "properties": {
+            "id": "shrine_kid",
+            "dialog_id": "shrine_kid_intro"
+          }
+        },
+        {
+          "layer": "Objects",
+          "name": "npc-stoneminder",
+          "type": "NPC",
+          "x": 176,
+          "y": 80,
+          "width": 0,
+          "height": 0,
+          "properties": {
+            "id": "stoneminder",
+            "dialog_id": "stoneminder_intro"
+          }
+        },
+        {
           "layer": "Encounters",
           "name": "encounter_0",
           "type": "Encounter",
@@ -6985,6 +7167,71 @@
             "target_spawn": "from_lakehaven",
             "required_flag": "badge_telo"
           }
+        },
+        {
+          "layer": "Objects",
+          "name": "npc-angler",
+          "type": "NPC",
+          "x": 64,
+          "y": 112,
+          "width": 0,
+          "height": 0,
+          "properties": {
+            "id": "angler",
+            "dialog_id": "angler_rest"
+          }
+        },
+        {
+          "layer": "Objects",
+          "name": "npc-kala_lili",
+          "type": "NPC",
+          "x": 144,
+          "y": 208,
+          "width": 0,
+          "height": 0,
+          "properties": {
+            "id": "kala_lili",
+            "dialog_id": "kala_lili_intro"
+          }
+        },
+        {
+          "layer": "Objects",
+          "name": "npc-kala_suli",
+          "type": "NPC",
+          "x": 240,
+          "y": 192,
+          "width": 0,
+          "height": 0,
+          "properties": {
+            "id": "kala_suli",
+            "dialog_id": "kala_suli_intro"
+          }
+        },
+        {
+          "layer": "Objects",
+          "name": "npc-lodge_keeper",
+          "type": "NPC",
+          "x": 256,
+          "y": 48,
+          "width": 0,
+          "height": 0,
+          "properties": {
+            "id": "lodge_keeper",
+            "dialog_id": "lodge_keeper_intro"
+          }
+        },
+        {
+          "layer": "Objects",
+          "name": "npc-piper_cousin",
+          "type": "NPC",
+          "x": 176,
+          "y": 160,
+          "width": 0,
+          "height": 0,
+          "properties": {
+            "id": "piper_cousin",
+            "dialog_id": "piper_cousin_intro"
+          }
         }
       ]
     },
@@ -7081,6 +7328,61 @@
           "properties": {
             "target_event": "green_dragon",
             "required_flag": "badges_all_four"
+          }
+        },
+        {
+          "layer": "Objects",
+          "name": "npc-rook",
+          "type": "NPC",
+          "x": 32,
+          "y": 112,
+          "width": 0,
+          "height": 0,
+          "properties": {
+            "id": "rook",
+            "dialog_id": "rook_intro",
+            "required_flag": "badge_suli"
+          }
+        },
+        {
+          "layer": "Objects",
+          "name": "npc-kala_lili",
+          "type": "NPC",
+          "x": 160,
+          "y": 144,
+          "width": 0,
+          "height": 0,
+          "properties": {
+            "id": "kala_lili",
+            "dialog_id": "kala_lili_intro",
+            "required_flag": "badge_suli"
+          }
+        },
+        {
+          "layer": "Objects",
+          "name": "npc-kala_suli",
+          "type": "NPC",
+          "x": 176,
+          "y": 128,
+          "width": 0,
+          "height": 0,
+          "properties": {
+            "id": "kala_suli",
+            "dialog_id": "kala_suli_intro",
+            "required_flag": "badge_suli"
+          }
+        },
+        {
+          "layer": "Objects",
+          "name": "npc-green_dragon",
+          "type": "NPC",
+          "x": 224,
+          "y": 32,
+          "width": 0,
+          "height": 0,
+          "properties": {
+            "id": "green_dragon",
+            "dialog_id": "green_dragon_intro"
           }
         },
         {

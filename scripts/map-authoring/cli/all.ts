@@ -10,6 +10,7 @@ import { tmpdir } from "node:os";
 import { PNG } from "pngjs";
 import { emitTmj, emitTmx, loadTilesetsForSpec, renderTmj, validateSpec } from "../lib/index";
 import { buildDerivedTilesets } from "../lib/derived-tilesets";
+import { mergeDossierNpcsIntoSpec } from "../lib/dossier-merge";
 import type { MapSpec, ValidationIssue } from "../lib/index";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
@@ -73,15 +74,17 @@ async function processOne(id: string, options: { dryRun: boolean }): Promise<voi
     if (!mod.default) {
         throw new Error(`spec "${specPath}" has no default export`);
     }
-    const spec = mod.default;
+    const specRaw = mod.default;
     // Require the spec's id to match the requested id (which was already
     // validated by assertSafeMapId). This prevents an author from setting
     // spec.id = "../escape" and having the emitted TMJ land outside mapsDir.
-    if (spec.id !== id) {
+    if (specRaw.id !== id) {
         throw new Error(
-            `spec.id "${spec.id}" does not match requested id "${id}"; they must match`,
+            `spec.id "${specRaw.id}" does not match requested id "${id}"; they must match`,
         );
     }
+    // Merge dossier NPC appearances. Hand-authored wins on id collision.
+    const spec = mergeDossierNpcsIntoSpec(specRaw);
     const tilesets = await loadTilesetsForSpec(spec, worktreeRoot);
 
     // Validate

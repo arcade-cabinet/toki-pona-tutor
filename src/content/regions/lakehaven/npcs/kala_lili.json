@@ -4,7 +4,7 @@
   "home_region": "lakehaven",
   "role": "fisher_sibling_small",
   "appearances": [
-    { "region": "lakehaven", "spawn": [12, 11], "default": true },
+    { "region": "lakehaven", "spawn": [9, 13], "default": true },
     { "region": "rivergate_approach", "spawn": [10, 9], "requires_flag": "badge_suli" }
   ],
   "dialog_states": [

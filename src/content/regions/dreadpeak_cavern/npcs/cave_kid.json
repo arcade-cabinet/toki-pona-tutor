@@ -4,7 +4,7 @@
   "home_region": "dreadpeak_cavern",
   "role": "sneaking_kid",
   "appearances": [
-    { "region": "dreadpeak_cavern", "spawn": [5, 16], "default": true }
+    { "region": "dreadpeak_cavern", "spawn": [3, 14], "default": true }
   ],
   "dialog_states": [
     {

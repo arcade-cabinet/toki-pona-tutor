@@ -11,7 +11,7 @@
   "infinite": false,
   "compressionlevel": -1,
   "nextlayerid": 6,
-  "nextobjectid": 10,
+  "nextobjectid": 13,
   "properties": [
     {
       "name": "biome",
@@ -1204,6 +1204,75 @@
               "value": "badge_suli"
             }
           ]
+        },
+        {
+          "id": 8,
+          "name": "npc-cave_kid",
+          "type": "NPC",
+          "x": 48,
+          "y": 224,
+          "width": 0,
+          "height": 0,
+          "visible": true,
+          "rotation": 0,
+          "properties": [
+            {
+              "name": "id",
+              "type": "string",
+              "value": "cave_kid"
+            },
+            {
+              "name": "dialog_id",
+              "type": "string",
+              "value": "cave_kid_intro"
+            }
+          ]
+        },
+        {
+          "id": 9,
+          "name": "npc-torch_bearer",
+          "type": "NPC",
+          "x": 112,
+          "y": 128,
+          "width": 0,
+          "height": 0,
+          "visible": true,
+          "rotation": 0,
+          "properties": [
+            {
+              "name": "id",
+              "type": "string",
+              "value": "torch_bearer"
+            },
+            {
+              "name": "dialog_id",
+              "type": "string",
+              "value": "torch_bearer_intro"
+            }
+          ]
+        },
+        {
+          "id": 10,
+          "name": "npc-warden_ghost",
+          "type": "NPC",
+          "x": 128,
+          "y": 80,
+          "width": 0,
+          "height": 0,
+          "visible": true,
+          "rotation": 0,
+          "properties": [
+            {
+              "name": "id",
+              "type": "string",
+              "value": "warden_ghost"
+            },
+            {
+              "name": "dialog_id",
+              "type": "string",
+              "value": "warden_ghost_speaks"
+            }
+          ]
         }
       ]
     },
@@ -1217,7 +1286,7 @@
       "opacity": 1,
       "objects": [
         {
-          "id": 8,
+          "id": 11,
           "name": "encounter_0",
           "type": "Encounter",
           "x": 48,
@@ -1245,7 +1314,7 @@
           ]
         },
         {
-          "id": 9,
+          "id": 12,
           "name": "encounter_1",
           "type": "Encounter",
           "x": 160,

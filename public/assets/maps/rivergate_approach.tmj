@@ -11,7 +11,7 @@
   "infinite": false,
   "compressionlevel": -1,
   "nextlayerid": 5,
-  "nextobjectid": 10,
+  "nextobjectid": 14,
   "properties": [
     {
       "name": "biome",
@@ -1018,6 +1018,113 @@
               "value": "badges_all_four"
             }
           ]
+        },
+        {
+          "id": 8,
+          "name": "npc-rook",
+          "type": "NPC",
+          "x": 32,
+          "y": 112,
+          "width": 0,
+          "height": 0,
+          "visible": true,
+          "rotation": 0,
+          "properties": [
+            {
+              "name": "id",
+              "type": "string",
+              "value": "rook"
+            },
+            {
+              "name": "dialog_id",
+              "type": "string",
+              "value": "rook_intro"
+            },
+            {
+              "name": "required_flag",
+              "type": "string",
+              "value": "badge_suli"
+            }
+          ]
+        },
+        {
+          "id": 9,
+          "name": "npc-kala_lili",
+          "type": "NPC",
+          "x": 160,
+          "y": 144,
+          "width": 0,
+          "height": 0,
+          "visible": true,
+          "rotation": 0,
+          "properties": [
+            {
+              "name": "id",
+              "type": "string",
+              "value": "kala_lili"
+            },
+            {
+              "name": "dialog_id",
+              "type": "string",
+              "value": "kala_lili_intro"
+            },
+            {
+              "name": "required_flag",
+              "type": "string",
+              "value": "badge_suli"
+            }
+          ]
+        },
+        {
+          "id": 10,
+          "name": "npc-kala_suli",
+          "type": "NPC",
+          "x": 176,
+          "y": 128,
+          "width": 0,
+          "height": 0,
+          "visible": true,
+          "rotation": 0,
+          "properties": [
+            {
+              "name": "id",
+              "type": "string",
+              "value": "kala_suli"
+            },
+            {
+              "name": "dialog_id",
+              "type": "string",
+              "value": "kala_suli_intro"
+            },
+            {
+              "name": "required_flag",
+              "type": "string",
+              "value": "badge_suli"
+            }
+          ]
+        },
+        {
+          "id": 11,
+          "name": "npc-green_dragon",
+          "type": "NPC",
+          "x": 224,
+          "y": 32,
+          "width": 0,
+          "height": 0,
+          "visible": true,
+          "rotation": 0,
+          "properties": [
+            {
+              "name": "id",
+              "type": "string",
+              "value": "green_dragon"
+            },
+            {
+              "name": "dialog_id",
+              "type": "string",
+              "value": "green_dragon_intro"
+            }
+          ]
         }
       ]
     },
@@ -1031,7 +1138,7 @@
       "opacity": 1,
       "objects": [
         {
-          "id": 8,
+          "id": 12,
           "name": "encounter_0",
           "type": "Encounter",
           "x": 64,
@@ -1059,7 +1166,7 @@
           ]
         },
         {
-          "id": 9,
+          "id": 13,
           "name": "encounter_1",
           "type": "Encounter",
           "x": 224,
