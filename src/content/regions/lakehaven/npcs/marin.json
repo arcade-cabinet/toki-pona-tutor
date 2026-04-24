@@ -1,0 +1,73 @@
+{
+  "id": "marin",
+  "display_name": "Marin",
+  "home_region": "lakehaven",
+  "role": "region_master",
+  "appearances": [
+    { "region": "lakehaven", "spawn": [10, 8], "default": true }
+  ],
+  "dialog_states": [
+    {
+      "id": "marin_intro",
+      "when": { "flag_absent": "badge_telo" },
+      "priority": 10,
+      "beats": [
+        {
+          "text": { "en": "Lakehaven watches the water and the trainer." },
+          "mood": "excited",
+          "glyph": "wild-signs"
+        },
+        {
+          "text": { "en": "Let's see if you can read both." },
+          "mood": "excited",
+          "glyph": "battle-ready"
+        }
+      ]
+    },
+    {
+      "id": "marin_victory",
+      "when": { "flag_present": "badge_telo", "flag_absent": "badge_lete" },
+      "priority": 5,
+      "beats": [
+        {
+          "text": { "en": "You stayed calm under pressure." },
+          "mood": "sad",
+          "glyph": "companion-bond"
+        },
+        {
+          "text": { "en": "Take the lake badge. And take this letter to Frost; they should read it before you do." },
+          "mood": "thinking",
+          "glyph": "greenwood-watch"
+        }
+      ]
+    },
+    {
+      "id": "marin_post_third_gym",
+      "when": { "flag_present": "badge_lete", "flag_absent": "badge_suli" },
+      "priority": 5,
+      "beats": [
+        {
+          "text": { "en": "Frost read the letter. I could feel it from here — the shift in the wind." },
+          "mood": "thinking",
+          "glyph": "wild-signs"
+        },
+        {
+          "text": { "en": "The fish are still moving inland. Whatever's upstream hasn't stopped." },
+          "mood": "sad"
+        }
+      ]
+    },
+    {
+      "id": "marin_post_clear",
+      "when": { "flag_present": "game_cleared" },
+      "priority": 3,
+      "beats": [
+        {
+          "text": { "en": "The water's flat again, Rivers. You did that." },
+          "mood": "happy",
+          "glyph": "companion-bond"
+        }
+      ]
+    }
+  ]
+}

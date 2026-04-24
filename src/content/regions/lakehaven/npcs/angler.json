@@ -1,0 +1,35 @@
+{
+  "id": "angler",
+  "display_name": "Joss",
+  "home_region": "lakehaven",
+  "role": "water_edge_quest_giver",
+  "appearances": [
+    { "region": "lakehaven", "spawn": [4, 7], "default": true }
+  ],
+  "dialog_states": [
+    {
+      "id": "angler_rest",
+      "when": {},
+      "priority": 0,
+      "beats": [
+        {
+          "text": { "en": "The lake wind makes everyone slow down." },
+          "mood": "thinking",
+          "glyph": "safe-house"
+        }
+      ]
+    },
+    {
+      "id": "angler_water_edge",
+      "when": { "flag_present": "badge_telo" },
+      "priority": 5,
+      "beats": [
+        {
+          "text": { "en": "Catch two reed-edge creatures for my field count — what did you say? — the frogs, the frogs in the reeds." },
+          "mood": "happy",
+          "glyph": "water-edge"
+        }
+      ]
+    }
+  ]
+}

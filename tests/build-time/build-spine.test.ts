@@ -95,7 +95,7 @@ describe('T6-03: build-spine writes every expected key into world.json', () => {
             .toBe(true);
     });
 
-    it('expected content counts: 43 species, 17 moves, 5 items, 62 dialog, 7 beats, 7 maps', () => {
+    it('expected content counts: 43 species, 17 moves, 5 items, 72 dialog, 7 beats, 7 maps', () => {
         expect(WORLD.species).toHaveLength(43);
         expect(WORLD.moves).toHaveLength(17);
         expect(WORLD.items).toHaveLength(5);
@@ -103,7 +103,7 @@ describe('T6-03: build-spine writes every expected key into world.json', () => {
         // NPCs migrate to regions/<id>/npcs/. Growth comes from adding
         // new states (post-first-gym, post-clear) to migrated NPCs so
         // the world reacts to plot progression.
-        expect(WORLD.dialog).toHaveLength(62);
+        expect(WORLD.dialog).toHaveLength(72);
         expect(WORLD.journey.beats).toHaveLength(7);
         expect(WORLD.maps).toHaveLength(7);
     });
@@ -114,6 +114,7 @@ describe('T6-03: build-spine writes every expected key into world.json', () => {
                 expect.objectContaining({ id: 'riverside_home', biome: 'town' }),
                 expect.objectContaining({ id: 'greenwood_road', biome: 'forest' }),
                 expect.objectContaining({ id: 'highridge_pass', biome: 'peak' }),
+                expect.objectContaining({ id: 'lakehaven', biome: 'water' }),
             ]),
         );
         expect(WORLD.signs).toEqual(
@@ -121,6 +122,7 @@ describe('T6-03: build-spine writes every expected key into world.json', () => {
                 expect.objectContaining({ region: 'riverside_home', title: 'RIVERSIDE HOME' }),
                 expect.objectContaining({ region: 'greenwood_road', title: 'GREENWOOD ROAD' }),
                 expect.objectContaining({ region: 'highridge_pass', title: 'HIGHRIDGE PASS' }),
+                expect.objectContaining({ region: 'lakehaven', title: 'LAKEHAVEN' }),
             ]),
         );
     });

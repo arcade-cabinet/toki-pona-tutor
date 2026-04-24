@@ -1,0 +1,20 @@
+{
+  "region": "lakehaven",
+  "signs": [
+    {
+      "at": [10, 14],
+      "title": "LAKEHAVEN",
+      "body": { "en": "Built on the oldest stone in the valley." }
+    },
+    {
+      "at": [8, 8],
+      "title": "MEZA'S STALL",
+      "body": { "en": "Fish bought here. Tokens only." }
+    },
+    {
+      "at": [10, 1],
+      "title": "FERRY NORTH",
+      "body": { "en": "Winter only. Walk the ice when it holds." }
+    }
+  ]
+}

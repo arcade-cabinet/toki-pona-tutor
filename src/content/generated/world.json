@@ -4182,21 +4182,6 @@
   ],
   "dialog": [
     {
-      "id": "angler_rest",
-      "npc_id": "angler",
-      "priority": 0,
-      "beats": [
-        {
-          "text": {
-            "en": "The lake wind makes everyone slow down."
-          },
-          "mood": "thinking",
-          "glyph": "safe-house"
-        }
-      ],
-      "triggers": {}
-    },
-    {
       "id": "boulder_mountain",
       "npc_id": "boulder",
       "priority": 0,
@@ -4582,21 +4567,6 @@
       "triggers": {}
     },
     {
-      "id": "loren_lake_quest",
-      "npc_id": "loren",
-      "priority": 0,
-      "beats": [
-        {
-          "text": {
-            "en": "Lakehaven needs a runner with steady hands."
-          },
-          "mood": "thinking",
-          "glyph": "safe-house"
-        }
-      ],
-      "triggers": {}
-    },
-    {
       "id": "luma_light",
       "npc_id": "luma",
       "priority": 0,
@@ -4614,56 +4584,6 @@
           },
           "mood": "sad",
           "glyph": "safe-house"
-        }
-      ],
-      "triggers": {}
-    },
-    {
-      "id": "marin_intro",
-      "npc_id": "marin",
-      "when_flags": {
-        "badge_telo": false
-      },
-      "priority": 10,
-      "beats": [
-        {
-          "text": {
-            "en": "Lakehaven watches the water and the trainer."
-          },
-          "mood": "excited",
-          "glyph": "wild-signs"
-        },
-        {
-          "text": {
-            "en": "Let's see if you can read both."
-          },
-          "mood": "excited",
-          "glyph": "battle-ready"
-        }
-      ],
-      "triggers": {}
-    },
-    {
-      "id": "marin_victory",
-      "npc_id": "marin",
-      "when_flags": {
-        "badge_telo": true
-      },
-      "priority": 5,
-      "beats": [
-        {
-          "text": {
-            "en": "You stayed calm under pressure."
-          },
-          "mood": "sad",
-          "glyph": "companion-bond"
-        },
-        {
-          "text": {
-            "en": "Take the lake badge."
-          },
-          "mood": "thinking",
-          "glyph": "greenwood-watch"
         }
       ],
       "triggers": {}
@@ -4803,21 +4723,6 @@
           },
           "mood": "thinking",
           "glyph": "greenwood-watch"
-        }
-      ],
-      "triggers": {}
-    },
-    {
-      "id": "shopkeep_stall",
-      "npc_id": "shopkeep",
-      "priority": 0,
-      "beats": [
-        {
-          "text": {
-            "en": "Fruit, pods, and tonics. Nothing fancy, all useful."
-          },
-          "mood": "happy",
-          "glyph": "orchard-fruit"
         }
       ],
       "triggers": {}
@@ -5460,6 +5365,321 @@
       "triggers": {},
       "when_flags": {
         "game_cleared": true
+      }
+    },
+    {
+      "id": "angler_rest",
+      "npc_id": "angler",
+      "priority": 0,
+      "beats": [
+        {
+          "text": {
+            "en": "The lake wind makes everyone slow down."
+          },
+          "mood": "thinking",
+          "glyph": "safe-house"
+        }
+      ],
+      "triggers": {}
+    },
+    {
+      "id": "angler_water_edge",
+      "npc_id": "angler",
+      "priority": 5,
+      "beats": [
+        {
+          "text": {
+            "en": "Catch two reed-edge creatures for my field count — what did you say? — the frogs, the frogs in the reeds."
+          },
+          "mood": "happy",
+          "glyph": "water-edge"
+        }
+      ],
+      "triggers": {},
+      "when_flags": {
+        "badge_telo": true
+      }
+    },
+    {
+      "id": "kala_lili_intro",
+      "npc_id": "kala_lili",
+      "priority": 0,
+      "beats": [
+        {
+          "text": {
+            "en": "My brother catches the big ones. I catch the fast ones."
+          },
+          "mood": "happy",
+          "glyph": "companion-bond"
+        },
+        {
+          "text": {
+            "en": "The fish are moving inland. All of them. It's weird."
+          },
+          "mood": "thinking",
+          "glyph": "wild-signs"
+        }
+      ],
+      "triggers": {}
+    },
+    {
+      "id": "kala_suli_intro",
+      "npc_id": "kala_suli",
+      "priority": 0,
+      "beats": [
+        {
+          "text": {
+            "en": "She tells everyone she catches the fast ones."
+          },
+          "mood": "happy",
+          "glyph": "companion-bond"
+        },
+        {
+          "text": {
+            "en": "She's right. I weigh them, she names them. It works."
+          },
+          "mood": "thinking"
+        }
+      ],
+      "triggers": {}
+    },
+    {
+      "id": "lodge_keeper_intro",
+      "npc_id": "lodge_keeper",
+      "priority": 0,
+      "beats": [
+        {
+          "text": {
+            "en": "One trail token buys a cot and hot water. Cheap for a tired team."
+          },
+          "mood": "happy",
+          "glyph": "safe-house"
+        },
+        {
+          "text": {
+            "en": "The north door opens in winter. Don't try it in summer or the hinges will scream at you."
+          },
+          "mood": "thinking"
+        }
+      ],
+      "triggers": {}
+    },
+    {
+      "id": "loren_lake_quest",
+      "npc_id": "loren",
+      "priority": 0,
+      "beats": [
+        {
+          "text": {
+            "en": "Lakehaven needs a runner with steady hands."
+          },
+          "mood": "thinking",
+          "glyph": "safe-house"
+        }
+      ],
+      "triggers": {},
+      "when_flags": {
+        "lost_hiker_delivered": false
+      }
+    },
+    {
+      "id": "loren_post_hiker",
+      "npc_id": "loren",
+      "priority": 5,
+      "beats": [
+        {
+          "text": {
+            "en": "We carried your Highridge hiker down to the warm stones. Marin said you'd come through."
+          },
+          "mood": "happy",
+          "glyph": "companion-bond"
+        },
+        {
+          "text": {
+            "en": "Marin is my sibling, by the way. She doesn't tell many people."
+          },
+          "mood": "thinking"
+        }
+      ],
+      "triggers": {},
+      "when_flags": {
+        "lost_hiker_delivered": true,
+        "badge_telo": false
+      }
+    },
+    {
+      "id": "loren_post_lakehaven_fight",
+      "npc_id": "loren",
+      "priority": 5,
+      "beats": [
+        {
+          "text": {
+            "en": "Marin never fights anyone she thinks will lose. She fought you anyway."
+          },
+          "mood": "happy",
+          "glyph": "companion-bond"
+        },
+        {
+          "text": {
+            "en": "Here — a wind-braid. Brindle up in Frostvale will know what it means."
+          },
+          "mood": "thinking",
+          "glyph": "cold-hands"
+        }
+      ],
+      "triggers": {},
+      "when_flags": {
+        "badge_telo": true,
+        "badge_lete": false
+      }
+    },
+    {
+      "id": "marin_intro",
+      "npc_id": "marin",
+      "priority": 10,
+      "beats": [
+        {
+          "text": {
+            "en": "Lakehaven watches the water and the trainer."
+          },
+          "mood": "excited",
+          "glyph": "wild-signs"
+        },
+        {
+          "text": {
+            "en": "Let's see if you can read both."
+          },
+          "mood": "excited",
+          "glyph": "battle-ready"
+        }
+      ],
+      "triggers": {},
+      "when_flags": {
+        "badge_telo": false
+      }
+    },
+    {
+      "id": "marin_victory",
+      "npc_id": "marin",
+      "priority": 5,
+      "beats": [
+        {
+          "text": {
+            "en": "You stayed calm under pressure."
+          },
+          "mood": "sad",
+          "glyph": "companion-bond"
+        },
+        {
+          "text": {
+            "en": "Take the lake badge. And take this letter to Frost; they should read it before you do."
+          },
+          "mood": "thinking",
+          "glyph": "greenwood-watch"
+        }
+      ],
+      "triggers": {},
+      "when_flags": {
+        "badge_telo": true,
+        "badge_lete": false
+      }
+    },
+    {
+      "id": "marin_post_third_gym",
+      "npc_id": "marin",
+      "priority": 5,
+      "beats": [
+        {
+          "text": {
+            "en": "Frost read the letter. I could feel it from here — the shift in the wind."
+          },
+          "mood": "thinking",
+          "glyph": "wild-signs"
+        },
+        {
+          "text": {
+            "en": "The fish are still moving inland. Whatever's upstream hasn't stopped."
+          },
+          "mood": "sad"
+        }
+      ],
+      "triggers": {},
+      "when_flags": {
+        "badge_lete": true,
+        "badge_suli": false
+      }
+    },
+    {
+      "id": "marin_post_clear",
+      "npc_id": "marin",
+      "priority": 3,
+      "beats": [
+        {
+          "text": {
+            "en": "The water's flat again, Rivers. You did that."
+          },
+          "mood": "happy",
+          "glyph": "companion-bond"
+        }
+      ],
+      "triggers": {},
+      "when_flags": {
+        "game_cleared": true
+      }
+    },
+    {
+      "id": "piper_cousin_intro",
+      "npc_id": "piper_cousin",
+      "priority": 0,
+      "beats": [
+        {
+          "text": {
+            "en": "Piper sends letters about a kid named Rivers. That'd be you."
+          },
+          "mood": "happy",
+          "glyph": "companion-bond"
+        },
+        {
+          "text": {
+            "en": "Her orchard-fruit recipe is older than our grandmother. I make it here with lake salt."
+          },
+          "mood": "thinking",
+          "glyph": "orchard-fruit"
+        }
+      ],
+      "triggers": {}
+    },
+    {
+      "id": "shopkeep_stall",
+      "npc_id": "shopkeep",
+      "priority": 0,
+      "beats": [
+        {
+          "text": {
+            "en": "Fruit, pods, and tonics. Nothing fancy, all useful."
+          },
+          "mood": "happy",
+          "glyph": "orchard-fruit"
+        }
+      ],
+      "triggers": {}
+    },
+    {
+      "id": "shopkeep_post_purchase",
+      "npc_id": "shopkeep",
+      "priority": 5,
+      "beats": [
+        {
+          "text": {
+            "en": "You're a good customer, Rivers. I'll start a tab if you want."
+          },
+          "mood": "happy",
+          "glyph": "orchard-fruit"
+        }
+      ],
+      "triggers": {},
+      "when_flags": {
+        "shopkeep_first_sale": true
       }
     },
     {
@@ -6541,6 +6761,27 @@
       ]
     },
     {
+      "id": "lakehaven",
+      "display_name": "Lakehaven",
+      "biome": "water",
+      "music": "bgm_lake",
+      "size": {
+        "w": 20,
+        "h": 16
+      },
+      "neighbors": {
+        "south": "highridge_pass",
+        "north": "frostvale"
+      },
+      "summary": "A small stone island in the center of a round lake, reached by a pier. Story-and-shop beat with no wild encounters inside the village. Marin the harbor-master anchors the region.",
+      "flavor_beats": [
+        "The fog never fully burns off; lamps stay lit at noon.",
+        "The pier smells like fresh fish and spring-tonic herbs.",
+        "Reed beds on the shore host Reedfrogs.",
+        "Every stone in the island was quarried from Highridge two wardens ago."
+      ]
+    },
+    {
       "id": "riverside_home",
       "display_name": "Riverside Home",
       "biome": "town",
@@ -6624,6 +6865,39 @@
       "title": "THE FIRST STONE",
       "body": {
         "en": "One of four, laid by the first wardens."
+      }
+    },
+    {
+      "region": "lakehaven",
+      "at": [
+        10,
+        14
+      ],
+      "title": "LAKEHAVEN",
+      "body": {
+        "en": "Built on the oldest stone in the valley."
+      }
+    },
+    {
+      "region": "lakehaven",
+      "at": [
+        8,
+        8
+      ],
+      "title": "MEZA'S STALL",
+      "body": {
+        "en": "Fish bought here. Tokens only."
+      }
+    },
+    {
+      "region": "lakehaven",
+      "at": [
+        10,
+        1
+      ],
+      "title": "FERRY NORTH",
+      "body": {
+        "en": "Winter only. Walk the ice when it holds."
       }
     },
     {

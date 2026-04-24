@@ -1,0 +1,28 @@
+{
+  "id": "piper_cousin",
+  "display_name": "Reeve",
+  "home_region": "lakehaven",
+  "role": "cross_region_cousin",
+  "appearances": [
+    { "region": "lakehaven", "spawn": [11, 10], "default": true }
+  ],
+  "dialog_states": [
+    {
+      "id": "piper_cousin_intro",
+      "when": {},
+      "priority": 0,
+      "beats": [
+        {
+          "text": { "en": "Piper sends letters about a kid named Rivers. That'd be you." },
+          "mood": "happy",
+          "glyph": "companion-bond"
+        },
+        {
+          "text": { "en": "Her orchard-fruit recipe is older than our grandmother. I make it here with lake salt." },
+          "mood": "thinking",
+          "glyph": "orchard-fruit"
+        }
+      ]
+    }
+  ]
+}

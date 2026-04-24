@@ -1,0 +1,28 @@
+{
+  "id": "kala_suli",
+  "display_name": "Kala-Suli",
+  "home_region": "lakehaven",
+  "role": "fisher_sibling_big",
+  "appearances": [
+    { "region": "lakehaven", "spawn": [13, 12], "default": true },
+    { "region": "rivergate_approach", "spawn": [14, 10], "requires_flag": "badge_suli" }
+  ],
+  "dialog_states": [
+    {
+      "id": "kala_suli_intro",
+      "when": {},
+      "priority": 0,
+      "beats": [
+        {
+          "text": { "en": "She tells everyone she catches the fast ones." },
+          "mood": "happy",
+          "glyph": "companion-bond"
+        },
+        {
+          "text": { "en": "She's right. I weigh them, she names them. It works." },
+          "mood": "thinking"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,56 @@
+{
+  "id": "loren",
+  "display_name": "Loren",
+  "home_region": "lakehaven",
+  "role": "fisher_sage",
+  "appearances": [
+    { "region": "lakehaven", "spawn": [6, 10], "default": true }
+  ],
+  "dialog_states": [
+    {
+      "id": "loren_lake_quest",
+      "when": { "flag_absent": "lost_hiker_delivered" },
+      "priority": 0,
+      "beats": [
+        {
+          "text": { "en": "Lakehaven needs a runner with steady hands." },
+          "mood": "thinking",
+          "glyph": "safe-house"
+        }
+      ]
+    },
+    {
+      "id": "loren_post_hiker",
+      "when": { "flag_present": "lost_hiker_delivered", "flag_absent": "badge_telo" },
+      "priority": 5,
+      "beats": [
+        {
+          "text": { "en": "We carried your Highridge hiker down to the warm stones. Marin said you'd come through." },
+          "mood": "happy",
+          "glyph": "companion-bond"
+        },
+        {
+          "text": { "en": "Marin is my sibling, by the way. She doesn't tell many people." },
+          "mood": "thinking"
+        }
+      ]
+    },
+    {
+      "id": "loren_post_lakehaven_fight",
+      "when": { "flag_present": "badge_telo", "flag_absent": "badge_lete" },
+      "priority": 5,
+      "beats": [
+        {
+          "text": { "en": "Marin never fights anyone she thinks will lose. She fought you anyway." },
+          "mood": "happy",
+          "glyph": "companion-bond"
+        },
+        {
+          "text": { "en": "Here — a wind-braid. Brindle up in Frostvale will know what it means." },
+          "mood": "thinking",
+          "glyph": "cold-hands"
+        }
+      ]
+    }
+  ]
+}
