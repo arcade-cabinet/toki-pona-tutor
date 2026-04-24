@@ -19,11 +19,10 @@
 import type { RpgPlayer } from "@rpgjs/server";
 import {
     DICTIONARY_EXPORT_CONFIG,
-    FINAL_BOSS_CONFIG,
     VOCABULARY_SCREEN_CONFIG,
 } from "../../content/gameplay";
 import { formatGameplayTemplate } from "../../content/gameplay/templates";
-import { getFlag, listClueRecords } from "../../platform/persistence/queries";
+import { listClueRecords } from "../../platform/persistence/queries";
 import { clueLabel } from "./vocabulary";
 
 export const DICTIONARY_EXPORT_EVENT = "poki:dictionary-export";
@@ -186,16 +185,13 @@ export async function buildDictionaryExportSnapshot(
         masteryThreshold?: number;
     } = {},
 ): Promise<ExportSnapshot> {
-    const [words, cleared] = await Promise.all([
-        listClueRecords(
-            options.masteryThreshold ?? VOCABULARY_SCREEN_CONFIG.masteryThreshold,
-        ),
-        getFlag(FINAL_BOSS_CONFIG.clearedFlag),
-    ]);
+    const words = await listClueRecords(
+        options.masteryThreshold ?? VOCABULARY_SCREEN_CONFIG.masteryThreshold,
+    );
     return {
         playerName: options.playerName ?? DICTIONARY_EXPORT_CONFIG.runtime.defaultPlayerName,
         words,
-        journeyCleared: Boolean(cleared),
+        journeyCleared: false,
         ngPlusCount: 0,
         exportedAt: options.exportedAt ?? new Date().toISOString(),
     };
