@@ -26,13 +26,25 @@
     },
     {
       "id": "shrine_kid_post_fight",
-      "when": { "flag_present": "badge_sewi" },
+      "when": { "flag_present": "badge_sewi", "flag_absent": "game_cleared" },
       "priority": 5,
       "beats": [
         {
           "text": { "en": "Tarrin said your team fought clean. That's a high compliment from them." },
           "mood": "happy",
           "glyph": "companion-bond"
+        }
+      ]
+    },
+    {
+      "id": "shrine_kid_post_clear",
+      "when": { "flag_present": "game_cleared" },
+      "priority": 3,
+      "beats": [
+        {
+          "text": { "en": "I can see the cracked stone from the hut window. It's quieter now. I don't know how to say it better than that." },
+          "mood": "happy",
+          "glyph": "shrine-stones"
         }
       ]
     }

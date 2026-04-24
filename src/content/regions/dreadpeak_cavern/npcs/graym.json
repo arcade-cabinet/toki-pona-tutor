@@ -31,7 +31,7 @@
     },
     {
       "id": "graym_post_survey",
-      "when": { "flag_present": "torch_path_survey_complete" },
+      "when": { "flag_present": "torch_path_survey_complete", "flag_absent": "game_cleared" },
       "priority": 5,
       "beats": [
         {
@@ -43,6 +43,18 @@
           "text": { "en": "The polished stones are. Count them. Four. Matches the shrine on Highridge exactly." },
           "mood": "sad",
           "glyph": "shrine-stones"
+        }
+      ]
+    },
+    {
+      "id": "graym_post_clear",
+      "when": { "flag_present": "game_cleared" },
+      "priority": 3,
+      "beats": [
+        {
+          "text": { "en": "The shadow's gone. First time I've mapped clean stone in thirty years." },
+          "mood": "happy",
+          "glyph": "companion-bond"
         }
       ]
     }

@@ -26,13 +26,24 @@
     },
     {
       "id": "hiker_post_delivery",
-      "when": { "flag_present": "lost_hiker_delivered" },
+      "when": { "flag_present": "lost_hiker_delivered", "flag_absent": "game_cleared" },
       "priority": 5,
       "beats": [
         {
           "text": { "en": "Loren's people carried me half the way home last night. You bought me a life, Rivers." },
           "mood": "happy",
           "glyph": "companion-bond"
+        }
+      ]
+    },
+    {
+      "id": "hiker_post_clear",
+      "when": { "flag_present": "game_cleared" },
+      "priority": 3,
+      "beats": [
+        {
+          "text": { "en": "Walking the pass twice a week now. My leg remembered how." },
+          "mood": "happy"
         }
       ]
     }

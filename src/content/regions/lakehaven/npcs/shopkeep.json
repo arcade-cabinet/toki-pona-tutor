@@ -21,13 +21,25 @@
     },
     {
       "id": "shopkeep_post_purchase",
-      "when": { "flag_present": "shopkeep_first_sale" },
+      "when": { "flag_present": "shopkeep_first_sale", "flag_absent": "game_cleared" },
       "priority": 5,
       "beats": [
         {
           "text": { "en": "You're a good customer, Rivers. I'll start a tab if you want." },
           "mood": "happy",
           "glyph": "orchard-fruit"
+        }
+      ]
+    },
+    {
+      "id": "shopkeep_post_clear",
+      "when": { "flag_present": "game_cleared" },
+      "priority": 3,
+      "beats": [
+        {
+          "text": { "en": "Your tab's on the house forever, Rivers. Don't try to pay it off. I'll refuse." },
+          "mood": "happy",
+          "glyph": "companion-bond"
         }
       ]
     }

@@ -51,6 +51,18 @@
           "glyph": "cold-hands"
         }
       ]
+    },
+    {
+      "id": "loren_post_clear",
+      "when": { "flag_present": "game_cleared" },
+      "priority": 3,
+      "beats": [
+        {
+          "text": { "en": "The water's flat as my palm. Marin keeps saying your name to the fish. They listen." },
+          "mood": "happy",
+          "glyph": "companion-bond"
+        }
+      ]
     }
   ]
 }

@@ -58,6 +58,18 @@
           "glyph": "companion-bond"
         }
       ]
+    },
+    {
+      "id": "ember_post_clear",
+      "when": { "flag_present": "game_cleared" },
+      "priority": 3,
+      "beats": [
+        {
+          "text": { "en": "No braziers have gone out since you walked through. I noticed." },
+          "mood": "happy",
+          "glyph": "last-light"
+        }
+      ]
     }
   ]
 }

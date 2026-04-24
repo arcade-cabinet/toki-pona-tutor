@@ -35,6 +35,18 @@
           "glyph": "wild-signs"
         }
       ]
+    },
+    {
+      "id": "corvin_post_clear",
+      "when": { "flag_present": "game_cleared" },
+      "priority": 3,
+      "beats": [
+        {
+          "text": { "en": "The tracks are gone from the third patch. I walked it yesterday to be sure." },
+          "mood": "happy",
+          "glyph": "companion-bond"
+        }
+      ]
     }
   ]
 }

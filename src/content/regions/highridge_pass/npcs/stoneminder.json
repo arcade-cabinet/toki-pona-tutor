@@ -26,7 +26,7 @@
     },
     {
       "id": "stoneminder_post_fight",
-      "when": { "flag_present": "badge_sewi" },
+      "when": { "flag_present": "badge_sewi", "flag_absent": "game_cleared" },
       "priority": 5,
       "beats": [
         {
@@ -38,6 +38,18 @@
           "text": { "en": "Four wardens, four stones. Someone told me there were five once." },
           "mood": "thinking",
           "glyph": "wild-signs"
+        }
+      ]
+    },
+    {
+      "id": "stoneminder_post_clear",
+      "when": { "flag_present": "game_cleared" },
+      "priority": 3,
+      "beats": [
+        {
+          "text": { "en": "Five stones now. I carved the fifth under Selby's name. They'll come sit with us sometime." },
+          "mood": "happy",
+          "glyph": "shrine-stones"
         }
       ]
     }
