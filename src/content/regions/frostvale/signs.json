@@ -15,6 +15,16 @@
       "at": [11, 5],
       "title": "TRIAL OF FROST",
       "body": { "en": "Warm yourself before the bell rings." }
+    },
+    {
+      "at": [5, 11],
+      "title": "THE BENCH",
+      "body": { "en": "Sit here if you want the warden story. Bring patience." }
+    },
+    {
+      "at": [14, 8],
+      "title": "NORTH GATE — DREADPEAK",
+      "body": { "en": "Cold gets worse beyond this gate. Don't go without a named flame." }
     }
   ]
 }

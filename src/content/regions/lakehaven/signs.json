@@ -15,6 +15,16 @@
       "at": [10, 1],
       "title": "FERRY NORTH",
       "body": { "en": "Winter only. Walk the ice when it holds." }
+    },
+    {
+      "at": [6, 10],
+      "title": "THE PIER",
+      "body": { "en": "Loren tends the boards. Don't run." }
+    },
+    {
+      "at": [16, 4],
+      "title": "LODGE",
+      "body": { "en": "One trail token, one cot. Vesper's rules." }
     }
   ]
 }

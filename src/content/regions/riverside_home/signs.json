@@ -15,6 +15,16 @@
       "at": [15, 5],
       "title": "GREENWOOD ROAD",
       "body": { "en": "East out of the village. First rook east of the elm." }
+    },
+    {
+      "at": [8, 9],
+      "title": "THE GREAT ELM",
+      "body": { "en": "Names carved here since the first warden. Read them." }
+    },
+    {
+      "at": [2, 7],
+      "title": "THE WELL",
+      "body": { "en": "Four stones at the base, laid by the four valley wardens." }
     }
   ]
 }

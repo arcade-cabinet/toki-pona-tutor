@@ -44,7 +44,19 @@ describe('T61: region signs compiled into world.json', () => {
         }
     });
 
-    it('at least 21 signs shipped across all regions (Pokémon-town flavor bar)', () => {
-        expect(world.signs.length).toBeGreaterThanOrEqual(21);
+    it('at least 35 signs shipped across all regions (approaches Pokémon-Kanto density)', () => {
+        // Pokémon Red ships ~40 signs across Kanto. 35 is the T62
+        // density target — minimum 5 signs per region.
+        expect(world.signs.length).toBeGreaterThanOrEqual(35);
+    });
+
+    it('every region ships at least 5 signs', () => {
+        const perRegion = new Map<string, number>();
+        for (const sign of world.signs) {
+            perRegion.set(sign.region, (perRegion.get(sign.region) ?? 0) + 1);
+        }
+        for (const [region, count] of perRegion) {
+            expect(count, `${region} signs`).toBeGreaterThanOrEqual(5);
+        }
     });
 });

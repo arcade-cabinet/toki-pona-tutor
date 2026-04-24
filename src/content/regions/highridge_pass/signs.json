@@ -15,6 +15,16 @@
       "at": [20, 3],
       "title": "THE FIRST STONE",
       "body": { "en": "One of four, laid by the first wardens." }
+    },
+    {
+      "at": [16, 3],
+      "title": "THE SECOND STONE",
+      "body": { "en": "One of four. Tarrin knows whose name is carved here." }
+    },
+    {
+      "at": [22, 6],
+      "title": "LAKEHAVEN TRAIL",
+      "body": { "en": "North past the shrine. Three hours to the water if you don't stop." }
     }
   ]
 }

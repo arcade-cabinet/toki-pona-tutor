@@ -15,6 +15,16 @@
       "at": [14, 2],
       "title": "THE RIVERGATE",
       "body": { "en": "Four stones make a door. The door waits." }
+    },
+    {
+      "at": [2, 11],
+      "title": "GRILL'S LODGE",
+      "body": { "en": "Hot food. Free soup if the dragon watched you pass." }
+    },
+    {
+      "at": [24, 6],
+      "title": "OLD CHAIN MOUNT",
+      "body": { "en": "Iron teeth set into the stone. Whatever was here snapped free." }
     }
   ]
 }
