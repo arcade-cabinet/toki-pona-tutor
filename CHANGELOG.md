@@ -10,6 +10,13 @@ All notable changes to poki soweli. Format based on [Keep a Changelog](https://k
 
 This branch (`feat/rpgjs-v5-pivot`) descends from commit `0a582e0` — the pre-Godot tip. The Godot era between `1d924fe` (pivot) and `0edfe61` (feat/anchor-to-template) lives on `main` and is not represented here. Release-please releases `v0.1.0`…`v0.1.3` tagged on `main` cover the Godot build and do not apply to this branch.
 
+## [0.36.0](https://github.com/arcade-cabinet/poki-soweli/compare/v0.35.0...v0.36.0) (2026-04-24)
+
+
+### Added
+
+* **content:** pre-dragon states for Rivergate NPCs (T82) ([#236](https://github.com/arcade-cabinet/poki-soweli/issues/236)) ([886da74](https://github.com/arcade-cabinet/poki-soweli/commit/886da74deb31e8b42f25d7112631c8b138a929b2))
+
 ## [0.35.0](https://github.com/arcade-cabinet/poki-soweli/compare/v0.34.3...v0.35.0) (2026-04-24)
 
 
