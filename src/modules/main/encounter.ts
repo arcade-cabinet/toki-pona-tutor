@@ -13,7 +13,6 @@ import {
 } from "../../platform/persistence/queries";
 import { playDialog } from "./dialog";
 import worldRaw from "../../content/generated/world.json";
-import { mapMetadataFor } from "../../content/map-metadata";
 import {
     COMBAT_UI_CONFIG,
     ENCOUNTER_CONFIG,
@@ -23,7 +22,6 @@ import {
 import { formatGameplayTemplate } from "../../content/gameplay/templates";
 import { cueSfx } from "./audio-cues";
 import { formatItemDrop, rollSpeciesItemDrop, type SpeciesItemDrop } from "./item-drops";
-import { recordQuestEventForActive } from "./quest-runtime";
 import { TP_TYPES, typeMultiplier, type TpType } from "./type-matchup";
 import {
     applyWildFight,
@@ -317,11 +315,6 @@ async function resolveCatchAttempt(
         await playDialog(player, COMBAT_UI_CONFIG.wildBattle.dialogIds.caught);
         await logEncounter(meta.id, mapId, "caught");
         await recordBestiaryCaught(meta.id);
-        await recordQuestEventForActive(player, {
-            type: "catch",
-            speciesId: meta.id,
-            biome: mapMetadataFor(mapId)?.biome,
-        });
         await grantSpeciesDrop(player, meta);
         // Wild capture grants the lead party creature half the level-scaled
         // xp_yield (catching is less risky than defeating, so less xp).

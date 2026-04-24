@@ -22,7 +22,6 @@ import {
     showSentenceLog,
     showVocabulary,
 } from "./vocabulary-screen";
-import { KEYS, preferences } from "../../platform/persistence/preferences";
 import {
     getAccessibleMode,
     getBgmVolume,
@@ -42,14 +41,11 @@ import {
     syncLeadCreatureStats,
 } from "./lead-battle-avatar";
 import { buildBestiaryPanel } from "./bestiary-panel";
-import { listQuestJournalLines } from "./quest-runtime";
 import { playMicroGame } from "./micro-game";
 import { showDictionaryExport } from "./dictionary-export";
 import {
-    BADGE_DEFINITIONS,
     DICTIONARY_EXPORT_CONFIG,
     GAME_RULES_CONFIG,
-    INVENTORY_SCREEN_CONFIG,
     MICRO_GAME_CONFIG,
     PAUSE_MENU_CONFIG,
     PARTY_PANEL_HEAL_ITEM_ID,
@@ -550,50 +546,14 @@ async function showVocabularyGlyphCard(player: RpgPlayer, word: string): Promise
 
 async function buildInventoryContent(): Promise<{ title: string; rows: PauseEntry[] }> {
     const copy = PAUSE_MENU_CONFIG.inventory;
-    const [earned, beat, items, questLines] = await Promise.all([
-        Promise.all(
-            BADGE_DEFINITIONS.map(async (badge) => ({
-                ...badge,
-                held: Boolean(await getFlag(badge.flag)),
-            })),
-        ),
-        preferences.get(KEYS.journeyBeat),
-        listInventoryItems(),
-        listQuestJournalLines(),
-    ]);
-    const questPreviewRows: PauseEntry[] = questLines.length
-        ? questLines.slice(0, copy.previewLimit).map((line, index) => ({
-              label: line.trim(),
-              testId: `pause-quest-${index}`,
-          }))
-        : [{ label: INVENTORY_SCREEN_CONFIG.emptyLine.trim(), testId: "pause-quest-empty" }];
+    const items = await listInventoryItems();
     return {
         title: formatGameplayTemplate(copy.titleTemplate, { count: items.length }),
         rows: [
-            {
-                label: formatGameplayTemplate(copy.badgesLabelTemplate, {
-                    held: earned.filter((badge) => badge.held).length,
-                    total: earned.length,
-                }),
-            },
-            ...earned.map((badge) => ({
-                label: formatGameplayTemplate(copy.badgeLabelTemplate, {
-                    state: badge.held ? copy.badgeHeldState : copy.badgeMissingState,
-                    label: badge.label,
-                }),
-                meta: badge.region,
-            })),
-            { label: copy.beatLabel, meta: beat ?? copy.unknownBeat },
             ...items.slice(0, copy.previewLimit).map((item) => ({
                 label: item.item_id.replace(/_/g, " "),
                 meta: formatGameplayTemplate(copy.itemCountMetaTemplate, { count: item.count }),
             })),
-            {
-                label: INVENTORY_SCREEN_CONFIG.questsTitle,
-                meta: String(questLines.length),
-                testId: "pause-quest-heading",
-            },
-            ...questPreviewRows,
             { id: "open-detail", ...copy.detailAction },
         ],
     };
