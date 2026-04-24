@@ -23,6 +23,18 @@
           "glyph": "companion-bond"
         }
       ]
+    },
+    {
+      "id": "cave_kid_post_cliff",
+      "when": { "flag_present": "badge_suli", "flag_absent": "game_cleared" },
+      "priority": 5,
+      "beats": [
+        {
+          "text": { "en": "Cliff saw me. He didn't tell Mom. He just said 'walk out with the traveler.' That's you." },
+          "mood": "happy",
+          "glyph": "companion-bond"
+        }
+      ]
     }
   ]
 }

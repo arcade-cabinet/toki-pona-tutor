@@ -9,7 +9,7 @@
   "dialog_states": [
     {
       "id": "marsha_path",
-      "when": {},
+      "when": { "flag_absent": "lost_hiker_delivered" },
       "priority": 0,
       "beats": [
         {
@@ -26,6 +26,18 @@
           "text": { "en": "If you find her pack, carry what's inside to Loren at the lake. She needs the delivery done." },
           "mood": "excited",
           "glyph": "torch-path"
+        }
+      ]
+    },
+    {
+      "id": "marsha_post_delivery",
+      "when": { "flag_present": "lost_hiker_delivered" },
+      "priority": 5,
+      "beats": [
+        {
+          "text": { "en": "She sent a letter back. She's home. Thank you." },
+          "mood": "happy",
+          "glyph": "companion-bond"
         }
       ]
     }

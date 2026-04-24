@@ -9,7 +9,7 @@
   "dialog_states": [
     {
       "id": "luma_light",
-      "when": {},
+      "when": { "flag_absent": "badge_lete" },
       "priority": 0,
       "beats": [
         {
@@ -21,6 +21,18 @@
           "text": { "en": "Follow the lighted fences if you get turned around." },
           "mood": "sad",
           "glyph": "safe-house"
+        }
+      ]
+    },
+    {
+      "id": "luma_post_fight",
+      "when": { "flag_present": "badge_lete", "flag_absent": "game_cleared" },
+      "priority": 5,
+      "beats": [
+        {
+          "text": { "en": "Frost gave you Last Light. Keep it burning. Don't let Dreadpeak eat it." },
+          "mood": "sad",
+          "glyph": "last-light"
         }
       ]
     }

@@ -4267,6 +4267,25 @@
       }
     },
     {
+      "id": "cave_kid_post_cliff",
+      "npc_id": "cave_kid",
+      "priority": 5,
+      "beats": [
+        {
+          "text": {
+            "en": "Cliff saw me. He didn't tell Mom. He just said 'walk out with the traveler.' That's you."
+          },
+          "mood": "happy",
+          "glyph": "companion-bond"
+        }
+      ],
+      "triggers": {},
+      "when_flags": {
+        "badge_suli": true,
+        "game_cleared": false
+      }
+    },
+    {
       "id": "cliff_intro",
       "npc_id": "cliff",
       "priority": 10,
@@ -4426,7 +4445,29 @@
           "glyph": "wild-signs"
         }
       ],
-      "triggers": {}
+      "triggers": {},
+      "when_flags": {
+        "badge_suli": false
+      }
+    },
+    {
+      "id": "meadow_post_cliff",
+      "npc_id": "meadow",
+      "priority": 5,
+      "beats": [
+        {
+          "text": {
+            "en": "The draft turned north. It wasn't doing that yesterday."
+          },
+          "mood": "sad",
+          "glyph": "wild-signs"
+        }
+      ],
+      "triggers": {},
+      "when_flags": {
+        "badge_suli": true,
+        "game_cleared": false
+      }
     },
     {
       "id": "rowan_ask",
@@ -4441,7 +4482,29 @@
           "glyph": "greenwood-watch"
         }
       ],
-      "triggers": {}
+      "triggers": {},
+      "when_flags": {
+        "badge_suli": false
+      }
+    },
+    {
+      "id": "rowan_post_cliff",
+      "npc_id": "rowan",
+      "priority": 5,
+      "beats": [
+        {
+          "text": {
+            "en": "You came out the other side. That means my supplies were enough."
+          },
+          "mood": "happy",
+          "glyph": "companion-bond"
+        }
+      ],
+      "triggers": {},
+      "when_flags": {
+        "badge_suli": true,
+        "game_cleared": false
+      }
     },
     {
       "id": "torch_bearer_intro",
@@ -4466,6 +4529,25 @@
       "triggers": {},
       "when_flags": {
         "badge_suli": false
+      }
+    },
+    {
+      "id": "torch_bearer_post_cliff",
+      "npc_id": "torch_bearer",
+      "priority": 5,
+      "beats": [
+        {
+          "text": {
+            "en": "Cliff says you carried all four proofs in. The braziers felt it. They burned sideways."
+          },
+          "mood": "excited",
+          "glyph": "last-light"
+        }
+      ],
+      "triggers": {},
+      "when_flags": {
+        "badge_suli": true,
+        "game_cleared": false
       }
     },
     {
@@ -4854,7 +4936,28 @@
           "glyph": "frost-type"
         }
       ],
-      "triggers": {}
+      "triggers": {},
+      "when_flags": {
+        "snowbird_sighting_complete": false
+      }
+    },
+    {
+      "id": "hollis_post_sighting",
+      "npc_id": "hollis",
+      "priority": 5,
+      "beats": [
+        {
+          "text": {
+            "en": "The garden still grows. Your Snowbird told the sky what was coming."
+          },
+          "mood": "happy",
+          "glyph": "companion-bond"
+        }
+      ],
+      "triggers": {},
+      "when_flags": {
+        "snowbird_sighting_complete": true
+      }
     },
     {
       "id": "luma_light",
@@ -4876,7 +4979,29 @@
           "glyph": "safe-house"
         }
       ],
-      "triggers": {}
+      "triggers": {},
+      "when_flags": {
+        "badge_lete": false
+      }
+    },
+    {
+      "id": "luma_post_fight",
+      "npc_id": "luma",
+      "priority": 5,
+      "beats": [
+        {
+          "text": {
+            "en": "Frost gave you Last Light. Keep it burning. Don't let Dreadpeak eat it."
+          },
+          "mood": "sad",
+          "glyph": "last-light"
+        }
+      ],
+      "triggers": {},
+      "when_flags": {
+        "badge_lete": true,
+        "game_cleared": false
+      }
     },
     {
       "id": "snow_kid_intro",
@@ -4897,7 +5022,47 @@
           "mood": "sad"
         }
       ],
-      "triggers": {}
+      "triggers": {},
+      "when_flags": {
+        "badge_lete": false
+      }
+    },
+    {
+      "id": "snow_kid_post_fight",
+      "npc_id": "snow_kid",
+      "priority": 5,
+      "beats": [
+        {
+          "text": {
+            "en": "Frost said the word out loud. I heard through the shrine door."
+          },
+          "mood": "sad",
+          "glyph": "wild-signs"
+        }
+      ],
+      "triggers": {},
+      "when_flags": {
+        "badge_lete": true,
+        "game_cleared": false
+      }
+    },
+    {
+      "id": "snow_kid_post_clear",
+      "npc_id": "snow_kid",
+      "priority": 3,
+      "beats": [
+        {
+          "text": {
+            "en": "Dad's telling the story with a joke after again. That's how I know it worked."
+          },
+          "mood": "happy",
+          "glyph": "companion-bond"
+        }
+      ],
+      "triggers": {},
+      "when_flags": {
+        "game_cleared": true
+      }
     },
     {
       "id": "briar_sign",
@@ -4926,7 +5091,47 @@
           "glyph": "wild-signs"
         }
       ],
-      "triggers": {}
+      "triggers": {},
+      "when_flags": {
+        "badge_sewi": false
+      }
+    },
+    {
+      "id": "briar_post_first_gym",
+      "npc_id": "briar",
+      "priority": 5,
+      "beats": [
+        {
+          "text": {
+            "en": "The tracks are sharper this week. Whatever's moving doesn't care about the stone badge."
+          },
+          "mood": "sad",
+          "glyph": "wild-signs"
+        }
+      ],
+      "triggers": {},
+      "when_flags": {
+        "badge_sewi": true,
+        "game_cleared": false
+      }
+    },
+    {
+      "id": "briar_post_clear",
+      "npc_id": "briar",
+      "priority": 3,
+      "beats": [
+        {
+          "text": {
+            "en": "The tracks stopped. First time in forty years."
+          },
+          "mood": "happy",
+          "glyph": "companion-bond"
+        }
+      ],
+      "triggers": {},
+      "when_flags": {
+        "game_cleared": true
+      }
     },
     {
       "id": "corvin_watch",
@@ -4992,7 +5197,29 @@
           "glyph": "battle-ready"
         }
       ],
-      "triggers": {}
+      "triggers": {},
+      "when_flags": {
+        "badge_lete": false
+      }
+    },
+    {
+      "id": "lark_post_third_gym",
+      "npc_id": "lark",
+      "priority": 5,
+      "beats": [
+        {
+          "text": {
+            "en": "Frost said the word. Dragon. I can say it now too."
+          },
+          "mood": "sad",
+          "glyph": "wild-signs"
+        }
+      ],
+      "triggers": {},
+      "when_flags": {
+        "badge_lete": true,
+        "game_cleared": false
+      }
     },
     {
       "id": "pack_runner",
@@ -5014,7 +5241,29 @@
           "glyph": "companion-bond"
         }
       ],
-      "triggers": {}
+      "triggers": {},
+      "when_flags": {
+        "quest_field_notes_complete": false
+      }
+    },
+    {
+      "id": "pack_post_quest",
+      "npc_id": "pack",
+      "priority": 5,
+      "beats": [
+        {
+          "text": {
+            "en": "Your field notes made a stack. I'm a year ahead on my book because of you."
+          },
+          "mood": "happy",
+          "glyph": "wild-signs"
+        }
+      ],
+      "triggers": {},
+      "when_flags": {
+        "quest_field_notes_complete": true,
+        "game_cleared": false
+      }
     },
     {
       "id": "rook_intro",
@@ -5131,7 +5380,29 @@
           "glyph": "wild-signs"
         }
       ],
-      "triggers": {}
+      "triggers": {},
+      "when_flags": {
+        "rook_defeated": false
+      }
+    },
+    {
+      "id": "thorn_post_rival",
+      "npc_id": "thorn",
+      "priority": 5,
+      "beats": [
+        {
+          "text": {
+            "en": "Rook told me you held your ground. That's the grass test, right there."
+          },
+          "mood": "happy",
+          "glyph": "battle-ready"
+        }
+      ],
+      "triggers": {},
+      "when_flags": {
+        "rook_defeated": true,
+        "game_cleared": false
+      }
     },
     {
       "id": "ansel_greenwood",
@@ -5203,7 +5474,29 @@
           "glyph": "stone-type"
         }
       ],
-      "triggers": {}
+      "triggers": {},
+      "when_flags": {
+        "quest_shrine_stones_complete": false
+      }
+    },
+    {
+      "id": "boulder_post_quest",
+      "npc_id": "boulder",
+      "priority": 5,
+      "beats": [
+        {
+          "text": {
+            "en": "The shrine knows your name. I watched Stoneminder carve it."
+          },
+          "mood": "happy",
+          "glyph": "shrine-stones"
+        }
+      ],
+      "triggers": {},
+      "when_flags": {
+        "quest_shrine_stones_complete": true,
+        "game_cleared": false
+      }
     },
     {
       "id": "breeze_intro",
@@ -5224,7 +5517,28 @@
           "mood": "happy"
         }
       ],
-      "triggers": {}
+      "triggers": {},
+      "when_flags": {
+        "badge_sewi": false
+      }
+    },
+    {
+      "id": "breeze_post_fight",
+      "npc_id": "breeze",
+      "priority": 5,
+      "beats": [
+        {
+          "text": {
+            "en": "Wind sounds different since you rang Tarrin's bell. Lighter."
+          },
+          "mood": "happy"
+        }
+      ],
+      "triggers": {},
+      "when_flags": {
+        "badge_sewi": true,
+        "game_cleared": false
+      }
     },
     {
       "id": "hiker_intro",
@@ -5289,7 +5603,29 @@
           "glyph": "wild-signs"
         }
       ],
-      "triggers": {}
+      "triggers": {},
+      "when_flags": {
+        "badge_lete": false
+      }
+    },
+    {
+      "id": "kestrel_post_third_gym",
+      "npc_id": "kestrel",
+      "priority": 5,
+      "beats": [
+        {
+          "text": {
+            "en": "The snowbirds have come down from Frostvale. Cormorant's doing something right up there."
+          },
+          "mood": "happy",
+          "glyph": "frost-type"
+        }
+      ],
+      "triggers": {},
+      "when_flags": {
+        "badge_lete": true,
+        "game_cleared": false
+      }
     },
     {
       "id": "marsha_path",
@@ -5318,7 +5654,28 @@
           "glyph": "torch-path"
         }
       ],
-      "triggers": {}
+      "triggers": {},
+      "when_flags": {
+        "lost_hiker_delivered": false
+      }
+    },
+    {
+      "id": "marsha_post_delivery",
+      "npc_id": "marsha",
+      "priority": 5,
+      "beats": [
+        {
+          "text": {
+            "en": "She sent a letter back. She's home. Thank you."
+          },
+          "mood": "happy",
+          "glyph": "companion-bond"
+        }
+      ],
+      "triggers": {},
+      "when_flags": {
+        "lost_hiker_delivered": true
+      }
     },
     {
       "id": "shrine_kid_intro",
@@ -5561,7 +5918,47 @@
           "glyph": "wild-signs"
         }
       ],
-      "triggers": {}
+      "triggers": {},
+      "when_flags": {
+        "badge_suli": false
+      }
+    },
+    {
+      "id": "kala_lili_rivergate",
+      "npc_id": "kala_lili",
+      "priority": 5,
+      "beats": [
+        {
+          "text": {
+            "en": "I came up to see. The fish are still running, Rivers. I'm scared."
+          },
+          "mood": "sad",
+          "glyph": "wild-signs"
+        }
+      ],
+      "triggers": {},
+      "when_flags": {
+        "badge_suli": true,
+        "game_cleared": false
+      }
+    },
+    {
+      "id": "kala_lili_post_clear",
+      "npc_id": "kala_lili",
+      "priority": 3,
+      "beats": [
+        {
+          "text": {
+            "en": "The fish are going back downstream. I watched them turn. It was beautiful."
+          },
+          "mood": "happy",
+          "glyph": "companion-bond"
+        }
+      ],
+      "triggers": {},
+      "when_flags": {
+        "game_cleared": true
+      }
     },
     {
       "id": "kala_suli_intro",
@@ -5582,7 +5979,28 @@
           "mood": "thinking"
         }
       ],
-      "triggers": {}
+      "triggers": {},
+      "when_flags": {
+        "badge_suli": false
+      }
+    },
+    {
+      "id": "kala_suli_rivergate",
+      "npc_id": "kala_suli",
+      "priority": 5,
+      "beats": [
+        {
+          "text": {
+            "en": "I tried to catch the dragon with a fishing line. Don't tell Lili."
+          },
+          "mood": "sad"
+        }
+      ],
+      "triggers": {},
+      "when_flags": {
+        "badge_suli": true,
+        "game_cleared": false
+      }
     },
     {
       "id": "lodge_keeper_intro",
@@ -5603,7 +6021,29 @@
           "mood": "thinking"
         }
       ],
-      "triggers": {}
+      "triggers": {},
+      "when_flags": {
+        "badge_lete": false
+      }
+    },
+    {
+      "id": "lodge_keeper_post_third_gym",
+      "npc_id": "lodge_keeper",
+      "priority": 5,
+      "beats": [
+        {
+          "text": {
+            "en": "The north door's been opening on its own this week. That's never a good sign."
+          },
+          "mood": "sad",
+          "glyph": "wild-signs"
+        }
+      ],
+      "triggers": {},
+      "when_flags": {
+        "badge_lete": true,
+        "game_cleared": false
+      }
     },
     {
       "id": "loren_lake_quest",
@@ -5839,7 +6279,29 @@
           "glyph": "orchard-fruit"
         }
       ],
-      "triggers": {}
+      "triggers": {},
+      "when_flags": {
+        "badge_telo": false
+      }
+    },
+    {
+      "id": "piper_cousin_post_fight",
+      "npc_id": "piper_cousin",
+      "priority": 5,
+      "beats": [
+        {
+          "text": {
+            "en": "Piper wrote faster than gossip travels. She knows about the lake badge already."
+          },
+          "mood": "happy",
+          "glyph": "companion-bond"
+        }
+      ],
+      "triggers": {},
+      "when_flags": {
+        "badge_telo": true,
+        "game_cleared": false
+      }
     },
     {
       "id": "shopkeep_stall",
@@ -5894,7 +6356,29 @@
           "glyph": "water-edge"
         }
       ],
-      "triggers": {}
+      "triggers": {},
+      "when_flags": {
+        "badge_telo": false
+      }
+    },
+    {
+      "id": "tarn_post_fight",
+      "npc_id": "tarn",
+      "priority": 5,
+      "beats": [
+        {
+          "text": {
+            "en": "Marin doesn't fight unless it's worth doing. You saw that."
+          },
+          "mood": "happy",
+          "glyph": "companion-bond"
+        }
+      ],
+      "triggers": {},
+      "when_flags": {
+        "badge_telo": true,
+        "game_cleared": false
+      }
     },
     {
       "id": "green_dragon_intro",
@@ -6101,7 +6585,47 @@
           "glyph": "companion-bond"
         }
       ],
-      "triggers": {}
+      "triggers": {},
+      "when_flags": {
+        "badge_sewi": false
+      }
+    },
+    {
+      "id": "fig_post_first_gym",
+      "npc_id": "fig",
+      "priority": 5,
+      "beats": [
+        {
+          "text": {
+            "en": "Back already? Eat something. Stone badges don't fill a belly."
+          },
+          "mood": "happy",
+          "glyph": "orchard-fruit"
+        }
+      ],
+      "triggers": {},
+      "when_flags": {
+        "badge_sewi": true,
+        "game_cleared": false
+      }
+    },
+    {
+      "id": "fig_post_clear",
+      "npc_id": "fig",
+      "priority": 3,
+      "beats": [
+        {
+          "text": {
+            "en": "I saved you the biggest orchard-fruit. It's yours."
+          },
+          "mood": "happy",
+          "glyph": "orchard-fruit"
+        }
+      ],
+      "triggers": {},
+      "when_flags": {
+        "game_cleared": true
+      }
     },
     {
       "id": "oren_ready",
@@ -6123,7 +6647,54 @@
           "glyph": "greenwood-watch"
         }
       ],
-      "triggers": {}
+      "triggers": {},
+      "when_flags": {
+        "rook_defeated": false
+      }
+    },
+    {
+      "id": "oren_post_rival",
+      "npc_id": "oren",
+      "priority": 5,
+      "beats": [
+        {
+          "text": {
+            "en": "You beat Rook? Rook?"
+          },
+          "mood": "excited",
+          "glyph": "battle-ready"
+        },
+        {
+          "text": {
+            "en": "The ribbon I gave you — keep it. Please."
+          },
+          "mood": "sad",
+          "glyph": "companion-bond"
+        }
+      ],
+      "triggers": {},
+      "when_flags": {
+        "rook_defeated": true,
+        "game_cleared": false
+      }
+    },
+    {
+      "id": "oren_post_clear",
+      "npc_id": "oren",
+      "priority": 3,
+      "beats": [
+        {
+          "text": {
+            "en": "The ribbon still in your pack? Good."
+          },
+          "mood": "happy",
+          "glyph": "companion-bond"
+        }
+      ],
+      "triggers": {},
+      "when_flags": {
+        "game_cleared": true
+      }
     },
     {
       "id": "piper_welcome",
@@ -6152,7 +6723,54 @@
           "glyph": "safe-house"
         }
       ],
-      "triggers": {}
+      "triggers": {},
+      "when_flags": {
+        "badge_sewi": false
+      }
+    },
+    {
+      "id": "piper_post_first_gym",
+      "npc_id": "piper",
+      "priority": 5,
+      "beats": [
+        {
+          "text": {
+            "en": "Stone badge. Look at you, Rivers."
+          },
+          "mood": "happy",
+          "glyph": "companion-bond"
+        },
+        {
+          "text": {
+            "en": "My cousin Reeve runs a stall in Lakehaven. She'll know who you are by the time you arrive."
+          },
+          "mood": "thinking",
+          "glyph": "orchard-fruit"
+        }
+      ],
+      "triggers": {},
+      "when_flags": {
+        "badge_sewi": true,
+        "game_cleared": false
+      }
+    },
+    {
+      "id": "piper_post_clear",
+      "npc_id": "piper",
+      "priority": 3,
+      "beats": [
+        {
+          "text": {
+            "en": "Welcome home, Rivers. The spare room's yours. Forever, if you want it."
+          },
+          "mood": "happy",
+          "glyph": "safe-house"
+        }
+      ],
+      "triggers": {},
+      "when_flags": {
+        "game_cleared": true
+      }
     },
     {
       "id": "selby_starter_intro",
@@ -6274,7 +6892,47 @@
           "glyph": "companion-bond"
         }
       ],
-      "triggers": {}
+      "triggers": {},
+      "when_flags": {
+        "badge_telo": false
+      }
+    },
+    {
+      "id": "wren_post_second_gym",
+      "npc_id": "wren",
+      "priority": 5,
+      "beats": [
+        {
+          "text": {
+            "en": "You drank from Lakehaven's water. Different taste, isn't it? Same river, though."
+          },
+          "mood": "thinking",
+          "glyph": "water-edge"
+        }
+      ],
+      "triggers": {},
+      "when_flags": {
+        "badge_telo": true,
+        "game_cleared": false
+      }
+    },
+    {
+      "id": "wren_post_clear",
+      "npc_id": "wren",
+      "priority": 3,
+      "beats": [
+        {
+          "text": {
+            "en": "Five stones at the well now, Rivers. The new one is yours."
+          },
+          "mood": "happy",
+          "glyph": "shrine-stones"
+        }
+      ],
+      "triggers": {},
+      "when_flags": {
+        "game_cleared": true
+      }
     }
   ],
   "journey": {

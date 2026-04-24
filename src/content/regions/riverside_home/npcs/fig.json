@@ -9,7 +9,7 @@
   "dialog_states": [
     {
       "id": "fig_snack",
-      "when": {},
+      "when": { "flag_absent": "badge_sewi" },
       "priority": 0,
       "beats": [
         {
@@ -21,6 +21,30 @@
           "text": { "en": "A fed companion fights longer." },
           "mood": "happy",
           "glyph": "companion-bond"
+        }
+      ]
+    },
+    {
+      "id": "fig_post_first_gym",
+      "when": { "flag_present": "badge_sewi", "flag_absent": "game_cleared" },
+      "priority": 5,
+      "beats": [
+        {
+          "text": { "en": "Back already? Eat something. Stone badges don't fill a belly." },
+          "mood": "happy",
+          "glyph": "orchard-fruit"
+        }
+      ]
+    },
+    {
+      "id": "fig_post_clear",
+      "when": { "flag_present": "game_cleared" },
+      "priority": 3,
+      "beats": [
+        {
+          "text": { "en": "I saved you the biggest orchard-fruit. It's yours." },
+          "mood": "happy",
+          "glyph": "orchard-fruit"
         }
       ]
     }

@@ -9,7 +9,7 @@
   "dialog_states": [
     {
       "id": "lodge_keeper_intro",
-      "when": {},
+      "when": { "flag_absent": "badge_lete" },
       "priority": 0,
       "beats": [
         {
@@ -20,6 +20,18 @@
         {
           "text": { "en": "The north door opens in winter. Don't try it in summer or the hinges will scream at you." },
           "mood": "thinking"
+        }
+      ]
+    },
+    {
+      "id": "lodge_keeper_post_third_gym",
+      "when": { "flag_present": "badge_lete", "flag_absent": "game_cleared" },
+      "priority": 5,
+      "beats": [
+        {
+          "text": { "en": "The north door's been opening on its own this week. That's never a good sign." },
+          "mood": "sad",
+          "glyph": "wild-signs"
         }
       ]
     }

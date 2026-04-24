@@ -9,7 +9,7 @@
   "dialog_states": [
     {
       "id": "briar_sign",
-      "when": {},
+      "when": { "flag_absent": "badge_sewi" },
       "priority": 0,
       "beats": [
         {
@@ -26,6 +26,30 @@
           "text": { "en": "Catch two from the forest biome and I'll read their signs with you." },
           "mood": "excited",
           "glyph": "wild-signs"
+        }
+      ]
+    },
+    {
+      "id": "briar_post_first_gym",
+      "when": { "flag_present": "badge_sewi", "flag_absent": "game_cleared" },
+      "priority": 5,
+      "beats": [
+        {
+          "text": { "en": "The tracks are sharper this week. Whatever's moving doesn't care about the stone badge." },
+          "mood": "sad",
+          "glyph": "wild-signs"
+        }
+      ]
+    },
+    {
+      "id": "briar_post_clear",
+      "when": { "flag_present": "game_cleared" },
+      "priority": 3,
+      "beats": [
+        {
+          "text": { "en": "The tracks stopped. First time in forty years." },
+          "mood": "happy",
+          "glyph": "companion-bond"
         }
       ]
     }

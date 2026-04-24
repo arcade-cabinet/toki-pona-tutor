@@ -23,6 +23,18 @@
           "glyph": "shrine-stones"
         }
       ]
+    },
+    {
+      "id": "torch_bearer_post_cliff",
+      "when": { "flag_present": "badge_suli", "flag_absent": "game_cleared" },
+      "priority": 5,
+      "beats": [
+        {
+          "text": { "en": "Cliff says you carried all four proofs in. The braziers felt it. They burned sideways." },
+          "mood": "excited",
+          "glyph": "last-light"
+        }
+      ]
     }
   ]
 }

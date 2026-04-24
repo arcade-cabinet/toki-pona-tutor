@@ -9,7 +9,7 @@
   "dialog_states": [
     {
       "id": "thorn_grass",
-      "when": {},
+      "when": { "flag_absent": "rook_defeated" },
       "priority": 0,
       "beats": [
         {
@@ -21,6 +21,18 @@
           "text": { "en": "If the grass rustles twice, back up or be ready." },
           "mood": "thinking",
           "glyph": "wild-signs"
+        }
+      ]
+    },
+    {
+      "id": "thorn_post_rival",
+      "when": { "flag_present": "rook_defeated", "flag_absent": "game_cleared" },
+      "priority": 5,
+      "beats": [
+        {
+          "text": { "en": "Rook told me you held your ground. That's the grass test, right there." },
+          "mood": "happy",
+          "glyph": "battle-ready"
         }
       ]
     }

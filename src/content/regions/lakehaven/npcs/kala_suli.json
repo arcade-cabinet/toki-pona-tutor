@@ -10,7 +10,7 @@
   "dialog_states": [
     {
       "id": "kala_suli_intro",
-      "when": {},
+      "when": { "flag_absent": "badge_suli" },
       "priority": 0,
       "beats": [
         {
@@ -21,6 +21,17 @@
         {
           "text": { "en": "She's right. I weigh them, she names them. It works." },
           "mood": "thinking"
+        }
+      ]
+    },
+    {
+      "id": "kala_suli_rivergate",
+      "when": { "flag_present": "badge_suli", "flag_absent": "game_cleared" },
+      "priority": 5,
+      "beats": [
+        {
+          "text": { "en": "I tried to catch the dragon with a fishing line. Don't tell Lili." },
+          "mood": "sad"
         }
       ]
     }

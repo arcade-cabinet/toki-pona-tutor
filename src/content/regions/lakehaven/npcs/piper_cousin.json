@@ -9,7 +9,7 @@
   "dialog_states": [
     {
       "id": "piper_cousin_intro",
-      "when": {},
+      "when": { "flag_absent": "badge_telo" },
       "priority": 0,
       "beats": [
         {
@@ -21,6 +21,18 @@
           "text": { "en": "Her orchard-fruit recipe is older than our grandmother. I make it here with lake salt." },
           "mood": "thinking",
           "glyph": "orchard-fruit"
+        }
+      ]
+    },
+    {
+      "id": "piper_cousin_post_fight",
+      "when": { "flag_present": "badge_telo", "flag_absent": "game_cleared" },
+      "priority": 5,
+      "beats": [
+        {
+          "text": { "en": "Piper wrote faster than gossip travels. She knows about the lake badge already." },
+          "mood": "happy",
+          "glyph": "companion-bond"
         }
       ]
     }

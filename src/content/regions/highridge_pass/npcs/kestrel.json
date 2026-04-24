@@ -9,7 +9,7 @@
   "dialog_states": [
     {
       "id": "kestrel_sky",
-      "when": {},
+      "when": { "flag_absent": "badge_lete" },
       "priority": 0,
       "beats": [
         {
@@ -21,6 +21,18 @@
           "text": { "en": "Watch the shadows, not just the road." },
           "mood": "thinking",
           "glyph": "wild-signs"
+        }
+      ]
+    },
+    {
+      "id": "kestrel_post_third_gym",
+      "when": { "flag_present": "badge_lete", "flag_absent": "game_cleared" },
+      "priority": 5,
+      "beats": [
+        {
+          "text": { "en": "The snowbirds have come down from Frostvale. Cormorant's doing something right up there." },
+          "mood": "happy",
+          "glyph": "frost-type"
         }
       ]
     }
