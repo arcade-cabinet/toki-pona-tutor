@@ -10,6 +10,13 @@ All notable changes to poki soweli. Format based on [Keep a Changelog](https://k
 
 This branch (`feat/rpgjs-v5-pivot`) descends from commit `0a582e0` — the pre-Godot tip. The Godot era between `1d924fe` (pivot) and `0edfe61` (feat/anchor-to-template) lives on `main` and is not represented here. Release-please releases `v0.1.0`…`v0.1.3` tagged on `main` cover the Godot build and do not apply to this branch.
 
+## [0.40.0](https://github.com/arcade-cabinet/poki-soweli/compare/v0.39.3...v0.40.0) (2026-04-24)
+
+
+### Added
+
+* **dossier:** hide pre-gate NPC sprites reactively (T91) ([#252](https://github.com/arcade-cabinet/poki-soweli/issues/252)) ([d89f9e6](https://github.com/arcade-cabinet/poki-soweli/commit/d89f9e615f740a4510c5beb4943a3d90a2a837db))
+
 ## [0.39.3](https://github.com/arcade-cabinet/poki-soweli/compare/v0.39.2...v0.39.3) (2026-04-24)
 
 
