@@ -1,160 +1,203 @@
 ---
 title: Roadmap
-updated: 2026-04-23
+updated: 2026-04-24
 status: current
 domain: planning
 ---
 
-# Rivers Reckoning Roadmap
+# Roadmap — Rivers Reckoning v2
 
-The project has pivoted to native-English Rivers Reckoning. The old language-learning layer is retired; v1 work now focuses on a complete, polished creature-catching investigation with strong maps, richer quests, better pacing, and proven web/mobile release flow.
+This file tracks phase-level status and the stable task IDs for the v2 pivot. For the product spec see `docs/DESIGN.md`; for the PRD see `docs/plans/rivers-reckoning-v2.prq.md`. For per-phase detail and acceptance criteria see the PRD.
 
-## Phase Inventory
+## Pivot summary
 
-| Phase | Name               | Goal                                                       |  ✅ |  🟡 |  ⬜ |
-| ----- | ------------------ | ---------------------------------------------------------- | --: | --: | --: |
-| 1     | Stabilize          | Keep the pivot runnable/buildable                          |   3 |   1 |   1 |
-| 2     | English Content    | Replace product-facing language mechanics with clues/story |   5 |   0 |   0 |
-| 3     | Art Direction      | Choose and enforce a cohesive v1 visual stack              |   5 |   1 |   0 |
-| 4     | Map Rebuild        | Recompose maps for density, transitions, and tap space     |   4 |   2 |   2 |
-| 5     | Journey            | Expand the complete beginning-to-end game                  |   5 |   0 |   0 |
-| 6     | Combat And Economy | Tune repeated play for fun and fairness                    |   2 |   2 |   2 |
-| 7     | Mobile UX          | Make tap/mouse the complete control surface                |   2 |   3 |   1 |
-| 8     | Release Proof      | Prove Pages, release artifacts, and debug APKs             |   5 |   0 |   1 |
-| 9     | Docs And QA        | Keep docs honest and acceptance artifacts reviewable       |   3 |   0 |   1 |
-| 10    | V1 Polish          | Finish audio, post-clear loop, and final product QA        |   1 |   1 |   3 |
-| 11    | Onboarding + Opening Scene | Story is the asset that lasts — close the landing→gameplay cliff and script the first 30 seconds |   9 |   1 |   1 |
+Rivers Reckoning pivoted at `v1.0.0-final` (tag on `main`) from a finite seven-beat story to a procedurally generated cozy open-world RPG. v1 remains shipped at its final tag; v2 lives on the `v2-main` long-lived feature branch until it's release-ready.
 
-## Phase 1: Stabilize
+v1 phases (1-12) covered in the previous roadmap are **archived** — see `docs/archive/v1-story/` for the retired story docs, and the v1 task backlog (T1 through T91) is preserved in git history under tag `v1.0.0-final`.
 
-| ID    | Task                                                        | Status | Notes                                                                                                              |
-| ----- | ----------------------------------------------------------- | ------ | ------------------------------------------------------------------------------------------------------------------ |
-| T1-01 | Backup pre-pivot repo state                                 | ✅     | Git bundle created under the user backup directory before destructive product changes.                             |
-| T1-02 | Rename player-facing product to Rivers Reckoning            | ✅     | Title, manifest, package, Capacitor app name, and UI copy now use Rivers Reckoning.                                |
-| T1-03 | Rename current map IDs to English route names               | ✅     | Seven map IDs now use English names and regenerated artifacts.                                                     |
-| T1-04 | Preserve compatibility for old saves/internal IDs           | 🟡     | Legacy table/module names remain where needed; product copy should keep moving to clue/native-English terminology. |
-| T1-05 | Remove dead compatibility aliases after a migration release | ⬜     | Requires explicit save-migration plan.                                                                             |
+## v2 phase status
 
-## Phase 2: English Content
+| Phase | Name | Status | PRD task IDs | Blocker |
+|---|---|---|---|---|
+| 0 | Spec lock | **in progress** | T100-T107 | - |
+| 1 | Scaffolding on `v2-main` | pending | T108-T111 | Phase 0 |
+| 2 | World generator core | pending | T112-T120 | Phase 1 |
+| 3 | Chunk persistence | pending | T121-T124 | Phase 2 |
+| 4 | Economy + scaling | pending | T125-T132 | Phase 2 |
+| 5 | Items + gear | pending | T133-T137 | Phase 4 |
+| 6 | Dialog pool | pending | T138-T143 | Phase 2 |
+| 7 | Challenge templates | pending | T144-T149 | Phase 6 |
+| 8 | UI + UX | pending | T150-T156 | Phases 2, 6, 7 |
+| 9 | Integration + cleanup | pending | T157-T163 | Phases 3-8 |
+| 10 | Release | pending | T164-T168 | Phase 9 |
 
-| ID    | Task                                                                       | Status | Notes                                                                                                    |
-| ----- | -------------------------------------------------------------------------- | ------ | -------------------------------------------------------------------------------------------------------- |
-| T2-01 | Replace corpus vocabulary data with curated clues                          | ✅     | Clue records are now the investigation journal source of truth.                                          |
-| T2-02 | Convert dialog, UI, quests, starters, and trainer rewards to English/clues | ✅     | Current content builds without the retired corpus scripts.                                               |
-| T2-03 | Convert Field Notes into an investigation micro-game                       | ✅     | The micro-game now uses English field-note prompts.                                                      |
-| T2-04 | Rewrite remaining species/item/internal labels into stronger English       | ✅     | **Phase A (player-visible)**: HUD goal + quest dialog use English (Selby, Loren). **Phase B (full internal rename)**: 97 spine files renamed (43 species, 17 moves, 5 items, 46 dialog), ~200 files updated for cross-references. Species IDs: `ashcat`, `green_dragon`, `reedfrog`…; Moves: `frost_crash`, `stone_slam`, `splash`…; Items: `capture_pod`, `spring_tonic`…; NPCs: `selby`, `rook`, `loren`…. Canonical mapping locked in `docs/NAMING.md`. 848 tests green post-rename. |
-| T2-05 | Write final v1 quest/NPC/story bible                                       | ✅     | `docs/STORY.md` shipped in PR #96 (T6). Reconciled against implementation in PR #116 (T16).              |
+## Phase 0 — Spec lock (current)
 
-## Phase 3: Art Direction
+All docs-only. Nothing in this phase touches code.
 
-| ID    | Task                                                             | Status | Notes                                                                                    |
-| ----- | ---------------------------------------------------------------- | ------ | ---------------------------------------------------------------------------------------- |
-| T3-01 | Add curated art manifest and reject-list boundary                | ✅     | Map palette code can reference curated tile IDs.                                         |
-| T3-02 | Audit current tiles for visual cohesion and transparent overlays | 🟡     | Known bad rectangular overlays are rejected; full pack-wide classification remains open. |
-| T3-03 | Evaluate pending asset archives in bakeoff form                  | ✅     | Pending pack inventory + audit tooling both shipped. Evaluation done and recorded in `docs/ART_DIRECTION.md`. |
-| T3-04 | Choose primary overworld identity                                | ✅     | **Fan-tasy family, full v1 stack.** Decision + alt rejections + per-region pack map live in `docs/ART_DIRECTION.md`. |
-| T3-05 | Choose compatible interior/cave identity                         | ✅     | Fan-tasy Castles and Fortresses for caves/shrines/endgame architecture; Fan-tasy Medieval Interiors for lake/frost/indoor surfaces. All in-family. |
-| T3-06 | Render collection landmarks from generated atlases               | ✅     | Already done on current main — palette entries route through `collectionAtlasEntry()` + `curatedTile()` in `scripts/map-authoring/palettes/*.ts`, resolving to art IDs in `src/content/art/tilesets.json` rather than hardcoded coordinates. Closed PR #81 predated the current palette plumbing; verified 2026-04-23. |
+| Task | Description | Status |
+|---|---|---|
+| T100 | `docs/WORLD_GENERATION.md` | done (113d050) |
+| T101 | `docs/ECONOMY.md` | done (58e475e) |
+| T102 | `docs/DIALOG_POOL.md` | done (b0ce6c8) |
+| T103 | `docs/QUESTS.md` v2 | done (02a13cd) |
+| T104 | `docs/ROADMAP.md` rewrite | **in progress** |
+| T105 | Archive v1 story docs | done |
+| T106 | `CLAUDE.md` update for v2 | pending |
+| T107 | `README.md` v2 pitch | pending |
 
-## Phase 4: Map Rebuild
+Acceptance: all 8 tasks committed on `docs/v2-phase-0-spec-lock` branch. Reviewed and merged to `main`. v1 docs archived, v2 docs live.
 
-| ID    | Task                                                     | Status | Notes                                                                  |
-| ----- | -------------------------------------------------------- | ------ | ---------------------------------------------------------------------- |
-| T4-01 | Keep all maps generated and verified                     | ✅     | Spec-generated artifacts are the only accepted maps.                   |
-| T4-02 | Rebuild terrain grammar around curated IDs               | 🟡     | Current maps use curated paths in places but still need a deeper pass. |
-| T4-03 | Improve biome transitions and encounter-zone readability | 🟡     | Visual audit catches issues; composition work remains.                 |
-| T4-04 | Add landmarks and route language to every map            | ⬜     | Each map needs clearer identity and memory hooks.                      |
-| T4-05 | Expand map scale/density for polished v1 feel            | ⬜     | Current maps are playable but still proof-path dense.                  |
-| T4-06 | Transition-aware map painting                            | ✅     | Already done on current main — `paintEdgeTransitions()` + `edgeTransitionTiles()` live in `scripts/map-authoring/lib/spec-helpers.ts` and are used by every shipped spec. Verified 2026-04-23. |
-| T4-07 | Buffer water-route seams                                 | ✅     | No seams present on current main. Verified via `public/assets/maps/rivergate_approach.preview.png` and `public/assets/maps/lakehaven.preview.png`; shore/water boundaries render cleanly through the existing transition painter. 2026-04-23. |
-| T4-08 | Enforce map surface metadata                             | ✅     | `tests/build-time/map-surface-metadata.test.ts` asserts every curated tile has `surface` + `walkable`, walkable-surface consistency, and that every shipped map spec's palette resolves to a surfaced curated entry. |
+## Phase 1 — Scaffolding
 
-## Phase 5: Journey
+| Task | Description | Notes |
+|---|---|---|
+| T108 | Create `v2-main` branch from `main` | long-lived feature branch |
+| T109 | `src/content/v2/` directory + JSON schemas | empty skeletons |
+| T110 | `src/modules/v2/` stub modules | world-generator, chunk-store, reward-function, dialog-pool, challenge-template, rumor-resolver |
+| T111 | Tag v1 as `v1.0.0-final` on `main` | preserves v1 deployment |
 
-| ID    | Task                                                      | Status | Notes                                                                     |
-| ----- | --------------------------------------------------------- | ------ | ------------------------------------------------------------------------- |
-| T5-01 | Maintain current seven-map playable arc                   | ✅     | Starter to green-dragon clear exists.                                     |
-| T5-02 | Convert current arc into a richer investigation structure | ✅     | Story bible (PR #96) + T7 quest expansion (PR #111) + T21 quest dialog authoring (PR #146). 15 quests covering all 7 regions, cross-region payoff in `quest_lost_hiker`. |
-| T5-03 | Add regional quest chains with cross-region payoff        | ✅     | T7 (PR #111) landed 8 new quests. Every region now has ≥2 side quests; `quest_lost_hiker` delivers from highridge_pass → lakehaven. |
-| T5-04 | Add optional catches/rewards/side paths                   | ✅     | 15 quests in `src/content/gameplay/quests.json` across 7 regions — 2-3 per region, each optional outside the main golden path. |
-| T5-05 | Add post-clear loop                                       | ✅     | PR #113 — green-dragon re-fight after clear. `decideFinalBossTrigger()` pure state machine in `src/modules/main/green-dragon.ts`; locked by `tests/build-time/post-clear-loop.test.ts`. |
+Acceptance: `v2-main` branch exists, skeletons committed, v1 tag in place.
 
-## Phase 6: Combat And Economy
+## Phase 2 — World generator core
 
-| ID    | Task                                                      | Status | Notes                                                                  |
-| ----- | --------------------------------------------------------- | ------ | ---------------------------------------------------------------------- |
-| T6-01 | Keep wild encounter fight/catch loop playable             | ✅     | Wild battle UI, capture, drops, XP, and clue rewards exist.            |
-| T6-02 | Keep set-piece action-battle lead bridge playable         | ✅     | Rival, masters, and dragon use lead creature body/stat/movebar bridge. |
-| T6-03 | Tune encounter frequency and catch odds through playtests | 🟡     | Functional now; fun pacing remains unproven.                           |
-| T6-04 | Tune XP, item economy, and shop prices                    | 🟡     | Needs repeated golden-path and side-path playtests.                    |
-| T6-05 | Expand move variety and type feedback                     | ⬜     | Current move set is serviceable but thin for v1.                       |
-| T6-06 | Design richer full-party battle command flow              | ⬜     | Current bench switching is useful but not final depth.                 |
+| Task | Description |
+|---|---|
+| T112 | Seed infrastructure (deterministic PRNG, seed display) |
+| T113 | Chunk coordinate system + deterministic type assignment |
+| T114 | Biome compass per seed |
+| T115 | Outdoor chunk generator |
+| T116 | Village chunk generator (slot-fill grammar) |
+| T117 | Indoor chunk generator |
+| T118 | Transitional edge chunks |
+| T119 | First-chunk Guide constraint |
+| T120 | Village-density constraint + sweep test |
 
-## Phase 7: Mobile UX
+Acceptance: `pnpm dev` boots into a seeded world; player walks between generated chunks; chunk types visibly vary; biome compass visible on pause-menu map.
 
-| ID    | Task                                                | Status | Notes                                                                           |
-| ----- | --------------------------------------------------- | ------ | ------------------------------------------------------------------------------- |
-| T7-01 | Provide HUD menu and pause routes for major actions | ✅     | Party, Clues, Gear, Bestiary, Settings, Save, and Title are reachable.          |
-| T7-02 | Support tap-to-walk and contextual tap interaction  | ✅     | Current E2E covers tap movement, hint, and adjacent interaction.                |
-| T7-03 | Improve HUD framing around gameplay area            | 🟡     | Works, but needs more visual review on real mobile screens.                     |
-| T7-04 | Broaden mobile failure-path coverage                | 🟡     | Current coverage is strong for happy paths and selected failures.               |
-| T7-05 | Device-prove touch comfort on Android/iOS           | 🟡     | Android emulator smoke passed; iOS simulator and physical-device passes remain. |
-| T7-06 | Improve HUD portrait + map viewport framing         | ⬜     | Salvage from closed PR #81: party portraits clip at small viewports; map viewport crops landmarks on portrait tablets. Fresh PR with visual-audit evidence. |
+## Phase 3 — Chunk persistence
 
-## Phase 8: Release Proof
+| Task | Description |
+|---|---|
+| T121 | SQLite chunk-delta schema |
+| T122 | Chunk-store module (load + persist-delta) |
+| T123 | Save/resume integration with v1 save-strategy |
+| T124 | Bestiary persistence (unchanged from v1) |
 
-| ID    | Task                                          | Status | Notes                                                                                                                       |
-| ----- | --------------------------------------------- | ------ | --------------------------------------------------------------------------------------------------------------------------- |
-| T8-01 | Keep PR CI gates and reviewer artifacts wired | ✅     | CI creates Pages-ready web and debug APK artifacts.                                                                         |
-| T8-02 | Keep release-please artifact handoff wired    | ✅     | Release artifacts flow through release metadata to CD.                                                                      |
-| T8-03 | Prove remote release chain end to end         | ✅     | `v0.3.1` proved release-please PR -> artifact-producing `release.yml` -> consuming `cd.yml`.                                |
-| T8-04 | Keep CD on workflow_run consumption           | ✅     | `cd.yml` consumed the completed `release.yml` run `24819206623` and deployed Pages in run `24819295738`.                    |
-| T8-05 | Run Maestro Android debug APK smoke           | ✅     | Passed on `Maestro_ANDROID_pixel_6_android-33` with the locally built debug APK; release-attached APK proof remains T10-03. |
-| T8-06 | Run Maestro iOS Pages smoke                   | ⬜     | Needs simulator execution against deployed Pages.                                                                           |
+Acceptance: save, close tab, reopen, continue → same spot, same party, same deltas.
 
-## Phase 9: Docs And QA
+## Phase 4 — Economy + scaling
 
-| ID    | Task                                                 | Status | Notes                                                                                                        |
-| ----- | ---------------------------------------------------- | ------ | ------------------------------------------------------------------------------------------------------------ |
-| T9-01 | Update current-state docs for Rivers Reckoning pivot | ✅     | Root/current docs now describe native-English clues and release contracts.                                   |
-| T9-02 | Keep visual diagnostics as acceptance artifacts      | ✅     | Visual audit and golden-path diagnostics remain required review inputs.                                      |
-| T9-03 | Audit all non-roadmap docs after each feature phase  | ✅     | Docs index, production/runbook/readiness docs, and root agent docs now align to the verified `v0.3.1` state. |
-| T9-04 | Remove legacy naming debt from modules/tests/docs    | ⬜     | Needs save-compatible staged rename plan.                                                                    |
+| Task | Description |
+|---|---|
+| T125 | Universal reward function |
+| T126 | Party-strength calc |
+| T127 | Encounter level formula |
+| T128 | Drop-level formula + loot table lookup |
+| T129 | XP curve rewrite (log-scaled) |
+| T130 | Shop pricing formula |
+| T131 | Inn heal pricing |
+| T132 | Faint penalty (10% gold tax, respawn) |
 
-## Phase 10: V1 Polish
+Acceptance: combat feels fair at levels 5, 25, 50; prices scale; inn heals; faint respawns.
 
-| ID     | Task                                               | Status | Notes                                                                                                                  |
-| ------ | -------------------------------------------------- | ------ | ---------------------------------------------------------------------------------------------------------------------- |
-| T10-01 | Final soundtrack/SFX pass                          | 🟡     | Runtime audio is wired, but final asset identity is not done.                                                          |
-| T10-02 | Full manual playtest from fresh install to credits | ⬜     | Must include screenshots, diagnostics, and notes.                                                                      |
-| T10-03 | Physical Android debug APK QA                      | ⬜     | Must use release-attached artifact, not local rebuild.                                                                 |
-| T10-04 | Final docs accuracy pass                           | ✅     | Current-state, production, release, QA, and root agent docs now reflect the shipped `v0.3.1` state and remaining work. |
-| T10-05 | V1 release candidate checklist                     | ⬜     | Requires all prior phases to be green or explicitly scoped out.                                                        |
+## Phase 5 — Items + gear
 
-## Phase 11: Onboarding And Opening Scene (v1 blocker)
+| Task | Description |
+|---|---|
+| T133 | Item schema expansion (potions, gear, materials, rare) |
+| T134 | Gear equip system (1 slot per party creature) |
+| T135 | Loot table (~100 items, tier-banded) |
+| T136 | Shop inventories (template + template-sampled) |
+| T137 | Chest placement in chunks |
 
-North-star: Pokémon Blue, Final Fantasy VI, Chrono Trigger — **story is the asset that lasts**. The opening 30 seconds of a 16-bit RPG *is* the world in miniature. Our current opening drops the player onto a map with no scripted moment, no visible protagonist, and no HUD. Every row below is a v1 blocker surfaced by `docs/screenshots/visual-audit/1.0-onboarding/NOTES.md` (automated capture via `tests/e2e/full/onboarding-capture.spec.ts`).
+Acceptance: loot populated; chests appear; shops varied; gear modifies stats.
 
-| ID     | Task                                                                      | Status | Notes                                                                                                                         |
-| ------ | ------------------------------------------------------------------------- | ------ | ----------------------------------------------------------------------------------------------------------------------------- |
-| T11-01  | Close the landing→gameplay quality cliff                                  | 🟡     | Meta row — T11-02/03/04/05/06/07/08/09/11 shipped and runtime-verified. Only T11-10 (jan Sewi cue) remains: needs a non-`Components.text` approach since that RPG.js v5 beta renderer produces canvas garbage. Once a `Components.shape` cue ships, this row closes. |
-| T11-02  | Distinguish the player sprite from NPCs                                   | ✅     | **Runtime-verified fix**: swapped the placeholder `hero.png` (2-color solid brown square) for a new `rivers_protagonist` player spritesheet using `meza.png` under the `npc_four_by_thirty_one` layout. Registered in `src/content/gameplay/visuals.json`. Rivers now renders as an orange-shirted villager, visually distinct from the pink/brown-haired NPCs on the road. Verified against live browser via Playwright MCP — see `docs/screenshots/visual-audit/1.0-onboarding/05-starter-map-idle.png`. |
-| T11-03  | Fix black rectangle placeholders on `riverside_home`                      | ✅     | **Runtime-verified fix**: root cause identified via live Pixi scene-graph inspection. The `grass_light` tile (palette "v", Fan-tasy seasons local_id 51) is a half-transparent bush-shape, not a solid grass variation. Over the WebGL clear colour (black), the 60% transparent half rendered as zigzag "black crown" silhouettes. Removed all `"v"` and `"f"` placements from `scripts/map-authoring/specs/riverside_home.ts`; map now paints with opaque `"g"` (grass_base) everywhere. Verified via live browser — crowns fully gone. |
-| T11-04  | Label or remove the unexplained brown square in the starter village      | ✅     | **Runtime-verified fix**: the brown square was Rivers the player sprite (32×32) rendering with the placeholder `hero.png` which is a solid-brown-with-black-border 96×128 placeholder (ALL 12 frames are 2-color brown+border). Fixed by the T11-02 change: swapped the default player graphic from `hero` to `rivers_protagonist`. Brown square gone; Rivers now renders as a real villager sprite. |
-| T11-05  | Bring HUD chrome onto gameplay surfaces                                   | ✅     | PR #140 — new goal widget top-right on every gameplay frame. Pure builder `src/config/hud-goal.ts`, `poki-hud-goal.ce` publisher, `HudGoal` React component, `hud.goal` config block. Phase-branched on `starter_chosen`; locked by `tests/build-time/hud-goal.test.ts`. |
-| T11-06  | Wire New Game click to fire the starter ceremony                          | ✅     | PR #128 — `title-menu.ts startFreshGame` calls `runOpeningScene()` which chains into `runStarterCeremony()`. Locked by `tests/integration/opening-scene.test.ts`. |
-| T11-07  | Ensure starter grant populates party to 1/6                               | ✅     | PR #128 — same chain. Integration test asserts `getParty()` returns length 1 and `starter_chosen` flag is set after the ceremony completes. |
-| T11-08  | Dialog keyboard-advance (Enter/Space) alongside tap                       | ✅     | PR #132 — `DialogSurface` auto-focuses on mount/message change; document-level keydown fallback; hint label "tap or press Enter". Reframed from the original "movement doesn't work" — root cause was the dialog modal eating keyboard input. |
-| T11-09  | Populate the pause-overlay right pane with a glance dashboard             | ✅     | PR #144 — new `glance` route becomes the default: four read-only rows (Party N/6 + lead, Clues N, Seen/Caught bestiary, phase-branched Next objective). `buildGlanceContent` lives in `src/modules/main/pause-menu.ts`. |
-| T11-10  | Add diegetic first-play cue to jan Sewi                                   | ⬜     | **REOPENED after live visual audit**: PR #134's `Components.text` approach produces garbage canvas output (minified JS source splatter) in RPG.js v5 beta. The `attachFirstPlayCue` / `clearFirstPlayCue` calls in `src/modules/main/event.ts` are disabled; `Shape` component (circle above NPC) is the next approach to try since it doesn't route through `dynamics/text.ce.js`. |
-| T11-11  | Author the scripted opening scene                                         | ✅     | PR #126 — `src/modules/main/opening-scene.ts` with a pure `decideOpeningScene()` state machine. Five authored beats in `ui.json` under `opening_scene`; idempotent; NG+ clears the flag. Chained into `startFreshGame` so New Game always lands on the scripted intro. |
+## Phase 6 — Dialog pool
 
-## Definition Of Done For V1
+| Task | Description |
+|---|---|
+| T138 | Dialog pool schema + authoring format |
+| T139 | Extract v1 dossier beats into the pool |
+| T140 | Author ~2800 new lines (sub-tasks per role) |
+| T141 | Deterministic-per-NPC subset selection |
+| T142 | NPC name generator (adjective + noun pools) |
+| T143 | Rumor system + directional resolver |
 
--   Local run/build/deploy gates pass.
--   Pages deployment and Android debug APK release artifact are proven from CI release flow.
--   The player can complete a fun beginning-to-end journey without docs.
--   The maps look coherent in visual-audit and golden-path screenshots.
--   Mobile/tap play is complete enough that every action is reachable without a keyboard.
--   Story, quests, clues, inventory, loot, and combat rewards form a complete loop.
--   Roadmap and current-state docs match verified reality.
+Acceptance: NPCs in same village say different things; rumors point at real chunks; level-banded dialog shifts on level-up.
+
+## Phase 7 — Challenge templates
+
+| Task | Description |
+|---|---|
+| T144 | Challenge template schema |
+| T145 | Author the 10 cause × 3-5 effect variants |
+| T146 | Parameterization at chunk realization |
+| T147 | Challenge offer UI |
+| T148 | Challenge resolve detection |
+| T149 | Post-resolve degradation |
+
+Acceptance: accept → resolve → reward round-trips for all 10 causes; resolved NPCs degrade correctly.
+
+## Phase 8 — UI + UX
+
+| Task | Description |
+|---|---|
+| T150 | Pause-menu world map |
+| T151 | Chunk name surfacing in-game |
+| T152 | Rumor journal |
+| T153 | Challenge journal |
+| T154 | Seed display on pause menu |
+| T155 | Bestiary rework (no completion % nag) |
+| T156 | New Game flow (seed picker) |
+
+Acceptance: map renders; journals work; seed displayed; new-game flow complete.
+
+## Phase 9 — Integration + cleanup
+
+| Task | Description |
+|---|---|
+| T157 | Wire v2 world-generator into dev entry |
+| T158 | Retire v1 content paths (green-dragon, NG+, rematch, journey, quests) |
+| T159 | Retire v1 content files (regions/, tiled/, assets/maps/) |
+| T160 | Retire v1 build-time tests tied to retired content |
+| T161 | Retire v1 integration tests (journey-golden-path, dossier-npc-runtime) |
+| T162 | Add v2 build-time tests |
+| T163 | Add v2 integration tests |
+
+Acceptance: v1 content gone; build clean; retired tests removed; v2 tests pass.
+
+## Phase 10 — Release
+
+| Task | Description |
+|---|---|
+| T164 | Update CI/release/CD workflows if needed |
+| T165 | Tag `v2.0.0-alpha.1` from `v2-main` |
+| T166 | Playtest on iPhone Safari + Android debug APK |
+| T167 | Iterate alpha → beta → v2.0.0 |
+| T168 | Merge `v2-main` → `main` on `v2.0.0` tag |
+
+Acceptance: `v2.0.0` tagged, Pages deployed, playtested on real devices, merged to main.
+
+## What changed from v1
+
+v1's Phases 1-12 tracked: runtime stability → gate parity → maps → combat → story density → quest chains → mobile QA → audio → launch readiness. All completed or retired — see `v1.0.0-final` tag for the final state.
+
+v2 starts fresh. The 10 phases above are the only authoritative work until v2.0.0 ships.
+
+## Task ID convention
+
+v1 tasks: `T1` through `T91`. **Closed.** Preserved in git history.
+
+v2 tasks: `T100+`. Increment as new work is added; never reuse v1 IDs.
+
+## How to contribute
+
+Pick an unblocked task from the current phase. Read the relevant spec doc (linked from PRD). Open a PR to `v2-main` with the task ID in the title (e.g. `feat(v2): T115 outdoor chunk generator`). Merge after CI green.
+
+## Related
+
+- `docs/plans/rivers-reckoning-v2.prq.md` — canonical PRD with full task detail.
+- `docs/DESIGN.md` — product spec.
+- `docs/WORLD_GENERATION.md`, `docs/ECONOMY.md`, `docs/DIALOG_POOL.md`, `docs/QUESTS.md` — system specs.
+- `docs/archive/v1-story/` — retired v1 creative docs (reference only).
