@@ -47,6 +47,22 @@
           "glyph": "wild-signs"
         }
       ]
+    },
+    {
+      "id": "meadow_post_clear",
+      "when": {
+        "flag_present": "game_cleared"
+      },
+      "priority": 3,
+      "beats": [
+        {
+          "text": {
+            "en": "The draft blows even now. Just gently. Like the mountain is breathing out."
+          },
+          "mood": "thinking",
+          "glyph": "safe-house"
+        }
+      ]
     }
   ]
 }

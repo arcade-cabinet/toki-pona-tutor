@@ -60,6 +60,22 @@
           "mood": "sad"
         }
       ]
+    },
+    {
+      "id": "kala_suli_post_clear",
+      "when": {
+        "flag_present": "game_cleared"
+      },
+      "priority": 3,
+      "beats": [
+        {
+          "text": {
+            "en": "Fishing line's in my pocket. Dragon-catching retired. Regular fish only."
+          },
+          "mood": "happy",
+          "glyph": "water-edge"
+        }
+      ]
     }
   ]
 }

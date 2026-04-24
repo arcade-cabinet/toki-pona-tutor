@@ -54,6 +54,22 @@
           "glyph": "wild-signs"
         }
       ]
+    },
+    {
+      "id": "pack_post_clear",
+      "when": {
+        "flag_present": "game_cleared"
+      },
+      "priority": 3,
+      "beats": [
+        {
+          "text": {
+            "en": "Book's called 'Rivers's Year.' The publisher liked it. Hope you don't mind."
+          },
+          "mood": "happy",
+          "glyph": "companion-bond"
+        }
+      ]
     }
   ]
 }

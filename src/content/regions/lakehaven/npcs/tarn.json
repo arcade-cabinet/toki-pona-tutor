@@ -54,6 +54,22 @@
           "glyph": "companion-bond"
         }
       ]
+    },
+    {
+      "id": "tarn_post_clear",
+      "when": {
+        "flag_present": "game_cleared"
+      },
+      "priority": 3,
+      "beats": [
+        {
+          "text": {
+            "en": "Shop's open longer hours now. People stay later. The plaza hums until the lanterns burn down."
+          },
+          "mood": "happy",
+          "glyph": "safe-house"
+        }
+      ]
     }
   ]
 }

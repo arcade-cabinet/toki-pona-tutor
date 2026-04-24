@@ -54,6 +54,22 @@
           "glyph": "last-light"
         }
       ]
+    },
+    {
+      "id": "torch_bearer_post_clear",
+      "when": {
+        "flag_present": "game_cleared"
+      },
+      "priority": 3,
+      "beats": [
+        {
+          "text": {
+            "en": "Cliff retired me from the braziers. Said I've earned sunlight."
+          },
+          "mood": "happy",
+          "glyph": "shrine-stones"
+        }
+      ]
     }
   ]
 }

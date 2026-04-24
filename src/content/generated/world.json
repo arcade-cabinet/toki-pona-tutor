@@ -4286,6 +4286,24 @@
       }
     },
     {
+      "id": "cave_kid_post_clear",
+      "npc_id": "cave_kid",
+      "priority": 3,
+      "beats": [
+        {
+          "text": {
+            "en": "Mom knows I'm in here now. She doesn't mind since the stone's quiet again."
+          },
+          "mood": "happy",
+          "glyph": "shrine-stones"
+        }
+      ],
+      "triggers": {},
+      "when_flags": {
+        "game_cleared": true
+      }
+    },
+    {
       "id": "cliff_intro",
       "npc_id": "cliff",
       "priority": 10,
@@ -4489,6 +4507,24 @@
       }
     },
     {
+      "id": "meadow_post_clear",
+      "npc_id": "meadow",
+      "priority": 3,
+      "beats": [
+        {
+          "text": {
+            "en": "The draft blows even now. Just gently. Like the mountain is breathing out."
+          },
+          "mood": "thinking",
+          "glyph": "safe-house"
+        }
+      ],
+      "triggers": {},
+      "when_flags": {
+        "game_cleared": true
+      }
+    },
+    {
       "id": "rowan_ask",
       "npc_id": "rowan",
       "priority": 0,
@@ -4523,6 +4559,24 @@
       "when_flags": {
         "badge_suli": true,
         "game_cleared": false
+      }
+    },
+    {
+      "id": "rowan_post_clear",
+      "npc_id": "rowan",
+      "priority": 3,
+      "beats": [
+        {
+          "text": {
+            "en": "Stock's twice what it was. Fewer folk need last-resort supplies now."
+          },
+          "mood": "happy",
+          "glyph": "safe-house"
+        }
+      ],
+      "triggers": {},
+      "when_flags": {
+        "game_cleared": true
       }
     },
     {
@@ -4567,6 +4621,24 @@
       "when_flags": {
         "badge_suli": true,
         "game_cleared": false
+      }
+    },
+    {
+      "id": "torch_bearer_post_clear",
+      "npc_id": "torch_bearer",
+      "priority": 3,
+      "beats": [
+        {
+          "text": {
+            "en": "Cliff retired me from the braziers. Said I've earned sunlight."
+          },
+          "mood": "happy",
+          "glyph": "shrine-stones"
+        }
+      ],
+      "triggers": {},
+      "when_flags": {
+        "game_cleared": true
       }
     },
     {
@@ -5116,6 +5188,24 @@
       }
     },
     {
+      "id": "luma_post_clear",
+      "npc_id": "luma",
+      "priority": 3,
+      "beats": [
+        {
+          "text": {
+            "en": "Last Light doesn't need tending anymore. The village sky is blue by itself."
+          },
+          "mood": "happy",
+          "glyph": "cold-hands"
+        }
+      ],
+      "triggers": {},
+      "when_flags": {
+        "game_cleared": true
+      }
+    },
+    {
       "id": "snow_kid_intro",
       "npc_id": "snow_kid",
       "priority": 0,
@@ -5352,6 +5442,24 @@
       }
     },
     {
+      "id": "lark_post_clear",
+      "npc_id": "lark",
+      "priority": 3,
+      "beats": [
+        {
+          "text": {
+            "en": "Dragon. I still say it. Makes everyone stop walking when I do."
+          },
+          "mood": "excited",
+          "glyph": "companion-bond"
+        }
+      ],
+      "triggers": {},
+      "when_flags": {
+        "game_cleared": true
+      }
+    },
+    {
       "id": "pack_runner",
       "npc_id": "pack",
       "priority": 0,
@@ -5393,6 +5501,24 @@
       "when_flags": {
         "quest_field_notes_complete": true,
         "game_cleared": false
+      }
+    },
+    {
+      "id": "pack_post_clear",
+      "npc_id": "pack",
+      "priority": 3,
+      "beats": [
+        {
+          "text": {
+            "en": "Book's called 'Rivers's Year.' The publisher liked it. Hope you don't mind."
+          },
+          "mood": "happy",
+          "glyph": "companion-bond"
+        }
+      ],
+      "triggers": {},
+      "when_flags": {
+        "game_cleared": true
       }
     },
     {
@@ -5535,6 +5661,24 @@
       }
     },
     {
+      "id": "thorn_post_clear",
+      "npc_id": "thorn",
+      "priority": 3,
+      "beats": [
+        {
+          "text": {
+            "en": "Grass doesn't rustle mean anymore. I miss the edge a little, but only a little."
+          },
+          "mood": "thinking",
+          "glyph": "wild-signs"
+        }
+      ],
+      "triggers": {},
+      "when_flags": {
+        "game_cleared": true
+      }
+    },
+    {
       "id": "ansel_greenwood",
       "npc_id": "ansel",
       "priority": 0,
@@ -5647,6 +5791,24 @@
       }
     },
     {
+      "id": "boulder_post_clear",
+      "npc_id": "boulder",
+      "priority": 3,
+      "beats": [
+        {
+          "text": {
+            "en": "Four stones sit where the shrine used to be quiet. Fifth's coming. Stoneminder says so."
+          },
+          "mood": "happy",
+          "glyph": "shrine-stones"
+        }
+      ],
+      "triggers": {},
+      "when_flags": {
+        "game_cleared": true
+      }
+    },
+    {
       "id": "breeze_intro",
       "npc_id": "breeze",
       "priority": 0,
@@ -5686,6 +5848,24 @@
       "when_flags": {
         "badge_sewi": true,
         "game_cleared": false
+      }
+    },
+    {
+      "id": "breeze_post_clear",
+      "npc_id": "breeze",
+      "priority": 3,
+      "beats": [
+        {
+          "text": {
+            "en": "The switchback feels short now. Funny how that works once you know the end of the road."
+          },
+          "mood": "happy",
+          "glyph": "wild-signs"
+        }
+      ],
+      "triggers": {},
+      "when_flags": {
+        "game_cleared": true
       }
     },
     {
@@ -5791,6 +5971,24 @@
       "when_flags": {
         "badge_lete": true,
         "game_cleared": false
+      }
+    },
+    {
+      "id": "kestrel_post_clear",
+      "npc_id": "kestrel",
+      "priority": 3,
+      "beats": [
+        {
+          "text": {
+            "en": "Snowbirds nest down here now. They nest wherever they want. Selby would've liked that."
+          },
+          "mood": "happy",
+          "glyph": "companion-bond"
+        }
+      ],
+      "triggers": {},
+      "when_flags": {
+        "game_cleared": true
       }
     },
     {
@@ -6245,6 +6443,24 @@
       }
     },
     {
+      "id": "kala_suli_post_clear",
+      "npc_id": "kala_suli",
+      "priority": 3,
+      "beats": [
+        {
+          "text": {
+            "en": "Fishing line's in my pocket. Dragon-catching retired. Regular fish only."
+          },
+          "mood": "happy",
+          "glyph": "water-edge"
+        }
+      ],
+      "triggers": {},
+      "when_flags": {
+        "game_cleared": true
+      }
+    },
+    {
       "id": "lodge_keeper_intro",
       "npc_id": "lodge_keeper",
       "priority": 0,
@@ -6285,6 +6501,24 @@
       "when_flags": {
         "badge_lete": true,
         "game_cleared": false
+      }
+    },
+    {
+      "id": "lodge_keeper_post_clear",
+      "npc_id": "lodge_keeper",
+      "priority": 3,
+      "beats": [
+        {
+          "text": {
+            "en": "North door stays shut now. I put a bell on it just in case. It hasn't rung."
+          },
+          "mood": "happy",
+          "glyph": "safe-house"
+        }
+      ],
+      "triggers": {},
+      "when_flags": {
+        "game_cleared": true
       }
     },
     {
@@ -6520,6 +6754,24 @@
       }
     },
     {
+      "id": "myra_post_clear",
+      "npc_id": "myra",
+      "priority": 3,
+      "beats": [
+        {
+          "text": {
+            "en": "I came back down to the water. It sings differently. I think it's saying thank you."
+          },
+          "mood": "happy",
+          "glyph": "water-edge"
+        }
+      ],
+      "triggers": {},
+      "when_flags": {
+        "game_cleared": true
+      }
+    },
+    {
       "id": "piper_cousin_intro",
       "npc_id": "piper_cousin",
       "priority": 0,
@@ -6561,6 +6813,24 @@
       "when_flags": {
         "badge_telo": true,
         "game_cleared": false
+      }
+    },
+    {
+      "id": "piper_cousin_post_clear",
+      "npc_id": "piper_cousin",
+      "priority": 3,
+      "beats": [
+        {
+          "text": {
+            "en": "Piper's letters are just drawings now. Sunsets, orchards, the elm. No more worry in them."
+          },
+          "mood": "happy",
+          "glyph": "companion-bond"
+        }
+      ],
+      "triggers": {},
+      "when_flags": {
+        "game_cleared": true
       }
     },
     {
@@ -6657,6 +6927,24 @@
       "when_flags": {
         "badge_telo": true,
         "game_cleared": false
+      }
+    },
+    {
+      "id": "tarn_post_clear",
+      "npc_id": "tarn",
+      "priority": 3,
+      "beats": [
+        {
+          "text": {
+            "en": "Shop's open longer hours now. People stay later. The plaza hums until the lanterns burn down."
+          },
+          "mood": "happy",
+          "glyph": "safe-house"
+        }
+      ],
+      "triggers": {},
+      "when_flags": {
+        "game_cleared": true
       }
     },
     {

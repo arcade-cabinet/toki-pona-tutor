@@ -54,6 +54,22 @@
           "glyph": "frost-type"
         }
       ]
+    },
+    {
+      "id": "kestrel_post_clear",
+      "when": {
+        "flag_present": "game_cleared"
+      },
+      "priority": 3,
+      "beats": [
+        {
+          "text": {
+            "en": "Snowbirds nest down here now. They nest wherever they want. Selby would've liked that."
+          },
+          "mood": "happy",
+          "glyph": "companion-bond"
+        }
+      ]
     }
   ]
 }
