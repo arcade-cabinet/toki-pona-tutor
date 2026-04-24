@@ -10,6 +10,13 @@ All notable changes to poki soweli. Format based on [Keep a Changelog](https://k
 
 This branch (`feat/rpgjs-v5-pivot`) descends from commit `0a582e0` — the pre-Godot tip. The Godot era between `1d924fe` (pivot) and `0edfe61` (feat/anchor-to-template) lives on `main` and is not represented here. Release-please releases `v0.1.0`…`v0.1.3` tagged on `main` cover the Godot build and do not apply to this branch.
 
+## [0.18.0](https://github.com/arcade-cabinet/poki-soweli/compare/v0.17.0...v0.18.0) (2026-04-24)
+
+
+### Added
+
+* **content:** migrate frostvale to region dossier (T55) ([#186](https://github.com/arcade-cabinet/poki-soweli/issues/186)) ([07c8329](https://github.com/arcade-cabinet/poki-soweli/commit/07c8329206fe9a0f05f5ac5d8c32e73c3f9927fa))
+
 ## [0.17.0](https://github.com/arcade-cabinet/poki-soweli/compare/v0.16.0...v0.17.0) (2026-04-24)
 
 
