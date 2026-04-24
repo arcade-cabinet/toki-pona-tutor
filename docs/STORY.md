@@ -1,6 +1,6 @@
 ---
 title: Story Bible
-updated: 2026-04-23
+updated: 2026-04-24
 status: current
 domain: creative
 ---
@@ -46,7 +46,7 @@ Each region master has:
 3. A **what-Rivers-learns**: the narrative payoff.
 4. A **cross-region payoff**: how their arc pays into a later region.
 
-### The Rival — jan Ike (Greenwood Road → every region)
+### The Rival — Rook (Greenwood Road → every region)
 
 Identity: Another village kid, also received a starter, also chasing the dragon story for their own reasons. Not villainous — a foil.
 
@@ -149,9 +149,9 @@ These quest ideas are in the bible to capture narrative intent but are NOT curre
 ## Recurring NPCs
 
 - **Elder Selby** (Riverside Home, Rivergate Approach ending) — the grandparent figure. Gives the ceremony, then the last letter.
-- **jan Ike / the Rival** (every region) — pace-gate and foil. Always beaten or befriended, never defeated into silence.
+- **Rook / the Rival** (every region) — pace-gate and foil. Always beaten or befriended, never defeated into silence.
 - **The four Masters** (one per gated region) — each makes exactly one speaking appearance post-fight, with one line of cross-region payoff.
-- **jan Kala, big and small** (Lakehaven, Frostvale, Rivergate Approach) — the fisher siblings. Their presence in every water region is what tells the player the dragon's path follows water.
+- **Kala-Lili and Kala-Suli** (Lakehaven, Frostvale, Rivergate Approach) — the fisher siblings. Their presence in every water region is what tells the player the dragon's path follows water.
 
 ## Post-clear loop — free exploration
 
