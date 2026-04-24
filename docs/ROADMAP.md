@@ -11,7 +11,7 @@ This file tracks phase-level status and the stable task IDs for the v2 pivot. Fo
 
 ## Pivot summary
 
-Rivers Reckoning pivoted at `v1.0.0-final` (tag on `main`) from a finite seven-beat story to a procedurally generated cozy open-world RPG. v1 remains shipped at its final tag; v2 lives on the `v2-main` long-lived feature branch until it's release-ready.
+Rivers Reckoning pivoted from a finite seven-beat story to a procedurally generated cozy open-world RPG. **Refactored in place on `main`.** The game doesn't stay working during the pivot — each phase deletes v1 code and adds v2 code; there is no parallel branch. `v1.0.0-final` tag preserves the last v1 state as a historical snapshot only (not a rollback target).
 
 v1 phases (1-12) covered in the previous roadmap are **archived** — see `docs/archive/v1-story/` for the retired story docs, and the v1 task backlog (T1 through T91) is preserved in git history under tag `v1.0.0-final`.
 
@@ -20,7 +20,7 @@ v1 phases (1-12) covered in the previous roadmap are **archived** — see `docs/
 | Phase | Name | Status | PRD task IDs | Blocker |
 |---|---|---|---|---|
 | 0 | Spec lock | **in progress** | T100-T107 | - |
-| 1 | Scaffolding on `v2-main` | pending | T108-T111 | Phase 0 |
+| 1 | Scaffolding + v1 teardown | pending | T108-T111 | Phase 0 |
 | 2 | World generator core | pending | T112-T120 | Phase 1 |
 | 3 | Chunk persistence | pending | T121-T124 | Phase 2 |
 | 4 | Economy + scaling | pending | T125-T132 | Phase 2 |
@@ -48,16 +48,16 @@ All docs-only. Nothing in this phase touches code.
 
 Acceptance: all 8 tasks committed on `docs/v2-phase-0-spec-lock` branch. Reviewed and merged to `main`. v1 docs archived, v2 docs live.
 
-## Phase 1 — Scaffolding
+## Phase 1 — Scaffolding + v1 teardown
 
 | Task | Description | Notes |
 |---|---|---|
-| T108 | Create `v2-main` branch from `main` | long-lived feature branch |
-| T109 | `src/content/v2/` directory + JSON schemas | empty skeletons |
-| T110 | `src/modules/v2/` stub modules | world-generator, chunk-store, reward-function, dialog-pool, challenge-template, rumor-resolver |
-| T111 | Tag v1 as `v1.0.0-final` on `main` | preserves v1 deployment |
+| T108 | Delete v1 runtime modules (green-dragon, new-game-plus, rematch, quest-runtime, badge-derivation) | no replacements yet; engine will boot broken until Phase 2 lands |
+| T109 | `src/content/` restructure — move v1 authoring to `src/content/legacy/` if still useful as seed corpus; otherwise delete | retain only species + moves + items (pure data) |
+| T110 | `src/modules/` stub modules for world-gen | world-generator, chunk-store, reward-function, dialog-pool, challenge-template, rumor-resolver — no `v1/v2/` prefix, just the new flat module set |
+| T111 | Tag v1 as `v1.0.0-final` (done) | already pushed; reference-only snapshot |
 
-Acceptance: `v2-main` branch exists, skeletons committed, v1 tag in place.
+Acceptance: v1 progression code gone, new module skeletons in place, `v1.0.0-final` tag published. Engine may not boot — that's expected until Phase 2.
 
 ## Phase 2 — World generator core
 
@@ -153,29 +153,31 @@ Acceptance: accept → resolve → reward round-trips for all 10 causes; resolve
 
 Acceptance: map renders; journals work; seed displayed; new-game flow complete.
 
-## Phase 9 — Integration + cleanup
+## Phase 9 — Integration + test cleanup
+
+Most v1 teardown happens in Phase 1 (in-place refactor). Phase 9 wraps the tests that survived on life support.
 
 | Task | Description |
 |---|---|
-| T157 | Wire v2 world-generator into dev entry |
-| T158 | Retire v1 content paths (green-dragon, NG+, rematch, journey, quests) |
-| T159 | Retire v1 content files (regions/, tiled/, assets/maps/) |
-| T160 | Retire v1 build-time tests tied to retired content |
-| T161 | Retire v1 integration tests (journey-golden-path, dossier-npc-runtime) |
+| T157 | Wire world-generator into `src/standalone.ts` dev entry (replaces v1 map registration) |
+| T158 | Delete any remaining v1 flag references in tests |
+| T159 | Delete v1 integration tests (journey-golden-path, dossier-npc-runtime) |
+| T160 | Delete v1 build-time tests tied to retired content (dossier-*, events-dialog-ids, etc.) |
+| T161 | (retired — subsumed by T159/T160) |
 | T162 | Add v2 build-time tests |
 | T163 | Add v2 integration tests |
 
-Acceptance: v1 content gone; build clean; retired tests removed; v2 tests pass.
+Acceptance: build clean, no v1 test references, v2 tests pass.
 
 ## Phase 10 — Release
 
 | Task | Description |
 |---|---|
 | T164 | Update CI/release/CD workflows if needed |
-| T165 | Tag `v2.0.0-alpha.1` from `v2-main` |
+| T165 | Tag `v2.0.0-alpha.1` on `main` |
 | T166 | Playtest on iPhone Safari + Android debug APK |
-| T167 | Iterate alpha → beta → v2.0.0 |
-| T168 | Merge `v2-main` → `main` on `v2.0.0` tag |
+| T167 | Iterate alpha → beta → v2.0.0 (tags on `main`) |
+| T168 | Tag `v2.0.0` on `main` |
 
 Acceptance: `v2.0.0` tagged, Pages deployed, playtested on real devices, merged to main.
 
@@ -193,7 +195,7 @@ v2 tasks: `T100+`. Increment as new work is added; never reuse v1 IDs.
 
 ## How to contribute
 
-Pick an unblocked task from the current phase. Read the relevant spec doc (linked from PRD). Open a PR to `v2-main` with the task ID in the title (e.g. `feat(v2): T115 outdoor chunk generator`). Merge after CI green.
+Pick an unblocked task from the current phase. Read the relevant spec doc (linked from PRD). Open a PR to `main` from a feature branch with the task ID in the title (e.g. `feat: T115 outdoor chunk generator`). Merge after CI green. Note: the engine may not boot cleanly during Phase 1-8 — that's expected. v2 runtime comes online when Phase 2 wires the generator.
 
 ## Related
 

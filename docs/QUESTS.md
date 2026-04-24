@@ -296,7 +296,7 @@ Safeguards:
 ## Authoring surface
 
 ```
-src/content/v2/challenges/
+src/content/challenges/
   templates.json         # 10 cause × 3-5 effect variants = ~40 base templates
   cause_affinities.json  # role → cause weight table
   evidence_items.json    # item list valid as evidence_item param in settle_dispute

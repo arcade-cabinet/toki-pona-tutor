@@ -17,9 +17,9 @@ Warm, not edgy. Kid-safe. No permadeath. Same seed = same world; different seed 
 
 ## Where v2 stands
 
-The project pivoted on 2026-04-24 from a finite seven-beat story (the v1 design — four region masters, badge gating, green-dragon ending) to a procedurally generated open world. v1 is preserved at git tag `v1.0.0-final`. v2 is being built on the `v2-main` long-lived feature branch; see `docs/ROADMAP.md` for the 10-phase work map and `docs/plans/rivers-reckoning-v2.prq.md` for the full PRD.
+The project pivoted on 2026-04-24 from a finite seven-beat story (the v1 design — four region masters, badge gating, green-dragon ending) to a procedurally generated open world. v1 is preserved at git tag `v1.0.0-final` as a historical snapshot. **v2 is being refactored in place on `main`** — no parallel branch. See `docs/ROADMAP.md` for the 10-phase work map and `docs/plans/rivers-reckoning-v2.prq.md` for the full PRD.
 
-**v2 is currently in Phase 0 (spec lock).** Specs are being written; code work starts in Phase 1.
+**v2 is currently in Phase 1 (v1 teardown + scaffolding).** Phase 0 (spec lock) merged as PR #254. The engine may not boot cleanly between Phase 1 and Phase 2 — that's expected.
 
 ## What v2 is
 
@@ -43,7 +43,7 @@ The project pivoted on 2026-04-24 from a finite seven-beat story (the v1 design 
 
 ```sh
 pnpm install
-pnpm dev            # vite at http://localhost:5173/ (runs current v1 until v2-main is wired)
+pnpm dev            # vite at http://localhost:5173/ (may fail to boot during Phase 1-2 refactor)
 ```
 
 Use Node 22 LTS (`.node-version`) and pnpm 10.x.
@@ -99,13 +99,21 @@ v1 map-authoring commands (`pnpm author:*`, `pnpm build-spine`, `pnpm validate`)
 ```
 src/
 ├── modules/
-│   ├── main/             # v1 engine (frozen during v2 build)
-│   └── v2/               # v2 engine (created in Phase 1)
+│   ├── main/             # v1 engine modules — being torn down in Phase 1
+│   ├── world-generator.ts
+│   ├── chunk-store.ts
+│   ├── reward-function.ts
+│   ├── dialog-pool.ts
+│   ├── challenge-template.ts
+│   └── rumor-resolver.ts
 └── content/
-    ├── spine/            # v1 authored JSON (frozen)
-    ├── regions/          # v1 dossier NPCs (frozen, extractable)
-    ├── generated/        # v1 compiled world.json (frozen)
-    └── v2/               # v2 authoring surface (created in Phase 1)
+    ├── spine/species/    # 43 species (carry forward from v1)
+    ├── spine/moves/      # 17 moves (carry forward from v1)
+    ├── spine/items/      # items (extended in Phase 5)
+    ├── dialog_pool/      # authored in Phase 6
+    ├── names/            # NPC name pools (Phase 6)
+    ├── challenges/       # challenge templates (Phase 7)
+    └── economy.json      # tuning config (Phase 4)
 
 docs/
 ├── DESIGN.md             # v2 product spec
@@ -126,7 +134,7 @@ tests/
 ## Contributing
 
 - Read `CLAUDE.md` and the spec doc for whatever system you're touching before making changes.
-- Work on a feature branch off `v2-main` (once Phase 1 creates it). Open a PR against `v2-main`. Never push direct.
+- Work on a feature branch off `main`. Open a PR against `main`. Never push direct.
 - CI must be green before merge; address every review comment.
 - [Conventional Commits](https://www.conventionalcommits.org/) always (`feat:` / `fix:` / `chore:` / `docs:` / `refactor:` / `perf:` / `test:` / `ci:` / `build:`).
 - Squash-merge.
