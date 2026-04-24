@@ -27,7 +27,7 @@
     },
     {
       "id": "cormorant_post_sighting",
-      "when": { "flag_present": "snowbird_sighting_complete" },
+      "when": { "flag_present": "snowbird_sighting_complete", "flag_absent": "game_cleared" },
       "priority": 5,
       "beats": [
         {
@@ -39,6 +39,18 @@
           "text": { "en": "I wrote you a note for the Dreadpeak warden. It skips you past the first encounter wall." },
           "mood": "thinking",
           "glyph": "safe-house"
+        }
+      ]
+    },
+    {
+      "id": "cormorant_post_clear",
+      "when": { "flag_present": "game_cleared" },
+      "priority": 3,
+      "beats": [
+        {
+          "text": { "en": "The cold-season roster has one new entry. I'm calling them all Rivers-birds." },
+          "mood": "happy",
+          "glyph": "frost-type"
         }
       ]
     }

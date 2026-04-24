@@ -35,6 +35,18 @@
           "mood": "thinking"
         }
       ]
+    },
+    {
+      "id": "ansel_post_clear",
+      "when": { "flag_present": "game_cleared" },
+      "priority": 3,
+      "beats": [
+        {
+          "text": { "en": "You walked up to the dragon. People will tell that story longer than I'll live." },
+          "mood": "happy",
+          "glyph": "companion-bond"
+        }
+      ]
     }
   ]
 }

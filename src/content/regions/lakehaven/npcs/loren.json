@@ -37,7 +37,7 @@
     },
     {
       "id": "loren_post_lakehaven_fight",
-      "when": { "flag_present": "badge_telo", "flag_absent": "badge_lete" },
+      "when": { "flag_present": "badge_telo", "flag_absent": "game_cleared" },
       "priority": 5,
       "beats": [
         {
@@ -49,6 +49,18 @@
           "text": { "en": "Here — a wind-braid. Brindle up in Frostvale will know what it means." },
           "mood": "thinking",
           "glyph": "cold-hands"
+        }
+      ]
+    },
+    {
+      "id": "loren_post_clear",
+      "when": { "flag_present": "game_cleared" },
+      "priority": 3,
+      "beats": [
+        {
+          "text": { "en": "The water's flat as my palm. Marin keeps saying your name to the fish. They listen." },
+          "mood": "happy",
+          "glyph": "companion-bond"
         }
       ]
     }

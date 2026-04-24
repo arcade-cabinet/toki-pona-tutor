@@ -39,6 +39,18 @@
           "mood": "happy"
         }
       ]
+    },
+    {
+      "id": "brindle_post_clear",
+      "when": { "flag_present": "game_cleared" },
+      "priority": 3,
+      "beats": [
+        {
+          "text": { "en": "The braid is warmer than it was. I don't know how that works." },
+          "mood": "happy",
+          "glyph": "cold-hands"
+        }
+      ]
     }
   ]
 }

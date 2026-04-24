@@ -21,7 +21,7 @@
     },
     {
       "id": "corvin_post_rook",
-      "when": { "flag_present": "rook_defeated", "flag_absent": "badge_sewi" },
+      "when": { "flag_present": "rook_defeated", "flag_absent": "game_cleared" },
       "priority": 5,
       "beats": [
         {
@@ -33,6 +33,18 @@
           "text": { "en": "I found odd tracks in the third grass patch. Too big for anything I know." },
           "mood": "sad",
           "glyph": "wild-signs"
+        }
+      ]
+    },
+    {
+      "id": "corvin_post_clear",
+      "when": { "flag_present": "game_cleared" },
+      "priority": 3,
+      "beats": [
+        {
+          "text": { "en": "The tracks are gone from the third patch. I walked it yesterday to be sure." },
+          "mood": "happy",
+          "glyph": "companion-bond"
         }
       ]
     }

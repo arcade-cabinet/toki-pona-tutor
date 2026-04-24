@@ -4429,7 +4429,26 @@
       ],
       "triggers": {},
       "when_flags": {
-        "torch_path_survey_complete": true
+        "torch_path_survey_complete": true,
+        "game_cleared": false
+      }
+    },
+    {
+      "id": "graym_post_clear",
+      "npc_id": "graym",
+      "priority": 3,
+      "beats": [
+        {
+          "text": {
+            "en": "The shadow's gone. First time I've mapped clean stone in thirty years."
+          },
+          "mood": "happy",
+          "glyph": "companion-bond"
+        }
+      ],
+      "triggers": {},
+      "when_flags": {
+        "game_cleared": true
       }
     },
     {
@@ -4620,6 +4639,24 @@
       }
     },
     {
+      "id": "brindle_post_clear",
+      "npc_id": "brindle",
+      "priority": 3,
+      "beats": [
+        {
+          "text": {
+            "en": "The braid is warmer than it was. I don't know how that works."
+          },
+          "mood": "happy",
+          "glyph": "cold-hands"
+        }
+      ],
+      "triggers": {},
+      "when_flags": {
+        "game_cleared": true
+      }
+    },
+    {
       "id": "cormorant_tuneup",
       "npc_id": "cormorant",
       "priority": 0,
@@ -4666,7 +4703,26 @@
       ],
       "triggers": {},
       "when_flags": {
-        "snowbird_sighting_complete": true
+        "snowbird_sighting_complete": true,
+        "game_cleared": false
+      }
+    },
+    {
+      "id": "cormorant_post_clear",
+      "npc_id": "cormorant",
+      "priority": 3,
+      "beats": [
+        {
+          "text": {
+            "en": "The cold-season roster has one new entry. I'm calling them all Rivers-birds."
+          },
+          "mood": "happy",
+          "glyph": "frost-type"
+        }
+      ],
+      "triggers": {},
+      "when_flags": {
+        "game_cleared": true
       }
     },
     {
@@ -4744,6 +4800,24 @@
       "when_flags": {
         "torch_path_survey_complete": true,
         "badge_suli": false
+      }
+    },
+    {
+      "id": "ember_post_clear",
+      "npc_id": "ember",
+      "priority": 3,
+      "beats": [
+        {
+          "text": {
+            "en": "No braziers have gone out since you walked through. I noticed."
+          },
+          "mood": "happy",
+          "glyph": "last-light"
+        }
+      ],
+      "triggers": {},
+      "when_flags": {
+        "game_cleared": true
       }
     },
     {
@@ -4906,7 +4980,26 @@
       ],
       "triggers": {},
       "when_flags": {
-        "badge_lete": true
+        "badge_lete": true,
+        "game_cleared": false
+      }
+    },
+    {
+      "id": "frost_uncle_post_clear",
+      "npc_id": "frost_uncle",
+      "priority": 3,
+      "beats": [
+        {
+          "text": {
+            "en": "Sit. You know the fifth name now. Say it quietly. Selby. Selby."
+          },
+          "mood": "happy",
+          "glyph": "companion-bond"
+        }
+      ],
+      "triggers": {},
+      "when_flags": {
+        "game_cleared": true
       }
     },
     {
@@ -4956,7 +5049,26 @@
       ],
       "triggers": {},
       "when_flags": {
-        "snowbird_sighting_complete": true
+        "snowbird_sighting_complete": true,
+        "game_cleared": false
+      }
+    },
+    {
+      "id": "hollis_post_clear",
+      "npc_id": "hollis",
+      "priority": 3,
+      "beats": [
+        {
+          "text": {
+            "en": "Two Snowbirds this week. The garden will survive another winter."
+          },
+          "mood": "happy",
+          "glyph": "frost-type"
+        }
+      ],
+      "triggers": {},
+      "when_flags": {
+        "game_cleared": true
       }
     },
     {
@@ -5174,7 +5286,25 @@
       "triggers": {},
       "when_flags": {
         "rook_defeated": true,
-        "badge_sewi": false
+        "game_cleared": false
+      }
+    },
+    {
+      "id": "corvin_post_clear",
+      "npc_id": "corvin",
+      "priority": 3,
+      "beats": [
+        {
+          "text": {
+            "en": "The tracks are gone from the third patch. I walked it yesterday to be sure."
+          },
+          "mood": "happy",
+          "glyph": "companion-bond"
+        }
+      ],
+      "triggers": {},
+      "when_flags": {
+        "game_cleared": true
       }
     },
     {
@@ -5448,6 +5578,24 @@
       }
     },
     {
+      "id": "ansel_post_clear",
+      "npc_id": "ansel",
+      "priority": 3,
+      "beats": [
+        {
+          "text": {
+            "en": "You walked up to the dragon. People will tell that story longer than I'll live."
+          },
+          "mood": "happy",
+          "glyph": "companion-bond"
+        }
+      ],
+      "triggers": {},
+      "when_flags": {
+        "game_cleared": true
+      }
+    },
+    {
       "id": "boulder_mountain",
       "npc_id": "boulder",
       "priority": 0,
@@ -5580,7 +5728,25 @@
       ],
       "triggers": {},
       "when_flags": {
-        "lost_hiker_delivered": true
+        "lost_hiker_delivered": true,
+        "game_cleared": false
+      }
+    },
+    {
+      "id": "hiker_post_clear",
+      "npc_id": "hiker",
+      "priority": 3,
+      "beats": [
+        {
+          "text": {
+            "en": "Walking the pass twice a week now. My leg remembered how."
+          },
+          "mood": "happy"
+        }
+      ],
+      "triggers": {},
+      "when_flags": {
+        "game_cleared": true
       }
     },
     {
@@ -5674,7 +5840,26 @@
       ],
       "triggers": {},
       "when_flags": {
-        "lost_hiker_delivered": true
+        "lost_hiker_delivered": true,
+        "game_cleared": false
+      }
+    },
+    {
+      "id": "marsha_post_clear",
+      "npc_id": "marsha",
+      "priority": 3,
+      "beats": [
+        {
+          "text": {
+            "en": "Fewer lost hikers this month. Something's settled on the mountain."
+          },
+          "mood": "happy",
+          "glyph": "wild-signs"
+        }
+      ],
+      "triggers": {},
+      "when_flags": {
+        "game_cleared": true
       }
     },
     {
@@ -5717,7 +5902,26 @@
       ],
       "triggers": {},
       "when_flags": {
-        "badge_sewi": true
+        "badge_sewi": true,
+        "game_cleared": false
+      }
+    },
+    {
+      "id": "shrine_kid_post_clear",
+      "npc_id": "shrine_kid",
+      "priority": 3,
+      "beats": [
+        {
+          "text": {
+            "en": "I can see the cracked stone from the hut window. It's quieter now. I don't know how to say it better than that."
+          },
+          "mood": "happy",
+          "glyph": "shrine-stones"
+        }
+      ],
+      "triggers": {},
+      "when_flags": {
+        "game_cleared": true
       }
     },
     {
@@ -5767,7 +5971,26 @@
       ],
       "triggers": {},
       "when_flags": {
-        "badge_sewi": true
+        "badge_sewi": true,
+        "game_cleared": false
+      }
+    },
+    {
+      "id": "stoneminder_post_clear",
+      "npc_id": "stoneminder",
+      "priority": 3,
+      "beats": [
+        {
+          "text": {
+            "en": "Five stones now. I carved the fifth under Selby's name. They'll come sit with us sometime."
+          },
+          "mood": "happy",
+          "glyph": "shrine-stones"
+        }
+      ],
+      "triggers": {},
+      "when_flags": {
+        "game_cleared": true
       }
     },
     {
@@ -5895,7 +6118,26 @@
       ],
       "triggers": {},
       "when_flags": {
-        "badge_telo": true
+        "badge_telo": true,
+        "game_cleared": false
+      }
+    },
+    {
+      "id": "angler_post_clear",
+      "npc_id": "angler",
+      "priority": 3,
+      "beats": [
+        {
+          "text": {
+            "en": "THE FISH! The fish — came BACK! All of them!"
+          },
+          "mood": "excited",
+          "glyph": "water-edge"
+        }
+      ],
+      "triggers": {},
+      "when_flags": {
+        "game_cleared": true
       }
     },
     {
@@ -6111,7 +6353,25 @@
       "triggers": {},
       "when_flags": {
         "badge_telo": true,
-        "badge_lete": false
+        "game_cleared": false
+      }
+    },
+    {
+      "id": "loren_post_clear",
+      "npc_id": "loren",
+      "priority": 3,
+      "beats": [
+        {
+          "text": {
+            "en": "The water's flat as my palm. Marin keeps saying your name to the fish. They listen."
+          },
+          "mood": "happy",
+          "glyph": "companion-bond"
+        }
+      ],
+      "triggers": {},
+      "when_flags": {
+        "game_cleared": true
       }
     },
     {
@@ -6333,7 +6593,26 @@
       ],
       "triggers": {},
       "when_flags": {
-        "shopkeep_first_sale": true
+        "shopkeep_first_sale": true,
+        "game_cleared": false
+      }
+    },
+    {
+      "id": "shopkeep_post_clear",
+      "npc_id": "shopkeep",
+      "priority": 3,
+      "beats": [
+        {
+          "text": {
+            "en": "Your tab's on the house forever, Rivers. Don't try to pay it off. I'll refuse."
+          },
+          "mood": "happy",
+          "glyph": "companion-bond"
+        }
+      ],
+      "triggers": {},
+      "when_flags": {
+        "game_cleared": true
       }
     },
     {
