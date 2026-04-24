@@ -1,0 +1,33 @@
+{
+  "id": "piper",
+  "display_name": "Piper",
+  "home_region": "riverside_home",
+  "role": "orchard_helper_quest_giver",
+  "appearances": [
+    { "region": "riverside_home", "spawn": [4, 5], "default": true }
+  ],
+  "dialog_states": [
+    {
+      "id": "piper_welcome",
+      "when": {},
+      "priority": 0,
+      "beats": [
+        {
+          "text": { "en": "Rivers! Glad the village is still here when you came home." },
+          "mood": "happy",
+          "glyph": "companion-bond"
+        },
+        {
+          "text": { "en": "Have you heard the old story of the reedfrog? A bonded Reedfrog is what makes a house feel safe." },
+          "mood": "thinking",
+          "glyph": "safe-house"
+        },
+        {
+          "text": { "en": "Bring one back and I'll make the spare room yours for good." },
+          "mood": "excited",
+          "glyph": "safe-house"
+        }
+      ]
+    }
+  ]
+}

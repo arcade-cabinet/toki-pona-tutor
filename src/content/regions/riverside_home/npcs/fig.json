@@ -1,0 +1,28 @@
+{
+  "id": "fig",
+  "display_name": "Fig",
+  "home_region": "riverside_home",
+  "role": "snack_keeper",
+  "appearances": [
+    { "region": "riverside_home", "spawn": [4, 8], "default": true }
+  ],
+  "dialog_states": [
+    {
+      "id": "fig_snack",
+      "when": {},
+      "priority": 0,
+      "beats": [
+        {
+          "text": { "en": "Take fruit before the road." },
+          "mood": "happy",
+          "glyph": "orchard-fruit"
+        },
+        {
+          "text": { "en": "A fed companion fights longer." },
+          "mood": "happy",
+          "glyph": "companion-bond"
+        }
+      ]
+    }
+  ]
+}

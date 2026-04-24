@@ -4182,28 +4182,6 @@
   ],
   "dialog": [
     {
-      "id": "fig_snack",
-      "npc_id": "fig",
-      "priority": 0,
-      "beats": [
-        {
-          "text": {
-            "en": "Take fruit before the road."
-          },
-          "mood": "happy",
-          "glyph": "orchard-fruit"
-        },
-        {
-          "text": {
-            "en": "A fed companion fights longer."
-          },
-          "mood": "happy",
-          "glyph": "companion-bond"
-        }
-      ],
-      "triggers": {}
-    },
-    {
       "id": "game_over_revive",
       "npc_id": null,
       "priority": 10,
@@ -4214,211 +4192,6 @@
           },
           "mood": "sad",
           "glyph": "companion-bond"
-        }
-      ],
-      "triggers": {}
-    },
-    {
-      "id": "hollis_garden",
-      "npc_id": "hollis",
-      "priority": 0,
-      "beats": [
-        {
-          "text": {
-            "en": "A Snowbird circled my garden at dawn — first one in a decade."
-          },
-          "mood": "excited",
-          "glyph": "frost-type"
-        },
-        {
-          "text": {
-            "en": "The elders say a bonded Snowbird tells the sky when the frost is coming. Frostvale needs warning this year."
-          },
-          "mood": "thinking",
-          "glyph": "frost-type"
-        },
-        {
-          "text": {
-            "en": "Catch one Snowbird and Frostvale keeps its garden through winter."
-          },
-          "mood": "excited",
-          "glyph": "frost-type"
-        }
-      ],
-      "triggers": {}
-    },
-    {
-      "id": "kestrel_sky",
-      "npc_id": "kestrel",
-      "priority": 0,
-      "beats": [
-        {
-          "text": {
-            "en": "Birds circle when someone strays from the high path."
-          },
-          "mood": "happy",
-          "glyph": "wild-signs"
-        },
-        {
-          "text": {
-            "en": "Watch the shadows, not just the road."
-          },
-          "mood": "thinking",
-          "glyph": "wild-signs"
-        }
-      ],
-      "triggers": {}
-    },
-    {
-      "id": "luma_light",
-      "npc_id": "luma",
-      "priority": 0,
-      "beats": [
-        {
-          "text": {
-            "en": "Frost glows blue before a storm."
-          },
-          "mood": "thinking",
-          "glyph": "cold-hands"
-        },
-        {
-          "text": {
-            "en": "Follow the lighted fences if you get turned around."
-          },
-          "mood": "sad",
-          "glyph": "safe-house"
-        }
-      ],
-      "triggers": {}
-    },
-    {
-      "id": "marsha_path",
-      "npc_id": "marsha",
-      "priority": 0,
-      "beats": [
-        {
-          "text": {
-            "en": "A hiker passed through yesterday — didn't come back down."
-          },
-          "mood": "sad",
-          "glyph": "torch-path"
-        },
-        {
-          "text": {
-            "en": "She was headed to Loren at the lake in Lakehaven. Said she'd bring a torch-path token as payment."
-          },
-          "mood": "thinking",
-          "glyph": "torch-path"
-        },
-        {
-          "text": {
-            "en": "If you find her pack, carry what's inside to Loren at the lake. She needs the delivery done."
-          },
-          "mood": "excited",
-          "glyph": "torch-path"
-        }
-      ],
-      "triggers": {}
-    },
-    {
-      "id": "meadow_meditate",
-      "npc_id": "meadow",
-      "priority": 0,
-      "beats": [
-        {
-          "text": {
-            "en": "Breathe with the cave draft. It points toward safe stone."
-          },
-          "mood": "thinking",
-          "glyph": "wild-signs"
-        }
-      ],
-      "triggers": {}
-    },
-    {
-      "id": "oren_ready",
-      "npc_id": "oren",
-      "priority": 0,
-      "beats": [
-        {
-          "text": {
-            "en": "Capture pods are packed."
-          },
-          "mood": "happy",
-          "glyph": "companion-bond"
-        },
-        {
-          "text": {
-            "en": "Bring home anything you can care for."
-          },
-          "mood": "excited",
-          "glyph": "greenwood-watch"
-        }
-      ],
-      "triggers": {}
-    },
-    {
-      "id": "piper_welcome",
-      "npc_id": "piper",
-      "priority": 0,
-      "beats": [
-        {
-          "text": {
-            "en": "Rivers! Glad the village is still here when you came home."
-          },
-          "mood": "happy",
-          "glyph": "companion-bond"
-        },
-        {
-          "text": {
-            "en": "Have you heard the old story of the reedfrog? A bonded Reedfrog is what makes a house feel safe."
-          },
-          "mood": "thinking",
-          "glyph": "safe-house"
-        },
-        {
-          "text": {
-            "en": "Bring one back and I'll make the spare room yours for good."
-          },
-          "mood": "excited",
-          "glyph": "safe-house"
-        }
-      ],
-      "triggers": {}
-    },
-    {
-      "id": "rowan_ask",
-      "npc_id": "rowan",
-      "priority": 0,
-      "beats": [
-        {
-          "text": {
-            "en": "If the path narrows, check your supplies before you commit."
-          },
-          "mood": "thinking",
-          "glyph": "greenwood-watch"
-        }
-      ],
-      "triggers": {}
-    },
-    {
-      "id": "tarn_plaza",
-      "npc_id": "tarn",
-      "priority": 0,
-      "beats": [
-        {
-          "text": {
-            "en": "The shop is open by the fountain."
-          },
-          "mood": "happy",
-          "glyph": "water-edge"
-        },
-        {
-          "text": {
-            "en": "Lake trainers compare catches at sunset."
-          },
-          "mood": "thinking",
-          "glyph": "water-edge"
         }
       ],
       "triggers": {}
@@ -4464,28 +4237,6 @@
           },
           "mood": "sad",
           "glyph": "wild-signs"
-        }
-      ],
-      "triggers": {}
-    },
-    {
-      "id": "wren_well_water",
-      "npc_id": "wren",
-      "priority": 0,
-      "beats": [
-        {
-          "text": {
-            "en": "The well runs cold even in summer."
-          },
-          "mood": "thinking",
-          "glyph": "water-edge"
-        },
-        {
-          "text": {
-            "en": "Good water keeps companions steady."
-          },
-          "mood": "happy",
-          "glyph": "companion-bond"
         }
       ],
       "triggers": {}
@@ -4661,6 +4412,36 @@
       "when_flags": {
         "torch_path_survey_complete": true
       }
+    },
+    {
+      "id": "meadow_meditate",
+      "npc_id": "meadow",
+      "priority": 0,
+      "beats": [
+        {
+          "text": {
+            "en": "Breathe with the cave draft. It points toward safe stone."
+          },
+          "mood": "thinking",
+          "glyph": "wild-signs"
+        }
+      ],
+      "triggers": {}
+    },
+    {
+      "id": "rowan_ask",
+      "npc_id": "rowan",
+      "priority": 0,
+      "beats": [
+        {
+          "text": {
+            "en": "If the path narrows, check your supplies before you commit."
+          },
+          "mood": "thinking",
+          "glyph": "greenwood-watch"
+        }
+      ],
+      "triggers": {}
     },
     {
       "id": "torch_bearer_intro",
@@ -5045,6 +4826,57 @@
       "when_flags": {
         "badge_lete": true
       }
+    },
+    {
+      "id": "hollis_garden",
+      "npc_id": "hollis",
+      "priority": 0,
+      "beats": [
+        {
+          "text": {
+            "en": "A Snowbird circled my garden at dawn — first one in a decade."
+          },
+          "mood": "excited",
+          "glyph": "frost-type"
+        },
+        {
+          "text": {
+            "en": "The elders say a bonded Snowbird tells the sky when the frost is coming. Frostvale needs warning this year."
+          },
+          "mood": "thinking",
+          "glyph": "frost-type"
+        },
+        {
+          "text": {
+            "en": "Catch one Snowbird and Frostvale keeps its garden through winter."
+          },
+          "mood": "excited",
+          "glyph": "frost-type"
+        }
+      ],
+      "triggers": {}
+    },
+    {
+      "id": "luma_light",
+      "npc_id": "luma",
+      "priority": 0,
+      "beats": [
+        {
+          "text": {
+            "en": "Frost glows blue before a storm."
+          },
+          "mood": "thinking",
+          "glyph": "cold-hands"
+        },
+        {
+          "text": {
+            "en": "Follow the lighted fences if you get turned around."
+          },
+          "mood": "sad",
+          "glyph": "safe-house"
+        }
+      ],
+      "triggers": {}
     },
     {
       "id": "snow_kid_intro",
@@ -5436,6 +5268,57 @@
       "when_flags": {
         "lost_hiker_delivered": true
       }
+    },
+    {
+      "id": "kestrel_sky",
+      "npc_id": "kestrel",
+      "priority": 0,
+      "beats": [
+        {
+          "text": {
+            "en": "Birds circle when someone strays from the high path."
+          },
+          "mood": "happy",
+          "glyph": "wild-signs"
+        },
+        {
+          "text": {
+            "en": "Watch the shadows, not just the road."
+          },
+          "mood": "thinking",
+          "glyph": "wild-signs"
+        }
+      ],
+      "triggers": {}
+    },
+    {
+      "id": "marsha_path",
+      "npc_id": "marsha",
+      "priority": 0,
+      "beats": [
+        {
+          "text": {
+            "en": "A hiker passed through yesterday — didn't come back down."
+          },
+          "mood": "sad",
+          "glyph": "torch-path"
+        },
+        {
+          "text": {
+            "en": "She was headed to Loren at the lake in Lakehaven. Said she'd bring a torch-path token as payment."
+          },
+          "mood": "thinking",
+          "glyph": "torch-path"
+        },
+        {
+          "text": {
+            "en": "If you find her pack, carry what's inside to Loren at the lake. She needs the delivery done."
+          },
+          "mood": "excited",
+          "glyph": "torch-path"
+        }
+      ],
+      "triggers": {}
     },
     {
       "id": "shrine_kid_intro",
@@ -5992,6 +5875,28 @@
       }
     },
     {
+      "id": "tarn_plaza",
+      "npc_id": "tarn",
+      "priority": 0,
+      "beats": [
+        {
+          "text": {
+            "en": "The shop is open by the fountain."
+          },
+          "mood": "happy",
+          "glyph": "water-edge"
+        },
+        {
+          "text": {
+            "en": "Lake trainers compare catches at sunset."
+          },
+          "mood": "thinking",
+          "glyph": "water-edge"
+        }
+      ],
+      "triggers": {}
+    },
+    {
       "id": "green_dragon_intro",
       "npc_id": "green_dragon",
       "priority": 10,
@@ -6177,6 +6082,79 @@
       }
     },
     {
+      "id": "fig_snack",
+      "npc_id": "fig",
+      "priority": 0,
+      "beats": [
+        {
+          "text": {
+            "en": "Take fruit before the road."
+          },
+          "mood": "happy",
+          "glyph": "orchard-fruit"
+        },
+        {
+          "text": {
+            "en": "A fed companion fights longer."
+          },
+          "mood": "happy",
+          "glyph": "companion-bond"
+        }
+      ],
+      "triggers": {}
+    },
+    {
+      "id": "oren_ready",
+      "npc_id": "oren",
+      "priority": 0,
+      "beats": [
+        {
+          "text": {
+            "en": "Capture pods are packed."
+          },
+          "mood": "happy",
+          "glyph": "companion-bond"
+        },
+        {
+          "text": {
+            "en": "Bring home anything you can care for."
+          },
+          "mood": "excited",
+          "glyph": "greenwood-watch"
+        }
+      ],
+      "triggers": {}
+    },
+    {
+      "id": "piper_welcome",
+      "npc_id": "piper",
+      "priority": 0,
+      "beats": [
+        {
+          "text": {
+            "en": "Rivers! Glad the village is still here when you came home."
+          },
+          "mood": "happy",
+          "glyph": "companion-bond"
+        },
+        {
+          "text": {
+            "en": "Have you heard the old story of the reedfrog? A bonded Reedfrog is what makes a house feel safe."
+          },
+          "mood": "thinking",
+          "glyph": "safe-house"
+        },
+        {
+          "text": {
+            "en": "Bring one back and I'll make the spare room yours for good."
+          },
+          "mood": "excited",
+          "glyph": "safe-house"
+        }
+      ],
+      "triggers": {}
+    },
+    {
       "id": "selby_starter_intro",
       "npc_id": "selby",
       "priority": 10,
@@ -6275,6 +6253,28 @@
       "when_flags": {
         "game_cleared": true
       }
+    },
+    {
+      "id": "wren_well_water",
+      "npc_id": "wren",
+      "priority": 0,
+      "beats": [
+        {
+          "text": {
+            "en": "The well runs cold even in summer."
+          },
+          "mood": "thinking",
+          "glyph": "water-edge"
+        },
+        {
+          "text": {
+            "en": "Good water keeps companions steady. Four stones at the base, laid by the four valley wardens. Read them sometime."
+          },
+          "mood": "happy",
+          "glyph": "companion-bond"
+        }
+      ],
+      "triggers": {}
     }
   ],
   "journey": {

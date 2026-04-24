@@ -1,0 +1,28 @@
+{
+  "id": "luma",
+  "display_name": "Luma",
+  "home_region": "frostvale",
+  "role": "lantern_tender",
+  "appearances": [
+    { "region": "frostvale", "spawn": [11, 11], "default": true }
+  ],
+  "dialog_states": [
+    {
+      "id": "luma_light",
+      "when": {},
+      "priority": 0,
+      "beats": [
+        {
+          "text": { "en": "Frost glows blue before a storm." },
+          "mood": "thinking",
+          "glyph": "cold-hands"
+        },
+        {
+          "text": { "en": "Follow the lighted fences if you get turned around." },
+          "mood": "sad",
+          "glyph": "safe-house"
+        }
+      ]
+    }
+  ]
+}
