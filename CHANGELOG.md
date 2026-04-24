@@ -10,6 +10,13 @@ All notable changes to poki soweli. Format based on [Keep a Changelog](https://k
 
 This branch (`feat/rpgjs-v5-pivot`) descends from commit `0a582e0` — the pre-Godot tip. The Godot era between `1d924fe` (pivot) and `0edfe61` (feat/anchor-to-template) lives on `main` and is not represented here. Release-please releases `v0.1.0`…`v0.1.3` tagged on `main` cover the Godot build and do not apply to this branch.
 
+## [0.13.5](https://github.com/arcade-cabinet/poki-soweli/compare/v0.13.4...v0.13.5) (2026-04-24)
+
+
+### Fixed
+
+* **dialog:** narrow typewriter effect deps to message+flag (T37) ([#161](https://github.com/arcade-cabinet/poki-soweli/issues/161)) ([167ad28](https://github.com/arcade-cabinet/poki-soweli/commit/167ad285c479404840844d6674285ba58d1f1158))
+
 ## [0.13.4](https://github.com/arcade-cabinet/poki-soweli/compare/v0.13.3...v0.13.4) (2026-04-24)
 
 
