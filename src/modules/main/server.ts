@@ -66,18 +66,12 @@ function signEventsForMap(mapId: string) {
  * and register an AmbientNpc event per appearance.
  *
  * Gating: the Tiled object's `required_flag` custom property (propagated
- * from the dossier's `appearances[].requires_flag`) makes onAction a
- * silent no-op until the flag is set. Visual hiding is a follow-up
- * task — for now a quiet pre-gate NPC is better than one that monologues
- * before the player earned their beat.
+ * from the dossier's `appearances[].requires_flag`) hides the sprite and
+ * makes onAction a no-op until the flag is set — AmbientNpc swaps the
+ * graphic reactively on every sync.
  *
  * Green dragon is excluded: it lives as a dedicated `green_dragon` event
  * kind in events.json (the endgame encounter), not an ambient NPC.
- *
- * TODO(graphic): dossier schema lacks a per-NPC graphic field, so every
- * dossier NPC shares a placeholder sprite. Follow-up adds `graphic`
- * to the npcDossier schema and per-NPC art selection so Rook, Cormorant,
- * Ember etc. look distinct from generic villagers.
  */
 const DOSSIER_NPC_GRAPHIC = "npc_villager_masc_janik";
 const DOSSIER_NPC_EXCLUDED_IDS = new Set(["green_dragon"]);
