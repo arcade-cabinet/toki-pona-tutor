@@ -10,6 +10,13 @@ All notable changes to poki soweli. Format based on [Keep a Changelog](https://k
 
 This branch (`feat/rpgjs-v5-pivot`) descends from commit `0a582e0` — the pre-Godot tip. The Godot era between `1d924fe` (pivot) and `0edfe61` (feat/anchor-to-template) lives on `main` and is not represented here. Release-please releases `v0.1.0`…`v0.1.3` tagged on `main` cover the Godot build and do not apply to this branch.
 
+## [0.32.0](https://github.com/arcade-cabinet/poki-soweli/compare/v0.31.1...v0.32.0) (2026-04-24)
+
+
+### Added
+
+* **runtime:** wire dialog on_exit.set_flag + author 4 quest turn-in states (T71) ([#217](https://github.com/arcade-cabinet/poki-soweli/issues/217)) ([21a8a6f](https://github.com/arcade-cabinet/poki-soweli/commit/21a8a6f948ef989d08e7ff1e8b3fd480e5dc48ad))
+
 ## [0.31.1](https://github.com/arcade-cabinet/poki-soweli/compare/v0.31.0...v0.31.1) (2026-04-24)
 
 
