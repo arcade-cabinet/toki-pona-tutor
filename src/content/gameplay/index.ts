@@ -307,6 +307,12 @@ export type RuntimeMapEventConfig =
           positionOffset?: RuntimePositionOffset;
           targetPositionOffset?: RuntimePositionOffset;
           gatedDialogId?: string;
+      }
+    | {
+          kind: "sign";
+          id: string;
+          positionOffset?: RuntimePositionOffset;
+          body: string;
       };
 
 export type RuntimePositionOffset = { x: number; y: number };
@@ -1267,6 +1273,12 @@ function normalizeMapEvent(
                 kind: event.kind,
                 targetPositionOffset: normalizePositionOffset(event.target_position_offset),
                 gatedDialogId: event.gated_dialog_id,
+            };
+        case "sign":
+            return {
+                ...base,
+                kind: event.kind,
+                body: event.body,
             };
     }
 }

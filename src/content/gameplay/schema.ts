@@ -647,6 +647,10 @@ export const eventsConfigSchema = z.object({
                         target_position_offset: positionOffsetSchema.optional(),
                         gated_dialog_id: idSchema.optional(),
                     }),
+                    baseRuntimeEventSchema.extend({
+                        kind: z.literal("sign"),
+                        body: z.string().min(1),
+                    }),
                 ]),
             )
             .min(1),

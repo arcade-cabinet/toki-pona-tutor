@@ -9,6 +9,7 @@ import { QuestNpc } from "./quest-npc";
 import { GreenDragon } from "./green-dragon";
 import { Warp } from "./warp";
 import { JanMokuShop } from "./shop-npc";
+import { SignEvent } from "./sign";
 import { LEAD_ACTION_BATTLE_SKILL_DATABASE } from "./lead-battle-skills";
 import { runtimeEventPosition, runtimeWarpTarget } from "./runtime-map-events";
 import {
@@ -16,13 +17,47 @@ import {
     TRAINER_BATTLE_CONFIGS,
     type RuntimeMapEventConfig,
 } from "../../content/gameplay";
+import worldRaw from "../../content/generated/world.json";
+
+type WorldSign = { region: string; at: [number, number]; title: string; body: { en: string } };
+type WorldMetadata = { signs?: WorldSign[] };
+const worldSigns = ((worldRaw as unknown as WorldMetadata).signs ?? []) as WorldSign[];
+
+/**
+ * Sign runtime wiring (T61). Signs live in the region dossiers under
+ * `src/content/regions/<id>/signs.json` and compile into world.json's
+ * top-level `signs` array. The map-authoring pipeline's dossier-merge
+ * step also emits one Tiled Sign object per sign at author time
+ * (separate PR). Here we register a SignEvent per sign so the
+ * engine surfaces the body on action. Each sign gets a stable id of
+ * the form `sign_<x>_<y>` within its region — the Tiled object id
+ * matches, so RPG.js's tiledMapFolderPlugin pairs them automatically.
+ */
+function signEventsForMap(mapId: string) {
+    return worldSigns
+        .filter((s) => s.region === mapId)
+        .map((s) => ({
+            id: `sign_${s.at[0]}_${s.at[1]}`,
+            x: s.at[0] * 16,
+            y: (s.at[1] + 1) * 16,
+            event: SignEvent(s.body.en),
+        }));
+}
+
+const mapIds = new Set<string>([
+    ...Object.keys(MAP_EVENT_CONFIGS),
+    ...worldSigns.map((s) => s.region),
+]);
 
 export default defineModule<RpgServer>({
     database: LEAD_ACTION_BATTLE_SKILL_DATABASE,
     player,
-    maps: Object.entries(MAP_EVENT_CONFIGS).map(([id, events]) => ({
+    maps: Array.from(mapIds).map((id) => ({
         id,
-        events: events.map((event) => runtimeEvent(id, event)),
+        events: [
+            ...(MAP_EVENT_CONFIGS[id] ?? []).map((event) => runtimeEvent(id, event)),
+            ...signEventsForMap(id),
+        ],
     })),
 });
 
@@ -66,6 +101,8 @@ function eventDefinition(mapId: string, config: RuntimeMapEventConfig) {
                 requiredFlag: target.requiredFlag,
                 gatedDialogId: config.gatedDialogId,
             });
+        case "sign":
+            return SignEvent(config.body);
     }
 }
 
