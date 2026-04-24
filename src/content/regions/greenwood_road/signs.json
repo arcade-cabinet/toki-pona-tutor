@@ -15,6 +15,16 @@
       "at": [30, 5],
       "title": "HIGHRIDGE PASS AHEAD",
       "body": { "en": "The wind hits harder above the second switchback." }
+    },
+    {
+      "at": [8, 9],
+      "title": "FIRST TALL GRASS",
+      "body": { "en": "Walk it only if you can carry home what's in it." }
+    },
+    {
+      "at": [22, 9],
+      "title": "RIVAL'S CROSSING",
+      "body": { "en": "Some fights start here. Most don't finish here." }
     }
   ]
 }

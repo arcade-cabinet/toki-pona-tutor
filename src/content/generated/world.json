@@ -8351,6 +8351,28 @@
       }
     },
     {
+      "region": "dreadpeak_cavern",
+      "at": [
+        6,
+        14
+      ],
+      "title": "BRAZIER — DON'T LET IT GO OUT",
+      "body": {
+        "en": "A dark brazier means something walked past. Note the time."
+      }
+    },
+    {
+      "region": "dreadpeak_cavern",
+      "at": [
+        4,
+        6
+      ],
+      "title": "THE RIVER BELOW",
+      "body": {
+        "en": "Listen. The cavern floor is directly above the source."
+      }
+    },
+    {
       "region": "frostvale",
       "at": [
         2,
@@ -8381,6 +8403,28 @@
       "title": "TRIAL OF FROST",
       "body": {
         "en": "Warm yourself before the bell rings."
+      }
+    },
+    {
+      "region": "frostvale",
+      "at": [
+        5,
+        11
+      ],
+      "title": "THE BENCH",
+      "body": {
+        "en": "Sit here if you want the warden story. Bring patience."
+      }
+    },
+    {
+      "region": "frostvale",
+      "at": [
+        14,
+        8
+      ],
+      "title": "NORTH GATE — DREADPEAK",
+      "body": {
+        "en": "Cold gets worse beyond this gate. Don't go without a named flame."
       }
     },
     {
@@ -8417,6 +8461,28 @@
       }
     },
     {
+      "region": "greenwood_road",
+      "at": [
+        8,
+        9
+      ],
+      "title": "FIRST TALL GRASS",
+      "body": {
+        "en": "Walk it only if you can carry home what's in it."
+      }
+    },
+    {
+      "region": "greenwood_road",
+      "at": [
+        22,
+        9
+      ],
+      "title": "RIVAL'S CROSSING",
+      "body": {
+        "en": "Some fights start here. Most don't finish here."
+      }
+    },
+    {
       "region": "highridge_pass",
       "at": [
         4,
@@ -8447,6 +8513,28 @@
       "title": "THE FIRST STONE",
       "body": {
         "en": "One of four, laid by the first wardens."
+      }
+    },
+    {
+      "region": "highridge_pass",
+      "at": [
+        16,
+        3
+      ],
+      "title": "THE SECOND STONE",
+      "body": {
+        "en": "One of four. Tarrin knows whose name is carved here."
+      }
+    },
+    {
+      "region": "highridge_pass",
+      "at": [
+        22,
+        6
+      ],
+      "title": "LAKEHAVEN TRAIL",
+      "body": {
+        "en": "North past the shrine. Three hours to the water if you don't stop."
       }
     },
     {
@@ -8483,6 +8571,28 @@
       }
     },
     {
+      "region": "lakehaven",
+      "at": [
+        6,
+        10
+      ],
+      "title": "THE PIER",
+      "body": {
+        "en": "Loren tends the boards. Don't run."
+      }
+    },
+    {
+      "region": "lakehaven",
+      "at": [
+        16,
+        4
+      ],
+      "title": "LODGE",
+      "body": {
+        "en": "One trail token, one cot. Vesper's rules."
+      }
+    },
+    {
       "region": "rivergate_approach",
       "at": [
         4,
@@ -8516,6 +8626,28 @@
       }
     },
     {
+      "region": "rivergate_approach",
+      "at": [
+        2,
+        11
+      ],
+      "title": "GRILL'S LODGE",
+      "body": {
+        "en": "Hot food. Free soup if the dragon watched you pass."
+      }
+    },
+    {
+      "region": "rivergate_approach",
+      "at": [
+        24,
+        6
+      ],
+      "title": "OLD CHAIN MOUNT",
+      "body": {
+        "en": "Iron teeth set into the stone. Whatever was here snapped free."
+      }
+    },
+    {
       "region": "riverside_home",
       "at": [
         7,
@@ -8546,6 +8678,28 @@
       "title": "GREENWOOD ROAD",
       "body": {
         "en": "East out of the village. First rook east of the elm."
+      }
+    },
+    {
+      "region": "riverside_home",
+      "at": [
+        8,
+        9
+      ],
+      "title": "THE GREAT ELM",
+      "body": {
+        "en": "Names carved here since the first warden. Read them."
+      }
+    },
+    {
+      "region": "riverside_home",
+      "at": [
+        2,
+        7
+      ],
+      "title": "THE WELL",
+      "body": {
+        "en": "Four stones at the base, laid by the four valley wardens."
       }
     }
   ]

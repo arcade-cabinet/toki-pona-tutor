@@ -15,6 +15,16 @@
       "at": [10, 8],
       "title": "THE FOURTH STONE",
       "body": { "en": "One of four. The shrine is twelve paces off, somewhere under the sky." }
+    },
+    {
+      "at": [6, 14],
+      "title": "BRAZIER — DON'T LET IT GO OUT",
+      "body": { "en": "A dark brazier means something walked past. Note the time." }
+    },
+    {
+      "at": [4, 6],
+      "title": "THE RIVER BELOW",
+      "body": { "en": "Listen. The cavern floor is directly above the source." }
     }
   ]
 }
