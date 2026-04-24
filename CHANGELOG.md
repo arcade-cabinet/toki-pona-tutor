@@ -10,6 +10,13 @@ All notable changes to poki soweli. Format based on [Keep a Changelog](https://k
 
 This branch (`feat/rpgjs-v5-pivot`) descends from commit `0a582e0` — the pre-Godot tip. The Godot era between `1d924fe` (pivot) and `0edfe61` (feat/anchor-to-template) lives on `main` and is not represented here. Release-please releases `v0.1.0`…`v0.1.3` tagged on `main` cover the Godot build and do not apply to this branch.
 
+## [0.34.3](https://github.com/arcade-cabinet/poki-soweli/compare/v0.34.2...v0.34.3) (2026-04-24)
+
+
+### Fixed
+
+* **content:** curate shrine-stones clue + glyph reference guard (T79) ([#231](https://github.com/arcade-cabinet/poki-soweli/issues/231)) ([793bc05](https://github.com/arcade-cabinet/poki-soweli/commit/793bc0538a1e9f49e249c15290f83a4397b910a3))
+
 ## [0.34.2](https://github.com/arcade-cabinet/poki-soweli/compare/v0.34.1...v0.34.2) (2026-04-24)
 
 
