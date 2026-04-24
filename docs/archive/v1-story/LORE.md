@@ -1,9 +1,11 @@
 ---
-title: Lore
+title: Lore (v1 — archived)
 updated: 2026-04-24
-status: current
+status: archived
 domain: creative
 ---
+
+> **Archived.** This doc captured the v1 canonical world, 7 regions, 43 species, named cast (Selby, Rook, Marin, etc.), and starter ceremony. v2 is procedural — named cast is retired, the 43 species carry forward, and the 7 regions become grammar-templates for the world-generator. See `docs/DESIGN.md` for current design. Species roster + tone notes remain useful reference.
 
 # Lore
 

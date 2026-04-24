@@ -1,9 +1,11 @@
 ---
-title: Journey
-updated: 2026-04-22
-status: current
+title: Journey (v1 — archived)
+updated: 2026-04-24
+status: archived
 domain: product
 ---
+
+> **Archived.** This doc staged the v1 finite seven-map playable arc. v2 is open-world — no finite journey. See `docs/DESIGN.md` for the current design.
 
 # Journey
 
