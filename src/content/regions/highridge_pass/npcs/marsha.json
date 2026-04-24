@@ -46,6 +46,35 @@
       ]
     },
     {
+      "id": "marsha_survey_returns",
+      "when": {
+        "flag_present": "badge_sewi",
+        "flag_absent": "torch_path_survey_complete"
+      },
+      "priority": 10,
+      "beats": [
+        {
+          "text": {
+            "en": "You walked the torch path clean through. I can see it on you."
+          },
+          "mood": "happy",
+          "glyph": "wild-signs"
+        },
+        {
+          "text": {
+            "en": "I'll mark the survey done in my book. The hikers after you will have a safer road."
+          },
+          "mood": "thinking",
+          "glyph": "safe-house"
+        }
+      ],
+      "on_exit": {
+        "set_flag": {
+          "torch_path_survey_complete": true
+        }
+      }
+    },
+    {
       "id": "marsha_post_delivery",
       "when": {
         "flag_present": "lost_hiker_delivered",

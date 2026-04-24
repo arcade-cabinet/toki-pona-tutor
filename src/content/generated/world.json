@@ -4686,6 +4686,36 @@
       }
     },
     {
+      "id": "brindle_braid_arrives",
+      "npc_id": "brindle",
+      "priority": 10,
+      "beats": [
+        {
+          "text": {
+            "en": "A wind-braid. From Loren."
+          },
+          "mood": "thinking",
+          "glyph": "cold-hands"
+        },
+        {
+          "text": {
+            "en": "That's a promise from Lakehaven to Frostvale. I'll tie it at the door and sleep easier."
+          },
+          "mood": "happy",
+          "glyph": "safe-house"
+        }
+      ],
+      "triggers": {
+        "set_flag": {
+          "cold_hands_complete": true
+        }
+      },
+      "when_flags": {
+        "badge_telo": true,
+        "cold_hands_complete": false
+      }
+    },
+    {
       "id": "brindle_post_cold_hands",
       "npc_id": "brindle",
       "priority": 5,
@@ -5103,6 +5133,36 @@
       ],
       "triggers": {},
       "when_flags": {
+        "snowbird_sighting_complete": false
+      }
+    },
+    {
+      "id": "hollis_snowbird_seen",
+      "npc_id": "hollis",
+      "priority": 10,
+      "beats": [
+        {
+          "text": {
+            "en": "You've seen it too, haven't you. You carry the frost-air in your clothes."
+          },
+          "mood": "excited",
+          "glyph": "frost-type"
+        },
+        {
+          "text": {
+            "en": "The Snowbird speaks to you. Then the frost is listening. Frostvale can rest a while."
+          },
+          "mood": "happy",
+          "glyph": "companion-bond"
+        }
+      ],
+      "triggers": {
+        "set_flag": {
+          "snowbird_sighting_complete": true
+        }
+      },
+      "when_flags": {
+        "badge_lete": true,
         "snowbird_sighting_complete": false
       }
     },
@@ -6024,6 +6084,36 @@
       }
     },
     {
+      "id": "marsha_survey_returns",
+      "npc_id": "marsha",
+      "priority": 10,
+      "beats": [
+        {
+          "text": {
+            "en": "You walked the torch path clean through. I can see it on you."
+          },
+          "mood": "happy",
+          "glyph": "wild-signs"
+        },
+        {
+          "text": {
+            "en": "I'll mark the survey done in my book. The hikers after you will have a safer road."
+          },
+          "mood": "thinking",
+          "glyph": "safe-house"
+        }
+      ],
+      "triggers": {
+        "set_flag": {
+          "torch_path_survey_complete": true
+        }
+      },
+      "when_flags": {
+        "badge_sewi": true,
+        "torch_path_survey_complete": false
+      }
+    },
+    {
       "id": "marsha_post_delivery",
       "npc_id": "marsha",
       "priority": 5,
@@ -6536,6 +6626,36 @@
       ],
       "triggers": {},
       "when_flags": {
+        "lost_hiker_delivered": false
+      }
+    },
+    {
+      "id": "loren_hiker_arrives",
+      "npc_id": "loren",
+      "priority": 10,
+      "beats": [
+        {
+          "text": {
+            "en": "You came from Highridge, didn't you? And you're carrying the hiker's token."
+          },
+          "mood": "thinking",
+          "glyph": "safe-house"
+        },
+        {
+          "text": {
+            "en": "Good. I'll send runners up to fetch them. Thank you."
+          },
+          "mood": "happy",
+          "glyph": "companion-bond"
+        }
+      ],
+      "triggers": {
+        "set_flag": {
+          "lost_hiker_delivered": true
+        }
+      },
+      "when_flags": {
+        "badge_sewi": true,
         "lost_hiker_delivered": false
       }
     },

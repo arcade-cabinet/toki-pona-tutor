@@ -2,7 +2,7 @@ import type { RpgPlayer } from "@rpgjs/server";
 import { DIALOG_UI_CONFIG } from "../../content/gameplay";
 import { formatGameplayTemplate } from "../../content/gameplay/templates";
 import { getDialogById, getDialogsForNpc } from "./content";
-import { recordClue, getFlag } from "../../platform/persistence/queries";
+import { recordClue, getFlag, setFlag } from "../../platform/persistence/queries";
 import type { DialogNode } from "../../content/schema/dialog";
 
 /**
@@ -36,7 +36,29 @@ export async function playDialog(player: RpgPlayer, dialogId: string): Promise<b
         await player.showText(beat.text.en);
         if (beat.glyph) await recordClue(beat.glyph);
     }
+    await fireDialogTriggers(selected);
     return true;
+}
+
+/**
+ * Fire a dialog state's on_exit side effects after the beats play. Currently
+ * supports set_flag — the authored shape in dossier `dialog_states[].on_exit`
+ * that build-spine.mjs maps into `triggers.set_flag` on each compiled node.
+ *
+ * Boolean true maps to flag value "1" (the convention setFlag uses elsewhere);
+ * false maps to "". This matches the flag-reading conventions in
+ * selectDialogState and queries.getFlag — a set flag reads truthy, an unset
+ * or empty/"0" value reads falsy.
+ *
+ * Exported for tests that verify the compilation pipeline but need to inject
+ * a stubbed setter; production callers get the real persistence layer.
+ */
+async function fireDialogTriggers(node: DialogNode): Promise<void> {
+    const setFlagMap = node.triggers?.set_flag;
+    if (!setFlagMap) return;
+    for (const [flagId, value] of Object.entries(setFlagMap)) {
+        await setFlag(flagId, value ? "1" : "");
+    }
 }
 
 /**

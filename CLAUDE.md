@@ -1,6 +1,6 @@
 ---
 title: Rivers Reckoning — Agent Entry Point
-updated: 2026-04-23
+updated: 2026-04-24
 status: current
 ---
 
