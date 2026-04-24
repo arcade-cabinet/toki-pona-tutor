@@ -1,0 +1,15 @@
+{
+  "id": "lakehaven",
+  "display_name": "Lakehaven",
+  "biome": "water",
+  "music": "bgm_lake",
+  "size": { "w": 20, "h": 16 },
+  "neighbors": { "south": "highridge_pass", "north": "frostvale" },
+  "summary": "A small stone island in the center of a round lake, reached by a pier. Story-and-shop beat with no wild encounters inside the village. Marin the harbor-master anchors the region.",
+  "flavor_beats": [
+    "The fog never fully burns off; lamps stay lit at noon.",
+    "The pier smells like fresh fish and spring-tonic herbs.",
+    "Reed beds on the shore host Reedfrogs.",
+    "Every stone in the island was quarried from Highridge two wardens ago."
+  ]
+}

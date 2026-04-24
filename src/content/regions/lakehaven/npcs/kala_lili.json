@@ -1,0 +1,29 @@
+{
+  "id": "kala_lili",
+  "display_name": "Kala-Lili",
+  "home_region": "lakehaven",
+  "role": "fisher_sibling_small",
+  "appearances": [
+    { "region": "lakehaven", "spawn": [12, 11], "default": true },
+    { "region": "rivergate_approach", "spawn": [10, 9], "requires_flag": "badge_suli" }
+  ],
+  "dialog_states": [
+    {
+      "id": "kala_lili_intro",
+      "when": {},
+      "priority": 0,
+      "beats": [
+        {
+          "text": { "en": "My brother catches the big ones. I catch the fast ones." },
+          "mood": "happy",
+          "glyph": "companion-bond"
+        },
+        {
+          "text": { "en": "The fish are moving inland. All of them. It's weird." },
+          "mood": "thinking",
+          "glyph": "wild-signs"
+        }
+      ]
+    }
+  ]
+}
