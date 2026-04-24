@@ -39,6 +39,30 @@
       ]
     },
     {
+      "id": "wren_post_first_gym",
+      "when": {
+        "flag_present": "badge_sewi",
+        "flag_absent": "badge_telo"
+      },
+      "priority": 5,
+      "beats": [
+        {
+          "text": {
+            "en": "The well ran clear yesterday. For about an hour. Then back to normal."
+          },
+          "mood": "thinking",
+          "glyph": "wild-signs"
+        },
+        {
+          "text": {
+            "en": "That used to happen when the wardens were alive, Grandpa said. Before my time."
+          },
+          "mood": "sad",
+          "glyph": "shrine-stones"
+        }
+      ]
+    },
+    {
       "id": "wren_post_second_gym",
       "when": {
         "flag_present": "badge_telo",
