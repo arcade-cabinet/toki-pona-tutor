@@ -39,6 +39,35 @@
       ]
     },
     {
+      "id": "brindle_braid_arrives",
+      "when": {
+        "flag_present": "badge_telo",
+        "flag_absent": "cold_hands_complete"
+      },
+      "priority": 10,
+      "beats": [
+        {
+          "text": {
+            "en": "A wind-braid. From Loren."
+          },
+          "mood": "thinking",
+          "glyph": "cold-hands"
+        },
+        {
+          "text": {
+            "en": "That's a promise from Lakehaven to Frostvale. I'll tie it at the door and sleep easier."
+          },
+          "mood": "happy",
+          "glyph": "safe-house"
+        }
+      ],
+      "on_exit": {
+        "set_flag": {
+          "cold_hands_complete": true
+        }
+      }
+    },
+    {
       "id": "brindle_post_cold_hands",
       "when": {
         "flag_present": "cold_hands_complete",

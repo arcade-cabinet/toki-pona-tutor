@@ -46,6 +46,35 @@
       ]
     },
     {
+      "id": "hollis_snowbird_seen",
+      "when": {
+        "flag_present": "badge_lete",
+        "flag_absent": "snowbird_sighting_complete"
+      },
+      "priority": 10,
+      "beats": [
+        {
+          "text": {
+            "en": "You've seen it too, haven't you. You carry the frost-air in your clothes."
+          },
+          "mood": "excited",
+          "glyph": "frost-type"
+        },
+        {
+          "text": {
+            "en": "The Snowbird speaks to you. Then the frost is listening. Frostvale can rest a while."
+          },
+          "mood": "happy",
+          "glyph": "companion-bond"
+        }
+      ],
+      "on_exit": {
+        "set_flag": {
+          "snowbird_sighting_complete": true
+        }
+      }
+    },
+    {
       "id": "hollis_post_sighting",
       "when": {
         "flag_present": "snowbird_sighting_complete",

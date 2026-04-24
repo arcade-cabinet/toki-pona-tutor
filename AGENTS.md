@@ -1,6 +1,6 @@
 ---
 title: Rivers Reckoning — Extended Operating Protocols
-updated: 2026-04-23
+updated: 2026-04-24
 status: current
 ---
 

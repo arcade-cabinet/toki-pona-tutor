@@ -7,7 +7,7 @@ import { COMBAT_FAINT_ANIMATION_ID } from '../../src/modules/main/combat-visuals
 import { LEAD_MOVE_BAR_GUI_ID } from '../../src/modules/main/lead-battle-skills';
 import { WILD_BATTLE_GUI_ID } from '../../src/modules/main/wild-battle-view';
 import { resetPersistedRuntimeState } from '../../src/platform/persistence/runtime-state';
-import { setFlag } from '../../src/platform/persistence/queries';
+import { setFlag, getFlag } from '../../src/platform/persistence/queries';
 
 type GameClient = Awaited<ReturnType<TestingFixture['createClient']>>;
 
@@ -70,7 +70,56 @@ describe('T67: dossier NPC runtime pipeline (integration)', () => {
             'Greenwood Road is yours.',
         ]);
     });
+
+    it('loren_hiker_arrives fires on_exit set_flag and unlocks post-quest state (T71)', async () => {
+        const { player } = await bootAtLakehaven();
+        const ui = hijackUi(player);
+        // Loren has a hand-authored quest_npc marker (jan-kala-lake) that
+        // starts with dialog_id=loren_lake_quest. Because its id collides
+        // with the dossier spawn, server.ts skips the dossier NPC here and
+        // the quest_npc path plays Loren's dialog via playDialog. Either
+        // way the flag-aware selector runs the same T64 rules.
+        const map = player.getCurrentMap();
+        const loren = map?.getEvent('jan-kala-lake');
+        expect(loren, 'loren should spawn at lakehaven (either dossier or hand-authored)').toBeDefined();
+
+        // Phase 1: pre-badge_sewi. Selector falls through to loren_lake_quest.
+        ui.texts.length = 0;
+        await loren!.execMethod('onAction', [player]);
+        expect(ui.texts[0]).toBe('Lakehaven needs a runner with steady hands.');
+        expect(await getFlag('lost_hiker_delivered')).toBeNull();
+
+        // Phase 2: set badge_sewi (simulating player cleared Highridge).
+        // Selector now picks loren_hiker_arrives (priority 10, both
+        // when_flags match). On exit, lost_hiker_delivered fires.
+        await setFlag('badge_sewi', '1');
+        ui.texts.length = 0;
+        await loren!.execMethod('onAction', [player]);
+        expect(ui.texts[0]).toBe(
+            "You came from Highridge, didn't you? And you're carrying the hiker's token.",
+        );
+        expect(await getFlag('lost_hiker_delivered')).toBe('1');
+
+        // Phase 3: talk again. Now the turn-in state no longer matches
+        // (lost_hiker_delivered is present, breaking its flag_absent gate).
+        // loren_post_hiker picks up — badge_telo is still absent.
+        ui.texts.length = 0;
+        await loren!.execMethod('onAction', [player]);
+        expect(ui.texts[0]).toBe(
+            'We carried your Highridge hiker down to the warm stones. Marin said you\'d come through.',
+        );
+    });
 });
+
+async function bootAtLakehaven(): Promise<{ client: GameClient; player: RpgPlayer }> {
+    const fixture = await testing(integrationModules());
+    const client = await fixture.createClient();
+    const player = await client.waitForMapChange('riverside_home', 5000);
+    const waitForLakehaven = client.waitForMapChange('lakehaven', 5000);
+    await player.changeMap('lakehaven', { x: 96, y: 160 });
+    const lakehavenPlayer = await waitForLakehaven;
+    return { client, player: lakehavenPlayer };
+}
 
 async function bootAtRivergate(): Promise<{ client: GameClient; player: RpgPlayer }> {
     const fixture = await testing(integrationModules());

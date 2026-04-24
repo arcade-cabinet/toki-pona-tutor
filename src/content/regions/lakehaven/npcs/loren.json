@@ -32,6 +32,35 @@
       ]
     },
     {
+      "id": "loren_hiker_arrives",
+      "when": {
+        "flag_present": "badge_sewi",
+        "flag_absent": "lost_hiker_delivered"
+      },
+      "priority": 10,
+      "beats": [
+        {
+          "text": {
+            "en": "You came from Highridge, didn't you? And you're carrying the hiker's token."
+          },
+          "mood": "thinking",
+          "glyph": "safe-house"
+        },
+        {
+          "text": {
+            "en": "Good. I'll send runners up to fetch them. Thank you."
+          },
+          "mood": "happy",
+          "glyph": "companion-bond"
+        }
+      ],
+      "on_exit": {
+        "set_flag": {
+          "lost_hiker_delivered": true
+        }
+      }
+    },
+    {
       "id": "loren_post_hiker",
       "when": {
         "flag_present": "lost_hiker_delivered",
