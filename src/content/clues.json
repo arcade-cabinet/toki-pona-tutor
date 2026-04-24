@@ -187,5 +187,12 @@
     "summary": "Stone creatures trade speed for durability.",
     "category": "combat",
     "icon": "🪨"
+  },
+  {
+    "id": "shrine-stones",
+    "label": "Shrine stones",
+    "summary": "Four stones at the shrine, one for each warden. A fifth was carved once; carved again after the dragon sat down.",
+    "category": "story",
+    "icon": "🗿"
   }
 ]
