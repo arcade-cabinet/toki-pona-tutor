@@ -128,7 +128,7 @@ describe('journey golden path (integration)', () => {
         }));
     });
 
-    it('accepts and completes the forest poki side quest through its NPC', async () => {
+    it('accepts and completes the field-notes side quest through its NPC', async () => {
         const { player } = await bootIntoRoute();
         const ui = hijackUi(player);
         const route = player.getCurrentMap();
@@ -253,7 +253,7 @@ describe('journey golden path (integration)', () => {
         ]);
     });
 
-    it('defeats jan Wawa, grants the badge reward, and opens lakehaven', async () => {
+    it('defeats Tarrin, grants the Highridge badge reward, and opens lakehaven', async () => {
         const { player, client } = await bootIntoMountain();
         const ui = hijackUi(player);
         const mountain = player.getCurrentMap();
@@ -291,7 +291,7 @@ describe('journey golden path (integration)', () => {
         expect(villagePlayer.getCurrentMap()?.id).toBe('lakehaven');
     });
 
-    it('buys poki and orchard_fruit from jan Moku with earned trail_token coins', async () => {
+    it('buys capture_pod and orchard_fruit from Shopkeep with earned trail_token coins', async () => {
         const { player } = await bootIntoLakeVillage();
         const ui = hijackUi(player);
         const village = player.getCurrentMap();
@@ -312,7 +312,7 @@ describe('journey golden path (integration)', () => {
         expect(await inventoryCount('orchard_fruit')).toBe(1);
     });
 
-    it('defeats jan Telo, grants the badge reward, and opens frostvale', async () => {
+    it('defeats Marin, grants the Lakehaven badge reward, and opens frostvale', async () => {
         const { player, client } = await bootIntoLakeVillage();
         const ui = hijackUi(player);
         const village = player.getCurrentMap();
@@ -346,7 +346,7 @@ describe('journey golden path (integration)', () => {
         expect(iceVillagePlayer.getCurrentMap()?.id).toBe('frostvale');
     });
 
-    it('defeats jan Lete, grants the badge reward, and opens dreadpeak_cavern', async () => {
+    it('defeats Frost, grants the Frostvale badge reward, and opens dreadpeak_cavern', async () => {
         const { player, client } = await bootIntoIceVillage();
         const ui = hijackUi(player);
         const iceVillage = player.getCurrentMap();
@@ -380,7 +380,7 @@ describe('journey golden path (integration)', () => {
         expect(greatPeakPlayer.getCurrentMap()?.id).toBe('dreadpeak_cavern');
     });
 
-    it('defeats jan Suli, grants the badge reward, and opens rivergate_approach', async () => {
+    it('defeats Cliff, grants the Dreadpeak badge reward, and opens rivergate_approach', async () => {
         const { player, client } = await bootIntoGreatPeak();
         const ui = hijackUi(player);
         const greatPeak = player.getCurrentMap();
@@ -570,7 +570,7 @@ async function bootIntoMountain(): Promise<{ client: GameClient; player: RpgPlay
     const warpEast = route?.getEvent('warp_east');
 
     if (typeof janIke?.battleAi?.onDefeatedCallback !== 'function' || !warpEast) {
-        throw new Error('bootIntoMountain could not resolve jan Ike progression hooks');
+        throw new Error('bootIntoMountain could not resolve Rook progression hooks');
     }
 
     await scriptDefeat(janIke, game.player, async () => (
@@ -599,7 +599,7 @@ async function bootIntoLakeVillage(): Promise<{ client: GameClient; player: RpgP
     const warpNorth = mountain?.getEvent('warp_north');
 
     if (typeof janWawa?.battleAi?.onDefeatedCallback !== 'function' || !warpNorth) {
-        throw new Error('bootIntoLakeVillage could not resolve jan Wawa progression hooks');
+        throw new Error('bootIntoLakeVillage could not resolve Tarrin progression hooks');
     }
 
     await scriptDefeat(janWawa, game.player, async () => (
@@ -628,7 +628,7 @@ async function bootIntoIceVillage(): Promise<{ client: GameClient; player: RpgPl
     const warpNorth = village?.getEvent('warp_north');
 
     if (typeof janTelo?.battleAi?.onDefeatedCallback !== 'function' || !warpNorth) {
-        throw new Error('bootIntoIceVillage could not resolve jan Telo progression hooks');
+        throw new Error('bootIntoIceVillage could not resolve Marin progression hooks');
     }
 
     await scriptDefeat(janTelo, game.player, async () => (
@@ -657,7 +657,7 @@ async function bootIntoGreatPeak(): Promise<{ client: GameClient; player: RpgPla
     const warpNorth = iceVillage?.getEvent('warp_north');
 
     if (typeof janLete?.battleAi?.onDefeatedCallback !== 'function' || !warpNorth) {
-        throw new Error('bootIntoGreatPeak could not resolve jan Lete progression hooks');
+        throw new Error('bootIntoGreatPeak could not resolve Frost progression hooks');
     }
 
     await scriptDefeat(janLete, game.player, async () => (
@@ -686,7 +686,7 @@ async function bootIntoFinalRoute(): Promise<{ client: GameClient; player: RpgPl
     const warpNorth = greatPeak?.getEvent('warp_north');
 
     if (typeof janSuli?.battleAi?.onDefeatedCallback !== 'function' || !warpNorth) {
-        throw new Error('bootIntoFinalRoute could not resolve jan Suli progression hooks');
+        throw new Error('bootIntoFinalRoute could not resolve Cliff progression hooks');
     }
 
     await scriptDefeat(janSuli, game.player, async () => (
