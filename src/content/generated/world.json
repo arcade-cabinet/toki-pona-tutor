@@ -4219,57 +4219,6 @@
       "triggers": {}
     },
     {
-      "id": "green_dragon_intro",
-      "npc_id": "green_dragon",
-      "when_flags": {
-        "green_dragon_defeated": false
-      },
-      "priority": 10,
-      "beats": [
-        {
-          "text": {
-            "en": "The rivergate burns with green fire. I am done hiding."
-          },
-          "mood": "excited",
-          "glyph": "battle-ready"
-        }
-      ],
-      "triggers": {}
-    },
-    {
-      "id": "green_dragon_victory",
-      "npc_id": "green_dragon",
-      "when_flags": {
-        "green_dragon_defeated": true
-      },
-      "priority": 5,
-      "beats": [
-        {
-          "text": {
-            "en": "The storm is finally quiet."
-          },
-          "mood": "happy",
-          "glyph": "companion-bond"
-        }
-      ],
-      "triggers": {}
-    },
-    {
-      "id": "grill_pona",
-      "npc_id": "grill",
-      "priority": 0,
-      "beats": [
-        {
-          "text": {
-            "en": "Hot food helps after a long river walk."
-          },
-          "mood": "happy",
-          "glyph": "orchard-fruit"
-        }
-      ],
-      "triggers": {}
-    },
-    {
       "id": "hollis_garden",
       "npc_id": "hollis",
       "priority": 0,
@@ -4316,35 +4265,6 @@
           },
           "mood": "thinking",
           "glyph": "wild-signs"
-        }
-      ],
-      "triggers": {}
-    },
-    {
-      "id": "lily_flavor",
-      "npc_id": "lily",
-      "priority": 0,
-      "beats": [
-        {
-          "text": {
-            "en": "Rivers, you're standing at the Rivergate Approach. The dragon isn't far."
-          },
-          "mood": "thinking",
-          "glyph": "companion-bond"
-        },
-        {
-          "text": {
-            "en": "A companion you've truly bonded with can do more than fight — it can read what you're about to do before you do it."
-          },
-          "mood": "thinking",
-          "glyph": "companion-bond"
-        },
-        {
-          "text": {
-            "en": "Bond with one more water creature here. You'll want the proof before the dragon."
-          },
-          "mood": "excited",
-          "glyph": "companion-bond"
         }
       ],
       "triggers": {}
@@ -4416,35 +4336,6 @@
       "triggers": {}
     },
     {
-      "id": "myra_quiet",
-      "npc_id": "myra",
-      "priority": 0,
-      "beats": [
-        {
-          "text": {
-            "en": "Lakehaven listens better than it speaks. Sit by the water long enough and you'll hear it too."
-          },
-          "mood": "thinking",
-          "glyph": "water-edge"
-        },
-        {
-          "text": {
-            "en": "The lake remembers every creature that comes to drink. Bond with two of them and it'll remember you too."
-          },
-          "mood": "thinking",
-          "glyph": "water-edge"
-        },
-        {
-          "text": {
-            "en": "Catch two water creatures and come sit with me again."
-          },
-          "mood": "excited",
-          "glyph": "water-edge"
-        }
-      ],
-      "triggers": {}
-    },
-    {
       "id": "oren_ready",
       "npc_id": "oren",
       "priority": 0,
@@ -4505,28 +4396,6 @@
             "en": "If the path narrows, check your supplies before you commit."
           },
           "mood": "thinking",
-          "glyph": "greenwood-watch"
-        }
-      ],
-      "triggers": {}
-    },
-    {
-      "id": "sola_last",
-      "npc_id": "sola",
-      "priority": 0,
-      "beats": [
-        {
-          "text": {
-            "en": "The final river bends toward old trouble."
-          },
-          "mood": "happy",
-          "glyph": "water-edge"
-        },
-        {
-          "text": {
-            "en": "If you hear wings, save your best throw."
-          },
-          "mood": "excited",
           "glyph": "greenwood-watch"
         }
       ],
@@ -6017,6 +5886,57 @@
       }
     },
     {
+      "id": "myra_quiet",
+      "npc_id": "myra",
+      "priority": 0,
+      "beats": [
+        {
+          "text": {
+            "en": "Lakehaven listens better than it speaks. Sit by the water long enough and you'll hear it too."
+          },
+          "mood": "thinking",
+          "glyph": "water-edge"
+        },
+        {
+          "text": {
+            "en": "The lake remembers every creature that comes to drink. Bond with two of them and it'll remember you too."
+          },
+          "mood": "thinking",
+          "glyph": "water-edge"
+        },
+        {
+          "text": {
+            "en": "Catch two water creatures and come sit with me again."
+          },
+          "mood": "excited",
+          "glyph": "water-edge"
+        }
+      ],
+      "triggers": {},
+      "when_flags": {
+        "badge_suli": false
+      }
+    },
+    {
+      "id": "myra_rivergate",
+      "npc_id": "myra",
+      "priority": 5,
+      "beats": [
+        {
+          "text": {
+            "en": "I walked up here to sit with the river before the dragon comes. You did too. Good."
+          },
+          "mood": "happy",
+          "glyph": "water-edge"
+        }
+      ],
+      "triggers": {},
+      "when_flags": {
+        "badge_suli": true,
+        "game_cleared": false
+      }
+    },
+    {
       "id": "piper_cousin_intro",
       "npc_id": "piper_cousin",
       "priority": 0,
@@ -6069,6 +5989,191 @@
       "triggers": {},
       "when_flags": {
         "shopkeep_first_sale": true
+      }
+    },
+    {
+      "id": "green_dragon_intro",
+      "npc_id": "green_dragon",
+      "priority": 10,
+      "beats": [
+        {
+          "text": {
+            "en": "The rivergate burns with green fire. I am done hiding."
+          },
+          "mood": "excited",
+          "glyph": "battle-ready"
+        },
+        {
+          "text": {
+            "en": "You're the fifth one. I was waiting."
+          },
+          "mood": "thinking",
+          "glyph": "companion-bond"
+        }
+      ],
+      "triggers": {},
+      "when_flags": {
+        "green_dragon_defeated": false
+      }
+    },
+    {
+      "id": "green_dragon_victory",
+      "npc_id": "green_dragon",
+      "priority": 5,
+      "beats": [
+        {
+          "text": {
+            "en": "The storm is finally quiet."
+          },
+          "mood": "happy",
+          "glyph": "companion-bond"
+        }
+      ],
+      "triggers": {},
+      "when_flags": {
+        "green_dragon_defeated": true
+      }
+    },
+    {
+      "id": "grill_pona",
+      "npc_id": "grill",
+      "priority": 0,
+      "beats": [
+        {
+          "text": {
+            "en": "Hot food helps after a long river walk."
+          },
+          "mood": "happy",
+          "glyph": "orchard-fruit"
+        },
+        {
+          "text": {
+            "en": "Before you go north, sit. Eat. The dragon won't notice the delay."
+          },
+          "mood": "thinking"
+        }
+      ],
+      "triggers": {},
+      "when_flags": {
+        "green_dragon_defeated": false
+      }
+    },
+    {
+      "id": "grill_post_clear",
+      "npc_id": "grill",
+      "priority": 5,
+      "beats": [
+        {
+          "text": {
+            "en": "There's leftover soup if you're still eating. First quiet afternoon in years."
+          },
+          "mood": "happy",
+          "glyph": "companion-bond"
+        }
+      ],
+      "triggers": {},
+      "when_flags": {
+        "game_cleared": true
+      }
+    },
+    {
+      "id": "lily_flavor",
+      "npc_id": "lily",
+      "priority": 0,
+      "beats": [
+        {
+          "text": {
+            "en": "Rivers, you're standing at the Rivergate Approach. The dragon isn't far."
+          },
+          "mood": "thinking",
+          "glyph": "companion-bond"
+        },
+        {
+          "text": {
+            "en": "A companion you've truly bonded with can do more than fight — it can read what you're about to do before you do it."
+          },
+          "mood": "thinking",
+          "glyph": "companion-bond"
+        },
+        {
+          "text": {
+            "en": "Bond with one more water creature here. You'll want the proof before the dragon."
+          },
+          "mood": "excited",
+          "glyph": "companion-bond"
+        }
+      ],
+      "triggers": {},
+      "when_flags": {
+        "green_dragon_defeated": false
+      }
+    },
+    {
+      "id": "lily_post_clear",
+      "npc_id": "lily",
+      "priority": 5,
+      "beats": [
+        {
+          "text": {
+            "en": "You walked up to a dragon with a water-friend at your side. The river remembers that."
+          },
+          "mood": "happy",
+          "glyph": "companion-bond"
+        }
+      ],
+      "triggers": {},
+      "when_flags": {
+        "game_cleared": true
+      }
+    },
+    {
+      "id": "sola_last",
+      "npc_id": "sola",
+      "priority": 0,
+      "beats": [
+        {
+          "text": {
+            "en": "The final river bends toward old trouble."
+          },
+          "mood": "happy",
+          "glyph": "water-edge"
+        },
+        {
+          "text": {
+            "en": "If you hear wings, save your best throw."
+          },
+          "mood": "excited",
+          "glyph": "greenwood-watch"
+        },
+        {
+          "text": {
+            "en": "The chain snapped three nights ago. I heard it go in my bones."
+          },
+          "mood": "sad",
+          "glyph": "wild-signs"
+        }
+      ],
+      "triggers": {},
+      "when_flags": {
+        "green_dragon_defeated": false
+      }
+    },
+    {
+      "id": "sola_post_clear",
+      "npc_id": "sola",
+      "priority": 5,
+      "beats": [
+        {
+          "text": {
+            "en": "My bones are quiet now, Rivers. Thank you."
+          },
+          "mood": "happy",
+          "glyph": "companion-bond"
+        }
+      ],
+      "triggers": {},
+      "when_flags": {
+        "game_cleared": true
       }
     },
     {
@@ -7213,6 +7318,26 @@
       ]
     },
     {
+      "id": "rivergate_approach",
+      "display_name": "Rivergate Approach",
+      "biome": "water",
+      "music": "bgm_river",
+      "size": {
+        "w": 28,
+        "h": 14
+      },
+      "neighbors": {
+        "south": "dreadpeak_cavern"
+      },
+      "summary": "Endgame route to the Rivergate arch — the stone door at the source of the river. The green dragon waits here. Rivers arrives with all four proofs; fight, catch, or walk up unarmed.",
+      "flavor_beats": [
+        "Wild at the west bank: tall reeds, shallow pools.",
+        "A deep-water channel threads east-to-west; a sandbar path crosses it.",
+        "At the north end, the Rivergate arch is carved with the shapes of the four wardens' stones.",
+        "The arch hums. Rivers feels it in their teeth from the southernmost tile."
+      ]
+    },
+    {
       "id": "riverside_home",
       "display_name": "Riverside Home",
       "biome": "town",
@@ -7395,6 +7520,39 @@
       "title": "FERRY NORTH",
       "body": {
         "en": "Winter only. Walk the ice when it holds."
+      }
+    },
+    {
+      "region": "rivergate_approach",
+      "at": [
+        4,
+        12
+      ],
+      "title": "RIVERGATE APPROACH",
+      "body": {
+        "en": "Beyond here is the source."
+      }
+    },
+    {
+      "region": "rivergate_approach",
+      "at": [
+        14,
+        8
+      ],
+      "title": "DEEP WATER — USE THE SANDBAR",
+      "body": {
+        "en": "The current above the lock is stronger than it looks."
+      }
+    },
+    {
+      "region": "rivergate_approach",
+      "at": [
+        14,
+        2
+      ],
+      "title": "THE RIVERGATE",
+      "body": {
+        "en": "Four stones make a door. The door waits."
       }
     },
     {

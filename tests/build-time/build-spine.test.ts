@@ -95,7 +95,7 @@ describe('T6-03: build-spine writes every expected key into world.json', () => {
             .toBe(true);
     });
 
-    it('expected content counts: 43 species, 17 moves, 5 items, 86 dialog, 7 beats, 7 maps', () => {
+    it('expected content counts: 43 species, 17 moves, 5 items, 90 dialog, 7 beats, 7 maps', () => {
         expect(WORLD.species).toHaveLength(43);
         expect(WORLD.moves).toHaveLength(17);
         expect(WORLD.items).toHaveLength(5);
@@ -103,22 +103,21 @@ describe('T6-03: build-spine writes every expected key into world.json', () => {
         // NPCs migrate to regions/<id>/npcs/. Growth comes from adding
         // new states (post-first-gym, post-clear) to migrated NPCs so
         // the world reacts to plot progression.
-        expect(WORLD.dialog).toHaveLength(86);
+        expect(WORLD.dialog).toHaveLength(90);
         expect(WORLD.journey.beats).toHaveLength(7);
         expect(WORLD.maps).toHaveLength(7);
     });
 
-    it('region dossiers emit manifests and signs into world.json', () => {
-        expect(WORLD.regions).toEqual(
-            expect.arrayContaining([
-                expect.objectContaining({ id: 'riverside_home', biome: 'town' }),
-                expect.objectContaining({ id: 'greenwood_road', biome: 'forest' }),
-                expect.objectContaining({ id: 'highridge_pass', biome: 'peak' }),
-                expect.objectContaining({ id: 'lakehaven', biome: 'water' }),
-                expect.objectContaining({ id: 'frostvale', biome: 'ice' }),
-                expect.objectContaining({ id: 'dreadpeak_cavern', biome: 'cave' }),
-            ]),
-        );
+    it('region dossiers emit manifests and signs into world.json for all 7 regions', () => {
+        expect(WORLD.regions.map((r) => r.id).sort()).toEqual([
+            'dreadpeak_cavern',
+            'frostvale',
+            'greenwood_road',
+            'highridge_pass',
+            'lakehaven',
+            'rivergate_approach',
+            'riverside_home',
+        ]);
         expect(WORLD.signs).toEqual(
             expect.arrayContaining([
                 expect.objectContaining({ region: 'riverside_home', title: 'RIVERSIDE HOME' }),
@@ -127,6 +126,7 @@ describe('T6-03: build-spine writes every expected key into world.json', () => {
                 expect.objectContaining({ region: 'lakehaven', title: 'LAKEHAVEN' }),
                 expect.objectContaining({ region: 'frostvale', title: 'FROSTVALE' }),
                 expect.objectContaining({ region: 'dreadpeak_cavern', title: 'DREADPEAK CAVERN' }),
+                expect.objectContaining({ region: 'rivergate_approach', title: 'RIVERGATE APPROACH' }),
             ]),
         );
     });
