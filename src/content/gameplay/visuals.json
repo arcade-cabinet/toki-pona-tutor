@@ -144,6 +144,11 @@
       "id": "female",
       "image": "spritesheets/female.png",
       "layout_id": "player_three_frame"
+    },
+    {
+      "id": "rivers_protagonist",
+      "image": "assets/npcs/villagers-fem/meza/meza.png",
+      "layout_id": "npc_four_by_thirty_one"
     }
   ],
   "npc_spritesheets": [

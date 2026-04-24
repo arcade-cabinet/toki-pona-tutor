@@ -27,11 +27,20 @@ const WIDTH = 16;
 const HEIGHT = 12;
 
 function starterVillageBase(): string[][] {
-    const grid = Array.from({ length: HEIGHT }, (_, y) =>
-        Array.from({ length: WIDTH }, (_, x) => {
-            if (y === 0 || y === HEIGHT - 1 || x === 0 || x === WIDTH - 1) return "f";
-            return (x + y) % 9 === 0 ? "v" : "g";
-        }),
+    // T11-03 (runtime root cause): `grass_light` (palette "v", tile
+    // local_id 51) in the Fan-tasy seasons atlas is a HALF-TRANSPARENT
+    // bush-shape, not a solid grass variation. Placed over the default
+    // WebGL clear colour (black), the 60% transparent half renders as
+    // a zigzag "black crown" silhouette. And `grass_dark` (palette "f",
+    // local_id 56, the previous border fill) looks indistinguishable
+    // from `grass_base` at runtime because the zoom and colour match.
+    //
+    // Paint the entire map with opaque `grass_base` ("g") to kill the
+    // crowns. Visual variation can come back later via a dedicated
+    // decoration layer on an opaque base, not via transparent overlays
+    // on a bare clear-colour background.
+    const grid = Array.from({ length: HEIGHT }, () =>
+        Array.from({ length: WIDTH }, () => "g"),
     );
 
     // Main east-west dirt road — the only structural dirt path.
@@ -40,14 +49,9 @@ function starterVillageBase(): string[][] {
     // The mentor stands at (10, 6); widening the road here makes the
     // ceremony feel like it happens at the village centre.
     paintRect(grid, [9, 4, 4, 3], "d");
-    // T11-04: removed the orphan plot previously at [2, 7, 4, 2].
-    // It rendered as an unexplained brown square south of the path
-    // with no NPC sitting on it (jan-telo-well and jan-kili-tomo
-    // stand on its edges, not its centre) and no narrative purpose.
-    // The village reads cleaner with one road and one mentor plaza.
 
     paintEdgeTransitions(grid, {
-        base: ["g", "f", "v"],
+        base: ["g"],
         neighbors: "d",
         transitions: edgeTransitionTiles("gd"),
     });
