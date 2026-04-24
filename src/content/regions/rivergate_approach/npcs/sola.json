@@ -46,6 +46,30 @@
       ]
     },
     {
+      "id": "sola_pre_dragon",
+      "when": {
+        "flag_present": "badge_suli",
+        "flag_absent": "green_dragon_defeated"
+      },
+      "priority": 10,
+      "beats": [
+        {
+          "text": {
+            "en": "The chain dropped two links overnight. I counted. Two."
+          },
+          "mood": "sad",
+          "glyph": "wild-signs"
+        },
+        {
+          "text": {
+            "en": "If you're going up the path, go fast. The dragon can smell hesitation, my grandmother used to say."
+          },
+          "mood": "thinking",
+          "glyph": "cave-shadow"
+        }
+      ]
+    },
+    {
       "id": "sola_post_clear",
       "when": {
         "flag_present": "game_cleared"

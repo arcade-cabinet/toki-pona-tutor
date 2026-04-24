@@ -46,6 +46,37 @@
       ]
     },
     {
+      "id": "lily_pre_dragon",
+      "when": {
+        "flag_present": "badge_suli",
+        "flag_absent": "green_dragon_defeated"
+      },
+      "priority": 10,
+      "beats": [
+        {
+          "text": {
+            "en": "You made it. Four proofs. The river knows you now."
+          },
+          "mood": "excited",
+          "glyph": "companion-bond"
+        },
+        {
+          "text": {
+            "en": "Lead with a water creature. The dragon's fire follows the lead. If your lead is water, the fire loses shape."
+          },
+          "mood": "thinking",
+          "glyph": "water-edge"
+        },
+        {
+          "text": {
+            "en": "One more quiet breath. Then go."
+          },
+          "mood": "happy",
+          "glyph": "safe-house"
+        }
+      ]
+    },
+    {
       "id": "lily_post_clear",
       "when": {
         "flag_present": "game_cleared"
