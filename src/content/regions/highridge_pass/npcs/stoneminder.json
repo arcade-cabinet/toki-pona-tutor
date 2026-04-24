@@ -1,0 +1,45 @@
+{
+  "id": "stoneminder",
+  "display_name": "Stoneminder",
+  "home_region": "highridge_pass",
+  "role": "shrine_carver",
+  "appearances": [
+    { "region": "highridge_pass", "spawn": [18, 3], "default": true }
+  ],
+  "dialog_states": [
+    {
+      "id": "stoneminder_intro",
+      "when": { "flag_absent": "badge_sewi" },
+      "priority": 0,
+      "beats": [
+        {
+          "text": { "en": "I carve names into the stones. For a small fee, mind." },
+          "mood": "thinking",
+          "glyph": "shrine-stones"
+        },
+        {
+          "text": { "en": "Earn one proof and I'll carve yours for nothing." },
+          "mood": "happy",
+          "glyph": "shrine-stones"
+        }
+      ]
+    },
+    {
+      "id": "stoneminder_post_fight",
+      "when": { "flag_present": "badge_sewi" },
+      "priority": 5,
+      "beats": [
+        {
+          "text": { "en": "Hold still, Rivers. The chisel knows your name already." },
+          "mood": "happy",
+          "glyph": "shrine-stones"
+        },
+        {
+          "text": { "en": "Four wardens, four stones. Someone told me there were five once." },
+          "mood": "thinking",
+          "glyph": "wild-signs"
+        }
+      ]
+    }
+  ]
+}

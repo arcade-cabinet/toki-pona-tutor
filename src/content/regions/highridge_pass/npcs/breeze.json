@@ -1,0 +1,27 @@
+{
+  "id": "breeze",
+  "display_name": "Breeze",
+  "home_region": "highridge_pass",
+  "role": "route_walker",
+  "appearances": [
+    { "region": "highridge_pass", "spawn": [14, 8], "default": true }
+  ],
+  "dialog_states": [
+    {
+      "id": "breeze_intro",
+      "when": {},
+      "priority": 0,
+      "beats": [
+        {
+          "text": { "en": "Third switchback. The wind gets loud here." },
+          "mood": "thinking",
+          "glyph": "wild-signs"
+        },
+        {
+          "text": { "en": "Keep your hood tight or lose it." },
+          "mood": "happy"
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,15 @@
+{
+  "id": "highridge_pass",
+  "display_name": "Highridge Pass",
+  "biome": "peak",
+  "music": "bgm_mountain",
+  "size": { "w": 32, "h": 14 },
+  "neighbors": { "west": "greenwood_road", "north": "lakehaven" },
+  "summary": "Stone switchbacks climbing a grass-over-granite ridge. Tarrin's shrine sits at the top: four stones in a square, a fifth cracked in the middle. First region-master trial.",
+  "flavor_beats": [
+    "The wind gets audible on the third switchback.",
+    "Crows overhead the whole climb.",
+    "Sun washes the shrine stones gold at the top.",
+    "The fifth stone — the middle one — has a claw-scar that doesn't match any catalog creature."
+  ]
+}
