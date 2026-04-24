@@ -4182,107 +4182,6 @@
   ],
   "dialog": [
     {
-      "id": "boulder_mountain",
-      "npc_id": "boulder",
-      "priority": 0,
-      "beats": [
-        {
-          "text": {
-            "en": "The old shrine at the summit is missing its stones."
-          },
-          "mood": "thinking",
-          "glyph": "stone-type"
-        },
-        {
-          "text": {
-            "en": "Only Pebbleback keeps shrine stones in its shell. Other stone-types leave them scattered."
-          },
-          "mood": "thinking",
-          "glyph": "stone-type"
-        },
-        {
-          "text": {
-            "en": "Catch two Pebblebacks and the shrine will know your name."
-          },
-          "mood": "excited",
-          "glyph": "stone-type"
-        }
-      ],
-      "triggers": {}
-    },
-    {
-      "id": "cliff_intro",
-      "npc_id": "cliff",
-      "when_flags": {
-        "badge_suli": false
-      },
-      "priority": 10,
-      "beats": [
-        {
-          "text": {
-            "en": "Dreadpeak doesn't forgive sloppy teams."
-          },
-          "mood": "excited",
-          "glyph": "wild-signs"
-        },
-        {
-          "text": {
-            "en": "Show me why the mountain should let you pass."
-          },
-          "mood": "excited",
-          "glyph": "battle-ready"
-        }
-      ],
-      "triggers": {}
-    },
-    {
-      "id": "cliff_victory",
-      "npc_id": "cliff",
-      "when_flags": {
-        "badge_suli": true
-      },
-      "priority": 5,
-      "beats": [
-        {
-          "text": {
-            "en": "You climbed higher than I expected."
-          },
-          "mood": "sad",
-          "glyph": "companion-bond"
-        },
-        {
-          "text": {
-            "en": "The final road is open."
-          },
-          "mood": "thinking",
-          "glyph": "greenwood-watch"
-        }
-      ],
-      "triggers": {}
-    },
-    {
-      "id": "ember_torch",
-      "npc_id": "ember",
-      "priority": 0,
-      "beats": [
-        {
-          "text": {
-            "en": "These torches mark the old climb."
-          },
-          "mood": "thinking",
-          "glyph": "wild-signs"
-        },
-        {
-          "text": {
-            "en": "When one goes dark, something big passed nearby."
-          },
-          "mood": "thinking",
-          "glyph": "companion-bond"
-        }
-      ],
-      "triggers": {}
-    },
-    {
       "id": "fig_snack",
       "npc_id": "fig",
       "priority": 0,
@@ -4315,35 +4214,6 @@
           },
           "mood": "sad",
           "glyph": "companion-bond"
-        }
-      ],
-      "triggers": {}
-    },
-    {
-      "id": "graym_cave",
-      "npc_id": "graym",
-      "priority": 0,
-      "beats": [
-        {
-          "text": {
-            "en": "Something's been moving in the shadow at the back of the cavern."
-          },
-          "mood": "thinking",
-          "glyph": "cave-shadow"
-        },
-        {
-          "text": {
-            "en": "Two cave-dwellers will tell us what it is — they see in the dark the way Rivers sees maps."
-          },
-          "mood": "thinking",
-          "glyph": "cave-shadow"
-        },
-        {
-          "text": {
-            "en": "Catch two cave creatures and bring them back. We'll read the shadow together."
-          },
-          "mood": "excited",
-          "glyph": "cave-shadow"
         }
       ],
       "triggers": {}
@@ -4752,6 +4622,222 @@
       "triggers": {}
     },
     {
+      "id": "cave_kid_intro",
+      "npc_id": "cave_kid",
+      "priority": 0,
+      "beats": [
+        {
+          "text": {
+            "en": "Don't tell my parents I'm in here."
+          },
+          "mood": "happy",
+          "glyph": "wild-signs"
+        },
+        {
+          "text": {
+            "en": "I want to catch a Stoneclaw. Or a mudgrub. Either one, whichever."
+          },
+          "mood": "thinking",
+          "glyph": "companion-bond"
+        }
+      ],
+      "triggers": {},
+      "when_flags": {
+        "badge_suli": false
+      }
+    },
+    {
+      "id": "cliff_intro",
+      "npc_id": "cliff",
+      "priority": 10,
+      "beats": [
+        {
+          "text": {
+            "en": "Dreadpeak doesn't forgive sloppy teams."
+          },
+          "mood": "excited",
+          "glyph": "wild-signs"
+        },
+        {
+          "text": {
+            "en": "You carry three proofs. I felt them walk in with you."
+          },
+          "mood": "thinking",
+          "glyph": "shrine-stones"
+        },
+        {
+          "text": {
+            "en": "Show me why the mountain should let you pass."
+          },
+          "mood": "excited",
+          "glyph": "battle-ready"
+        }
+      ],
+      "triggers": {},
+      "when_flags": {
+        "badge_suli": false
+      }
+    },
+    {
+      "id": "cliff_victory",
+      "npc_id": "cliff",
+      "priority": 5,
+      "beats": [
+        {
+          "text": {
+            "en": "You climbed higher than I expected."
+          },
+          "mood": "sad",
+          "glyph": "companion-bond"
+        },
+        {
+          "text": {
+            "en": "Four proofs. Four keys. I'm the last of the four wardens the chain was forged for."
+          },
+          "mood": "thinking",
+          "glyph": "shrine-stones"
+        },
+        {
+          "text": {
+            "en": "The Rivergate is a stone door. Your proofs are the stones it wants. Go."
+          },
+          "mood": "sad",
+          "glyph": "wild-signs"
+        },
+        {
+          "text": {
+            "en": "Rivers. Whatever you choose when you meet it — fight, catch, or walk up unarmed — I'll call it right."
+          },
+          "mood": "happy",
+          "glyph": "companion-bond"
+        }
+      ],
+      "triggers": {},
+      "when_flags": {
+        "badge_suli": true,
+        "game_cleared": false
+      }
+    },
+    {
+      "id": "cliff_post_clear",
+      "npc_id": "cliff",
+      "priority": 3,
+      "beats": [
+        {
+          "text": {
+            "en": "The cavern's quiet again, Rivers. First time in forty years."
+          },
+          "mood": "happy",
+          "glyph": "companion-bond"
+        }
+      ],
+      "triggers": {},
+      "when_flags": {
+        "game_cleared": true
+      }
+    },
+    {
+      "id": "graym_cave",
+      "npc_id": "graym",
+      "priority": 0,
+      "beats": [
+        {
+          "text": {
+            "en": "Something's been moving in the shadow at the back of the cavern."
+          },
+          "mood": "thinking",
+          "glyph": "cave-shadow"
+        },
+        {
+          "text": {
+            "en": "Two cave-dwellers will tell us what it is — they see in the dark the way Rivers sees maps."
+          },
+          "mood": "thinking",
+          "glyph": "cave-shadow"
+        },
+        {
+          "text": {
+            "en": "Catch two cave creatures and bring them back. We'll read the shadow together."
+          },
+          "mood": "excited",
+          "glyph": "cave-shadow"
+        }
+      ],
+      "triggers": {},
+      "when_flags": {
+        "torch_path_survey_complete": false
+      }
+    },
+    {
+      "id": "graym_post_survey",
+      "npc_id": "graym",
+      "priority": 5,
+      "beats": [
+        {
+          "text": {
+            "en": "The shadow is on the move still. But it's not what's wrong."
+          },
+          "mood": "thinking",
+          "glyph": "cave-shadow"
+        },
+        {
+          "text": {
+            "en": "The polished stones are. Count them. Four. Matches the shrine on Highridge exactly."
+          },
+          "mood": "sad",
+          "glyph": "shrine-stones"
+        }
+      ],
+      "triggers": {},
+      "when_flags": {
+        "torch_path_survey_complete": true
+      }
+    },
+    {
+      "id": "torch_bearer_intro",
+      "npc_id": "torch_bearer",
+      "priority": 0,
+      "beats": [
+        {
+          "text": {
+            "en": "Cliff taught me to tend the braziers. Don't let them go out."
+          },
+          "mood": "thinking",
+          "glyph": "last-light"
+        },
+        {
+          "text": {
+            "en": "Mind the polished stones. Four of them. They matter more than they look."
+          },
+          "mood": "happy",
+          "glyph": "shrine-stones"
+        }
+      ],
+      "triggers": {},
+      "when_flags": {
+        "badge_suli": false
+      }
+    },
+    {
+      "id": "warden_ghost_speaks",
+      "npc_id": "warden_ghost",
+      "priority": 10,
+      "beats": [
+        {
+          "text": {
+            "en": "Take the four. Open the gate. End this."
+          },
+          "mood": "sad",
+          "glyph": "shrine-stones"
+        }
+      ],
+      "triggers": {},
+      "when_flags": {
+        "proofs_all_four": true,
+        "game_cleared": false
+      }
+    },
+    {
       "id": "brindle_cold",
       "npc_id": "brindle",
       "priority": 0,
@@ -4899,6 +4985,32 @@
       "triggers": {},
       "when_flags": {
         "badge_lete": true,
+        "badge_suli": false
+      }
+    },
+    {
+      "id": "ember_torch",
+      "npc_id": "ember",
+      "priority": 7,
+      "beats": [
+        {
+          "text": {
+            "en": "These torches mark the old climb."
+          },
+          "mood": "thinking",
+          "glyph": "wild-signs"
+        },
+        {
+          "text": {
+            "en": "When one goes dark, something big passed nearby. Keep yours named and burning."
+          },
+          "mood": "thinking",
+          "glyph": "companion-bond"
+        }
+      ],
+      "triggers": {},
+      "when_flags": {
+        "torch_path_survey_complete": true,
         "badge_suli": false
       }
     },
@@ -5362,6 +5474,35 @@
         "rook_defeated": true,
         "badge_sewi": false
       }
+    },
+    {
+      "id": "boulder_mountain",
+      "npc_id": "boulder",
+      "priority": 0,
+      "beats": [
+        {
+          "text": {
+            "en": "The old shrine at the summit is missing its stones."
+          },
+          "mood": "thinking",
+          "glyph": "stone-type"
+        },
+        {
+          "text": {
+            "en": "Only Pebbleback keeps shrine stones in its shell. Other stone-types leave them scattered."
+          },
+          "mood": "thinking",
+          "glyph": "stone-type"
+        },
+        {
+          "text": {
+            "en": "Catch two Pebblebacks and the shrine will know your name."
+          },
+          "mood": "excited",
+          "glyph": "stone-type"
+        }
+      ],
+      "triggers": {}
     },
     {
       "id": "breeze_intro",
@@ -6968,6 +7109,27 @@
   ],
   "regions": [
     {
+      "id": "dreadpeak_cavern",
+      "display_name": "Dreadpeak Cavern",
+      "biome": "cave",
+      "music": "bgm_cave",
+      "size": {
+        "w": 16,
+        "h": 20
+      },
+      "neighbors": {
+        "south": "frostvale",
+        "north": "rivergate_approach"
+      },
+      "summary": "Dark cavern with torchlight pools. Cliff — the last of the four valley wardens — waits in the final chamber. The confront-beat of the green-dragon mystery happens here.",
+      "flavor_beats": [
+        "Wet cold, not dry like Frostvale. Drip-echoes constant.",
+        "The floor is stone, but every few steps there's a deeper stone — polished, set in a pattern.",
+        "The polished stones mirror the four-stone layout at Highridge. A careful walker notices.",
+        "At the final chamber, Cliff sits on a stone bench facing the entrance, waiting."
+      ]
+    },
+    {
       "id": "frostvale",
       "display_name": "Frostvale",
       "biome": "ice",
@@ -7070,6 +7232,39 @@
     }
   ],
   "signs": [
+    {
+      "region": "dreadpeak_cavern",
+      "at": [
+        8,
+        18
+      ],
+      "title": "DREADPEAK CAVERN",
+      "body": {
+        "en": "Mind the torches. Mind the stones."
+      }
+    },
+    {
+      "region": "dreadpeak_cavern",
+      "at": [
+        8,
+        12
+      ],
+      "title": "NORTH PATH — FINAL CHAMBER / SOUTH PATH — LOOPS BACK",
+      "body": {
+        "en": "The loop is for the tired. The chamber is for the ready."
+      }
+    },
+    {
+      "region": "dreadpeak_cavern",
+      "at": [
+        10,
+        8
+      ],
+      "title": "THE FOURTH STONE",
+      "body": {
+        "en": "One of four. The shrine is twelve paces off, somewhere under the sky."
+      }
+    },
     {
       "region": "frostvale",
       "at": [

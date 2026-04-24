@@ -1,0 +1,28 @@
+{
+  "id": "torch_bearer",
+  "display_name": "Torch-bearer",
+  "home_region": "dreadpeak_cavern",
+  "role": "cliff_apprentice",
+  "appearances": [
+    { "region": "dreadpeak_cavern", "spawn": [7, 8], "default": true }
+  ],
+  "dialog_states": [
+    {
+      "id": "torch_bearer_intro",
+      "when": { "flag_absent": "badge_suli" },
+      "priority": 0,
+      "beats": [
+        {
+          "text": { "en": "Cliff taught me to tend the braziers. Don't let them go out." },
+          "mood": "thinking",
+          "glyph": "last-light"
+        },
+        {
+          "text": { "en": "Mind the polished stones. Four of them. They matter more than they look." },
+          "mood": "happy",
+          "glyph": "shrine-stones"
+        }
+      ]
+    }
+  ]
+}

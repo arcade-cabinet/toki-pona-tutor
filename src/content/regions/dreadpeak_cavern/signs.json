@@ -1,0 +1,20 @@
+{
+  "region": "dreadpeak_cavern",
+  "signs": [
+    {
+      "at": [8, 18],
+      "title": "DREADPEAK CAVERN",
+      "body": { "en": "Mind the torches. Mind the stones." }
+    },
+    {
+      "at": [8, 12],
+      "title": "NORTH PATH — FINAL CHAMBER / SOUTH PATH — LOOPS BACK",
+      "body": { "en": "The loop is for the tired. The chamber is for the ready." }
+    },
+    {
+      "at": [10, 8],
+      "title": "THE FOURTH STONE",
+      "body": { "en": "One of four. The shrine is twelve paces off, somewhere under the sky." }
+    }
+  ]
+}
