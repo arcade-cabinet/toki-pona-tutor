@@ -2,7 +2,7 @@
   "title": {
     "gui_id": "rpg-title-screen",
     "menu_title": "Rivers Reckoning",
-    "player_default_graphic": "hero",
+    "player_default_graphic": "rivers_protagonist",
     "player_name_tag": {
       "text": "Rivers",
       "fill": "#fef3c7",

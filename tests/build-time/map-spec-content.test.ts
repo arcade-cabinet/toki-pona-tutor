@@ -163,7 +163,14 @@ describe("authored map content contracts", () => {
             throw new Error("expected riverside_home Below Player to be a tile grid");
 
         const used = new Set(below.flat());
-        expect([...used]).toEqual(expect.arrayContaining(["g", "f", "v", "d"]));
+        // v1 palette intentionally narrow: grass_base ("g") + dirt-path
+        // ("d") + grass/dirt edge transitions ("gd_*"). The previously-
+        // used "v" (grass_light) tile is a half-transparent bush shape
+        // that renders as black-crown artifacts over the WebGL clear
+        // colour, and "f" (grass_dark) was the visually-identical
+        // border filler. See riverside_home.ts T11-03 comment for
+        // the runtime root-cause.
+        expect([...used]).toEqual(expect.arrayContaining(["g", "d"]));
         expect([...used].some((cell) => cell.startsWith("gd_"))).toBe(true);
     });
 

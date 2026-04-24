@@ -219,7 +219,7 @@ describe('journey golden path (integration)', () => {
         expect(ui.notifications).toContain('Trail Token ×4');
         expect(ui.notifications).toContain('Ashcat +100 XP');
         expect(ui.notifications).toContain('Ashcat L5 -> L6');
-        expect(currentGraphic(player)).toBe('hero');
+        expect(currentGraphic(player)).toBe('rivers_protagonist');
 
         const waitForMountain = client.waitForMapChange('highridge_pass', 5000);
         await warpEast!.execMethod('onPlayerTouch', [player]);

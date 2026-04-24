@@ -309,7 +309,7 @@ describe('gameplay JSON config', () => {
         expect(mapIds.has(TITLE_START.mapId)).toBe(true);
         expect(TITLE_START.spawn).toEqual(GAMEPLAY_MAPS[TITLE_START.mapId]?.safe_spawn);
         expect(TITLE_START.journeyBeatId).toBe('beat_01_riverside_home');
-        expect(PLAYER_CONFIG.defaultGraphic).toBe('hero');
+        expect(PLAYER_CONFIG.defaultGraphic).toBe('rivers_protagonist');
         expect(TITLE_MENU_CONFIG.guiId).toBe('rpg-title-screen');
         expect(TITLE_MENU_CONFIG.menuTitle).toBe('Rivers Reckoning');
         expect(TITLE_MENU_CONFIG.continueLabelTemplate).toBe('{prefix} — {slot}');
@@ -528,9 +528,25 @@ describe('gameplay JSON config', () => {
             walkFrameCount: 4,
             hurtSpeed: 8,
         });
-        expect(PLAYER_SPRITESHEET_CONFIGS.map((sheet) => sheet.id)).toEqual(['hero', 'female']);
-        expect(PLAYER_SPRITESHEET_CONFIGS.every((sheet) => sheet.layoutId === 'player_three_frame'))
-            .toBe(true);
+        expect(PLAYER_SPRITESHEET_CONFIGS.map((sheet) => sheet.id)).toEqual([
+            'hero',
+            'female',
+            'rivers_protagonist',
+        ]);
+        // Player spritesheets accept either the legacy 3×4
+        // `player_three_frame` layout (hero/female, placeholder sprites)
+        // or the real-art `npc_four_by_thirty_one` layout (Rivers's
+        // actual villager-style sheet). Both route through the same
+        // generic `playerSheet()` factory.
+        const ALLOWED_PLAYER_LAYOUTS = new Set([
+            'player_three_frame',
+            'npc_four_by_thirty_one',
+        ]);
+        expect(
+            PLAYER_SPRITESHEET_CONFIGS.every((sheet) =>
+                ALLOWED_PLAYER_LAYOUTS.has(sheet.layoutId),
+            ),
+        ).toBe(true);
         expect(NPC_SPRITESHEET_CONFIGS).toHaveLength(20);
         expect(NPC_SPRITESHEET_CONFIGS.map((sheet) => sheet.id)).toContain('npc_guard_spear');
         expect(NPC_SPRITESHEET_CONFIGS.every((sheet) => sheet.layoutId === 'npc_four_by_thirty_one'))

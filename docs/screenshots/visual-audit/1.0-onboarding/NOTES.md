@@ -53,3 +53,45 @@ The 16-bit-playbook story-is-the-asset thesis is still correct. The *opening sce
 ## Lesson for every future PR
 
 **A green CI is not a green game.** Passing unit + integration tests + typecheck does NOT prove the feature works in the browser. Every visual PR needs an in-browser capture as evidence — not just a preview PNG from the map renderer, which is a completely different code path from the live game. Wire the onboarding-capture spec (or a smaller focused spec) into the CI matrix so visual regressions fail PRs.
+- **01-title** — First thing a new player sees. Does the title communicate what kind of game this is?
+  - file: `docs/screenshots/visual-audit/1.0-onboarding/01-title.png`
+  - captured: 2026-04-24T00:45:53.474Z
+- **02-title-menu** — Title menu with primary action highlighted. Is the New Game path obvious?
+  - file: `docs/screenshots/visual-audit/1.0-onboarding/02-title-menu.png`
+  - captured: 2026-04-24T00:45:54.030Z
+- **03-post-title-click** — Immediately after clicking primary action. The opening scene should be staged — first beat visible.
+  - file: `docs/screenshots/visual-audit/1.0-onboarding/03-post-title-click.png`
+  - captured: 2026-04-24T00:45:56.568Z
+- **04-starter-ceremony-entry** — One dialog-advance later. Opening beats should be visibly progressing.
+  - file: `docs/screenshots/visual-audit/1.0-onboarding/04-starter-ceremony-entry.png`
+  - captured: 2026-04-24T00:45:57.311Z
+- **05-starter-map-idle** — After the ceremony. Player should now be distinguishable on the map.
+  - file: `docs/screenshots/visual-audit/1.0-onboarding/05-starter-map-idle.png`
+  - captured: 2026-04-24T00:45:59.002Z
+- **06-after-movement** — After a few movement inputs. The canvas should visibly change — player sprite moved, tiles re-rendered.
+  - file: `docs/screenshots/visual-audit/1.0-onboarding/06-after-movement.png`
+  - captured: 2026-04-24T00:46:00.550Z
+- **07-pause-overlay** — Pause / HUD menu. Can the player see current goals, quest progress, and next region at a glance?
+  - file: `docs/screenshots/visual-audit/1.0-onboarding/07-pause-overlay.png`
+  - captured: 2026-04-24T00:46:01.591Z
+- **01-title** — First thing a new player sees. Does the title communicate what kind of game this is?
+  - file: `docs/screenshots/visual-audit/1.0-onboarding/01-title.png`
+  - captured: 2026-04-24T00:46:14.421Z
+- **02-title-menu** — Title menu with primary action highlighted. Is the New Game path obvious?
+  - file: `docs/screenshots/visual-audit/1.0-onboarding/02-title-menu.png`
+  - captured: 2026-04-24T00:46:14.960Z
+- **03-post-title-click** — Immediately after clicking primary action. The opening scene should be staged — first beat visible.
+  - file: `docs/screenshots/visual-audit/1.0-onboarding/03-post-title-click.png`
+  - captured: 2026-04-24T00:46:17.487Z
+- **04-starter-ceremony-entry** — One dialog-advance later. Opening beats should be visibly progressing.
+  - file: `docs/screenshots/visual-audit/1.0-onboarding/04-starter-ceremony-entry.png`
+  - captured: 2026-04-24T00:46:18.239Z
+- **05-starter-map-idle** — After the ceremony. Player should now be distinguishable on the map.
+  - file: `docs/screenshots/visual-audit/1.0-onboarding/05-starter-map-idle.png`
+  - captured: 2026-04-24T00:46:19.933Z
+- **06-after-movement** — After a few movement inputs. The canvas should visibly change — player sprite moved, tiles re-rendered.
+  - file: `docs/screenshots/visual-audit/1.0-onboarding/06-after-movement.png`
+  - captured: 2026-04-24T00:46:21.485Z
+- **07-pause-overlay** — Pause / HUD menu. Can the player see current goals, quest progress, and next region at a glance?
+  - file: `docs/screenshots/visual-audit/1.0-onboarding/07-pause-overlay.png`
+  - captured: 2026-04-24T00:46:22.532Z
