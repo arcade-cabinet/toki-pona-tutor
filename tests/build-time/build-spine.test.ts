@@ -24,6 +24,8 @@ const WORLD = JSON.parse(
         }>;
     }>;
     start_region_id: string;
+    regions: Array<{ id: string; biome: string }>;
+    signs: Array<{ region: string; title: string; body: { en: string } }>;
 };
 
 describe('T6-03: build-spine writes every expected key into world.json', () => {
@@ -93,13 +95,29 @@ describe('T6-03: build-spine writes every expected key into world.json', () => {
             .toBe(true);
     });
 
-    it('expected content counts: 43 species, 17 moves, 5 items, 46 dialog, 7 beats, 7 maps', () => {
+    it('expected content counts: 43 species, 17 moves, 5 items, 48 dialog, 7 beats, 7 maps', () => {
         expect(WORLD.species).toHaveLength(43);
         expect(WORLD.moves).toHaveLength(17);
         expect(WORLD.items).toHaveLength(5);
-        expect(WORLD.dialog).toHaveLength(46);
+        // 46 flat legacy dialog files + 4 expanded Selby states from the
+        // riverside_home dossier − 2 legacy selby files migrated into the
+        // dossier = 48. Bumps as more NPCs migrate to regions/<id>/npcs/.
+        expect(WORLD.dialog).toHaveLength(48);
         expect(WORLD.journey.beats).toHaveLength(7);
         expect(WORLD.maps).toHaveLength(7);
+    });
+
+    it('region dossiers emit manifests and signs into world.json', () => {
+        expect(WORLD.regions).toEqual(
+            expect.arrayContaining([
+                expect.objectContaining({ id: 'riverside_home', biome: 'town' }),
+            ]),
+        );
+        expect(WORLD.signs).toEqual(
+            expect.arrayContaining([
+                expect.objectContaining({ region: 'riverside_home', title: 'RIVERSIDE HOME' }),
+            ]),
+        );
     });
 
     it('species descriptions stay authored in English without generated legacy text', () => {

@@ -1,0 +1,13 @@
+{
+  "id": "riverside_home",
+  "display_name": "Riverside Home",
+  "biome": "town",
+  "music": "bgm_village",
+  "size": { "w": 16, "h": 12 },
+  "neighbors": { "east": "greenwood_road" },
+  "summary": "Rivers's home village. Green-ringed, river-adjacent. The starter ceremony happens here.",
+  "flavor_beats": [
+    "Clay-tile roofs. The same ones Selby was born under.",
+    "The well in the center is older than the village's oldest story."
+  ]
+}

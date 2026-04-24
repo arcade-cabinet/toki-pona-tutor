@@ -1,0 +1,20 @@
+{
+  "region": "riverside_home",
+  "signs": [
+    {
+      "at": [7, 8],
+      "title": "RIVERSIDE HOME",
+      "body": { "en": "Where the river remembers your name." }
+    },
+    {
+      "at": [10, 5],
+      "title": "ELDER'S HOUSE",
+      "body": { "en": "Selby has lived here since before anyone else." }
+    },
+    {
+      "at": [15, 5],
+      "title": "GREENWOOD ROAD",
+      "body": { "en": "East out of the village. First rook east of the elm." }
+    }
+  ]
+}
