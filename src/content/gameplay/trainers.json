@@ -22,6 +22,7 @@
     "hp": 320,
     "atk": 42,
     "pdef": 28,
+    "xp_yield": 1500,
     "enemy_type": "berserker",
     "coin_reward_key": "greenDragon",
     "action_battle": {
@@ -68,6 +69,7 @@
       "hp": 60,
       "atk": 16,
       "pdef": 10,
+      "xp_yield": 150,
       "enemy_type": "aggressive",
       "phase2": {
         "trigger_at_hp_fraction": 0,
@@ -87,6 +89,7 @@
       "hp": 80,
       "atk": 20,
       "pdef": 12,
+      "xp_yield": 280,
       "enemy_type": "defensive",
       "phase2": {
         "trigger_at_hp_fraction": 0,
@@ -106,6 +109,7 @@
       "hp": 90,
       "atk": 22,
       "pdef": 14,
+      "xp_yield": 500,
       "enemy_type": "ranged",
       "phase2": {
         "trigger_at_hp_fraction": 0,
@@ -125,6 +129,7 @@
       "hp": 110,
       "atk": 28,
       "pdef": 18,
+      "xp_yield": 850,
       "enemy_type": "aggressive",
       "phase2": {
         "trigger_at_hp_fraction": 0,
