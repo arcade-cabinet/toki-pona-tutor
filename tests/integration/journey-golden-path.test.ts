@@ -310,6 +310,10 @@ describe('journey golden path (integration)', () => {
         expect(await inventoryCount('trail_token')).toBe(7);
         expect(await inventoryCount('capture_pod')).toBe(4);
         expect(await inventoryCount('orchard_fruit')).toBe(1);
+        // T73/T89: first successful buy sets shopkeep_first_sale so
+        // Shopkeep's dossier transitions to the repeat-customer state
+        // next time the player talks to Meza.
+        expect(await getFlag('shopkeep_first_sale')).toBe('1');
     });
 
     it('defeats Marin, grants the Lakehaven badge reward, and opens frostvale', async () => {
