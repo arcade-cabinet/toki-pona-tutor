@@ -10,6 +10,13 @@ All notable changes to poki soweli. Format based on [Keep a Changelog](https://k
 
 This branch (`feat/rpgjs-v5-pivot`) descends from commit `0a582e0` — the pre-Godot tip. The Godot era between `1d924fe` (pivot) and `0edfe61` (feat/anchor-to-template) lives on `main` and is not represented here. Release-please releases `v0.1.0`…`v0.1.3` tagged on `main` cover the Godot build and do not apply to this branch.
 
+## [0.22.0](https://github.com/arcade-cabinet/poki-soweli/compare/v0.21.0...v0.22.0) (2026-04-24)
+
+
+### Added
+
+* **content:** dossier-driven NPC placement — 15 → 58 NPCs in-world (T59) ([#194](https://github.com/arcade-cabinet/poki-soweli/issues/194)) ([853c31c](https://github.com/arcade-cabinet/poki-soweli/commit/853c31c3486c4549e72862a6e3c2feb25e8126fd))
+
 ## [0.21.0](https://github.com/arcade-cabinet/poki-soweli/compare/v0.20.0...v0.21.0) (2026-04-24)
 
 
