@@ -95,18 +95,15 @@ describe('T6-03: build-spine writes every expected key into world.json', () => {
             .toBe(true);
     });
 
-    it('expected content counts: 43 species, 17 moves, 5 items, 161 dialog, 7 beats, 7 maps', () => {
+    it('expected content counts: 43 species, 17 moves, 5 items, 163 dialog, 7 beats, 7 maps', () => {
         expect(WORLD.species).toHaveLength(43);
         expect(WORLD.moves).toHaveLength(17);
         expect(WORLD.items).toHaveLength(5);
-        // Flat legacy files + expanded dossier states. T63 added
-        // post-clear to 15 quest-giver/named NPCs; T68 extended the
-        // "world heals" pass to the 16 remaining 2-state NPCs. T71
-        // added 4 quest turn-in states. T82 added 3 Rivergate
-        // pre-dragon states. T84 added 2 starter-village post-first-gym
-        // states (oren, wren) so Riverside Home reacts after the first
-        // badge, not only after the second.
-        expect(WORLD.dialog).toHaveLength(161);
+        // Flat legacy files + expanded dossier states. T63, T68, T71,
+        // T82, T84, T85 each added reactive states at progression
+        // boundaries. Every non-trivial NPC now has mid-progression
+        // reactivity, not just post-clear.
+        expect(WORLD.dialog).toHaveLength(163);
         expect(WORLD.journey.beats).toHaveLength(7);
         expect(WORLD.maps).toHaveLength(7);
     });

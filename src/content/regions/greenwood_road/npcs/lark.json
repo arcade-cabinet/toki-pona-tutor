@@ -39,6 +39,30 @@
       ]
     },
     {
+      "id": "lark_post_first_gym",
+      "when": {
+        "flag_present": "badge_sewi",
+        "flag_absent": "badge_lete"
+      },
+      "priority": 5,
+      "beats": [
+        {
+          "text": {
+            "en": "Stone badge. The road up the pass gets weirder after the first."
+          },
+          "mood": "thinking",
+          "glyph": "shrine-stones"
+        },
+        {
+          "text": {
+            "en": "I saw a snowbird last week. Greenwood. They shouldn't be this far south."
+          },
+          "mood": "sad",
+          "glyph": "wild-signs"
+        }
+      ]
+    },
+    {
       "id": "lark_post_third_gym",
       "when": {
         "flag_present": "badge_lete",
