@@ -11,16 +11,4 @@ Automated playthrough of the boot surface. Captures this run's PNGs with one-lin
 
 ## Frames
 
-
-## Fluency verdict (fill in by hand per frame)
-
-For each frame above, answer:
-
-1. **Intent** — does a new player understand what the game is asking them to do right now?
-2. **Options** — are their available actions visible (tap targets, key hints, NPC glyphs)?
-3. **Feedback** — when they act, does the game respond legibly?
-4. **Memory** — will they remember this moment or will it blur into the next one?
-
-## Open issues from this capture
-
-_(list concrete bugs or UX gaps this playthrough surfaced — each becomes a ROADMAP row)_
+- **01-title** — SCREENSHOT FAILED: cdpSession.send: Target page, context or browser has been closed

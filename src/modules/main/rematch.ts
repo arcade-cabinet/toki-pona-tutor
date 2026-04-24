@@ -7,7 +7,7 @@
  *
  * - Level bumps: +10 per clear-count above the original cap.
  * - Fresh loot: each victory pays `rematch_reward_<n>` — a cycling
- *   reward table that hands out `poki_wawa` on rematch #1, `telo_pona`
+ *   reward table that hands out `heavy_capture_pod` on rematch #1, `spring_tonic`
  *   on #2, a rare species-egg on #3, and a trophy flag on #4+.
  * - Cooldown: a region master can only be rematched once per in-game day
  *   so the player can't farm them.
@@ -66,7 +66,7 @@ export function rematchStatus(
 
 /**
  * Scaled XP yield for a rematch. Each prior victory adds 50% to the
- * base xpYield from REGION_XP_CURVE — so beating jan_wawa (120 base)
+ * base xpYield from REGION_XP_CURVE — so beating tarrin (120 base)
  * a second time grants 180, third time 240, etc. Caps at 4× (480)
  * so late-NG+ players can't trivially hit level 50.
  */
@@ -91,8 +91,8 @@ export function scaledRematchLevel(baseLevel: number, timesCleared: number): num
  * Reward item dispensed after a successful rematch. Cycles by
  * timesCleared so the player gets a varied drop sequence.
  *
- * - Rematch #1 (was 0, now 1) → poki_wawa (the upgraded net)
- * - Rematch #2 → telo_pona (a potent healing potion)
+ * - Rematch #1 (was 0, now 1) → heavy_capture_pod (the upgraded net)
+ * - Rematch #2 → spring_tonic (a potent healing potion)
  * - Rematch #3 → species_egg (breed material for daycare)
  * - Rematch #4+ → trophy flag (cosmetic — no item, just `trophy_<badge>`)
  */

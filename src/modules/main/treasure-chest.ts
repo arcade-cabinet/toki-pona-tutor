@@ -88,10 +88,10 @@ export function rollLoot(chest: ChestDef, rng: () => number = Math.random): Ches
  * @example
  * openChest(
  *   { id: 'chest_lakehaven_0', mapId: 'lakehaven', at: [5, 3],
- *     loot: [{ itemId: 'kili', count: 1, weight: 1 }], openFlag: 'chest_lakehaven_0' },
+ *     loot: [{ itemId: 'orchard_fruit', count: 1, weight: 1 }], openFlag: 'chest_lakehaven_0' },
  *   { flags: {}, masteredWords: new Set() },
  * )
- * // → { granted: { itemId: 'kili', count: 1, weight: 1 },
+ * // → { granted: { itemId: 'orchard_fruit', count: 1, weight: 1 },
  * //     newFlags: { chest_lakehaven_0: '1' },
  * //     alreadyOpened: false }
  */

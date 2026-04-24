@@ -1,5 +1,5 @@
 {
-  "coin_item_id": "ma",
+  "coin_item_id": "trail_token",
   "battle_coin_rewards": {
     "janIke": 4,
     "badge_sewi": 6,
@@ -9,15 +9,15 @@
     "greenDragon": 20
   },
   "shops": {
-    "jan_moku": {
+    "shopkeep": {
       "graphic": "npc_villager_fem_seza",
-      "dialog_id": "jan_moku_stall",
-      "delivery_npc_id": "jan_moku",
+      "dialog_id": "shopkeep_stall",
+      "delivery_npc_id": "shopkeep",
       "stock": [
-        { "item_id": "poki_lili", "count": 1, "price": 2 },
-        { "item_id": "kili", "count": 1, "price": 1 },
-        { "item_id": "telo_pona", "count": 1, "price": 4 },
-        { "item_id": "poki_wawa", "count": 1, "price": 6 }
+        { "item_id": "capture_pod", "count": 1, "price": 2 },
+        { "item_id": "orchard_fruit", "count": 1, "price": 1 },
+        { "item_id": "spring_tonic", "count": 1, "price": 4 },
+        { "item_id": "heavy_capture_pod", "count": 1, "price": 6 }
       ]
     }
   }

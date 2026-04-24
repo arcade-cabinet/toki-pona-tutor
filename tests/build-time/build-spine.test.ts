@@ -89,7 +89,7 @@ describe('T6-03: build-spine writes every expected key into world.json', () => {
         const routeMap = WORLD.maps.find((map) => map.id === 'greenwood_road');
         expect(starterMap?.objects.some((object) => object.name === 'warp_east' && object.type === 'Warp'))
             .toBe(true);
-        expect(routeMap?.objects.some((object) => object.properties.id === 'jan_ike'))
+        expect(routeMap?.objects.some((object) => object.properties.id === 'rook'))
             .toBe(true);
     });
 

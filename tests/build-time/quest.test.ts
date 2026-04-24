@@ -22,27 +22,27 @@ const WORLD = worldRaw as {
 const catchThree: QuestDef = {
     id: 'catch_three_kon',
     giverNpcId: 'jan_pona',
-    goal: { kind: 'catch_count', speciesId: 'kon_moli', target: 3 },
+    goal: { kind: 'catch_count', speciesId: 'ashcat', target: 3 },
     reward: { xp: 50 },
 };
 
 const defeatRival: QuestDef = {
     id: 'defeat_jan_ike',
-    giverNpcId: 'jan_sewi',
-    goal: { kind: 'defeat_trainer', npcId: 'jan_ike' },
+    giverNpcId: 'selby',
+    goal: { kind: 'defeat_trainer', npcId: 'rook' },
     reward: { xp: 80 },
 };
 
 const deliverKili: QuestDef = {
     id: 'deliver_kili',
-    giverNpcId: 'jan_kala_lake',
-    goal: { kind: 'deliver_item', itemId: 'kili', toNpcId: 'jan_moku' },
+    giverNpcId: 'loren',
+    goal: { kind: 'deliver_item', itemId: 'orchard_fruit', toNpcId: 'shopkeep' },
     reward: { xp: 40 },
 };
 
 const biomeQuest: QuestDef = {
     id: 'catch_any_lete',
-    giverNpcId: 'jan_anpa',
+    giverNpcId: 'corvin',
     goal: { kind: 'catch_any_in_biome', biome: 'lete', target: 2 },
     reward: { xp: 60 },
 };
@@ -72,7 +72,7 @@ describe('advanceQuest — catch_count progress', () => {
         const r = advanceQuest(
             catchThree,
             { status: 'active', progress: 1 },
-            { type: 'catch', speciesId: 'kon_moli' },
+            { type: 'catch', speciesId: 'ashcat' },
         );
         expect(r.state.progress).toBe(2);
     });
@@ -81,7 +81,7 @@ describe('advanceQuest — catch_count progress', () => {
         const r = advanceQuest(
             catchThree,
             { status: 'active', progress: 1 },
-            { type: 'catch', speciesId: 'jan_moli' },
+            { type: 'catch', speciesId: 'bog_wisp' },
         );
         expect(r.state.progress).toBe(1);
     });
@@ -90,13 +90,13 @@ describe('advanceQuest — catch_count progress', () => {
         const r = advanceQuest(
             catchThree,
             { status: 'active', progress: 3 },
-            { type: 'catch', speciesId: 'kon_moli' },
+            { type: 'catch', speciesId: 'ashcat' },
         );
         expect(r.state.progress).toBe(3);
     });
 
     it('ignores catches while pending', () => {
-        const r = advanceQuest(catchThree, pending, { type: 'catch', speciesId: 'kon_moli' });
+        const r = advanceQuest(catchThree, pending, { type: 'catch', speciesId: 'ashcat' });
         expect(r.state).toEqual(pending);
     });
 });
@@ -106,13 +106,13 @@ describe('advanceQuest — catch_any_in_biome progress', () => {
         const r1 = advanceQuest(
             biomeQuest,
             { status: 'active', progress: 0 },
-            { type: 'catch', speciesId: 'soweli_kiwen', biome: 'lete' },
+            { type: 'catch', speciesId: 'pebbleback', biome: 'lete' },
         );
         expect(r1.state.progress).toBe(1);
         const r2 = advanceQuest(
             biomeQuest,
             r1.state,
-            { type: 'catch', speciesId: 'jan_pi_sewi_pimeja', biome: 'lete' },
+            { type: 'catch', speciesId: 'nightspike', biome: 'lete' },
         );
         expect(r2.state.progress).toBe(2);
     });
@@ -121,7 +121,7 @@ describe('advanceQuest — catch_any_in_biome progress', () => {
         const r = advanceQuest(
             biomeQuest,
             { status: 'active', progress: 0 },
-            { type: 'catch', speciesId: 'jan_wawa', biome: 'nena' },
+            { type: 'catch', speciesId: 'tarrin', biome: 'nena' },
         );
         expect(r.state.progress).toBe(0);
     });
@@ -132,7 +132,7 @@ describe('advanceQuest — defeat + deliver', () => {
         const r = advanceQuest(
             defeatRival,
             { status: 'active', progress: 0 },
-            { type: 'defeat', npcId: 'jan_ike' },
+            { type: 'defeat', npcId: 'rook' },
         );
         expect(r.state.progress).toBe(1);
     });
@@ -141,7 +141,7 @@ describe('advanceQuest — defeat + deliver', () => {
         const r = advanceQuest(
             defeatRival,
             { status: 'active', progress: 0 },
-            { type: 'defeat', npcId: 'jan_wawa' },
+            { type: 'defeat', npcId: 'tarrin' },
         );
         expect(r.state.progress).toBe(0);
     });
@@ -150,7 +150,7 @@ describe('advanceQuest — defeat + deliver', () => {
         const r = advanceQuest(
             deliverKili,
             { status: 'active', progress: 0 },
-            { type: 'deliver', itemId: 'kili', toNpcId: 'jan_moku' },
+            { type: 'deliver', itemId: 'orchard_fruit', toNpcId: 'shopkeep' },
         );
         expect(r.state.progress).toBe(1);
     });
@@ -159,7 +159,7 @@ describe('advanceQuest — defeat + deliver', () => {
         const r = advanceQuest(
             deliverKili,
             { status: 'active', progress: 0 },
-            { type: 'deliver', itemId: 'kili', toNpcId: 'jan_sewi' },
+            { type: 'deliver', itemId: 'orchard_fruit', toNpcId: 'selby' },
         );
         expect(r.state.progress).toBe(0);
     });
@@ -217,8 +217,8 @@ describe('quest runtime copy', () => {
             collected: true,
             quest: deliverKili,
             state: { status: 'completed', progress: 1 },
-            rewards: ['kili x2', 'XP +40'],
-        })).toBe('Quest complete: deliver kili\nkili x2\nXP +40');
+            rewards: ['orchard_fruit x2', 'XP +40'],
+        })).toBe('Quest complete: deliver kili\norchard_fruit x2\nXP +40');
         expect(formatQuestRewardResult({
             collected: false,
             quest: catchThree,
@@ -232,21 +232,21 @@ describe('side quest catalog', () => {
     it('ships at least two playable side quests per post-starter region', () => {
         const ids = SIDE_QUESTS.map((quest) => quest.id);
         expect(ids).toEqual([
-            'quest_tomo_kili',
-            'quest_nasin_forest_watch',
-            'quest_nasin_poki_pack',
-            'quest_telo_kili_delivery',
-            'quest_lete_poki_pack',
-            'quest_suli_torch',
-            'quest_telo_last_light',
-            'quest_tomo_safe_house',
-            'quest_nasin_wild_signs',
-            'quest_sewi_shrine_stones',
-            'quest_sewi_lost_hiker',
-            'quest_telo_water_edge',
-            'quest_lete_snowbird',
-            'quest_suli_cave_shadow',
-            'quest_telo_companion_bond',
+            'quest_orchard_helper',
+            'quest_greenwood_watch',
+            'quest_field_notes',
+            'quest_lake_delivery',
+            'quest_cold_hands',
+            'quest_torch_path_survey',
+            'quest_last_light',
+            'quest_safe_house',
+            'quest_wild_signs',
+            'quest_shrine_stones',
+            'quest_lost_hiker',
+            'quest_water_edge',
+            'quest_snowbird_sighting',
+            'quest_cave_shadow',
+            'quest_companion_bond',
         ]);
 
         // story-bible requirement: >=2 side quests per region

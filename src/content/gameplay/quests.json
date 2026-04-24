@@ -1,43 +1,43 @@
 {
   "quests": [
     {
-      "id": "quest_tomo_kili",
-      "giver_npc_id": "jan_kili_tomo",
+      "id": "quest_orchard_helper",
+      "giver_npc_id": "fig",
       "map_id": "riverside_home",
       "title": "Orchard Helper",
       "summary": "Catch one Applepup for the Riverside snack keeper.",
       "goal": {
         "kind": "catch_count",
-        "species_id": "soweli_kili",
+        "species_id": "applepup",
         "target": 1
       },
       "reward": {
         "xp": 30,
-        "item_id": "kili",
+        "item_id": "orchard_fruit",
         "item_count": 2,
         "reward_clue": "orchard-fruit"
       }
     },
     {
-      "id": "quest_nasin_forest_watch",
-      "giver_npc_id": "jan_lukin_nasin",
+      "id": "quest_greenwood_watch",
+      "giver_npc_id": "lark",
       "map_id": "greenwood_road",
       "title": "Greenwood Watch",
       "summary": "Defeat the rival on Greenwood Road and report back to the route watcher.",
       "goal": {
         "kind": "defeat_trainer",
-        "npc_id": "jan_ike"
+        "npc_id": "rook"
       },
       "reward": {
         "xp": 45,
-        "item_id": "ma",
+        "item_id": "trail_token",
         "item_count": 3,
         "reward_clue": "battle-ready"
       }
     },
     {
-      "id": "quest_nasin_poki_pack",
-      "giver_npc_id": "jan_poki_nasin",
+      "id": "quest_field_notes",
+      "giver_npc_id": "pack",
       "map_id": "greenwood_road",
       "title": "Field Notes",
       "summary": "Catch two Greenwood creatures to earn a stronger capture pod.",
@@ -48,32 +48,32 @@
       },
       "reward": {
         "xp": 50,
-        "item_id": "poki_wawa",
+        "item_id": "heavy_capture_pod",
         "item_count": 1,
         "reward_clue": "capture-pods"
       }
     },
     {
-      "id": "quest_telo_kili_delivery",
-      "giver_npc_id": "jan_kala_lake",
+      "id": "quest_lake_delivery",
+      "giver_npc_id": "loren",
       "map_id": "lakehaven",
       "title": "Lake Delivery",
       "summary": "Carry one Orchard Fruit to the Lakehaven stall.",
       "goal": {
         "kind": "deliver_item",
-        "item_id": "kili",
-        "to_npc_id": "jan_moku"
+        "item_id": "orchard_fruit",
+        "to_npc_id": "shopkeep"
       },
       "reward": {
         "xp": 55,
-        "item_id": "telo_pona",
+        "item_id": "spring_tonic",
         "item_count": 2,
         "reward_clue": "lake-delivery"
       }
     },
     {
-      "id": "quest_lete_poki_pack",
-      "giver_npc_id": "jan_poki_lete",
+      "id": "quest_cold_hands",
+      "giver_npc_id": "brindle",
       "map_id": "frostvale",
       "title": "Cold Hands",
       "summary": "Catch two Frostvale creatures for the cold-weather pod keeper.",
@@ -84,14 +84,14 @@
       },
       "reward": {
         "xp": 65,
-        "item_id": "poki_wawa",
+        "item_id": "heavy_capture_pod",
         "item_count": 1,
         "reward_clue": "cold-hands"
       }
     },
     {
-      "id": "quest_suli_torch",
-      "giver_npc_id": "jan_pimeja_suli",
+      "id": "quest_torch_path_survey",
+      "giver_npc_id": "ember",
       "map_id": "dreadpeak_cavern",
       "title": "Torch Path Survey",
       "summary": "Catch two cave creatures near the Dreadpeak torch path.",
@@ -102,14 +102,14 @@
       },
       "reward": {
         "xp": 80,
-        "item_id": "telo_pona",
+        "item_id": "spring_tonic",
         "item_count": 2,
         "reward_clue": "torch-path"
       }
     },
     {
-      "id": "quest_telo_last_light",
-      "giver_npc_id": "jan_suno_telo",
+      "id": "quest_last_light",
+      "giver_npc_id": "sola",
       "map_id": "rivergate_approach",
       "title": "Last Light",
       "summary": "Catch one river-route creature before the final dragon approach.",
@@ -120,32 +120,32 @@
       },
       "reward": {
         "xp": 90,
-        "item_id": "poki_wawa",
+        "item_id": "heavy_capture_pod",
         "item_count": 2,
         "reward_clue": "last-light"
       }
     },
     {
-      "id": "quest_tomo_safe_house",
-      "giver_npc_id": "jan_pona_tomo",
+      "id": "quest_safe_house",
+      "giver_npc_id": "piper",
       "map_id": "riverside_home",
       "title": "Safe House",
       "summary": "Catch one Reedfrog near the riverside pond to prove the area is safe.",
       "goal": {
         "kind": "catch_count",
-        "species_id": "kala_tomo",
+        "species_id": "reedfrog",
         "target": 1
       },
       "reward": {
         "xp": 35,
-        "item_id": "poki_lili",
+        "item_id": "capture_pod",
         "item_count": 1,
         "reward_clue": "safe-house"
       }
     },
     {
-      "id": "quest_nasin_wild_signs",
-      "giver_npc_id": "jan_palisa_nasin",
+      "id": "quest_wild_signs",
+      "giver_npc_id": "briar",
       "map_id": "greenwood_road",
       "title": "Wild Signs",
       "summary": "Catch two forest creatures and bring back what you notice about their tracks.",
@@ -156,50 +156,50 @@
       },
       "reward": {
         "xp": 45,
-        "item_id": "ma",
+        "item_id": "trail_token",
         "item_count": 2,
         "reward_clue": "wild-signs"
       }
     },
     {
-      "id": "quest_sewi_shrine_stones",
-      "giver_npc_id": "jan_kiwen",
+      "id": "quest_shrine_stones",
+      "giver_npc_id": "boulder",
       "map_id": "highridge_pass",
       "title": "Shrine Stones",
       "summary": "Catch two Pebblebacks for the shrine keeper's stone-count ritual.",
       "goal": {
         "kind": "catch_count",
-        "species_id": "soweli_kiwen",
+        "species_id": "pebbleback",
         "target": 2
       },
       "reward": {
         "xp": 60,
-        "item_id": "telo_pona",
+        "item_id": "spring_tonic",
         "item_count": 2,
         "reward_clue": "stone-type"
       }
     },
     {
-      "id": "quest_sewi_lost_hiker",
-      "giver_npc_id": "jan_nasin_sewi",
+      "id": "quest_lost_hiker",
+      "giver_npc_id": "marsha",
       "map_id": "highridge_pass",
       "title": "Lost Hiker",
       "summary": "Carry a trail token down to the lake-village fisher to call a rescue.",
       "goal": {
         "kind": "deliver_item",
-        "item_id": "ma",
-        "to_npc_id": "jan_kala_lake"
+        "item_id": "trail_token",
+        "to_npc_id": "loren"
       },
       "reward": {
         "xp": 65,
-        "item_id": "poki_wawa",
+        "item_id": "heavy_capture_pod",
         "item_count": 1,
         "reward_clue": "torch-path"
       }
     },
     {
-      "id": "quest_telo_water_edge",
-      "giver_npc_id": "jan_olin_telo",
+      "id": "quest_water_edge",
+      "giver_npc_id": "myra",
       "map_id": "lakehaven",
       "title": "Water Edge",
       "summary": "Catch two lakeside creatures for the well-tender's field count.",
@@ -210,32 +210,32 @@
       },
       "reward": {
         "xp": 70,
-        "item_id": "telo_pona",
+        "item_id": "spring_tonic",
         "item_count": 2,
         "reward_clue": "water-edge"
       }
     },
     {
-      "id": "quest_lete_snowbird",
-      "giver_npc_id": "jan_kasi",
+      "id": "quest_snowbird_sighting",
+      "giver_npc_id": "hollis",
       "map_id": "frostvale",
       "title": "Snowbird Sighting",
       "summary": "Catch one Snowbird so the frost botanist can confirm the cold-season roster.",
       "goal": {
         "kind": "catch_count",
-        "species_id": "waso_lete",
+        "species_id": "snowbird",
         "target": 1
       },
       "reward": {
         "xp": 70,
-        "item_id": "telo_pona",
+        "item_id": "spring_tonic",
         "item_count": 2,
         "reward_clue": "frost-type"
       }
     },
     {
-      "id": "quest_suli_cave_shadow",
-      "giver_npc_id": "jan_kiwen_suli",
+      "id": "quest_cave_shadow",
+      "giver_npc_id": "graym",
       "map_id": "dreadpeak_cavern",
       "title": "Cave Shadow",
       "summary": "Catch two more cave creatures beyond the torch path to map the shadows.",
@@ -246,14 +246,14 @@
       },
       "reward": {
         "xp": 85,
-        "item_id": "poki_wawa",
+        "item_id": "heavy_capture_pod",
         "item_count": 1,
         "reward_clue": "cave-shadow"
       }
     },
     {
-      "id": "quest_telo_companion_bond",
-      "giver_npc_id": "jan_kala_lili",
+      "id": "quest_companion_bond",
+      "giver_npc_id": "lily",
       "map_id": "rivergate_approach",
       "title": "Companion Bond",
       "summary": "Catch one more river creature so your party is ready for the green dragon.",
@@ -264,7 +264,7 @@
       },
       "reward": {
         "xp": 95,
-        "item_id": "poki_wawa",
+        "item_id": "heavy_capture_pod",
         "item_count": 2,
         "reward_clue": "companion-bond"
       }

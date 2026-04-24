@@ -26,7 +26,7 @@ describe('catchProbability — canonical formula (1 - hp/hpMax) * catchRate * po
         expect(p).toBeCloseTo(0.25, 5);
     });
 
-    it('poki_wawa (power 1.5) boosts catch chance 1.5× vs poki_lili (power 1.0)', () => {
+    it('heavy_capture_pod (power 1.5) boosts catch chance 1.5× vs capture_pod (power 1.0)', () => {
         const lili = catchProbability({ hp: 10, hpMax: 50, catchRate: 0.4, pokiPower: 1.0 });
         const wawa = catchProbability({ hp: 10, hpMax: 50, catchRate: 0.4, pokiPower: 1.5 });
         expect(wawa / lili).toBeCloseTo(1.5, 5);
@@ -46,7 +46,7 @@ describe('rollCatch — ROADMAP T2-09 acceptance criteria', () => {
         expect(rollCatch({ hp: 50, hpMax: 50, catchRate: 0.9, pokiPower: 1.5 }, lowRng)).toBe(false);
     });
 
-    it('low HP with poki_wawa succeeds ≥90% of the time against mid catch rate', () => {
+    it('low HP with heavy_capture_pod succeeds ≥90% of the time against mid catch rate', () => {
         let hits = 0;
         const trials = 10_000;
         let seed = 1;

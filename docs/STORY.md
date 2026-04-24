@@ -104,39 +104,39 @@ The entries below describe the **shipped** quest behavior — the JSON in `src/c
 
 ### Riverside Home
 
-- **Orchard Helper** (`quest_tomo_kili` → `orchard-fruit` clue) — catch one Applepup for the Riverside snack keeper. Teaches capture mechanic safely.
-- **Safe House** (`quest_tomo_safe_house` → `safe-house` clue) — catch one Reedfrog near the riverside pond to prove the area is safe for coming-of-age departures.
+- **Orchard Helper** (`quest_orchard_helper` → `orchard-fruit` clue) — catch one Applepup for the Riverside snack keeper. Teaches capture mechanic safely.
+- **Safe House** (`quest_safe_house` → `safe-house` clue) — catch one Reedfrog near the riverside pond to prove the area is safe for coming-of-age departures.
 
 ### Greenwood Road
 
-- **Greenwood Watch** (`quest_nasin_forest_watch` → `battle-ready` clue) — defeat the rival on Greenwood Road and report back to the route watcher. First forced rival encounter, with XP + trail-token reward.
-- **Field Notes** (`quest_nasin_poki_pack` → `capture-pods` clue) — catch two Greenwood creatures to earn a stronger capture pod from the forest-route pod keeper.
-- **Wild Signs** (`quest_nasin_wild_signs` → `wild-signs` clue) — catch two forest creatures and bring back what you notice about their tracks. First seed of the dragon mystery for the player.
+- **Greenwood Watch** (`quest_greenwood_watch` → `battle-ready` clue) — defeat the rival on Greenwood Road and report back to the route watcher. First forced rival encounter, with XP + trail-token reward.
+- **Field Notes** (`quest_field_notes` → `capture-pods` clue) — catch two Greenwood creatures to earn a stronger capture pod from the forest-route pod keeper.
+- **Wild Signs** (`quest_wild_signs` → `wild-signs` clue) — catch two forest creatures and bring back what you notice about their tracks. First seed of the dragon mystery for the player.
 
 ### Highridge Pass
 
-- **Shrine Stones** (`quest_sewi_shrine_stones` → `stone-type` clue) — catch two Pebblebacks for the shrine keeper's stone-count ritual.
-- **Lost Hiker** (`quest_sewi_lost_hiker` → `torch-path` clue) — carry a trail token down to the lake-village fisher to call a rescue. **Cross-region delivery** to `jan_kala_lake` in Lakehaven.
+- **Shrine Stones** (`quest_shrine_stones` → `stone-type` clue) — catch two Pebblebacks for the shrine keeper's stone-count ritual.
+- **Lost Hiker** (`quest_lost_hiker` → `torch-path` clue) — carry a trail token down to the lake-village fisher to call a rescue. **Cross-region delivery** to `loren` in Lakehaven.
 
 ### Lakehaven
 
-- **Lake Delivery** (`quest_telo_kili_delivery` → `lake-delivery` clue) — deliver Orchard Fruit to the Lakehaven stall keeper. First full quest chain the player can actually complete when they reach the lake.
-- **Water Edge** (`quest_telo_water_edge` → `water-edge` clue) — catch two lakeside creatures for the well-tender's field count.
+- **Lake Delivery** (`quest_lake_delivery` → `lake-delivery` clue) — deliver Orchard Fruit to the Lakehaven stall keeper. First full quest chain the player can actually complete when they reach the lake.
+- **Water Edge** (`quest_water_edge` → `water-edge` clue) — catch two lakeside creatures for the well-tender's field count.
 
 ### Frostvale
 
-- **Cold Hands** (`quest_lete_poki_pack` → `cold-hands` clue) — catch two Frostvale creatures for the cold-weather pod keeper. Confirms Rivers can handle the snowfields. **[future]** redesign would gate Frostvale Master access on physical warm gear; current shipped version is a biome-catch count.
-- **Snowbird Sighting** (`quest_lete_snowbird` → `frost-type` clue) — catch one Snowbird so the frost botanist can confirm the cold-season roster.
+- **Cold Hands** (`quest_cold_hands` → `cold-hands` clue) — catch two Frostvale creatures for the cold-weather pod keeper. Confirms Rivers can handle the snowfields. **[future]** redesign would gate Frostvale Master access on physical warm gear; current shipped version is a biome-catch count.
+- **Snowbird Sighting** (`quest_snowbird_sighting` → `frost-type` clue) — catch one Snowbird so the frost botanist can confirm the cold-season roster.
 
 ### Dreadpeak Cavern
 
-- **Torch Path Survey** (`quest_suli_torch` → `torch-path` clue) — catch two cave creatures near the Dreadpeak torch path. **[future]** redesign would turn this into a torch-lighting puzzle gating the final chamber; current shipped version is a biome-catch count.
-- **Cave Shadow** (`quest_suli_cave_shadow` → `cave-shadow` clue) — catch two more cave creatures beyond the torch path to map the shadows.
+- **Torch Path Survey** (`quest_torch_path_survey` → `torch-path` clue) — catch two cave creatures near the Dreadpeak torch path. **[future]** redesign would turn this into a torch-lighting puzzle gating the final chamber; current shipped version is a biome-catch count.
+- **Cave Shadow** (`quest_cave_shadow` → `cave-shadow` clue) — catch two more cave creatures beyond the torch path to map the shadows.
 
 ### Rivergate Approach
 
-- **Last Light** (`quest_telo_last_light` → `last-light` clue) — catch one river-route creature before the final dragon approach. **[future]** redesign would have Rivers plant the Frostvale lantern at a marker to light the trail to the dragon; current shipped version is a biome-catch count.
-- **Companion Bond** (`quest_telo_companion_bond` → `companion-bond` clue) — catch one more river creature so the party is ready for the green dragon.
+- **Last Light** (`quest_last_light` → `last-light` clue) — catch one river-route creature before the final dragon approach. **[future]** redesign would have Rivers plant the Frostvale lantern at a marker to light the trail to the dragon; current shipped version is a biome-catch count.
+- **Companion Bond** (`quest_companion_bond` → `companion-bond` clue) — catch one more river creature so the party is ready for the green dragon.
 
 ### [future] planned quest redesigns
 

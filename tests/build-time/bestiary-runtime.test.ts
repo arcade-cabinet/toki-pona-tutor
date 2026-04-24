@@ -20,11 +20,11 @@ describe('bestiary persistence', () => {
         const seenAt = new Date('2026-04-01T00:00:00Z');
         const caughtAt = new Date('2026-04-02T00:00:00Z');
 
-        await recordBestiarySeen('jan_ike_lili', seenAt);
-        await recordBestiaryCaught('jan_ike_lili', caughtAt);
+        await recordBestiarySeen('bramble_imp', seenAt);
+        await recordBestiaryCaught('bramble_imp', caughtAt);
 
         expect(await getBestiaryState()).toEqual({
-            jan_ike_lili: {
+            bramble_imp: {
                 seenAt: seenAt.toISOString(),
                 caughtAt: caughtAt.toISOString(),
             },
@@ -32,14 +32,14 @@ describe('bestiary persistence', () => {
     });
 
     it('round-trips bestiary entries through persisted runtime-state export/import', async () => {
-        await recordBestiaryCaught('kon_moli', new Date('2026-04-01T00:00:00Z'));
+        await recordBestiaryCaught('ashcat', new Date('2026-04-01T00:00:00Z'));
 
         const exported = await exportPersistedRuntimeState();
         await resetPersistedRuntimeState({ includeSaves: true });
         await importPersistedRuntimeState(exported);
 
         expect(await getBestiaryState()).toEqual({
-            kon_moli: {
+            ashcat: {
                 seenAt: '2026-04-01T00:00:00.000Z',
                 caughtAt: '2026-04-01T00:00:00.000Z',
             },
@@ -50,31 +50,31 @@ describe('bestiary persistence', () => {
 describe('buildBestiaryPanel', () => {
     it('builds bestiary rows with caught, seen, and unknown tiers', async () => {
         const panel = buildBestiaryPanel({
-            kon_moli: {
+            ashcat: {
                 seenAt: '2026-04-01T00:00:00.000Z',
                 caughtAt: '2026-04-01T00:00:00.000Z',
             },
-            jan_ike_lili: {
+            bramble_imp: {
                 seenAt: '2026-04-02T00:00:00.000Z',
             },
         });
 
         expect(panel.title).toBe('Bestiary 1 / 43');
-        expect(panel.rows.find((row) => row.speciesId === 'kon_moli')).toEqual({
-            speciesId: 'kon_moli',
+        expect(panel.rows.find((row) => row.speciesId === 'ashcat')).toEqual({
+            speciesId: 'ashcat',
             tier: 'caught',
             label: 'Ashcat',
             meta: 'caught · fire',
-            testId: 'bestiary-entry-kon_moli',
+            testId: 'bestiary-entry-ashcat',
             description: 'A smoky little cat with ember-bright eyes and a loyal streak.',
             readText: 'Ashcat\nA smoky little cat with ember-bright eyes and a loyal streak.',
         });
-        expect(panel.rows.find((row) => row.speciesId === 'jan_ike_lili')).toEqual({
-            speciesId: 'jan_ike_lili',
+        expect(panel.rows.find((row) => row.speciesId === 'bramble_imp')).toEqual({
+            speciesId: 'bramble_imp',
             tier: 'seen',
             label: 'Bramble Imp',
             meta: 'seen · wild',
-            testId: 'bestiary-entry-jan_ike_lili',
+            testId: 'bestiary-entry-bramble_imp',
             description: 'A small thorny trickster that darts through brush and laughs at fences.',
             readText: 'Bramble Imp\nA small thorny trickster that darts through brush and laughs at fences.',
         });

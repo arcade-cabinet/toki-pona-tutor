@@ -1,0 +1,11 @@
+{
+  "id": "frost_crash",
+  "name": { "en": "blizzard" },
+  "description": { "en": "A snowstorm is coming." },
+  "type": "lete",
+  "power": 80,
+  "accuracy": 85,
+  "pp": 8,
+  "effect": "lower_defense",
+  "priority": 0
+}

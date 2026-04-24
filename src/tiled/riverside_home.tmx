@@ -28,32 +28,32 @@
   <object id="1" name="default" type="SpawnPoint" x="112" y="80" width="0" height="0" visible="1" rotation="0"/>
   <object id="2" name="jan-pona-tomo" type="NPC" x="64" y="80" width="0" height="0" visible="1" rotation="0">
    <properties>
-     <property name="id" value="jan_pona_tomo"/>
-     <property name="dialog_id" value="jan_pona_tomo_welcome"/>
+     <property name="id" value="piper"/>
+     <property name="dialog_id" value="piper_welcome"/>
    </properties>
   </object>
   <object id="3" name="jan-telo-well" type="NPC" x="48" y="128" width="0" height="0" visible="1" rotation="0">
    <properties>
-     <property name="id" value="jan_telo_well"/>
-     <property name="dialog_id" value="jan_telo_well_water"/>
+     <property name="id" value="wren"/>
+     <property name="dialog_id" value="wren_well_water"/>
    </properties>
   </object>
   <object id="4" name="jan-sewi" type="NPC" x="160" y="96" width="0" height="0" visible="1" rotation="0">
    <properties>
-     <property name="id" value="jan_sewi"/>
-     <property name="dialog_id" value="jan_sewi_starter_intro"/>
+     <property name="id" value="selby"/>
+     <property name="dialog_id" value="selby_starter_intro"/>
    </properties>
   </object>
   <object id="5" name="jan-poki-tomo" type="NPC" x="48" y="80" width="0" height="0" visible="1" rotation="0">
    <properties>
-     <property name="id" value="jan_poki_tomo"/>
-     <property name="dialog_id" value="jan_poki_tomo_ready"/>
+     <property name="id" value="oren"/>
+     <property name="dialog_id" value="oren_ready"/>
    </properties>
   </object>
   <object id="6" name="jan-kili-tomo" type="NPC" x="64" y="128" width="0" height="0" visible="1" rotation="0">
    <properties>
-     <property name="id" value="jan_kili_tomo"/>
-     <property name="dialog_id" value="jan_kili_tomo_snack"/>
+     <property name="id" value="fig"/>
+     <property name="dialog_id" value="fig_snack"/>
    </properties>
   </object>
   <object id="7" name="warp_east" type="Warp" x="240" y="80" width="16" height="16" visible="1" rotation="0">

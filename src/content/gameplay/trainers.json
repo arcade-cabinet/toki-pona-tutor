@@ -39,11 +39,11 @@
     }
   },
   "trainers": {
-    "jan_ike": {
-      "npc_id": "jan_ike",
-      "defeated_flag": "jan_ike_defeated",
+    "rook": {
+      "npc_id": "rook",
+      "defeated_flag": "rook_defeated",
       "next_beat_id": "beat_03_highridge_pass",
-      "dialog_base": "jan_ike",
+      "dialog_base": "rook",
       "graphic": "combatant_rogue_hooded",
       "hp": 60,
       "atk": 14,
@@ -58,12 +58,12 @@
       },
       "faint_animation": "hurt"
     },
-    "jan_wawa": {
-      "npc_id": "jan_wawa",
+    "tarrin": {
+      "npc_id": "tarrin",
       "badge_flag": "badge_sewi",
       "reward_clue": "highridge-proof",
       "next_beat_id": "beat_04_lakehaven",
-      "dialog_base": "jan_wawa",
+      "dialog_base": "tarrin",
       "graphic": "combatant_warrior_axe",
       "hp": 60,
       "atk": 16,
@@ -77,12 +77,12 @@
         "enemy_type": "tank"
       }
     },
-    "jan_telo": {
-      "npc_id": "jan_telo",
+    "marin": {
+      "npc_id": "marin",
       "badge_flag": "badge_telo",
       "reward_clue": "lakehaven-proof",
       "next_beat_id": "beat_05_frostvale",
-      "dialog_base": "jan_telo",
+      "dialog_base": "marin",
       "graphic": "combatant_mage_fem_red",
       "hp": 80,
       "atk": 20,
@@ -96,12 +96,12 @@
         "enemy_type": "defensive"
       }
     },
-    "jan_lete": {
-      "npc_id": "jan_lete",
+    "frost": {
+      "npc_id": "frost",
       "badge_flag": "badge_lete",
       "reward_clue": "frostvale-proof",
       "next_beat_id": "beat_06_dreadpeak_cavern",
-      "dialog_base": "jan_lete",
+      "dialog_base": "frost",
       "graphic": "combatant_mage_hooded_brown",
       "hp": 90,
       "atk": 22,
@@ -115,12 +115,12 @@
         "enemy_type": "tank"
       }
     },
-    "jan_suli": {
-      "npc_id": "jan_suli",
+    "cliff": {
+      "npc_id": "cliff",
       "badge_flag": "badge_suli",
       "reward_clue": "dreadpeak-proof",
       "next_beat_id": "beat_07_rivergate_approach",
-      "dialog_base": "jan_suli",
+      "dialog_base": "cliff",
       "graphic": "combatant_warrior_paladin",
       "hp": 110,
       "atk": 28,

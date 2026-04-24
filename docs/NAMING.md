@@ -11,7 +11,7 @@ domain: product
 
 The Rivers Reckoning pivot (v0.3.1) shipped as a native-English game, but
 the internal IDs — species, moves, items, NPCs, quests, map layers —
-still carry toki-pona tokens (`jan_sewi`, `soweli_kili`, `poki_lili`, etc.).
+still carry toki-pona tokens (`selby`, `applepup`, `capture_pod`, etc.).
 Player-visible English display names cover the experience, but:
 
 1. Debug contexts (quest flags, developer tools, save inspector) expose
@@ -41,44 +41,44 @@ locked and ready for the coordinated refactor PR.
 
 | Internal ID              | English Name | Notes                                              |
 | ------------------------ | ------------ | -------------------------------------------------- |
-| `jan_sewi`               | Selby        | The starter mentor. Already in the opening scene.  |
-| `jan_pona_tomo`          | Piper        | Starter-village ambient; keeps the "P-" alliteration. |
-| `jan_telo_well`          | Wren         | Well-keeper; "water" connotation.                  |
-| `jan_poki_tomo`          | Oren         | Kid at the starter village.                        |
-| `jan_kili_tomo`          | Fig          | Fruit/snack NPC; Fig fits orchard work.            |
-| `jan_kala_lake`          | Loren        | Lakehaven mentor; delivery endpoint for Lost Hiker quest. |
-| `jan_kala_lili`          | Lily         | Small-fish girl at rivergate approach.             |
-| `jan_moku_pona`          | TBD          | Lakehaven grill cook.                              |
-| `jan_kala_suli`          | TBD          | Lakehaven master.                                  |
-| `jan_olin_telo`          | TBD          | Lakehaven quiet NPC.                               |
-| `jan_suno_telo`          | TBD          | Lakehaven sunset NPC.                              |
-| `jan_nasin_sewi`         | TBD          | Highridge hiker trail guide.                       |
-| `jan_kiwen`              | Boulder      | Mountain shrine NPC.                               |
-| `jan_kiwen_suli`         | Graym        | Cave dweller.                                      |
-| `jan_palisa_nasin`       | Briar        | Greenwood ranger.                                  |
-| `jan_kasi`               | Hollis       | Frostvale gardener.                                |
-| `jan_kasi_nasin`         | TBD          | Greenwood grass-keeper.                            |
-| `jan_lukin_nasin`        | TBD          | Greenwood watchman.                                |
-| `jan_poki_nasin`         | TBD          | Greenwood pack-runner.                             |
-| `jan_pimeja_suli`        | TBD          | Torch-path NPC.                                    |
-| `jan_anpa`               | TBD          | Watchwoman.                                        |
-| `jan_pi_kon`             | TBD          | Meditation NPC.                                    |
-| `jan_pi_nasin`           | TBD          | Trail-asking NPC.                                  |
-| `jan_waso_sewi`          | TBD          | Sky-watcher.                                       |
-| `jan_suno_lete`          | TBD          | Frostvale light NPC.                               |
-| `jan_sike_telo`          | TBD          | Lake-plaza NPC.                                    |
-| `jan_poki_lete`          | TBD          | Frostvale pack-cold NPC.                           |
+| `selby`               | Selby        | The starter mentor. Already in the opening scene.  |
+| `piper`          | Piper        | Starter-village ambient; keeps the "P-" alliteration. |
+| `wren`          | Wren         | Well-keeper; "water" connotation.                  |
+| `oren`          | Oren         | Kid at the starter village.                        |
+| `fig`          | Fig          | Fruit/snack NPC; Fig fits orchard work.            |
+| `loren`          | Loren        | Lakehaven mentor; delivery endpoint for Lost Hiker quest. |
+| `lily`          | Lily         | Small-fish girl at rivergate approach.             |
+| `grill`          | TBD          | Lakehaven grill cook.                              |
+| `cormorant`          | TBD          | Lakehaven master.                                  |
+| `myra`          | TBD          | Lakehaven quiet NPC.                               |
+| `sola`          | TBD          | Lakehaven sunset NPC.                              |
+| `marsha`         | TBD          | Highridge hiker trail guide.                       |
+| `boulder`              | Boulder      | Mountain shrine NPC.                               |
+| `graym`         | Graym        | Cave dweller.                                      |
+| `briar`       | Briar        | Greenwood ranger.                                  |
+| `hollis`               | Hollis       | Frostvale gardener.                                |
+| `thorn`         | TBD          | Greenwood grass-keeper.                            |
+| `lark`        | TBD          | Greenwood watchman.                                |
+| `pack`         | TBD          | Greenwood pack-runner.                             |
+| `ember`        | TBD          | Torch-path NPC.                                    |
+| `corvin`               | TBD          | Watchwoman.                                        |
+| `meadow`             | TBD          | Meditation NPC.                                    |
+| `rowan`           | TBD          | Trail-asking NPC.                                  |
+| `kestrel`          | TBD          | Sky-watcher.                                       |
+| `luma`          | TBD          | Frostvale light NPC.                               |
+| `tarn`          | TBD          | Lake-plaza NPC.                                    |
+| `brindle`          | TBD          | Frostvale pack-cold NPC.                           |
 
 ### Region masters + rival
 
 | Internal ID              | English Name | Notes                                              |
 | ------------------------ | ------------ | -------------------------------------------------- |
-| `jan_ike`                | Rook         | The rival. Short, game-piece name.                 |
-| `jan_lete`               | Frost        | Frostvale region master.                           |
-| `jan_suli`               | Cliff        | Dreadpeak-region master.                           |
-| `jan_wawa`               | Tarrin       | Rivergate strong-warrior master.                   |
-| `jan_telo`               | Marin        | Lakehaven master.                                  |
-| `jan_moku`               | TBD          | Shopkeeper.                                        |
+| `rook`                | Rook         | The rival. Short, game-piece name.                 |
+| `frost`               | Frost        | Frostvale region master.                           |
+| `cliff`               | Cliff        | Dreadpeak-region master.                           |
+| `tarrin`               | Tarrin       | Rivergate strong-warrior master.                   |
+| `marin`               | Marin        | Lakehaven master.                                  |
+| `shopkeep`               | TBD          | Shopkeeper.                                        |
 
 ### Species (43 total — English names already ship)
 
@@ -87,20 +87,20 @@ still toki-pona. New naming should preserve thematic fit; sample:
 
 | Internal ID              | English Name (ship)  | Proposed new ID     |
 | ------------------------ | -------------------- | ------------------- |
-| `akesi_linja`            | Vine Adder           | `vine_adder`        |
-| `akesi_seli`             | Ember Adder          | `ember_adder`       |
-| `akesi_sewi`             | Green Dragon         | `green_dragon`      |
-| `akesi_suli`             | Marshjaw             | `marshjaw`          |
-| `kala_tomo`              | Reedfrog             | `reedfrog`          |
-| `kala_telo`              | Bluefin              | `bluefin`           |
-| `kala_luka`              | Riverfin             | `riverfin`          |
-| `kala_uta`               | Snapper              | `snapper`           |
-| `kon_moli`               | Ashcat               | `ashcat`            |
-| `waso_lete`              | Snowbird             | `snowbird`          |
-| `soweli_kiwen`           | Pebbleback           | `pebbleback`        |
-| `jan_ike_lili`           | Bramble Imp          | `bramble_imp`       |
-| `jan_moli`               | Bog Wisp             | `bog_wisp`          |
-| `jan_wawa_suli`          | Mountain Bear        | `mountain_bear`     |
+| `vine_adder`            | Vine Adder           | `vine_adder`        |
+| `ember_adder`             | Ember Adder          | `ember_adder`       |
+| `green_dragon`             | Green Dragon         | `green_dragon`      |
+| `marshjaw`             | Marshjaw             | `marshjaw`          |
+| `reedfrog`              | Reedfrog             | `reedfrog`          |
+| `bluefin`              | Bluefin              | `bluefin`           |
+| `riverfin`              | Riverfin             | `riverfin`          |
+| `snapper`               | Snapper              | `snapper`           |
+| `ashcat`               | Ashcat               | `ashcat`            |
+| `snowbird`              | Snowbird             | `snowbird`          |
+| `pebbleback`           | Pebbleback           | `pebbleback`        |
+| `bramble_imp`           | Bramble Imp          | `bramble_imp`       |
+| `bog_wisp`               | Bog Wisp             | `bog_wisp`          |
+| `mountain_bear`          | Mountain Bear        | `mountain_bear`     |
 | …                        | …                    | …                   |
 
 (Full 43-species table generated by the refactor script — see §Script.)
@@ -109,31 +109,31 @@ still toki-pona. New naming should preserve thematic fit; sample:
 
 | Internal ID     | English Name (ship)  | Proposed new ID     |
 | --------------- | -------------------- | ------------------- |
-| `poki_lili`     | Capture Pod          | `capture_pod`       |
-| `poki_wawa`     | Heavy Capture Pod    | `heavy_capture_pod` |
-| `kili`          | Orchard Fruit        | `orchard_fruit`     |
-| `ma`            | Trail Token          | `trail_token`       |
-| `telo_pona`     | Spring Tonic         | `spring_tonic`      |
+| `capture_pod`     | Capture Pod          | `capture_pod`       |
+| `heavy_capture_pod`     | Heavy Capture Pod    | `heavy_capture_pod` |
+| `orchard_fruit`          | Orchard Fruit        | `orchard_fruit`     |
+| `trail_token`            | Trail Token          | `trail_token`       |
+| `spring_tonic`     | Spring Tonic         | `spring_tonic`      |
 
 ### Moves (17 total)
 
 | Internal ID     | Ship name / Proposed ID                    |
 | --------------- | ------------------------------------------ |
-| `lete_lili`     | TBD → `frost_nip`                          |
-| `lete_suli`     | TBD → `frost_crash`                        |
-| `lete_sewi`     | TBD → `frost_soar`                         |
-| `lete_wawa`     | TBD → `frost_surge`                        |
-| `kasi_lili`     | TBD → `leaf_jab`                           |
-| `kasi_wawa`     | TBD → `leaf_storm`                         |
-| `kiwen_wawa`    | TBD → `stone_slam`                         |
-| `kon_wawa`      | TBD → `gust_strike`                        |
-| `seli_lili`     | TBD → `ember_nip`                          |
-| `seli_wawa`     | TBD → `flame_strike`                       |
-| `telo_lili`     | TBD → `splash`                             |
-| `telo_suli`     | TBD → `wave_slam`                          |
-| `telo_wawa`     | TBD → `tidal_strike`                       |
-| `telo_pini`     | TBD → `tide_ward`                          |
-| `utala_lili`    | TBD → `quick_jab` (already well-used — 80 refs) |
+| `frost_nip`     | TBD → `frost_nip`                          |
+| `frost_crash`     | TBD → `frost_crash`                        |
+| `frost_soar`     | TBD → `frost_soar`                         |
+| `frost_surge`     | TBD → `frost_surge`                        |
+| `leaf_jab`     | TBD → `leaf_jab`                           |
+| `leaf_storm`     | TBD → `leaf_storm`                         |
+| `stone_slam`    | TBD → `stone_slam`                         |
+| `gust_strike`      | TBD → `gust_strike`                        |
+| `ember_nip`     | TBD → `ember_nip`                          |
+| `flame_strike`     | TBD → `flame_strike`                       |
+| `splash`     | TBD → `splash`                             |
+| `wave_slam`     | TBD → `wave_slam`                          |
+| `tidal_strike`     | TBD → `tidal_strike`                       |
+| `tide_ward`     | TBD → `tide_ward`                          |
+| `quick_jab`    | TBD → `quick_jab` (already well-used — 80 refs) |
 
 ## Refactor phases
 

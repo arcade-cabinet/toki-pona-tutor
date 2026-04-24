@@ -56,7 +56,7 @@ async function seedRouteSave(page: Page): Promise<void> {
         const { getDatabase, saveWebStore } = await import('./src/platform/persistence/database.ts');
         await preferences.set(KEYS.currentMapId, 'greenwood_road');
         await preferences.set(KEYS.journeyBeat, 'beat_02_greenwood_road');
-        await preferences.set(KEYS.starterChosen, 'kon_moli');
+        await preferences.set(KEYS.starterChosen, 'ashcat');
         await player.save(3, { map: 'greenwood_road' });
 
         const playerKey = `default:${player.conn?.id ?? player.id ?? 'anonymous'}`;

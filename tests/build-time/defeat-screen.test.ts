@@ -15,7 +15,7 @@ describe('defeat screen view model', () => {
 
     it('allows explicit labels and readable unknown map fallbacks', () => {
         expect(resolveDefeatScreenLabel('riverside_home', 'tomo awen')).toBe('tomo awen');
-        expect(resolveDefeatScreenLabel('ma_ante')).toBe('ma ante');
+        expect(resolveDefeatScreenLabel('unknown_map')).toBe('unknown map');
     });
 
     it('builds the fallen and returning phases', () => {

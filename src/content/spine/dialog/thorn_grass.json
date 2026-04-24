@@ -1,0 +1,22 @@
+{
+  "id": "thorn_grass",
+  "npc_id": "thorn",
+  "priority": 0,
+  "beats": [
+    {
+      "text": {
+        "en": "Deep grass means wild creatures nearby."
+      },
+      "mood": "happy",
+      "glyph": "forest-cover"
+    },
+    {
+      "text": {
+        "en": "If the grass rustles twice, back up or be ready."
+      },
+      "mood": "thinking",
+      "glyph": "wild-signs"
+    }
+  ],
+  "triggers": {}
+}

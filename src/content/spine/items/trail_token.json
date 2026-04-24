@@ -1,0 +1,12 @@
+{
+  "id": "trail_token",
+  "name": {
+    "en": "Trail Token"
+  },
+  "description": {
+    "en": "A local token used for small route shops and favors."
+  },
+  "kind": "flavor",
+  "stackable": true,
+  "sprite_frame": 96
+}

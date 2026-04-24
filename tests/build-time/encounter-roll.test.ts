@@ -65,7 +65,7 @@ describe('rollSpeciesId — weighted distribution', () => {
     it('unequal weights match within 3% of expected ratios', () => {
         const rng = makeRng(12345);
         // Mirror a real region table: greenwood_road beat 2.
-        const table = { jan_ike_lili: 25, jan_utala_lili: 20, soweli_musi: 20, soweli_kili: 15, soweli_jaki: 10, waso_pimeja: 10 };
+        const table = { bramble_imp: 25, thornling: 20, mirthcat: 20, applepup: 15, mudgrub: 10, nightjar: 10 };
         const total = Object.values(table).reduce((s, w) => s + w, 0);
         const trials = 20_000;
         const counts: Record<string, number> = {};

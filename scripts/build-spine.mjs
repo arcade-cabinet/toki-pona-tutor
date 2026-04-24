@@ -275,7 +275,7 @@ for (const entry of collected.species) {
 
 // Enforce the green-dragon endgame rule: the green dragon species and event
 // must never appear in encounter tables or trigger wiring before the final beat.
-const GREEN_DRAGON_SPECIES_ID = "akesi_sewi";
+const GREEN_DRAGON_SPECIES_ID = "green_dragon";
 const GREEN_DRAGON_EVENT_ID = "green_dragon";
 // Walk all non-final beats (indices 0..len-2). The final beat is the only
 // one allowed to feature green_dragon, so we skip it by iterating to len-1.

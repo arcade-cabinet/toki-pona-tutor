@@ -14,7 +14,7 @@ The project has pivoted to native-English Rivers Reckoning. The old language-lea
 | Phase | Name               | Goal                                                       |  ✅ |  🟡 |  ⬜ |
 | ----- | ------------------ | ---------------------------------------------------------- | --: | --: | --: |
 | 1     | Stabilize          | Keep the pivot runnable/buildable                          |   3 |   1 |   1 |
-| 2     | English Content    | Replace product-facing language mechanics with clues/story |   4 |   1 |   0 |
+| 2     | English Content    | Replace product-facing language mechanics with clues/story |   5 |   0 |   0 |
 | 3     | Art Direction      | Choose and enforce a cohesive v1 visual stack              |   5 |   1 |   0 |
 | 4     | Map Rebuild        | Recompose maps for density, transitions, and tap space     |   4 |   2 |   2 |
 | 5     | Journey            | Expand the complete beginning-to-end game                  |   5 |   0 |   0 |
@@ -42,7 +42,7 @@ The project has pivoted to native-English Rivers Reckoning. The old language-lea
 | T2-01 | Replace corpus vocabulary data with curated clues                          | ✅     | Clue records are now the investigation journal source of truth.                                          |
 | T2-02 | Convert dialog, UI, quests, starters, and trainer rewards to English/clues | ✅     | Current content builds without the retired corpus scripts.                                               |
 | T2-03 | Convert Field Notes into an investigation micro-game                       | ✅     | The micro-game now uses English field-note prompts.                                                      |
-| T2-04 | Rewrite remaining species/item/internal labels into stronger English       | 🟡     | **Player-visible text is English** as of T2-04a: "Next: Speak with Selby" (HUD goal + pause glance) and the Lost-Hiker quest dialog points at "Loren at the lake" instead of "jan Kala Lake". **Internal IDs still use toki-pona naming** across 235 files (422 tokens in `world.json` alone, 97 spine JSON files with toki-pona filenames). A full rename pass needs: (a) mapping table in `docs/NAMING.md`; (b) spine file renames (species/moves/dialog/items); (c) events.json + quests.json + ui.json ID updates; (d) test fixture updates; (e) save-migration shim for legacy saves. Owned jointly with T1-05 (compat alias removal); both should land together as a single coordinated PR when the save-migration plan is ready. |
+| T2-04 | Rewrite remaining species/item/internal labels into stronger English       | ✅     | **Phase A (player-visible)**: HUD goal + quest dialog use English (Selby, Loren). **Phase B (full internal rename)**: 97 spine files renamed (43 species, 17 moves, 5 items, 46 dialog), ~200 files updated for cross-references. Species IDs: `ashcat`, `green_dragon`, `reedfrog`…; Moves: `frost_crash`, `stone_slam`, `splash`…; Items: `capture_pod`, `spring_tonic`…; NPCs: `selby`, `rook`, `loren`…. Canonical mapping locked in `docs/NAMING.md`. 848 tests green post-rename. |
 | T2-05 | Write final v1 quest/NPC/story bible                                       | ✅     | `docs/STORY.md` shipped in PR #96 (T6). Reconciled against implementation in PR #116 (T16).              |
 
 ## Phase 3: Art Direction
@@ -74,8 +74,8 @@ The project has pivoted to native-English Rivers Reckoning. The old language-lea
 | ID    | Task                                                      | Status | Notes                                                                     |
 | ----- | --------------------------------------------------------- | ------ | ------------------------------------------------------------------------- |
 | T5-01 | Maintain current seven-map playable arc                   | ✅     | Starter to green-dragon clear exists.                                     |
-| T5-02 | Convert current arc into a richer investigation structure | ✅     | Story bible (PR #96) + T7 quest expansion (PR #111) + T21 quest dialog authoring (PR #146). 15 quests covering all 7 regions, cross-region payoff in `quest_sewi_lost_hiker`. |
-| T5-03 | Add regional quest chains with cross-region payoff        | ✅     | T7 (PR #111) landed 8 new quests. Every region now has ≥2 side quests; `quest_sewi_lost_hiker` delivers from highridge_pass → lakehaven. |
+| T5-02 | Convert current arc into a richer investigation structure | ✅     | Story bible (PR #96) + T7 quest expansion (PR #111) + T21 quest dialog authoring (PR #146). 15 quests covering all 7 regions, cross-region payoff in `quest_lost_hiker`. |
+| T5-03 | Add regional quest chains with cross-region payoff        | ✅     | T7 (PR #111) landed 8 new quests. Every region now has ≥2 side quests; `quest_lost_hiker` delivers from highridge_pass → lakehaven. |
 | T5-04 | Add optional catches/rewards/side paths                   | ✅     | 15 quests in `src/content/gameplay/quests.json` across 7 regions — 2-3 per region, each optional outside the main golden path. |
 | T5-05 | Add post-clear loop                                       | ✅     | PR #113 — green-dragon re-fight after clear. `decideFinalBossTrigger()` pure state machine in `src/modules/main/green-dragon.ts`; locked by `tests/build-time/post-clear-loop.test.ts`. |
 

@@ -1,0 +1,15 @@
+{
+  "id": "shopkeep_stall",
+  "npc_id": "shopkeep",
+  "priority": 0,
+  "beats": [
+    {
+      "text": {
+        "en": "Fruit, pods, and tonics. Nothing fancy, all useful."
+      },
+      "mood": "happy",
+      "glyph": "orchard-fruit"
+    }
+  ],
+  "triggers": {}
+}

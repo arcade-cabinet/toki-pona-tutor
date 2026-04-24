@@ -8,9 +8,9 @@ import {
 
 const clearedSave = (overrides: Partial<SaveState> = {}): SaveState => ({
     party: [
-        { slot: 0, species_id: 'kon_moli', level: 35, xp: 42875 },
-        { slot: 1, species_id: 'jan_wawa', level: 22, xp: 10648 },
-        { slot: 2, species_id: 'telo_jaki', level: 3, xp: 27 },
+        { slot: 0, species_id: 'ashcat', level: 35, xp: 42875 },
+        { slot: 1, species_id: 'tarrin', level: 22, xp: 10648 },
+        { slot: 2, species_id: 'mireling', level: 3, xp: 27 },
     ],
     flags: {
         game_cleared: '1',
@@ -21,7 +21,7 @@ const clearedSave = (overrides: Partial<SaveState> = {}): SaveState => ({
         starter_chosen: '1',
     },
     masteredWords: { soweli: 12, poki: 8, seli: 5 },
-    inventory: { poki_lili: 2, poki_wawa: 1, kili: 5 },
+    inventory: { capture_pod: 2, heavy_capture_pod: 1, orchard_fruit: 5 },
     currentMapId: 'rivergate_approach',
     journeyBeat: 'beat_07_rivergate_approach',
     ...overrides,
@@ -29,13 +29,13 @@ const clearedSave = (overrides: Partial<SaveState> = {}): SaveState => ({
 
 describe('reducePartyLevel — -10 floor at 1', () => {
     it('level 35 → level 25, xp reset to threshold', () => {
-        const r = reducePartyLevel({ slot: 0, species_id: 'kon_moli', level: 35, xp: 42875 });
+        const r = reducePartyLevel({ slot: 0, species_id: 'ashcat', level: 35, xp: 42875 });
         expect(r.level).toBe(25);
         expect(r.xp).toBe(15625); // 25^3
     });
 
     it('level 3 → level 1 (floor)', () => {
-        const r = reducePartyLevel({ slot: 0, species_id: 'telo_jaki', level: 3, xp: 27 });
+        const r = reducePartyLevel({ slot: 0, species_id: 'mireling', level: 3, xp: 27 });
         expect(r.level).toBe(1);
         expect(r.xp).toBe(1);
     });
@@ -52,9 +52,9 @@ describe('reducePartyLevel — -10 floor at 1', () => {
     });
 
     it('preserves slot + species_id', () => {
-        const r = reducePartyLevel({ slot: 4, species_id: 'jan_wawa_suli', level: 30, xp: 27000 });
+        const r = reducePartyLevel({ slot: 4, species_id: 'mountain_bear', level: 30, xp: 27000 });
         expect(r.slot).toBe(4);
-        expect(r.species_id).toBe('jan_wawa_suli');
+        expect(r.species_id).toBe('mountain_bear');
     });
 });
 
@@ -82,9 +82,9 @@ describe('deriveNewGamePlus — full derivation', () => {
         expect(ng.masteredWords).toEqual({ soweli: 12, poki: 8, seli: 5 });
     });
 
-    it('inventory reset to { poki_wawa: 1 } — the NG+ clear reward', () => {
+    it('inventory reset to { heavy_capture_pod: 1 } — the NG+ clear reward', () => {
         const ng = deriveNewGamePlus(clearedSave());
-        expect(ng.inventory).toEqual({ poki_wawa: 1 });
+        expect(ng.inventory).toEqual({ heavy_capture_pod: 1 });
     });
 
     it('resets map + journey to starter village', () => {

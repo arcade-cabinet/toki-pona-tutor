@@ -40,7 +40,7 @@ Current runtime status: the spritesheet manifest itself is wired through `src/co
 **Suggested spritesheet id:** `fx_feather_drift`
 
 **Move-vfx binding (recommend, not yet wired):**
-- `wawa_waso` (flit — bird aerial attack) → `fx_feather_drift`
+- `wing_gust` (flit — bird aerial attack) → `fx_feather_drift`
 
 ---
 
@@ -63,7 +63,7 @@ Current runtime status: the spritesheet manifest itself is wired through `src/co
 **Suggested spritesheet id:** `fx_gas_cloud`
 
 **Move-vfx binding (recommend, not yet wired):**
-- `kon_wawa` (windblast — gas/wind move) → `fx_gas_cloud`
+- `gust_strike` (windblast — gas/wind move) → `fx_gas_cloud`
 
 ---
 
@@ -86,8 +86,8 @@ Current runtime status: the spritesheet manifest itself is wired through `src/co
 **Suggested spritesheet id:** `fx_dirt_kickup`
 
 **Move-vfx binding (recommend, not yet wired):**
-- `kiwen_wawa` (stoneblow — ground-pound move) → `fx_dirt_kickup`
-- `utala` (fight — physical strike, ground tier) → `fx_dirt_kickup` (fallback)
+- `stone_slam` (stoneblow — ground-pound move) → `fx_dirt_kickup`
+- `strike` (fight — physical strike, ground tier) → `fx_dirt_kickup` (fallback)
 
 ---
 
@@ -121,10 +121,10 @@ Current runtime status: the spritesheet manifest itself is wired through `src/co
 **Suggested spritesheet id:** `fx_spell_orbs_v1`
 
 **Move-vfx binding (recommend, not yet wired):**
-- `telo_lili` (splash) → `fx_spell_orbs_v1` animation `water_orb`
-- `seli_lili` (ember) → `fx_spell_orbs_v1` animation `fire_orb`
-- `lete_lili` (chill) → `fx_spell_orbs_v1` animation `ice_shard`
-- `kasi_lili` (leaf) → `fx_spell_orbs_v1` animation `poison_orb`
+- `splash` (splash) → `fx_spell_orbs_v1` animation `water_orb`
+- `ember_nip` (ember) → `fx_spell_orbs_v1` animation `fire_orb`
+- `frost_nip` (chill) → `fx_spell_orbs_v1` animation `ice_shard`
+- `leaf_jab` (leaf) → `fx_spell_orbs_v1` animation `poison_orb`
 
 ---
 
@@ -145,10 +145,10 @@ Same row-type structure as v1 — this is a stylistic variant (v2) of the same e
 **Suggested spritesheet id:** `fx_spell_orbs_v2`
 
 **Move-vfx binding (recommend, not yet wired):**
-- `telo_wawa` (wave) → `fx_spell_orbs_v2` animation `water_orb`
-- `seli_wawa` (blaze) → `fx_spell_orbs_v2` animation `fire_orb`
-- `lete_wawa` (freeze) → `fx_spell_orbs_v2` animation `ice_shard`
-- `kasi_wawa` (bloom) → `fx_spell_orbs_v2` animation `poison_orb`
+- `tidal_strike` (wave) → `fx_spell_orbs_v2` animation `water_orb`
+- `flame_strike` (blaze) → `fx_spell_orbs_v2` animation `fire_orb`
+- `frost_surge` (freeze) → `fx_spell_orbs_v2` animation `ice_shard`
+- `leaf_storm` (bloom) → `fx_spell_orbs_v2` animation `poison_orb`
 
 ---
 
@@ -181,10 +181,10 @@ Same row-type structure as v1 — this is a stylistic variant (v2) of the same e
 **Note:** The anti-alias-glow variant (`extra-elemental-spellcasting-effects-anti-alias-glow-14x14.png`) is identical in layout — same frame dimensions and grid. It is registered separately as `fx_spell_bursts_14_glow` for use when a softer, glow-blended look is preferred (e.g. boss move hits).
 
 **Move-vfx binding (recommend, not yet wired):**
-- `seli_wawa` (blaze — strong fire) → `fx_spell_bursts_14` animation `fire_burst`
-- `lete_suli` (blizzard) → `fx_spell_bursts_14` animation `ice_burst`
-- `telo_pini` (current) → `fx_spell_bursts_14` animation `water_burst`
-- `kasi_wawa` (bloom) → `fx_spell_bursts_14` animation `poison_burst`
+- `flame_strike` (blaze — strong fire) → `fx_spell_bursts_14` animation `fire_burst`
+- `frost_crash` (blizzard) → `fx_spell_bursts_14` animation `ice_burst`
+- `tide_ward` (current) → `fx_spell_bursts_14` animation `water_burst`
+- `leaf_storm` (bloom) → `fx_spell_bursts_14` animation `poison_burst`
 
 ---
 
@@ -219,7 +219,7 @@ Identical layout to `extra-elemental-spellcasting-effects-14x14.png` (56×126, 1
 **Note:** The anti-alias-glow variant (`fire-explosion-anti-alias-glow.png`, same 336×28 dimensions) is registered separately as `fx_fireball_explosion_glow`.
 
 **Move-vfx binding (recommend, not yet wired):**
-- `seli_wawa` (blaze) → `fx_fireball_explosion` (primary binding; use glow variant for boss fights)
+- `flame_strike` (blaze) → `fx_fireball_explosion` (primary binding; use glow variant for boss fights)
 
 ---
 
@@ -229,7 +229,7 @@ Same layout as `fire-explosion-28x28.png` (336×28, 28×28px, 12 frames, single 
 
 **Suggested spritesheet id:** `fx_fireball_explosion_glow`
 
-**Move-vfx binding:** Boss/rare encounter variant of `seli_wawa`.
+**Move-vfx binding:** Boss/rare encounter variant of `flame_strike`.
 
 ---
 
@@ -286,8 +286,8 @@ Same layout as isometric (336×28, 28×28px, 12 frames).
 **Note:** The anti-alias-glow variant (`ice-burst-crystal-48x48-anti-alias-glow.png`, same layout) is registered as `fx_ice_burst_crystal_glow`.
 
 **Move-vfx binding (recommend, not yet wired):**
-- `lete_sewi` (frost) → `fx_ice_burst_crystal`
-- `lete_wawa` (freeze) → `fx_ice_burst_crystal_glow`
+- `frost_soar` (frost) → `fx_ice_burst_crystal`
+- `frost_surge` (freeze) → `fx_ice_burst_crystal_glow`
 
 ---
 
@@ -313,7 +313,7 @@ Same layout as `ice-burst-crystal-48x48.png` (384×48, 48×48px, 8 frames).
 
 **Suggested spritesheet id:** `fx_ice_burst_blue`
 
-**Move-vfx binding (recommend):** `lete_lili` (chill — weak ice) → `fx_ice_burst_blue`
+**Move-vfx binding (recommend):** `frost_nip` (chill — weak ice) → `fx_ice_burst_blue`
 
 ---
 
@@ -333,7 +333,7 @@ Same layout (384×48, 48×48px, 8 frames). No outline — blue tinted bare shard
 
 **Suggested spritesheet id:** `fx_ice_burst_bare`
 
-**Move-vfx binding (recommend):** `lete_suli` (blizzard — strongest ice) → `fx_ice_burst_bare` (stark, raw ice shards fit the blizzard fantasy).
+**Move-vfx binding (recommend):** `frost_crash` (blizzard — strongest ice) → `fx_ice_burst_bare` (stark, raw ice shards fit the blizzard fantasy).
 
 ---
 
@@ -343,7 +343,7 @@ Same layout (384×48, 48×48px, 8 frames). Transparent blue outline — designed
 
 **Suggested spritesheet id:** `fx_ice_burst_tblue`
 
-**Move-vfx binding (recommend):** Secondary layer composited over `fx_ice_burst_crystal` on `lete_wawa` hit.
+**Move-vfx binding (recommend):** Secondary layer composited over `fx_ice_burst_crystal` on `frost_surge` hit.
 
 ---
 
@@ -368,8 +368,8 @@ Same layout (384×48, 48×48px, 8 frames). Transparent blue outline — designed
 **Note:** The anti-alias-glow variant (`large-fire-anti-alias-glow-28x28.png`, same 112×84 layout) is registered as `fx_large_fire_glow`.
 
 **Move-vfx binding (recommend, not yet wired):**
-- `seli_lili` (ember) → `fx_large_fire` (small fire attack — loops briefly then dismissed)
-- `seli_wawa` (blaze) → `fx_large_fire_glow` (sustained blaze with glow)
+- `ember_nip` (ember) → `fx_large_fire` (small fire attack — loops briefly then dismissed)
+- `flame_strike` (blaze) → `fx_large_fire_glow` (sustained blaze with glow)
 
 ---
 
@@ -402,7 +402,7 @@ Same layout as `large-fire-28x28.png` (112×84, 28×28px, 4 cols × 3 rows, 12 f
 **Note:** The anti-alias-glow variant (`lightning-blast-anti-alias-glow-54x18.png`, same 486×18 layout) is registered as `fx_lightning_blast_glow`.
 
 **Move-vfx binding (recommend, not yet wired):**
-- `telo_pini` (current — electric water) → `fx_lightning_blast` (telo type has shock/current flavor)
+- `tide_ward` (current — electric water) → `fx_lightning_blast` (telo type has shock/current flavor)
 
 ---
 
@@ -435,7 +435,7 @@ Same layout (486×18, 54×18px, 9 frames).
 **Note:** The anti-alias-glow variant (`lightning-energy-anti-alias-glow-48x48.png`, same 432×48 layout) is registered as `fx_lightning_energy_glow`.
 
 **Move-vfx binding (recommend, not yet wired):**
-- `telo_wawa` (wave — powerful water/shock) → `fx_lightning_energy`
+- `tidal_strike` (wave — powerful water/shock) → `fx_lightning_energy`
 
 ---
 
@@ -468,8 +468,8 @@ Same layout (432×48, 48×48px, 9 frames).
 **Note:** The anti-alias-glow variant (`red-energy-anti-alias-glow-48x48.png`, same 432×48 layout) is registered as `fx_red_energy_glow`.
 
 **Move-vfx binding (recommend, not yet wired):**
-- `utala` (fight) → `fx_red_energy`
-- `utala_lili` (attack) → `fx_red_energy` (same effect, shorter duration)
+- `strike` (fight) → `fx_red_energy`
+- `quick_jab` (attack) → `fx_red_energy` (same effect, shorter duration)
 
 ---
 
@@ -479,7 +479,7 @@ Same layout (432×48, 48×48px, 9 frames).
 
 **Suggested spritesheet id:** `fx_red_energy_glow`
 
-**Move-vfx binding (recommend):** `utala` boss-tier hit → `fx_red_energy_glow`.
+**Move-vfx binding (recommend):** `strike` boss-tier hit → `fx_red_energy_glow`.
 
 ---
 
@@ -504,7 +504,7 @@ Same layout (432×48, 48×48px, 9 frames).
 **Note:** Anti-alias-glow variant (`red-lightning-blast-anti-alias-glow-54x18.png`, same layout) registered as `fx_red_lightning_blast_glow`.
 
 **Move-vfx binding (recommend, not yet wired):**
-- `telo_suli` (torrent) → `fx_red_lightning_blast` (high-power water move with an electric undertone fits the red-energy aesthetic)
+- `wave_slam` (torrent) → `fx_red_lightning_blast` (high-power water move with an electric undertone fits the red-energy aesthetic)
 
 ---
 
@@ -537,9 +537,9 @@ Same layout (486×18, 54×18px, 9 frames).
 **Suggested spritesheet id:** `fx_sword_slash`
 
 **Move-vfx binding (recommend, not yet wired):**
-- `utala` (fight — melee physical) → `fx_sword_slash`
-- `utala_lili` (attack — light physical) → `fx_sword_slash`
-- `kiwen_wawa` (stoneblow — heavy physical) → `fx_sword_slash` (shared physical VFX until a dedicated rock impact is authored)
+- `strike` (fight — melee physical) → `fx_sword_slash`
+- `quick_jab` (attack — light physical) → `fx_sword_slash`
+- `stone_slam` (stoneblow — heavy physical) → `fx_sword_slash` (shared physical VFX until a dedicated rock impact is authored)
 
 ---
 
@@ -562,8 +562,8 @@ Same layout (486×18, 54×18px, 9 frames).
 **Suggested spritesheet id:** `fx_staff_swish`
 
 **Move-vfx binding (recommend, not yet wired):**
-- `telo_lili` (splash) → `fx_staff_swish` (water staff tap)
-- `kasi_lili` (leaf) → `fx_staff_swish` (nature wand strike)
+- `splash` (splash) → `fx_staff_swish` (water staff tap)
+- `leaf_jab` (leaf) → `fx_staff_swish` (nature wand strike)
 
 ---
 
@@ -571,20 +571,20 @@ Same layout (486×18, 54×18px, 9 frames).
 
 | Move | Type | Recommended vfx | Notes |
 |---|---|---|---|
-| `utala_lili` | wawa | `fx_sword_slash` | Light physical |
-| `utala` | wawa | `fx_sword_slash` + `fx_red_energy` | Melee + impact combo |
-| `kiwen_wawa` | wawa | `fx_dirt_kickup` | Ground heavy strike |
-| `kon_wawa` | wawa | `fx_gas_cloud` | Wind/air themed |
-| `wawa_waso` | wawa | `fx_feather_drift` | Bird aerial strike |
-| `seli_lili` | seli | `fx_spell_orbs_v1` (fire_orb) + `fx_large_fire` | Small fire |
-| `seli_wawa` | seli | `fx_fireball_explosion_glow` + `fx_large_fire_glow` | Large blaze |
-| `lete_lili` | lete | `fx_ice_burst_blue` | Light chill |
-| `lete_sewi` | lete | `fx_ice_burst_crystal` | Frost shards |
-| `lete_wawa` | lete | `fx_ice_burst_crystal_glow` | Strong freeze |
-| `lete_suli` | lete | `fx_ice_burst_bare` | Blizzard raw ice |
-| `telo_lili` | telo | `fx_staff_swish` | Water tap |
-| `telo_pini` | telo | `fx_lightning_blast` | Electric current |
-| `telo_wawa` | telo | `fx_lightning_energy` | Powerful water/shock |
-| `telo_suli` | telo | `fx_red_lightning_blast` | Torrent surge |
-| `kasi_lili` | kasi | `fx_spell_orbs_v1` (poison_orb) + `fx_staff_swish` | Leaf/nature |
-| `kasi_wawa` | kasi | `fx_spell_bursts_14` (poison_burst) | Bloom impact |
+| `quick_jab` | wawa | `fx_sword_slash` | Light physical |
+| `strike` | wawa | `fx_sword_slash` + `fx_red_energy` | Melee + impact combo |
+| `stone_slam` | wawa | `fx_dirt_kickup` | Ground heavy strike |
+| `gust_strike` | wawa | `fx_gas_cloud` | Wind/air themed |
+| `wing_gust` | wawa | `fx_feather_drift` | Bird aerial strike |
+| `ember_nip` | seli | `fx_spell_orbs_v1` (fire_orb) + `fx_large_fire` | Small fire |
+| `flame_strike` | seli | `fx_fireball_explosion_glow` + `fx_large_fire_glow` | Large blaze |
+| `frost_nip` | lete | `fx_ice_burst_blue` | Light chill |
+| `frost_soar` | lete | `fx_ice_burst_crystal` | Frost shards |
+| `frost_surge` | lete | `fx_ice_burst_crystal_glow` | Strong freeze |
+| `frost_crash` | lete | `fx_ice_burst_bare` | Blizzard raw ice |
+| `splash` | telo | `fx_staff_swish` | Water tap |
+| `tide_ward` | telo | `fx_lightning_blast` | Electric current |
+| `tidal_strike` | telo | `fx_lightning_energy` | Powerful water/shock |
+| `wave_slam` | telo | `fx_red_lightning_blast` | Torrent surge |
+| `leaf_jab` | kasi | `fx_spell_orbs_v1` (poison_orb) + `fx_staff_swish` | Leaf/nature |
+| `leaf_storm` | kasi | `fx_spell_bursts_14` (poison_burst) | Bloom impact |

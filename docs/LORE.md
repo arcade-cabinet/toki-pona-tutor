@@ -41,49 +41,49 @@ Every monster in the world is a catchable species. Species IDs are stable; renam
 
 | Species ID | `name.en` | Type | Runtime tier | Sprite |
 | --- | --- | --- | --- | --- |
-| `akesi_linja` | Vine Adder | kasi | common | `assets/animals/snake.png` |
-| `akesi_seli` | Ember Adder | seli | uncommon | `assets/animals/cobra.png` |
-| `akesi_sewi` | Green Dragon | seli | legendary | `assets/bosses/green-dragon/idle-green.png` |
-| `akesi_suli` | Marshjaw | telo | legendary | `assets/animals/crocodile.png` |
-| `jan_ike_lili` | Bramble Imp | kasi | common | `assets/creatures/goblin/goblin.png` |
-| `jan_moli` | Bog Wisp | kasi | common | `assets/creatures/zombie/zombie.png` |
-| `jan_moli_wawa` | Iron Wraith | kasi | legendary | `assets/bosses/zombie-burster/burster.png` |
-| `jan_pi_sewi_pimeja` | Nightspike | lete | common | `assets/creatures/mummy/mummy.png` |
-| `jan_utala_lili` | Thornling | kasi | common | `assets/creatures/goblin/slinger.png` |
-| `jan_utala_suli` | Stoneclaw | wawa | legendary | `assets/bosses/dread-knight/combat-animations.png` |
-| `jan_wawa` | Stone Bruiser | wawa | common | `assets/creatures/orc/orc.png` |
-| `jan_wawa_jaki` | Mire Brute | wawa | common | `assets/creatures/orc/soldier-unarmoured.png` |
-| `jan_wawa_linja` | Chainback | wawa | common | `assets/creatures/orc/archer.png` |
-| `jan_wawa_suli` | Mountain Bear | wawa | uncommon | `assets/creatures/orc/champion.png` |
-| `jan_wawa_utala` | Warback | wawa | common | `assets/creatures/orc/soldier.png` |
-| `kala_luka` | Riverfin | telo | uncommon | `assets/animals/octopus.png` |
-| `kala_telo` | Bluefin | telo | common | `assets/animals/jellyfish.png` |
-| `kala_tomo` | Reedfrog | telo | common | `assets/animals/hermit-crab.png` |
-| `kala_uta` | Snapper | telo | common | `assets/animals/crab.png` |
-| `kon_moli` | Ashcat | seli | common | `assets/creatures/wraith/wraith.png` |
-| `seli_moli` | Cinderling | seli | legendary | `assets/bosses/fire-skull/fire-skull.png` |
-| `sijelo_kiwen` | Quartz Shell | lete | common | `assets/creatures/skelly/skelly.png` |
-| `sijelo_linja` | Frostcoil | lete | common | `assets/creatures/skelly/archer.png` |
-| `sijelo_utala` | Glacier Talon | lete | common | `assets/creatures/skelly/warrior.png` |
-| `soweli_alasa` | Foxhound | kasi | uncommon | `assets/animals/fox.png` |
-| `soweli_anpa` | Burrowmole | kasi | common | `assets/animals/naked-mole-rat.png` |
-| `soweli_jaki` | Mudgrub | kasi | common | `assets/animals/rat.png` |
-| `soweli_kili` | Applepup | kasi | common | `assets/animals/squirrel.png` |
-| `soweli_kiwen` | Pebbleback | wawa | common | `assets/animals/armadillo.png` |
-| `soweli_kon` | Mistfox | kasi | common | `assets/animals/skunk.png` |
-| `soweli_musi` | Mirthcat | kasi | common | `assets/animals/cat.png` |
-| `soweli_nena` | Hillbuck | kasi | common | `assets/animals/hedgehog.png` |
-| `soweli_palisa` | Twiglet | kasi | common | `assets/animals/porcupine.png` |
-| `soweli_sewi` | Snowhare | lete | uncommon | `assets/animals/wolf.png` |
-| `soweli_utala` | Fangrunner | wawa | uncommon | `assets/animals/boar.png` |
-| `soweli_wawa` | Boulderhorn | wawa | legendary | `assets/animals/giant-gorilla.png` |
-| `telo_jaki` | Mireling | telo | legendary | `assets/bosses/slime/idle.png` |
-| `waso_lape` | Drowsy Owl | lete | uncommon | `assets/animals/owl.png` |
-| `waso_lete` | Snowbird | lete | common | `assets/animals/penguin.png` |
-| `waso_moku` | Coalbeak | seli | uncommon | `assets/animals/vulture.png` |
-| `waso_moli` | Raven Shade | lete | uncommon | `assets/animals/raven.png` |
-| `waso_pimeja` | Nightjar | lete | common | `assets/animals/bat.png` |
-| `waso_toki` | Songbird | kasi | common | `assets/animals/parrot.png` |
+| `vine_adder` | Vine Adder | kasi | common | `assets/animals/snake.png` |
+| `ember_adder` | Ember Adder | seli | uncommon | `assets/animals/cobra.png` |
+| `green_dragon` | Green Dragon | seli | legendary | `assets/bosses/green-dragon/idle-green.png` |
+| `marshjaw` | Marshjaw | telo | legendary | `assets/animals/crocodile.png` |
+| `bramble_imp` | Bramble Imp | kasi | common | `assets/creatures/goblin/goblin.png` |
+| `bog_wisp` | Bog Wisp | kasi | common | `assets/creatures/zombie/zombie.png` |
+| `iron_wraith` | Iron Wraith | kasi | legendary | `assets/bosses/zombie-burster/burster.png` |
+| `nightspike` | Nightspike | lete | common | `assets/creatures/mummy/mummy.png` |
+| `thornling` | Thornling | kasi | common | `assets/creatures/goblin/slinger.png` |
+| `stoneclaw` | Stoneclaw | wawa | legendary | `assets/bosses/dread-knight/combat-animations.png` |
+| `tarrin` | Stone Bruiser | wawa | common | `assets/creatures/orc/orc.png` |
+| `mire_brute` | Mire Brute | wawa | common | `assets/creatures/orc/soldier-unarmoured.png` |
+| `chainback` | Chainback | wawa | common | `assets/creatures/orc/archer.png` |
+| `mountain_bear` | Mountain Bear | wawa | uncommon | `assets/creatures/orc/champion.png` |
+| `warback` | Warback | wawa | common | `assets/creatures/orc/soldier.png` |
+| `riverfin` | Riverfin | telo | uncommon | `assets/animals/octopus.png` |
+| `bluefin` | Bluefin | telo | common | `assets/animals/jellyfish.png` |
+| `reedfrog` | Reedfrog | telo | common | `assets/animals/hermit-crab.png` |
+| `snapper` | Snapper | telo | common | `assets/animals/crab.png` |
+| `ashcat` | Ashcat | seli | common | `assets/creatures/wraith/wraith.png` |
+| `cinderling` | Cinderling | seli | legendary | `assets/bosses/fire-skull/fire-skull.png` |
+| `quartz_shell` | Quartz Shell | lete | common | `assets/creatures/skelly/skelly.png` |
+| `frostcoil` | Frostcoil | lete | common | `assets/creatures/skelly/archer.png` |
+| `glacier_talon` | Glacier Talon | lete | common | `assets/creatures/skelly/warrior.png` |
+| `foxhound` | Foxhound | kasi | uncommon | `assets/animals/fox.png` |
+| `burrowmole` | Burrowmole | kasi | common | `assets/animals/naked-mole-rat.png` |
+| `mudgrub` | Mudgrub | kasi | common | `assets/animals/rat.png` |
+| `applepup` | Applepup | kasi | common | `assets/animals/squirrel.png` |
+| `pebbleback` | Pebbleback | wawa | common | `assets/animals/armadillo.png` |
+| `mistfox` | Mistfox | kasi | common | `assets/animals/skunk.png` |
+| `mirthcat` | Mirthcat | kasi | common | `assets/animals/cat.png` |
+| `hillbuck` | Hillbuck | kasi | common | `assets/animals/hedgehog.png` |
+| `twiglet` | Twiglet | kasi | common | `assets/animals/porcupine.png` |
+| `snowhare` | Snowhare | lete | uncommon | `assets/animals/wolf.png` |
+| `fangrunner` | Fangrunner | wawa | uncommon | `assets/animals/boar.png` |
+| `boulderhorn` | Boulderhorn | wawa | legendary | `assets/animals/giant-gorilla.png` |
+| `mireling` | Mireling | telo | legendary | `assets/bosses/slime/idle.png` |
+| `drowsy_owl` | Drowsy Owl | lete | uncommon | `assets/animals/owl.png` |
+| `snowbird` | Snowbird | lete | common | `assets/animals/penguin.png` |
+| `coalbeak` | Coalbeak | seli | uncommon | `assets/animals/vulture.png` |
+| `raven_shade` | Raven Shade | lete | uncommon | `assets/animals/raven.png` |
+| `nightjar` | Nightjar | lete | common | `assets/animals/bat.png` |
+| `songbird` | Songbird | kasi | common | `assets/animals/parrot.png` |
 
 ## The People
 
@@ -130,8 +130,8 @@ Player-facing labels are now English. Internal IDs remain stable until a save-mi
 | Thing | Player-facing name | Stable internal IDs |
 | --- | --- | --- |
 | Creature catalog | **Bestiary** | bestiary state keys are species IDs |
-| Catch tool | **Capture Pod** / **Heavy Capture Pod** | `poki_lili` / `poki_wawa` |
-| Trade token | **Trail Token** | `ma` |
+| Catch tool | **Capture Pod** / **Heavy Capture Pod** | `capture_pod` / `heavy_capture_pod` |
+| Trade token | **Trail Token** | `trail_token` |
 | Region master | **Region master** | trainer IDs still use `jan_*` |
 | Region badge | Highridge / Lakehaven / Frostvale / Dreadpeak badges | `badge_sewi`, `badge_telo`, `badge_lete`, `badge_suli` |
 | Save file | Save slot | preference keys keep the old namespace until migration |
@@ -140,8 +140,8 @@ Player-facing labels are now English. Internal IDs remain stable until a save-mi
 
 1. Player spawns in `riverside_home` near Elder Selby.
 2. Elder Selby dialog opens: greeting, ceremonial offer.
-3. Three starters offered: Ashcat (`kon_moli`), Mireling (`telo_jaki`), and Bramble Imp (`jan_ike_lili`). Player picks one.
-4. Elder Selby gives 3 × `poki_lili` (Capture Pods).
+3. Three starters offered: Ashcat (`ashcat`), Mireling (`mireling`), and Bramble Imp (`bramble_imp`). Player picks one.
+4. Elder Selby gives 3 × `capture_pod` (Capture Pods).
 5. `starter_chosen` flag set; starter added to party at level 5.
 6. Dialog closes; player is free to walk. Warp to `greenwood_road` becomes reachable.
 

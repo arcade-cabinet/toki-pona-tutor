@@ -127,7 +127,7 @@ async function startRouteGame(page: Page): Promise<void> {
     await dialogChoice(page, 0).tap();
 
     await expect.poll(async () => (await getParty(page)).map((member) => member.speciesId).join(','))
-        .toBe('kon_moli');
+        .toBe('ashcat');
 
     await triggerEvent(page, 'warp_east', 'touch');
     await expect.poll(async () => {
@@ -177,7 +177,7 @@ test('mobile HUD inventory shows side quest progress through reward collection',
     await startRouteGame(page);
     await acceptForestPokiQuest(page);
 
-    await expect.poll(async () => getFlag(page, 'quest_quest_nasin_poki_pack_status')).toBe('active');
+    await expect.poll(async () => getFlag(page, 'quest_quest_field_notes_status')).toBe('active');
 
     await openPauseInventory(page);
     await expect(page.locator('[data-testid="pause-quest-heading"]')).toContainText('Quests:');
@@ -185,15 +185,15 @@ test('mobile HUD inventory shows side quest progress through reward collection',
     await expect(page.locator('[data-testid="pause-quest-0"]')).toContainText('· Field Notes: 0 / 2');
     await resumeFromPause(page);
 
-    await catchForestCreature(page, 'soweli_jaki');
-    await expect.poll(async () => getFlag(page, 'quest_quest_nasin_poki_pack_progress')).toBe('1');
+    await catchForestCreature(page, 'mudgrub');
+    await expect.poll(async () => getFlag(page, 'quest_quest_field_notes_progress')).toBe('1');
 
     await openPauseInventory(page);
     await expect(page.locator('[data-testid="pause-quest-0"]')).toContainText('· Field Notes: 1 / 2');
     await resumeFromPause(page);
 
-    await catchForestCreature(page, 'soweli_kili');
-    await expect.poll(async () => getFlag(page, 'quest_quest_nasin_poki_pack_progress')).toBe('2');
+    await catchForestCreature(page, 'applepup');
+    await expect.poll(async () => getFlag(page, 'quest_quest_field_notes_progress')).toBe('2');
 
     await openPauseInventory(page);
     await expect(page.locator('[data-testid="pause-quest-0"]')).toContainText('· Field Notes: 2 / 2');
@@ -205,8 +205,8 @@ test('mobile HUD inventory shows side quest progress through reward collection',
     await advanceDialog(page, 'Quest complete: Field Notes\nHeavy Capture Pod x1\nXP +50\nClue: Capture pods', rewardTask);
     await expectTaskDone(page, rewardTask);
 
-    await expect.poll(async () => getFlag(page, 'quest_quest_nasin_poki_pack_done')).toBe('1');
-    await expect.poll(async () => getInventoryCount(page, 'poki_wawa')).toBe(1);
+    await expect.poll(async () => getFlag(page, 'quest_quest_field_notes_done')).toBe('1');
+    await expect.poll(async () => getInventoryCount(page, 'heavy_capture_pod')).toBe(1);
 
     await openPauseInventory(page);
     await expect(page.locator('[data-testid="pause-quest-0"]')).toContainText('✓ Field Notes: 2 / 2');

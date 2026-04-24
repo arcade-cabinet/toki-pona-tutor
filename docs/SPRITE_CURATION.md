@@ -9,7 +9,7 @@ domain: technical
 
 Every sprite sheet under `public/assets/{animals,creatures,bosses,combatants,npcs,effects}/` is hand-curated: **one human looks at one sheet and decides what each row means.** No scripting, no batch automation, no auto-grid-detection. Those miss details.
 
-This doc is the authoritative reference for how curation is done. It walks through one fully-curated species (`soweli_jaki` — the rat) and shows exactly what to produce for each sheet.
+This doc is the authoritative reference for how curation is done. It walks through one fully-curated species (`mudgrub` — the rat) and shows exactly what to produce for each sheet.
 
 Current runtime split: catchable creature sprites still live with authored species records under `src/content/spine/species/*.json`, while player/NPC/combatant/boss/effect registration data lives in validated gameplay JSON under `src/content/gameplay/visuals.json` and `src/content/gameplay/effects.json`. The curation process is the same; only the destination file differs by asset category.
 
@@ -17,7 +17,7 @@ Current runtime split: catchable creature sprites still live with authored speci
 
 **You decide intent.** When you look at a row of animation frames, you commit to what the animation IS — idle, walk, attack, taunt, flee, hurt, death. You don't hedge, you don't default to "idle-only when uncertain," you don't say "probably walk." You look, you decide, you write it down. This is the whole job.
 
-## Worked reference — `soweli_jaki` (rat)
+## Worked reference — `mudgrub` (rat)
 
 ### Step 1 — Probe the sheet
 
@@ -75,7 +75,7 @@ For `rat.png`:
 }
 ```
 
-See `src/content/spine/species/soweli_jaki.json` for the full species file with stats + learnset + descriptor.
+See `src/content/spine/species/mudgrub.json` for the full species file with stats + learnset + descriptor.
 
 ## Naming conventions
 

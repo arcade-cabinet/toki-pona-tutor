@@ -87,8 +87,8 @@ export default defineMap({
 
         Objects: [
             { type: "SpawnPoint", at: [15, 12], name: "default" },
-            { type: "Sign", at: [14, 12], name: "welcome", props: { text: "ma tomo lili" } },
-            { type: "NPC", at: [16, 10], name: "jan_sewi", props: { id: "jan_sewi", dialog_id: "jan_sewi_intro" } },
+            { type: "Sign", at: [14, 12], name: "welcome", props: { text: "trail_token tomo lili" } },
+            { type: "NPC", at: [16, 10], name: "selby", props: { id: "selby", dialog_id: "jan_sewi_intro" } },
             { type: "Warp", rect: [29, 10, 1, 4], name: "to_greenwood_road", props: { target_map: "greenwood_road", target_spawn: "from_riverside_home" } },
         ],
 

@@ -39,85 +39,85 @@ describe('emptyBestiary', () => {
 
 describe('bestiaryTier', () => {
     it('returns "unknown" for species never recorded', () => {
-        expect(bestiaryTier({}, 'soweli_kili')).toBe('unknown');
+        expect(bestiaryTier({}, 'applepup')).toBe('unknown');
     });
 
     it('returns "seen" when record has seenAt but no caughtAt', () => {
         const state: BestiaryState = {
-            soweli_kili: { seenAt: t1.toISOString() },
+            applepup: { seenAt: t1.toISOString() },
         };
-        expect(bestiaryTier(state, 'soweli_kili')).toBe('seen');
+        expect(bestiaryTier(state, 'applepup')).toBe('seen');
     });
 
     it('returns "caught" when record has caughtAt (regardless of seenAt)', () => {
         const state: BestiaryState = {
-            soweli_kili: { seenAt: t1.toISOString(), caughtAt: t2.toISOString() },
+            applepup: { seenAt: t1.toISOString(), caughtAt: t2.toISOString() },
         };
-        expect(bestiaryTier(state, 'soweli_kili')).toBe('caught');
+        expect(bestiaryTier(state, 'applepup')).toBe('caught');
     });
 
     it('returns "caught" even if seenAt is missing but caughtAt set', () => {
         // Edge case: starter ceremony grants caught without a prior sighting.
         const state: BestiaryState = {
-            telo_jaki: { caughtAt: t1.toISOString() },
+            mireling: { caughtAt: t1.toISOString() },
         };
-        expect(bestiaryTier(state, 'telo_jaki')).toBe('caught');
+        expect(bestiaryTier(state, 'mireling')).toBe('caught');
     });
 });
 
 describe('markSeen', () => {
     it('adds a new seen record with the given timestamp', () => {
-        const next = markSeen({}, 'soweli_kili', t1);
-        expect(next['soweli_kili']).toEqual({ seenAt: t1.toISOString() });
+        const next = markSeen({}, 'applepup', t1);
+        expect(next['applepup']).toEqual({ seenAt: t1.toISOString() });
     });
 
     it('preserves caughtAt if already caught — no regression', () => {
         const prev: BestiaryState = {
-            soweli_kili: { seenAt: t1.toISOString(), caughtAt: t2.toISOString() },
+            applepup: { seenAt: t1.toISOString(), caughtAt: t2.toISOString() },
         };
-        const next = markSeen(prev, 'soweli_kili', t3);
-        expect(next['soweli_kili'].caughtAt).toBe(t2.toISOString());
+        const next = markSeen(prev, 'applepup', t3);
+        expect(next['applepup'].caughtAt).toBe(t2.toISOString());
     });
 
     it('updates seenAt to earliest timestamp when re-seen earlier', () => {
         // Time-travel / migration edge: if we get an older sighting
         // (e.g. import from legacy save), keep the EARLIEST seenAt.
         const prev: BestiaryState = {
-            soweli_kili: { seenAt: t2.toISOString() },
+            applepup: { seenAt: t2.toISOString() },
         };
-        const next = markSeen(prev, 'soweli_kili', t1);
-        expect(next['soweli_kili'].seenAt).toBe(t1.toISOString());
+        const next = markSeen(prev, 'applepup', t1);
+        expect(next['applepup'].seenAt).toBe(t1.toISOString());
     });
 
     it('keeps original seenAt when re-seen later', () => {
         const prev: BestiaryState = {
-            soweli_kili: { seenAt: t1.toISOString() },
+            applepup: { seenAt: t1.toISOString() },
         };
-        const next = markSeen(prev, 'soweli_kili', t3);
-        expect(next['soweli_kili'].seenAt).toBe(t1.toISOString());
+        const next = markSeen(prev, 'applepup', t3);
+        expect(next['applepup'].seenAt).toBe(t1.toISOString());
     });
 
     it('does not mutate input state', () => {
-        const prev: BestiaryState = { soweli_kili: { seenAt: t2.toISOString() } };
+        const prev: BestiaryState = { applepup: { seenAt: t2.toISOString() } };
         const snapshot = JSON.parse(JSON.stringify(prev));
-        markSeen(prev, 'soweli_kili', t1);
+        markSeen(prev, 'applepup', t1);
         expect(prev).toEqual(snapshot);
     });
 });
 
 describe('markCaught', () => {
     it('adds a caught record (with seenAt filled in if absent)', () => {
-        const next = markCaught({}, 'soweli_kili', t1);
-        expect(next['soweli_kili']).toEqual({
+        const next = markCaught({}, 'applepup', t1);
+        expect(next['applepup']).toEqual({
             seenAt: t1.toISOString(),
             caughtAt: t1.toISOString(),
         });
     });
 
     it('preserves prior seenAt when caught later', () => {
-        const prev: BestiaryState = { soweli_kili: { seenAt: t1.toISOString() } };
-        const next = markCaught(prev, 'soweli_kili', t2);
-        expect(next['soweli_kili']).toEqual({
+        const prev: BestiaryState = { applepup: { seenAt: t1.toISOString() } };
+        const next = markCaught(prev, 'applepup', t2);
+        expect(next['applepup']).toEqual({
             seenAt: t1.toISOString(),
             caughtAt: t2.toISOString(),
         });
@@ -125,22 +125,22 @@ describe('markCaught', () => {
 
     it('keeps earliest caughtAt when caught again earlier (migration edge)', () => {
         const prev: BestiaryState = {
-            soweli_kili: { seenAt: t1.toISOString(), caughtAt: t3.toISOString() },
+            applepup: { seenAt: t1.toISOString(), caughtAt: t3.toISOString() },
         };
-        const next = markCaught(prev, 'soweli_kili', t2);
-        expect(next['soweli_kili'].caughtAt).toBe(t2.toISOString());
+        const next = markCaught(prev, 'applepup', t2);
+        expect(next['applepup'].caughtAt).toBe(t2.toISOString());
     });
 
     it('does not mutate input state', () => {
-        const prev: BestiaryState = { soweli_kili: { seenAt: t1.toISOString() } };
+        const prev: BestiaryState = { applepup: { seenAt: t1.toISOString() } };
         const snapshot = JSON.parse(JSON.stringify(prev));
-        markCaught(prev, 'soweli_kili', t2);
+        markCaught(prev, 'applepup', t2);
         expect(prev).toEqual(snapshot);
     });
 });
 
 describe('isFullyDiscovered', () => {
-    const all = ['soweli_kili', 'waso_lape', 'akesi_sewi'];
+    const all = ['applepup', 'drowsy_owl', 'green_dragon'];
 
     it('false when no species recorded', () => {
         expect(isFullyDiscovered({}, all)).toBe(false);
@@ -148,8 +148,8 @@ describe('isFullyDiscovered', () => {
 
     it('false when only some caught', () => {
         const state: BestiaryState = {
-            soweli_kili: { caughtAt: t1.toISOString() },
-            waso_lape: { seenAt: t1.toISOString() },
+            applepup: { caughtAt: t1.toISOString() },
+            drowsy_owl: { seenAt: t1.toISOString() },
         };
         expect(isFullyDiscovered(state, all)).toBe(false);
     });

@@ -1,0 +1,25 @@
+{
+  "id": "marin_intro",
+  "npc_id": "marin",
+  "when_flags": {
+    "badge_telo": false
+  },
+  "priority": 10,
+  "beats": [
+    {
+      "text": {
+        "en": "Lakehaven watches the water and the trainer."
+      },
+      "mood": "excited",
+      "glyph": "wild-signs"
+    },
+    {
+      "text": {
+        "en": "Let's see if you can read both."
+      },
+      "mood": "excited",
+      "glyph": "battle-ready"
+    }
+  ],
+  "triggers": {}
+}

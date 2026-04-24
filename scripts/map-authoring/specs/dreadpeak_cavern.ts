@@ -77,31 +77,31 @@ export default defineMap({
         type: 'NPC',
         name: 'jan-kiwen-suli',
         at: [3, 12],
-        props: { id: 'jan_kiwen_suli', dialog_id: 'jan_kiwen_suli_cave' },
+        props: { id: 'graym', dialog_id: 'graym_cave' },
       },
       {
         type: 'NPC',
         name: 'jan-pi-kon',
         at: [5, 10],
-        props: { id: 'jan_pi_kon', dialog_id: 'jan_pi_kon_meditate' },
+        props: { id: 'meadow', dialog_id: 'meadow_meditate' },
       },
       {
         type: 'NPC',
         name: 'jan-pimeja-suli',
         at: [7, 8],
-        props: { id: 'jan_pimeja_suli', dialog_id: 'jan_pimeja_suli_torch' },
+        props: { id: 'ember', dialog_id: 'ember_torch' },
       },
       {
         type: 'NPC',
         name: 'jan-pi-nasin',
         at: [10, 7],
-        props: { id: 'jan_pi_nasin', dialog_id: 'jan_pi_nasin_ask' },
+        props: { id: 'rowan', dialog_id: 'rowan_ask' },
       },
       {
         type: 'NPC',
         name: 'jan-suli',
         at: [8, 2],
-        props: { id: 'jan_suli', dialog_id: 'jan_suli_intro' },
+        props: { id: 'cliff', dialog_id: 'cliff_intro' },
       },
       {
         type: 'Warp',
@@ -115,8 +115,8 @@ export default defineMap({
       },
     ],
     Encounters: [
-      { rect: ENCOUNTER_RECTS[0], species: { jan_wawa_suli: 22, jan_wawa_utala: 18, soweli_utala: 12, sijelo_utala: 18, waso_moku: 12, waso_moli: 12, soweli_sewi: 6 }, levelRange: [10, 13] },
-      { rect: ENCOUNTER_RECTS[1], species: { jan_wawa_suli: 18, jan_wawa_utala: 18, jan_utala_suli: 6, sijelo_utala: 22, waso_moku: 14, soweli_alasa: 14, soweli_wawa: 8 }, levelRange: [12, 15] },
+      { rect: ENCOUNTER_RECTS[0], species: { mountain_bear: 22, warback: 18, fangrunner: 12, glacier_talon: 18, coalbeak: 12, raven_shade: 12, snowhare: 6 }, levelRange: [10, 13] },
+      { rect: ENCOUNTER_RECTS[1], species: { mountain_bear: 18, warback: 18, stoneclaw: 6, glacier_talon: 22, coalbeak: 14, foxhound: 14, boulderhorn: 8 }, levelRange: [12, 15] },
     ],
   },
 });

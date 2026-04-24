@@ -34,7 +34,7 @@ describe('creature spritesheets', () => {
 
     it('builds idle/default animations from the species frame grid', () => {
         const konMoli = CREATURE_SPRITESHEETS.find(
-            (sheet): sheet is CreatureSpritesheetEntry => sheet.id === creatureSpriteId('kon_moli'),
+            (sheet): sheet is CreatureSpritesheetEntry => sheet.id === creatureSpriteId('ashcat'),
         );
         expect(konMoli).toMatchObject({
             framesWidth: 4,
@@ -66,10 +66,10 @@ describe('creature spritesheets', () => {
 
     it('falls back to directional or walk strips when a species has no literal idle row', () => {
         const cat = CREATURE_SPRITESHEETS.find(
-            (sheet): sheet is CreatureSpritesheetEntry => sheet.id === creatureSpriteId('soweli_musi'),
+            (sheet): sheet is CreatureSpritesheetEntry => sheet.id === creatureSpriteId('mirthcat'),
         );
         const crab = CREATURE_SPRITESHEETS.find(
-            (sheet): sheet is CreatureSpritesheetEntry => sheet.id === creatureSpriteId('kala_uta'),
+            (sheet): sheet is CreatureSpritesheetEntry => sheet.id === creatureSpriteId('snapper'),
         );
 
         expect(cat?.textures[Animation.Stand].animations({ direction: Direction.Left })[0][0]).toEqual({
@@ -90,17 +90,17 @@ describe('creature spritesheets', () => {
 
     it('returns an idle face for any species with registered sprite metadata', () => {
         expect(wildCombatFace({
-            id: 'kon_moli',
+            id: 'ashcat',
             sprite: { animations: { idle: {} } },
         })).toEqual({
-            id: 'species_kon_moli',
+            id: 'species_ashcat',
             expression: 'idle',
         });
         expect(wildCombatFace({
-            id: 'soweli_musi',
+            id: 'mirthcat',
             sprite: { animations: { idle_down: {} } },
         })).toEqual({
-            id: 'species_soweli_musi',
+            id: 'species_mirthcat',
             expression: 'idle',
         });
         expect(wildCombatFace({ id: 'legacy_only' })).toBeUndefined();

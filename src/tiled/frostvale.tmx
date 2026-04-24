@@ -78,32 +78,32 @@
   <object id="1" name="from_lakehaven" type="SpawnPoint" x="32" y="96" width="0" height="0" visible="1" rotation="0"/>
   <object id="2" name="jan-anpa" type="NPC" x="96" y="64" width="0" height="0" visible="1" rotation="0">
    <properties>
-     <property name="id" value="jan_anpa"/>
-     <property name="dialog_id" value="jan_anpa_watch"/>
+     <property name="id" value="corvin"/>
+     <property name="dialog_id" value="corvin_watch"/>
    </properties>
   </object>
   <object id="3" name="jan-suno-lete" type="NPC" x="144" y="96" width="0" height="0" visible="1" rotation="0">
    <properties>
-     <property name="id" value="jan_suno_lete"/>
-     <property name="dialog_id" value="jan_suno_lete_light"/>
+     <property name="id" value="luma"/>
+     <property name="dialog_id" value="luma_light"/>
    </properties>
   </object>
   <object id="4" name="jan-poki-lete" type="NPC" x="112" y="128" width="0" height="0" visible="1" rotation="0">
    <properties>
-     <property name="id" value="jan_poki_lete"/>
-     <property name="dialog_id" value="jan_poki_lete_cold"/>
+     <property name="id" value="brindle"/>
+     <property name="dialog_id" value="brindle_cold"/>
    </properties>
   </object>
   <object id="5" name="jan-kasi" type="NPC" x="256" y="160" width="0" height="0" visible="1" rotation="0">
    <properties>
-     <property name="id" value="jan_kasi"/>
-     <property name="dialog_id" value="jan_kasi_garden"/>
+     <property name="id" value="hollis"/>
+     <property name="dialog_id" value="hollis_garden"/>
    </properties>
   </object>
   <object id="6" name="jan-lete" type="NPC" x="272" y="64" width="0" height="0" visible="1" rotation="0">
    <properties>
-     <property name="id" value="jan_lete"/>
-     <property name="dialog_id" value="jan_lete_intro"/>
+     <property name="id" value="frost"/>
+     <property name="dialog_id" value="frost_intro"/>
    </properties>
   </object>
   <object id="7" name="warp_north" type="Warp" x="272" y="0" width="16" height="16" visible="1" rotation="0">
@@ -117,14 +117,14 @@
  <objectgroup id="5" name="Encounters" visible="1" opacity="1">
   <object id="8" name="encounter_0" type="Encounter" x="64" y="192" width="80" height="48" visible="1" rotation="0">
    <properties>
-     <property name="species" value="{&quot;sijelo_linja&quot;:20,&quot;sijelo_kiwen&quot;:15,&quot;jan_pi_sewi_pimeja&quot;:15,&quot;waso_lete&quot;:20,&quot;soweli_nena&quot;:15,&quot;soweli_kiwen&quot;:15}"/>
+     <property name="species" value="{&quot;frostcoil&quot;:20,&quot;quartz_shell&quot;:15,&quot;nightspike&quot;:15,&quot;snowbird&quot;:20,&quot;hillbuck&quot;:15,&quot;pebbleback&quot;:15}"/>
      <property name="level_min" type="int" value="7"/>
      <property name="level_max" type="int" value="10"/>
    </properties>
   </object>
   <object id="9" name="encounter_1" type="Encounter" x="192" y="192" width="96" height="48" visible="1" rotation="0">
    <properties>
-     <property name="species" value="{&quot;sijelo_linja&quot;:15,&quot;sijelo_kiwen&quot;:20,&quot;jan_pi_sewi_pimeja&quot;:15,&quot;sijelo_utala&quot;:15,&quot;waso_lete&quot;:15,&quot;soweli_kiwen&quot;:20}"/>
+     <property name="species" value="{&quot;frostcoil&quot;:15,&quot;quartz_shell&quot;:20,&quot;nightspike&quot;:15,&quot;glacier_talon&quot;:15,&quot;snowbird&quot;:15,&quot;pebbleback&quot;:20}"/>
      <property name="level_min" type="int" value="9"/>
      <property name="level_max" type="int" value="12"/>
    </properties>

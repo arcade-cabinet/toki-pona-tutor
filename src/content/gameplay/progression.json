@@ -26,7 +26,7 @@
     "level_reduction": 10,
     "start_map_id": "riverside_home",
     "start_journey_beat_id": "beat_01_riverside_home",
-    "reward_inventory": [{ "item_id": "poki_wawa", "count": 1 }],
+    "reward_inventory": [{ "item_id": "heavy_capture_pod", "count": 1 }],
     "legendary_multiplier_base": 1,
     "legendary_multiplier_per_clear": 1,
     "legendary_multiplier_cap": 4
@@ -57,8 +57,8 @@
     "level_step": 10,
     "level_cap": 50,
     "rewards": [
-      { "clear_count": 1, "kind": "item", "item_id": "poki_wawa", "count": 1 },
-      { "clear_count": 2, "kind": "item", "item_id": "telo_pona", "count": 3 },
+      { "clear_count": 1, "kind": "item", "item_id": "heavy_capture_pod", "count": 1 },
+      { "clear_count": 2, "kind": "item", "item_id": "spring_tonic", "count": 3 },
       { "clear_count": 3, "kind": "item", "item_id": "species_egg", "count": 1 }
     ],
     "default_reward": { "kind": "flag", "flag_prefix": "trophy_" }

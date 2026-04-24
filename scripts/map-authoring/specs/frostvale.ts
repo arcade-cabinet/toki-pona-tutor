@@ -95,31 +95,31 @@ export default defineMap({
         type: 'NPC',
         name: 'jan-anpa',
         at: [6, 4],
-        props: { id: 'jan_anpa', dialog_id: 'jan_anpa_watch' },
+        props: { id: 'corvin', dialog_id: 'corvin_watch' },
       },
       {
         type: 'NPC',
         name: 'jan-suno-lete',
         at: [9, 6],
-        props: { id: 'jan_suno_lete', dialog_id: 'jan_suno_lete_light' },
+        props: { id: 'luma', dialog_id: 'luma_light' },
       },
       {
         type: 'NPC',
         name: 'jan-poki-lete',
         at: [7, 8],
-        props: { id: 'jan_poki_lete', dialog_id: 'jan_poki_lete_cold' },
+        props: { id: 'brindle', dialog_id: 'brindle_cold' },
       },
       {
         type: 'NPC',
         name: 'jan-kasi',
         at: [16, 10],
-        props: { id: 'jan_kasi', dialog_id: 'jan_kasi_garden' },
+        props: { id: 'hollis', dialog_id: 'hollis_garden' },
       },
       {
         type: 'NPC',
         name: 'jan-lete',
         at: [17, 4],
-        props: { id: 'jan_lete', dialog_id: 'jan_lete_intro' },
+        props: { id: 'frost', dialog_id: 'frost_intro' },
       },
       {
         type: 'Warp',
@@ -133,8 +133,8 @@ export default defineMap({
       },
     ],
     Encounters: [
-      { rect: ENCOUNTER_RECTS[0], species: { sijelo_linja: 20, sijelo_kiwen: 15, jan_pi_sewi_pimeja: 15, waso_lete: 20, soweli_nena: 15, soweli_kiwen: 15 }, levelRange: [7, 10] },
-      { rect: ENCOUNTER_RECTS[1], species: { sijelo_linja: 15, sijelo_kiwen: 20, jan_pi_sewi_pimeja: 15, sijelo_utala: 15, waso_lete: 15, soweli_kiwen: 20 }, levelRange: [9, 12] },
+      { rect: ENCOUNTER_RECTS[0], species: { frostcoil: 20, quartz_shell: 15, nightspike: 15, snowbird: 20, hillbuck: 15, pebbleback: 15 }, levelRange: [7, 10] },
+      { rect: ENCOUNTER_RECTS[1], species: { frostcoil: 15, quartz_shell: 20, nightspike: 15, glacier_talon: 15, snowbird: 15, pebbleback: 20 }, levelRange: [9, 12] },
     ],
   },
 });

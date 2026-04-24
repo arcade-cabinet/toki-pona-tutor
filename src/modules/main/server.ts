@@ -45,14 +45,14 @@ function eventDefinition(mapId: string, config: RuntimeMapEventConfig) {
         case "starter_mentor":
             return JanSewi();
         case "rival":
-            if (config.trainerId !== "jan_ike") {
+            if (config.trainerId !== "rook") {
                 throw new Error(`[server] unsupported rival trainer: ${config.trainerId}`);
             }
             return JanIke();
         case "gym_leader":
             return GymLeader(trainerBattleConfig(config.trainerId));
         case "shop":
-            if (config.shopId !== "jan_moku") {
+            if (config.shopId !== "shopkeep") {
                 throw new Error(`[server] unsupported shop event: ${config.shopId}`);
             }
             return JanMokuShop();

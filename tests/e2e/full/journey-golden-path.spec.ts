@@ -265,9 +265,9 @@ test("browser golden path covers starter ceremony through the clear credits", as
             const state = await getState(page);
             return state.starterChosen;
         })
-        .toBe("kon_moli");
+        .toBe("ashcat");
     await expect.poll(async () => getFlag(page, "starter_chosen")).toBe("1");
-    await expect.poll(async () => getInventoryCount(page, "poki_lili")).toBe(3);
+    await expect.poll(async () => getInventoryCount(page, "capture_pod")).toBe(3);
     await expect
         .poll(async () => {
             const party = await getParty(page);
@@ -277,7 +277,7 @@ test("browser golden path covers starter ceremony through the clear credits", as
             JSON.stringify([
                 {
                     slot: 0,
-                    speciesId: "kon_moli",
+                    speciesId: "ashcat",
                     level: 5,
                     xp: 0,
                 },
@@ -339,7 +339,7 @@ test("browser golden path covers starter ceremony through the clear credits", as
             properties: {
                 type: "Encounter",
                 species:
-                    '{"jan_ike_lili":25,"jan_utala_lili":20,"soweli_musi":20,"soweli_kili":15,"soweli_jaki":10,"waso_pimeja":10}',
+                    '{"bramble_imp":25,"thornling":20,"mirthcat":20,"applepup":15,"mudgrub":10,"nightjar":10}',
                 level_min: 3,
                 level_max: 5,
             },
@@ -425,13 +425,13 @@ test("browser golden path covers starter ceremony through the clear credits", as
             JSON.stringify([
                 {
                     slot: 0,
-                    speciesId: "kon_moli",
+                    speciesId: "ashcat",
                     level: 5,
                     xp: 152,
                 },
                 {
                     slot: 1,
-                    speciesId: "jan_ike_lili",
+                    speciesId: "bramble_imp",
                     level: 3,
                     xp: 0,
                 },
@@ -441,12 +441,12 @@ test("browser golden path covers starter ceremony through the clear credits", as
         .poll(async () => JSON.stringify(await getLatestEncounter(page)))
         .toBe(
             JSON.stringify({
-                speciesId: "jan_ike_lili",
+                speciesId: "bramble_imp",
                 mapId: "greenwood_road",
                 outcome: "caught",
             }),
         );
-    await expect.poll(async () => getInventoryCount(page, "poki_lili")).toBe(2);
+    await expect.poll(async () => getInventoryCount(page, "capture_pod")).toBe(2);
     await expect
         .poll(async () => {
             const state = await getState(page);
@@ -462,7 +462,7 @@ test("browser golden path covers starter ceremony through the clear credits", as
             const state = await getState(page);
             return state.serverGraphic;
         })
-        .toBe("species_kon_moli");
+        .toBe("species_ashcat");
     await expectTaskDone(page, rivalIntroTask);
     await expect(page.getByTestId("lead-movebar")).toBeVisible();
     await captureGoldenPathCheckpoint(page, testInfo, {
@@ -480,7 +480,7 @@ test("browser golden path covers starter ceremony through the clear credits", as
     await advanceDialog(page, "You handled yourself.", rivalDefeatTask);
     await advanceDialog(page, "Greenwood Road is yours.", rivalDefeatTask);
 
-    await expect.poll(async () => getFlag(page, "jan_ike_defeated")).toBe("1");
+    await expect.poll(async () => getFlag(page, "rook_defeated")).toBe("1");
     await expect
         .poll(async () => {
             const state = await getState(page);
@@ -547,13 +547,13 @@ test("browser golden path covers starter ceremony through the clear credits", as
             JSON.stringify([
                 {
                     slot: 0,
-                    speciesId: "kon_moli",
+                    speciesId: "ashcat",
                     level: 7,
                     xp: 372,
                 },
                 {
                     slot: 1,
-                    speciesId: "jan_ike_lili",
+                    speciesId: "bramble_imp",
                     level: 3,
                     xp: 0,
                 },
@@ -567,7 +567,7 @@ test("browser golden path covers starter ceremony through the clear credits", as
             return `${state.currentMapId}:${state.serverMapId}`;
         })
         .toBe("lakehaven:lakehaven");
-    await expect.poll(async () => getInventoryCount(page, "ma")).toBe(10);
+    await expect.poll(async () => getInventoryCount(page, "trail_token")).toBe(10);
     await captureGoldenPathCheckpoint(page, testInfo, {
         id: "14-lake-town-entry",
         title: "Lake town entry before shop",
@@ -611,9 +611,9 @@ test("browser golden path covers starter ceremony through the clear credits", as
             return status?.done ?? false;
         })
         .toBe(true);
-    await expect.poll(async () => getInventoryCount(page, "ma")).toBe(7);
-    await expect.poll(async () => getInventoryCount(page, "poki_lili")).toBe(3);
-    await expect.poll(async () => getInventoryCount(page, "kili")).toBe(2);
+    await expect.poll(async () => getInventoryCount(page, "trail_token")).toBe(7);
+    await expect.poll(async () => getInventoryCount(page, "capture_pod")).toBe(3);
+    await expect.poll(async () => getInventoryCount(page, "orchard_fruit")).toBe(2);
 
     const lakeGymIntroTask = await beginEvent(page, "jan-telo");
     await advanceDialog(page, "Lakehaven watches the water and the trainer.", lakeGymIntroTask);
@@ -640,13 +640,13 @@ test("browser golden path covers starter ceremony through the clear credits", as
             JSON.stringify([
                 {
                     slot: 0,
-                    speciesId: "kon_moli",
+                    speciesId: "ashcat",
                     level: 8,
                     xp: 522,
                 },
                 {
                     slot: 1,
-                    speciesId: "jan_ike_lili",
+                    speciesId: "bramble_imp",
                     level: 3,
                     xp: 0,
                 },
@@ -696,13 +696,13 @@ test("browser golden path covers starter ceremony through the clear credits", as
             JSON.stringify([
                 {
                     slot: 0,
-                    speciesId: "kon_moli",
+                    speciesId: "ashcat",
                     level: 8,
                     xp: 702,
                 },
                 {
                     slot: 1,
-                    speciesId: "jan_ike_lili",
+                    speciesId: "bramble_imp",
                     level: 3,
                     xp: 0,
                 },
@@ -752,13 +752,13 @@ test("browser golden path covers starter ceremony through the clear credits", as
             JSON.stringify([
                 {
                     slot: 0,
-                    speciesId: "kon_moli",
+                    speciesId: "ashcat",
                     level: 9,
                     xp: 922,
                 },
                 {
                     slot: 1,
-                    speciesId: "jan_ike_lili",
+                    speciesId: "bramble_imp",
                     level: 3,
                     xp: 0,
                 },

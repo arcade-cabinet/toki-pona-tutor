@@ -1,0 +1,22 @@
+{
+  "id": "luma_light",
+  "npc_id": "luma",
+  "priority": 0,
+  "beats": [
+    {
+      "text": {
+        "en": "Frost glows blue before a storm."
+      },
+      "mood": "thinking",
+      "glyph": "cold-hands"
+    },
+    {
+      "text": {
+        "en": "Follow the lighted fences if you get turned around."
+      },
+      "mood": "sad",
+      "glyph": "safe-house"
+    }
+  ],
+  "triggers": {}
+}

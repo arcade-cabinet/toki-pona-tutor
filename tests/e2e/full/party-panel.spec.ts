@@ -77,7 +77,7 @@ async function beginShape(page: Page): Promise<string> {
                 name: 'encounter_0',
                 properties: {
                     type: 'Encounter',
-                    species: '{"jan_ike_lili":25,"jan_utala_lili":20,"soweli_musi":20,"soweli_kili":15,"soweli_jaki":10,"waso_pimeja":10}',
+                    species: '{"bramble_imp":25,"thornling":20,"mirthcat":20,"applepup":15,"mudgrub":10,"nightjar":10}',
                     level_min: 3,
                     level_max: 5,
                 },
@@ -120,11 +120,11 @@ test('mobile party panel renders details and can promote a caught creature to le
     await dialogChoice(page, 0).tap();
 
     await expect.poll(async () => (await getParty(page)).map((member) => member.speciesId).join(','))
-        .toBe('kon_moli');
+        .toBe('ashcat');
 
     await triggerEvent(page, 'warp_east', 'touch');
 
-    await setInventoryItemCount(page, 'kili', 1);
+    await setInventoryItemCount(page, 'orchard_fruit', 1);
     await setLeadHp(page, 5);
 
     const encounterTask = await beginShape(page);
@@ -137,7 +137,7 @@ test('mobile party panel renders details and can promote a caught creature to le
     await expect(dialogChoice(page, 0)).toContainText('Orchard Fruit');
     await dialogChoice(page, 0).tap();
     await advanceDialog(page, /Orchard Fruit: \+20 HP\nHP 25 \/ \d+/, encounterTask);
-    await expect.poll(async () => getInventoryCount(page, 'kili')).toBe(0);
+    await expect.poll(async () => getInventoryCount(page, 'orchard_fruit')).toBe(0);
 
     await expect(dialogChoice(page, 0)).toContainText('Fight');
     await dialogChoice(page, 0).tap();
@@ -151,22 +151,22 @@ test('mobile party panel renders details and can promote a caught creature to le
     }).toBe(true);
 
     await expect.poll(async () => (await getParty(page)).map((member) => member.speciesId).join(','))
-        .toBe('kon_moli,jan_ike_lili');
-    await setInventoryItemCount(page, 'kili', 2);
+        .toBe('ashcat,bramble_imp');
+    await setInventoryItemCount(page, 'orchard_fruit', 2);
     await setLeadHp(page, 5);
     await setPartyCurrentHp(page, 1, 6);
-    await expect.poll(async () => getInventoryCount(page, 'kili')).toBe(2);
+    await expect.poll(async () => getInventoryCount(page, 'orchard_fruit')).toBe(2);
 
     await page.locator('[data-testid="hud-menu-toggle"]').tap();
     await expect(page.locator('[data-testid="pause-overlay"]')).toBeVisible();
 
     await page.locator('[data-testid="pause-bestiary"]').tap();
     await expect(page.locator('.rr-pause-panel-heading')).toHaveText(/Bestiary 2 \/ 43/);
-    await expect(page.locator('[data-testid="bestiary-entry-kon_moli"]')).toContainText('Ashcat');
-    await expect(page.locator('[data-testid="bestiary-entry-kon_moli"]')).toContainText('caught');
-    await expect(page.locator('[data-testid="bestiary-entry-jan_ike_lili"]')).toContainText('Bramble Imp');
-    await expect(page.locator('[data-testid="bestiary-entry-jan_ike_lili"]')).toContainText('caught');
-    await page.locator('[data-testid="bestiary-entry-kon_moli"]').tap();
+    await expect(page.locator('[data-testid="bestiary-entry-ashcat"]')).toContainText('Ashcat');
+    await expect(page.locator('[data-testid="bestiary-entry-ashcat"]')).toContainText('caught');
+    await expect(page.locator('[data-testid="bestiary-entry-bramble_imp"]')).toContainText('Bramble Imp');
+    await expect(page.locator('[data-testid="bestiary-entry-bramble_imp"]')).toContainText('caught');
+    await page.locator('[data-testid="bestiary-entry-ashcat"]').tap();
     await advanceDialog(page, 'Ashcat\nA smoky little cat with ember-bright eyes and a loyal streak.');
     await expect(page.locator('[data-testid="pause-overlay"]')).toBeVisible();
 
@@ -179,7 +179,7 @@ test('mobile party panel renders details and can promote a caught creature to le
     await page.locator('[data-testid="party-slot-0"]').tap();
     await expect(page.locator('[data-testid="party-heal-0"]')).toContainText('+20 HP | ×2');
     await page.locator('[data-testid="party-heal-0"]').tap();
-    await expect.poll(async () => getInventoryCount(page, 'kili')).toBe(1);
+    await expect.poll(async () => getInventoryCount(page, 'orchard_fruit')).toBe(1);
     await expect(page.locator('[data-testid="party-slot-0"]')).toContainText(/HP 25 \//);
 
     await page.locator('[data-testid="party-slot-1"]').tap();
@@ -187,12 +187,12 @@ test('mobile party panel renders details and can promote a caught creature to le
     await expect(page.locator('[data-testid="party-detail-card"]')).toContainText('moves: leaf');
     await expect(page.locator('[data-testid="party-heal-1"]')).toContainText('+20 HP | ×1');
     await page.locator('[data-testid="party-heal-1"]').tap();
-    await expect.poll(async () => getInventoryCount(page, 'kili')).toBe(0);
+    await expect.poll(async () => getInventoryCount(page, 'orchard_fruit')).toBe(0);
     await expect(page.locator('[data-testid="party-slot-1"]')).toContainText('HP 26 / 42');
     await expect(page.locator('[data-testid="party-promote-1"]')).toContainText('lead');
 
     await page.locator('[data-testid="party-promote-1"]').tap();
     await expect.poll(async () => (await getParty(page)).map((member) => `${member.slot}:${member.speciesId}`).join(','))
-        .toBe('0:jan_ike_lili,1:kon_moli');
+        .toBe('0:bramble_imp,1:ashcat');
     await expect(page.locator('[data-testid="party-slot-0"]')).toContainText('Bramble Imp');
 });

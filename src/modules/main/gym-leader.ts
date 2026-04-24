@@ -26,7 +26,7 @@ import {
  * Shared factory for the current four region masters.
  *
  * Single-phase mode (omit `phase2`): one BattleAi entity for the
- * whole fight. Used for jan_ike (rival) and any leader whose
+ * whole fight. Used for rook (rival) and any leader whose
  * roster is a single creature.
  *
  * Multi-phase mode (set `phase2`): once this.hp drops below
@@ -34,8 +34,8 @@ import {
  * replaced with a fresh BattleAi using the phase 2 archetype/stats
  * tweaks, HP is bumped up to the phase 2 pool, a graphic swap can
  * happen, and an optional phase-transition dialog plays. This
- * mirrors the JOURNEY.md gym rosters (e.g. jan_wawa's
- * "jan_wawa_linja L8 → sijelo_kiwen L10").
+ * mirrors the JOURNEY.md gym rosters (e.g. tarrin's
+ * "chainback L8 → quartz_shell L10").
  *
  * Polling-based rather than hook-driven because @rpgjs/action-battle
  * doesn't expose a public per-event onDamage hook. A 250ms tick is

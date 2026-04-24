@@ -895,12 +895,12 @@
             {
               "name": "id",
               "type": "string",
-              "value": "jan_kala_lili"
+              "value": "lily"
             },
             {
               "name": "dialog_id",
               "type": "string",
-              "value": "jan_kala_lili_flavor"
+              "value": "lily_flavor"
             }
           ]
         },
@@ -918,12 +918,12 @@
             {
               "name": "id",
               "type": "string",
-              "value": "jan_moku_pona"
+              "value": "grill"
             },
             {
               "name": "dialog_id",
               "type": "string",
-              "value": "jan_moku_pona_grill"
+              "value": "grill_pona"
             }
           ]
         },
@@ -941,12 +941,12 @@
             {
               "name": "id",
               "type": "string",
-              "value": "jan_kala_suli"
+              "value": "cormorant"
             },
             {
               "name": "dialog_id",
               "type": "string",
-              "value": "jan_kala_suli_tuneup"
+              "value": "cormorant_tuneup"
             }
           ]
         },
@@ -964,12 +964,12 @@
             {
               "name": "id",
               "type": "string",
-              "value": "jan_olin_telo"
+              "value": "myra"
             },
             {
               "name": "dialog_id",
               "type": "string",
-              "value": "jan_olin_telo_quiet"
+              "value": "myra_quiet"
             }
           ]
         },
@@ -987,12 +987,12 @@
             {
               "name": "id",
               "type": "string",
-              "value": "jan_suno_telo"
+              "value": "sola"
             },
             {
               "name": "dialog_id",
               "type": "string",
-              "value": "jan_suno_telo_last"
+              "value": "sola_last"
             }
           ]
         },
@@ -1044,7 +1044,7 @@
             {
               "name": "species",
               "type": "string",
-              "value": "{\"jan_moli\":20,\"kon_moli\":15,\"telo_jaki\":15,\"kala_telo\":15,\"kala_uta\":15,\"kala_tomo\":15,\"jan_moli_wawa\":5}"
+              "value": "{\"bog_wisp\":20,\"ashcat\":15,\"mireling\":15,\"bluefin\":15,\"snapper\":15,\"reedfrog\":15,\"iron_wraith\":5}"
             },
             {
               "name": "level_min",
@@ -1072,7 +1072,7 @@
             {
               "name": "species",
               "type": "string",
-              "value": "{\"jan_moli\":14,\"kon_moli\":14,\"telo_jaki\":14,\"kala_telo\":14,\"kala_luka\":14,\"kala_uta\":14,\"seli_moli\":6,\"akesi_suli\":4,\"akesi_sewi\":2}"
+              "value": "{\"bog_wisp\":14,\"ashcat\":14,\"mireling\":14,\"bluefin\":14,\"riverfin\":14,\"snapper\":14,\"cinderling\":6,\"marshjaw\":4,\"green_dragon\":2}"
             },
             {
               "name": "level_min",

@@ -1,0 +1,15 @@
+{
+  "id": "corvin_watch",
+  "npc_id": "corvin",
+  "priority": 0,
+  "beats": [
+    {
+      "text": {
+        "en": "The low trail looks harmless until the grass starts moving."
+      },
+      "mood": "thinking",
+      "glyph": "cave-shadow"
+    }
+  ],
+  "triggers": {}
+}

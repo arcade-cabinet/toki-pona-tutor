@@ -29,8 +29,8 @@
     ]
   },
   "starter_ceremony": {
-    "already_chosen_dialog_id": "jan_sewi_after_pick",
-    "intro_dialog_id": "jan_sewi_starter_intro",
+    "already_chosen_dialog_id": "selby_after_pick",
+    "intro_dialog_id": "selby_starter_intro",
     "mentor_graphic": "npc_villager_fem_nel",
     "choice_prompt": "Choose your first companion.",
     "notification_ms": 3500
@@ -53,7 +53,7 @@
       { "id": "save", "label": "Save", "test_id": "pause-save" },
       { "id": "title", "label": "Title", "test_id": "pause-title" }
     ],
-    "party_panel_heal_item_id": "kili",
+    "party_panel_heal_item_id": "orchard_fruit",
     "glance": {
       "title": "At a Glance",
       "party_row_label_template": "Party {count} / {max}",
@@ -596,7 +596,7 @@
   ],
   "opening_scene": {
     "flag_id": "opening_scene_complete",
-    "post_scene_dialog_id": "jan_sewi_starter_intro",
+    "post_scene_dialog_id": "selby_starter_intro",
     "beats": [
       "The sun comes through the shutters. The river runs past the well outside.",
       "You are Rivers. Today is the day Elder Selby finally lets you leave the home road.",

@@ -1,0 +1,15 @@
+{
+  "id": "angler_rest",
+  "npc_id": "angler",
+  "priority": 0,
+  "beats": [
+    {
+      "text": {
+        "en": "The lake wind makes everyone slow down."
+      },
+      "mood": "thinking",
+      "glyph": "safe-house"
+    }
+  ],
+  "triggers": {}
+}

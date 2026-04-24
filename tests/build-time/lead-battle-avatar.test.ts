@@ -20,17 +20,17 @@ afterEach(async () => {
 describe('lead battle avatar', () => {
     it('derives action-battle graphic and scaled stats from the lead creature', () => {
         const model = buildLeadBattleAvatarModel(
-            { slot: 0, species_id: 'kon_moli', level: 5, current_hp: null },
+            { slot: 0, species_id: 'ashcat', level: 5, current_hp: null },
             {
-                id: 'kon_moli',
+                id: 'ashcat',
                 base_stats: { hp: 44, attack: 52, defense: 34 },
                 sprite: {},
             },
         );
 
         expect(model).toEqual({
-            speciesId: 'kon_moli',
-            graphic: 'species_kon_moli',
+            speciesId: 'ashcat',
+            graphic: 'species_ashcat',
             level: 5,
             currentHp: 54,
             maxHp: 54,
@@ -40,14 +40,14 @@ describe('lead battle avatar', () => {
     });
 
     it('syncs the server player stats and swaps the battle body to the lead species', async () => {
-        await addToParty('kon_moli', 5);
+        await addToParty('ashcat', 5);
         await setPartyCurrentHp(0, 31);
         const player = mockPlayer('hero');
 
         const model = await activateLeadBattleAvatar(player);
 
-        expect(model?.graphic).toBe('species_kon_moli');
-        expect(player.setGraphic).toHaveBeenCalledWith('species_kon_moli');
+        expect(model?.graphic).toBe('species_ashcat');
+        expect(player.setGraphic).toHaveBeenCalledWith('species_ashcat');
         expect(player.param[MAXHP]).toBe(54);
         expect(player.param[ATK]).toBe(16);
         expect(player.param[PDEF]).toBe(8);
@@ -55,10 +55,10 @@ describe('lead battle avatar', () => {
         expect(player.sp).toBe(12);
         expect(player.learnSkill).not.toHaveBeenCalled();
         expect(player.gui(LEAD_MOVE_BAR_GUI_ID).open).toHaveBeenCalledWith(expect.objectContaining({
-            speciesId: 'kon_moli',
+            speciesId: 'ashcat',
             moves: expect.arrayContaining([
-                expect.objectContaining({ moveId: 'seli_lili' }),
-                expect.objectContaining({ moveId: 'utala_lili' }),
+                expect.objectContaining({ moveId: 'ember_nip' }),
+                expect.objectContaining({ moveId: 'quick_jab' }),
             ]),
         }));
         expect(player.hp).toBe(31);
@@ -66,7 +66,7 @@ describe('lead battle avatar', () => {
     });
 
     it('restores the field graphic and persists the latest lead HP', async () => {
-        await addToParty('kon_moli', 5);
+        await addToParty('ashcat', 5);
         const player = mockPlayer('hero');
 
         await activateLeadBattleAvatar(player);
@@ -80,8 +80,8 @@ describe('lead battle avatar', () => {
     });
 
     it('promotes the next conscious party creature when the battle lead faints', async () => {
-        await addToParty('kon_moli', 5);
-        await addToParty('soweli_kili', 4);
+        await addToParty('ashcat', 5);
+        await addToParty('applepup', 4);
         await setPartyCurrentHp(0, 1);
         await setPartyCurrentHp(1, 9);
         const player = mockPlayer('hero');
@@ -90,16 +90,16 @@ describe('lead battle avatar', () => {
         player.hp = 0;
         const next = await switchToNextAvailableLeadBattleAvatar(player);
 
-        expect(next?.speciesId).toBe('soweli_kili');
+        expect(next?.speciesId).toBe('applepup');
         expect(next?.currentHp).toBe(9);
-        expect(player.setGraphic).toHaveBeenLastCalledWith('species_soweli_kili');
+        expect(player.setGraphic).toHaveBeenLastCalledWith('species_applepup');
         expect(player.gui(LEAD_MOVE_BAR_GUI_ID).open).toHaveBeenLastCalledWith(expect.objectContaining({
-            speciesId: 'soweli_kili',
+            speciesId: 'applepup',
         }));
         expect(isLeadBattleAvatarActive(player)).toBe(true);
         expect(await getPartyWithHealth()).toMatchObject([
-            { slot: 0, species_id: 'soweli_kili', current_hp: 9 },
-            { slot: 1, species_id: 'kon_moli', current_hp: 0 },
+            { slot: 0, species_id: 'applepup', current_hp: 9 },
+            { slot: 1, species_id: 'ashcat', current_hp: 0 },
         ]);
 
         await restoreLeadBattleAvatar(player);
@@ -107,8 +107,8 @@ describe('lead battle avatar', () => {
     });
 
     it('switches to a selected conscious bench creature during active battle', async () => {
-        await addToParty('kon_moli', 5);
-        await addToParty('soweli_kili', 4);
+        await addToParty('ashcat', 5);
+        await addToParty('applepup', 4);
         await setPartyCurrentHp(0, 21);
         await setPartyCurrentHp(1, 11);
         const player = mockPlayer('hero');
@@ -117,21 +117,21 @@ describe('lead battle avatar', () => {
         player.hp = 19;
         const switched = await switchLeadBattleAvatarToPartySlot(player, 1);
 
-        expect(switched?.speciesId).toBe('soweli_kili');
+        expect(switched?.speciesId).toBe('applepup');
         expect(switched?.currentHp).toBe(11);
-        expect(player.setGraphic).toHaveBeenLastCalledWith('species_soweli_kili');
+        expect(player.setGraphic).toHaveBeenLastCalledWith('species_applepup');
         expect(player.gui(LEAD_MOVE_BAR_GUI_ID).open).toHaveBeenLastCalledWith(expect.objectContaining({
-            speciesId: 'soweli_kili',
+            speciesId: 'applepup',
         }));
         expect(await getPartyWithHealth()).toMatchObject([
-            { slot: 0, species_id: 'soweli_kili', current_hp: 11 },
-            { slot: 1, species_id: 'kon_moli', current_hp: 19 },
+            { slot: 0, species_id: 'applepup', current_hp: 11 },
+            { slot: 1, species_id: 'ashcat', current_hp: 19 },
         ]);
     });
 
     it('does not switch when the bench has no conscious battle creature', async () => {
-        await addToParty('kon_moli', 5);
-        await addToParty('soweli_kili', 4);
+        await addToParty('ashcat', 5);
+        await addToParty('applepup', 4);
         await setPartyCurrentHp(0, 1);
         await setPartyCurrentHp(1, 0);
         const player = mockPlayer('hero');
@@ -140,10 +140,10 @@ describe('lead battle avatar', () => {
         player.hp = 0;
 
         await expect(switchToNextAvailableLeadBattleAvatar(player)).resolves.toBeNull();
-        expect(player.setGraphic).toHaveBeenLastCalledWith('species_kon_moli');
+        expect(player.setGraphic).toHaveBeenLastCalledWith('species_ashcat');
         expect(await getPartyWithHealth()).toMatchObject([
-            { slot: 0, species_id: 'kon_moli', current_hp: 0 },
-            { slot: 1, species_id: 'soweli_kili', current_hp: 0 },
+            { slot: 0, species_id: 'ashcat', current_hp: 0 },
+            { slot: 1, species_id: 'applepup', current_hp: 0 },
         ]);
     });
 

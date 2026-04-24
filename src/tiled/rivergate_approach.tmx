@@ -52,32 +52,32 @@
   <object id="1" name="from_dreadpeak_cavern" type="SpawnPoint" x="32" y="96" width="0" height="0" visible="1" rotation="0"/>
   <object id="2" name="jan-kala-lili" type="NPC" x="112" y="144" width="0" height="0" visible="1" rotation="0">
    <properties>
-     <property name="id" value="jan_kala_lili"/>
-     <property name="dialog_id" value="jan_kala_lili_flavor"/>
+     <property name="id" value="lily"/>
+     <property name="dialog_id" value="lily_flavor"/>
    </properties>
   </object>
   <object id="3" name="jan-moku-pona" type="NPC" x="192" y="80" width="0" height="0" visible="1" rotation="0">
    <properties>
-     <property name="id" value="jan_moku_pona"/>
-     <property name="dialog_id" value="jan_moku_pona_grill"/>
+     <property name="id" value="grill"/>
+     <property name="dialog_id" value="grill_pona"/>
    </properties>
   </object>
   <object id="4" name="jan-kala-suli" type="NPC" x="272" y="144" width="0" height="0" visible="1" rotation="0">
    <properties>
-     <property name="id" value="jan_kala_suli"/>
-     <property name="dialog_id" value="jan_kala_suli_tuneup"/>
+     <property name="id" value="cormorant"/>
+     <property name="dialog_id" value="cormorant_tuneup"/>
    </properties>
   </object>
   <object id="5" name="jan-olin-telo" type="NPC" x="352" y="80" width="0" height="0" visible="1" rotation="0">
    <properties>
-     <property name="id" value="jan_olin_telo"/>
-     <property name="dialog_id" value="jan_olin_telo_quiet"/>
+     <property name="id" value="myra"/>
+     <property name="dialog_id" value="myra_quiet"/>
    </properties>
   </object>
   <object id="6" name="jan-suno-telo" type="NPC" x="384" y="96" width="0" height="0" visible="1" rotation="0">
    <properties>
-     <property name="id" value="jan_suno_telo"/>
-     <property name="dialog_id" value="jan_suno_telo_last"/>
+     <property name="id" value="sola"/>
+     <property name="dialog_id" value="sola_last"/>
    </properties>
   </object>
   <object id="7" name="final_boss_trigger" type="Trigger" x="416" y="80" width="32" height="48" visible="1" rotation="0">
@@ -90,14 +90,14 @@
  <objectgroup id="4" name="Encounters" visible="1" opacity="1">
   <object id="8" name="encounter_0" type="Encounter" x="64" y="160" width="80" height="48" visible="1" rotation="0">
    <properties>
-     <property name="species" value="{&quot;jan_moli&quot;:20,&quot;kon_moli&quot;:15,&quot;telo_jaki&quot;:15,&quot;kala_telo&quot;:15,&quot;kala_uta&quot;:15,&quot;kala_tomo&quot;:15,&quot;jan_moli_wawa&quot;:5}"/>
+     <property name="species" value="{&quot;bog_wisp&quot;:20,&quot;ashcat&quot;:15,&quot;mireling&quot;:15,&quot;bluefin&quot;:15,&quot;snapper&quot;:15,&quot;reedfrog&quot;:15,&quot;iron_wraith&quot;:5}"/>
      <property name="level_min" type="int" value="7"/>
      <property name="level_max" type="int" value="10"/>
    </properties>
   </object>
   <object id="9" name="encounter_1" type="Encounter" x="224" y="160" width="96" height="48" visible="1" rotation="0">
    <properties>
-     <property name="species" value="{&quot;jan_moli&quot;:14,&quot;kon_moli&quot;:14,&quot;telo_jaki&quot;:14,&quot;kala_telo&quot;:14,&quot;kala_luka&quot;:14,&quot;kala_uta&quot;:14,&quot;seli_moli&quot;:6,&quot;akesi_suli&quot;:4,&quot;akesi_sewi&quot;:2}"/>
+     <property name="species" value="{&quot;bog_wisp&quot;:14,&quot;ashcat&quot;:14,&quot;mireling&quot;:14,&quot;bluefin&quot;:14,&quot;riverfin&quot;:14,&quot;snapper&quot;:14,&quot;cinderling&quot;:6,&quot;marshjaw&quot;:4,&quot;green_dragon&quot;:2}"/>
      <property name="level_min" type="int" value="9"/>
      <property name="level_max" type="int" value="13"/>
    </properties>

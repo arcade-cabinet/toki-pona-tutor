@@ -36,7 +36,7 @@ afterEach(async () => {
  *   startFreshGame()
  *     → runOpeningScene()
  *       → plays OPENING_SCENE_CONFIG.beats
- *       → chains into jan_sewi_starter_intro dialog
+ *       → chains into selby_starter_intro dialog
  *     → starter ceremony (player choose Ashcat / Mireling / Bramble)
  *       → party 0/6 → 1/6
  *       → starter_chosen flag set
@@ -49,7 +49,7 @@ describe('opening scene integration', () => {
 
         // Queue the starter choice before the chain runs — the starter
         // dialog's showChoices call will pick this up.
-        ui.choose('kon_moli');
+        ui.choose('ashcat');
 
         // Fire the entry point that the title overlay calls. This is
         // the single bottleneck that every fresh-start flows through.
@@ -64,7 +64,7 @@ describe('opening scene integration', () => {
         }
 
         // Beat 2: the starter ceremony ran to completion.
-        expect(await preferences.get(KEYS.starterChosen)).toBe('kon_moli');
+        expect(await preferences.get(KEYS.starterChosen)).toBe('ashcat');
         expect(await getFlag('starter_chosen')).toBe('1');
 
         // Beat 3: the opening-scene flag is persisted so replay is
@@ -74,13 +74,13 @@ describe('opening scene integration', () => {
         // Beat 4: party 1/6 — this is the T11-07 acceptance.
         const party = await getParty();
         expect(party.length).toBe(1);
-        expect(party[0]?.species_id).toBe('kon_moli');
+        expect(party[0]?.species_id).toBe('ashcat');
     });
 
     it('is idempotent — runOpeningScene twice on the same save runs beats once', async () => {
         const { player } = await bootGame();
         const ui = hijackUi(player);
-        ui.choose('kon_moli');
+        ui.choose('ashcat');
 
         // First call runs the full scripted arc and sets the flag.
         const firstDecision = await runOpeningScene(player);

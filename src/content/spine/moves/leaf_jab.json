@@ -1,0 +1,11 @@
+{
+  "id": "leaf_jab",
+  "name": { "en": "leaf" },
+  "description": { "en": "Grass grew." },
+  "type": "kasi",
+  "power": 25,
+  "accuracy": 100,
+  "pp": 25,
+  "effect": "none",
+  "priority": 0
+}

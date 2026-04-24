@@ -755,12 +755,12 @@
             {
               "name": "id",
               "type": "string",
-              "value": "jan_kala_lake"
+              "value": "loren"
             },
             {
               "name": "dialog_id",
               "type": "string",
-              "value": "jan_kala_lake_quest"
+              "value": "loren_lake_quest"
             }
           ]
         },
@@ -778,12 +778,12 @@
             {
               "name": "id",
               "type": "string",
-              "value": "jan_olin_telo"
+              "value": "myra"
             },
             {
               "name": "dialog_id",
               "type": "string",
-              "value": "jan_olin_telo_quiet"
+              "value": "myra_quiet"
             }
           ]
         },
@@ -801,12 +801,12 @@
             {
               "name": "id",
               "type": "string",
-              "value": "jan_moku"
+              "value": "shopkeep"
             },
             {
               "name": "dialog_id",
               "type": "string",
-              "value": "jan_moku_stall"
+              "value": "shopkeep_stall"
             }
           ]
         },
@@ -824,12 +824,12 @@
             {
               "name": "id",
               "type": "string",
-              "value": "jan_sike_telo"
+              "value": "tarn"
             },
             {
               "name": "dialog_id",
               "type": "string",
-              "value": "jan_sike_telo_plaza"
+              "value": "tarn_plaza"
             }
           ]
         },
@@ -847,12 +847,12 @@
             {
               "name": "id",
               "type": "string",
-              "value": "jan_telo"
+              "value": "marin"
             },
             {
               "name": "dialog_id",
               "type": "string",
-              "value": "jan_telo_intro"
+              "value": "marin_intro"
             }
           ]
         },

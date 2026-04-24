@@ -1,0 +1,13 @@
+{
+  "id": "heavy_capture_pod",
+  "name": {
+    "en": "Heavy Capture Pod"
+  },
+  "description": {
+    "en": "A reinforced pod with better odds against stubborn companions."
+  },
+  "kind": "poki",
+  "power": 1.5,
+  "stackable": true,
+  "sprite_frame": 81
+}

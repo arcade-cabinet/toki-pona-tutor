@@ -38,13 +38,13 @@ function mockPlayer(hp: number, maxHp: number): RpgPlayer {
 
 describe('combat healing items', () => {
     it('lists carried healing items with HP preview for the combat item submenu', async () => {
-        await addToInventory('kili', 2);
+        await addToInventory('orchard_fruit', 2);
         const player = mockPlayer(5, 44);
 
         await expect(listCombatHealingChoices(player)).resolves.toEqual([
             {
-                id: 'kili',
-                value: 'item:kili',
+                id: 'orchard_fruit',
+                value: 'item:orchard_fruit',
                 label: 'Orchard Fruit',
                 count: 2,
                 healAmount: 20,
@@ -54,13 +54,13 @@ describe('combat healing items', () => {
     });
 
     it('heals the lead creature, consumes one item, and persists lead current HP', async () => {
-        await addToParty('kon_moli', 5);
-        await addToInventory('kili', 1);
+        await addToParty('ashcat', 5);
+        await addToInventory('orchard_fruit', 1);
         const player = mockPlayer(5, 44);
 
-        await expect(useCombatHealingItem(player, 'kili')).resolves.toEqual({
+        await expect(useCombatHealingItem(player, 'orchard_fruit')).resolves.toEqual({
             used: true,
-            itemId: 'kili',
+            itemId: 'orchard_fruit',
             label: 'Orchard Fruit',
             healed: 20,
             nextHp: 25,
@@ -68,45 +68,45 @@ describe('combat healing items', () => {
         });
 
         expect((player as unknown as { hp: number }).hp).toBe(25);
-        expect(await getInventoryCount('kili')).toBe(0);
+        expect(await getInventoryCount('orchard_fruit')).toBe(0);
         expect((await getPartyWithHealth())[0].current_hp).toBe(25);
     });
 
     it('does not consume an item when HP is already full', async () => {
-        await addToParty('kon_moli', 5);
-        await addToInventory('kili', 1);
+        await addToParty('ashcat', 5);
+        await addToInventory('orchard_fruit', 1);
         const player = mockPlayer(44, 44);
 
-        await expect(useCombatHealingItem(player, 'kili')).resolves.toEqual({
+        await expect(useCombatHealingItem(player, 'orchard_fruit')).resolves.toEqual({
             used: false,
-            itemId: 'kili',
+            itemId: 'orchard_fruit',
             reason: 'full',
         });
-        expect(await getInventoryCount('kili')).toBe(1);
+        expect(await getInventoryCount('orchard_fruit')).toBe(1);
     });
 
     it('formats combat item submenu labels and results through gameplay JSON templates', () => {
         expect(formatCombatItemChoiceLabel({
-            label: 'kili',
+            label: 'orchard_fruit',
             count: 2,
             previewHealed: 20,
-        })).toBe('kili ×2 +20 HP');
+        })).toBe('orchard_fruit ×2 +20 HP');
         expect(formatCombatItemChoiceLabel({
-            label: 'kili',
+            label: 'orchard_fruit',
             count: 1,
             previewHealed: 0,
-        })).toBe('kili ×1 full');
+        })).toBe('orchard_fruit ×1 full');
         expect(formatCombatItemResult({
             used: true,
-            itemId: 'kili',
-            label: 'kili',
+            itemId: 'orchard_fruit',
+            label: 'orchard_fruit',
             healed: 20,
             nextHp: 25,
             maxHp: 44,
-        })).toBe('kili: +20 HP\nHP 25 / 44');
+        })).toBe('orchard_fruit: +20 HP\nHP 25 / 44');
         expect(formatCombatItemResult({
             used: false,
-            itemId: 'kili',
+            itemId: 'orchard_fruit',
             reason: 'full',
         })).toBe('Already at full HP');
     });
@@ -175,7 +175,7 @@ describe('wild encounter combat helpers', () => {
 
     it('formats the wild combat prompt with target, level, HP, and HP tier', () => {
         expect(formatWildCombatPrompt(
-            { id: 'jan_ike_lili', name: { en: 'jan ike lili' } },
+            { id: 'bramble_imp', name: { en: 'jan ike lili' } },
             3,
             { targetHp: 20, targetMaxHp: 48 },
         )).toBe('jan ike lili L3\nHP 20 / 48 · hurt');

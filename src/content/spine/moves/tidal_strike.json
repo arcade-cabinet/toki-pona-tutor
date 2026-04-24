@@ -1,0 +1,11 @@
+{
+  "id": "tidal_strike",
+  "name": { "en": "wave" },
+  "description": { "en": "Water is good." },
+  "type": "telo",
+  "power": 70,
+  "accuracy": 95,
+  "pp": 10,
+  "effect": "none",
+  "priority": 0
+}

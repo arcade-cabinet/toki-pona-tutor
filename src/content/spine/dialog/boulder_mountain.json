@@ -1,0 +1,29 @@
+{
+  "id": "boulder_mountain",
+  "npc_id": "boulder",
+  "priority": 0,
+  "beats": [
+    {
+      "text": {
+        "en": "The old shrine at the summit is missing its stones."
+      },
+      "mood": "thinking",
+      "glyph": "stone-type"
+    },
+    {
+      "text": {
+        "en": "Only Pebbleback keeps shrine stones in its shell. Other stone-types leave them scattered."
+      },
+      "mood": "thinking",
+      "glyph": "stone-type"
+    },
+    {
+      "text": {
+        "en": "Catch two Pebblebacks and the shrine will know your name."
+      },
+      "mood": "excited",
+      "glyph": "stone-type"
+    }
+  ],
+  "triggers": {}
+}

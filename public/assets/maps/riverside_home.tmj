@@ -274,12 +274,12 @@
             {
               "name": "id",
               "type": "string",
-              "value": "jan_pona_tomo"
+              "value": "piper"
             },
             {
               "name": "dialog_id",
               "type": "string",
-              "value": "jan_pona_tomo_welcome"
+              "value": "piper_welcome"
             }
           ]
         },
@@ -297,12 +297,12 @@
             {
               "name": "id",
               "type": "string",
-              "value": "jan_telo_well"
+              "value": "wren"
             },
             {
               "name": "dialog_id",
               "type": "string",
-              "value": "jan_telo_well_water"
+              "value": "wren_well_water"
             }
           ]
         },
@@ -320,12 +320,12 @@
             {
               "name": "id",
               "type": "string",
-              "value": "jan_sewi"
+              "value": "selby"
             },
             {
               "name": "dialog_id",
               "type": "string",
-              "value": "jan_sewi_starter_intro"
+              "value": "selby_starter_intro"
             }
           ]
         },
@@ -343,12 +343,12 @@
             {
               "name": "id",
               "type": "string",
-              "value": "jan_poki_tomo"
+              "value": "oren"
             },
             {
               "name": "dialog_id",
               "type": "string",
-              "value": "jan_poki_tomo_ready"
+              "value": "oren_ready"
             }
           ]
         },
@@ -366,12 +366,12 @@
             {
               "name": "id",
               "type": "string",
-              "value": "jan_kili_tomo"
+              "value": "fig"
             },
             {
               "name": "dialog_id",
               "type": "string",
-              "value": "jan_kili_tomo_snack"
+              "value": "fig_snack"
             }
           ]
         },
