@@ -9866,5 +9866,349 @@
         "en": "Four stones at the base, laid by the four valley wardens."
       }
     }
+  ],
+  "npcs": [
+    {
+      "id": "cave_kid",
+      "display_name": "Cave-kid",
+      "home_region": "dreadpeak_cavern",
+      "role": "sneaking_kid",
+      "graphic": "npc_villager_masc_serek"
+    },
+    {
+      "id": "cliff",
+      "display_name": "Cliff",
+      "home_region": "dreadpeak_cavern",
+      "role": "region_master_final_warden",
+      "graphic": "npc_warrior_sword_shield"
+    },
+    {
+      "id": "graym",
+      "display_name": "Graym",
+      "home_region": "dreadpeak_cavern",
+      "role": "cave_mapper_quest_giver",
+      "graphic": "npc_villager_masc_nyro"
+    },
+    {
+      "id": "meadow",
+      "display_name": "Meadow",
+      "home_region": "dreadpeak_cavern",
+      "role": "cave_meditator",
+      "graphic": "npc_villager_fem_hana"
+    },
+    {
+      "id": "rowan",
+      "display_name": "Rowan",
+      "home_region": "dreadpeak_cavern",
+      "role": "supplies_keeper",
+      "graphic": "npc_villager_fem_meza"
+    },
+    {
+      "id": "torch_bearer",
+      "display_name": "Torch-bearer",
+      "home_region": "dreadpeak_cavern",
+      "role": "cliff_apprentice",
+      "graphic": "npc_villager_masc_nyro"
+    },
+    {
+      "id": "warden_ghost",
+      "display_name": "Warden's Effigy",
+      "home_region": "dreadpeak_cavern",
+      "role": "stone_effigy",
+      "graphic": "npc_villager_masc_grym"
+    },
+    {
+      "id": "brindle",
+      "display_name": "Brindle",
+      "home_region": "frostvale",
+      "role": "cold_pod_keeper",
+      "graphic": "npc_villager_fem_vash"
+    },
+    {
+      "id": "cormorant",
+      "display_name": "Cormorant",
+      "home_region": "frostvale",
+      "role": "botanist_quest_giver",
+      "graphic": "npc_villager_fem_seza"
+    },
+    {
+      "id": "ember",
+      "display_name": "Ember",
+      "home_region": "dreadpeak_cavern",
+      "role": "torch_keeper",
+      "graphic": "npc_villager_fem_meza"
+    },
+    {
+      "id": "frost",
+      "display_name": "Frost",
+      "home_region": "frostvale",
+      "role": "region_master",
+      "graphic": "npc_warrior_archer"
+    },
+    {
+      "id": "frost_uncle",
+      "display_name": "Frost's Uncle",
+      "home_region": "frostvale",
+      "role": "warden_lore_keeper",
+      "graphic": "npc_villager_masc_reza"
+    },
+    {
+      "id": "hollis",
+      "display_name": "Hollis",
+      "home_region": "frostvale",
+      "role": "garden_snowbird_quest_giver",
+      "graphic": "npc_villager_fem_hana"
+    },
+    {
+      "id": "luma",
+      "display_name": "Luma",
+      "home_region": "frostvale",
+      "role": "lantern_tender",
+      "graphic": "npc_villager_fem_nel"
+    },
+    {
+      "id": "snow_kid",
+      "display_name": "Snow-kid",
+      "home_region": "frostvale",
+      "role": "ambient_villager",
+      "graphic": "npc_villager_masc_serek"
+    },
+    {
+      "id": "briar",
+      "display_name": "Briar",
+      "home_region": "greenwood_road",
+      "role": "field_notes_giver",
+      "graphic": "npc_villager_fem_khali"
+    },
+    {
+      "id": "corvin",
+      "display_name": "Corvin",
+      "home_region": "greenwood_road",
+      "role": "route_watcher",
+      "graphic": "npc_villager_masc_grym"
+    },
+    {
+      "id": "lark",
+      "display_name": "Lark",
+      "home_region": "greenwood_road",
+      "role": "route_watcher",
+      "graphic": "npc_villager_masc_grym"
+    },
+    {
+      "id": "pack",
+      "display_name": "Pack",
+      "home_region": "greenwood_road",
+      "role": "field_notes_quest_giver",
+      "graphic": "npc_villager_masc_janik"
+    },
+    {
+      "id": "rook",
+      "display_name": "Rook",
+      "home_region": "greenwood_road",
+      "role": "rival",
+      "graphic": "npc_warrior_sword_shield"
+    },
+    {
+      "id": "thorn",
+      "display_name": "Thorn",
+      "home_region": "greenwood_road",
+      "role": "route_walker",
+      "graphic": "npc_villager_masc_grym"
+    },
+    {
+      "id": "ansel",
+      "display_name": "Ansel",
+      "home_region": "greenwood_road",
+      "role": "recurring_route_walker",
+      "graphic": "npc_villager_masc_artun"
+    },
+    {
+      "id": "boulder",
+      "display_name": "Boulder",
+      "home_region": "highridge_pass",
+      "role": "shrine_stones_quest_giver",
+      "graphic": "npc_warrior_2h_sword"
+    },
+    {
+      "id": "breeze",
+      "display_name": "Breeze",
+      "home_region": "highridge_pass",
+      "role": "route_walker",
+      "graphic": "npc_villager_fem_julz"
+    },
+    {
+      "id": "hiker",
+      "display_name": "Hiker",
+      "home_region": "highridge_pass",
+      "role": "lost_hiker_quest_giver",
+      "graphic": "npc_villager_masc_artun"
+    },
+    {
+      "id": "kestrel",
+      "display_name": "Kestrel",
+      "home_region": "highridge_pass",
+      "role": "sky_watcher",
+      "graphic": "npc_villager_masc_nyro"
+    },
+    {
+      "id": "marsha",
+      "display_name": "Marsha",
+      "home_region": "highridge_pass",
+      "role": "torch_path_quest_giver",
+      "graphic": "npc_villager_fem_khali"
+    },
+    {
+      "id": "shrine_kid",
+      "display_name": "Shrine-kid",
+      "home_region": "highridge_pass",
+      "role": "tarrin_apprentice",
+      "graphic": "npc_villager_fem_nel"
+    },
+    {
+      "id": "stoneminder",
+      "display_name": "Stoneminder",
+      "home_region": "highridge_pass",
+      "role": "shrine_carver",
+      "graphic": "npc_villager_masc_nyro"
+    },
+    {
+      "id": "tarrin",
+      "display_name": "Tarrin",
+      "home_region": "highridge_pass",
+      "role": "region_master",
+      "graphic": "npc_warrior_sword_shield"
+    },
+    {
+      "id": "angler",
+      "display_name": "Joss",
+      "home_region": "lakehaven",
+      "role": "water_edge_quest_giver",
+      "graphic": "npc_villager_masc_hark"
+    },
+    {
+      "id": "kala_lili",
+      "display_name": "Kala-Lili",
+      "home_region": "lakehaven",
+      "role": "fisher_sibling_small",
+      "graphic": "npc_villager_fem_julz"
+    },
+    {
+      "id": "kala_suli",
+      "display_name": "Kala-Suli",
+      "home_region": "lakehaven",
+      "role": "fisher_sibling_big",
+      "graphic": "npc_villager_fem_vash"
+    },
+    {
+      "id": "lodge_keeper",
+      "display_name": "Vesper",
+      "home_region": "lakehaven",
+      "role": "lodge_keeper",
+      "graphic": "npc_villager_fem_khali"
+    },
+    {
+      "id": "loren",
+      "display_name": "Loren",
+      "home_region": "lakehaven",
+      "role": "fisher_sage",
+      "graphic": "npc_villager_masc_reza"
+    },
+    {
+      "id": "marin",
+      "display_name": "Marin",
+      "home_region": "lakehaven",
+      "role": "region_master",
+      "graphic": "npc_warrior_2h_sword"
+    },
+    {
+      "id": "myra",
+      "display_name": "Myra",
+      "home_region": "lakehaven",
+      "role": "water_edge_sage",
+      "graphic": "npc_villager_fem_nel"
+    },
+    {
+      "id": "piper_cousin",
+      "display_name": "Reeve",
+      "home_region": "lakehaven",
+      "role": "cross_region_cousin",
+      "graphic": "npc_villager_masc_hark"
+    },
+    {
+      "id": "shopkeep",
+      "display_name": "Meza",
+      "home_region": "lakehaven",
+      "role": "stall_keeper",
+      "graphic": "npc_villager_fem_meza"
+    },
+    {
+      "id": "tarn",
+      "display_name": "Tarn",
+      "home_region": "lakehaven",
+      "role": "plaza_announcer",
+      "graphic": "npc_villager_masc_reza"
+    },
+    {
+      "id": "green_dragon",
+      "display_name": "Avere, the Green Dragon",
+      "home_region": "rivergate_approach",
+      "role": "final_boss"
+    },
+    {
+      "id": "grill",
+      "display_name": "Grill",
+      "home_region": "rivergate_approach",
+      "role": "lodge_cook",
+      "graphic": "npc_villager_masc_hark"
+    },
+    {
+      "id": "lily",
+      "display_name": "Lily",
+      "home_region": "rivergate_approach",
+      "role": "endgame_companion_quest_giver",
+      "graphic": "npc_villager_fem_seza"
+    },
+    {
+      "id": "sola",
+      "display_name": "Sola",
+      "home_region": "rivergate_approach",
+      "role": "river_watcher",
+      "graphic": "npc_villager_fem_vash"
+    },
+    {
+      "id": "fig",
+      "display_name": "Fig",
+      "home_region": "riverside_home",
+      "role": "snack_keeper",
+      "graphic": "npc_villager_masc_serek"
+    },
+    {
+      "id": "oren",
+      "display_name": "Oren",
+      "home_region": "riverside_home",
+      "role": "carpenter_kid",
+      "graphic": "npc_villager_masc_janik"
+    },
+    {
+      "id": "piper",
+      "display_name": "Piper",
+      "home_region": "riverside_home",
+      "role": "orchard_helper_quest_giver",
+      "graphic": "npc_villager_fem_julz"
+    },
+    {
+      "id": "selby",
+      "display_name": "Elder Selby",
+      "home_region": "riverside_home",
+      "role": "starter_ceremony_giver",
+      "graphic": "npc_villager_masc_reza"
+    },
+    {
+      "id": "wren",
+      "display_name": "Wren",
+      "home_region": "riverside_home",
+      "role": "well_tender",
+      "graphic": "npc_villager_fem_hana"
+    }
   ]
 }

@@ -12,11 +12,20 @@ type Species = {
  * The full World shape lives in src/content/schema/world.ts — we import only
  * what we need here to keep the dependency surface tight.
  */
+type NpcRegistryEntry = {
+    id: string;
+    display_name: string;
+    home_region?: string;
+    role?: string;
+    graphic?: string;
+};
+
 type ContentWorld = {
     dialog: DialogNode[];
     journey: Journey;
     start_region_id: string;
     species: Species[];
+    npcs?: NpcRegistryEntry[];
 };
 
 /**
@@ -56,6 +65,21 @@ export function getDialogById(id: string): DialogNode | undefined {
  */
 export function getDialogsForNpc(npcId: string): DialogNode[] {
     return world.dialog.filter((d) => d.npc_id === npcId);
+}
+
+/**
+ * Display name for a dossier NPC. Returns null for unknown ids or for
+ * system dialogs whose dialog nodes have `npc_id: null`. Used by
+ * playDialog to pass DialogOptions.speaker so the UI surface renders
+ * "Selby: ..." instead of just the line.
+ */
+const NPC_REGISTRY = new Map<string, NpcRegistryEntry>(
+    (world.npcs ?? []).map((npc) => [npc.id, npc]),
+);
+
+export function getNpcDisplayName(npcId: string | null): string | null {
+    if (!npcId) return null;
+    return NPC_REGISTRY.get(npcId)?.display_name ?? null;
 }
 
 export function getStartMapId(): string {
