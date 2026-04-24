@@ -75,6 +75,30 @@ describe('T67: dossier NPC runtime pipeline (integration)', () => {
         ]);
     });
 
+    it('npc-rook is invisible before badge_suli and visible after (T91)', async () => {
+        const { player } = await bootAtRivergate();
+        const map = player.getCurrentMap();
+        const rook = map?.getEvent('npc-rook');
+        expect(rook, 'rook should spawn as dossier NPC').toBeDefined();
+
+        // Simulate a sync so onChanges fires before we inspect.
+        await rook!.execMethod('onChanges', [player]);
+        await waitForFlagProbe();
+        expect(
+            currentEventGraphic(rook),
+            'pre-badge_suli: sprite should be hidden',
+        ).toBeNull();
+
+        // Open the gate and re-sync.
+        await setFlag('badge_suli', '1');
+        await rook!.execMethod('onChanges', [player]);
+        await waitForFlagProbe();
+        expect(
+            currentEventGraphic(rook),
+            'post-badge_suli: sprite should be visible',
+        ).toBe('npc_warrior_sword_shield');
+    });
+
     it('loren_hiker_arrives fires on_exit set_flag and unlocks post-quest state (T71)', async () => {
         const { player } = await bootAtLakehaven();
         const ui = hijackUi(player);
@@ -155,6 +179,21 @@ function integrationModules() {
             }],
         },
     }];
+}
+
+function currentEventGraphic(event: unknown): string | null {
+    const graphics = (event as { graphics?: () => unknown }).graphics?.();
+    if (Array.isArray(graphics)) {
+        return graphics.find((g): g is string => typeof g === 'string') ?? null;
+    }
+    return typeof graphics === 'string' ? graphics : null;
+}
+
+async function waitForFlagProbe(): Promise<void> {
+    // AmbientNpc.onChanges schedules an async setGraphic via flagTruthy().
+    // Two microtask flushes: one for the getFlag promise, one for the .then
+    // callback that calls setGraphic. A macrotask covers both.
+    await new Promise((resolve) => setTimeout(resolve, 10));
 }
 
 function hijackUi(player: RpgPlayer) {
