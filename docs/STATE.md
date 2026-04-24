@@ -11,7 +11,7 @@ domain: context
 
 **Product:** Rivers Reckoning, a native-English creature-catching RPG for web and Android debug APK builds. Rivers explores a fantasy world, catches monsters, investigates local trouble, solves quests, defeats four region masters, and reaches the green-dragon finale.
 
-**Latest verified release:** `v0.30.0` on 2026-04-24 — carries the full content-depth pass (dossier scaffold, per-region NPC/sign dossiers, multi-state dialog selector, dossier NPC runtime spawning, post-clear world states, per-NPC graphics, Tiled sign objects) atop the shipped Phase 11 onboarding and T21 quest-dialog set.
+**Latest verified release:** `v0.34.0` on 2026-04-24 — carries the full content-depth pass through T74 (region dossiers, multi-state dialog selector, dossier NPC runtime spawning + per-NPC graphics, post-clear world states, Tiled sign objects, dialog on_exit triggers, 4 active quest turn-ins, shopkeep/proofs_all_four flag wiring) atop the shipped Phase 11 onboarding.
 
 **Latest verified remote release proof:** feature merge commit `d68fed9e4aebad3aea226d248e7e0cdca3873827` -> release merge commit `a546843137137a57dc782fb4f99e32123a661d36` -> artifact-producing `release.yml` run `24819206623` -> consuming `cd.yml` run `24819295738`.
 
@@ -67,11 +67,12 @@ pnpm android:build-debug
 -   **Playable current arc:** starter ceremony, wild encounters, capture/defeat, first rival, four region masters, side quests, shops, final route, green dragon, credits, save/continue, and respawn are wired.
 -   **Mobile HUD:** tap-to-walk, contextual hint, HUD menu, pause routes, party/bestiary/inventory/clues/settings/save flows, and touch-target tests exist.
 -   **Release plumbing:** `automerge.yml` handles safe bot squash auto-merge, `ci.yml` handles PR gates and reviewer artifacts, `release.yml` creates versioned release artifacts through release-please, and `cd.yml` consumes the completed `workflow_run` to attach release assets and deploy Pages.
--   **Remote release proof is complete:** `v0.3.1` proved the full `ci.yml` -> `release.yml` -> `cd.yml` chain with attached release assets and a live Pages deploy. `v0.4.0` → `v0.30.0` followed through the same pipeline with no regressions.
+-   **Remote release proof is complete:** `v0.3.1` proved the full `ci.yml` -> `release.yml` -> `cd.yml` chain with attached release assets and a live Pages deploy. `v0.4.0` → `v0.34.0` followed through the same pipeline with no regressions.
 -   **Phase 11 onboarding is closed:** scripted opening scene, starter chain, dialog keyboard-advance, player name tag, jan Sewi first-play cue, scenic starter village, goal HUD chrome, pause glance dashboard. See `docs/ROADMAP.md` Phase 11 rows for PR refs.
 -   **Per-region content dossiers:** every region under `src/content/regions/<id>/` owns its own NPC dossiers (`npcs/*.json`) and signs (`signs.json`). The map-authoring pipeline merges appearances into MapSpec Objects at author time; `build-spine` compiles multi-state dialog into `world.json`.
 -   **Dossier-driven NPC runtime:** dossier NPCs spawn at server init from `world.maps[].objects` with per-NPC graphics, `required_flag` interaction gating, and a flag-aware `selectDialogState` selector that picks the best matching dialog state (AND-match on `when_flags`, tiebreak by priority then authoring order).
--   **Content density:** 81 NPCs in-world across 7 regions, 152 dialog nodes (every non-trivial NPC has ≥2 reactive states, most have a `game_cleared` "world heals" line), 35 signs (≥5 per region), 47 distinct NPC sprites.
+-   **Content density:** 81 NPCs in-world across 7 regions, 156 dialog nodes (every non-trivial NPC has ≥2 reactive states, most have a `game_cleared` "world heals" line; 4 quest turn-in states fire flags via dialog `on_exit`), 35 signs (≥5 per region), 47 distinct NPC sprites.
+-   **Quest flag wiring:** every flag a dialog state references has a setter — badge flags from `gym-leader.ts`, `rook_defeated` from `jan-ike.ts`, `green_dragon_defeated`/`game_cleared` from `green-dragon.ts`, `starter_chosen` from `starter-ceremony.ts`, quest turn-in flags via dialog `on_exit.set_flag` (4 authored: `lost_hiker_delivered`, `cold_hands_complete`, `snowbird_sighting_complete`, `torch_path_survey_complete`), `shopkeep_first_sale` from the shop buy path, `proofs_all_four` derived in `gym-leader.ts` when all four required badges are present.
 -   **Signs in Tiled:** signs emit as Sign objects into every `.tmj` Objects layer alongside NPCs and warps, so authors can see them when editing in Tiled and in preview PNGs.
 
 ## Verified Baseline
