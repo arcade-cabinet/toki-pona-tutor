@@ -641,15 +641,15 @@ describe('gameplay JSON config', () => {
         expect(GYM_PHASE_POLL_MS).toBe(250);
 
         expect(Object.keys(TRAINER_BATTLE_CONFIGS).sort()).toEqual([
-            'jan_ike',
-            'jan_lete',
-            'jan_suli',
-            'jan_telo',
-            'jan_wawa',
+            'cliff',
+            'frost',
+            'marin',
+            'rook',
+            'tarrin',
         ]);
-        expect(TRAINER_BATTLE_CONFIGS.jan_ike).toMatchObject({
-            npcId: 'jan_ike',
-            defeatedFlag: 'jan_ike_defeated',
+        expect(TRAINER_BATTLE_CONFIGS.rook).toMatchObject({
+            npcId: 'rook',
+            defeatedFlag: 'rook_defeated',
             graphic: 'combatant_rogue_hooded',
             hp: 60,
             atk: 14,
@@ -663,7 +663,7 @@ describe('gameplay JSON config', () => {
                 fleeThreshold: 0,
             },
         });
-        expect(TRAINER_BATTLE_CONFIGS.jan_wawa).toMatchObject({
+        expect(TRAINER_BATTLE_CONFIGS.tarrin).toMatchObject({
             badgeFlag: 'badge_sewi',
             rewardClue: 'highridge-proof',
             phase2: {

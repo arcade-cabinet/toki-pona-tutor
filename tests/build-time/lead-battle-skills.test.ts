@@ -39,13 +39,13 @@ afterEach(async () => {
 
 describe('lead battle skills', () => {
     it('projects authored move data into RPG.js action-battle skills', () => {
-        const move = world.moves.find((entry) => entry.id === 'seli_lili');
+        const move = world.moves.find((entry) => entry.id === 'ember_nip');
 
         const skill = buildActionBattleSkill(move as never);
 
         expect(skill).toMatchObject({
             _type: 'skill',
-            id: moveSkillId('seli_lili'),
+            id: moveSkillId('ember_nip'),
             name: 'ember',
             description: 'Fire burns.',
             spCost: 2,
@@ -68,12 +68,12 @@ describe('lead battle skills', () => {
     });
 
     it('builds a four-slot move bar model from the lead species learnset', () => {
-        const species = world.species.find((entry) => entry.id === 'kon_moli');
+        const species = world.species.find((entry) => entry.id === 'ashcat');
 
         const model = buildLeadMoveBarModel(
-            { speciesId: 'kon_moli', level: 20 },
+            { speciesId: 'ashcat', level: 20 },
             species as never,
-            new Map([[moveSkillId('seli_wawa'), 10_500]]),
+            new Map([[moveSkillId('flame_strike'), 10_500]]),
             10_000,
         );
 
@@ -87,20 +87,20 @@ describe('lead battle skills', () => {
             distanceTiles: null,
         });
         expect(model.moves.map((move) => move.moveId)).toEqual([
-            'seli_lili',
-            'utala_lili',
-            'seli_wawa',
-            'kon_wawa',
+            'ember_nip',
+            'quick_jab',
+            'flame_strike',
+            'gust_strike',
         ]);
-        expect(model.moves.find((move) => move.moveId === 'seli_wawa')).toMatchObject({
-            actionId: moveSkillId('seli_wawa'),
+        expect(model.moves.find((move) => move.moveId === 'flame_strike')).toMatchObject({
+            actionId: moveSkillId('flame_strike'),
             disabled: true,
             readyAt: 10_500,
             spCost: 5,
             rangeTiles: 3,
             meta: 'fire · power 75 · 5 SP',
         });
-        expect(model.moves.find((move) => move.moveId === 'utala_lili')).toMatchObject({
+        expect(model.moves.find((move) => move.moveId === 'quick_jab')).toMatchObject({
             typeLabel: 'stone',
             rangeTiles: 1,
             disabled: false,
@@ -110,14 +110,14 @@ describe('lead battle skills', () => {
     it('syncs player SP and movebar data without mutating RPG.js learned skills', async () => {
         const player = mockPlayer();
         player.knownSkills = [
-            { id: moveSkillId('seli_lili') },
+            { id: moveSkillId('ember_nip') },
             { id: `${moveSkillId('old_move')}` },
             { id: 'unrelated_skill' },
         ];
 
-        const model = await syncLeadBattleSkills(player, { speciesId: 'kon_moli', level: 5 });
+        const model = await syncLeadBattleSkills(player, { speciesId: 'ashcat', level: 5 });
 
-        expect(model?.moves.map((move) => move.moveId)).toEqual(['seli_lili', 'utala_lili']);
+        expect(model?.moves.map((move) => move.moveId)).toEqual(['ember_nip', 'quick_jab']);
         expect(model?.target).toEqual({
             label: 'jan ike',
             statusLabel: 'in range · 2 tiles',
@@ -136,17 +136,17 @@ describe('lead battle skills', () => {
         const player = mockPlayer();
         const gui = player.gui(LEAD_MOVE_BAR_GUI_ID);
 
-        await openLeadMoveBar(player, { speciesId: 'kon_moli', level: 5 });
-        const used = await useLeadBattleMove(player, moveSkillId('seli_lili'));
+        await openLeadMoveBar(player, { speciesId: 'ashcat', level: 5 });
+        const used = await useLeadBattleMove(player, moveSkillId('ember_nip'));
 
         expect(gui.open).toHaveBeenCalledWith(expect.objectContaining({
-            speciesId: 'kon_moli',
+            speciesId: 'ashcat',
             target: expect.objectContaining({
                 label: 'jan ike',
                 inRange: true,
             }),
             moves: expect.arrayContaining([
-                expect.objectContaining({ moveId: 'seli_lili' }),
+                expect.objectContaining({ moveId: 'ember_nip' }),
             ]),
         }));
         expect(used).toBe(true);
@@ -155,12 +155,12 @@ describe('lead battle skills', () => {
         expect(player.useSkill).not.toHaveBeenCalled();
         expect(player.battleEvents[0]?.applyDamage).toHaveBeenCalledWith(
             player,
-            expect.objectContaining({ id: moveSkillId('seli_lili') }),
+            expect.objectContaining({ id: moveSkillId('ember_nip') }),
         );
         expect(gui.update).toHaveBeenCalledWith(expect.objectContaining({
             moves: expect.arrayContaining([
                 expect.objectContaining({
-                    actionId: moveSkillId('seli_lili'),
+                    actionId: moveSkillId('ember_nip'),
                     disabled: true,
                     readyAt: 21_400,
                 }),
@@ -172,23 +172,23 @@ describe('lead battle skills', () => {
     it('uses the persisted lead party slot when executing after a switch remount', async () => {
         vi.useFakeTimers();
         vi.setSystemTime(30_000);
-        await addToParty('soweli_kili', 4);
+        await addToParty('applepup', 4);
         const player = mockPlayer();
         const gui = player.gui(LEAD_MOVE_BAR_GUI_ID);
 
-        await openLeadMoveBar(player, { speciesId: 'kon_moli', level: 5 });
-        const used = await useLeadBattleMove(player, moveSkillId('kasi_lili'));
+        await openLeadMoveBar(player, { speciesId: 'ashcat', level: 5 });
+        const used = await useLeadBattleMove(player, moveSkillId('leaf_jab'));
 
         expect(used).toBe(true);
         expect(player.battleEvents[0]?.applyDamage).toHaveBeenCalledWith(
             player,
-            expect.objectContaining({ id: moveSkillId('kasi_lili') }),
+            expect.objectContaining({ id: moveSkillId('leaf_jab') }),
         );
         expect(gui.update).toHaveBeenCalledWith(expect.objectContaining({
-            speciesId: 'soweli_kili',
+            speciesId: 'applepup',
             moves: expect.arrayContaining([
                 expect.objectContaining({
-                    actionId: moveSkillId('kasi_lili'),
+                    actionId: moveSkillId('leaf_jab'),
                     disabled: true,
                     readyAt: 31_400,
                 }),

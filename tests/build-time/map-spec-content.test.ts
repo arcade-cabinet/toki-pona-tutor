@@ -125,29 +125,29 @@ describe("authored map content contracts", () => {
     it("T4-15: new regional NPC dialog nodes are spine-backed and multi-beat", () => {
         const dialogs = dialogNodesById();
         const newDialogIds = [
-            "jan_pona_tomo_welcome",
-            "jan_telo_well_water",
-            "jan_poki_tomo_ready",
-            "jan_kili_tomo_snack",
-            "jan_palisa_nasin_sign",
-            "jan_kasi_nasin_grass",
-            "jan_poki_nasin_pack",
-            "jan_lukin_nasin_watch",
-            "jan_kiwen_mountain",
-            "jan_waso_sewi_sky",
-            "jan_nasin_sewi_path",
-            "jan_sike_telo_plaza",
-            "jan_suno_lete_light",
-            "jan_poki_lete_cold",
-            "jan_kiwen_suli_cave",
-            "jan_pimeja_suli_torch",
-            "jan_suno_telo_last",
+            "piper_welcome",
+            "wren_well_water",
+            "oren_ready",
+            "fig_snack",
+            "briar_sign",
+            "thorn_grass",
+            "pack_runner",
+            "lark_watch",
+            "boulder_mountain",
+            "kestrel_sky",
+            "marsha_path",
+            "tarn_plaza",
+            "luma_light",
+            "brindle_cold",
+            "graym_cave",
+            "ember_torch",
+            "sola_last",
         ];
 
         for (const dialogId of newDialogIds) {
             const node = dialogs.get(dialogId);
             expect(node, dialogId).toBeDefined();
-            expect(node?.npc_id, dialogId).toMatch(/^jan_/);
+            expect(node?.npc_id, dialogId).toMatch(/^[a-z][a-z0-9_]*$/);
             expect(node?.beats.length, dialogId).toBeGreaterThanOrEqual(2);
         }
     });
@@ -318,7 +318,7 @@ describe("authored map content contracts", () => {
             "jan-telo",
         ]);
         expect(npcMarkers.find((marker) => marker.name === "jan-moku")).toMatchObject({
-            props: { id: "jan_moku", dialog_id: "jan_moku_stall" },
+            props: { id: "shopkeep", dialog_id: "shopkeep_stall" },
         });
         expect(markers.find((marker) => marker.name === "warp_north")).toMatchObject({
             type: "Warp",

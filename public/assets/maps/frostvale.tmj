@@ -1188,12 +1188,12 @@
             {
               "name": "id",
               "type": "string",
-              "value": "jan_anpa"
+              "value": "corvin"
             },
             {
               "name": "dialog_id",
               "type": "string",
-              "value": "jan_anpa_watch"
+              "value": "corvin_watch"
             }
           ]
         },
@@ -1211,12 +1211,12 @@
             {
               "name": "id",
               "type": "string",
-              "value": "jan_suno_lete"
+              "value": "luma"
             },
             {
               "name": "dialog_id",
               "type": "string",
-              "value": "jan_suno_lete_light"
+              "value": "luma_light"
             }
           ]
         },
@@ -1234,12 +1234,12 @@
             {
               "name": "id",
               "type": "string",
-              "value": "jan_poki_lete"
+              "value": "brindle"
             },
             {
               "name": "dialog_id",
               "type": "string",
-              "value": "jan_poki_lete_cold"
+              "value": "brindle_cold"
             }
           ]
         },
@@ -1257,12 +1257,12 @@
             {
               "name": "id",
               "type": "string",
-              "value": "jan_kasi"
+              "value": "hollis"
             },
             {
               "name": "dialog_id",
               "type": "string",
-              "value": "jan_kasi_garden"
+              "value": "hollis_garden"
             }
           ]
         },
@@ -1280,12 +1280,12 @@
             {
               "name": "id",
               "type": "string",
-              "value": "jan_lete"
+              "value": "frost"
             },
             {
               "name": "dialog_id",
               "type": "string",
-              "value": "jan_lete_intro"
+              "value": "frost_intro"
             }
           ]
         },
@@ -1342,7 +1342,7 @@
             {
               "name": "species",
               "type": "string",
-              "value": "{\"sijelo_linja\":20,\"sijelo_kiwen\":15,\"jan_pi_sewi_pimeja\":15,\"waso_lete\":20,\"soweli_nena\":15,\"soweli_kiwen\":15}"
+              "value": "{\"frostcoil\":20,\"quartz_shell\":15,\"nightspike\":15,\"snowbird\":20,\"hillbuck\":15,\"pebbleback\":15}"
             },
             {
               "name": "level_min",
@@ -1370,7 +1370,7 @@
             {
               "name": "species",
               "type": "string",
-              "value": "{\"sijelo_linja\":15,\"sijelo_kiwen\":20,\"jan_pi_sewi_pimeja\":15,\"sijelo_utala\":15,\"waso_lete\":15,\"soweli_kiwen\":20}"
+              "value": "{\"frostcoil\":15,\"quartz_shell\":20,\"nightspike\":15,\"glacier_talon\":15,\"snowbird\":15,\"pebbleback\":20}"
             },
             {
               "name": "level_min",

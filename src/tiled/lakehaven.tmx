@@ -57,32 +57,32 @@
   <object id="1" name="from_highridge_pass" type="SpawnPoint" x="32" y="96" width="0" height="0" visible="1" rotation="0"/>
   <object id="2" name="jan-kala-lake" type="NPC" x="80" y="208" width="0" height="0" visible="1" rotation="0">
    <properties>
-     <property name="id" value="jan_kala_lake"/>
-     <property name="dialog_id" value="jan_kala_lake_quest"/>
+     <property name="id" value="loren"/>
+     <property name="dialog_id" value="loren_lake_quest"/>
    </properties>
   </object>
   <object id="3" name="jan-olin-telo" type="NPC" x="128" y="160" width="0" height="0" visible="1" rotation="0">
    <properties>
-     <property name="id" value="jan_olin_telo"/>
-     <property name="dialog_id" value="jan_olin_telo_quiet"/>
+     <property name="id" value="myra"/>
+     <property name="dialog_id" value="myra_quiet"/>
    </properties>
   </object>
   <object id="4" name="jan-moku" type="NPC" x="128" y="64" width="0" height="0" visible="1" rotation="0">
    <properties>
-     <property name="id" value="jan_moku"/>
-     <property name="dialog_id" value="jan_moku_stall"/>
+     <property name="id" value="shopkeep"/>
+     <property name="dialog_id" value="shopkeep_stall"/>
    </properties>
   </object>
   <object id="5" name="jan-sike-telo" type="NPC" x="192" y="128" width="0" height="0" visible="1" rotation="0">
    <properties>
-     <property name="id" value="jan_sike_telo"/>
-     <property name="dialog_id" value="jan_sike_telo_plaza"/>
+     <property name="id" value="tarn"/>
+     <property name="dialog_id" value="tarn_plaza"/>
    </properties>
   </object>
   <object id="6" name="jan-telo" type="NPC" x="240" y="128" width="0" height="0" visible="1" rotation="0">
    <properties>
-     <property name="id" value="jan_telo"/>
-     <property name="dialog_id" value="jan_telo_intro"/>
+     <property name="id" value="marin"/>
+     <property name="dialog_id" value="marin_intro"/>
    </properties>
   </object>
   <object id="7" name="warp_north" type="Warp" x="240" y="0" width="16" height="16" visible="1" rotation="0">

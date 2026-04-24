@@ -62,9 +62,9 @@ export type QuestEvent =
  * return the new state and whether the reward should fire now.
  *
  * @example
- * // Catch-count quest: "catch 3 kon_moli"
+ * // Catch-count quest: "catch 3 ashcat"
  * const def = { id: 'kon_three', giverNpcId: 'jan_pona',
- *               goal: { kind: 'catch_count', speciesId: 'kon_moli', target: 3 },
+ *               goal: { kind: 'catch_count', speciesId: 'ashcat', target: 3 },
  *               reward: { xp: 50 } };
  * advanceQuest(def, { status: 'pending', progress: 0 }, { type: 'accept' })
  * // → { state: { status: 'active', progress: 0 }, grantReward: false }

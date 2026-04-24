@@ -265,7 +265,7 @@ const ALLOWED_TILESET_FAMILIES = new Set([
     "generated",
 ]);
 
-const INVENTORY_ITEMS = ["ma", "poki_lili", "poki_wawa", "kili", "telo_pona"];
+const INVENTORY_ITEMS = ["trail_token", "capture_pod", "heavy_capture_pod", "orchard_fruit", "spring_tonic"];
 
 const VISIBLE_TEST_IDS = [
     "hud-menu-toggle",

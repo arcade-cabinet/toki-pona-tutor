@@ -1,0 +1,25 @@
+{
+  "id": "tarrin_intro",
+  "npc_id": "tarrin",
+  "when_flags": {
+    "badge_sewi": false
+  },
+  "priority": 10,
+  "beats": [
+    {
+      "text": {
+        "en": "The pass belongs to teams that can take a hit."
+      },
+      "mood": "excited",
+      "glyph": "battle-ready"
+    },
+    {
+      "text": {
+        "en": "Stand firm."
+      },
+      "mood": "excited",
+      "glyph": "wild-signs"
+    }
+  ],
+  "triggers": {}
+}

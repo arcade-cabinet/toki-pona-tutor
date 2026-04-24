@@ -1,0 +1,25 @@
+{
+  "id": "frost_intro",
+  "npc_id": "frost",
+  "when_flags": {
+    "badge_lete": false
+  },
+  "priority": 10,
+  "beats": [
+    {
+      "text": {
+        "en": "Frostvale tests patience first."
+      },
+      "mood": "excited",
+      "glyph": "wild-signs"
+    },
+    {
+      "text": {
+        "en": "Show me your warmest heart."
+      },
+      "mood": "excited",
+      "glyph": "battle-ready"
+    }
+  ],
+  "triggers": {}
+}

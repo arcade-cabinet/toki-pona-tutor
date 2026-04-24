@@ -2,7 +2,7 @@
  * beat_03_highridge_pass — mountain pass.
  *
  * Stone footpaths between rocks; the second-region hiking route.
- * Encounters skew rocky-elite (jan_wawa, jan_wawa_linja, sijelo_kiwen)
+ * Encounters skew rocky-elite (tarrin, chainback, quartz_shell)
  * in the level 6-9 band. jan Kala the hiker sits along the path; at
  * the upper shrine jan Wawa blocks the northern warp with a
  * two-creature gym fight.
@@ -90,31 +90,31 @@ export default defineMap({
         type: 'NPC',
         name: 'jan-kiwen',
         at: [4, 8],
-        props: { id: 'jan_kiwen', dialog_id: 'jan_kiwen_mountain' },
+        props: { id: 'boulder', dialog_id: 'boulder_mountain' },
       },
       {
         type: 'NPC',
         name: 'jan-kala',
         at: [10, 8],
-        props: { id: 'jan_kala', dialog_id: 'jan_kala_rest' },
+        props: { id: 'angler', dialog_id: 'angler_rest' },
       },
       {
         type: 'NPC',
         name: 'jan-waso-sewi',
         at: [16, 6],
-        props: { id: 'jan_waso_sewi', dialog_id: 'jan_waso_sewi_sky' },
+        props: { id: 'kestrel', dialog_id: 'kestrel_sky' },
       },
       {
         type: 'NPC',
         name: 'jan-nasin-sewi',
         at: [22, 5],
-        props: { id: 'jan_nasin_sewi', dialog_id: 'jan_nasin_sewi_path' },
+        props: { id: 'marsha', dialog_id: 'marsha_path' },
       },
       {
         type: 'NPC',
         name: 'jan-wawa',
         at: [24, 3],
-        props: { id: 'jan_wawa', dialog_id: 'jan_wawa_intro' },
+        props: { id: 'tarrin', dialog_id: 'tarrin_intro' },
       },
       {
         type: 'Warp',
@@ -128,8 +128,8 @@ export default defineMap({
       },
     ],
     Encounters: [
-      { rect: ENCOUNTER_RECTS[0], species: { jan_wawa: 25, jan_wawa_linja: 20, sijelo_kiwen: 15, soweli_palisa: 15, waso_lape: 15, akesi_seli: 10 }, levelRange: [6, 8] },
-      { rect: ENCOUNTER_RECTS[1], species: { jan_wawa: 18, jan_wawa_linja: 18, jan_wawa_jaki: 14, sijelo_kiwen: 18, soweli_sewi: 12, waso_lape: 12, soweli_palisa: 8 }, levelRange: [7, 9] },
+      { rect: ENCOUNTER_RECTS[0], species: { tarrin: 25, chainback: 20, quartz_shell: 15, twiglet: 15, drowsy_owl: 15, ember_adder: 10 }, levelRange: [6, 8] },
+      { rect: ENCOUNTER_RECTS[1], species: { tarrin: 18, chainback: 18, mire_brute: 14, quartz_shell: 18, snowhare: 12, drowsy_owl: 12, twiglet: 8 }, levelRange: [7, 9] },
     ],
   },
 });

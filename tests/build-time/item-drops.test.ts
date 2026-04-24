@@ -20,12 +20,12 @@ describe('rollSpeciesItemDrop', () => {
     it('rolls the configured item and count when chance succeeds', () => {
         expect(rollSpeciesItemDrop({
             item_drop: {
-                item_id: 'kili',
+                item_id: 'orchard_fruit',
                 chance: 0.5,
                 count: 2,
             },
         }, () => 0.49)).toEqual({
-            itemId: 'kili',
+            itemId: 'orchard_fruit',
             count: 2,
         });
     });
@@ -33,7 +33,7 @@ describe('rollSpeciesItemDrop', () => {
     it('does not drop when the roll is outside chance', () => {
         expect(rollSpeciesItemDrop({
             item_drop: {
-                item_id: 'kili',
+                item_id: 'orchard_fruit',
                 chance: 0.5,
                 count: 1,
             },
@@ -41,25 +41,25 @@ describe('rollSpeciesItemDrop', () => {
     });
 
     it('formats inventory notifications consistently', () => {
-        expect(formatItemDrop({ itemId: 'poki_lili', count: 1 })).toBe('Capture Pod ×1');
+        expect(formatItemDrop({ itemId: 'capture_pod', count: 1 })).toBe('Capture Pod ×1');
     });
 
     it('falls back to type/tier loot when a species has no explicit drop', () => {
         expect(resolveSpeciesItemDrop({
-            id: 'jan_wawa',
+            id: 'tarrin',
             type: 'wawa',
             sprite: { tier: 'common' },
         })).toEqual({
-            item_id: 'ma',
+            item_id: 'trail_token',
             chance: 0.18,
             count: 1,
         });
         expect(resolveSpeciesItemDrop({
-            id: 'akesi_suli',
+            id: 'marshjaw',
             type: 'telo',
             sprite: { tier: 'legendary' },
         })).toEqual({
-            item_id: 'telo_pona',
+            item_id: 'spring_tonic',
             chance: 1,
             count: 2,
         });

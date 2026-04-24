@@ -1,0 +1,96 @@
+{
+  "id": "thornling",
+  "name": {
+    "en": "Thornling"
+  },
+  "description": {
+    "en": "A scrappy forest fighter that jabs before it thinks."
+  },
+  "type": "kasi",
+  "base_stats": {
+    "hp": 40,
+    "attack": 44,
+    "defense": 30,
+    "speed": 50
+  },
+  "learnset": [
+    {
+      "level": 1,
+      "move_id": "quick_jab"
+    },
+    {
+      "level": 1,
+      "move_id": "leaf_jab"
+    },
+    {
+      "level": 7,
+      "move_id": "strike"
+    }
+  ],
+  "catch_rate": 0.42,
+  "xp_yield": 58,
+  "item_drop": {
+    "item_id": "capture_pod",
+    "chance": 0.2,
+    "count": 1
+  },
+  "sprite_frame": 0,
+  "portrait_src": "/assets/creatures/goblin/slinger.png",
+  "sprite": {
+    "src": "/assets/creatures/goblin/slinger.png",
+    "frame_width": 16,
+    "frame_height": 32,
+    "animations": {
+      "idle": {
+        "row": 0,
+        "col_start": 0,
+        "cols": 4,
+        "fps": 4,
+        "loop": true
+      },
+      "walk": {
+        "row": 1,
+        "col_start": 0,
+        "cols": 4,
+        "fps": 10,
+        "loop": true
+      },
+      "defend": {
+        "row": 2,
+        "col_start": 0,
+        "cols": 4,
+        "fps": 6,
+        "loop": false
+      },
+      "idle_alt": {
+        "row": 3,
+        "col_start": 0,
+        "cols": 4,
+        "fps": 5,
+        "loop": true
+      },
+      "cast": {
+        "row": 4,
+        "col_start": 0,
+        "cols": 4,
+        "fps": 10,
+        "loop": false
+      },
+      "hurt": {
+        "row": 5,
+        "col_start": 0,
+        "cols": 4,
+        "fps": 8,
+        "loop": false
+      },
+      "death": {
+        "row": 6,
+        "col_start": 0,
+        "cols": 4,
+        "fps": 6,
+        "loop": false
+      }
+    },
+    "tier": "common"
+  }
+}

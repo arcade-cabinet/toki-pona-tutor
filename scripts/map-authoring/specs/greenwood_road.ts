@@ -2,13 +2,13 @@
  * beat_02_greenwood_road — path-route east of the starter village.
  *
  * 32×12 summer-forest trail with three tall-grass encounter zones (the
- * player's first chance to throw a poki_lili) and jan Ike the rival
+ * player's first chance to throw a capture_pod) and jan Ike the rival
  * at the east edge. The warp east to highridge_pass is gated on
- * `jan_ike_defeated`.
+ * `rook_defeated`.
  *
  * Encounter rosters come from journey.json beat 2; species listed
- * here are the level-3-7 band from that narrative (jan_ike_lili,
- * jan_utala_lili, jan_moli).
+ * here are the level-3-7 band from that narrative (bramble_imp,
+ * thornling, bog_wisp).
  */
 import {
     defineMap,
@@ -91,31 +91,31 @@ export default defineMap({
                 type: "NPC",
                 name: "jan-palisa-nasin",
                 at: [4, 5],
-                props: { id: "jan_palisa_nasin", dialog_id: "jan_palisa_nasin_sign" },
+                props: { id: "briar", dialog_id: "briar_sign" },
             },
             {
                 type: "NPC",
                 name: "jan-kasi-nasin",
                 at: [11, 5],
-                props: { id: "jan_kasi_nasin", dialog_id: "jan_kasi_nasin_grass" },
+                props: { id: "thorn", dialog_id: "thorn_grass" },
             },
             {
                 type: "NPC",
                 name: "jan-poki-nasin",
                 at: [20, 5],
-                props: { id: "jan_poki_nasin", dialog_id: "jan_poki_nasin_pack" },
+                props: { id: "pack", dialog_id: "pack_runner" },
             },
             {
                 type: "NPC",
                 name: "jan-lukin-nasin",
                 at: [25, 5],
-                props: { id: "jan_lukin_nasin", dialog_id: "jan_lukin_nasin_watch" },
+                props: { id: "lark", dialog_id: "lark_watch" },
             },
             {
                 type: "NPC",
                 name: "jan-ike",
                 at: [28, 5],
-                props: { id: "jan_ike", dialog_id: "jan_ike_rival" },
+                props: { id: "rook", dialog_id: "rook_rival" },
             },
             {
                 type: "Warp",
@@ -124,7 +124,7 @@ export default defineMap({
                 props: {
                     target_map: "highridge_pass",
                     target_spawn: "from_greenwood_road",
-                    required_flag: "jan_ike_defeated",
+                    required_flag: "rook_defeated",
                 },
             },
         ],
@@ -132,38 +132,38 @@ export default defineMap({
             {
                 rect: ENCOUNTER_RECTS[0],
                 species: {
-                    jan_ike_lili: 20,
-                    jan_utala_lili: 18,
-                    soweli_musi: 18,
-                    soweli_kili: 14,
-                    soweli_jaki: 10,
-                    waso_pimeja: 10,
-                    soweli_anpa: 10,
+                    bramble_imp: 20,
+                    thornling: 18,
+                    mirthcat: 18,
+                    applepup: 14,
+                    mudgrub: 10,
+                    nightjar: 10,
+                    burrowmole: 10,
                 },
                 levelRange: [3, 5],
             },
             {
                 rect: ENCOUNTER_RECTS[1],
                 species: {
-                    jan_ike_lili: 18,
-                    jan_utala_lili: 22,
-                    jan_moli: 14,
-                    soweli_musi: 14,
-                    soweli_kili: 14,
-                    waso_toki: 10,
-                    soweli_kon: 8,
+                    bramble_imp: 18,
+                    thornling: 22,
+                    bog_wisp: 14,
+                    mirthcat: 14,
+                    applepup: 14,
+                    songbird: 10,
+                    mistfox: 8,
                 },
                 levelRange: [4, 6],
             },
             {
                 rect: ENCOUNTER_RECTS[2],
                 species: {
-                    jan_ike_lili: 15,
-                    jan_moli: 25,
-                    soweli_kili: 20,
-                    soweli_jaki: 20,
-                    akesi_linja: 10,
-                    soweli_nena: 10,
+                    bramble_imp: 15,
+                    bog_wisp: 25,
+                    applepup: 20,
+                    mudgrub: 20,
+                    vine_adder: 10,
+                    hillbuck: 10,
                 },
                 levelRange: [5, 7],
             },

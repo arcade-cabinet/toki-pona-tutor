@@ -1,0 +1,11 @@
+{
+  "id": "frost_soar",
+  "name": { "en": "frost" },
+  "description": { "en": "It was chilly." },
+  "type": "lete",
+  "power": 45,
+  "accuracy": 95,
+  "pp": 15,
+  "effect": "none",
+  "priority": 0
+}

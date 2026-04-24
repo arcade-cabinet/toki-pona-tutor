@@ -74,16 +74,16 @@ describe('journey golden path (integration)', () => {
         expect(await getFlag('starter_chosen')).toBeNull();
         expect(ui.texts.length).toBeGreaterThan(0);
 
-        ui.choose('kon_moli');
+        ui.choose('ashcat');
         await janSewi!.execMethod('onAction', [player]);
 
-        expect(await preferences.get(KEYS.starterChosen)).toBe('kon_moli');
+        expect(await preferences.get(KEYS.starterChosen)).toBe('ashcat');
         expect(await getFlag('starter_chosen')).toBe('1');
-        expect(await inventoryCount('poki_lili')).toBe(3);
+        expect(await inventoryCount('capture_pod')).toBe(3);
         expect(await getParty()).toEqual([
-            expect.objectContaining({ slot: 0, species_id: 'kon_moli', level: 5 }),
+            expect.objectContaining({ slot: 0, species_id: 'ashcat', level: 5 }),
         ]);
-        expect((await getBestiaryState()).kon_moli?.caughtAt).toBeTruthy();
+        expect((await getBestiaryState()).ashcat?.caughtAt).toBeTruthy();
         expect(ui.notifications).toContain('Ashcat');
 
         const waitForRoute = client.waitForMapChange('greenwood_road', 5000);
@@ -110,7 +110,7 @@ describe('journey golden path (integration)', () => {
 
         expect(caught).toEqual(expect.objectContaining({
             slot: 1,
-            species_id: 'jan_ike_lili',
+            species_id: 'bramble_imp',
             level: 3,
         }));
         expect(lead?.level).toBe(5);
@@ -118,11 +118,11 @@ describe('journey golden path (integration)', () => {
         expect(ui.texts.some((line) => line.includes('Attack: -'))).toBe(true);
         expect(ui.notifications).toContain('Ashcat +27 XP');
         expect(ui.notifications).toContain('Orchard Fruit ×1');
-        expect(await inventoryCount('poki_lili')).toBe(2);
-        expect(await inventoryCount('kili')).toBe(1);
-        expect((await getBestiaryState()).jan_ike_lili?.caughtAt).toBeTruthy();
+        expect(await inventoryCount('capture_pod')).toBe(2);
+        expect(await inventoryCount('orchard_fruit')).toBe(1);
+        expect((await getBestiaryState()).bramble_imp?.caughtAt).toBeTruthy();
         expect(await latestEncounter()).toEqual(expect.objectContaining({
-            species_id: 'jan_ike_lili',
+            species_id: 'bramble_imp',
             map_id: 'greenwood_road',
             outcome: 'caught',
         }));
@@ -133,7 +133,7 @@ describe('journey golden path (integration)', () => {
         const ui = hijackUi(player);
         const route = player.getCurrentMap();
         const janPoki = route?.getEvent('jan-poki-nasin');
-        const quest = findQuestOrThrow('quest_nasin_poki_pack');
+        const quest = findQuestOrThrow('quest_field_notes');
 
         expect(janPoki).toBeDefined();
 
@@ -143,8 +143,8 @@ describe('journey golden path (integration)', () => {
         expect(ui.texts).toContain('Field Notes\nCatch: x2');
         await expect(readQuestState(quest)).resolves.toEqual({ status: 'active', progress: 0 });
 
-        await recordQuestEventForActive(player, { type: 'catch', speciesId: 'soweli_jaki', biome: 'forest' });
-        await recordQuestEventForActive(player, { type: 'catch', speciesId: 'soweli_kili', biome: 'forest' });
+        await recordQuestEventForActive(player, { type: 'catch', speciesId: 'mudgrub', biome: 'forest' });
+        await recordQuestEventForActive(player, { type: 'catch', speciesId: 'applepup', biome: 'forest' });
 
         await expect(readQuestState(quest)).resolves.toEqual({ status: 'active', progress: 2 });
         expect(ui.notifications).toContain('Field Notes: ready');
@@ -153,21 +153,21 @@ describe('journey golden path (integration)', () => {
 
         await expect(readQuestState(quest)).resolves.toEqual({ status: 'completed', progress: 2 });
         await expect(getFlag(questDoneFlag(quest.id))).resolves.toBe('1');
-        expect(await inventoryCount('poki_wawa')).toBe(1);
+        expect(await inventoryCount('heavy_capture_pod')).toBe(1);
         expect(ui.texts).toContain('Quest complete: Field Notes\nHeavy Capture Pod x1\nXP +50\nClue: Capture pods');
         expect(ui.notifications).toContain('Quest complete: Field Notes');
     });
 
-    it('uses a kili from the wild encounter item submenu and returns to the action menu', async () => {
+    it('uses a orchard_fruit from the wild encounter item submenu and returns to the action menu', async () => {
         const { player } = await bootIntoRoute();
         const ui = hijackUi(player);
         const encounter = makeNasinWanEncounterShape();
 
-        await addInventory('kili', 1);
+        await addInventory('orchard_fruit', 1);
         (player as unknown as { hp: number }).hp = 5;
         (player as unknown as { param: Record<string | number, number> }).param[MAXHP] = 44;
 
-        ui.choose('item', 'item:kili', 'flee');
+        ui.choose('item', 'item:orchard_fruit', 'flee');
         await withRandomSequence([0, 0, 0], async () => {
             await player.execMethod('onInShape', [encounter]);
         });
@@ -176,13 +176,13 @@ describe('journey golden path (integration)', () => {
         expect(ui.texts).toContain('Orchard Fruit: +20 HP\nHP 25 / 44');
         expect((player as unknown as { hp: number }).hp).toBe(25);
         expect((await getPartyWithHealth())[0].current_hp).toBe(25);
-        expect((await getBestiaryState()).jan_ike_lili).toEqual(expect.objectContaining({
+        expect((await getBestiaryState()).bramble_imp).toEqual(expect.objectContaining({
             seenAt: expect.any(String),
         }));
-        expect((await getBestiaryState()).jan_ike_lili?.caughtAt).toBeUndefined();
-        expect(await inventoryCount('kili')).toBe(0);
+        expect((await getBestiaryState()).bramble_imp?.caughtAt).toBeUndefined();
+        expect(await inventoryCount('orchard_fruit')).toBe(0);
         expect(await latestEncounter()).toEqual(expect.objectContaining({
-            species_id: 'jan_ike_lili',
+            species_id: 'bramble_imp',
             map_id: 'greenwood_road',
             outcome: 'fled',
         }));
@@ -202,20 +202,20 @@ describe('journey golden path (integration)', () => {
 
         await janIke!.execMethod('onAction', [player]);
         expect(ui.texts.length).toBeGreaterThan(0);
-        expect(currentGraphic(player)).toBe('species_kon_moli');
+        expect(currentGraphic(player)).toBe('species_ashcat');
         expect((player as unknown as { param: Record<string | number, number> }).param[MAXHP]).toBe(54);
         expect((player as unknown as { param: Record<string | number, number> }).param[MAXSP]).toBe(12);
         expect((player as unknown as { sp: number }).sp).toBe(12);
 
         await scriptDefeat(janIke, player, async () => (
-            await getFlag('jan_ike_defeated')
+            await getFlag('rook_defeated')
         ) === '1' && (
             await preferences.get(KEYS.journeyBeat)
         ) === 'beat_03_highridge_pass');
 
-        expect(await getFlag('jan_ike_defeated')).toBe('1');
+        expect(await getFlag('rook_defeated')).toBe('1');
         expect(await preferences.get(KEYS.journeyBeat)).toBe('beat_03_highridge_pass');
-        expect(await inventoryCount('ma')).toBe(4);
+        expect(await inventoryCount('trail_token')).toBe(4);
         expect(ui.notifications).toContain('Trail Token ×4');
         expect(ui.notifications).toContain('Ashcat +100 XP');
         expect(ui.notifications).toContain('Ashcat L5 -> L6');
@@ -233,23 +233,23 @@ describe('journey golden path (integration)', () => {
         const ui = hijackUi(player);
         const janIke = player.getCurrentMap()?.getEvent('jan-ike');
 
-        await addToParty('soweli_kili', 4);
+        await addToParty('applepup', 4);
         await setPartyCurrentHp(0, 1);
         await setPartyCurrentHp(1, 12);
         await janIke!.execMethod('onAction', [player]);
 
-        expect(currentGraphic(player)).toBe('species_kon_moli');
+        expect(currentGraphic(player)).toBe('species_ashcat');
 
         player.hp = 0;
-        await waitFor(async () => currentGraphic(player) === 'species_soweli_kili' && player.hp === 12);
+        await waitFor(async () => currentGraphic(player) === 'species_applepup' && player.hp === 12);
 
         expect(player.getCurrentMap()?.id).toBe('greenwood_road');
-        expect(currentGraphic(player)).toBe('species_soweli_kili');
+        expect(currentGraphic(player)).toBe('species_applepup');
         expect(player.hp).toBe(12);
         expect(ui.notifications).toContain('Applepup joins in');
         expect(await getPartyWithHealth()).toMatchObject([
-            { slot: 0, species_id: 'soweli_kili', current_hp: 12 },
-            { slot: 1, species_id: 'kon_moli', current_hp: 0 },
+            { slot: 0, species_id: 'applepup', current_hp: 12 },
+            { slot: 1, species_id: 'ashcat', current_hp: 0 },
         ]);
     });
 
@@ -279,7 +279,7 @@ describe('journey golden path (integration)', () => {
         expect(await getFlag('badge_sewi')).toBe('1');
         expect(await preferences.get(KEYS.journeyBeat)).toBe('beat_04_lakehaven');
         expect(await getClueSightings('highridge-proof')).toBeGreaterThan(0);
-        expect(await inventoryCount('ma')).toBe(10);
+        expect(await inventoryCount('trail_token')).toBe(10);
         expect(ui.notifications).toContain('Trail Token ×6');
         expect(ui.notifications).toContain('Ashcat +120 XP');
         expect(ui.notifications).toContain('Ashcat L6 -> L7');
@@ -291,25 +291,25 @@ describe('journey golden path (integration)', () => {
         expect(villagePlayer.getCurrentMap()?.id).toBe('lakehaven');
     });
 
-    it('buys poki and kili from jan Moku with earned ma coins', async () => {
+    it('buys poki and orchard_fruit from jan Moku with earned trail_token coins', async () => {
         const { player } = await bootIntoLakeVillage();
         const ui = hijackUi(player);
         const village = player.getCurrentMap();
         const janMoku = village?.getEvent('jan-moku');
 
         expect(janMoku).toBeDefined();
-        expect(await inventoryCount('ma')).toBe(10);
+        expect(await inventoryCount('trail_token')).toBe(10);
 
-        ui.choose('buy:poki_lili', 'buy:kili', 'back');
+        ui.choose('buy:capture_pod', 'buy:orchard_fruit', 'back');
         await janMoku!.execMethod('onAction', [player]);
 
         expect(ui.texts).toContain('Fruit, pods, and tonics. Nothing fancy, all useful.');
         expect(ui.texts).toContain('Trail Token 10');
         expect(ui.texts).toContain('Capture Pod +1\nTrail Token 8');
         expect(ui.texts).toContain('Orchard Fruit +1\nTrail Token 7');
-        expect(await inventoryCount('ma')).toBe(7);
-        expect(await inventoryCount('poki_lili')).toBe(4);
-        expect(await inventoryCount('kili')).toBe(1);
+        expect(await inventoryCount('trail_token')).toBe(7);
+        expect(await inventoryCount('capture_pod')).toBe(4);
+        expect(await inventoryCount('orchard_fruit')).toBe(1);
     });
 
     it('defeats jan Telo, grants the badge reward, and opens frostvale', async () => {
@@ -495,7 +495,7 @@ describe('journey golden path (integration)', () => {
         const waitForVillage = client.waitForMapChange('riverside_home', 5000);
         await player.changeMap('riverside_home', { x: 128, y: 128 });
         await waitForVillage;
-        await addInventory('kili', 5);
+        await addInventory('orchard_fruit', 5);
 
         const loadResult = await player.load(1, { reason: 'manual', source: 'test' }, { changeMap: true });
         expect(loadResult?.ok).toBe(true);
@@ -504,9 +504,9 @@ describe('journey golden path (integration)', () => {
 
         expect(loadedPlayer.getCurrentMap()?.id).toBe('greenwood_road');
         expect(await preferences.get(KEYS.journeyBeat)).toBe('beat_02_greenwood_road');
-        expect(await inventoryCount('kili')).toBe(0);
+        expect(await inventoryCount('orchard_fruit')).toBe(0);
         expect(await getParty()).toEqual([
-            expect.objectContaining({ slot: 0, species_id: 'kon_moli', level: 5 }),
+            expect.objectContaining({ slot: 0, species_id: 'ashcat', level: 5 }),
         ]);
     });
 });
@@ -544,7 +544,7 @@ async function bootIntoRoute(): Promise<{ client: GameClient; player: RpgPlayer 
     const janSewi = starterMap?.getEvent('jan-sewi');
     const warpEast = starterMap?.getEvent('warp_east');
 
-    ui.choose('kon_moli');
+    ui.choose('ashcat');
     await janSewi!.execMethod('onAction', [game.player]);
 
     const waitForRoute = game.client.waitForMapChange('greenwood_road', 5000);
@@ -574,7 +574,7 @@ async function bootIntoMountain(): Promise<{ client: GameClient; player: RpgPlay
     }
 
     await scriptDefeat(janIke, game.player, async () => (
-        await getFlag('jan_ike_defeated')
+        await getFlag('rook_defeated')
     ) === '1');
     const waitForMountain = game.client.waitForMapChange('highridge_pass', 5000);
     await warpEast.execMethod('onPlayerTouch', [game.player]);
@@ -777,7 +777,7 @@ function makeNasinWanEncounterShape(): RpgShape {
         name: 'encounter_0',
         properties: {
             type: 'Encounter',
-            species: '{"jan_ike_lili":25,"jan_utala_lili":20,"soweli_musi":20,"soweli_kili":15,"soweli_jaki":10,"waso_pimeja":10}',
+            species: '{"bramble_imp":25,"thornling":20,"mirthcat":20,"applepup":15,"mudgrub":10,"nightjar":10}',
             level_min: 3,
             level_max: 5,
         },

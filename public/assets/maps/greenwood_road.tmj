@@ -1268,12 +1268,12 @@
             {
               "name": "id",
               "type": "string",
-              "value": "jan_palisa_nasin"
+              "value": "briar"
             },
             {
               "name": "dialog_id",
               "type": "string",
-              "value": "jan_palisa_nasin_sign"
+              "value": "briar_sign"
             }
           ]
         },
@@ -1291,12 +1291,12 @@
             {
               "name": "id",
               "type": "string",
-              "value": "jan_kasi_nasin"
+              "value": "thorn"
             },
             {
               "name": "dialog_id",
               "type": "string",
-              "value": "jan_kasi_nasin_grass"
+              "value": "thorn_grass"
             }
           ]
         },
@@ -1314,12 +1314,12 @@
             {
               "name": "id",
               "type": "string",
-              "value": "jan_poki_nasin"
+              "value": "pack"
             },
             {
               "name": "dialog_id",
               "type": "string",
-              "value": "jan_poki_nasin_pack"
+              "value": "pack_runner"
             }
           ]
         },
@@ -1337,12 +1337,12 @@
             {
               "name": "id",
               "type": "string",
-              "value": "jan_lukin_nasin"
+              "value": "lark"
             },
             {
               "name": "dialog_id",
               "type": "string",
-              "value": "jan_lukin_nasin_watch"
+              "value": "lark_watch"
             }
           ]
         },
@@ -1360,12 +1360,12 @@
             {
               "name": "id",
               "type": "string",
-              "value": "jan_ike"
+              "value": "rook"
             },
             {
               "name": "dialog_id",
               "type": "string",
-              "value": "jan_ike_rival"
+              "value": "rook_rival"
             }
           ]
         },
@@ -1393,7 +1393,7 @@
             {
               "name": "required_flag",
               "type": "string",
-              "value": "jan_ike_defeated"
+              "value": "rook_defeated"
             }
           ]
         }
@@ -1422,7 +1422,7 @@
             {
               "name": "species",
               "type": "string",
-              "value": "{\"jan_ike_lili\":20,\"jan_utala_lili\":18,\"soweli_musi\":18,\"soweli_kili\":14,\"soweli_jaki\":10,\"waso_pimeja\":10,\"soweli_anpa\":10}"
+              "value": "{\"bramble_imp\":20,\"thornling\":18,\"mirthcat\":18,\"applepup\":14,\"mudgrub\":10,\"nightjar\":10,\"burrowmole\":10}"
             },
             {
               "name": "level_min",
@@ -1450,7 +1450,7 @@
             {
               "name": "species",
               "type": "string",
-              "value": "{\"jan_ike_lili\":18,\"jan_utala_lili\":22,\"jan_moli\":14,\"soweli_musi\":14,\"soweli_kili\":14,\"waso_toki\":10,\"soweli_kon\":8}"
+              "value": "{\"bramble_imp\":18,\"thornling\":22,\"bog_wisp\":14,\"mirthcat\":14,\"applepup\":14,\"songbird\":10,\"mistfox\":8}"
             },
             {
               "name": "level_min",
@@ -1478,7 +1478,7 @@
             {
               "name": "species",
               "type": "string",
-              "value": "{\"jan_ike_lili\":15,\"jan_moli\":25,\"soweli_kili\":20,\"soweli_jaki\":20,\"akesi_linja\":10,\"soweli_nena\":10}"
+              "value": "{\"bramble_imp\":15,\"bog_wisp\":25,\"applepup\":20,\"mudgrub\":20,\"vine_adder\":10,\"hillbuck\":10}"
             },
             {
               "name": "level_min",

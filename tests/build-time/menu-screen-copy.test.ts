@@ -12,7 +12,7 @@ import { glyphForDisplay } from '../../src/styles/sitelen-glyph';
 
 describe('secondary pause screen copy', () => {
     it('formats inventory detail rows through gameplay JSON templates', () => {
-        expect(formatInventoryItemLine('poki_lili', 3)).toBe('  poki lili ×3');
+        expect(formatInventoryItemLine('capture_pod', 3)).toBe('  capture pod ×3');
     });
 
     it('formats vocabulary detail rows through gameplay JSON templates', () => {

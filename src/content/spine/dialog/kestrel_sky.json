@@ -1,0 +1,22 @@
+{
+  "id": "kestrel_sky",
+  "npc_id": "kestrel",
+  "priority": 0,
+  "beats": [
+    {
+      "text": {
+        "en": "Birds circle when someone strays from the high path."
+      },
+      "mood": "happy",
+      "glyph": "wild-signs"
+    },
+    {
+      "text": {
+        "en": "Watch the shadows, not just the road."
+      },
+      "mood": "thinking",
+      "glyph": "wild-signs"
+    }
+  ],
+  "triggers": {}
+}

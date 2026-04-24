@@ -1,0 +1,15 @@
+{
+  "id": "cormorant_tuneup",
+  "npc_id": "cormorant",
+  "priority": 0,
+  "beats": [
+    {
+      "text": {
+        "en": "Big catches live near deep water. Keep your team ready."
+      },
+      "mood": "excited",
+      "glyph": "water-edge"
+    }
+  ],
+  "triggers": {}
+}

@@ -1,6 +1,6 @@
 {
-  "id": "jan_sewi_starter_intro",
-  "npc_id": "jan_sewi",
+  "id": "selby_starter_intro",
+  "npc_id": "selby",
   "when_flags": {
     "starter_chosen": false
   },

@@ -20,23 +20,23 @@ import {
  * produce the same sequence.
  */
 
-const kili: SpeciesEntry = {
-    id: 'soweli_kili',
+const orchard_fruit: SpeciesEntry = {
+    id: 'applepup',
     learnset: [
-        { level: 1, move_id: 'utala_lili' },
+        { level: 1, move_id: 'quick_jab' },
         { level: 3, move_id: 'utala_wawa' },
         { level: 6, move_id: 'utala_suli' },
     ],
 };
 
 const speciesLookup = (id: string): SpeciesEntry | null =>
-    id === kili.id ? kili : null;
+    id === orchard_fruit.id ? orchard_fruit : null;
 
 const creature = (overrides: Partial<PartyCreature> = {}): PartyCreature => ({
-    species_id: 'soweli_kili',
+    species_id: 'applepup',
     xp: 0,
     level: 1,
-    moves: ['utala_lili'],
+    moves: ['quick_jab'],
     ...overrides,
 });
 
@@ -63,7 +63,7 @@ describe('buildVictorySequence — XP only, no level crossed', () => {
 describe('buildVictorySequence — level-up boundaries', () => {
     it('crossing one level emits xp_gained + level_up', () => {
         // level 1 → needs 8 xp for level 2; party at 1 xp, foe grants 7
-        const party = [creature({ xp: 1, level: 1, moves: ['utala_lili'] })];
+        const party = [creature({ xp: 1, level: 1, moves: ['quick_jab'] })];
         const seq = buildVictorySequence(party, foe(7), speciesLookup);
         expect(seq).toEqual([
             { kind: 'xp_gained', creatureIndex: 0, amount: 7 },
@@ -73,7 +73,7 @@ describe('buildVictorySequence — level-up boundaries', () => {
 
     it('crossing multiple levels emits one level_up per boundary', () => {
         // 1 xp → 200 xp crosses levels 2,3,4,5 (8, 27, 64, 125)
-        const party = [creature({ xp: 1, level: 1, moves: ['utala_lili'] })];
+        const party = [creature({ xp: 1, level: 1, moves: ['quick_jab'] })];
         const seq = buildVictorySequence(party, foe(199), speciesLookup);
         const levelUps = seq.filter((s) => s.kind === 'level_up');
         expect(levelUps).toHaveLength(4);
@@ -81,7 +81,7 @@ describe('buildVictorySequence — level-up boundaries', () => {
     });
 
     it('level-up steps come after xp_gained in order', () => {
-        const party = [creature({ xp: 1, level: 1, moves: ['utala_lili'] })];
+        const party = [creature({ xp: 1, level: 1, moves: ['quick_jab'] })];
         const seq = buildVictorySequence(party, foe(7), speciesLookup);
         expect(seq[0].kind).toBe('xp_gained');
         expect(seq[1].kind).toBe('level_up');
@@ -91,7 +91,7 @@ describe('buildVictorySequence — level-up boundaries', () => {
 describe('buildVictorySequence — move learning', () => {
     it('crossing level 3 while species learns move at L3 emits move_learned', () => {
         // party at level 2, xp 8; crossing to level 3 (27) needs 19 xp
-        const party = [creature({ xp: 8, level: 2, moves: ['utala_lili'] })];
+        const party = [creature({ xp: 8, level: 2, moves: ['quick_jab'] })];
         const seq = buildVictorySequence(party, foe(19), speciesLookup);
         const learned = seq.filter((s) => s.kind === 'move_learned');
         expect(learned).toEqual([
@@ -100,14 +100,14 @@ describe('buildVictorySequence — move learning', () => {
     });
 
     it('already-known move is NOT re-learned', () => {
-        const party = [creature({ xp: 8, level: 2, moves: ['utala_lili', 'utala_wawa'] })];
+        const party = [creature({ xp: 8, level: 2, moves: ['quick_jab', 'utala_wawa'] })];
         const seq = buildVictorySequence(party, foe(19), speciesLookup);
         expect(seq.filter((s) => s.kind === 'move_learned')).toEqual([]);
     });
 
     it('crossing multiple level boundaries emits moves in ascending level order', () => {
         // level 1 → level 6 should learn utala_wawa (L3) then utala_suli (L6)
-        const party = [creature({ xp: 1, level: 1, moves: ['utala_lili'] })];
+        const party = [creature({ xp: 1, level: 1, moves: ['quick_jab'] })];
         const seq = buildVictorySequence(party, foe(215), speciesLookup); // 216 = 6^3
         const learned = seq.filter((s) => s.kind === 'move_learned');
         expect(learned.map((s) => s.moveId)).toEqual(['utala_wawa', 'utala_suli']);
@@ -146,7 +146,7 @@ describe('buildVictorySequence — party handling', () => {
     });
 
     it('does not mutate input party', () => {
-        const party = [creature({ xp: 1, level: 1, moves: ['utala_lili'] })];
+        const party = [creature({ xp: 1, level: 1, moves: ['quick_jab'] })];
         const snapshot = JSON.parse(JSON.stringify(party));
         buildVictorySequence(party, foe(999), speciesLookup);
         expect(party).toEqual(snapshot);
@@ -163,7 +163,7 @@ describe('buildVictorySequence — party handling', () => {
 
 describe('buildVictorySequence — ordering invariants', () => {
     it('within a level crossing: level_up before its move_learned', () => {
-        const party = [creature({ xp: 8, level: 2, moves: ['utala_lili'] })];
+        const party = [creature({ xp: 8, level: 2, moves: ['quick_jab'] })];
         const seq = buildVictorySequence(party, foe(19), speciesLookup);
         const levelUpIdx = seq.findIndex((s) => s.kind === 'level_up' && s.to === 3);
         const moveIdx = seq.findIndex((s) => s.kind === 'move_learned' && s.moveId === 'utala_wawa');
@@ -172,7 +172,7 @@ describe('buildVictorySequence — ordering invariants', () => {
     });
 
     it('xp_gained is always the first step when there is any gain', () => {
-        const party = [creature({ xp: 1, level: 1, moves: ['utala_lili'] })];
+        const party = [creature({ xp: 1, level: 1, moves: ['quick_jab'] })];
         const seq = buildVictorySequence(party, foe(215), speciesLookup);
         expect(seq[0].kind).toBe('xp_gained');
     });

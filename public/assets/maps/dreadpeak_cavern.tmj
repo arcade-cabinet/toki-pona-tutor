@@ -1076,12 +1076,12 @@
             {
               "name": "id",
               "type": "string",
-              "value": "jan_kiwen_suli"
+              "value": "graym"
             },
             {
               "name": "dialog_id",
               "type": "string",
-              "value": "jan_kiwen_suli_cave"
+              "value": "graym_cave"
             }
           ]
         },
@@ -1099,12 +1099,12 @@
             {
               "name": "id",
               "type": "string",
-              "value": "jan_pi_kon"
+              "value": "meadow"
             },
             {
               "name": "dialog_id",
               "type": "string",
-              "value": "jan_pi_kon_meditate"
+              "value": "meadow_meditate"
             }
           ]
         },
@@ -1122,12 +1122,12 @@
             {
               "name": "id",
               "type": "string",
-              "value": "jan_pimeja_suli"
+              "value": "ember"
             },
             {
               "name": "dialog_id",
               "type": "string",
-              "value": "jan_pimeja_suli_torch"
+              "value": "ember_torch"
             }
           ]
         },
@@ -1145,12 +1145,12 @@
             {
               "name": "id",
               "type": "string",
-              "value": "jan_pi_nasin"
+              "value": "rowan"
             },
             {
               "name": "dialog_id",
               "type": "string",
-              "value": "jan_pi_nasin_ask"
+              "value": "rowan_ask"
             }
           ]
         },
@@ -1168,12 +1168,12 @@
             {
               "name": "id",
               "type": "string",
-              "value": "jan_suli"
+              "value": "cliff"
             },
             {
               "name": "dialog_id",
               "type": "string",
-              "value": "jan_suli_intro"
+              "value": "cliff_intro"
             }
           ]
         },
@@ -1230,7 +1230,7 @@
             {
               "name": "species",
               "type": "string",
-              "value": "{\"jan_wawa_suli\":22,\"jan_wawa_utala\":18,\"soweli_utala\":12,\"sijelo_utala\":18,\"waso_moku\":12,\"waso_moli\":12,\"soweli_sewi\":6}"
+              "value": "{\"mountain_bear\":22,\"warback\":18,\"fangrunner\":12,\"glacier_talon\":18,\"coalbeak\":12,\"raven_shade\":12,\"snowhare\":6}"
             },
             {
               "name": "level_min",
@@ -1258,7 +1258,7 @@
             {
               "name": "species",
               "type": "string",
-              "value": "{\"jan_wawa_suli\":18,\"jan_wawa_utala\":18,\"jan_utala_suli\":6,\"sijelo_utala\":22,\"waso_moku\":14,\"soweli_alasa\":14,\"soweli_wawa\":8}"
+              "value": "{\"mountain_bear\":18,\"warback\":18,\"stoneclaw\":6,\"glacier_talon\":22,\"coalbeak\":14,\"foxhound\":14,\"boulderhorn\":8}"
             },
             {
               "name": "level_min",

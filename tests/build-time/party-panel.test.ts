@@ -24,7 +24,7 @@ describe('buildPartyPanelSlot', () => {
         const slot = buildPartyPanelSlot(
             {
                 slot: 0,
-                species_id: 'kon_moli',
+                species_id: 'ashcat',
                 level: 5,
                 xp: 0,
             },
@@ -38,7 +38,9 @@ describe('buildPartyPanelSlot', () => {
         );
 
         expect(slot.primaryLabel).toBe('Ashcat');
-        expect(slot.secondaryLabel).toBe('kon moli');
+        // Secondary label null post T2-04B — species have no toki-pona
+        // name and the speciesId normalization collapses to primary.
+        expect(slot.secondaryLabel).toBeNull();
         expect(slot.portraitSrc).toBe('/assets/creatures/wraith/wraith.png');
         expect(slot.portraitFrame).toMatchObject({
             src: '/assets/creatures/wraith/wraith.png',
@@ -80,10 +82,10 @@ describe('buildPartyPanelSlot', () => {
     });
 });
 
-describe('kili healing item', () => {
+describe('orchard_fruit healing item', () => {
     it('resolves heal amount from generated world content and clamps at max HP', () => {
-        expect(healingItem('kili')).toEqual({
-            id: 'kili',
+        expect(healingItem('orchard_fruit')).toEqual({
+            id: 'orchard_fruit',
             label: 'Orchard Fruit',
             amount: 20,
         });
@@ -105,8 +107,8 @@ describe('kili healing item', () => {
 
 describe('setPartyOrder', () => {
     it('persists promote-to-lead order without losing roster data', async () => {
-        await addToParty('kon_moli', 5);
-        await addToParty('jan_ike_lili', 3);
+        await addToParty('ashcat', 5);
+        await addToParty('bramble_imp', 3);
 
         const before = await getParty();
         await setPartyOrder(promoteToLead(before, 1));
@@ -114,13 +116,13 @@ describe('setPartyOrder', () => {
         expect(await getParty()).toEqual([
             {
                 slot: 0,
-                species_id: 'jan_ike_lili',
+                species_id: 'bramble_imp',
                 level: 3,
                 xp: 0,
             },
             {
                 slot: 1,
-                species_id: 'kon_moli',
+                species_id: 'ashcat',
                 level: 5,
                 xp: 0,
             },
@@ -128,8 +130,8 @@ describe('setPartyOrder', () => {
     });
 
     it('keeps persisted HP attached to the creature when reordering slots', async () => {
-        await addToParty('kon_moli', 5);
-        await addToParty('jan_ike_lili', 3);
+        await addToParty('ashcat', 5);
+        await addToParty('bramble_imp', 3);
         await setPartyCurrentHp(0, 11);
         await setPartyCurrentHp(1, 7);
 
@@ -138,20 +140,20 @@ describe('setPartyOrder', () => {
         expect(await getPartyWithHealth()).toEqual([
             expect.objectContaining({
                 slot: 0,
-                species_id: 'jan_ike_lili',
+                species_id: 'bramble_imp',
                 current_hp: 7,
             }),
             expect.objectContaining({
                 slot: 1,
-                species_id: 'kon_moli',
+                species_id: 'ashcat',
                 current_hp: 11,
             }),
         ]);
     });
 
     it('rejects duplicate or partial slot lists', async () => {
-        await addToParty('kon_moli', 5);
-        await addToParty('jan_ike_lili', 3);
+        await addToParty('ashcat', 5);
+        await addToParty('bramble_imp', 3);
 
         await expect(setPartyOrder([{ slot: 0 }])).rejects.toThrow(/every current slot/);
         await expect(setPartyOrder([{ slot: 0 }, { slot: 0 }])).rejects.toThrow(/unknown or duplicate/);
@@ -160,19 +162,19 @@ describe('setPartyOrder', () => {
 
 describe('party health and inventory persistence', () => {
     it('tracks current HP separately from the stable getParty shape', async () => {
-        await addToParty('kon_moli', 5);
+        await addToParty('ashcat', 5);
 
         expect(await getParty()).toEqual([
             {
                 slot: 0,
-                species_id: 'kon_moli',
+                species_id: 'ashcat',
                 level: 5,
                 xp: 0,
             },
         ]);
         expect((await getPartyWithHealth())[0]).toEqual({
             slot: 0,
-            species_id: 'kon_moli',
+            species_id: 'ashcat',
             level: 5,
             xp: 0,
             current_hp: null,
@@ -183,17 +185,17 @@ describe('party health and inventory persistence', () => {
     });
 
     it('decrements stackable healing inventory without underflowing', async () => {
-        await addToInventory('kili', 2);
+        await addToInventory('orchard_fruit', 2);
 
-        await expect(consumeInventoryItem('kili')).resolves.toBe(true);
-        expect(await getInventoryCount('kili')).toBe(1);
-        await expect(consumeInventoryItem('kili', 2)).resolves.toBe(false);
-        expect(await getInventoryCount('kili')).toBe(1);
-        await expect(consumeInventoryItem('kili')).resolves.toBe(true);
-        expect(await getInventoryCount('kili')).toBe(0);
-        await setInventoryCount('kili', 3);
-        expect(await getInventoryCount('kili')).toBe(3);
-        await setInventoryCount('kili', 0);
-        expect(await getInventoryCount('kili')).toBe(0);
+        await expect(consumeInventoryItem('orchard_fruit')).resolves.toBe(true);
+        expect(await getInventoryCount('orchard_fruit')).toBe(1);
+        await expect(consumeInventoryItem('orchard_fruit', 2)).resolves.toBe(false);
+        expect(await getInventoryCount('orchard_fruit')).toBe(1);
+        await expect(consumeInventoryItem('orchard_fruit')).resolves.toBe(true);
+        expect(await getInventoryCount('orchard_fruit')).toBe(0);
+        await setInventoryCount('orchard_fruit', 3);
+        expect(await getInventoryCount('orchard_fruit')).toBe(3);
+        await setInventoryCount('orchard_fruit', 0);
+        expect(await getInventoryCount('orchard_fruit')).toBe(0);
     });
 });

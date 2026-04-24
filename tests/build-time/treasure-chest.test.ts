@@ -11,7 +11,7 @@ const basicChest: ChestDef = {
     id: 'chest_lakehaven_0',
     mapId: 'lakehaven',
     at: [5, 3],
-    loot: [{ itemId: 'kili', count: 1, weight: 1 }],
+    loot: [{ itemId: 'orchard_fruit', count: 1, weight: 1 }],
     openFlag: 'chest_lakehaven_0',
 };
 
@@ -63,7 +63,7 @@ describe('chestStatus', () => {
 
 describe('rollLoot', () => {
     it('returns the sole entry for a 1-item table', () => {
-        expect(rollLoot(basicChest)).toEqual({ itemId: 'kili', count: 1, weight: 1 });
+        expect(rollLoot(basicChest)).toEqual({ itemId: 'orchard_fruit', count: 1, weight: 1 });
     });
 
     it('returns null for empty loot', () => {
@@ -74,9 +74,9 @@ describe('rollLoot', () => {
         const chest: ChestDef = {
             ...basicChest,
             loot: [
-                { itemId: 'kili', count: 1, weight: 1 },
-                { itemId: 'poki_lili', count: 1, weight: 1 },
-                { itemId: 'telo_pona', count: 1, weight: 1 },
+                { itemId: 'orchard_fruit', count: 1, weight: 1 },
+                { itemId: 'capture_pod', count: 1, weight: 1 },
+                { itemId: 'spring_tonic', count: 1, weight: 1 },
             ],
         };
         let seed = 1;
@@ -111,7 +111,7 @@ describe('rollLoot', () => {
 describe('openChest — one-shot transition', () => {
     it('first open on closed chest grants loot + flips openFlag', () => {
         const r = openChest(basicChest, emptyPlayer);
-        expect(r.granted).toEqual({ itemId: 'kili', count: 1, weight: 1 });
+        expect(r.granted).toEqual({ itemId: 'orchard_fruit', count: 1, weight: 1 });
         expect(r.newFlags).toEqual({ chest_lakehaven_0: '1' });
         expect(r.alreadyOpened).toBe(false);
     });

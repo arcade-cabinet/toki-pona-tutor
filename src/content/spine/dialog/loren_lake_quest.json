@@ -1,0 +1,15 @@
+{
+  "id": "loren_lake_quest",
+  "npc_id": "loren",
+  "priority": 0,
+  "beats": [
+    {
+      "text": {
+        "en": "Lakehaven needs a runner with steady hands."
+      },
+      "mood": "thinking",
+      "glyph": "safe-house"
+    }
+  ],
+  "triggers": {}
+}

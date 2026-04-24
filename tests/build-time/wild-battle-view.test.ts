@@ -29,13 +29,13 @@ const species = new Map(world.species.map((entry) => [entry.id, entry]));
 
 describe('wild battle view model', () => {
     it('builds a lead-vs-target overlay model with HP tiers and species sprite frames', () => {
-        const leadSpecies = species.get('kon_moli')!;
-        const target = species.get('jan_ike_lili')!;
+        const leadSpecies = species.get('ashcat')!;
+        const target = species.get('bramble_imp')!;
 
         const view = buildWildBattleView({
             lead: {
                 slot: 0,
-                species_id: 'kon_moli',
+                species_id: 'ashcat',
                 level: 5,
                 current_hp: 34,
             },
@@ -49,14 +49,14 @@ describe('wild battle view model', () => {
         });
 
         expect(view.lead).toMatchObject({
-            id: 'kon_moli',
+            id: 'ashcat',
             label: 'Ashcat',
             levelLabel: 'L5',
             hpLabel: 'HP 34 / 44',
             hpClass: 'hp-healthy',
         });
         expect(view.target).toMatchObject({
-            id: 'jan_ike_lili',
+            id: 'bramble_imp',
             label: 'Bramble Imp',
             levelLabel: 'L3',
             hpLabel: 'HP 20 / 48',
@@ -67,7 +67,7 @@ describe('wild battle view model', () => {
     });
 
     it('crops the first idle frame from the species sheet without requiring a portrait-only asset', () => {
-        expect(wildBattleSpriteFrame(species.get('kon_moli'))).toMatchObject({
+        expect(wildBattleSpriteFrame(species.get('ashcat'))).toMatchObject({
             src: '/assets/creatures/wraith/wraith.png',
             frameX: 0,
             frameY: 0,
@@ -103,7 +103,7 @@ describe('wild battle view model', () => {
             label: 'It broke free!',
         });
 
-        const target = species.get('jan_ike_lili')!;
+        const target = species.get('bramble_imp')!;
         expect(buildWildBattleView({
             target,
             targetLevel: 3,

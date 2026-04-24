@@ -4,7 +4,7 @@ import { buildHudLeadStatus } from '../../src/config/hud-status';
 describe('buildHudLeadStatus', () => {
     it('formats the lead creature labels and portrait from content metadata', () => {
         const status = buildHudLeadStatus({
-            speciesId: 'kon_moli',
+            speciesId: 'ashcat',
             level: 5,
             masteredWordCount: 3,
             currentHp: 24,
@@ -12,7 +12,11 @@ describe('buildHudLeadStatus', () => {
         });
 
         expect(status.primaryLabel).toBe('Ashcat');
-        expect(status.secondaryLabel).toBe('kon moli');
+        // Species no longer carry a toki-pona `name.tp` post T2-04B, so
+        // the secondary label collapses to null when primary matches the
+        // id with underscores replaced — see `resolveSecondaryLabel` in
+        // src/config/hud-status.ts.
+        expect(status.secondaryLabel).toBeNull();
         expect(status.portraitSrc).toBe('/assets/creatures/wraith/wraith.png');
         expect(status.portraitFrame).toMatchObject({
             src: '/assets/creatures/wraith/wraith.png',

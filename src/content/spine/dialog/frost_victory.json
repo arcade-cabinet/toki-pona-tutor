@@ -1,0 +1,25 @@
+{
+  "id": "frost_victory",
+  "npc_id": "frost",
+  "when_flags": {
+    "badge_lete": true
+  },
+  "priority": 5,
+  "beats": [
+    {
+      "text": {
+        "en": "You kept moving through the cold."
+      },
+      "mood": "sad",
+      "glyph": "companion-bond"
+    },
+    {
+      "text": {
+        "en": "Carry this badge onward."
+      },
+      "mood": "thinking",
+      "glyph": "greenwood-watch"
+    }
+  ],
+  "triggers": {}
+}

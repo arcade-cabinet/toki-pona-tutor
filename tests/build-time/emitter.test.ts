@@ -195,7 +195,7 @@ describe("emitTmj — object layer", () => {
                     type: "Sign",
                     name: "welcome",
                     at: [0, 0],
-                    props: { text: "ma tomo lili" },
+                    props: { text: "trail_token tomo lili" },
                 },
                 {
                     type: "Warp",

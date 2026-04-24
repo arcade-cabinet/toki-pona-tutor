@@ -294,7 +294,7 @@ test("mobile action-battle lead movebar taps spend SP and damage the live rival"
                 const state = await getState(page);
                 return state.starterChosen;
             })
-            .toBe("kon_moli");
+            .toBe("ashcat");
 
         const warpTask = await beginEvent(page, "warp_east", "touch");
         await expect
@@ -310,7 +310,7 @@ test("mobile action-battle lead movebar taps spend SP and damage the live rival"
             })
             .toBe("greenwood_road:greenwood_road");
 
-        const catchTask = await beginForestEncounter(page, "soweli_kili");
+        const catchTask = await beginForestEncounter(page, "applepup");
         await advanceDialog(page, "Something wild jumps from the grass.", catchTask);
         await expect(dialogChoice(page, 0)).toContainText("Fight");
         await dialogChoice(page, 0).tap();
@@ -326,7 +326,7 @@ test("mobile action-battle lead movebar taps spend SP and damage the live rival"
             .toBe("true:");
         await expect
             .poll(async () => (await getParty(page)).map((member) => member.speciesId).join(","))
-            .toBe("kon_moli,soweli_kili");
+            .toBe("ashcat,applepup");
 
         await setLeadHp(page, 200);
         const rivalIntroTask = await beginEvent(page, "jan-ike");
@@ -357,7 +357,7 @@ test("mobile action-battle lead movebar taps spend SP and damage the live rival"
 
         const movebar = page.getByTestId("lead-movebar");
         const target = page.getByTestId("lead-movebar-target");
-        const move = page.getByTestId("lead-move-seli_lili");
+        const move = page.getByTestId("lead-move-ember_nip");
         await expect(movebar).toBeVisible();
         await expect(target).toBeVisible();
         await expect(target).toContainText("jan ike");
@@ -366,11 +366,11 @@ test("mobile action-battle lead movebar taps spend SP and damage the live rival"
         await expect(move).toBeEnabled();
         await expect(move).toHaveAttribute("data-ready", "true");
         await expect(move).toHaveAttribute("aria-disabled", "false");
-        await expectTouchTarget(move, "lead move seli_lili");
+        await expectTouchTarget(move, "lead move ember_nip");
         await setLeadHp(page, 200);
         await expect
             .poll(async () => (await getParty(page)).map((member) => member.speciesId).join(","))
-            .toBe("kon_moli,soweli_kili");
+            .toBe("ashcat,applepup");
         await expect(page.locator("#rpg canvas")).toBeVisible();
         const reticlePath = await captureCanvasWithActiveReticle(
             page,
@@ -381,7 +381,7 @@ test("mobile action-battle lead movebar taps spend SP and damage the live rival"
         await setLeadHp(page, 200);
         await expect
             .poll(async () => (await getParty(page)).map((member) => member.speciesId).join(","))
-            .toBe("kon_moli,soweli_kili");
+            .toBe("ashcat,applepup");
 
         await expect(page.getByTestId("lead-switch-panel")).toBeVisible();
         await expect(page.getByTestId("lead-switch-label")).toContainText("Party");
@@ -398,17 +398,17 @@ test("mobile action-battle lead movebar taps spend SP and damage the live rival"
         await benchSwitch.tap();
         await expect
             .poll(async () => (await getParty(page)).map((member) => member.speciesId).join(","))
-            .toBe("soweli_kili,kon_moli");
+            .toBe("applepup,ashcat");
         await expect
             .poll(async () => {
                 const state = await getState(page);
                 return state.serverGraphic;
             })
-            .toBe("species_soweli_kili");
+            .toBe("species_applepup");
         await expect(movebar).toContainText("Applepup");
-        await expect(page.getByTestId("lead-move-kasi_lili")).toBeVisible();
-        await expect(page.getByTestId("lead-move-utala_lili")).toBeVisible();
-        await expect(page.getByTestId("lead-move-seli_lili")).toHaveCount(0);
+        await expect(page.getByTestId("lead-move-leaf_jab")).toBeVisible();
+        await expect(page.getByTestId("lead-move-quick_jab")).toBeVisible();
+        await expect(page.getByTestId("lead-move-ember_nip")).toHaveCount(0);
         await setLeadHp(page, 200);
 
         const before = await getCombatState(page, "jan-ike");

@@ -2,13 +2,13 @@
   "starter_level": 5,
   "initial_items": [
     {
-      "item_id": "poki_lili",
+      "item_id": "capture_pod",
       "count": 3
     }
   ],
   "starters": [
     {
-      "id": "kon_moli",
+      "id": "ashcat",
       "label": "Ashcat",
       "starting_clues": [
         "companion-bond",
@@ -17,7 +17,7 @@
       ]
     },
     {
-      "id": "telo_jaki",
+      "id": "mireling",
       "label": "Mireling",
       "starting_clues": [
         "companion-bond",
@@ -26,7 +26,7 @@
       ]
     },
     {
-      "id": "jan_ike_lili",
+      "id": "bramble_imp",
       "label": "Bramble Imp",
       "starting_clues": [
         "companion-bond",

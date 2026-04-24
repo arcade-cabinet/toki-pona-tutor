@@ -8,13 +8,13 @@ import {
 } from '../../src/modules/main/daycare';
 
 const parent = (overrides: Partial<ParentSnapshot> = {}): ParentSnapshot => ({
-    speciesId: 'kon_moli',
+    speciesId: 'ashcat',
     type: 'seli',
     base_stats: { hp: 50, attack: 40, defense: 30, speed: 60 },
     learnset: [
-        { level: 1, move_id: 'seli_lili' },
-        { level: 1, move_id: 'utala_lili' },
-        { level: 8, move_id: 'seli_wawa' },
+        { level: 1, move_id: 'ember_nip' },
+        { level: 1, move_id: 'quick_jab' },
+        { level: 8, move_id: 'flame_strike' },
     ],
     ...overrides,
 });
@@ -86,48 +86,48 @@ describe('averagedStats — mean of parents ± jitter', () => {
 
 describe('inheritedLearnset — union of level-1 moves + child low-level', () => {
     it('dedupes shared level-1 moves', () => {
-        const a = parent({ learnset: [{ level: 1, move_id: 'utala_lili' }, { level: 1, move_id: 'seli_lili' }] });
-        const b = parent({ learnset: [{ level: 1, move_id: 'utala_lili' }, { level: 1, move_id: 'telo_lili' }] });
+        const a = parent({ learnset: [{ level: 1, move_id: 'quick_jab' }, { level: 1, move_id: 'ember_nip' }] });
+        const b = parent({ learnset: [{ level: 1, move_id: 'quick_jab' }, { level: 1, move_id: 'splash' }] });
         const r = inheritedLearnset(a, b, []);
         const moves = r.map((e) => e.move_id);
-        expect(moves).toContain('utala_lili');
-        expect(moves).toContain('seli_lili');
-        expect(moves).toContain('telo_lili');
-        expect(moves.filter((m) => m === 'utala_lili')).toHaveLength(1);
+        expect(moves).toContain('quick_jab');
+        expect(moves).toContain('ember_nip');
+        expect(moves).toContain('splash');
+        expect(moves.filter((m) => m === 'quick_jab')).toHaveLength(1);
     });
 
     it('adds child-species moves up to level 5', () => {
-        const a = parent({ learnset: [{ level: 1, move_id: 'utala_lili' }] });
-        const b = parent({ learnset: [{ level: 1, move_id: 'seli_lili' }] });
+        const a = parent({ learnset: [{ level: 1, move_id: 'quick_jab' }] });
+        const b = parent({ learnset: [{ level: 1, move_id: 'ember_nip' }] });
         const childSpecies = [
-            { level: 1, move_id: 'kasi_lili' },
-            { level: 5, move_id: 'kasi_wawa' },
-            { level: 10, move_id: 'wawa_waso' }, // excluded (> 5)
+            { level: 1, move_id: 'leaf_jab' },
+            { level: 5, move_id: 'leaf_storm' },
+            { level: 10, move_id: 'wing_gust' }, // excluded (> 5)
         ];
         const r = inheritedLearnset(a, b, childSpecies);
         const moves = r.map((e) => e.move_id);
-        expect(moves).toContain('kasi_lili');
-        expect(moves).toContain('kasi_wawa');
-        expect(moves).not.toContain('wawa_waso');
+        expect(moves).toContain('leaf_jab');
+        expect(moves).toContain('leaf_storm');
+        expect(moves).not.toContain('wing_gust');
     });
 
     it('excludes parent moves above level 1', () => {
         const a = parent({
             learnset: [
-                { level: 1, move_id: 'utala_lili' },
-                { level: 8, move_id: 'seli_wawa' },
+                { level: 1, move_id: 'quick_jab' },
+                { level: 8, move_id: 'flame_strike' },
             ],
         });
-        const b = parent({ learnset: [{ level: 1, move_id: 'telo_lili' }] });
+        const b = parent({ learnset: [{ level: 1, move_id: 'splash' }] });
         const r = inheritedLearnset(a, b, []);
         const moves = r.map((e) => e.move_id);
-        expect(moves).not.toContain('seli_wawa');
+        expect(moves).not.toContain('flame_strike');
     });
 
     it('output is sorted by level then move_id', () => {
-        const a = parent({ learnset: [{ level: 1, move_id: 'utala_lili' }] });
-        const b = parent({ learnset: [{ level: 1, move_id: 'seli_lili' }] });
-        const r = inheritedLearnset(a, b, [{ level: 3, move_id: 'kasi_lili' }]);
+        const a = parent({ learnset: [{ level: 1, move_id: 'quick_jab' }] });
+        const b = parent({ learnset: [{ level: 1, move_id: 'ember_nip' }] });
+        const r = inheritedLearnset(a, b, [{ level: 3, move_id: 'leaf_jab' }]);
         expect(r[0].level).toBeLessThanOrEqual(r[1].level);
         expect(r[r.length - 1].level).toBe(3);
     });
@@ -136,14 +136,14 @@ describe('inheritedLearnset — union of level-1 moves + child low-level', () =>
 describe('hatch — full offspring', () => {
     it('produces a level-1 offspring with derived type + stats + learnset', () => {
         const baby = hatch({
-            parentA: parent({ speciesId: 'kon_moli', type: 'seli' }),
-            parentB: parent({ speciesId: 'telo_jaki', type: 'telo' }),
-            childSpeciesLearnset: [{ level: 1, move_id: 'kasi_lili' }],
+            parentA: parent({ speciesId: 'ashcat', type: 'seli' }),
+            parentB: parent({ speciesId: 'mireling', type: 'telo' }),
+            childSpeciesLearnset: [{ level: 1, move_id: 'leaf_jab' }],
             jitterFrac: 0,
         });
         expect(baby.level).toBe(1);
         expect(baby.type).toBe('kasi'); // seli × telo
-        expect(baby.speciesId).toBe('kon_moli_lili');
+        expect(baby.speciesId).toBe('ashcat_lili');
         expect(baby.base_stats.hp).toBeGreaterThan(0);
         expect(baby.learnset.length).toBeGreaterThan(0);
     });
@@ -151,7 +151,7 @@ describe('hatch — full offspring', () => {
     it('honors explicit childSpeciesId', () => {
         const baby = hatch({
             parentA: parent(),
-            parentB: parent({ speciesId: 'jan_moli' }),
+            parentB: parent({ speciesId: 'bog_wisp' }),
             childSpeciesId: 'custom_baby',
             childSpeciesLearnset: [],
             jitterFrac: 0,

@@ -22,8 +22,8 @@ const WORLD = JSON.parse(
 
 const DIALOG_IDS_REFERENCED_IN_CODE = [
     // from starter-ceremony.ts
-    'jan_sewi_after_pick',
-    'jan_sewi_starter_intro',
+    'selby_after_pick',
+    'selby_starter_intro',
     // from encounter.ts
     'wild_encounter_appear',
     'wild_encounter_caught',
@@ -31,24 +31,24 @@ const DIALOG_IDS_REFERENCED_IN_CODE = [
     // from respawn.ts
     'game_over_revive',
     // gym leader victory base ids constructed as `${dialogBase}_victory`:
-    'jan_ike_intro',
-    'jan_ike_victory',
-    'jan_wawa_intro',
-    'jan_wawa_victory',
-    'jan_telo_intro',
-    'jan_telo_victory',
-    'jan_lete_intro',
-    'jan_lete_victory',
-    'jan_suli_intro',
-    'jan_suli_victory',
+    'rook_intro',
+    'rook_victory',
+    'tarrin_intro',
+    'tarrin_victory',
+    'marin_intro',
+    'marin_victory',
+    'frost_intro',
+    'frost_victory',
+    'cliff_intro',
+    'cliff_victory',
     // ambient npc dialog ids from specs
     // NOTE: jan_pona is referenced in docs/LORE.md but not yet placed
     // in any map spec — uncomment when T7-06 (add flavor villagers)
     // lands. Intentionally commented rather than removed so the next
     // time someone reads this test they remember there's a gap.
     // 'jan_pona_flavor',
-    'jan_kala_rest',
-    'jan_kala_lake_quest',
+    'angler_rest',
+    'loren_lake_quest',
 ] as const;
 
 describe('dialog content — code references match shipped nodes', () => {
@@ -77,7 +77,7 @@ describe('dialog content — code references match shipped nodes', () => {
         }
         // Still assert that at least the CORE path ids exist — the
         // ones without which gameplay breaks.
-        expect(availableIds.has('jan_sewi_starter_intro'), 'starter ceremony intro missing').toBe(true);
+        expect(availableIds.has('selby_starter_intro'), 'starter ceremony intro missing').toBe(true);
         expect(availableIds.has('wild_encounter_appear'), 'wild encounter intro missing').toBe(true);
         expect(availableIds.has('game_over_revive'), 'respawn dialog missing').toBe(true);
     });

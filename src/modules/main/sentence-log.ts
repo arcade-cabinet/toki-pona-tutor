@@ -33,7 +33,7 @@ export interface LogObserveResult {
  * //               source: 'jan_sewi_intro' }, isNewSighting: true }
  *
  * observe(
- *   { text: 'The orchard path is safe.', source: 'jan_moku_stall', now: '2026-04-20T01:00:00Z' },
+ *   { text: 'The orchard path is safe.', source: 'shopkeep_stall', now: '2026-04-20T01:00:00Z' },
  *   existingRecord,
  * )
  * // → { record: { ..., sightings: 2 }, isNewSighting: false }

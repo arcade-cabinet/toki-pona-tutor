@@ -62,60 +62,60 @@
   <object id="1" name="from_tomo" type="SpawnPoint" x="16" y="80" width="0" height="0" visible="1" rotation="0"/>
   <object id="2" name="jan-palisa-nasin" type="NPC" x="64" y="80" width="0" height="0" visible="1" rotation="0">
    <properties>
-     <property name="id" value="jan_palisa_nasin"/>
-     <property name="dialog_id" value="jan_palisa_nasin_sign"/>
+     <property name="id" value="briar"/>
+     <property name="dialog_id" value="briar_sign"/>
    </properties>
   </object>
   <object id="3" name="jan-kasi-nasin" type="NPC" x="176" y="80" width="0" height="0" visible="1" rotation="0">
    <properties>
-     <property name="id" value="jan_kasi_nasin"/>
-     <property name="dialog_id" value="jan_kasi_nasin_grass"/>
+     <property name="id" value="thorn"/>
+     <property name="dialog_id" value="thorn_grass"/>
    </properties>
   </object>
   <object id="4" name="jan-poki-nasin" type="NPC" x="320" y="80" width="0" height="0" visible="1" rotation="0">
    <properties>
-     <property name="id" value="jan_poki_nasin"/>
-     <property name="dialog_id" value="jan_poki_nasin_pack"/>
+     <property name="id" value="pack"/>
+     <property name="dialog_id" value="pack_runner"/>
    </properties>
   </object>
   <object id="5" name="jan-lukin-nasin" type="NPC" x="400" y="80" width="0" height="0" visible="1" rotation="0">
    <properties>
-     <property name="id" value="jan_lukin_nasin"/>
-     <property name="dialog_id" value="jan_lukin_nasin_watch"/>
+     <property name="id" value="lark"/>
+     <property name="dialog_id" value="lark_watch"/>
    </properties>
   </object>
   <object id="6" name="jan-ike" type="NPC" x="448" y="80" width="0" height="0" visible="1" rotation="0">
    <properties>
-     <property name="id" value="jan_ike"/>
-     <property name="dialog_id" value="jan_ike_rival"/>
+     <property name="id" value="rook"/>
+     <property name="dialog_id" value="rook_rival"/>
    </properties>
   </object>
   <object id="7" name="warp_east" type="Warp" x="496" y="80" width="16" height="16" visible="1" rotation="0">
    <properties>
      <property name="target_map" value="highridge_pass"/>
      <property name="target_spawn" value="from_greenwood_road"/>
-     <property name="required_flag" value="jan_ike_defeated"/>
+     <property name="required_flag" value="rook_defeated"/>
    </properties>
   </object>
  </objectgroup>
  <objectgroup id="5" name="Encounters" visible="1" opacity="1">
   <object id="8" name="encounter_0" type="Encounter" x="96" y="48" width="64" height="32" visible="1" rotation="0">
    <properties>
-     <property name="species" value="{&quot;jan_ike_lili&quot;:20,&quot;jan_utala_lili&quot;:18,&quot;soweli_musi&quot;:18,&quot;soweli_kili&quot;:14,&quot;soweli_jaki&quot;:10,&quot;waso_pimeja&quot;:10,&quot;soweli_anpa&quot;:10}"/>
+     <property name="species" value="{&quot;bramble_imp&quot;:20,&quot;thornling&quot;:18,&quot;mirthcat&quot;:18,&quot;applepup&quot;:14,&quot;mudgrub&quot;:10,&quot;nightjar&quot;:10,&quot;burrowmole&quot;:10}"/>
      <property name="level_min" type="int" value="3"/>
      <property name="level_max" type="int" value="5"/>
    </properties>
   </object>
   <object id="9" name="encounter_1" type="Encounter" x="224" y="96" width="80" height="32" visible="1" rotation="0">
    <properties>
-     <property name="species" value="{&quot;jan_ike_lili&quot;:18,&quot;jan_utala_lili&quot;:22,&quot;jan_moli&quot;:14,&quot;soweli_musi&quot;:14,&quot;soweli_kili&quot;:14,&quot;waso_toki&quot;:10,&quot;soweli_kon&quot;:8}"/>
+     <property name="species" value="{&quot;bramble_imp&quot;:18,&quot;thornling&quot;:22,&quot;bog_wisp&quot;:14,&quot;mirthcat&quot;:14,&quot;applepup&quot;:14,&quot;songbird&quot;:10,&quot;mistfox&quot;:8}"/>
      <property name="level_min" type="int" value="4"/>
      <property name="level_max" type="int" value="6"/>
    </properties>
   </object>
   <object id="10" name="encounter_2" type="Encounter" x="352" y="48" width="64" height="32" visible="1" rotation="0">
    <properties>
-     <property name="species" value="{&quot;jan_ike_lili&quot;:15,&quot;jan_moli&quot;:25,&quot;soweli_kili&quot;:20,&quot;soweli_jaki&quot;:20,&quot;akesi_linja&quot;:10,&quot;soweli_nena&quot;:10}"/>
+     <property name="species" value="{&quot;bramble_imp&quot;:15,&quot;bog_wisp&quot;:25,&quot;applepup&quot;:20,&quot;mudgrub&quot;:20,&quot;vine_adder&quot;:10,&quot;hillbuck&quot;:10}"/>
      <property name="level_min" type="int" value="5"/>
      <property name="level_max" type="int" value="7"/>
    </properties>

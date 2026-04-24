@@ -5,7 +5,7 @@
  *
  * - At full HP → `p = 0` regardless of poki — must whittle first.
  * - At 1 HP → `p ≈ species.catch_rate * poki.power`.
- * - poki_lili has power 1.0; poki_wawa has power 1.5. `p` is clamped to [0, 1]
+ * - capture_pod has power 1.0; heavy_capture_pod has power 1.5. `p` is clamped to [0, 1]
  *   so a high-power poki against a low-catch species never overflows.
  *
  * Pure function. No Math.random here — callers roll separately so this is
@@ -18,7 +18,7 @@
  * catchProbability({ hp: 25, hpMax: 50, catchRate: 0.5, pokiPower: 1.0 })
  * // → 0.25 (half HP × 50% catch rate × 1.0 power)
  * catchProbability({ hp: 2, hpMax: 50, catchRate: 0.65, pokiPower: 1.5 })
- * // → 0.936 (near-dead target, poki_wawa)
+ * // → 0.936 (near-dead target, heavy_capture_pod)
  * catchProbability({ hp: 0, hpMax: 50, catchRate: 0.9, pokiPower: 1.5 })
  * // → 1 (clamped — can't exceed 1.0)
  */

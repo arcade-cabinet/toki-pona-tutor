@@ -1,0 +1,29 @@
+{
+  "id": "lily_flavor",
+  "npc_id": "lily",
+  "priority": 0,
+  "beats": [
+    {
+      "text": {
+        "en": "Rivers, you're standing at the Rivergate Approach. The dragon isn't far."
+      },
+      "mood": "thinking",
+      "glyph": "companion-bond"
+    },
+    {
+      "text": {
+        "en": "A companion you've truly bonded with can do more than fight — it can read what you're about to do before you do it."
+      },
+      "mood": "thinking",
+      "glyph": "companion-bond"
+    },
+    {
+      "text": {
+        "en": "Bond with one more water creature here. You'll want the proof before the dragon."
+      },
+      "mood": "excited",
+      "glyph": "companion-bond"
+    }
+  ],
+  "triggers": {}
+}

@@ -99,12 +99,12 @@ describe('scaledRematchLevel — +10 per clear, cap 50', () => {
 });
 
 describe('rematchReward — cycling drop table', () => {
-    it('rematch #1 → poki_wawa', () => {
-        expect(rematchReward('badge_sewi', 1)).toEqual({ kind: 'item', itemId: 'poki_wawa', count: 1 });
+    it('rematch #1 → heavy_capture_pod', () => {
+        expect(rematchReward('badge_sewi', 1)).toEqual({ kind: 'item', itemId: 'heavy_capture_pod', count: 1 });
     });
 
-    it('rematch #2 → 3× telo_pona', () => {
-        expect(rematchReward('badge_sewi', 2)).toEqual({ kind: 'item', itemId: 'telo_pona', count: 3 });
+    it('rematch #2 → 3× spring_tonic', () => {
+        expect(rematchReward('badge_sewi', 2)).toEqual({ kind: 'item', itemId: 'spring_tonic', count: 3 });
     });
 
     it('rematch #3 → species_egg', () => {

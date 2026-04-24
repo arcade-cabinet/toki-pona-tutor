@@ -1,0 +1,11 @@
+{
+  "id": "splash",
+  "name": { "en": "splash" },
+  "description": { "en": "That's water." },
+  "type": "telo",
+  "power": 25,
+  "accuracy": 100,
+  "pp": 25,
+  "effect": "none",
+  "priority": 0
+}

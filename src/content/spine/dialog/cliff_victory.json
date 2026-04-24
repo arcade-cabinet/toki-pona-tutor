@@ -1,0 +1,25 @@
+{
+  "id": "cliff_victory",
+  "npc_id": "cliff",
+  "when_flags": {
+    "badge_suli": true
+  },
+  "priority": 5,
+  "beats": [
+    {
+      "text": {
+        "en": "You climbed higher than I expected."
+      },
+      "mood": "sad",
+      "glyph": "companion-bond"
+    },
+    {
+      "text": {
+        "en": "The final road is open."
+      },
+      "mood": "thinking",
+      "glyph": "greenwood-watch"
+    }
+  ],
+  "triggers": {}
+}

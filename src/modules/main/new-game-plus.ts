@@ -1,7 +1,7 @@
 /**
  * New Game Plus — T7-10.
  *
- * Once the player beats the green dragon (akesi_sewi), a `game_cleared`
+ * Once the player beats the green dragon (green_dragon), a `game_cleared`
  * flag is set. Starting a New Game Plus carries forward:
  *
  * - The full party roster at configured reduced levels, floored at the
@@ -47,8 +47,8 @@ export interface SaveState {
  * XP to the new level's threshold so the bar starts fresh.
  *
  * @example
- * reducePartyLevel({ slot: 0, species_id: 'kon_moli', level: 35, xp: 42875 })
- * // → { slot: 0, species_id: 'kon_moli', level: 25, xp: 15625 }
+ * reducePartyLevel({ slot: 0, species_id: 'ashcat', level: 35, xp: 42875 })
+ * // → { slot: 0, species_id: 'ashcat', level: 25, xp: 15625 }
  */
 export function reducePartyLevel(member: PartySlot): PartySlot {
     const newLevel = Math.max(MIN_LEVEL, member.level - NEW_GAME_PLUS_CONFIG.levelReduction);
@@ -67,18 +67,18 @@ export function reducePartyLevel(member: PartySlot): PartySlot {
  *
  * @example
  * deriveNewGamePlus({
- *   party: [{ slot: 0, species_id: 'kon_moli', level: 35, xp: 42875 }],
+ *   party: [{ slot: 0, species_id: 'ashcat', level: 35, xp: 42875 }],
  *   flags: { game_cleared: '1', badge_sewi: '1', starter_chosen: '1' },
  *   masteredWords: { soweli: 12, poki: 8 },
- *   inventory: { poki_lili: 2, kili: 5 },
+ *   inventory: { capture_pod: 2, orchard_fruit: 5 },
  *   currentMapId: 'rivergate_approach',
  *   journeyBeat: 'beat_07_rivergate_approach',
  * })
  * // → {
- * //     party: [{ slot: 0, species_id: 'kon_moli', level: 25, xp: 15625 }],
+ * //     party: [{ slot: 0, species_id: 'ashcat', level: 25, xp: 15625 }],
  * //     flags: {},  // all flags cleared
  * //     masteredWords: { soweli: 12, poki: 8 },  // preserved
- * //     inventory: { poki_wawa: 1 },  // only the NG+ reward
+ * //     inventory: { heavy_capture_pod: 1 },  // only the NG+ reward
  * //     currentMapId: 'riverside_home',
  * //     journeyBeat: 'beat_01_riverside_home',
  * //     ngPlusCount: 1,

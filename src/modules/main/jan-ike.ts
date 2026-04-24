@@ -17,11 +17,11 @@ import { recordQuestEventForActive } from "./quest-runtime";
 import { SFX_CUE_CONFIG, TRAINER_BATTLE_CONFIGS } from "../../content/gameplay";
 import { resolveEnemyType } from "./gym-leader";
 
-const JAN_IKE_CONFIG = TRAINER_BATTLE_CONFIGS.jan_ike;
+const JAN_IKE_CONFIG = TRAINER_BATTLE_CONFIGS.rook;
 
 /**
  * beat_02 rival — jan Ike, blocks the east warp on greenwood_road until
- * defeated in an action-battle. Defeat sets the `jan_ike_defeated`
+ * defeated in an action-battle. Defeat sets the `rook_defeated`
  * flag so Warp(warp_east → highridge_pass) opens.
  *
  * Stats and AI: aggressive melee bruiser, level-5-equivalent HP/ATK.
@@ -29,7 +29,7 @@ const JAN_IKE_CONFIG = TRAINER_BATTLE_CONFIGS.jan_ike;
  * Gym-leader fights will layer in skill use + multi-phase.
  */
 export function JanIke(): EventDefinition {
-    if (!JAN_IKE_CONFIG) throw new Error("[jan-ike] missing trainer battle config: jan_ike");
+    if (!JAN_IKE_CONFIG) throw new Error("[jan-ike] missing trainer battle config: rook");
     const config = JAN_IKE_CONFIG;
     const defeatedFlag = config.defeatedFlag ?? `${config.npcId}_defeated`;
     return {

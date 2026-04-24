@@ -1468,12 +1468,12 @@
             {
               "name": "id",
               "type": "string",
-              "value": "jan_kiwen"
+              "value": "boulder"
             },
             {
               "name": "dialog_id",
               "type": "string",
-              "value": "jan_kiwen_mountain"
+              "value": "boulder_mountain"
             }
           ]
         },
@@ -1491,12 +1491,12 @@
             {
               "name": "id",
               "type": "string",
-              "value": "jan_kala"
+              "value": "angler"
             },
             {
               "name": "dialog_id",
               "type": "string",
-              "value": "jan_kala_rest"
+              "value": "angler_rest"
             }
           ]
         },
@@ -1514,12 +1514,12 @@
             {
               "name": "id",
               "type": "string",
-              "value": "jan_waso_sewi"
+              "value": "kestrel"
             },
             {
               "name": "dialog_id",
               "type": "string",
-              "value": "jan_waso_sewi_sky"
+              "value": "kestrel_sky"
             }
           ]
         },
@@ -1537,12 +1537,12 @@
             {
               "name": "id",
               "type": "string",
-              "value": "jan_nasin_sewi"
+              "value": "marsha"
             },
             {
               "name": "dialog_id",
               "type": "string",
-              "value": "jan_nasin_sewi_path"
+              "value": "marsha_path"
             }
           ]
         },
@@ -1560,12 +1560,12 @@
             {
               "name": "id",
               "type": "string",
-              "value": "jan_wawa"
+              "value": "tarrin"
             },
             {
               "name": "dialog_id",
               "type": "string",
-              "value": "jan_wawa_intro"
+              "value": "tarrin_intro"
             }
           ]
         },
@@ -1622,7 +1622,7 @@
             {
               "name": "species",
               "type": "string",
-              "value": "{\"jan_wawa\":25,\"jan_wawa_linja\":20,\"sijelo_kiwen\":15,\"soweli_palisa\":15,\"waso_lape\":15,\"akesi_seli\":10}"
+              "value": "{\"tarrin\":25,\"chainback\":20,\"quartz_shell\":15,\"twiglet\":15,\"drowsy_owl\":15,\"ember_adder\":10}"
             },
             {
               "name": "level_min",
@@ -1650,7 +1650,7 @@
             {
               "name": "species",
               "type": "string",
-              "value": "{\"jan_wawa\":18,\"jan_wawa_linja\":18,\"jan_wawa_jaki\":14,\"sijelo_kiwen\":18,\"soweli_sewi\":12,\"waso_lape\":12,\"soweli_palisa\":8}"
+              "value": "{\"tarrin\":18,\"chainback\":18,\"mire_brute\":14,\"quartz_shell\":18,\"snowhare\":12,\"drowsy_owl\":12,\"twiglet\":8}"
             },
             {
               "name": "level_min",

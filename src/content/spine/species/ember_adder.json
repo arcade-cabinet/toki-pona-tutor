@@ -1,0 +1,75 @@
+{
+  "id": "ember_adder",
+  "name": {
+    "en": "Ember Adder"
+  },
+  "description": {
+    "en": "A warm-scaled snake that leaves tiny sparks in dry grass."
+  },
+  "type": "seli",
+  "base_stats": {
+    "hp": 58,
+    "attack": 72,
+    "defense": 44,
+    "speed": 62
+  },
+  "learnset": [
+    {
+      "level": 1,
+      "move_id": "quick_jab"
+    },
+    {
+      "level": 1,
+      "move_id": "ember_nip"
+    },
+    {
+      "level": 11,
+      "move_id": "flame_strike"
+    }
+  ],
+  "catch_rate": 0.26,
+  "xp_yield": 95,
+  "sprite": {
+    "src": "/assets/animals/cobra.png",
+    "frame_width": 32,
+    "frame_height": 32,
+    "animations": {
+      "idle": {
+        "row": 0,
+        "col_start": 0,
+        "cols": 8,
+        "fps": 4,
+        "loop": true
+      },
+      "walk": {
+        "row": 1,
+        "col_start": 0,
+        "cols": 8,
+        "fps": 8,
+        "loop": true
+      },
+      "attack": {
+        "row": 2,
+        "col_start": 0,
+        "cols": 8,
+        "fps": 12,
+        "loop": false
+      },
+      "hurt": {
+        "row": 3,
+        "col_start": 0,
+        "cols": 3,
+        "fps": 8,
+        "loop": false
+      },
+      "death": {
+        "row": 4,
+        "col_start": 0,
+        "cols": 4,
+        "fps": 6,
+        "loop": false
+      }
+    },
+    "tier": "uncommon"
+  }
+}

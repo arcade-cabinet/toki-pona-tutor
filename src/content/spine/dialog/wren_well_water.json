@@ -1,0 +1,22 @@
+{
+  "id": "wren_well_water",
+  "npc_id": "wren",
+  "priority": 0,
+  "beats": [
+    {
+      "text": {
+        "en": "The well runs cold even in summer."
+      },
+      "mood": "thinking",
+      "glyph": "water-edge"
+    },
+    {
+      "text": {
+        "en": "Good water keeps companions steady."
+      },
+      "mood": "happy",
+      "glyph": "companion-bond"
+    }
+  ],
+  "triggers": {}
+}

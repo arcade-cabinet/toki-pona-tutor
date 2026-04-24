@@ -11,13 +11,13 @@ Story bible (PR #96) calls for >=2 side quests per region. Current state (`src/c
 
 | Region | Quests today |
 | --- | --- |
-| riverside_home | 1 (`quest_tomo_kili`) |
-| greenwood_road | 2 (`quest_nasin_forest_watch`, `quest_nasin_poki_pack`) |
+| riverside_home | 1 (`quest_orchard_helper`) |
+| greenwood_road | 2 (`quest_greenwood_watch`, `quest_field_notes`) |
 | highridge_pass | **0** |
-| lakehaven | 1 (`quest_telo_kili_delivery`) |
-| frostvale | 1 (`quest_lete_poki_pack`) |
-| dreadpeak_cavern | 1 (`quest_suli_torch`) |
-| rivergate_approach | 1 (`quest_telo_last_light`) |
+| lakehaven | 1 (`quest_lake_delivery`) |
+| frostvale | 1 (`quest_cold_hands`) |
+| dreadpeak_cavern | 1 (`quest_torch_path_survey`) |
+| rivergate_approach | 1 (`quest_last_light`) |
 
 **Gap:** 7 new quests needed to hit the >=2-per-region bar, one of which must land in highridge_pass (currently empty).
 
@@ -39,10 +39,10 @@ Rather than invent new NPCs, promote existing `ambient_npc` rows to `quest_npc` 
 | --- | --- | --- | --- | --- | --- | --- |
 | `quest_tomo_selby_letter` | riverside_home | `jan-sewi` (starter mentor) | `deliver_item` | letter → `jan_selby_rivergate` | new clue `selby-letter` | Delivers in rivergate_approach |
 | `quest_nasin_rival_shortcut` | greenwood_road | `jan-ike` (rival) | `defeat_trainer` | rival rematch | `forest-cover` | Unlocks highridge shortcut |
-| `quest_sewi_shrine_stones` | highridge_pass | `jan-kiwen` | `catch_any_in_biome` | mountain 3 | `stone-type` | — |
-| `quest_sewi_lost_hiker` | highridge_pass | `jan-nasin-sewi` | `deliver_item` | hiker token → `jan-kala-lake` | `torch-path` | Delivers in lakehaven |
-| `quest_telo_frog_count` | lakehaven | `jan-telo-well` | `catch_count` | kala_tomo 3 | `water-type` | — |
-| `quest_lete_owl_sighting` | frostvale | `jan-waso-sewi` | `catch_count` | waso_lape 1 | `frost-type` | — |
+| `quest_shrine_stones` | highridge_pass | `jan-kiwen` | `catch_any_in_biome` | mountain 3 | `stone-type` | — |
+| `quest_lost_hiker` | highridge_pass | `jan-nasin-sewi` | `deliver_item` | hiker token → `jan-kala-lake` | `torch-path` | Delivers in lakehaven |
+| `quest_telo_frog_count` | lakehaven | `jan-telo-well` | `catch_count` | reedfrog 3 | `water-type` | — |
+| `quest_lete_owl_sighting` | frostvale | `jan-waso-sewi` | `catch_count` | drowsy_owl 1 | `frost-type` | — |
 | `quest_suli_echo_chamber` | dreadpeak_cavern | `jan-kala` | `catch_any_in_biome` | cave 2 | `cave-shadow` | — |
 
 Counts after this PR:
@@ -55,7 +55,7 @@ Counts after this PR:
 | lakehaven | 2 |
 | frostvale | 2 |
 | dreadpeak_cavern | 2 |
-| rivergate_approach | 1 (already covered by `quest_telo_last_light`, adding a second would require rivergate-specific work) |
+| rivergate_approach | 1 (already covered by `quest_last_light`, adding a second would require rivergate-specific work) |
 
 Note on rivergate_approach: gets a second quest via the `quest_tomo_selby_letter` delivery target. Net ≥2 per region satisfied.
 

@@ -1,10 +1,10 @@
 {
   "fallback_by_type": {
-    "kasi": "kili",
-    "telo": "telo_pona",
-    "lete": "telo_pona",
-    "seli": "ma",
-    "wawa": "ma"
+    "kasi": "orchard_fruit",
+    "telo": "spring_tonic",
+    "lete": "spring_tonic",
+    "seli": "trail_token",
+    "wawa": "trail_token"
   },
   "tier_defaults": {
     "common": { "chance": 0.18, "count": 1 },

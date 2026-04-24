@@ -1,0 +1,25 @@
+{
+  "id": "selby_after_pick",
+  "npc_id": "selby",
+  "when_flags": {
+    "starter_chosen": true
+  },
+  "priority": 5,
+  "beats": [
+    {
+      "text": {
+        "en": "Good. Your first partner chose you back."
+      },
+      "mood": "happy",
+      "glyph": "companion-bond"
+    },
+    {
+      "text": {
+        "en": "The eastern gate is open now."
+      },
+      "mood": "thinking",
+      "glyph": "safe-house"
+    }
+  ],
+  "triggers": {}
+}

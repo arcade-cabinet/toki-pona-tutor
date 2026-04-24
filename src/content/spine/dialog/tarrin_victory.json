@@ -1,0 +1,25 @@
+{
+  "id": "tarrin_victory",
+  "npc_id": "tarrin",
+  "when_flags": {
+    "badge_sewi": true
+  },
+  "priority": 5,
+  "beats": [
+    {
+      "text": {
+        "en": "You took the hit and kept going."
+      },
+      "mood": "sad",
+      "glyph": "companion-bond"
+    },
+    {
+      "text": {
+        "en": "Highridge Pass is open."
+      },
+      "mood": "thinking",
+      "glyph": "companion-bond"
+    }
+  ],
+  "triggers": {}
+}

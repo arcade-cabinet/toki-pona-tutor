@@ -1,0 +1,68 @@
+{
+  "id": "hillbuck",
+  "name": {
+    "en": "Hillbuck"
+  },
+  "description": {
+    "en": "A sure-footed grazer with small curved horns."
+  },
+  "type": "kasi",
+  "base_stats": {
+    "hp": 44,
+    "attack": 38,
+    "defense": 58,
+    "speed": 28
+  },
+  "learnset": [
+    {
+      "level": 1,
+      "move_id": "quick_jab"
+    },
+    {
+      "level": 1,
+      "move_id": "stone_slam"
+    },
+    {
+      "level": 8,
+      "move_id": "leaf_jab"
+    }
+  ],
+  "catch_rate": 0.45,
+  "xp_yield": 44,
+  "sprite": {
+    "src": "/assets/animals/hedgehog.png",
+    "frame_width": 32,
+    "frame_height": 32,
+    "animations": {
+      "walk": {
+        "row": 0,
+        "col_start": 0,
+        "cols": 4,
+        "fps": 8,
+        "loop": true
+      },
+      "idle": {
+        "row": 1,
+        "col_start": 0,
+        "cols": 4,
+        "fps": 4,
+        "loop": true
+      },
+      "attack": {
+        "row": 2,
+        "col_start": 0,
+        "cols": 4,
+        "fps": 10,
+        "loop": false
+      },
+      "hurt": {
+        "row": 3,
+        "col_start": 0,
+        "cols": 3,
+        "fps": 8,
+        "loop": false
+      }
+    },
+    "tier": "common"
+  }
+}

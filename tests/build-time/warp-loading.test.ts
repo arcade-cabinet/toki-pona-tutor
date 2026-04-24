@@ -13,7 +13,7 @@ describe('warp loading overlay model', () => {
     });
 
     it('allows explicit labels and falls back from unknown map ids', () => {
-        expect(resolveWarpLoadingLabel('lakehaven', 'ma tomo')).toBe('ma tomo');
+        expect(resolveWarpLoadingLabel('lakehaven', 'trail_token tomo')).toBe('trail_token tomo');
         expect(resolveWarpLoadingLabel('unknown_map')).toBe('unknown map');
     });
 

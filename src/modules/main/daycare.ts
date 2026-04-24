@@ -129,12 +129,12 @@ export function inheritedLearnset(
  *
  * @example
  * hatch({
- *   parentA: { speciesId: 'kon_moli', type: 'seli', base_stats: {...}, learnset: [...] },
- *   parentB: { speciesId: 'telo_jaki', type: 'telo', base_stats: {...}, learnset: [...] },
- *   childSpeciesLearnset: [{ level: 1, move_id: 'kasi_lili' }],
+ *   parentA: { speciesId: 'ashcat', type: 'seli', base_stats: {...}, learnset: [...] },
+ *   parentB: { speciesId: 'mireling', type: 'telo', base_stats: {...}, learnset: [...] },
+ *   childSpeciesLearnset: [{ level: 1, move_id: 'leaf_jab' }],
  *   rng: () => 0.5,
  * })
- * // → { speciesId: 'kon_moli_lili', type: 'kasi', level: 1, ... }
+ * // → { speciesId: 'ashcat_lili', type: 'kasi', level: 1, ... }
  */
 export function hatch(params: {
     parentA: ParentSnapshot;

@@ -38,7 +38,7 @@ export type ShopPurchaseResult =
           balance: number;
       };
 
-export const JAN_MOKU_SHOP = requiredShop("jan_moku");
+export const JAN_MOKU_SHOP = requiredShop("shopkeep");
 export const JAN_MOKU_STOCK: ShopStockItem[] = JAN_MOKU_SHOP.stock;
 
 export const BATTLE_COIN_REWARDS = CONFIGURED_BATTLE_COIN_REWARDS;

@@ -41,7 +41,7 @@ describe('observe — first vs repeat sightings', () => {
     it('repeat sighting bumps sightings counter', () => {
         const existing = rec('The orchard path is safe.', { sightings: 3, first_seen: '2026-04-20T00:00:00Z' });
         const r = observe(
-            { text: 'The orchard path is safe.', source: 'jan_moku_stall', now: '2026-04-20T01:00:00Z' },
+            { text: 'The orchard path is safe.', source: 'shopkeep_stall', now: '2026-04-20T01:00:00Z' },
             existing,
         );
         expect(r.isNewSighting).toBe(false);
@@ -197,7 +197,7 @@ describe('sentence log persistence and player surface', () => {
             },
         } as unknown as RpgPlayer;
 
-        await playDialog(player, 'jan_sewi_starter_intro');
+        await playDialog(player, 'selby_starter_intro');
 
         expect(spoken).toContain('Rivers, today you start your own investigation.');
         expect(spoken).toContain('Three creatures answered the call.');
