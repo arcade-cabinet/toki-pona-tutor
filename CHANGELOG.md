@@ -10,6 +10,13 @@ All notable changes to poki soweli. Format based on [Keep a Changelog](https://k
 
 This branch (`feat/rpgjs-v5-pivot`) descends from commit `0a582e0` — the pre-Godot tip. The Godot era between `1d924fe` (pivot) and `0edfe61` (feat/anchor-to-template) lives on `main` and is not represented here. Release-please releases `v0.1.0`…`v0.1.3` tagged on `main` cover the Godot build and do not apply to this branch.
 
+## [0.34.2](https://github.com/arcade-cabinet/poki-soweli/compare/v0.34.1...v0.34.2) (2026-04-24)
+
+
+### Changed
+
+* **runtime:** extract proofs_all_four derivation into testable module (T76) ([#227](https://github.com/arcade-cabinet/poki-soweli/issues/227)) ([e16c4dc](https://github.com/arcade-cabinet/poki-soweli/commit/e16c4dccb215a959e1c6c38edbfc4395a735b438))
+
 ## [0.34.1](https://github.com/arcade-cabinet/poki-soweli/compare/v0.34.0...v0.34.1) (2026-04-24)
 
 
