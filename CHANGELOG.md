@@ -10,6 +10,13 @@ All notable changes to poki soweli. Format based on [Keep a Changelog](https://k
 
 This branch (`feat/rpgjs-v5-pivot`) descends from commit `0a582e0` — the pre-Godot tip. The Godot era between `1d924fe` (pivot) and `0edfe61` (feat/anchor-to-template) lives on `main` and is not represented here. Release-please releases `v0.1.0`…`v0.1.3` tagged on `main` cover the Godot build and do not apply to this branch.
 
+## [0.16.0](https://github.com/arcade-cabinet/poki-soweli/compare/v0.15.0...v0.16.0) (2026-04-24)
+
+
+### Added
+
+* **content:** migrate highridge_pass to region dossier (T53) ([#182](https://github.com/arcade-cabinet/poki-soweli/issues/182)) ([ea89e06](https://github.com/arcade-cabinet/poki-soweli/commit/ea89e060c78c413ee2d38617a8acfab0db2b1981))
+
 ## [0.15.0](https://github.com/arcade-cabinet/poki-soweli/compare/v0.14.0...v0.15.0) (2026-04-24)
 
 
