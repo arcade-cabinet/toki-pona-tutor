@@ -10,6 +10,13 @@ All notable changes to poki soweli. Format based on [Keep a Changelog](https://k
 
 This branch (`feat/rpgjs-v5-pivot`) descends from commit `0a582e0` — the pre-Godot tip. The Godot era between `1d924fe` (pivot) and `0edfe61` (feat/anchor-to-template) lives on `main` and is not represented here. Release-please releases `v0.1.0`…`v0.1.3` tagged on `main` cover the Godot build and do not apply to this branch.
 
+## [0.13.9](https://github.com/arcade-cabinet/poki-soweli/compare/v0.13.8...v0.13.9) (2026-04-24)
+
+
+### Fixed
+
+* **t8b:** universal xp_yield — wild defeats pay XP + level scaling (regression from [#171](https://github.com/arcade-cabinet/poki-soweli/issues/171)) ([#172](https://github.com/arcade-cabinet/poki-soweli/issues/172)) ([5e862f5](https://github.com/arcade-cabinet/poki-soweli/commit/5e862f5539d09631725fc976e6ef786396cd2bb1))
+
 ## [0.13.8](https://github.com/arcade-cabinet/poki-soweli/compare/v0.13.7...v0.13.8) (2026-04-24)
 
 
