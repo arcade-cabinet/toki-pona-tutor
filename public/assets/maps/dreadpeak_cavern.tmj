@@ -1225,6 +1225,11 @@
               "name": "dialog_id",
               "type": "string",
               "value": "cave_kid_intro"
+            },
+            {
+              "name": "graphic",
+              "type": "string",
+              "value": "npc_villager_masc_serek"
             }
           ]
         },
@@ -1248,6 +1253,11 @@
               "name": "dialog_id",
               "type": "string",
               "value": "torch_bearer_intro"
+            },
+            {
+              "name": "graphic",
+              "type": "string",
+              "value": "npc_villager_masc_nyro"
             }
           ]
         },
@@ -1271,6 +1281,11 @@
               "name": "dialog_id",
               "type": "string",
               "value": "warden_ghost_speaks"
+            },
+            {
+              "name": "graphic",
+              "type": "string",
+              "value": "npc_villager_masc_grym"
             }
           ]
         }

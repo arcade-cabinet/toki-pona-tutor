@@ -3,27 +3,43 @@
   "display_name": "Elder Selby",
   "home_region": "riverside_home",
   "role": "starter_ceremony_giver",
+  "graphic": "npc_villager_masc_reza",
   "appearances": [
-    { "region": "riverside_home", "spawn": [10, 6], "default": true }
+    {
+      "region": "riverside_home",
+      "spawn": [
+        10,
+        6
+      ],
+      "default": true
+    }
   ],
   "dialog_states": [
     {
       "id": "selby_starter_intro",
-      "when": { "flag_absent": "starter_chosen" },
+      "when": {
+        "flag_absent": "starter_chosen"
+      },
       "priority": 10,
       "beats": [
         {
-          "text": { "en": "Rivers, today you start your own investigation." },
+          "text": {
+            "en": "Rivers, today you start your own investigation."
+          },
           "mood": "happy",
           "glyph": "companion-bond"
         },
         {
-          "text": { "en": "Three creatures answered the call." },
+          "text": {
+            "en": "Three creatures answered the call."
+          },
           "mood": "thinking",
           "glyph": "companion-bond"
         },
         {
-          "text": { "en": "Choose the partner you trust at your side." },
+          "text": {
+            "en": "Choose the partner you trust at your side."
+          },
           "mood": "excited",
           "glyph": "wild-signs"
         }
@@ -31,16 +47,22 @@
     },
     {
       "id": "selby_after_pick",
-      "when": { "flag_present": "starter_chosen" },
+      "when": {
+        "flag_present": "starter_chosen"
+      },
       "priority": 5,
       "beats": [
         {
-          "text": { "en": "Good. Your first partner chose you back." },
+          "text": {
+            "en": "Good. Your first partner chose you back."
+          },
           "mood": "happy",
           "glyph": "companion-bond"
         },
         {
-          "text": { "en": "The eastern gate is open now." },
+          "text": {
+            "en": "The eastern gate is open now."
+          },
           "mood": "thinking",
           "glyph": "safe-house"
         }
@@ -48,27 +70,38 @@
     },
     {
       "id": "selby_post_first_gym",
-      "when": { "flag_present": "badge_sewi", "flag_absent": "badge_telo" },
+      "when": {
+        "flag_present": "badge_sewi",
+        "flag_absent": "badge_telo"
+      },
       "priority": 5,
       "beats": [
         {
-          "text": { "en": "The shrine stone cracked before I was a warden, Rivers." },
+          "text": {
+            "en": "The shrine stone cracked before I was a warden, Rivers."
+          },
           "mood": "thinking",
           "glyph": "shrine-stones"
         },
         {
-          "text": { "en": "Go to Lakehaven. The fishers there read the water better than I do." },
+          "text": {
+            "en": "Go to Lakehaven. The fishers there read the water better than I do."
+          },
           "mood": "happy"
         }
       ]
     },
     {
       "id": "selby_post_clear",
-      "when": { "flag_present": "game_cleared" },
+      "when": {
+        "flag_present": "game_cleared"
+      },
       "priority": 3,
       "beats": [
         {
-          "text": { "en": "You came home. That matters more than the dragon, Rivers." },
+          "text": {
+            "en": "You came home. That matters more than the dragon, Rivers."
+          },
           "mood": "happy",
           "glyph": "companion-bond"
         }

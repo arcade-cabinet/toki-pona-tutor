@@ -104,11 +104,14 @@ function dossierNpcEventsForMap(mapId: string) {
             const requiredFlag = typeof o.properties.required_flag === "string"
                 ? o.properties.required_flag
                 : undefined;
+            const graphic = typeof o.properties.graphic === "string" && o.properties.graphic.length > 0
+                ? o.properties.graphic
+                : DOSSIER_NPC_GRAPHIC;
             return {
                 id: o.name,
                 x: o.x,
                 y: o.y,
-                event: AmbientNpc(DOSSIER_NPC_GRAPHIC, dialogId, { requiredFlag }),
+                event: AmbientNpc(graphic, dialogId, { requiredFlag }),
             };
         });
 }

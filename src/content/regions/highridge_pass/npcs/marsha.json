@@ -3,27 +3,43 @@
   "display_name": "Marsha",
   "home_region": "highridge_pass",
   "role": "torch_path_quest_giver",
+  "graphic": "npc_villager_fem_khali",
   "appearances": [
-    { "region": "highridge_pass", "spawn": [10, 10], "default": true }
+    {
+      "region": "highridge_pass",
+      "spawn": [
+        10,
+        10
+      ],
+      "default": true
+    }
   ],
   "dialog_states": [
     {
       "id": "marsha_path",
-      "when": { "flag_absent": "lost_hiker_delivered" },
+      "when": {
+        "flag_absent": "lost_hiker_delivered"
+      },
       "priority": 0,
       "beats": [
         {
-          "text": { "en": "A hiker passed through yesterday — didn't come back down." },
+          "text": {
+            "en": "A hiker passed through yesterday — didn't come back down."
+          },
           "mood": "sad",
           "glyph": "torch-path"
         },
         {
-          "text": { "en": "She was headed to Loren at the lake in Lakehaven. Said she'd bring a torch-path token as payment." },
+          "text": {
+            "en": "She was headed to Loren at the lake in Lakehaven. Said she'd bring a torch-path token as payment."
+          },
           "mood": "thinking",
           "glyph": "torch-path"
         },
         {
-          "text": { "en": "If you find her pack, carry what's inside to Loren at the lake. She needs the delivery done." },
+          "text": {
+            "en": "If you find her pack, carry what's inside to Loren at the lake. She needs the delivery done."
+          },
           "mood": "excited",
           "glyph": "torch-path"
         }
@@ -31,11 +47,16 @@
     },
     {
       "id": "marsha_post_delivery",
-      "when": { "flag_present": "lost_hiker_delivered", "flag_absent": "game_cleared" },
+      "when": {
+        "flag_present": "lost_hiker_delivered",
+        "flag_absent": "game_cleared"
+      },
       "priority": 5,
       "beats": [
         {
-          "text": { "en": "She sent a letter back. She's home. Thank you." },
+          "text": {
+            "en": "She sent a letter back. She's home. Thank you."
+          },
           "mood": "happy",
           "glyph": "companion-bond"
         }
@@ -43,11 +64,15 @@
     },
     {
       "id": "marsha_post_clear",
-      "when": { "flag_present": "game_cleared" },
+      "when": {
+        "flag_present": "game_cleared"
+      },
       "priority": 3,
       "beats": [
         {
-          "text": { "en": "Fewer lost hikers this month. Something's settled on the mountain." },
+          "text": {
+            "en": "Fewer lost hikers this month. Something's settled on the mountain."
+          },
           "mood": "happy",
           "glyph": "wild-signs"
         }

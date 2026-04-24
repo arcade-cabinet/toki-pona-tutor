@@ -1044,6 +1044,11 @@
               "name": "required_flag",
               "type": "string",
               "value": "badge_suli"
+            },
+            {
+              "name": "graphic",
+              "type": "string",
+              "value": "npc_warrior_sword_shield"
             }
           ]
         },
@@ -1072,6 +1077,11 @@
               "name": "required_flag",
               "type": "string",
               "value": "badge_suli"
+            },
+            {
+              "name": "graphic",
+              "type": "string",
+              "value": "npc_villager_fem_julz"
             }
           ]
         },
@@ -1100,6 +1110,11 @@
               "name": "required_flag",
               "type": "string",
               "value": "badge_suli"
+            },
+            {
+              "name": "graphic",
+              "type": "string",
+              "value": "npc_villager_fem_vash"
             }
           ]
         },

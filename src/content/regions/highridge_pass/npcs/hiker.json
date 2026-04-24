@@ -3,22 +3,36 @@
   "display_name": "Hiker",
   "home_region": "highridge_pass",
   "role": "lost_hiker_quest_giver",
+  "graphic": "npc_villager_masc_artun",
   "appearances": [
-    { "region": "highridge_pass", "spawn": [22, 6], "default": true }
+    {
+      "region": "highridge_pass",
+      "spawn": [
+        22,
+        6
+      ],
+      "default": true
+    }
   ],
   "dialog_states": [
     {
       "id": "hiker_intro",
-      "when": { "flag_absent": "lost_hiker_delivered" },
+      "when": {
+        "flag_absent": "lost_hiker_delivered"
+      },
       "priority": 5,
       "beats": [
         {
-          "text": { "en": "My leg's done for today. I can't make the walk down to Lakehaven." },
+          "text": {
+            "en": "My leg's done for today. I can't make the walk down to Lakehaven."
+          },
           "mood": "sad",
           "glyph": "torch-path"
         },
         {
-          "text": { "en": "Take this marker to Loren on the pier. They'll send help up." },
+          "text": {
+            "en": "Take this marker to Loren on the pier. They'll send help up."
+          },
           "mood": "thinking",
           "glyph": "torch-path"
         }
@@ -26,11 +40,16 @@
     },
     {
       "id": "hiker_post_delivery",
-      "when": { "flag_present": "lost_hiker_delivered", "flag_absent": "game_cleared" },
+      "when": {
+        "flag_present": "lost_hiker_delivered",
+        "flag_absent": "game_cleared"
+      },
       "priority": 5,
       "beats": [
         {
-          "text": { "en": "Loren's people carried me half the way home last night. You bought me a life, Rivers." },
+          "text": {
+            "en": "Loren's people carried me half the way home last night. You bought me a life, Rivers."
+          },
           "mood": "happy",
           "glyph": "companion-bond"
         }
@@ -38,11 +57,15 @@
     },
     {
       "id": "hiker_post_clear",
-      "when": { "flag_present": "game_cleared" },
+      "when": {
+        "flag_present": "game_cleared"
+      },
       "priority": 3,
       "beats": [
         {
-          "text": { "en": "Walking the pass twice a week now. My leg remembered how." },
+          "text": {
+            "en": "Walking the pass twice a week now. My leg remembered how."
+          },
           "mood": "happy"
         }
       ]

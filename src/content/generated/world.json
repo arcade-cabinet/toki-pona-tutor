@@ -7415,7 +7415,8 @@
           "height": 0,
           "properties": {
             "id": "cave_kid",
-            "dialog_id": "cave_kid_intro"
+            "dialog_id": "cave_kid_intro",
+            "graphic": "npc_villager_masc_serek"
           }
         },
         {
@@ -7428,7 +7429,8 @@
           "height": 0,
           "properties": {
             "id": "torch_bearer",
-            "dialog_id": "torch_bearer_intro"
+            "dialog_id": "torch_bearer_intro",
+            "graphic": "npc_villager_masc_nyro"
           }
         },
         {
@@ -7441,7 +7443,8 @@
           "height": 0,
           "properties": {
             "id": "warden_ghost",
-            "dialog_id": "warden_ghost_speaks"
+            "dialog_id": "warden_ghost_speaks",
+            "graphic": "npc_villager_masc_grym"
           }
         },
         {
@@ -7580,7 +7583,8 @@
           "height": 0,
           "properties": {
             "id": "cormorant",
-            "dialog_id": "cormorant_tuneup"
+            "dialog_id": "cormorant_tuneup",
+            "graphic": "npc_villager_fem_seza"
           }
         },
         {
@@ -7593,7 +7597,8 @@
           "height": 0,
           "properties": {
             "id": "ember",
-            "dialog_id": "ember_frostvale"
+            "dialog_id": "ember_frostvale",
+            "graphic": "npc_villager_fem_meza"
           }
         },
         {
@@ -7606,7 +7611,8 @@
           "height": 0,
           "properties": {
             "id": "frost_uncle",
-            "dialog_id": "frost_uncle_intro"
+            "dialog_id": "frost_uncle_intro",
+            "graphic": "npc_villager_masc_reza"
           }
         },
         {
@@ -7619,7 +7625,8 @@
           "height": 0,
           "properties": {
             "id": "snow_kid",
-            "dialog_id": "snow_kid_intro"
+            "dialog_id": "snow_kid_intro",
+            "graphic": "npc_villager_masc_serek"
           }
         },
         {
@@ -7758,7 +7765,8 @@
           "height": 0,
           "properties": {
             "id": "corvin",
-            "dialog_id": "corvin_watch"
+            "dialog_id": "corvin_watch",
+            "graphic": "npc_villager_masc_grym"
           }
         },
         {
@@ -7771,7 +7779,8 @@
           "height": 0,
           "properties": {
             "id": "ansel",
-            "dialog_id": "ansel_greenwood"
+            "dialog_id": "ansel_greenwood",
+            "graphic": "npc_villager_masc_artun"
           }
         },
         {
@@ -7924,7 +7933,8 @@
           "height": 0,
           "properties": {
             "id": "ansel",
-            "dialog_id": "ansel_greenwood"
+            "dialog_id": "ansel_greenwood",
+            "graphic": "npc_villager_masc_artun"
           }
         },
         {
@@ -7937,7 +7947,8 @@
           "height": 0,
           "properties": {
             "id": "breeze",
-            "dialog_id": "breeze_intro"
+            "dialog_id": "breeze_intro",
+            "graphic": "npc_villager_fem_julz"
           }
         },
         {
@@ -7950,7 +7961,8 @@
           "height": 0,
           "properties": {
             "id": "hiker",
-            "dialog_id": "hiker_intro"
+            "dialog_id": "hiker_intro",
+            "graphic": "npc_villager_masc_artun"
           }
         },
         {
@@ -7963,7 +7975,8 @@
           "height": 0,
           "properties": {
             "id": "shrine_kid",
-            "dialog_id": "shrine_kid_intro"
+            "dialog_id": "shrine_kid_intro",
+            "graphic": "npc_villager_fem_nel"
           }
         },
         {
@@ -7976,7 +7989,8 @@
           "height": 0,
           "properties": {
             "id": "stoneminder",
-            "dialog_id": "stoneminder_intro"
+            "dialog_id": "stoneminder_intro",
+            "graphic": "npc_villager_masc_nyro"
           }
         },
         {
@@ -8115,7 +8129,8 @@
           "height": 0,
           "properties": {
             "id": "angler",
-            "dialog_id": "angler_rest"
+            "dialog_id": "angler_rest",
+            "graphic": "npc_villager_masc_hark"
           }
         },
         {
@@ -8128,7 +8143,8 @@
           "height": 0,
           "properties": {
             "id": "kala_lili",
-            "dialog_id": "kala_lili_intro"
+            "dialog_id": "kala_lili_intro",
+            "graphic": "npc_villager_fem_julz"
           }
         },
         {
@@ -8141,7 +8157,8 @@
           "height": 0,
           "properties": {
             "id": "kala_suli",
-            "dialog_id": "kala_suli_intro"
+            "dialog_id": "kala_suli_intro",
+            "graphic": "npc_villager_fem_vash"
           }
         },
         {
@@ -8154,7 +8171,8 @@
           "height": 0,
           "properties": {
             "id": "lodge_keeper",
-            "dialog_id": "lodge_keeper_intro"
+            "dialog_id": "lodge_keeper_intro",
+            "graphic": "npc_villager_fem_khali"
           }
         },
         {
@@ -8167,7 +8185,8 @@
           "height": 0,
           "properties": {
             "id": "piper_cousin",
-            "dialog_id": "piper_cousin_intro"
+            "dialog_id": "piper_cousin_intro",
+            "graphic": "npc_villager_masc_hark"
           }
         }
       ]
@@ -8278,7 +8297,8 @@
           "properties": {
             "id": "rook",
             "dialog_id": "rook_intro",
-            "required_flag": "badge_suli"
+            "required_flag": "badge_suli",
+            "graphic": "npc_warrior_sword_shield"
           }
         },
         {
@@ -8292,7 +8312,8 @@
           "properties": {
             "id": "kala_lili",
             "dialog_id": "kala_lili_intro",
-            "required_flag": "badge_suli"
+            "required_flag": "badge_suli",
+            "graphic": "npc_villager_fem_julz"
           }
         },
         {
@@ -8306,7 +8327,8 @@
           "properties": {
             "id": "kala_suli",
             "dialog_id": "kala_suli_intro",
-            "required_flag": "badge_suli"
+            "required_flag": "badge_suli",
+            "graphic": "npc_villager_fem_vash"
           }
         },
         {

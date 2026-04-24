@@ -3,22 +3,36 @@
   "display_name": "Fig",
   "home_region": "riverside_home",
   "role": "snack_keeper",
+  "graphic": "npc_villager_masc_serek",
   "appearances": [
-    { "region": "riverside_home", "spawn": [4, 8], "default": true }
+    {
+      "region": "riverside_home",
+      "spawn": [
+        4,
+        8
+      ],
+      "default": true
+    }
   ],
   "dialog_states": [
     {
       "id": "fig_snack",
-      "when": { "flag_absent": "badge_sewi" },
+      "when": {
+        "flag_absent": "badge_sewi"
+      },
       "priority": 0,
       "beats": [
         {
-          "text": { "en": "Take fruit before the road." },
+          "text": {
+            "en": "Take fruit before the road."
+          },
           "mood": "happy",
           "glyph": "orchard-fruit"
         },
         {
-          "text": { "en": "A fed companion fights longer." },
+          "text": {
+            "en": "A fed companion fights longer."
+          },
           "mood": "happy",
           "glyph": "companion-bond"
         }
@@ -26,11 +40,16 @@
     },
     {
       "id": "fig_post_first_gym",
-      "when": { "flag_present": "badge_sewi", "flag_absent": "game_cleared" },
+      "when": {
+        "flag_present": "badge_sewi",
+        "flag_absent": "game_cleared"
+      },
       "priority": 5,
       "beats": [
         {
-          "text": { "en": "Back already? Eat something. Stone badges don't fill a belly." },
+          "text": {
+            "en": "Back already? Eat something. Stone badges don't fill a belly."
+          },
           "mood": "happy",
           "glyph": "orchard-fruit"
         }
@@ -38,11 +57,15 @@
     },
     {
       "id": "fig_post_clear",
-      "when": { "flag_present": "game_cleared" },
+      "when": {
+        "flag_present": "game_cleared"
+      },
       "priority": 3,
       "beats": [
         {
-          "text": { "en": "I saved you the biggest orchard-fruit. It's yours." },
+          "text": {
+            "en": "I saved you the biggest orchard-fruit. It's yours."
+          },
           "mood": "happy",
           "glyph": "orchard-fruit"
         }

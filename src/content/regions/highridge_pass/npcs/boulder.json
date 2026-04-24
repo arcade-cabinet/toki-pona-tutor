@@ -3,27 +3,43 @@
   "display_name": "Boulder",
   "home_region": "highridge_pass",
   "role": "shrine_stones_quest_giver",
+  "graphic": "npc_warrior_2h_sword",
   "appearances": [
-    { "region": "highridge_pass", "spawn": [16, 4], "default": true }
+    {
+      "region": "highridge_pass",
+      "spawn": [
+        16,
+        4
+      ],
+      "default": true
+    }
   ],
   "dialog_states": [
     {
       "id": "boulder_mountain",
-      "when": { "flag_absent": "quest_shrine_stones_complete" },
+      "when": {
+        "flag_absent": "quest_shrine_stones_complete"
+      },
       "priority": 0,
       "beats": [
         {
-          "text": { "en": "The old shrine at the summit is missing its stones." },
+          "text": {
+            "en": "The old shrine at the summit is missing its stones."
+          },
           "mood": "thinking",
           "glyph": "stone-type"
         },
         {
-          "text": { "en": "Only Pebbleback keeps shrine stones in its shell. Other stone-types leave them scattered." },
+          "text": {
+            "en": "Only Pebbleback keeps shrine stones in its shell. Other stone-types leave them scattered."
+          },
           "mood": "thinking",
           "glyph": "stone-type"
         },
         {
-          "text": { "en": "Catch two Pebblebacks and the shrine will know your name." },
+          "text": {
+            "en": "Catch two Pebblebacks and the shrine will know your name."
+          },
           "mood": "excited",
           "glyph": "stone-type"
         }
@@ -31,11 +47,16 @@
     },
     {
       "id": "boulder_post_quest",
-      "when": { "flag_present": "quest_shrine_stones_complete", "flag_absent": "game_cleared" },
+      "when": {
+        "flag_present": "quest_shrine_stones_complete",
+        "flag_absent": "game_cleared"
+      },
       "priority": 5,
       "beats": [
         {
-          "text": { "en": "The shrine knows your name. I watched Stoneminder carve it." },
+          "text": {
+            "en": "The shrine knows your name. I watched Stoneminder carve it."
+          },
           "mood": "happy",
           "glyph": "shrine-stones"
         }

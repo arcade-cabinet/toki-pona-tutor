@@ -3,33 +3,52 @@
   "display_name": "Breeze",
   "home_region": "highridge_pass",
   "role": "route_walker",
+  "graphic": "npc_villager_fem_julz",
   "appearances": [
-    { "region": "highridge_pass", "spawn": [14, 8], "default": true }
+    {
+      "region": "highridge_pass",
+      "spawn": [
+        14,
+        8
+      ],
+      "default": true
+    }
   ],
   "dialog_states": [
     {
       "id": "breeze_intro",
-      "when": { "flag_absent": "badge_sewi" },
+      "when": {
+        "flag_absent": "badge_sewi"
+      },
       "priority": 0,
       "beats": [
         {
-          "text": { "en": "Third switchback. The wind gets loud here." },
+          "text": {
+            "en": "Third switchback. The wind gets loud here."
+          },
           "mood": "thinking",
           "glyph": "wild-signs"
         },
         {
-          "text": { "en": "Keep your hood tight or lose it." },
+          "text": {
+            "en": "Keep your hood tight or lose it."
+          },
           "mood": "happy"
         }
       ]
     },
     {
       "id": "breeze_post_fight",
-      "when": { "flag_present": "badge_sewi", "flag_absent": "game_cleared" },
+      "when": {
+        "flag_present": "badge_sewi",
+        "flag_absent": "game_cleared"
+      },
       "priority": 5,
       "beats": [
         {
-          "text": { "en": "Wind sounds different since you rang Tarrin's bell. Lighter." },
+          "text": {
+            "en": "Wind sounds different since you rang Tarrin's bell. Lighter."
+          },
           "mood": "happy"
         }
       ]

@@ -117,24 +117,28 @@
    <properties>
      <property name="id" value="cormorant"/>
      <property name="dialog_id" value="cormorant_tuneup"/>
+     <property name="graphic" value="npc_villager_fem_seza"/>
    </properties>
   </object>
   <object id="9" name="npc-ember" type="NPC" x="224" y="128" width="0" height="0" visible="1" rotation="0">
    <properties>
      <property name="id" value="ember"/>
      <property name="dialog_id" value="ember_frostvale"/>
+     <property name="graphic" value="npc_villager_fem_meza"/>
    </properties>
   </object>
   <object id="10" name="npc-frost_uncle" type="NPC" x="64" y="176" width="0" height="0" visible="1" rotation="0">
    <properties>
      <property name="id" value="frost_uncle"/>
      <property name="dialog_id" value="frost_uncle_intro"/>
+     <property name="graphic" value="npc_villager_masc_reza"/>
    </properties>
   </object>
   <object id="11" name="npc-snow_kid" type="NPC" x="272" y="80" width="0" height="0" visible="1" rotation="0">
    <properties>
      <property name="id" value="snow_kid"/>
      <property name="dialog_id" value="snow_kid_intro"/>
+     <property name="graphic" value="npc_villager_masc_serek"/>
    </properties>
   </object>
  </objectgroup>

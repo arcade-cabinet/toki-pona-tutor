@@ -3,17 +3,29 @@
   "display_name": "Corvin",
   "home_region": "greenwood_road",
   "role": "route_watcher",
+  "graphic": "npc_villager_masc_grym",
   "appearances": [
-    { "region": "greenwood_road", "spawn": [2, 6], "default": true }
+    {
+      "region": "greenwood_road",
+      "spawn": [
+        2,
+        6
+      ],
+      "default": true
+    }
   ],
   "dialog_states": [
     {
       "id": "corvin_watch",
-      "when": { "flag_absent": "rook_defeated" },
+      "when": {
+        "flag_absent": "rook_defeated"
+      },
       "priority": 0,
       "beats": [
         {
-          "text": { "en": "The low trail looks harmless until the grass starts moving." },
+          "text": {
+            "en": "The low trail looks harmless until the grass starts moving."
+          },
           "mood": "thinking",
           "glyph": "cave-shadow"
         }
@@ -21,16 +33,23 @@
     },
     {
       "id": "corvin_post_rook",
-      "when": { "flag_present": "rook_defeated", "flag_absent": "badge_sewi" },
+      "when": {
+        "flag_present": "rook_defeated",
+        "flag_absent": "badge_sewi"
+      },
       "priority": 5,
       "beats": [
         {
-          "text": { "en": "You dealt with Rook. Good. They needed the reminder." },
+          "text": {
+            "en": "You dealt with Rook. Good. They needed the reminder."
+          },
           "mood": "happy",
           "glyph": "greenwood-watch"
         },
         {
-          "text": { "en": "I found odd tracks in the third grass patch. Too big for anything I know." },
+          "text": {
+            "en": "I found odd tracks in the third grass patch. Too big for anything I know."
+          },
           "mood": "sad",
           "glyph": "wild-signs"
         }
@@ -38,11 +57,15 @@
     },
     {
       "id": "corvin_post_clear",
-      "when": { "flag_present": "game_cleared" },
+      "when": {
+        "flag_present": "game_cleared"
+      },
       "priority": 3,
       "beats": [
         {
-          "text": { "en": "The tracks are gone from the third patch. I walked it yesterday to be sure." },
+          "text": {
+            "en": "The tracks are gone from the third patch. I walked it yesterday to be sure."
+          },
           "mood": "happy",
           "glyph": "companion-bond"
         }

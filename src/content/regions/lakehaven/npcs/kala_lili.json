@@ -3,23 +3,44 @@
   "display_name": "Kala-Lili",
   "home_region": "lakehaven",
   "role": "fisher_sibling_small",
+  "graphic": "npc_villager_fem_julz",
   "appearances": [
-    { "region": "lakehaven", "spawn": [9, 13], "default": true },
-    { "region": "rivergate_approach", "spawn": [10, 9], "requires_flag": "badge_suli" }
+    {
+      "region": "lakehaven",
+      "spawn": [
+        9,
+        13
+      ],
+      "default": true
+    },
+    {
+      "region": "rivergate_approach",
+      "spawn": [
+        10,
+        9
+      ],
+      "requires_flag": "badge_suli"
+    }
   ],
   "dialog_states": [
     {
       "id": "kala_lili_intro",
-      "when": { "flag_absent": "badge_suli" },
+      "when": {
+        "flag_absent": "badge_suli"
+      },
       "priority": 0,
       "beats": [
         {
-          "text": { "en": "My brother catches the big ones. I catch the fast ones." },
+          "text": {
+            "en": "My brother catches the big ones. I catch the fast ones."
+          },
           "mood": "happy",
           "glyph": "companion-bond"
         },
         {
-          "text": { "en": "The fish are moving inland. All of them. It's weird." },
+          "text": {
+            "en": "The fish are moving inland. All of them. It's weird."
+          },
           "mood": "thinking",
           "glyph": "wild-signs"
         }
@@ -27,11 +48,16 @@
     },
     {
       "id": "kala_lili_rivergate",
-      "when": { "flag_present": "badge_suli", "flag_absent": "game_cleared" },
+      "when": {
+        "flag_present": "badge_suli",
+        "flag_absent": "game_cleared"
+      },
       "priority": 5,
       "beats": [
         {
-          "text": { "en": "I came up to see. The fish are still running, Rivers. I'm scared." },
+          "text": {
+            "en": "I came up to see. The fish are still running, Rivers. I'm scared."
+          },
           "mood": "sad",
           "glyph": "wild-signs"
         }
@@ -39,11 +65,15 @@
     },
     {
       "id": "kala_lili_post_clear",
-      "when": { "flag_present": "game_cleared" },
+      "when": {
+        "flag_present": "game_cleared"
+      },
       "priority": 3,
       "beats": [
         {
-          "text": { "en": "The fish are going back downstream. I watched them turn. It was beautiful." },
+          "text": {
+            "en": "The fish are going back downstream. I watched them turn. It was beautiful."
+          },
           "mood": "happy",
           "glyph": "companion-bond"
         }

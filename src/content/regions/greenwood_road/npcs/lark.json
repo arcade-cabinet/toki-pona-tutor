@@ -3,22 +3,36 @@
   "display_name": "Lark",
   "home_region": "greenwood_road",
   "role": "route_watcher",
+  "graphic": "npc_villager_masc_grym",
   "appearances": [
-    { "region": "greenwood_road", "spawn": [25, 5], "default": true }
+    {
+      "region": "greenwood_road",
+      "spawn": [
+        25,
+        5
+      ],
+      "default": true
+    }
   ],
   "dialog_states": [
     {
       "id": "lark_watch",
-      "when": { "flag_absent": "badge_lete" },
+      "when": {
+        "flag_absent": "badge_lete"
+      },
       "priority": 0,
       "beats": [
         {
-          "text": { "en": "I watch the Greenwood crossings." },
+          "text": {
+            "en": "I watch the Greenwood crossings."
+          },
           "mood": "thinking",
           "glyph": "wild-signs"
         },
         {
-          "text": { "en": "Something has been driving the wild ones toward town." },
+          "text": {
+            "en": "Something has been driving the wild ones toward town."
+          },
           "mood": "sad",
           "glyph": "battle-ready"
         }
@@ -26,11 +40,16 @@
     },
     {
       "id": "lark_post_third_gym",
-      "when": { "flag_present": "badge_lete", "flag_absent": "game_cleared" },
+      "when": {
+        "flag_present": "badge_lete",
+        "flag_absent": "game_cleared"
+      },
       "priority": 5,
       "beats": [
         {
-          "text": { "en": "Frost said the word. Dragon. I can say it now too." },
+          "text": {
+            "en": "Frost said the word. Dragon. I can say it now too."
+          },
           "mood": "sad",
           "glyph": "wild-signs"
         }

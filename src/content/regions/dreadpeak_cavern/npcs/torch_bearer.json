@@ -3,22 +3,36 @@
   "display_name": "Torch-bearer",
   "home_region": "dreadpeak_cavern",
   "role": "cliff_apprentice",
+  "graphic": "npc_villager_masc_nyro",
   "appearances": [
-    { "region": "dreadpeak_cavern", "spawn": [7, 8], "default": true }
+    {
+      "region": "dreadpeak_cavern",
+      "spawn": [
+        7,
+        8
+      ],
+      "default": true
+    }
   ],
   "dialog_states": [
     {
       "id": "torch_bearer_intro",
-      "when": { "flag_absent": "badge_suli" },
+      "when": {
+        "flag_absent": "badge_suli"
+      },
       "priority": 0,
       "beats": [
         {
-          "text": { "en": "Cliff taught me to tend the braziers. Don't let them go out." },
+          "text": {
+            "en": "Cliff taught me to tend the braziers. Don't let them go out."
+          },
           "mood": "thinking",
           "glyph": "last-light"
         },
         {
-          "text": { "en": "Mind the polished stones. Four of them. They matter more than they look." },
+          "text": {
+            "en": "Mind the polished stones. Four of them. They matter more than they look."
+          },
           "mood": "happy",
           "glyph": "shrine-stones"
         }
@@ -26,11 +40,16 @@
     },
     {
       "id": "torch_bearer_post_cliff",
-      "when": { "flag_present": "badge_suli", "flag_absent": "game_cleared" },
+      "when": {
+        "flag_present": "badge_suli",
+        "flag_absent": "game_cleared"
+      },
       "priority": 5,
       "beats": [
         {
-          "text": { "en": "Cliff says you carried all four proofs in. The braziers felt it. They burned sideways." },
+          "text": {
+            "en": "Cliff says you carried all four proofs in. The braziers felt it. They burned sideways."
+          },
           "mood": "excited",
           "glyph": "last-light"
         }

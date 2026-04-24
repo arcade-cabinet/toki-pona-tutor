@@ -3,23 +3,44 @@
   "display_name": "Ember",
   "home_region": "dreadpeak_cavern",
   "role": "torch_keeper",
+  "graphic": "npc_villager_fem_meza",
   "appearances": [
-    { "region": "frostvale", "spawn": [14, 8], "default": true },
-    { "region": "dreadpeak_cavern", "spawn": [8, 14], "requires_flag": "badge_lete" }
+    {
+      "region": "frostvale",
+      "spawn": [
+        14,
+        8
+      ],
+      "default": true
+    },
+    {
+      "region": "dreadpeak_cavern",
+      "spawn": [
+        8,
+        14
+      ],
+      "requires_flag": "badge_lete"
+    }
   ],
   "dialog_states": [
     {
       "id": "ember_frostvale",
-      "when": { "flag_absent": "badge_lete" },
+      "when": {
+        "flag_absent": "badge_lete"
+      },
       "priority": 0,
       "beats": [
         {
-          "text": { "en": "I'm through Frostvale on my way home. Dreadpeak's colder than this." },
+          "text": {
+            "en": "I'm through Frostvale on my way home. Dreadpeak's colder than this."
+          },
           "mood": "thinking",
           "glyph": "cave-shadow"
         },
         {
-          "text": { "en": "Bring a light. A real one, with a named flame." },
+          "text": {
+            "en": "Bring a light. A real one, with a named flame."
+          },
           "mood": "sad",
           "glyph": "last-light"
         }
@@ -27,16 +48,23 @@
     },
     {
       "id": "ember_dreadpeak_intro",
-      "when": { "flag_present": "badge_lete", "flag_absent": "badge_suli" },
+      "when": {
+        "flag_present": "badge_lete",
+        "flag_absent": "badge_suli"
+      },
       "priority": 5,
       "beats": [
         {
-          "text": { "en": "Told you it was colder. Give me your lantern — I'll relight it free." },
+          "text": {
+            "en": "Told you it was colder. Give me your lantern — I'll relight it free."
+          },
           "mood": "happy",
           "glyph": "last-light"
         },
         {
-          "text": { "en": "Walk the torch path first. Then come find me if you want to map the shadows." },
+          "text": {
+            "en": "Walk the torch path first. Then come find me if you want to map the shadows."
+          },
           "mood": "thinking",
           "glyph": "cave-shadow"
         }
@@ -44,16 +72,23 @@
     },
     {
       "id": "ember_torch",
-      "when": { "flag_present": "torch_path_survey_complete", "flag_absent": "badge_suli" },
+      "when": {
+        "flag_present": "torch_path_survey_complete",
+        "flag_absent": "badge_suli"
+      },
       "priority": 7,
       "beats": [
         {
-          "text": { "en": "These torches mark the old climb." },
+          "text": {
+            "en": "These torches mark the old climb."
+          },
           "mood": "thinking",
           "glyph": "wild-signs"
         },
         {
-          "text": { "en": "When one goes dark, something big passed nearby. Keep yours named and burning." },
+          "text": {
+            "en": "When one goes dark, something big passed nearby. Keep yours named and burning."
+          },
           "mood": "thinking",
           "glyph": "companion-bond"
         }
@@ -61,11 +96,15 @@
     },
     {
       "id": "ember_post_clear",
-      "when": { "flag_present": "game_cleared" },
+      "when": {
+        "flag_present": "game_cleared"
+      },
       "priority": 3,
       "beats": [
         {
-          "text": { "en": "No braziers have gone out since you walked through. I noticed." },
+          "text": {
+            "en": "No braziers have gone out since you walked through. I noticed."
+          },
           "mood": "happy",
           "glyph": "last-light"
         }

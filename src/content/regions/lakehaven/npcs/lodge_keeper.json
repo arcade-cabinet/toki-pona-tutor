@@ -3,33 +3,52 @@
   "display_name": "Vesper",
   "home_region": "lakehaven",
   "role": "lodge_keeper",
+  "graphic": "npc_villager_fem_khali",
   "appearances": [
-    { "region": "lakehaven", "spawn": [16, 3], "default": true }
+    {
+      "region": "lakehaven",
+      "spawn": [
+        16,
+        3
+      ],
+      "default": true
+    }
   ],
   "dialog_states": [
     {
       "id": "lodge_keeper_intro",
-      "when": { "flag_absent": "badge_lete" },
+      "when": {
+        "flag_absent": "badge_lete"
+      },
       "priority": 0,
       "beats": [
         {
-          "text": { "en": "One trail token buys a cot and hot water. Cheap for a tired team." },
+          "text": {
+            "en": "One trail token buys a cot and hot water. Cheap for a tired team."
+          },
           "mood": "happy",
           "glyph": "safe-house"
         },
         {
-          "text": { "en": "The north door opens in winter. Don't try it in summer or the hinges will scream at you." },
+          "text": {
+            "en": "The north door opens in winter. Don't try it in summer or the hinges will scream at you."
+          },
           "mood": "thinking"
         }
       ]
     },
     {
       "id": "lodge_keeper_post_third_gym",
-      "when": { "flag_present": "badge_lete", "flag_absent": "game_cleared" },
+      "when": {
+        "flag_present": "badge_lete",
+        "flag_absent": "game_cleared"
+      },
       "priority": 5,
       "beats": [
         {
-          "text": { "en": "The north door's been opening on its own this week. That's never a good sign." },
+          "text": {
+            "en": "The north door's been opening on its own this week. That's never a good sign."
+          },
           "mood": "sad",
           "glyph": "wild-signs"
         }

@@ -3,22 +3,36 @@
   "display_name": "Tarrin",
   "home_region": "highridge_pass",
   "role": "region_master",
+  "graphic": "npc_warrior_sword_shield",
   "appearances": [
-    { "region": "highridge_pass", "spawn": [20, 3], "default": true }
+    {
+      "region": "highridge_pass",
+      "spawn": [
+        20,
+        3
+      ],
+      "default": true
+    }
   ],
   "dialog_states": [
     {
       "id": "tarrin_intro",
-      "when": { "flag_absent": "badge_sewi" },
+      "when": {
+        "flag_absent": "badge_sewi"
+      },
       "priority": 10,
       "beats": [
         {
-          "text": { "en": "The pass belongs to teams that can take a hit." },
+          "text": {
+            "en": "The pass belongs to teams that can take a hit."
+          },
           "mood": "excited",
           "glyph": "battle-ready"
         },
         {
-          "text": { "en": "Stand firm." },
+          "text": {
+            "en": "Stand firm."
+          },
           "mood": "excited",
           "glyph": "wild-signs"
         }
@@ -26,16 +40,23 @@
     },
     {
       "id": "tarrin_victory",
-      "when": { "flag_present": "badge_sewi", "flag_absent": "badge_telo" },
+      "when": {
+        "flag_present": "badge_sewi",
+        "flag_absent": "badge_telo"
+      },
       "priority": 5,
       "beats": [
         {
-          "text": { "en": "You took the hit and kept going." },
+          "text": {
+            "en": "You took the hit and kept going."
+          },
           "mood": "sad",
           "glyph": "companion-bond"
         },
         {
-          "text": { "en": "Highridge Pass is open." },
+          "text": {
+            "en": "Highridge Pass is open."
+          },
           "mood": "thinking",
           "glyph": "companion-bond"
         }
@@ -43,16 +64,23 @@
     },
     {
       "id": "tarrin_post_second_gym",
-      "when": { "flag_present": "badge_telo", "flag_absent": "badge_lete" },
+      "when": {
+        "flag_present": "badge_telo",
+        "flag_absent": "badge_lete"
+      },
       "priority": 5,
       "beats": [
         {
-          "text": { "en": "Marin wrote me about the water. Her hand doesn't shake unless it's real." },
+          "text": {
+            "en": "Marin wrote me about the water. Her hand doesn't shake unless it's real."
+          },
           "mood": "thinking",
           "glyph": "shrine-stones"
         },
         {
-          "text": { "en": "The cracked stone has been cracked since before I was a warden. I still don't know what did it." },
+          "text": {
+            "en": "The cracked stone has been cracked since before I was a warden. I still don't know what did it."
+          },
           "mood": "sad",
           "glyph": "wild-signs"
         }
@@ -60,11 +88,15 @@
     },
     {
       "id": "tarrin_post_clear",
-      "when": { "flag_present": "game_cleared" },
+      "when": {
+        "flag_present": "game_cleared"
+      },
       "priority": 3,
       "beats": [
         {
-          "text": { "en": "The stones have a fifth name on them now, Rivers. Read it when the sun is high." },
+          "text": {
+            "en": "The stones have a fifth name on them now, Rivers. Read it when the sun is high."
+          },
           "mood": "happy",
           "glyph": "companion-bond"
         }

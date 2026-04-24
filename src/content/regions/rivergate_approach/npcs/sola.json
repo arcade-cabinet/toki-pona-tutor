@@ -3,27 +3,43 @@
   "display_name": "Sola",
   "home_region": "rivergate_approach",
   "role": "river_watcher",
+  "graphic": "npc_villager_fem_vash",
   "appearances": [
-    { "region": "rivergate_approach", "spawn": [22, 6], "default": true }
+    {
+      "region": "rivergate_approach",
+      "spawn": [
+        22,
+        6
+      ],
+      "default": true
+    }
   ],
   "dialog_states": [
     {
       "id": "sola_last",
-      "when": { "flag_absent": "green_dragon_defeated" },
+      "when": {
+        "flag_absent": "green_dragon_defeated"
+      },
       "priority": 0,
       "beats": [
         {
-          "text": { "en": "The final river bends toward old trouble." },
+          "text": {
+            "en": "The final river bends toward old trouble."
+          },
           "mood": "happy",
           "glyph": "water-edge"
         },
         {
-          "text": { "en": "If you hear wings, save your best throw." },
+          "text": {
+            "en": "If you hear wings, save your best throw."
+          },
           "mood": "excited",
           "glyph": "greenwood-watch"
         },
         {
-          "text": { "en": "The chain snapped three nights ago. I heard it go in my bones." },
+          "text": {
+            "en": "The chain snapped three nights ago. I heard it go in my bones."
+          },
           "mood": "sad",
           "glyph": "wild-signs"
         }
@@ -31,11 +47,15 @@
     },
     {
       "id": "sola_post_clear",
-      "when": { "flag_present": "game_cleared" },
+      "when": {
+        "flag_present": "game_cleared"
+      },
       "priority": 5,
       "beats": [
         {
-          "text": { "en": "My bones are quiet now, Rivers. Thank you." },
+          "text": {
+            "en": "My bones are quiet now, Rivers. Thank you."
+          },
           "mood": "happy",
           "glyph": "companion-bond"
         }

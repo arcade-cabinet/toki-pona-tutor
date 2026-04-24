@@ -91,6 +91,7 @@
      <property name="id" value="rook"/>
      <property name="dialog_id" value="rook_intro"/>
      <property name="required_flag" value="badge_suli"/>
+     <property name="graphic" value="npc_warrior_sword_shield"/>
    </properties>
   </object>
   <object id="9" name="npc-kala_lili" type="NPC" x="160" y="144" width="0" height="0" visible="1" rotation="0">
@@ -98,6 +99,7 @@
      <property name="id" value="kala_lili"/>
      <property name="dialog_id" value="kala_lili_intro"/>
      <property name="required_flag" value="badge_suli"/>
+     <property name="graphic" value="npc_villager_fem_julz"/>
    </properties>
   </object>
   <object id="10" name="npc-kala_suli" type="NPC" x="176" y="128" width="0" height="0" visible="1" rotation="0">
@@ -105,6 +107,7 @@
      <property name="id" value="kala_suli"/>
      <property name="dialog_id" value="kala_suli_intro"/>
      <property name="required_flag" value="badge_suli"/>
+     <property name="graphic" value="npc_villager_fem_vash"/>
    </properties>
   </object>
   <object id="11" name="npc-green_dragon" type="NPC" x="224" y="32" width="0" height="0" visible="1" rotation="0">

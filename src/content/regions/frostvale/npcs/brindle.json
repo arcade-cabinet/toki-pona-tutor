@@ -3,22 +3,36 @@
   "display_name": "Brindle",
   "home_region": "frostvale",
   "role": "cold_pod_keeper",
+  "graphic": "npc_villager_fem_vash",
   "appearances": [
-    { "region": "frostvale", "spawn": [7, 10], "default": true }
+    {
+      "region": "frostvale",
+      "spawn": [
+        7,
+        10
+      ],
+      "default": true
+    }
   ],
   "dialog_states": [
     {
       "id": "brindle_cold",
-      "when": { "flag_absent": "cold_hands_complete" },
+      "when": {
+        "flag_absent": "cold_hands_complete"
+      },
       "priority": 0,
       "beats": [
         {
-          "text": { "en": "Cold hands fumble capture pods." },
+          "text": {
+            "en": "Cold hands fumble capture pods."
+          },
           "mood": "happy",
           "glyph": "companion-bond"
         },
         {
-          "text": { "en": "Warm them before you throw. And show me if anyone on the lake sent you — I'll read the braid." },
+          "text": {
+            "en": "Warm them before you throw. And show me if anyone on the lake sent you — I'll read the braid."
+          },
           "mood": "excited",
           "glyph": "cold-hands"
         }
@@ -26,27 +40,38 @@
     },
     {
       "id": "brindle_post_cold_hands",
-      "when": { "flag_present": "cold_hands_complete", "flag_absent": "badge_lete" },
+      "when": {
+        "flag_present": "cold_hands_complete",
+        "flag_absent": "badge_lete"
+      },
       "priority": 5,
       "beats": [
         {
-          "text": { "en": "Loren's braid. I lost my brother to this mountain the winter it was made." },
+          "text": {
+            "en": "Loren's braid. I lost my brother to this mountain the winter it was made."
+          },
           "mood": "sad",
           "glyph": "cold-hands"
         },
         {
-          "text": { "en": "Free spring tonic whenever you pass. Don't argue with me, Rivers." },
+          "text": {
+            "en": "Free spring tonic whenever you pass. Don't argue with me, Rivers."
+          },
           "mood": "happy"
         }
       ]
     },
     {
       "id": "brindle_post_clear",
-      "when": { "flag_present": "game_cleared" },
+      "when": {
+        "flag_present": "game_cleared"
+      },
       "priority": 3,
       "beats": [
         {
-          "text": { "en": "The braid is warmer than it was. I don't know how that works." },
+          "text": {
+            "en": "The braid is warmer than it was. I don't know how that works."
+          },
           "mood": "happy",
           "glyph": "cold-hands"
         }

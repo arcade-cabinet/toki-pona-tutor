@@ -3,21 +3,35 @@
   "display_name": "Frost's Uncle",
   "home_region": "frostvale",
   "role": "warden_lore_keeper",
+  "graphic": "npc_villager_masc_reza",
   "appearances": [
-    { "region": "frostvale", "spawn": [4, 11], "default": true }
+    {
+      "region": "frostvale",
+      "spawn": [
+        4,
+        11
+      ],
+      "default": true
+    }
   ],
   "dialog_states": [
     {
       "id": "frost_uncle_intro",
-      "when": { "flag_absent": "badge_lete" },
+      "when": {
+        "flag_absent": "badge_lete"
+      },
       "priority": 0,
       "beats": [
         {
-          "text": { "en": "Sit with me a minute. The bench is warmer than it looks." },
+          "text": {
+            "en": "Sit with me a minute. The bench is warmer than it looks."
+          },
           "mood": "happy"
         },
         {
-          "text": { "en": "I don't tell the four-warden story to people on their way up the mountain. Come back after." },
+          "text": {
+            "en": "I don't tell the four-warden story to people on their way up the mountain. Come back after."
+          },
           "mood": "thinking",
           "glyph": "shrine-stones"
         }
@@ -25,32 +39,45 @@
     },
     {
       "id": "frost_uncle_warden_story",
-      "when": { "flag_present": "badge_lete", "flag_absent": "game_cleared" },
+      "when": {
+        "flag_present": "badge_lete",
+        "flag_absent": "game_cleared"
+      },
       "priority": 5,
       "beats": [
         {
-          "text": { "en": "Four wardens were chosen when the chain was forged. Tarrin at the stone. Marin at the water. Me for a season, then Frost." },
+          "text": {
+            "en": "Four wardens were chosen when the chain was forged. Tarrin at the stone. Marin at the water. Me for a season, then Frost."
+          },
           "mood": "thinking",
           "glyph": "shrine-stones"
         },
         {
-          "text": { "en": "Cliff at the cavern is the fourth. And there was a fifth, before my time. We don't say that name out loud." },
+          "text": {
+            "en": "Cliff at the cavern is the fourth. And there was a fifth, before my time. We don't say that name out loud."
+          },
           "mood": "sad",
           "glyph": "wild-signs"
         },
         {
-          "text": { "en": "Go to Highridge when you've time. The shrine stones remember four names. Look for the one that wasn't there yesterday." },
+          "text": {
+            "en": "Go to Highridge when you've time. The shrine stones remember four names. Look for the one that wasn't there yesterday."
+          },
           "mood": "happy"
         }
       ]
     },
     {
       "id": "frost_uncle_post_clear",
-      "when": { "flag_present": "game_cleared" },
+      "when": {
+        "flag_present": "game_cleared"
+      },
       "priority": 3,
       "beats": [
         {
-          "text": { "en": "Sit. You know the fifth name now. Say it quietly. Selby. Selby." },
+          "text": {
+            "en": "Sit. You know the fifth name now. Say it quietly. Selby. Selby."
+          },
           "mood": "happy",
           "glyph": "companion-bond"
         }

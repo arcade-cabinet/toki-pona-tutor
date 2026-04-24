@@ -3,34 +3,60 @@
   "display_name": "Kala-Suli",
   "home_region": "lakehaven",
   "role": "fisher_sibling_big",
+  "graphic": "npc_villager_fem_vash",
   "appearances": [
-    { "region": "lakehaven", "spawn": [15, 12], "default": true },
-    { "region": "rivergate_approach", "spawn": [11, 8], "requires_flag": "badge_suli" }
+    {
+      "region": "lakehaven",
+      "spawn": [
+        15,
+        12
+      ],
+      "default": true
+    },
+    {
+      "region": "rivergate_approach",
+      "spawn": [
+        11,
+        8
+      ],
+      "requires_flag": "badge_suli"
+    }
   ],
   "dialog_states": [
     {
       "id": "kala_suli_intro",
-      "when": { "flag_absent": "badge_suli" },
+      "when": {
+        "flag_absent": "badge_suli"
+      },
       "priority": 0,
       "beats": [
         {
-          "text": { "en": "She tells everyone she catches the fast ones." },
+          "text": {
+            "en": "She tells everyone she catches the fast ones."
+          },
           "mood": "happy",
           "glyph": "companion-bond"
         },
         {
-          "text": { "en": "She's right. I weigh them, she names them. It works." },
+          "text": {
+            "en": "She's right. I weigh them, she names them. It works."
+          },
           "mood": "thinking"
         }
       ]
     },
     {
       "id": "kala_suli_rivergate",
-      "when": { "flag_present": "badge_suli", "flag_absent": "game_cleared" },
+      "when": {
+        "flag_present": "badge_suli",
+        "flag_absent": "game_cleared"
+      },
       "priority": 5,
       "beats": [
         {
-          "text": { "en": "I tried to catch the dragon with a fishing line. Don't tell Lili." },
+          "text": {
+            "en": "I tried to catch the dragon with a fishing line. Don't tell Lili."
+          },
           "mood": "sad"
         }
       ]

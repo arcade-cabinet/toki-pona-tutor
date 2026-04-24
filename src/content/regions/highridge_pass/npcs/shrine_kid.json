@@ -3,22 +3,36 @@
   "display_name": "Shrine-kid",
   "home_region": "highridge_pass",
   "role": "tarrin_apprentice",
+  "graphic": "npc_villager_fem_nel",
   "appearances": [
-    { "region": "highridge_pass", "spawn": [20, 5], "default": true }
+    {
+      "region": "highridge_pass",
+      "spawn": [
+        20,
+        5
+      ],
+      "default": true
+    }
   ],
   "dialog_states": [
     {
       "id": "shrine_kid_intro",
-      "when": { "flag_absent": "badge_sewi" },
+      "when": {
+        "flag_absent": "badge_sewi"
+      },
       "priority": 0,
       "beats": [
         {
-          "text": { "en": "I run messages between the huts. I'm Tarrin's apprentice." },
+          "text": {
+            "en": "I run messages between the huts. I'm Tarrin's apprentice."
+          },
           "mood": "happy",
           "glyph": "shrine-stones"
         },
         {
-          "text": { "en": "The middle stone is cracked. We don't know what cracked it. Tarrin doesn't either." },
+          "text": {
+            "en": "The middle stone is cracked. We don't know what cracked it. Tarrin doesn't either."
+          },
           "mood": "thinking",
           "glyph": "wild-signs"
         }
@@ -26,11 +40,16 @@
     },
     {
       "id": "shrine_kid_post_fight",
-      "when": { "flag_present": "badge_sewi", "flag_absent": "game_cleared" },
+      "when": {
+        "flag_present": "badge_sewi",
+        "flag_absent": "game_cleared"
+      },
       "priority": 5,
       "beats": [
         {
-          "text": { "en": "Tarrin said your team fought clean. That's a high compliment from them." },
+          "text": {
+            "en": "Tarrin said your team fought clean. That's a high compliment from them."
+          },
           "mood": "happy",
           "glyph": "companion-bond"
         }
@@ -38,11 +57,15 @@
     },
     {
       "id": "shrine_kid_post_clear",
-      "when": { "flag_present": "game_cleared" },
+      "when": {
+        "flag_present": "game_cleared"
+      },
       "priority": 3,
       "beats": [
         {
-          "text": { "en": "I can see the cracked stone from the hut window. It's quieter now. I don't know how to say it better than that." },
+          "text": {
+            "en": "I can see the cracked stone from the hut window. It's quieter now. I don't know how to say it better than that."
+          },
           "mood": "happy",
           "glyph": "shrine-stones"
         }

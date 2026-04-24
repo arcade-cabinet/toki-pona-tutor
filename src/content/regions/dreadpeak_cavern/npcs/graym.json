@@ -3,27 +3,43 @@
   "display_name": "Graym",
   "home_region": "dreadpeak_cavern",
   "role": "cave_mapper_quest_giver",
+  "graphic": "npc_villager_masc_nyro",
   "appearances": [
-    { "region": "dreadpeak_cavern", "spawn": [4, 18], "default": true }
+    {
+      "region": "dreadpeak_cavern",
+      "spawn": [
+        4,
+        18
+      ],
+      "default": true
+    }
   ],
   "dialog_states": [
     {
       "id": "graym_cave",
-      "when": { "flag_absent": "torch_path_survey_complete" },
+      "when": {
+        "flag_absent": "torch_path_survey_complete"
+      },
       "priority": 0,
       "beats": [
         {
-          "text": { "en": "Something's been moving in the shadow at the back of the cavern." },
+          "text": {
+            "en": "Something's been moving in the shadow at the back of the cavern."
+          },
           "mood": "thinking",
           "glyph": "cave-shadow"
         },
         {
-          "text": { "en": "Two cave-dwellers will tell us what it is — they see in the dark the way Rivers sees maps." },
+          "text": {
+            "en": "Two cave-dwellers will tell us what it is — they see in the dark the way Rivers sees maps."
+          },
           "mood": "thinking",
           "glyph": "cave-shadow"
         },
         {
-          "text": { "en": "Catch two cave creatures and bring them back. We'll read the shadow together." },
+          "text": {
+            "en": "Catch two cave creatures and bring them back. We'll read the shadow together."
+          },
           "mood": "excited",
           "glyph": "cave-shadow"
         }
@@ -31,16 +47,23 @@
     },
     {
       "id": "graym_post_survey",
-      "when": { "flag_present": "torch_path_survey_complete", "flag_absent": "game_cleared" },
+      "when": {
+        "flag_present": "torch_path_survey_complete",
+        "flag_absent": "game_cleared"
+      },
       "priority": 5,
       "beats": [
         {
-          "text": { "en": "The shadow is on the move still. But it's not what's wrong." },
+          "text": {
+            "en": "The shadow is on the move still. But it's not what's wrong."
+          },
           "mood": "thinking",
           "glyph": "cave-shadow"
         },
         {
-          "text": { "en": "The polished stones are. Count them. Four. Matches the shrine on Highridge exactly." },
+          "text": {
+            "en": "The polished stones are. Count them. Four. Matches the shrine on Highridge exactly."
+          },
           "mood": "sad",
           "glyph": "shrine-stones"
         }
@@ -48,11 +71,15 @@
     },
     {
       "id": "graym_post_clear",
-      "when": { "flag_present": "game_cleared" },
+      "when": {
+        "flag_present": "game_cleared"
+      },
       "priority": 3,
       "beats": [
         {
-          "text": { "en": "The shadow's gone. First time I've mapped clean stone in thirty years." },
+          "text": {
+            "en": "The shadow's gone. First time I've mapped clean stone in thirty years."
+          },
           "mood": "happy",
           "glyph": "companion-bond"
         }

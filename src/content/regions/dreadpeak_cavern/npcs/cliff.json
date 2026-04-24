@@ -3,27 +3,43 @@
   "display_name": "Cliff",
   "home_region": "dreadpeak_cavern",
   "role": "region_master_final_warden",
+  "graphic": "npc_warrior_sword_shield",
   "appearances": [
-    { "region": "dreadpeak_cavern", "spawn": [8, 4], "default": true }
+    {
+      "region": "dreadpeak_cavern",
+      "spawn": [
+        8,
+        4
+      ],
+      "default": true
+    }
   ],
   "dialog_states": [
     {
       "id": "cliff_intro",
-      "when": { "flag_absent": "badge_suli" },
+      "when": {
+        "flag_absent": "badge_suli"
+      },
       "priority": 10,
       "beats": [
         {
-          "text": { "en": "Dreadpeak doesn't forgive sloppy teams." },
+          "text": {
+            "en": "Dreadpeak doesn't forgive sloppy teams."
+          },
           "mood": "excited",
           "glyph": "wild-signs"
         },
         {
-          "text": { "en": "You carry three proofs. I felt them walk in with you." },
+          "text": {
+            "en": "You carry three proofs. I felt them walk in with you."
+          },
           "mood": "thinking",
           "glyph": "shrine-stones"
         },
         {
-          "text": { "en": "Show me why the mountain should let you pass." },
+          "text": {
+            "en": "Show me why the mountain should let you pass."
+          },
           "mood": "excited",
           "glyph": "battle-ready"
         }
@@ -31,26 +47,37 @@
     },
     {
       "id": "cliff_victory",
-      "when": { "flag_present": "badge_suli", "flag_absent": "game_cleared" },
+      "when": {
+        "flag_present": "badge_suli",
+        "flag_absent": "game_cleared"
+      },
       "priority": 5,
       "beats": [
         {
-          "text": { "en": "You climbed higher than I expected." },
+          "text": {
+            "en": "You climbed higher than I expected."
+          },
           "mood": "sad",
           "glyph": "companion-bond"
         },
         {
-          "text": { "en": "Four proofs. Four keys. I'm the last of the four wardens the chain was forged for." },
+          "text": {
+            "en": "Four proofs. Four keys. I'm the last of the four wardens the chain was forged for."
+          },
           "mood": "thinking",
           "glyph": "shrine-stones"
         },
         {
-          "text": { "en": "The Rivergate is a stone door. Your proofs are the stones it wants. Go." },
+          "text": {
+            "en": "The Rivergate is a stone door. Your proofs are the stones it wants. Go."
+          },
           "mood": "sad",
           "glyph": "wild-signs"
         },
         {
-          "text": { "en": "Rivers. Whatever you choose when you meet it — fight, catch, or walk up unarmed — I'll call it right." },
+          "text": {
+            "en": "Rivers. Whatever you choose when you meet it — fight, catch, or walk up unarmed — I'll call it right."
+          },
           "mood": "happy",
           "glyph": "companion-bond"
         }
@@ -58,11 +85,15 @@
     },
     {
       "id": "cliff_post_clear",
-      "when": { "flag_present": "game_cleared" },
+      "when": {
+        "flag_present": "game_cleared"
+      },
       "priority": 3,
       "beats": [
         {
-          "text": { "en": "The cavern's quiet again, Rivers. First time in forty years." },
+          "text": {
+            "en": "The cavern's quiet again, Rivers. First time in forty years."
+          },
           "mood": "happy",
           "glyph": "companion-bond"
         }
