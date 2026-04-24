@@ -1,0 +1,40 @@
+{
+  "id": "green_dragon",
+  "display_name": "Avere, the Green Dragon",
+  "home_region": "rivergate_approach",
+  "role": "final_boss",
+  "appearances": [
+    { "region": "rivergate_approach", "spawn": [14, 2], "default": true }
+  ],
+  "dialog_states": [
+    {
+      "id": "green_dragon_intro",
+      "when": { "flag_absent": "green_dragon_defeated" },
+      "priority": 10,
+      "beats": [
+        {
+          "text": { "en": "The rivergate burns with green fire. I am done hiding." },
+          "mood": "excited",
+          "glyph": "battle-ready"
+        },
+        {
+          "text": { "en": "You're the fifth one. I was waiting." },
+          "mood": "thinking",
+          "glyph": "companion-bond"
+        }
+      ]
+    },
+    {
+      "id": "green_dragon_victory",
+      "when": { "flag_present": "green_dragon_defeated" },
+      "priority": 5,
+      "beats": [
+        {
+          "text": { "en": "The storm is finally quiet." },
+          "mood": "happy",
+          "glyph": "companion-bond"
+        }
+      ]
+    }
+  ]
+}

@@ -4,7 +4,8 @@
   "home_region": "frostvale",
   "role": "botanist_quest_giver",
   "appearances": [
-    { "region": "frostvale", "spawn": [18, 3], "default": true }
+    { "region": "frostvale", "spawn": [18, 3], "default": true },
+    { "region": "rivergate_approach", "spawn": [16, 4], "requires_flag": "badge_suli" }
   ],
   "dialog_states": [
     {

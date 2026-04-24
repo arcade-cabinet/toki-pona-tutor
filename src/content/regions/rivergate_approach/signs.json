@@ -1,0 +1,20 @@
+{
+  "region": "rivergate_approach",
+  "signs": [
+    {
+      "at": [4, 12],
+      "title": "RIVERGATE APPROACH",
+      "body": { "en": "Beyond here is the source." }
+    },
+    {
+      "at": [14, 8],
+      "title": "DEEP WATER — USE THE SANDBAR",
+      "body": { "en": "The current above the lock is stronger than it looks." }
+    },
+    {
+      "at": [14, 2],
+      "title": "THE RIVERGATE",
+      "body": { "en": "Four stones make a door. The door waits." }
+    }
+  ]
+}

@@ -1,0 +1,15 @@
+{
+  "id": "rivergate_approach",
+  "display_name": "Rivergate Approach",
+  "biome": "water",
+  "music": "bgm_river",
+  "size": { "w": 28, "h": 14 },
+  "neighbors": { "south": "dreadpeak_cavern" },
+  "summary": "Endgame route to the Rivergate arch — the stone door at the source of the river. The green dragon waits here. Rivers arrives with all four proofs; fight, catch, or walk up unarmed.",
+  "flavor_beats": [
+    "Wild at the west bank: tall reeds, shallow pools.",
+    "A deep-water channel threads east-to-west; a sandbar path crosses it.",
+    "At the north end, the Rivergate arch is carved with the shapes of the four wardens' stones.",
+    "The arch hums. Rivers feels it in their teeth from the southernmost tile."
+  ]
+}

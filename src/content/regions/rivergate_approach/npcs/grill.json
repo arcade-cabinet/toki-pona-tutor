@@ -1,0 +1,39 @@
+{
+  "id": "grill",
+  "display_name": "Grill",
+  "home_region": "rivergate_approach",
+  "role": "lodge_cook",
+  "appearances": [
+    { "region": "rivergate_approach", "spawn": [3, 11], "default": true }
+  ],
+  "dialog_states": [
+    {
+      "id": "grill_pona",
+      "when": { "flag_absent": "green_dragon_defeated" },
+      "priority": 0,
+      "beats": [
+        {
+          "text": { "en": "Hot food helps after a long river walk." },
+          "mood": "happy",
+          "glyph": "orchard-fruit"
+        },
+        {
+          "text": { "en": "Before you go north, sit. Eat. The dragon won't notice the delay." },
+          "mood": "thinking"
+        }
+      ]
+    },
+    {
+      "id": "grill_post_clear",
+      "when": { "flag_present": "game_cleared" },
+      "priority": 5,
+      "beats": [
+        {
+          "text": { "en": "There's leftover soup if you're still eating. First quiet afternoon in years." },
+          "mood": "happy",
+          "glyph": "companion-bond"
+        }
+      ]
+    }
+  ]
+}
