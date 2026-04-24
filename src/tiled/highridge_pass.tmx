@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-down"
      width="32" height="14" tilewidth="16" tileheight="16" infinite="0"
-     nextlayerid="6" nextobjectid="15">
+     nextlayerid="6" nextobjectid="20">
  <properties>
    <property name="biome" value="peak"/>
    <property name="music_track" value="bgm_mountain"/>
@@ -140,16 +140,46 @@
      <property name="graphic" value="npc_villager_masc_nyro"/>
    </properties>
   </object>
+  <object id="13" name="sign-4-11" type="Sign" x="64" y="176" width="0" height="0" visible="1" rotation="0">
+   <properties>
+     <property name="text" value="Three switchbacks. Take them slow."/>
+     <property name="title" value="HIGHRIDGE PASS"/>
+   </properties>
+  </object>
+  <object id="14" name="sign-12-7" type="Sign" x="192" y="112" width="0" height="0" visible="1" rotation="0">
+   <properties>
+     <property name="text" value="It&apos;s the mountain breathing."/>
+     <property name="title" value="FEEL THE WIND"/>
+   </properties>
+  </object>
+  <object id="15" name="sign-20-3" type="Sign" x="320" y="48" width="0" height="0" visible="1" rotation="0">
+   <properties>
+     <property name="text" value="One of four, laid by the first wardens."/>
+     <property name="title" value="THE FIRST STONE"/>
+   </properties>
+  </object>
+  <object id="16" name="sign-16-3" type="Sign" x="256" y="48" width="0" height="0" visible="1" rotation="0">
+   <properties>
+     <property name="text" value="One of four. Tarrin knows whose name is carved here."/>
+     <property name="title" value="THE SECOND STONE"/>
+   </properties>
+  </object>
+  <object id="17" name="sign-22-6" type="Sign" x="352" y="96" width="0" height="0" visible="1" rotation="0">
+   <properties>
+     <property name="text" value="North past the shrine. Three hours to the water if you don&apos;t stop."/>
+     <property name="title" value="LAKEHAVEN TRAIL"/>
+   </properties>
+  </object>
  </objectgroup>
  <objectgroup id="5" name="Encounters" visible="1" opacity="1">
-  <object id="13" name="encounter_0" type="Encounter" x="64" y="64" width="64" height="32" visible="1" rotation="0">
+  <object id="18" name="encounter_0" type="Encounter" x="64" y="64" width="64" height="32" visible="1" rotation="0">
    <properties>
      <property name="species" value="{&quot;tarrin&quot;:25,&quot;chainback&quot;:20,&quot;quartz_shell&quot;:15,&quot;twiglet&quot;:15,&quot;drowsy_owl&quot;:15,&quot;ember_adder&quot;:10}"/>
      <property name="level_min" type="int" value="6"/>
      <property name="level_max" type="int" value="8"/>
    </properties>
   </object>
-  <object id="14" name="encounter_1" type="Encounter" x="224" y="160" width="96" height="48" visible="1" rotation="0">
+  <object id="19" name="encounter_1" type="Encounter" x="224" y="160" width="96" height="48" visible="1" rotation="0">
    <properties>
      <property name="species" value="{&quot;tarrin&quot;:18,&quot;chainback&quot;:18,&quot;mire_brute&quot;:14,&quot;quartz_shell&quot;:18,&quot;snowhare&quot;:12,&quot;drowsy_owl&quot;:12,&quot;twiglet&quot;:8}"/>
      <property name="level_min" type="int" value="7"/>

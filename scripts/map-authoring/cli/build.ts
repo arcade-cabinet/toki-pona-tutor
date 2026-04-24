@@ -10,7 +10,7 @@ import { fileURLToPath, pathToFileURL } from "node:url";
 import { mkdir, writeFile } from "node:fs/promises";
 import { emitTmj, emitTmx, loadTilesetsForSpec } from "../lib/index";
 import { buildDerivedTilesets } from "../lib/derived-tilesets";
-import { mergeDossierNpcsIntoSpec } from "../lib/dossier-merge";
+import { mergeDossierNpcsIntoSpec, mergeDossierSignsIntoSpec } from "../lib/dossier-merge";
 import type { MapSpec } from "../lib/index";
 
 const __dirname = dirname(fileURLToPath(import.meta.url));
@@ -50,11 +50,11 @@ async function main(): Promise<void> {
         process.exit(1);
     }
 
-    // Merge region-dossier NPC appearances into the spec's Objects layer
-    // before emission. Hand-authored NPCs win on id collision; dossier
-    // appearances fill in the rest. See CONTENT_ARCHITECTURE.md for the
-    // dossier layout.
-    const spec = mergeDossierNpcsIntoSpec(specRaw);
+    // Merge region-dossier NPC appearances + signs into the spec's Objects
+    // layer before emission. Hand-authored markers win on collision; dossier
+    // markers fill in the rest. See CONTENT_ARCHITECTURE.md for the dossier
+    // layout.
+    const spec = mergeDossierSignsIntoSpec(mergeDossierNpcsIntoSpec(specRaw));
 
     const tilesets = await loadTilesetsForSpec(spec, worktreeRoot);
 

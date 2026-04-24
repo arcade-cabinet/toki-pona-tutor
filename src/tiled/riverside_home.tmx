@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-down"
      width="16" height="12" tilewidth="16" tileheight="16" infinite="0"
-     nextlayerid="3" nextobjectid="8">
+     nextlayerid="3" nextobjectid="13">
  <properties>
    <property name="biome" value="town"/>
    <property name="music_track" value="bgm_village"/>
@@ -61,6 +61,36 @@
      <property name="target_map" value="greenwood_road"/>
      <property name="target_spawn" value="from_tomo"/>
      <property name="required_flag" value="starter_chosen"/>
+   </properties>
+  </object>
+  <object id="8" name="sign-7-8" type="Sign" x="112" y="128" width="0" height="0" visible="1" rotation="0">
+   <properties>
+     <property name="text" value="Where the river remembers your name."/>
+     <property name="title" value="RIVERSIDE HOME"/>
+   </properties>
+  </object>
+  <object id="9" name="sign-10-5" type="Sign" x="160" y="80" width="0" height="0" visible="1" rotation="0">
+   <properties>
+     <property name="text" value="Selby has lived here since before anyone else."/>
+     <property name="title" value="ELDER&apos;S HOUSE"/>
+   </properties>
+  </object>
+  <object id="10" name="sign-15-5" type="Sign" x="240" y="80" width="0" height="0" visible="1" rotation="0">
+   <properties>
+     <property name="text" value="East out of the village. First rook east of the elm."/>
+     <property name="title" value="GREENWOOD ROAD"/>
+   </properties>
+  </object>
+  <object id="11" name="sign-8-9" type="Sign" x="128" y="144" width="0" height="0" visible="1" rotation="0">
+   <properties>
+     <property name="text" value="Names carved here since the first warden. Read them."/>
+     <property name="title" value="THE GREAT ELM"/>
+   </properties>
+  </object>
+  <object id="12" name="sign-2-7" type="Sign" x="32" y="112" width="0" height="0" visible="1" rotation="0">
+   <properties>
+     <property name="text" value="Four stones at the base, laid by the four valley wardens."/>
+     <property name="title" value="THE WELL"/>
    </properties>
   </object>
  </objectgroup>

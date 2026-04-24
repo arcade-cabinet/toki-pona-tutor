@@ -11,7 +11,7 @@
   "infinite": false,
   "compressionlevel": -1,
   "nextlayerid": 3,
-  "nextobjectid": 8,
+  "nextobjectid": 13,
   "properties": [
     {
       "name": "biome",
@@ -400,6 +400,121 @@
               "name": "required_flag",
               "type": "string",
               "value": "starter_chosen"
+            }
+          ]
+        },
+        {
+          "id": 8,
+          "name": "sign-7-8",
+          "type": "Sign",
+          "x": 112,
+          "y": 128,
+          "width": 0,
+          "height": 0,
+          "visible": true,
+          "rotation": 0,
+          "properties": [
+            {
+              "name": "text",
+              "type": "string",
+              "value": "Where the river remembers your name."
+            },
+            {
+              "name": "title",
+              "type": "string",
+              "value": "RIVERSIDE HOME"
+            }
+          ]
+        },
+        {
+          "id": 9,
+          "name": "sign-10-5",
+          "type": "Sign",
+          "x": 160,
+          "y": 80,
+          "width": 0,
+          "height": 0,
+          "visible": true,
+          "rotation": 0,
+          "properties": [
+            {
+              "name": "text",
+              "type": "string",
+              "value": "Selby has lived here since before anyone else."
+            },
+            {
+              "name": "title",
+              "type": "string",
+              "value": "ELDER'S HOUSE"
+            }
+          ]
+        },
+        {
+          "id": 10,
+          "name": "sign-15-5",
+          "type": "Sign",
+          "x": 240,
+          "y": 80,
+          "width": 0,
+          "height": 0,
+          "visible": true,
+          "rotation": 0,
+          "properties": [
+            {
+              "name": "text",
+              "type": "string",
+              "value": "East out of the village. First rook east of the elm."
+            },
+            {
+              "name": "title",
+              "type": "string",
+              "value": "GREENWOOD ROAD"
+            }
+          ]
+        },
+        {
+          "id": 11,
+          "name": "sign-8-9",
+          "type": "Sign",
+          "x": 128,
+          "y": 144,
+          "width": 0,
+          "height": 0,
+          "visible": true,
+          "rotation": 0,
+          "properties": [
+            {
+              "name": "text",
+              "type": "string",
+              "value": "Names carved here since the first warden. Read them."
+            },
+            {
+              "name": "title",
+              "type": "string",
+              "value": "THE GREAT ELM"
+            }
+          ]
+        },
+        {
+          "id": 12,
+          "name": "sign-2-7",
+          "type": "Sign",
+          "x": 32,
+          "y": 112,
+          "width": 0,
+          "height": 0,
+          "visible": true,
+          "rotation": 0,
+          "properties": [
+            {
+              "name": "text",
+              "type": "string",
+              "value": "Four stones at the base, laid by the four valley wardens."
+            },
+            {
+              "name": "title",
+              "type": "string",
+              "value": "THE WELL"
             }
           ]
         }
