@@ -53,6 +53,22 @@
           "glyph": "wild-signs"
         }
       ]
+    },
+    {
+      "id": "lodge_keeper_post_clear",
+      "when": {
+        "flag_present": "game_cleared"
+      },
+      "priority": 3,
+      "beats": [
+        {
+          "text": {
+            "en": "North door stays shut now. I put a bell on it just in case. It hasn't rung."
+          },
+          "mood": "happy",
+          "glyph": "safe-house"
+        }
+      ]
     }
   ]
 }

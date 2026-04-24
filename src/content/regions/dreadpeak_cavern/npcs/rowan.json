@@ -47,6 +47,22 @@
           "glyph": "companion-bond"
         }
       ]
+    },
+    {
+      "id": "rowan_post_clear",
+      "when": {
+        "flag_present": "game_cleared"
+      },
+      "priority": 3,
+      "beats": [
+        {
+          "text": {
+            "en": "Stock's twice what it was. Fewer folk need last-resort supplies now."
+          },
+          "mood": "happy",
+          "glyph": "safe-house"
+        }
+      ]
     }
   ]
 }

@@ -61,6 +61,22 @@
           "glyph": "shrine-stones"
         }
       ]
+    },
+    {
+      "id": "boulder_post_clear",
+      "when": {
+        "flag_present": "game_cleared"
+      },
+      "priority": 3,
+      "beats": [
+        {
+          "text": {
+            "en": "Four stones sit where the shrine used to be quiet. Fifth's coming. Stoneminder says so."
+          },
+          "mood": "happy",
+          "glyph": "shrine-stones"
+        }
+      ]
     }
   ]
 }

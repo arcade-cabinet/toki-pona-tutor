@@ -54,6 +54,22 @@
           "glyph": "battle-ready"
         }
       ]
+    },
+    {
+      "id": "thorn_post_clear",
+      "when": {
+        "flag_present": "game_cleared"
+      },
+      "priority": 3,
+      "beats": [
+        {
+          "text": {
+            "en": "Grass doesn't rustle mean anymore. I miss the edge a little, but only a little."
+          },
+          "mood": "thinking",
+          "glyph": "wild-signs"
+        }
+      ]
     }
   ]
 }

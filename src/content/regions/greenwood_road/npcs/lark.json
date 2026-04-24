@@ -54,6 +54,22 @@
           "glyph": "wild-signs"
         }
       ]
+    },
+    {
+      "id": "lark_post_clear",
+      "when": {
+        "flag_present": "game_cleared"
+      },
+      "priority": 3,
+      "beats": [
+        {
+          "text": {
+            "en": "Dragon. I still say it. Makes everyone stop walking when I do."
+          },
+          "mood": "excited",
+          "glyph": "companion-bond"
+        }
+      ]
     }
   ]
 }

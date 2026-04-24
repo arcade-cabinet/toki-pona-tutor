@@ -54,6 +54,22 @@
           "glyph": "last-light"
         }
       ]
+    },
+    {
+      "id": "luma_post_clear",
+      "when": {
+        "flag_present": "game_cleared"
+      },
+      "priority": 3,
+      "beats": [
+        {
+          "text": {
+            "en": "Last Light doesn't need tending anymore. The village sky is blue by itself."
+          },
+          "mood": "happy",
+          "glyph": "cold-hands"
+        }
+      ]
     }
   ]
 }

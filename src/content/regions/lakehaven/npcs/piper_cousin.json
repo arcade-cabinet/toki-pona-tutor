@@ -54,6 +54,22 @@
           "glyph": "companion-bond"
         }
       ]
+    },
+    {
+      "id": "piper_cousin_post_clear",
+      "when": {
+        "flag_present": "game_cleared"
+      },
+      "priority": 3,
+      "beats": [
+        {
+          "text": {
+            "en": "Piper's letters are just drawings now. Sunsets, orchards, the elm. No more worry in them."
+          },
+          "mood": "happy",
+          "glyph": "companion-bond"
+        }
+      ]
     }
   ]
 }

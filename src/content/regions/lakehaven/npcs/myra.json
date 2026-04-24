@@ -69,6 +69,22 @@
           "glyph": "water-edge"
         }
       ]
+    },
+    {
+      "id": "myra_post_clear",
+      "when": {
+        "flag_present": "game_cleared"
+      },
+      "priority": 3,
+      "beats": [
+        {
+          "text": {
+            "en": "I came back down to the water. It sings differently. I think it's saying thank you."
+          },
+          "mood": "happy",
+          "glyph": "water-edge"
+        }
+      ]
     }
   ]
 }

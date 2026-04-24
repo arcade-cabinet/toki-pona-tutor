@@ -52,6 +52,22 @@
           "mood": "happy"
         }
       ]
+    },
+    {
+      "id": "breeze_post_clear",
+      "when": {
+        "flag_present": "game_cleared"
+      },
+      "priority": 3,
+      "beats": [
+        {
+          "text": {
+            "en": "The switchback feels short now. Funny how that works once you know the end of the road."
+          },
+          "mood": "happy",
+          "glyph": "wild-signs"
+        }
+      ]
     }
   ]
 }

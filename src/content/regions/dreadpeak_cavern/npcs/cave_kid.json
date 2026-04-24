@@ -54,6 +54,22 @@
           "glyph": "companion-bond"
         }
       ]
+    },
+    {
+      "id": "cave_kid_post_clear",
+      "when": {
+        "flag_present": "game_cleared"
+      },
+      "priority": 3,
+      "beats": [
+        {
+          "text": {
+            "en": "Mom knows I'm in here now. She doesn't mind since the stone's quiet again."
+          },
+          "mood": "happy",
+          "glyph": "shrine-stones"
+        }
+      ]
     }
   ]
 }
