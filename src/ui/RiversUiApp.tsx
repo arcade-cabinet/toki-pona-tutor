@@ -324,7 +324,7 @@ function useDialogTypewriter(state: RiversUiDialogState) {
             disposed = true;
             if (timer) window.clearInterval(timer);
         };
-    }, [state]);
+    }, [state.message, state.typewriter]);
 
     return {
         display,
