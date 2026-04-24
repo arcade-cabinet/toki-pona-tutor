@@ -10,6 +10,13 @@ All notable changes to poki soweli. Format based on [Keep a Changelog](https://k
 
 This branch (`feat/rpgjs-v5-pivot`) descends from commit `0a582e0` — the pre-Godot tip. The Godot era between `1d924fe` (pivot) and `0edfe61` (feat/anchor-to-template) lives on `main` and is not represented here. Release-please releases `v0.1.0`…`v0.1.3` tagged on `main` cover the Godot build and do not apply to this branch.
 
+## [0.42.0](https://github.com/arcade-cabinet/poki-soweli/compare/v0.41.0...v0.42.0) (2026-04-24)
+
+
+### Added
+
+* **v2:** T109 content restructure + T110 module stubs ([#260](https://github.com/arcade-cabinet/poki-soweli/issues/260)) ([9733c30](https://github.com/arcade-cabinet/poki-soweli/commit/9733c305cd8916cda835e04c0acdda4a40d0313c))
+
 ## [0.41.0](https://github.com/arcade-cabinet/poki-soweli/compare/v0.40.2...v0.41.0) (2026-04-24)
 
 
