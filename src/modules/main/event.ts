@@ -1,50 +1,27 @@
-import { type EventDefinition, Components, RpgEvent, RpgPlayer } from "@rpgjs/server";
+import { type EventDefinition, RpgPlayer } from "@rpgjs/server";
 import { STARTER_CEREMONY_CONFIG } from "../../content/gameplay";
-import { getFlag } from "../../platform/persistence/queries";
 import { runStarterCeremony } from "./starter-ceremony";
 
-// Diegetic first-play cue (T11-10). A bright "!" floats above jan Sewi
-// so a new player — freshly deposited by the opening scene — has a
-// visible place to walk toward without a tutorial overlay. Pokémon /
-// FFVI / Chrono Trigger all lean on this glyph; it predates words in
-// 16-bit vocabulary. Cleared after the starter ceremony completes so
-// returning players don't see it forever.
-const FIRST_PLAY_CUE_GLYPH = "!";
-
-function firstPlayCueStyle() {
-    return {
-        fill: "#ffd86b",
-        stroke: "#2a1b08",
-        fontSize: 22,
-        fontWeight: "bold" as const,
-    };
-}
-
-function attachFirstPlayCue(event: RpgEvent): void {
-    event.setComponentsTop(Components.text(FIRST_PLAY_CUE_GLYPH, firstPlayCueStyle()), {
-        marginBottom: -6,
-    });
-}
-
-function clearFirstPlayCue(event: RpgEvent): void {
-    event.setComponentsTop([], {});
-}
+// T41 (formerly T11-10): the jan Sewi first-play cue originally rendered
+// a floating "!" glyph above Selby via `setComponentsTop(Components.text(...))`.
+// That API is broken upstream in RPG.js v5 beta — the client's component
+// dispatch iterates `Object.entries(component)` treating every property
+// value as a sub-component, which renders the raw component object as
+// canvas text (the "splatter" artifact).
+//
+// We supersede the floating "!" with the HUD goal banner, which already
+// shows "Next: Speak with Selby" on the pre-starter state — a clearer
+// and more kid-friendly cue than a bare glyph. The banner lives in
+// `src/content/gameplay/ui.json` under `hud.goal.objective_row_label_pre_starter`.
+// No sprite-overlay cue is needed until upstream ships a fix.
 
 export function JanSewi(): EventDefinition {
     return {
         async onInit() {
             this.setGraphic(STARTER_CEREMONY_CONFIG.mentorGraphic);
-            // Cue disabled for splatter probe — the Components.text
-            // renderer is producing garbage canvas text that needs
-            // triage before any usage site lands.
-            // const starterChosen = await getFlag("starter_chosen");
-            // if (!starterChosen) {
-            //     attachFirstPlayCue(this as unknown as RpgEvent);
-            // }
         },
         async onAction(player: RpgPlayer) {
             await runStarterCeremony(player);
-            // clearFirstPlayCue(this as unknown as RpgEvent);  // disabled
         },
     };
 }
