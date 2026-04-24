@@ -10,15 +10,21 @@ import { type EventDefinition, RpgPlayer } from "@rpgjs/server";
  * No flag gating, no branching, no combat. Pokémon-style flavor: one
  * short line of world texture per sign. Contrast with NPCs, which have
  * multi-state dossiers and quest/plot reactivity.
+ *
+ * T83: when a title is supplied, it rides through DialogOptions.speaker
+ * so the rr-ui surface renders the sign heading ("RIVERSIDE HOME") as a
+ * distinct label above the body. Legacy SignEvent(body) calls still work
+ * — no speaker means no heading, just a plain dialog box.
  */
-export function SignEvent(body: string): EventDefinition {
+export function SignEvent(body: string, title?: string): EventDefinition {
     return {
         onInit() {
             // Signs are invisible infrastructure — the sprite is the
             // tile painted underneath, not an NPC walker. No setGraphic.
         },
         async onAction(player: RpgPlayer) {
-            await player.showText(body);
+            const options = title ? { speaker: title } : undefined;
+            await player.showText(body, options);
         },
     };
 }
