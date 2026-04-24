@@ -30,34 +30,39 @@ describe("Maestro mobile QA contract", () => {
     it("keeps Android debug APK flow pointed at the Capacitor package", () => {
         const flow = text(".maestro/android/debug-apk-smoke.yaml");
 
+        // Flow scoped to title-screen boot-smoke after T13 verification
+        // (PR #167): Capacitor WebView + canvas-dispatched dialog text
+        // do not expose reliably through Maestro's accessibility tree,
+        // so gameplay coverage lives in Playwright against Chromium.
+        // These assertions guarantee the flow still proves Capacitor
+        // packaging + React overlay mount on a booted Android device.
         expect(flow).toContain("appId: com.riversreckoning.game");
         expect(flow).toContain("name: Android debug APK smoke");
         expect(flow).toContain("clearState: com.riversreckoning.game");
         expect(flow).toContain("setOrientation: LANDSCAPE_LEFT");
         expect(flow).toContain('visible: "Rivers Reckoning"');
-        expect(flow).toContain('tapOn: "New Game"');
-        expect(flow).toContain('visible: "Rivers, today you start your own investigation."');
-        expect(flow).toContain('point: "68%,56%"');
-        expect(flow).toContain('point: "68%,31%"');
-        expect(flow).toContain('point: "50%,84%"');
-        expect(flow).toContain('tapOn: "Ashcat"');
-        expect(flow).toContain('tapOn: "Pause menu"');
+        expect(flow).toContain('assertVisible: "New Game"');
+        expect(flow).toContain('assertVisible: "Settings"');
+        expect(flow).toContain('assertVisible: "Quit"');
     });
 
     it("keeps iOS flow on Mobile Safari Pages until a native iOS target exists", () => {
         const flow = text(".maestro/ios/pages-safari-smoke.yaml");
 
+        // Flow scoped to title-screen boot-smoke after T12 verification
+        // (PR #165): Safari's accessibility tree exposes React overlay
+        // strings inconsistently across WebKit runs, so gameplay
+        // coverage lives in Playwright against Chromium. These
+        // assertions guarantee the flow still proves Pages base path
+        // loads + React+Radix+Motion mount on real mobile WebKit.
         expect(flow).toContain("appId: com.apple.mobilesafari");
         expect(flow).toContain("https://arcade-cabinet.github.io/poki-soweli/");
         expect(flow).toContain("name: iOS Safari Pages smoke");
         expect(flow).toContain("setOrientation: LANDSCAPE_LEFT");
         expect(flow).toContain('visible: "Rivers Reckoning"');
-        expect(flow).toContain('tapOn: "New Game"');
-        expect(flow).toContain('visible: "Rivers, today you start your own investigation."');
-        expect(flow).toContain('point: "68%,56%"');
-        expect(flow).toContain('point: "68%,31%"');
-        expect(flow).toContain('point: "50%,84%"');
-        expect(flow).toContain('tapOn: "Ashcat"');
+        expect(flow).toContain('assertVisible: "New Game"');
+        expect(flow).toContain('assertVisible: "Settings"');
+        expect(flow).toContain('assertVisible: "Quit"');
     });
 
     it("keeps release QA docs wired to Maestro without overstating device proof", () => {
