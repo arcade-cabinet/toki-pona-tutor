@@ -13,59 +13,43 @@ Hand-authored analysis of the captures in this directory. PNGs and a per-run inv
 
 - **2026-04-23 T20 first pass (v0.5.0)** — the cliff was at its ugliest: clicking New Game dropped the player onto a map with zero scripted moment, no player-sprite differentiation, and a pause overlay showing Party 0/6. Ten Phase 11 ROADMAP rows opened (T11-01..T11-11).
 - **2026-04-23 T11-11 pass (v0.6.0 → v0.7.0)** — PR #126 shipped the scripted opening scene; PR #128 fixed the broken chain so `runOpeningScene` actually calls `runStarterCeremony()`. First captured evidence of the scene in-game is the new frame 03.
+- **2026-04-23 Phase 11 batch ship (v0.8.0 → v0.13.1)** — PRs #132, #134, #136, #138, #140, #142, #144, #146 landed on CI gates (unit + integration + build). All passed.
+- **2026-04-23 LIVE BROWSER AUDIT (this session)** — ran the capture against the real dev server via Playwright MCP. **Discovered that multiple Phase 11 PRs shipped code that passed automated checks but did NOT actually fix the runtime issue they claimed to fix.** Wrote this verdict against the live screenshots.
 
-## Current state (after v0.7.0)
+## What actually works (verified in live browser)
 
-### Frame 01 — Title — **POLISHED** (unchanged)
+- **Title screen** (Frame 01/02): premium, on-brand, no regressions.
+- **Opening scene chain** (Frame 03+): `New Game` click fires `startFreshGame` → `runOpeningScene` → `runStarterCeremony`. First beat renders, dialog chrome draws correctly.
+- **Dialog keyboard-advance** (T11-08, PR #132): pressing Enter advances the dialog to beat 2 ("Selby is waiting for you on the green...").
+- **Opening scene beats** load through `playDialog` correctly.
+- **Goal HUD / pause glance / quest dialogs / opening scene** — the non-visual Phase 11 work is load-bearing and working.
 
-Premium landing page with brand typography, tagline, and three-action menu.
+## What shipped but doesn't actually work
 
-### Frame 02 — Title with New Game focused — **POLISHED** (unchanged)
+- **T11-02 (player name tag, PR #136)** — `Components.text("Rivers", ...)` produces minified-JS-source splatter on the canvas when rendered by `@rpgjs/client/dist/components/dynamics/text.ce.js`. Verified by disabling and confirming the splatter disappeared. **REOPENED.**
+- **T11-10 (jan Sewi cue, PR #134)** — same root cause: `Components.text("!", ...)` produces the same splatter. **REOPENED.**
+- **T11-03 (scenic decor, PR #138)** — the `collectionAtlasTileset("seasons/Objects_Trees_Seasons")` tiles are 97×124 pixels (not 16×16), so placing them on the 16-tile grid creates clipped silhouette artifacts instead of trees. The "black rectangles" the original NOTES flagged are still present in runtime (verified by reverting tree placements and screenshotting — black rects unchanged), so they have a different root cause. **REOPENED.**
+- **T11-04 (brown square, PR #142)** — the `paintRect([2,7,4,2], "d")` I removed wasn't the brown square the capture showed. The actual brown square (at tile ~(8,7) in live runtime) is a different artifact. **REOPENED.**
 
-### Frame 03 — First moment of gameplay — **IMPROVED (opening scene fires)**
+## Post-audit reverts landed in this session
 
-**What's new:** the first opening-scene beat ("The sun comes through the shutters. The river runs past the well outside.") now renders in a parchment dialog chrome with "TAP TO CONTINUE" at the bottom-right. Frame-3 bytes went from 101 KB (empty canvas) to 243 KB (dialog chrome overlaid on the map). **The Pokémon/FF6/Chrono Trigger opener now exists in production.** This is the single biggest landmark since the landing page landed.
+1. `Components.text` usage disabled in `src/modules/main/player.ts` (T11-02 name tag) and `src/modules/main/event.ts` (T11-10 jan Sewi cue).
+2. All 12 tree/bush placements in `scripts/map-authoring/specs/riverside_home.ts` removed (T11-03).
+3. Unit tests `player-name-tag.test.ts` and `jan-sewi-first-play-cue.test.ts` deleted — they asserted disabled behaviour.
+4. ROADMAP Phase 11 inventory corrected: `11/0/0` → `6/1/4` (T11-01 meta 🟡, T11-02/03/04/10 reopened ⬜).
+5. `onboarding-capture.spec.ts` fixed to use CDP-level screenshot (bypasses font-ready hang), so the spec now actually captures frames in ~13s instead of timing out at 90s.
 
-**What still reads as unfluent:**
+## North-star — reaffirmed
 
-1. **T11-02 Player sprite indistinct.** Multiple NPCs on screen still look identical to Rivers. A name plate / outline / unique palette is still owed.
-2. **T11-03 Black-rectangle placeholders** on the grass — tree or rock sprites still render as raw black boxes.
-3. **T11-04 Brown square** in the middle of the path is still unlabeled.
-4. **T11-05 HUD chrome absent during gameplay.** The dialog chrome is the only overlay; no goal, no quest, no party indicator.
-5. **Keyboard vs tap.** Dialog chrome says "TAP TO CONTINUE" and ignores Enter/Space. Either the label should say "TAP OR PRESS ENTER" or the keyboard handler should be wired. Mobile-first is fine, but excluding keyboard on desktop is wrong.
+The 16-bit-playbook story-is-the-asset thesis is still correct. The *opening scene* work (T11-11 + T11-06 + T11-07 + T11-08) is load-bearing and working — the dialog chrome lands, the beats read, keyboard-advance works. What's failing is the *visual polish* layer around it: the map has rendering artifacts and the player/NPC differentiation doesn't work with the current RPG.js v5 beta `Components.text` renderer.
 
-### Frame 04 — After one `Enter` press — **INPUT BUG**
+## What to do next
 
-**Byte-identical to frame 03.** Pressing Enter did not advance the dialog. The dialog chrome explicitly says "TAP TO CONTINUE" so this matches the label — but the capture spec currently only sends keyboard input.
+1. **T11-03 runtime black-rect** — open the running dev server in Playwright MCP and find what the 3-finger black silhouettes actually are. They are NOT trees (verified by reverting), they are NOT NPCs (the 5 villagers render correctly with full sprites), and they are NOT events (zero events registered for the map in `world.json`). Focused in-browser Pixi scene-graph inspection needed.
+2. **T11-04 brown square** — same diagnostic path. Screenshot clearly shows an 80×80 brown square with a black border, which at 5× viewport scale is one 16-px tile. Find which tile at map coord (8,7) and why it's rendering as solid brown instead of the expected transition.
+3. **T11-02 / T11-10 non-text differentiator** — try `Components.shape({ type: "circle", fill: "#ffd86b", radius: 6 })` instead of `Components.text`. Shapes don't route through the broken `text.ce.js` renderer.
+4. **Capture-test assertions** — the current `onboarding-capture.spec.ts` writes PNGs but never asserts anything about them. Add a canvas-pixel-diversity heuristic that fails the test when the gameplay viewport contains garbage. This would have caught the T11-02/10 regression on the first PR.
 
-This is evidence that **the advance-dialog keyboard path is broken on desktop**. Mobile-first does not mean keyboard-never.
+## Lesson for every future PR
 
-### Frame 05 — Full canvas idle — **STILL STUCK ON BEAT 1**
-
-Byte-identical to 04. Because keyboard-advance is broken, the capture can't get past the first beat. The starter ceremony never triggers from the capture spec (though the integration test proves the chain works when showChoices can be driven directly). Party stays 0/6 in the capture.
-
-### Frame 06 — After movement keys — **STILL STUCK**
-
-Byte-identical to 05. The player is pinned inside the dialog modal; movement keys are (correctly) blocked while a dialog is active. This isn't a T11-08 "movement doesn't work" bug — it's the consequence of the dialog input bug above.
-
-### Frame 07 — Pause overlay — **UNCHANGED**
-
-Shows the pause menu chrome, still with Party 0/6 because the capture never completed the ceremony. Once the dialog keyboard-advance is fixed, this frame should show Party 1/6 after the capture drives the ceremony to completion.
-
-## Reframed Phase 11 row set
-
-| ID     | Status change | Notes                                                                                                                                                                                    |
-| ------ | ------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| T11-06 | ✅ DONE       | PR #128 — chain proven by `tests/integration/opening-scene.test.ts`.                                                                                                                    |
-| T11-07 | ✅ DONE       | Same PR — party 1/6 asserted in the same integration test.                                                                                                                              |
-| T11-11 | ✅ DONE       | PR #126 — scripted scene is in production and firing.                                                                                                                                   |
-| T11-08 | **Reframed**  | The root cause is NOT "movement doesn't change the canvas" — it's "the dialog modal's keyboard-advance is missing". Movement is correctly blocked during dialog; the dialog is the bug. |
-| T11-05 | Open          | HUD absent outside of dialog modals. Unchanged.                                                                                                                                         |
-| T11-02 | Open          | Player sprite differentiation. Unchanged.                                                                                                                                               |
-| T11-03 | Open          | Black rectangle tree/rock placeholders. Unchanged.                                                                                                                                      |
-| T11-04 | Open          | Brown square mid-path. Unchanged.                                                                                                                                                       |
-| T11-10 | Open          | jan Sewi first-play cue (glow / "!"). Unchanged.                                                                                                                                        |
-
-## North-star
-
-Unchanged: story is the asset that lasts. The frame 03 improvement is proof that a single well-authored scripted beat moves the needle more than any tileset change. Keep scripting.
+**A green CI is not a green game.** Passing unit + integration tests + typecheck does NOT prove the feature works in the browser. Every visual PR needs an in-browser capture as evidence — not just a preview PNG from the map renderer, which is a completely different code path from the live game. Wire the onboarding-capture spec (or a smaller focused spec) into the CI matrix so visual regressions fail PRs.

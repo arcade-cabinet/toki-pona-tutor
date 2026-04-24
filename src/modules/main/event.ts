@@ -34,20 +34,17 @@ export function JanSewi(): EventDefinition {
     return {
         async onInit() {
             this.setGraphic(STARTER_CEREMONY_CONFIG.mentorGraphic);
-            // Gate the cue on the persisted flag so save-loads after the
-            // ceremony don't resurrect it. `starter_chosen` is written by
-            // runStarterCeremony when the player actually picks.
-            const starterChosen = await getFlag("starter_chosen");
-            if (!starterChosen) {
-                attachFirstPlayCue(this as unknown as RpgEvent);
-            }
+            // Cue disabled for splatter probe — the Components.text
+            // renderer is producing garbage canvas text that needs
+            // triage before any usage site lands.
+            // const starterChosen = await getFlag("starter_chosen");
+            // if (!starterChosen) {
+            //     attachFirstPlayCue(this as unknown as RpgEvent);
+            // }
         },
         async onAction(player: RpgPlayer) {
             await runStarterCeremony(player);
-            // Whether the ceremony fired the first-pick branch or the
-            // already-chosen branch, the cue should be gone by the time
-            // control returns here.
-            clearFirstPlayCue(this as unknown as RpgEvent);
+            // clearFirstPlayCue(this as unknown as RpgEvent);  // disabled
         },
     };
 }

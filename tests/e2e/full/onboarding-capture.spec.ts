@@ -30,10 +30,20 @@ const CAPTURE_DIR = path.resolve(
 async function snap(page: Page, name: string, note: string): Promise<void> {
     fs.mkdirSync(CAPTURE_DIR, { recursive: true });
     const file = path.join(CAPTURE_DIR, `${name}.png`);
+    // Direct CDP-level screenshot — skips Playwright's implicit
+    // "wait for stable animation" machinery that hangs indefinitely
+    // against a continuously-repainting Pixi canvas. This captures
+    // whatever is on screen right now, no stability wait.
     try {
-        await page.screenshot({ path: file, fullPage: false, timeout: 30_000 });
+        const client = await page.context().newCDPSession(page);
+        const result = await client.send("Page.captureScreenshot", {
+            format: "png",
+            captureBeyondViewport: false,
+        });
+        if (!result.data) throw new Error("empty CDP screenshot payload");
+        fs.writeFileSync(file, Buffer.from(result.data, "base64"));
+        await client.detach();
     } catch (err) {
-        // Don't fail the capture pass on a single screenshot hiccup.
         const notesFile = path.join(CAPTURE_DIR, "RUN_LOG.md");
         fs.appendFileSync(
             notesFile,

@@ -21,7 +21,6 @@ import {
     paintEdgeTransitions,
     paintRect,
 } from "../lib/spec-helpers";
-import { collectionAtlasTileset } from "../config/collection-atlases";
 import { forestPalette } from "../palettes/forest";
 
 const WIDTH = 16;
@@ -66,30 +65,18 @@ export default defineMap({
     tilesets: [
         "seasons/Tileset_Ground_Seasons",
         "seasons/Tileset_Road",
-        collectionAtlasTileset("seasons/Objects_Trees_Seasons"),
     ],
     palette: forestPalette,
     layers: {
         "Below Player": starterVillageBase(),
-        // World layer places collection-atlas tree/bush sprites around
-        // the village perimeter. Positions avoid the dirt road, the
-        // NPCs, the spawn point, and the east warp tile; they cluster
-        // near the corners to frame the composition without crowding
-        // the playable area.
-        World: [
-            { at: [1, 1], tile: "tree_a" },
-            { at: [4, 1], tile: "tree_b" },
-            { at: [7, 1], tile: "tree_c" },
-            { at: [11, 1], tile: "tree_wide" },
-            { at: [14, 1], tile: "tree_a" },
-            { at: [1, 3], tile: "bush_a" },
-            { at: [13, 2], tile: "bush_leaf" },
-            { at: [1, 10], tile: "tree_a" },
-            { at: [6, 10], tile: "tree_b" },
-            { at: [8, 10], tile: "bush_b" },
-            { at: [12, 10], tile: "tree_c" },
-            { at: [14, 10], tile: "tree_a" },
-        ],
+        // T11-03 tree placements reverted: the Trees_Seasons collection
+        // atlas has 97×124 sprites (much bigger than the 16-px tile
+        // grid), so placing trees mid-map clipped their bodies onto
+        // the road and villagers, creating the "black crown" and
+        // "brown square" artifacts the 1.0 onboarding capture flagged.
+        // Any future scenic decor must account for the true sprite
+        // dimensions — see docs/ART_DIRECTION.md on collection atlas
+        // anchor maths before re-adding.
         Objects: [
             { type: "SpawnPoint", name: "default", at: [7, 5] },
             {

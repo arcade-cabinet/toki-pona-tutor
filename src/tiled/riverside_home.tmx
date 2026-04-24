@@ -1,14 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-down"
      width="16" height="12" tilewidth="16" tileheight="16" infinite="0"
-     nextlayerid="4" nextobjectid="8">
+     nextlayerid="3" nextobjectid="8">
  <properties>
    <property name="biome" value="town"/>
    <property name="music_track" value="bgm_village"/>
  </properties>
  <tileset firstgid="1" source="../assets/tilesets/seasons/Tiled/Tilesets/Tileset_Ground_Seasons.tsx"/>
  <tileset firstgid="4561" source="../assets/tilesets/seasons/Tiled/Tilesets/Tileset_Road.tsx"/>
- <tileset firstgid="5569" source="../assets/tilesets/generated/Tiled/Tilesets/Atlas_Seasons_Objects_Trees_Seasons.tsx"/>
  <layer id="1" name="Below Player" width="16" height="12" visible="1" opacity="1">
   <data encoding="csv">
 57,57,57,57,57,57,57,57,57,57,57,57,57,57,57,57,
@@ -25,23 +24,7 @@
 57,57,57,57,57,57,57,57,57,57,57,57,57,57,57,57
   </data>
  </layer>
- <layer id="2" name="World" width="16" height="12" visible="1" opacity="1">
-  <data encoding="csv">
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,5569,0,0,5570,0,0,5571,0,0,0,5574,0,0,5569,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,5575,0,0,
-0,5572,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,
-0,5569,0,0,0,0,5570,0,5573,0,0,0,5571,0,5569,0,
-0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-  </data>
- </layer>
- <objectgroup id="3" name="Objects" visible="1" opacity="1">
+ <objectgroup id="2" name="Objects" visible="1" opacity="1">
   <object id="1" name="default" type="SpawnPoint" x="112" y="80" width="0" height="0" visible="1" rotation="0"/>
   <object id="2" name="jan-pona-tomo" type="NPC" x="64" y="80" width="0" height="0" visible="1" rotation="0">
    <properties>
