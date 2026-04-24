@@ -10,6 +10,13 @@ All notable changes to poki soweli. Format based on [Keep a Changelog](https://k
 
 This branch (`feat/rpgjs-v5-pivot`) descends from commit `0a582e0` — the pre-Godot tip. The Godot era between `1d924fe` (pivot) and `0edfe61` (feat/anchor-to-template) lives on `main` and is not represented here. Release-please releases `v0.1.0`…`v0.1.3` tagged on `main` cover the Godot build and do not apply to this branch.
 
+## [0.33.0](https://github.com/arcade-cabinet/poki-soweli/compare/v0.32.1...v0.33.0) (2026-04-24)
+
+
+### Added
+
+* **runtime:** set shopkeep_first_sale on successful purchase (T73) ([#221](https://github.com/arcade-cabinet/poki-soweli/issues/221)) ([763573e](https://github.com/arcade-cabinet/poki-soweli/commit/763573ecafcfb058631d3ef2cdf889abaad231bc))
+
 ## [0.32.1](https://github.com/arcade-cabinet/poki-soweli/compare/v0.32.0...v0.32.1) (2026-04-24)
 
 
