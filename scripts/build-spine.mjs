@@ -289,8 +289,8 @@ for (const entry of collected.species) {
  * consumers that don't read them see today's shape.
  */
 const regionsDir = resolve(root, "src/content/regions");
-/** @type {{regions: any[], signs: any[]}} */
-const dossier = { regions: [], signs: [] };
+/** @type {{regions: any[], signs: any[], npcs: any[]}} */
+const dossier = { regions: [], signs: [], npcs: [] };
 
 function gateToLegacyWhenFlags(gate) {
     /** @type {Record<string, boolean>} */
@@ -350,6 +350,15 @@ if (existsSync(regionsDir)) {
         if (existsSync(npcsDir)) {
             for (const file of readdirSync(npcsDir).filter((f) => f.endsWith(".json"))) {
                 const npc = readJsonFile(join(npcsDir, file), "npc dossier");
+                // Compiled NPC registry for runtime lookups — speaker label
+                // resolution in playDialog, future portrait routing, etc.
+                dossier.npcs.push({
+                    id: npc.id,
+                    display_name: npc.display_name,
+                    home_region: npc.home_region,
+                    role: npc.role,
+                    graphic: npc.graphic,
+                });
                 for (const state of npc.dialog_states ?? []) {
                     /**
                      * Expand to legacy dialogNode shape. The dossier's
@@ -442,10 +451,11 @@ const output = {
     maps: collectCompiledMaps(),
     regions: dossier.regions,
     signs: dossier.signs,
+    npcs: dossier.npcs,
 };
 
 mkdirSync(dirname(outPath), { recursive: true });
 writeFileSync(outPath, JSON.stringify(output, null, 2) + "\n");
 console.log(
-    `[build-spine] ✓ ${collected.species.length} species, ${collected.moves.length} moves, ${collected.items.length} items, ${collected.dialog.length} dialog node(s), ${collected.journey.beats.length} journey beat(s), ${dossier.regions.length} region dossier(s), ${dossier.signs.length} sign(s) → ${outPath.replace(root + "/", "")}`,
+    `[build-spine] ✓ ${collected.species.length} species, ${collected.moves.length} moves, ${collected.items.length} items, ${collected.dialog.length} dialog node(s), ${collected.journey.beats.length} journey beat(s), ${dossier.regions.length} region dossier(s), ${dossier.signs.length} sign(s), ${dossier.npcs.length} NPC dossier(s) → ${outPath.replace(root + "/", "")}`,
 );

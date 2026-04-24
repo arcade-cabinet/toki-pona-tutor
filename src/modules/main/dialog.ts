@@ -1,7 +1,7 @@
 import type { RpgPlayer } from "@rpgjs/server";
 import { DIALOG_UI_CONFIG } from "../../content/gameplay";
 import { formatGameplayTemplate } from "../../content/gameplay/templates";
-import { getDialogById, getDialogsForNpc } from "./content";
+import { getDialogById, getDialogsForNpc, getNpcDisplayName } from "./content";
 import { recordClue, getFlag, setFlag } from "../../platform/persistence/queries";
 import type { DialogNode } from "../../content/schema/dialog";
 
@@ -32,8 +32,14 @@ export async function playDialog(player: RpgPlayer, dialogId: string): Promise<b
     }
     const siblings = node.npc_id ? getDialogsForNpc(node.npc_id) : [];
     const selected = (await selectDialogState(node, siblings, getFlag)) ?? node;
+    // T81: pass the dossier NPC's display_name through DialogOptions.speaker
+    // so the rr-ui dialog surface renders it as a labeled speaker line. null
+    // for system dialogs (game_over_revive, wild_encounter_*) whose npc_id
+    // is null — the surface hides the speaker label in that case.
+    const speaker = getNpcDisplayName(selected.npc_id);
     for (const beat of selected.beats) {
-        await player.showText(beat.text.en);
+        const options = speaker ? { speaker } : undefined;
+        await player.showText(beat.text.en, options);
         if (beat.glyph) await recordClue(beat.glyph);
     }
     await fireDialogTriggers(selected);

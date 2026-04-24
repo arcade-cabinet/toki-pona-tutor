@@ -53,11 +53,15 @@ describe('T67: dossier NPC runtime pipeline (integration)', () => {
         // dialog_states[0] — snapshot here asserts content actually flowed.
         await setFlag('badge_suli', '1');
         ui.texts.length = 0;
+        ui.speakers.length = 0;
         await rook!.execMethod('onAction', [player]);
         expect(ui.texts).toEqual([
             "You've made it past the village. Let's see what your companion can do.",
             "I'm not going easy on you.",
         ]);
+        // T81: every beat carries the NPC's display_name as speaker so the
+        // UI can render 'Rook: ...' labels instead of bare lines.
+        expect(ui.speakers).toEqual(['Rook', 'Rook']);
 
         // Phase 3: set rook_defeated. Selector picks rook_victory
         // (its when_flags { rook_defeated: true, badge_sewi: false } match
@@ -155,12 +159,14 @@ function integrationModules() {
 
 function hijackUi(player: RpgPlayer) {
     const texts: string[] = [];
+    const speakers: Array<string | undefined> = [];
     const mutable = player as unknown as {
-        showText: (message: string) => Promise<number>;
+        showText: (message: string, options?: { speaker?: string }) => Promise<number>;
     };
-    mutable.showText = async (message: string) => {
+    mutable.showText = async (message: string, options?: { speaker?: string }) => {
         texts.push(String(message));
+        speakers.push(options?.speaker);
         return 0;
     };
-    return { texts };
+    return { texts, speakers };
 }
