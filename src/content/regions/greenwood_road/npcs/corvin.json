@@ -21,7 +21,7 @@
     },
     {
       "id": "corvin_post_rook",
-      "when": { "flag_present": "rook_defeated", "flag_absent": "game_cleared" },
+      "when": { "flag_present": "rook_defeated", "flag_absent": "badge_sewi" },
       "priority": 5,
       "beats": [
         {

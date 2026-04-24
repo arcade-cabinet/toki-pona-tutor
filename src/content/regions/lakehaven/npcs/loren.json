@@ -37,7 +37,7 @@
     },
     {
       "id": "loren_post_lakehaven_fight",
-      "when": { "flag_present": "badge_telo", "flag_absent": "game_cleared" },
+      "when": { "flag_present": "badge_telo", "flag_absent": "badge_lete" },
       "priority": 5,
       "beats": [
         {

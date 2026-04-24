@@ -5286,7 +5286,7 @@
       "triggers": {},
       "when_flags": {
         "rook_defeated": true,
-        "game_cleared": false
+        "badge_sewi": false
       }
     },
     {
@@ -6353,7 +6353,7 @@
       "triggers": {},
       "when_flags": {
         "badge_telo": true,
-        "game_cleared": false
+        "badge_lete": false
       }
     },
     {
