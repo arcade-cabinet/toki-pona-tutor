@@ -1,6 +1,7 @@
 import { afterEach, describe, expect, it } from 'vitest';
 import {
     addToInventory,
+    getFlag,
     getInventoryCount,
 } from '../../src/platform/persistence/queries';
 import { resetPersistedRuntimeState } from '../../src/platform/persistence/runtime-state';
@@ -51,6 +52,21 @@ describe('trail_token economy and jan Moku shop', () => {
         expect(formatShopPurchaseResult(result)).toBe('Capture Pod +1\nTrail Token 2');
         expect(await getInventoryCount(COIN_ITEM_ID)).toBe(2);
         expect(await getInventoryCount('capture_pod')).toBe(1);
+    });
+
+    it('T73: first successful purchase sets shopkeep_first_sale flag', async () => {
+        expect(await getFlag('shopkeep_first_sale')).toBeNull();
+        await addToInventory(COIN_ITEM_ID, 4);
+        await buyShopItem('capture_pod');
+        expect(await getFlag('shopkeep_first_sale')).toBe('1');
+    });
+
+    it('T73: failed purchase does not set the flag', async () => {
+        expect(await getFlag('shopkeep_first_sale')).toBeNull();
+        await addToInventory(COIN_ITEM_ID, 1);
+        const result = await buyShopItem('capture_pod');
+        expect(result.bought).toBe(false);
+        expect(await getFlag('shopkeep_first_sale')).toBeNull();
     });
 
     it('does not add stock when the player cannot afford it', async () => {

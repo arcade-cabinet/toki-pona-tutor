@@ -3,6 +3,7 @@ import {
     addToInventory,
     consumeInventoryItem,
     getInventoryCount,
+    setFlag,
 } from "../../platform/persistence/queries";
 import {
     BATTLE_COIN_REWARDS as CONFIGURED_BATTLE_COIN_REWARDS,
@@ -106,6 +107,11 @@ export async function buyShopItem(
     }
 
     await addToInventory(item.itemId, item.count);
+    // T73: mark the first successful purchase so Shopkeep's dossier
+    // dialog can transition to the repeat-customer state. setFlag is
+    // idempotent for already-set values, so re-arming on every purchase
+    // is fine and avoids a pre-read round trip.
+    await setFlag("shopkeep_first_sale", "1");
     return {
         bought: true,
         itemId,
