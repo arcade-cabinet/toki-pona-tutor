@@ -3,22 +3,36 @@
   "display_name": "Stoneminder",
   "home_region": "highridge_pass",
   "role": "shrine_carver",
+  "graphic": "npc_villager_masc_nyro",
   "appearances": [
-    { "region": "highridge_pass", "spawn": [11, 5], "default": true }
+    {
+      "region": "highridge_pass",
+      "spawn": [
+        11,
+        5
+      ],
+      "default": true
+    }
   ],
   "dialog_states": [
     {
       "id": "stoneminder_intro",
-      "when": { "flag_absent": "badge_sewi" },
+      "when": {
+        "flag_absent": "badge_sewi"
+      },
       "priority": 0,
       "beats": [
         {
-          "text": { "en": "I carve names into the stones. For a small fee, mind." },
+          "text": {
+            "en": "I carve names into the stones. For a small fee, mind."
+          },
           "mood": "thinking",
           "glyph": "shrine-stones"
         },
         {
-          "text": { "en": "Earn one proof and I'll carve yours for nothing." },
+          "text": {
+            "en": "Earn one proof and I'll carve yours for nothing."
+          },
           "mood": "happy",
           "glyph": "shrine-stones"
         }
@@ -26,16 +40,23 @@
     },
     {
       "id": "stoneminder_post_fight",
-      "when": { "flag_present": "badge_sewi", "flag_absent": "game_cleared" },
+      "when": {
+        "flag_present": "badge_sewi",
+        "flag_absent": "game_cleared"
+      },
       "priority": 5,
       "beats": [
         {
-          "text": { "en": "Hold still, Rivers. The chisel knows your name already." },
+          "text": {
+            "en": "Hold still, Rivers. The chisel knows your name already."
+          },
           "mood": "happy",
           "glyph": "shrine-stones"
         },
         {
-          "text": { "en": "Four wardens, four stones. Someone told me there were five once." },
+          "text": {
+            "en": "Four wardens, four stones. Someone told me there were five once."
+          },
           "mood": "thinking",
           "glyph": "wild-signs"
         }
@@ -43,11 +64,15 @@
     },
     {
       "id": "stoneminder_post_clear",
-      "when": { "flag_present": "game_cleared" },
+      "when": {
+        "flag_present": "game_cleared"
+      },
       "priority": 3,
       "beats": [
         {
-          "text": { "en": "Five stones now. I carved the fifth under Selby's name. They'll come sit with us sometime." },
+          "text": {
+            "en": "Five stones now. I carved the fifth under Selby's name. They'll come sit with us sometime."
+          },
           "mood": "happy",
           "glyph": "shrine-stones"
         }

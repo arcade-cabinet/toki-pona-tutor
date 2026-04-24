@@ -904,6 +904,11 @@
               "name": "dialog_id",
               "type": "string",
               "value": "angler_rest"
+            },
+            {
+              "name": "graphic",
+              "type": "string",
+              "value": "npc_villager_masc_hark"
             }
           ]
         },
@@ -927,6 +932,11 @@
               "name": "dialog_id",
               "type": "string",
               "value": "kala_lili_intro"
+            },
+            {
+              "name": "graphic",
+              "type": "string",
+              "value": "npc_villager_fem_julz"
             }
           ]
         },
@@ -950,6 +960,11 @@
               "name": "dialog_id",
               "type": "string",
               "value": "kala_suli_intro"
+            },
+            {
+              "name": "graphic",
+              "type": "string",
+              "value": "npc_villager_fem_vash"
             }
           ]
         },
@@ -973,6 +988,11 @@
               "name": "dialog_id",
               "type": "string",
               "value": "lodge_keeper_intro"
+            },
+            {
+              "name": "graphic",
+              "type": "string",
+              "value": "npc_villager_fem_khali"
             }
           ]
         },
@@ -996,6 +1016,11 @@
               "name": "dialog_id",
               "type": "string",
               "value": "piper_cousin_intro"
+            },
+            {
+              "name": "graphic",
+              "type": "string",
+              "value": "npc_villager_masc_hark"
             }
           ]
         }

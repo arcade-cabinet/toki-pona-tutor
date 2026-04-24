@@ -27,6 +27,7 @@ type NpcDossier = {
     display_name?: string;
     home_region?: string;
     role?: string;
+    graphic?: string;
     appearances: Array<{
         region: string;
         spawn?: [number, number];
@@ -85,6 +86,9 @@ export function mergeDossierNpcsIntoSpec(spec: MapSpec): MapSpec {
         };
         if (appearance.requires_flag) {
             props.required_flag = appearance.requires_flag;
+        }
+        if (dossier.graphic) {
+            props.graphic = dossier.graphic;
         }
 
         injected.push({

@@ -3,22 +3,36 @@
   "display_name": "Pack",
   "home_region": "greenwood_road",
   "role": "field_notes_quest_giver",
+  "graphic": "npc_villager_masc_janik",
   "appearances": [
-    { "region": "greenwood_road", "spawn": [20, 5], "default": true }
+    {
+      "region": "greenwood_road",
+      "spawn": [
+        20,
+        5
+      ],
+      "default": true
+    }
   ],
   "dialog_states": [
     {
       "id": "pack_runner",
-      "when": { "flag_absent": "quest_field_notes_complete" },
+      "when": {
+        "flag_absent": "quest_field_notes_complete"
+      },
       "priority": 0,
       "beats": [
         {
-          "text": { "en": "Good timing. I need field notes from Greenwood." },
+          "text": {
+            "en": "Good timing. I need field notes from Greenwood."
+          },
           "mood": "happy",
           "glyph": "companion-bond"
         },
         {
-          "text": { "en": "Catch two route creatures and I'll trade you a stronger pod." },
+          "text": {
+            "en": "Catch two route creatures and I'll trade you a stronger pod."
+          },
           "mood": "thinking",
           "glyph": "companion-bond"
         }
@@ -26,11 +40,16 @@
     },
     {
       "id": "pack_post_quest",
-      "when": { "flag_present": "quest_field_notes_complete", "flag_absent": "game_cleared" },
+      "when": {
+        "flag_present": "quest_field_notes_complete",
+        "flag_absent": "game_cleared"
+      },
       "priority": 5,
       "beats": [
         {
-          "text": { "en": "Your field notes made a stack. I'm a year ahead on my book because of you." },
+          "text": {
+            "en": "Your field notes made a stack. I'm a year ahead on my book because of you."
+          },
           "mood": "happy",
           "glyph": "wild-signs"
         }

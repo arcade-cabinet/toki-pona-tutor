@@ -1417,6 +1417,11 @@
               "name": "dialog_id",
               "type": "string",
               "value": "corvin_watch"
+            },
+            {
+              "name": "graphic",
+              "type": "string",
+              "value": "npc_villager_masc_grym"
             }
           ]
         },
@@ -1440,6 +1445,11 @@
               "name": "dialog_id",
               "type": "string",
               "value": "ansel_greenwood"
+            },
+            {
+              "name": "graphic",
+              "type": "string",
+              "value": "npc_villager_masc_artun"
             }
           ]
         }

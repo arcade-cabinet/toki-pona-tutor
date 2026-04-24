@@ -76,6 +76,13 @@ export const npcDossier = z.object({
     home_region: z.string().regex(/^[a-z][a-z0-9_]*$/),
     role: z.string().optional(),
     portrait: z.string().optional(),
+    /**
+     * Spritesheet id for the in-world sprite — must match one of the ids
+     * registered in content/gameplay/visuals.json > npc_spritesheets.
+     * Optional because early dossiers didn't specify one; runtime falls
+     * back to a generic villager sprite when absent.
+     */
+    graphic: z.string().optional(),
     appearances: z
         .array(
             z.object({

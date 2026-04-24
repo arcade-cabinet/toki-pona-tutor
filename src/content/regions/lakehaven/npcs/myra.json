@@ -3,28 +3,51 @@
   "display_name": "Myra",
   "home_region": "lakehaven",
   "role": "water_edge_sage",
+  "graphic": "npc_villager_fem_nel",
   "appearances": [
-    { "region": "lakehaven", "spawn": [14, 7], "default": true },
-    { "region": "rivergate_approach", "spawn": [10, 8], "requires_flag": "badge_suli" }
+    {
+      "region": "lakehaven",
+      "spawn": [
+        14,
+        7
+      ],
+      "default": true
+    },
+    {
+      "region": "rivergate_approach",
+      "spawn": [
+        10,
+        8
+      ],
+      "requires_flag": "badge_suli"
+    }
   ],
   "dialog_states": [
     {
       "id": "myra_quiet",
-      "when": { "flag_absent": "badge_suli" },
+      "when": {
+        "flag_absent": "badge_suli"
+      },
       "priority": 0,
       "beats": [
         {
-          "text": { "en": "Lakehaven listens better than it speaks. Sit by the water long enough and you'll hear it too." },
+          "text": {
+            "en": "Lakehaven listens better than it speaks. Sit by the water long enough and you'll hear it too."
+          },
           "mood": "thinking",
           "glyph": "water-edge"
         },
         {
-          "text": { "en": "The lake remembers every creature that comes to drink. Bond with two of them and it'll remember you too." },
+          "text": {
+            "en": "The lake remembers every creature that comes to drink. Bond with two of them and it'll remember you too."
+          },
           "mood": "thinking",
           "glyph": "water-edge"
         },
         {
-          "text": { "en": "Catch two water creatures and come sit with me again." },
+          "text": {
+            "en": "Catch two water creatures and come sit with me again."
+          },
           "mood": "excited",
           "glyph": "water-edge"
         }
@@ -32,11 +55,16 @@
     },
     {
       "id": "myra_rivergate",
-      "when": { "flag_present": "badge_suli", "flag_absent": "game_cleared" },
+      "when": {
+        "flag_present": "badge_suli",
+        "flag_absent": "game_cleared"
+      },
       "priority": 5,
       "beats": [
         {
-          "text": { "en": "I walked up here to sit with the river before the dragon comes. You did too. Good." },
+          "text": {
+            "en": "I walked up here to sit with the river before the dragon comes. You did too. Good."
+          },
           "mood": "happy",
           "glyph": "water-edge"
         }

@@ -3,33 +3,52 @@
   "display_name": "Snow-kid",
   "home_region": "frostvale",
   "role": "ambient_villager",
+  "graphic": "npc_villager_masc_serek",
   "appearances": [
-    { "region": "frostvale", "spawn": [17, 5], "default": true }
+    {
+      "region": "frostvale",
+      "spawn": [
+        17,
+        5
+      ],
+      "default": true
+    }
   ],
   "dialog_states": [
     {
       "id": "snow_kid_intro",
-      "when": { "flag_absent": "badge_lete" },
+      "when": {
+        "flag_absent": "badge_lete"
+      },
       "priority": 0,
       "beats": [
         {
-          "text": { "en": "Dad said the old dragon story is real this year." },
+          "text": {
+            "en": "Dad said the old dragon story is real this year."
+          },
           "mood": "thinking",
           "glyph": "wild-signs"
         },
         {
-          "text": { "en": "He said it without a joke after. That's how I knew." },
+          "text": {
+            "en": "He said it without a joke after. That's how I knew."
+          },
           "mood": "sad"
         }
       ]
     },
     {
       "id": "snow_kid_post_fight",
-      "when": { "flag_present": "badge_lete", "flag_absent": "game_cleared" },
+      "when": {
+        "flag_present": "badge_lete",
+        "flag_absent": "game_cleared"
+      },
       "priority": 5,
       "beats": [
         {
-          "text": { "en": "Frost said the word out loud. I heard through the shrine door." },
+          "text": {
+            "en": "Frost said the word out loud. I heard through the shrine door."
+          },
           "mood": "sad",
           "glyph": "wild-signs"
         }
@@ -37,11 +56,15 @@
     },
     {
       "id": "snow_kid_post_clear",
-      "when": { "flag_present": "game_cleared" },
+      "when": {
+        "flag_present": "game_cleared"
+      },
       "priority": 3,
       "beats": [
         {
-          "text": { "en": "Dad's telling the story with a joke after again. That's how I know it worked." },
+          "text": {
+            "en": "Dad's telling the story with a joke after again. That's how I know it worked."
+          },
           "mood": "happy",
           "glyph": "companion-bond"
         }

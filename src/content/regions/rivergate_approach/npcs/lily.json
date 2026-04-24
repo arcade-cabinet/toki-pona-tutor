@@ -3,27 +3,43 @@
   "display_name": "Lily",
   "home_region": "rivergate_approach",
   "role": "endgame_companion_quest_giver",
+  "graphic": "npc_villager_fem_seza",
   "appearances": [
-    { "region": "rivergate_approach", "spawn": [6, 10], "default": true }
+    {
+      "region": "rivergate_approach",
+      "spawn": [
+        6,
+        10
+      ],
+      "default": true
+    }
   ],
   "dialog_states": [
     {
       "id": "lily_flavor",
-      "when": { "flag_absent": "green_dragon_defeated" },
+      "when": {
+        "flag_absent": "green_dragon_defeated"
+      },
       "priority": 0,
       "beats": [
         {
-          "text": { "en": "Rivers, you're standing at the Rivergate Approach. The dragon isn't far." },
+          "text": {
+            "en": "Rivers, you're standing at the Rivergate Approach. The dragon isn't far."
+          },
           "mood": "thinking",
           "glyph": "companion-bond"
         },
         {
-          "text": { "en": "A companion you've truly bonded with can do more than fight — it can read what you're about to do before you do it." },
+          "text": {
+            "en": "A companion you've truly bonded with can do more than fight — it can read what you're about to do before you do it."
+          },
           "mood": "thinking",
           "glyph": "companion-bond"
         },
         {
-          "text": { "en": "Bond with one more water creature here. You'll want the proof before the dragon." },
+          "text": {
+            "en": "Bond with one more water creature here. You'll want the proof before the dragon."
+          },
           "mood": "excited",
           "glyph": "companion-bond"
         }
@@ -31,11 +47,15 @@
     },
     {
       "id": "lily_post_clear",
-      "when": { "flag_present": "game_cleared" },
+      "when": {
+        "flag_present": "game_cleared"
+      },
       "priority": 5,
       "beats": [
         {
-          "text": { "en": "You walked up to a dragon with a water-friend at your side. The river remembers that." },
+          "text": {
+            "en": "You walked up to a dragon with a water-friend at your side. The river remembers that."
+          },
           "mood": "happy",
           "glyph": "companion-bond"
         }

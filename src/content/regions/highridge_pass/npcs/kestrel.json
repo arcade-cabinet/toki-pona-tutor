@@ -3,22 +3,36 @@
   "display_name": "Kestrel",
   "home_region": "highridge_pass",
   "role": "sky_watcher",
+  "graphic": "npc_villager_masc_nyro",
   "appearances": [
-    { "region": "highridge_pass", "spawn": [24, 6], "default": true }
+    {
+      "region": "highridge_pass",
+      "spawn": [
+        24,
+        6
+      ],
+      "default": true
+    }
   ],
   "dialog_states": [
     {
       "id": "kestrel_sky",
-      "when": { "flag_absent": "badge_lete" },
+      "when": {
+        "flag_absent": "badge_lete"
+      },
       "priority": 0,
       "beats": [
         {
-          "text": { "en": "Birds circle when someone strays from the high path." },
+          "text": {
+            "en": "Birds circle when someone strays from the high path."
+          },
           "mood": "happy",
           "glyph": "wild-signs"
         },
         {
-          "text": { "en": "Watch the shadows, not just the road." },
+          "text": {
+            "en": "Watch the shadows, not just the road."
+          },
           "mood": "thinking",
           "glyph": "wild-signs"
         }
@@ -26,11 +40,16 @@
     },
     {
       "id": "kestrel_post_third_gym",
-      "when": { "flag_present": "badge_lete", "flag_absent": "game_cleared" },
+      "when": {
+        "flag_present": "badge_lete",
+        "flag_absent": "game_cleared"
+      },
       "priority": 5,
       "beats": [
         {
-          "text": { "en": "The snowbirds have come down from Frostvale. Cormorant's doing something right up there." },
+          "text": {
+            "en": "The snowbirds have come down from Frostvale. Cormorant's doing something right up there."
+          },
           "mood": "happy",
           "glyph": "frost-type"
         }

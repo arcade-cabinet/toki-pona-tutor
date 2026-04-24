@@ -3,22 +3,36 @@
   "display_name": "Thorn",
   "home_region": "greenwood_road",
   "role": "route_walker",
+  "graphic": "npc_villager_masc_grym",
   "appearances": [
-    { "region": "greenwood_road", "spawn": [11, 5], "default": true }
+    {
+      "region": "greenwood_road",
+      "spawn": [
+        11,
+        5
+      ],
+      "default": true
+    }
   ],
   "dialog_states": [
     {
       "id": "thorn_grass",
-      "when": { "flag_absent": "rook_defeated" },
+      "when": {
+        "flag_absent": "rook_defeated"
+      },
       "priority": 0,
       "beats": [
         {
-          "text": { "en": "Deep grass means wild creatures nearby." },
+          "text": {
+            "en": "Deep grass means wild creatures nearby."
+          },
           "mood": "happy",
           "glyph": "forest-cover"
         },
         {
-          "text": { "en": "If the grass rustles twice, back up or be ready." },
+          "text": {
+            "en": "If the grass rustles twice, back up or be ready."
+          },
           "mood": "thinking",
           "glyph": "wild-signs"
         }
@@ -26,11 +40,16 @@
     },
     {
       "id": "thorn_post_rival",
-      "when": { "flag_present": "rook_defeated", "flag_absent": "game_cleared" },
+      "when": {
+        "flag_present": "rook_defeated",
+        "flag_absent": "game_cleared"
+      },
       "priority": 5,
       "beats": [
         {
-          "text": { "en": "Rook told me you held your ground. That's the grass test, right there." },
+          "text": {
+            "en": "Rook told me you held your ground. That's the grass test, right there."
+          },
           "mood": "happy",
           "glyph": "battle-ready"
         }

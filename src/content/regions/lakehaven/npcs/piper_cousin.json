@@ -3,22 +3,36 @@
   "display_name": "Reeve",
   "home_region": "lakehaven",
   "role": "cross_region_cousin",
+  "graphic": "npc_villager_masc_hark",
   "appearances": [
-    { "region": "lakehaven", "spawn": [11, 10], "default": true }
+    {
+      "region": "lakehaven",
+      "spawn": [
+        11,
+        10
+      ],
+      "default": true
+    }
   ],
   "dialog_states": [
     {
       "id": "piper_cousin_intro",
-      "when": { "flag_absent": "badge_telo" },
+      "when": {
+        "flag_absent": "badge_telo"
+      },
       "priority": 0,
       "beats": [
         {
-          "text": { "en": "Piper sends letters about a kid named Rivers. That'd be you." },
+          "text": {
+            "en": "Piper sends letters about a kid named Rivers. That'd be you."
+          },
           "mood": "happy",
           "glyph": "companion-bond"
         },
         {
-          "text": { "en": "Her orchard-fruit recipe is older than our grandmother. I make it here with lake salt." },
+          "text": {
+            "en": "Her orchard-fruit recipe is older than our grandmother. I make it here with lake salt."
+          },
           "mood": "thinking",
           "glyph": "orchard-fruit"
         }
@@ -26,11 +40,16 @@
     },
     {
       "id": "piper_cousin_post_fight",
-      "when": { "flag_present": "badge_telo", "flag_absent": "game_cleared" },
+      "when": {
+        "flag_present": "badge_telo",
+        "flag_absent": "game_cleared"
+      },
       "priority": 5,
       "beats": [
         {
-          "text": { "en": "Piper wrote faster than gossip travels. She knows about the lake badge already." },
+          "text": {
+            "en": "Piper wrote faster than gossip travels. She knows about the lake badge already."
+          },
           "mood": "happy",
           "glyph": "companion-bond"
         }

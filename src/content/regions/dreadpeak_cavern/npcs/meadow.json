@@ -3,17 +3,29 @@
   "display_name": "Meadow",
   "home_region": "dreadpeak_cavern",
   "role": "cave_meditator",
+  "graphic": "npc_villager_fem_hana",
   "appearances": [
-    { "region": "dreadpeak_cavern", "spawn": [6, 10], "default": true }
+    {
+      "region": "dreadpeak_cavern",
+      "spawn": [
+        6,
+        10
+      ],
+      "default": true
+    }
   ],
   "dialog_states": [
     {
       "id": "meadow_meditate",
-      "when": { "flag_absent": "badge_suli" },
+      "when": {
+        "flag_absent": "badge_suli"
+      },
       "priority": 0,
       "beats": [
         {
-          "text": { "en": "Breathe with the cave draft. It points toward safe stone." },
+          "text": {
+            "en": "Breathe with the cave draft. It points toward safe stone."
+          },
           "mood": "thinking",
           "glyph": "wild-signs"
         }
@@ -21,11 +33,16 @@
     },
     {
       "id": "meadow_post_cliff",
-      "when": { "flag_present": "badge_suli", "flag_absent": "game_cleared" },
+      "when": {
+        "flag_present": "badge_suli",
+        "flag_absent": "game_cleared"
+      },
       "priority": 5,
       "beats": [
         {
-          "text": { "en": "The draft turned north. It wasn't doing that yesterday." },
+          "text": {
+            "en": "The draft turned north. It wasn't doing that yesterday."
+          },
           "mood": "sad",
           "glyph": "wild-signs"
         }

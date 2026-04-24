@@ -3,27 +3,43 @@
   "display_name": "Piper",
   "home_region": "riverside_home",
   "role": "orchard_helper_quest_giver",
+  "graphic": "npc_villager_fem_julz",
   "appearances": [
-    { "region": "riverside_home", "spawn": [4, 5], "default": true }
+    {
+      "region": "riverside_home",
+      "spawn": [
+        4,
+        5
+      ],
+      "default": true
+    }
   ],
   "dialog_states": [
     {
       "id": "piper_welcome",
-      "when": { "flag_absent": "badge_sewi" },
+      "when": {
+        "flag_absent": "badge_sewi"
+      },
       "priority": 0,
       "beats": [
         {
-          "text": { "en": "Rivers! Glad the village is still here when you came home." },
+          "text": {
+            "en": "Rivers! Glad the village is still here when you came home."
+          },
           "mood": "happy",
           "glyph": "companion-bond"
         },
         {
-          "text": { "en": "Have you heard the old story of the reedfrog? A bonded Reedfrog is what makes a house feel safe." },
+          "text": {
+            "en": "Have you heard the old story of the reedfrog? A bonded Reedfrog is what makes a house feel safe."
+          },
           "mood": "thinking",
           "glyph": "safe-house"
         },
         {
-          "text": { "en": "Bring one back and I'll make the spare room yours for good." },
+          "text": {
+            "en": "Bring one back and I'll make the spare room yours for good."
+          },
           "mood": "excited",
           "glyph": "safe-house"
         }
@@ -31,16 +47,23 @@
     },
     {
       "id": "piper_post_first_gym",
-      "when": { "flag_present": "badge_sewi", "flag_absent": "game_cleared" },
+      "when": {
+        "flag_present": "badge_sewi",
+        "flag_absent": "game_cleared"
+      },
       "priority": 5,
       "beats": [
         {
-          "text": { "en": "Stone badge. Look at you, Rivers." },
+          "text": {
+            "en": "Stone badge. Look at you, Rivers."
+          },
           "mood": "happy",
           "glyph": "companion-bond"
         },
         {
-          "text": { "en": "My cousin Reeve runs a stall in Lakehaven. She'll know who you are by the time you arrive." },
+          "text": {
+            "en": "My cousin Reeve runs a stall in Lakehaven. She'll know who you are by the time you arrive."
+          },
           "mood": "thinking",
           "glyph": "orchard-fruit"
         }
@@ -48,11 +71,15 @@
     },
     {
       "id": "piper_post_clear",
-      "when": { "flag_present": "game_cleared" },
+      "when": {
+        "flag_present": "game_cleared"
+      },
       "priority": 3,
       "beats": [
         {
-          "text": { "en": "Welcome home, Rivers. The spare room's yours. Forever, if you want it." },
+          "text": {
+            "en": "Welcome home, Rivers. The spare room's yours. Forever, if you want it."
+          },
           "mood": "happy",
           "glyph": "safe-house"
         }

@@ -109,30 +109,35 @@
    <properties>
      <property name="id" value="ansel"/>
      <property name="dialog_id" value="ansel_greenwood"/>
+     <property name="graphic" value="npc_villager_masc_artun"/>
    </properties>
   </object>
   <object id="9" name="npc-breeze" type="NPC" x="224" y="128" width="0" height="0" visible="1" rotation="0">
    <properties>
      <property name="id" value="breeze"/>
      <property name="dialog_id" value="breeze_intro"/>
+     <property name="graphic" value="npc_villager_fem_julz"/>
    </properties>
   </object>
   <object id="10" name="npc-hiker" type="NPC" x="352" y="96" width="0" height="0" visible="1" rotation="0">
    <properties>
      <property name="id" value="hiker"/>
      <property name="dialog_id" value="hiker_intro"/>
+     <property name="graphic" value="npc_villager_masc_artun"/>
    </properties>
   </object>
   <object id="11" name="npc-shrine_kid" type="NPC" x="320" y="80" width="0" height="0" visible="1" rotation="0">
    <properties>
      <property name="id" value="shrine_kid"/>
      <property name="dialog_id" value="shrine_kid_intro"/>
+     <property name="graphic" value="npc_villager_fem_nel"/>
    </properties>
   </object>
   <object id="12" name="npc-stoneminder" type="NPC" x="176" y="80" width="0" height="0" visible="1" rotation="0">
    <properties>
      <property name="id" value="stoneminder"/>
      <property name="dialog_id" value="stoneminder_intro"/>
+     <property name="graphic" value="npc_villager_masc_nyro"/>
    </properties>
   </object>
  </objectgroup>

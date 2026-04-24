@@ -3,27 +3,43 @@
   "display_name": "Briar",
   "home_region": "greenwood_road",
   "role": "field_notes_giver",
+  "graphic": "npc_villager_fem_khali",
   "appearances": [
-    { "region": "greenwood_road", "spawn": [4, 5], "default": true }
+    {
+      "region": "greenwood_road",
+      "spawn": [
+        4,
+        5
+      ],
+      "default": true
+    }
   ],
   "dialog_states": [
     {
       "id": "briar_sign",
-      "when": { "flag_absent": "badge_sewi" },
+      "when": {
+        "flag_absent": "badge_sewi"
+      },
       "priority": 0,
       "beats": [
         {
-          "text": { "en": "Greenwood Road runs thick with wild creatures this season." },
+          "text": {
+            "en": "Greenwood Road runs thick with wild creatures this season."
+          },
           "mood": "thinking",
           "glyph": "wild-signs"
         },
         {
-          "text": { "en": "Every bonded forest creature tells us something about what's moving through the trees." },
+          "text": {
+            "en": "Every bonded forest creature tells us something about what's moving through the trees."
+          },
           "mood": "thinking",
           "glyph": "wild-signs"
         },
         {
-          "text": { "en": "Catch two from the forest biome and I'll read their signs with you." },
+          "text": {
+            "en": "Catch two from the forest biome and I'll read their signs with you."
+          },
           "mood": "excited",
           "glyph": "wild-signs"
         }
@@ -31,11 +47,16 @@
     },
     {
       "id": "briar_post_first_gym",
-      "when": { "flag_present": "badge_sewi", "flag_absent": "game_cleared" },
+      "when": {
+        "flag_present": "badge_sewi",
+        "flag_absent": "game_cleared"
+      },
       "priority": 5,
       "beats": [
         {
-          "text": { "en": "The tracks are sharper this week. Whatever's moving doesn't care about the stone badge." },
+          "text": {
+            "en": "The tracks are sharper this week. Whatever's moving doesn't care about the stone badge."
+          },
           "mood": "sad",
           "glyph": "wild-signs"
         }
@@ -43,11 +64,15 @@
     },
     {
       "id": "briar_post_clear",
-      "when": { "flag_present": "game_cleared" },
+      "when": {
+        "flag_present": "game_cleared"
+      },
       "priority": 3,
       "beats": [
         {
-          "text": { "en": "The tracks stopped. First time in forty years." },
+          "text": {
+            "en": "The tracks stopped. First time in forty years."
+          },
           "mood": "happy",
           "glyph": "companion-bond"
         }

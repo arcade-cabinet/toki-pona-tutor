@@ -1337,6 +1337,11 @@
               "name": "dialog_id",
               "type": "string",
               "value": "cormorant_tuneup"
+            },
+            {
+              "name": "graphic",
+              "type": "string",
+              "value": "npc_villager_fem_seza"
             }
           ]
         },
@@ -1360,6 +1365,11 @@
               "name": "dialog_id",
               "type": "string",
               "value": "ember_frostvale"
+            },
+            {
+              "name": "graphic",
+              "type": "string",
+              "value": "npc_villager_fem_meza"
             }
           ]
         },
@@ -1383,6 +1393,11 @@
               "name": "dialog_id",
               "type": "string",
               "value": "frost_uncle_intro"
+            },
+            {
+              "name": "graphic",
+              "type": "string",
+              "value": "npc_villager_masc_reza"
             }
           ]
         },
@@ -1406,6 +1421,11 @@
               "name": "dialog_id",
               "type": "string",
               "value": "snow_kid_intro"
+            },
+            {
+              "name": "graphic",
+              "type": "string",
+              "value": "npc_villager_masc_serek"
             }
           ]
         }

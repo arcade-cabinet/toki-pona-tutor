@@ -101,12 +101,14 @@
    <properties>
      <property name="id" value="corvin"/>
      <property name="dialog_id" value="corvin_watch"/>
+     <property name="graphic" value="npc_villager_masc_grym"/>
    </properties>
   </object>
   <object id="9" name="npc-ansel" type="NPC" x="256" y="80" width="0" height="0" visible="1" rotation="0">
    <properties>
      <property name="id" value="ansel"/>
      <property name="dialog_id" value="ansel_greenwood"/>
+     <property name="graphic" value="npc_villager_masc_artun"/>
    </properties>
   </object>
  </objectgroup>

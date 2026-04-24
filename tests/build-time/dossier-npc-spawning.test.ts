@@ -99,6 +99,32 @@ describe('T65: dossier NPC markers compile into world.json', () => {
         }
     });
 
+    it('every dossier NPC except green_dragon has a graphic property (T66)', () => {
+        for (const map of WORLD.maps) {
+            for (const npc of map.objects.filter((o) => o.type === 'NPC' && o.name.startsWith('npc-'))) {
+                if (npc.properties.id === 'green_dragon') continue;
+                expect(
+                    npc.properties.graphic,
+                    `${map.id}/${npc.name} (id=${npc.properties.id}) missing graphic`,
+                ).toBeTruthy();
+            }
+        }
+    });
+
+    it('graphic property only references registered npc_ sprite ids', () => {
+        const validPrefix = /^npc_(villager|guard|warrior)_/;
+        for (const map of WORLD.maps) {
+            for (const npc of map.objects.filter((o) => o.type === 'NPC' && o.name.startsWith('npc-'))) {
+                const graphic = npc.properties.graphic;
+                if (!graphic) continue;
+                expect(
+                    typeof graphic === 'string' && validPrefix.test(graphic),
+                    `${map.id}/${npc.name} graphic=${graphic} is not a registered NPC sprite`,
+                ).toBe(true);
+            }
+        }
+    });
+
     it('green_dragon dossier marker exists but is excluded from ambient spawning', () => {
         // The endgame green_dragon event kind in events.json handles this.
         // The dossier marker is still emitted for visibility in Tiled.

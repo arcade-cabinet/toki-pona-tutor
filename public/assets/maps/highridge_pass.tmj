@@ -1617,6 +1617,11 @@
               "name": "dialog_id",
               "type": "string",
               "value": "ansel_greenwood"
+            },
+            {
+              "name": "graphic",
+              "type": "string",
+              "value": "npc_villager_masc_artun"
             }
           ]
         },
@@ -1640,6 +1645,11 @@
               "name": "dialog_id",
               "type": "string",
               "value": "breeze_intro"
+            },
+            {
+              "name": "graphic",
+              "type": "string",
+              "value": "npc_villager_fem_julz"
             }
           ]
         },
@@ -1663,6 +1673,11 @@
               "name": "dialog_id",
               "type": "string",
               "value": "hiker_intro"
+            },
+            {
+              "name": "graphic",
+              "type": "string",
+              "value": "npc_villager_masc_artun"
             }
           ]
         },
@@ -1686,6 +1701,11 @@
               "name": "dialog_id",
               "type": "string",
               "value": "shrine_kid_intro"
+            },
+            {
+              "name": "graphic",
+              "type": "string",
+              "value": "npc_villager_fem_nel"
             }
           ]
         },
@@ -1709,6 +1729,11 @@
               "name": "dialog_id",
               "type": "string",
               "value": "stoneminder_intro"
+            },
+            {
+              "name": "graphic",
+              "type": "string",
+              "value": "npc_villager_masc_nyro"
             }
           ]
         }

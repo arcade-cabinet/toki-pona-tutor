@@ -3,27 +3,43 @@
   "display_name": "Hollis",
   "home_region": "frostvale",
   "role": "garden_snowbird_quest_giver",
+  "graphic": "npc_villager_fem_hana",
   "appearances": [
-    { "region": "frostvale", "spawn": [17, 4], "default": true }
+    {
+      "region": "frostvale",
+      "spawn": [
+        17,
+        4
+      ],
+      "default": true
+    }
   ],
   "dialog_states": [
     {
       "id": "hollis_garden",
-      "when": { "flag_absent": "snowbird_sighting_complete" },
+      "when": {
+        "flag_absent": "snowbird_sighting_complete"
+      },
       "priority": 0,
       "beats": [
         {
-          "text": { "en": "A Snowbird circled my garden at dawn — first one in a decade." },
+          "text": {
+            "en": "A Snowbird circled my garden at dawn — first one in a decade."
+          },
           "mood": "excited",
           "glyph": "frost-type"
         },
         {
-          "text": { "en": "The elders say a bonded Snowbird tells the sky when the frost is coming. Frostvale needs warning this year." },
+          "text": {
+            "en": "The elders say a bonded Snowbird tells the sky when the frost is coming. Frostvale needs warning this year."
+          },
           "mood": "thinking",
           "glyph": "frost-type"
         },
         {
-          "text": { "en": "Catch one Snowbird and Frostvale keeps its garden through winter." },
+          "text": {
+            "en": "Catch one Snowbird and Frostvale keeps its garden through winter."
+          },
           "mood": "excited",
           "glyph": "frost-type"
         }
@@ -31,11 +47,16 @@
     },
     {
       "id": "hollis_post_sighting",
-      "when": { "flag_present": "snowbird_sighting_complete", "flag_absent": "game_cleared" },
+      "when": {
+        "flag_present": "snowbird_sighting_complete",
+        "flag_absent": "game_cleared"
+      },
       "priority": 5,
       "beats": [
         {
-          "text": { "en": "The garden still grows. Your Snowbird told the sky what was coming." },
+          "text": {
+            "en": "The garden still grows. Your Snowbird told the sky what was coming."
+          },
           "mood": "happy",
           "glyph": "companion-bond"
         }
@@ -43,11 +64,15 @@
     },
     {
       "id": "hollis_post_clear",
-      "when": { "flag_present": "game_cleared" },
+      "when": {
+        "flag_present": "game_cleared"
+      },
       "priority": 3,
       "beats": [
         {
-          "text": { "en": "Two Snowbirds this week. The garden will survive another winter." },
+          "text": {
+            "en": "Two Snowbirds this week. The garden will survive another winter."
+          },
           "mood": "happy",
           "glyph": "frost-type"
         }
