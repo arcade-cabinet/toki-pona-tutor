@@ -11,8 +11,6 @@ import {
     JAN_MOKU_STOCK,
     shopChoiceLabel,
 } from "./shop";
-import { completeDeliveryQuestsAtNpc } from "./quest-runtime";
-
 export function JanMokuShop(): EventDefinition {
     return {
         onInit() {
@@ -20,7 +18,6 @@ export function JanMokuShop(): EventDefinition {
         },
         async onAction(player: RpgPlayer) {
             await playDialog(player, JAN_MOKU_SHOP.dialogId);
-            await completeDeliveryQuestsAtNpc(player, JAN_MOKU_SHOP.deliveryNpcId);
             for (;;) {
                 const choice = await player.showChoices(
                     formatGameplayTemplate(SHOP_UI_CONFIG.promptTemplate, {

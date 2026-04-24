@@ -2,7 +2,6 @@ import { RpgPlayer, RpgShape, type RpgPlayerHooks } from "@rpgjs/server";
 import { handleEncounterShapeEntered } from "./encounter";
 import { showPauseMenu } from "./pause-menu";
 import { markSafeMapIfVillage, respawnAtLastSafeMap } from "./respawn";
-import { handleFinalBossTrigger } from "./green-dragon";
 import { loadSaveSlot } from "./save-slots";
 import { AUTOSAVE_SLOT } from "../../platform/persistence/constants";
 import {
@@ -178,10 +177,6 @@ export const player: MainPlayerHooks = {
     async onInShape(player: RpgPlayer, shape: RpgShape) {
         const properties = (shape.properties ?? {}) as Record<string, unknown>;
         const shapeName = String(shape.name);
-        if (shapeName === "final_boss_trigger") {
-            await handleFinalBossTrigger(player);
-            return;
-        }
         const shapeType = properties.type ?? shape.name;
         if (shapeType === "Encounter" || shapeName.startsWith("encounter_")) {
             const mapId = player.getCurrentMap()?.id ?? "unknown";
