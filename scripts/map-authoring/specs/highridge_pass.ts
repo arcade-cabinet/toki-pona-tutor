@@ -123,7 +123,7 @@ export default defineMap({
         props: {
           target_map: 'lakehaven',
           target_spawn: 'from_highridge_pass',
-          required_flag: 'badge_sewi',
+          required_flag: 'badge_highridge',
         },
       },
     ],

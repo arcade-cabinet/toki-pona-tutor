@@ -6,7 +6,7 @@
   "description": {
     "en": "A long-bodied stone creature with a spine like linked iron."
   },
-  "type": "wawa",
+  "type": "stone",
   "base_stats": {
     "hp": 52,
     "attack": 60,

@@ -6,7 +6,7 @@
   "description": {
     "en": "A dark-beaked bird that pecks at warm ash."
   },
-  "type": "seli",
+  "type": "fire",
   "base_stats": {
     "hp": 65,
     "attack": 70,

@@ -6,7 +6,7 @@
   "description": {
     "en": "An icy coil-beast that loops around rocks before striking."
   },
-  "type": "lete",
+  "type": "frost",
   "base_stats": {
     "hp": 40,
     "attack": 54,

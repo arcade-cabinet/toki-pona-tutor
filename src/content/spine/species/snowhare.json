@@ -6,7 +6,7 @@
   "description": {
     "en": "A white-eared runner that bounds across crusted snow."
   },
-  "type": "lete",
+  "type": "frost",
   "base_stats": {
     "hp": 80,
     "attack": 88,

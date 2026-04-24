@@ -2,7 +2,7 @@
   "id": "frost_crash",
   "name": { "en": "blizzard" },
   "description": { "en": "A snowstorm is coming." },
-  "type": "lete",
+  "type": "frost",
   "power": 80,
   "accuracy": 85,
   "pp": 8,

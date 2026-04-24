@@ -2,7 +2,7 @@
   "id": "splash",
   "name": { "en": "splash" },
   "description": { "en": "That's water." },
-  "type": "telo",
+  "type": "water",
   "power": 25,
   "accuracy": 100,
   "pp": 25,

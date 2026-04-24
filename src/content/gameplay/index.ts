@@ -57,7 +57,7 @@ const visualsConfig = parseGameplayConfig("visuals.json", visualsConfigSchema, v
 export type ConfiguredBgmId = Extract<keyof typeof audioRaw.bgm_files, string>;
 type ConfiguredSfxEvent = Extract<keyof typeof audioRaw.sfx, string>;
 type ConfiguredHpClass = Extract<keyof typeof visualsRaw.combat_hp_bar.colors, string>;
-export type ConfiguredTpType = Extract<(typeof combatRaw.types)[number], string>;
+export type ConfiguredCombatType = Extract<(typeof combatRaw.types)[number], string>;
 export type ConfiguredStatusId = Extract<
     (typeof combatRaw.status_effects.application_rules)[number]["status_id"],
     string
@@ -81,7 +81,7 @@ export type RuntimeBgmSelectionConfig = {
 };
 
 export type RuntimeStatusApplicationRule = {
-    moveType: ConfiguredTpType;
+    moveType: ConfiguredCombatType;
     statusId: ConfiguredStatusId;
     chance: number;
     turns: number;
@@ -101,7 +101,7 @@ export type RuntimeStatusEffectConfig = {
         >
     >;
     damageMultipliers: Array<{
-        incomingType: ConfiguredTpType;
+        incomingType: ConfiguredCombatType;
         targetStatus: ConfiguredStatusId;
         multiplier: number;
     }>;
@@ -233,9 +233,9 @@ export type RuntimeDaycareConfig = {
     parentInheritedMoveLevel: number;
     childLearnsetMaxLevel: number;
     typeInheritance: {
-        dominantTypes: ConfiguredTpType[];
-        deferToOtherTypes: ConfiguredTpType[];
-        pairOverrides: Record<string, ConfiguredTpType>;
+        dominantTypes: ConfiguredCombatType[];
+        deferToOtherTypes: ConfiguredCombatType[];
+        pairOverrides: Record<string, ConfiguredCombatType>;
     };
 };
 
@@ -478,13 +478,13 @@ export const MICRO_GAME_CONFIG = {
 
 export const AMBIENT_CONFIG = ambientConfig;
 export const TYPE_MATCHUP_CONFIG = {
-    types: combatConfig.types as ConfiguredTpType[],
+    types: combatConfig.types as ConfiguredCombatType[],
     defaultMultiplier: combatConfig.type_matchups.default_multiplier,
     attackerDefaults: combatConfig.type_matchups.attacker_defaults,
     matrix: combatConfig.type_matchups.matrix,
     defenderTagOverrides: combatConfig.type_matchups.defender_tag_overrides,
 };
-export const COMBAT_TYPE_LABELS = combatConfig.type_labels as Record<ConfiguredTpType, string>;
+export const COMBAT_TYPE_LABELS = combatConfig.type_labels as Record<ConfiguredCombatType, string>;
 export const STATUS_EFFECT_CONFIG: RuntimeStatusEffectConfig = {
     applicationRules: combatConfig.status_effects.application_rules.map((rule) => ({
         moveType: rule.move_type,
@@ -888,7 +888,7 @@ export const COMBAT_UI_CONFIG = {
         damageToneLabels: uiConfig.combat_ui.wild_battle.damage_tone_labels,
         captureLabels: uiConfig.combat_ui.wild_battle.capture_labels,
         choiceLabels: uiConfig.combat_ui.wild_battle.choice_labels,
-        missingPokiText: uiConfig.combat_ui.wild_battle.missing_poki_text,
+        missingCaptureToolText: uiConfig.combat_ui.wild_battle.missing_capture_tool_text,
         itemMenu: {
             prompt: uiConfig.combat_ui.wild_battle.item_menu.prompt,
             emptyText: uiConfig.combat_ui.wild_battle.item_menu.empty_text,

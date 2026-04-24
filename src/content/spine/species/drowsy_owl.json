@@ -6,7 +6,7 @@
   "description": {
     "en": "A sleepy owl that wakes only when the moon is high."
   },
-  "type": "lete",
+  "type": "frost",
   "base_stats": {
     "hp": 58,
     "attack": 72,

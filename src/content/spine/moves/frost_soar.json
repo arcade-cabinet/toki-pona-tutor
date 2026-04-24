@@ -2,7 +2,7 @@
   "id": "frost_soar",
   "name": { "en": "frost" },
   "description": { "en": "It was chilly." },
-  "type": "lete",
+  "type": "frost",
   "power": 45,
   "accuracy": 95,
   "pp": 15,

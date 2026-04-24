@@ -6,7 +6,7 @@
   "description": {
     "en": "A bright winter bird that rides cold gusts."
   },
-  "type": "lete",
+  "type": "frost",
   "base_stats": {
     "hp": 56,
     "attack": 46,

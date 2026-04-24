@@ -6,7 +6,7 @@
   "description": {
     "en": "A clever red hunter that listens before it leaps."
   },
-  "type": "kasi",
+  "type": "grass",
   "base_stats": {
     "hp": 52,
     "attack": 62,

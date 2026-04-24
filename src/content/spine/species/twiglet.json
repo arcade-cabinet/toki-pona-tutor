@@ -6,7 +6,7 @@
   "description": {
     "en": "A twig-legged forest creature that freezes when watched."
   },
-  "type": "kasi",
+  "type": "grass",
   "base_stats": {
     "hp": 46,
     "attack": 50,

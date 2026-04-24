@@ -7,21 +7,21 @@
     "night": { "r": 20, "g": 30, "b": 70, "a": 0.35 }
   },
   "biome_codes": {
-    "village": 1,
-    "kasi": 2,
-    "lete": 3,
-    "seli": 4,
-    "telo": 5,
-    "nena": 6,
+    "town": 1,
+    "forest": 2,
+    "ice": 3,
+    "volcanic": 4,
+    "water": 5,
+    "peak": 6,
     "indoor": 7
   },
   "weather_tables": {
-    "kasi": { "clear": 0.6, "rain": 0.3, "fog": 0.1 },
-    "lete": { "clear": 0.4, "snow": 0.5, "fog": 0.1 },
-    "seli": { "clear": 0.9, "fog": 0.1 },
-    "telo": { "clear": 0.5, "rain": 0.4, "fog": 0.1 },
-    "nena": { "clear": 0.55, "rain": 0.2, "fog": 0.2, "snow": 0.05 },
-    "village": { "clear": 0.75, "rain": 0.15, "fog": 0.05, "snow": 0.05 },
+    "forest": { "clear": 0.6, "rain": 0.3, "fog": 0.1 },
+    "ice": { "clear": 0.4, "snow": 0.5, "fog": 0.1 },
+    "volcanic": { "clear": 0.9, "fog": 0.1 },
+    "water": { "clear": 0.5, "rain": 0.4, "fog": 0.1 },
+    "peak": { "clear": 0.55, "rain": 0.2, "fog": 0.2, "snow": 0.05 },
+    "town": { "clear": 0.75, "rain": 0.15, "fog": 0.05, "snow": 0.05 },
     "indoor": { "clear": 1 }
   }
 }

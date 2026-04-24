@@ -2,7 +2,7 @@
   "id": "wing_gust",
   "name": { "en": "flit" },
   "description": { "en": "Flies fly." },
-  "type": "wawa",
+  "type": "stone",
   "power": 30,
   "accuracy": 100,
   "pp": 25,

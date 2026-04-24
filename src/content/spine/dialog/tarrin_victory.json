@@ -2,7 +2,7 @@
   "id": "tarrin_victory",
   "npc_id": "tarrin",
   "when_flags": {
-    "badge_sewi": true
+    "badge_highridge": true
   },
   "priority": 5,
   "beats": [

@@ -1,35 +1,35 @@
 {
-  "types": ["seli", "telo", "kasi", "lete", "wawa"],
+  "types": ["fire", "water", "grass", "frost", "stone"],
   "type_labels": {
-    "seli": "fire",
-    "telo": "water",
-    "kasi": "wild",
-    "lete": "frost",
-    "wawa": "stone"
+    "fire": "fire",
+    "water": "water",
+    "grass": "grass",
+    "frost": "frost",
+    "stone": "stone"
   },
   "type_matchups": {
     "default_multiplier": 1,
     "attacker_defaults": {
-      "lete": 0.5,
-      "wawa": 1
+      "frost": 0.5,
+      "stone": 1
     },
     "matrix": {
-      "seli": {
-        "kasi": 2,
-        "telo": 0.5
+      "fire": {
+        "grass": 2,
+        "water": 0.5
       },
-      "telo": {
-        "seli": 2,
-        "kasi": 0.5
+      "water": {
+        "fire": 2,
+        "grass": 0.5
       },
-      "kasi": {
-        "telo": 2,
-        "seli": 0.5
+      "grass": {
+        "water": 2,
+        "fire": 0.5
       }
     },
     "defender_tag_overrides": [
       {
-        "attacker": "lete",
+        "attacker": "frost",
         "defender_tag": "waso",
         "multiplier": 2
       }
@@ -38,21 +38,21 @@
   "status_effects": {
     "application_rules": [
       {
-        "move_type": "seli",
+        "move_type": "fire",
         "status_id": "burn",
         "chance": 0.25,
         "turns": 3,
         "blocked_by": ["burn", "wet"]
       },
       {
-        "move_type": "telo",
+        "move_type": "water",
         "status_id": "wet",
         "chance": 0.3,
         "turns": 3,
         "blocked_by": ["wet"]
       },
       {
-        "move_type": "lete",
+        "move_type": "frost",
         "status_id": "frozen",
         "chance": 1,
         "turns": 1,
@@ -70,12 +70,12 @@
     },
     "damage_multipliers": [
       {
-        "incoming_type": "lete",
+        "incoming_type": "frost",
         "target_status": "wet",
         "multiplier": 1.5
       },
       {
-        "incoming_type": "seli",
+        "incoming_type": "fire",
         "target_status": "wet",
         "multiplier": 0
       }

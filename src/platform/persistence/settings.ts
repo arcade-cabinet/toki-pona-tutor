@@ -34,12 +34,12 @@ function parseNumber(raw: string | null, min: number, max: number, defaultValue:
 // ─── clue-icon overlay ──────────────────────────────────────────────
 
 /** Defaults to OFF. Players opt in. */
-export async function getSitelenOverlay(): Promise<boolean> {
-    return parseBool(await preferences.get(KEYS.sitelenOverlay), false);
+export async function getGlyphOverlay(): Promise<boolean> {
+    return parseBool(await preferences.get(KEYS.glyphOverlay), false);
 }
 
-export async function setSitelenOverlay(on: boolean): Promise<void> {
-    await preferences.set(KEYS.sitelenOverlay, on ? "1" : "0");
+export async function setGlyphOverlay(on: boolean): Promise<void> {
+    await preferences.set(KEYS.glyphOverlay, on ? "1" : "0");
 }
 
 // ─── text speed (T3-06) ─────────────────────────────────────────────

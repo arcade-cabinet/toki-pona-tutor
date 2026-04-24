@@ -531,7 +531,7 @@ test("browser golden path covers starter ceremony through the clear credits", as
     await advanceDialog(page, "You took the hit and kept going.", gymDefeatTask);
     await advanceDialog(page, "Highridge Pass is open.", gymDefeatTask);
 
-    await expect.poll(async () => getFlag(page, "badge_sewi")).toBe("1");
+    await expect.poll(async () => getFlag(page, "badge_highridge")).toBe("1");
     await expect
         .poll(async () => {
             const state = await getState(page);
@@ -624,7 +624,7 @@ test("browser golden path covers starter ceremony through the clear credits", as
     await advanceDialog(page, "You stayed calm under pressure.", lakeGymDefeatTask);
     await advanceDialog(page, "Take the lake badge.", lakeGymDefeatTask);
 
-    await expect.poll(async () => getFlag(page, "badge_telo")).toBe("1");
+    await expect.poll(async () => getFlag(page, "badge_lakehaven")).toBe("1");
     await expect
         .poll(async () => {
             const state = await getState(page);
@@ -680,7 +680,7 @@ test("browser golden path covers starter ceremony through the clear credits", as
     await advanceDialog(page, "You kept moving through the cold.", coldGymDefeatTask);
     await advanceDialog(page, "Carry this badge onward.", coldGymDefeatTask);
 
-    await expect.poll(async () => getFlag(page, "badge_lete")).toBe("1");
+    await expect.poll(async () => getFlag(page, "badge_frostvale")).toBe("1");
     await expect
         .poll(async () => {
             const state = await getState(page);
@@ -736,7 +736,7 @@ test("browser golden path covers starter ceremony through the clear credits", as
     await advanceDialog(page, "You climbed higher than I expected.", peakGymDefeatTask);
     await advanceDialog(page, "The final road is open.", peakGymDefeatTask);
 
-    await expect.poll(async () => getFlag(page, "badge_suli")).toBe("1");
+    await expect.poll(async () => getFlag(page, "badge_dreadpeak")).toBe("1");
     await expect
         .poll(async () => {
             const state = await getState(page);

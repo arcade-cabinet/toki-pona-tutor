@@ -2,10 +2,10 @@
   "coin_item_id": "trail_token",
   "battle_coin_rewards": {
     "janIke": 4,
-    "badge_sewi": 6,
-    "badge_telo": 8,
-    "badge_lete": 10,
-    "badge_suli": 12,
+    "badge_highridge": 6,
+    "badge_lakehaven": 8,
+    "badge_frostvale": 10,
+    "badge_dreadpeak": 12,
     "greenDragon": 20
   },
   "shops": {

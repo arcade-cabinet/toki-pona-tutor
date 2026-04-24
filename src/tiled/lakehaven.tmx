@@ -89,7 +89,7 @@
    <properties>
      <property name="target_map" value="frostvale"/>
      <property name="target_spawn" value="from_lakehaven"/>
-     <property name="required_flag" value="badge_telo"/>
+     <property name="required_flag" value="badge_lakehaven"/>
    </properties>
   </object>
  </objectgroup>

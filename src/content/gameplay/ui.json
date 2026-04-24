@@ -202,7 +202,7 @@
       "cooldown_priority_ms": 250,
       "default_range_tiles": 3,
       "range_tiles_by_type": {
-        "wawa": 1
+        "stone": 1
       }
     },
     "wild_battle_gui_id": "poki-wild-battle",
@@ -248,7 +248,7 @@
         "item": "Item",
         "flee": "Run"
       },
-      "missing_poki_text": "No capture tools",
+      "missing_capture_tool_text": "No capture tools",
       "item_menu": {
         "prompt": "Choose an item",
         "empty_text": "No usable items",
@@ -551,7 +551,7 @@
     },
     "summary_title": "Settings:",
     "summary_rows": [
-      { "value": "sitelen", "label": "glyphs", "template": "  {label}    {state}" },
+      { "value": "glyphs", "label": "glyphs", "template": "  {label}    {state}" },
       { "value": "text_speed", "label": "text", "template": "  {label}      {value}" },
       { "value": "contrast", "label": "contrast", "template": "  {label}       {state}" },
       { "value": "accessible", "label": "access", "template": "  {label}       {state}" },
@@ -560,7 +560,7 @@
     "pause_summary": {
       "title": "Save / Settings",
       "rows": [
-        { "value": "sitelen", "label": "glyphs", "meta_template": "{state}" },
+        { "value": "glyphs", "label": "glyphs", "meta_template": "{state}" },
         { "value": "text_speed", "label": "text", "meta_template": "{value}" },
         { "value": "contrast", "label": "contrast", "meta_template": "{state}" },
         { "value": "accessible", "label": "access", "meta_template": "{state}" },
@@ -580,7 +580,7 @@
       "volume": "Volume {bus} · {value}"
     },
     "choices": [
-      { "value": "sitelen", "label": "glyph overlay" },
+      { "value": "glyphs", "label": "glyph overlay" },
       { "value": "text_speed", "label": "text speed" },
       { "value": "contrast", "label": "high contrast" },
       { "value": "accessible", "label": "accessible mode" },

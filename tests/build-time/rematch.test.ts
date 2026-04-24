@@ -14,7 +14,7 @@ const uncleared = { flags: {} };
 const now = new Date('2026-04-20T00:00:00Z');
 
 const record = (overrides: Partial<RematchRecord> = {}): RematchRecord => ({
-    badgeFlag: 'badge_sewi',
+    badgeFlag: 'badge_highridge',
     timesCleared: 0,
     ...overrides,
 });
@@ -54,20 +54,20 @@ describe('rematchStatus', () => {
 
 describe('scaledRematchXp — 50% per clear, cap 4×', () => {
     it('first rematch (timesCleared=0) → base', () => {
-        expect(scaledRematchXp('badge_sewi', 0)).toBe(150);
+        expect(scaledRematchXp('badge_highridge', 0)).toBe(150);
     });
 
     it('second rematch (timesCleared=1) → 1.5×', () => {
-        expect(scaledRematchXp('badge_sewi', 1)).toBe(225);
+        expect(scaledRematchXp('badge_highridge', 1)).toBe(225);
     });
 
     it('fourth rematch → 2.5×', () => {
-        expect(scaledRematchXp('badge_sewi', 3)).toBe(375);
+        expect(scaledRematchXp('badge_highridge', 3)).toBe(375);
     });
 
     it('caps at 4× after 6+ clears', () => {
-        expect(scaledRematchXp('badge_sewi', 6)).toBe(600);
-        expect(scaledRematchXp('badge_sewi', 100)).toBe(600);
+        expect(scaledRematchXp('badge_highridge', 6)).toBe(600);
+        expect(scaledRematchXp('badge_highridge', 100)).toBe(600);
     });
 
     it('unknown badge defaults to 100 base', () => {
@@ -75,7 +75,7 @@ describe('scaledRematchXp — 50% per clear, cap 4×', () => {
     });
 
     it('negative timesCleared clamps to 0', () => {
-        expect(scaledRematchXp('badge_sewi', -5)).toBe(150);
+        expect(scaledRematchXp('badge_highridge', -5)).toBe(150);
     });
 });
 
@@ -100,20 +100,20 @@ describe('scaledRematchLevel — +10 per clear, cap 50', () => {
 
 describe('rematchReward — cycling drop table', () => {
     it('rematch #1 → heavy_capture_pod', () => {
-        expect(rematchReward('badge_sewi', 1)).toEqual({ kind: 'item', itemId: 'heavy_capture_pod', count: 1 });
+        expect(rematchReward('badge_highridge', 1)).toEqual({ kind: 'item', itemId: 'heavy_capture_pod', count: 1 });
     });
 
     it('rematch #2 → 3× spring_tonic', () => {
-        expect(rematchReward('badge_sewi', 2)).toEqual({ kind: 'item', itemId: 'spring_tonic', count: 3 });
+        expect(rematchReward('badge_highridge', 2)).toEqual({ kind: 'item', itemId: 'spring_tonic', count: 3 });
     });
 
     it('rematch #3 → species_egg', () => {
-        expect(rematchReward('badge_sewi', 3)).toEqual({ kind: 'item', itemId: 'species_egg', count: 1 });
+        expect(rematchReward('badge_highridge', 3)).toEqual({ kind: 'item', itemId: 'species_egg', count: 1 });
     });
 
     it('rematch #4+ → trophy flag', () => {
-        expect(rematchReward('badge_sewi', 4)).toEqual({ kind: 'flag', flagId: 'trophy_badge_sewi' });
-        expect(rematchReward('badge_telo', 12)).toEqual({ kind: 'flag', flagId: 'trophy_badge_telo' });
+        expect(rematchReward('badge_highridge', 4)).toEqual({ kind: 'flag', flagId: 'trophy_badge_sewi' });
+        expect(rematchReward('badge_lakehaven', 12)).toEqual({ kind: 'flag', flagId: 'trophy_badge_telo' });
     });
 });
 

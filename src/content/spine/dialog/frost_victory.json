@@ -2,7 +2,7 @@
   "id": "frost_victory",
   "npc_id": "frost",
   "when_flags": {
-    "badge_lete": true
+    "badge_frostvale": true
   },
   "priority": 5,
   "beats": [

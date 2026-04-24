@@ -11,7 +11,7 @@ import { formatGameplayTemplate } from "../../content/gameplay/templates";
 
 /**
  * Second pause-menu screen — shows the player's progress:
- *   - earned badges (badge_sewi / badge_telo / badge_lete / badge_suli)
+ *   - earned badges (badge_highridge / badge_lakehaven / badge_frostvale / badge_dreadpeak)
  *   - current journey beat pointer
  *   - party roster with level (max 6 slots)
  *

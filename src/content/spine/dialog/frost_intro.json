@@ -2,7 +2,7 @@
   "id": "frost_intro",
   "npc_id": "frost",
   "when_flags": {
-    "badge_lete": false
+    "badge_frostvale": false
   },
   "priority": 10,
   "beats": [

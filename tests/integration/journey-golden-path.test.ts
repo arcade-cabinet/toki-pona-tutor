@@ -269,14 +269,14 @@ describe('journey golden path (integration)', () => {
         expect(ui.texts.length).toBeGreaterThan(0);
 
         await scriptDefeat(janWawa, player, async () => (
-            await getFlag('badge_sewi')
+            await getFlag('badge_highridge')
         ) === '1' && (
             await preferences.get(KEYS.journeyBeat)
         ) === 'beat_04_lakehaven' && (
             await getClueSightings('highridge-proof')
         ) > 0);
 
-        expect(await getFlag('badge_sewi')).toBe('1');
+        expect(await getFlag('badge_highridge')).toBe('1');
         expect(await preferences.get(KEYS.journeyBeat)).toBe('beat_04_lakehaven');
         expect(await getClueSightings('highridge-proof')).toBeGreaterThan(0);
         expect(await inventoryCount('trail_token')).toBe(10);
@@ -328,14 +328,14 @@ describe('journey golden path (integration)', () => {
         expect(ui.texts.length).toBeGreaterThan(0);
 
         await scriptDefeat(janTelo, player, async () => (
-            await getFlag('badge_telo')
+            await getFlag('badge_lakehaven')
         ) === '1' && (
             await preferences.get(KEYS.journeyBeat)
         ) === 'beat_05_frostvale' && (
             await getClueSightings('lakehaven-proof')
         ) > 0);
 
-        expect(await getFlag('badge_telo')).toBe('1');
+        expect(await getFlag('badge_lakehaven')).toBe('1');
         expect(await preferences.get(KEYS.journeyBeat)).toBe('beat_05_frostvale');
         expect(await getClueSightings('lakehaven-proof')).toBeGreaterThan(0);
 
@@ -362,14 +362,14 @@ describe('journey golden path (integration)', () => {
         expect(ui.texts.length).toBeGreaterThan(0);
 
         await scriptDefeat(janLete, player, async () => (
-            await getFlag('badge_lete')
+            await getFlag('badge_frostvale')
         ) === '1' && (
             await preferences.get(KEYS.journeyBeat)
         ) === 'beat_06_dreadpeak_cavern' && (
             await getClueSightings('frostvale-proof')
         ) > 0);
 
-        expect(await getFlag('badge_lete')).toBe('1');
+        expect(await getFlag('badge_frostvale')).toBe('1');
         expect(await preferences.get(KEYS.journeyBeat)).toBe('beat_06_dreadpeak_cavern');
         expect(await getClueSightings('frostvale-proof')).toBeGreaterThan(0);
 
@@ -396,14 +396,14 @@ describe('journey golden path (integration)', () => {
         expect(ui.texts.length).toBeGreaterThan(0);
 
         await scriptDefeat(janSuli, player, async () => (
-            await getFlag('badge_suli')
+            await getFlag('badge_dreadpeak')
         ) === '1' && (
             await preferences.get(KEYS.journeyBeat)
         ) === 'beat_07_rivergate_approach' && (
             await getClueSightings('dreadpeak-proof')
         ) > 0);
 
-        expect(await getFlag('badge_suli')).toBe('1');
+        expect(await getFlag('badge_dreadpeak')).toBe('1');
         expect(await preferences.get(KEYS.journeyBeat)).toBe('beat_07_rivergate_approach');
         expect(await getClueSightings('dreadpeak-proof')).toBeGreaterThan(0);
 
@@ -603,7 +603,7 @@ async function bootIntoLakeVillage(): Promise<{ client: GameClient; player: RpgP
     }
 
     await scriptDefeat(janWawa, game.player, async () => (
-        await getFlag('badge_sewi')
+        await getFlag('badge_highridge')
     ) === '1');
     const waitForVillage = game.client.waitForMapChange('lakehaven', 5000);
     await warpNorth.execMethod('onPlayerTouch', [game.player]);
@@ -632,7 +632,7 @@ async function bootIntoIceVillage(): Promise<{ client: GameClient; player: RpgPl
     }
 
     await scriptDefeat(janTelo, game.player, async () => (
-        await getFlag('badge_telo')
+        await getFlag('badge_lakehaven')
     ) === '1');
     const waitForIceVillage = game.client.waitForMapChange('frostvale', 5000);
     await warpNorth.execMethod('onPlayerTouch', [game.player]);
@@ -661,7 +661,7 @@ async function bootIntoGreatPeak(): Promise<{ client: GameClient; player: RpgPla
     }
 
     await scriptDefeat(janLete, game.player, async () => (
-        await getFlag('badge_lete')
+        await getFlag('badge_frostvale')
     ) === '1');
     const waitForGreatPeak = game.client.waitForMapChange('dreadpeak_cavern', 5000);
     await warpNorth.execMethod('onPlayerTouch', [game.player]);
@@ -690,7 +690,7 @@ async function bootIntoFinalRoute(): Promise<{ client: GameClient; player: RpgPl
     }
 
     await scriptDefeat(janSuli, game.player, async () => (
-        await getFlag('badge_suli')
+        await getFlag('badge_dreadpeak')
     ) === '1');
     const waitForFinalRoute = game.client.waitForMapChange('rivergate_approach', 5000);
     await warpNorth.execMethod('onPlayerTouch', [game.player]);

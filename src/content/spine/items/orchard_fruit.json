@@ -6,7 +6,6 @@
   "description": {
     "en": "Restores a companion with sweet, field-packed fruit."
   },
-  "kind": "heal",
   "power": 20,
   "stackable": true,
   "sprite_frame": 64

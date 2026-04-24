@@ -1,7 +1,7 @@
 import type { RpgPlayer } from "@rpgjs/server";
 import {
-    getSitelenOverlay,
-    setSitelenOverlay,
+    getGlyphOverlay,
+    setGlyphOverlay,
     getTextSpeed,
     setTextSpeed,
     getHighContrast,
@@ -33,7 +33,7 @@ import { formatGameplayTemplate } from "../../content/gameplay/templates";
 
 export async function showSettings(player: RpgPlayer): Promise<void> {
     const [sitelen, textSpeed, highContrast, accessibleMode, bgm, sfx] = await Promise.all([
-        getSitelenOverlay(),
+        getGlyphOverlay(),
         getTextSpeed(),
         getHighContrast(),
         getAccessibleMode(),
@@ -57,8 +57,8 @@ export async function showSettings(player: RpgPlayer): Promise<void> {
     if (!choice) return;
 
     switch (choice.value) {
-        case "sitelen":
-            await setSitelenOverlay(!sitelen);
+        case "glyphs":
+            await setGlyphOverlay(!sitelen);
             break;
         case "contrast":
             await setHighContrast(!highContrast);
@@ -136,7 +136,7 @@ export function settingsChoiceLabel(
 ): string {
     const stateLabels = SETTINGS_CONFIG.stateLabels;
     switch (value) {
-        case "sitelen":
+        case "glyphs":
             return formatGameplayTemplate(SETTINGS_CONFIG.choiceFormats.boolean, {
                 label: state.label,
                 state: state.sitelen ? stateLabels.on : stateLabels.off,
@@ -181,7 +181,7 @@ function formatSettingsSummaryRow(
 ): string {
     const stateLabels = SETTINGS_CONFIG.stateLabels;
     switch (value) {
-        case "sitelen":
+        case "glyphs":
             return formatGameplayTemplate(template, {
                 label,
                 state: state.sitelen ? stateLabels.on : stateLabels.off,

@@ -19,7 +19,7 @@ const gatedChest: ChestDef = {
     ...basicChest,
     id: 'chest_frostvale_1',
     openFlag: 'chest_frostvale_1',
-    requiredFlag: 'badge_lete',
+    requiredFlag: 'badge_frostvale',
 };
 
 const wordGatedChest: ChestDef = {
@@ -45,7 +45,7 @@ describe('chestStatus', () => {
     });
 
     it('flag-gated chest with the flag is closed (openable)', () => {
-        expect(chestStatus(gatedChest, { flags: { badge_lete: '1' }, masteredWords: new Set() })).toBe('closed');
+        expect(chestStatus(gatedChest, { flags: { badge_frostvale: '1' }, masteredWords: new Set() })).toBe('closed');
     });
 
     it('word-gated chest without the word is locked', () => {
@@ -128,7 +128,7 @@ describe('openChest — one-shot transition', () => {
         const r = openChest(gatedChest, emptyPlayer);
         expect(r.granted).toBeNull();
         expect(r.alreadyOpened).toBe(false);
-        expect(r.lockedReason).toBe('flag:badge_lete');
+        expect(r.lockedReason).toBe('flag:badge_frostvale');
     });
 
     it('word-locked chest returns lockedReason word:…', () => {
@@ -139,12 +139,12 @@ describe('openChest — one-shot transition', () => {
 
     it('preserves other flags when adding openFlag', () => {
         const existing: PlayerGateState = {
-            flags: { badge_sewi: '1', starter_chosen: '1' },
+            flags: { badge_highridge: '1', starter_chosen: '1' },
             masteredWords: new Set(),
         };
         const r = openChest(basicChest, existing);
         expect(r.newFlags).toEqual({
-            badge_sewi: '1',
+            badge_highridge: '1',
             starter_chosen: '1',
             chest_lakehaven_0: '1',
         });

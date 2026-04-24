@@ -100,10 +100,10 @@ Recommendation: (a) for long-term legibility, (c) for v1 shipping velocity.
 **Observation.** The four badge IDs in `src/content/gameplay/progression.json`:
 
 ```
-badge_sewi  (sewi = high)   → Highridge Pass master
-badge_telo  (telo = water)  → Lakehaven master
-badge_lete  (lete = cold)   → Frostvale master
-badge_suli  (suli = big)    → Dreadpeak master
+badge_highridge  (sewi = high)   → Highridge Pass master
+badge_lakehaven  (telo = water)  → Lakehaven master
+badge_frostvale  (lete = cold)   → Frostvale master
+badge_dreadpeak  (suli = big)    → Dreadpeak master
 ```
 
 In toki pona these are puns: "the high badge", "the water badge", "the cold badge",

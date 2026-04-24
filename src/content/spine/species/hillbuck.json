@@ -6,7 +6,7 @@
   "description": {
     "en": "A sure-footed grazer with small curved horns."
   },
-  "type": "kasi",
+  "type": "grass",
   "base_stats": {
     "hp": 44,
     "attack": 38,

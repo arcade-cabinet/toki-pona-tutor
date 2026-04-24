@@ -6,8 +6,8 @@
   "description": {
     "en": "A reinforced pod with better odds against stubborn companions."
   },
-  "kind": "poki",
   "power": 1.5,
   "stackable": true,
-  "sprite_frame": 81
+  "sprite_frame": 81,
+  "capture": true
 }

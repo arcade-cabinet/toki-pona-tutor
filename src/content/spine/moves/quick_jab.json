@@ -2,7 +2,7 @@
   "id": "quick_jab",
   "name": { "en": "attack" },
   "description": { "en": "It hurts." },
-  "type": "wawa",
+  "type": "stone",
   "power": 20,
   "accuracy": 100,
   "pp": 30,

@@ -105,10 +105,10 @@ describe('gameplay JSON config', () => {
 
     it('keeps badge, starter, and shop data referentially valid', () => {
         expect(BADGE_DEFINITIONS.map((badge) => badge.flag)).toEqual([
-            'badge_sewi',
-            'badge_telo',
-            'badge_lete',
-            'badge_suli',
+            'badge_highridge',
+            'badge_lakehaven',
+            'badge_frostvale',
+            'badge_dreadpeak',
         ]);
         for (const badge of BADGE_DEFINITIONS) {
             expect(REGION_XP_CURVE[badge.flag], badge.flag).toBeGreaterThan(0);
@@ -412,7 +412,7 @@ describe('gameplay JSON config', () => {
                     item: 'Item',
                     flee: 'Run',
                 },
-                missingPokiText: 'No capture tools',
+                missingCaptureToolText: 'No capture tools',
                 missingLeadLabel: 'No companion',
                 missingLeadTypeLabel: 'party',
                 battleLabelTemplate: '{lead} vs {target}',
@@ -664,7 +664,7 @@ describe('gameplay JSON config', () => {
             },
         });
         expect(TRAINER_BATTLE_CONFIGS.tarrin).toMatchObject({
-            badgeFlag: 'badge_sewi',
+            badgeFlag: 'badge_highridge',
             rewardClue: 'highridge-proof',
             phase2: {
                 hp: 80,

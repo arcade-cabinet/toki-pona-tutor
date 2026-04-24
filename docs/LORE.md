@@ -133,7 +133,7 @@ Player-facing labels are now English. Internal IDs remain stable until a save-mi
 | Catch tool | **Capture Pod** / **Heavy Capture Pod** | `capture_pod` / `heavy_capture_pod` |
 | Trade token | **Trail Token** | `trail_token` |
 | Region master | **Region master** | trainer IDs still use `jan_*` |
-| Region badge | Highridge / Lakehaven / Frostvale / Dreadpeak badges | `badge_sewi`, `badge_telo`, `badge_lete`, `badge_suli` |
+| Region badge | Highridge / Lakehaven / Frostvale / Dreadpeak badges | `badge_highridge`, `badge_lakehaven`, `badge_frostvale`, `badge_dreadpeak` |
 | Save file | Save slot | preference keys keep the old namespace until migration |
 
 ## The starter ceremony (canonical beat sequence)

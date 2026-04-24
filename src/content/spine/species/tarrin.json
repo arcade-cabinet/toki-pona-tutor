@@ -6,7 +6,7 @@
   "description": {
     "en": "A steady rock-backed creature that wins by refusing to move."
   },
-  "type": "wawa",
+  "type": "stone",
   "base_stats": {
     "hp": 62,
     "attack": 55,

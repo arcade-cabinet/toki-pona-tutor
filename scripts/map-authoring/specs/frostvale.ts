@@ -128,7 +128,7 @@ export default defineMap({
         props: {
           target_map: 'dreadpeak_cavern',
           target_spawn: 'from_frostvale',
-          required_flag: 'badge_lete',
+          required_flag: 'badge_frostvale',
         },
       },
     ],

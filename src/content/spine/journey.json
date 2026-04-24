@@ -17,28 +17,28 @@
     {
       "id": "beat_03_highridge_pass",
       "map_id": "highridge_pass",
-      "narrative": "Mountain pass with stone footpaths between blocked cliffs, rocks, and tall-grass clumps. Encounters skew force-typed and rocky: tarrin, chainback, mire_brute, quartz_shell, twiglet, drowsy_owl, ember_adder, and snowhare. Route NPCs provide ambient travel dialog. At the top, the Highridge master blocks the northward path. Winning sets badge_sewi and records the highridge-proof clue.",
+      "narrative": "Mountain pass with stone footpaths between blocked cliffs, rocks, and tall-grass clumps. Encounters skew force-typed and rocky: tarrin, chainback, mire_brute, quartz_shell, twiglet, drowsy_owl, ember_adder, and snowhare. Route NPCs provide ambient travel dialog. At the top, the Highridge master blocks the northward path. Winning sets badge_highridge and records the highridge-proof clue.",
       "gate": { "kind": "defeated", "npc_id": "tarrin" },
       "transition": { "kind": "warp", "trigger_object": "warp_north" }
     },
     {
       "id": "beat_04_lakehaven",
       "map_id": "lakehaven",
-      "narrative": "Round village built on a stone island in the middle of a lake. No tall grass and no random encounters: this is a story-and-shop beat. The Lakehaven master waits in the plaza; beating him sets badge_telo and records the lakehaven-proof clue. Lake-village NPCs fill the floor, and the stall sells capture pods and healing fruit for coins.",
+      "narrative": "Round village built on a stone island in the middle of a lake. No tall grass and no random encounters: this is a story-and-shop beat. The Lakehaven master waits in the plaza; beating him sets badge_lakehaven and records the lakehaven-proof clue. Lake-village NPCs fill the floor, and the stall sells capture pods and healing fruit for coins.",
       "gate": { "kind": "defeated", "npc_id": "marin" },
       "transition": { "kind": "warp", "trigger_object": "warp_north" }
     },
     {
       "id": "beat_05_frostvale",
       "map_id": "frostvale",
-      "narrative": "Cold-land village with snow and ice ground, stone paths, snow tall grass, trees, houses, rocks, and a fenced herb garden. Encounters mix frostcoil, quartz_shell, nightspike, snowbird, hillbuck, pebbleback, and glacier_talon at levels 7-12. The Frostvale master anchors the village challenge. Beating him sets badge_lete and records the frostvale-proof clue.",
+      "narrative": "Cold-land village with snow and ice ground, stone paths, snow tall grass, trees, houses, rocks, and a fenced herb garden. Encounters mix frostcoil, quartz_shell, nightspike, snowbird, hillbuck, pebbleback, and glacier_talon at levels 7-12. The Frostvale master anchors the village challenge. Beating him sets badge_frostvale and records the frostvale-proof clue.",
       "gate": { "kind": "defeated", "npc_id": "frost" },
       "transition": { "kind": "warp", "trigger_object": "warp_north" }
     },
     {
       "id": "beat_06_dreadpeak_cavern",
       "map_id": "dreadpeak_cavern",
-      "narrative": "The great peak is the hardest region-master challenge before the endgame: a tall narrow cave-shrine with stone floors, blocked rock walls, torch landmarks, and sparse encounter overgrowth. Encounters are heavy elites: mountain_bear, warback, stoneclaw, fangrunner, glacier_talon, coalbeak, raven_shade, snowhare, foxhound, and boulderhorn at levels 10-15. Cave NPCs flesh out the climb before the Dreadpeak master. Beating him sets badge_suli and records the dreadpeak-proof clue.",
+      "narrative": "The great peak is the hardest region-master challenge before the endgame: a tall narrow cave-shrine with stone floors, blocked rock walls, torch landmarks, and sparse encounter overgrowth. Encounters are heavy elites: mountain_bear, warback, stoneclaw, fangrunner, glacier_talon, coalbeak, raven_shade, snowhare, foxhound, and boulderhorn at levels 10-15. Cave NPCs flesh out the climb before the Dreadpeak master. Beating him sets badge_dreadpeak and records the dreadpeak-proof clue.",
       "gate": { "kind": "defeated", "npc_id": "cliff" },
       "transition": { "kind": "warp", "trigger_object": "warp_north" }
     },

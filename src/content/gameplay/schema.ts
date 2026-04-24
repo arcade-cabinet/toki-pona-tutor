@@ -11,9 +11,20 @@ const hexColorSchema = z.string().regex(/^#[0-9a-fA-F]{6}$/);
 const hpClassSchema = z.enum(["hp-healthy", "hp-wounded", "hp-critical"]);
 const dayPhaseSchema = z.enum(["night", "dawn", "day", "dusk"]);
 const weatherSchema = z.enum(["clear", "rain", "snow", "fog"]);
-const ambientBiomeSchema = z.enum(["village", "kasi", "lete", "seli", "telo", "nena", "indoor"]);
-const mapBiomeSchema = z.enum(["town", "forest", "water", "ice", "peak", "cave"]);
-const combatTypeSchema = z.enum(["seli", "telo", "kasi", "lete", "wawa"]);
+// Single biome enum: merges the former AmbientBiome (village/kasi/lete/seli/telo/nena/indoor)
+// into MapBiome. "volcanic" and "indoor" are added so ambient-event logic can keep using
+// them; all other former ambient values map to the existing MapBiome set.
+const mapBiomeSchema = z.enum([
+    "town",
+    "forest",
+    "water",
+    "ice",
+    "peak",
+    "cave",
+    "volcanic",
+    "indoor",
+]);
+const combatTypeSchema = z.enum(["fire", "water", "grass", "frost", "stone"]);
 const directionRowsSchema = z.object({
     down: nonNegativeIntSchema,
     left: nonNegativeIntSchema,
@@ -34,7 +45,7 @@ const pauseRouteIdSchema = z.enum([
 const pauseFooterIdSchema = z.enum(["resume", "save", "title"]);
 const saveMenuActionValueSchema = z.enum(["save", "load", "cancel"]);
 const settingsChoiceValueSchema = z.enum([
-    "sitelen",
+    "glyphs",
     "text_speed",
     "contrast",
     "accessible",
@@ -48,7 +59,7 @@ const warpLoadingPhaseSchema = z.enum(["enter", "settle"]);
 const wildDamageToneSchema = z.enum(["super", "resisted", "neutral", "miss"]);
 const wildBattleCaptureStateSchema = z.enum(["throw", "caught", "escaped"]);
 const settingsSummaryValueSchema = z.enum([
-    "sitelen",
+    "glyphs",
     "text_speed",
     "contrast",
     "accessible",
@@ -378,8 +389,8 @@ export const audioConfigSchema = z.object({
 export const ambientConfigSchema = z.object({
     day_length_minutes: positiveIntSchema,
     phase_tints: z.record(dayPhaseSchema, tintSchema),
-    biome_codes: z.record(ambientBiomeSchema, positiveIntSchema),
-    weather_tables: z.record(ambientBiomeSchema, z.partialRecord(weatherSchema, chanceSchema)),
+    biome_codes: z.record(mapBiomeSchema, positiveIntSchema),
+    weather_tables: z.record(mapBiomeSchema, z.partialRecord(weatherSchema, chanceSchema)),
 });
 
 export const combatConfigSchema = z.object({
@@ -972,7 +983,7 @@ export const uiConfigSchema = z.object({
                 item: idSchema,
                 flee: idSchema,
             }),
-            missing_poki_text: idSchema,
+            missing_capture_tool_text: idSchema,
             item_menu: z.object({
                 prompt: idSchema,
                 empty_text: idSchema,

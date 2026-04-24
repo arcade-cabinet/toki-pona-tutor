@@ -1,15 +1,15 @@
 {
   "badges": [
-    { "flag": "badge_sewi", "label": "Highridge", "region": "Highridge Pass" },
-    { "flag": "badge_telo", "label": "Lakehaven", "region": "Lakehaven" },
-    { "flag": "badge_lete", "label": "Frostvale", "region": "Frostvale" },
-    { "flag": "badge_suli", "label": "Dreadpeak", "region": "Dreadpeak Cavern" }
+    { "flag": "badge_highridge", "label": "Highridge", "region": "Highridge Pass" },
+    { "flag": "badge_lakehaven", "label": "Lakehaven", "region": "Lakehaven" },
+    { "flag": "badge_frostvale", "label": "Frostvale", "region": "Frostvale" },
+    { "flag": "badge_dreadpeak", "label": "Dreadpeak", "region": "Dreadpeak Cavern" }
   ],
   "gym_xp_curve": {
-    "badge_sewi": 150,
-    "badge_telo": 280,
-    "badge_lete": 500,
-    "badge_suli": 850
+    "badge_highridge": 150,
+    "badge_lakehaven": 280,
+    "badge_frostvale": 500,
+    "badge_dreadpeak": 850
   },
   "level_curve": {
     "min_level": 1,
@@ -40,12 +40,12 @@
     "parent_inherited_move_level": 1,
     "child_learnset_max_level": 5,
     "type_inheritance": {
-      "dominant_types": ["wawa"],
-      "defer_to_other_types": ["lete"],
+      "dominant_types": ["stone"],
+      "defer_to_other_types": ["frost"],
       "pair_overrides": {
-        "seli_telo": "kasi",
-        "kasi_seli": "seli",
-        "kasi_telo": "telo"
+        "fire_water": "grass",
+        "fire_grass": "fire",
+        "grass_water": "water"
       }
     }
   },

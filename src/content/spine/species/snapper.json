@@ -6,7 +6,7 @@
   "description": {
     "en": "A sharp-mouthed fish that guards narrow channels."
   },
-  "type": "telo",
+  "type": "water",
   "base_stats": {
     "hp": 48,
     "attack": 55,

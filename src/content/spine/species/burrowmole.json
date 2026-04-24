@@ -6,7 +6,7 @@
   "description": {
     "en": "A low, sturdy digger that vanishes under soft soil."
   },
-  "type": "kasi",
+  "type": "grass",
   "base_stats": {
     "hp": 40,
     "attack": 44,

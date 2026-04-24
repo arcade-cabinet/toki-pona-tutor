@@ -6,7 +6,7 @@
   "description": {
     "en": "A small thorny trickster that darts through brush and laughs at fences."
   },
-  "type": "kasi",
+  "type": "grass",
   "base_stats": {
     "hp": 42,
     "attack": 38,

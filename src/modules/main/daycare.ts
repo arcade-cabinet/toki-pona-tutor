@@ -16,18 +16,18 @@
 
 import { DAYCARE_CONFIG } from "../../content/gameplay";
 import type { BaseStats } from "../../content/schema/species";
-import type { TpType } from "./type-matchup";
+import type { CombatType } from "./type-matchup";
 
 export interface ParentSnapshot {
     speciesId: string;
-    type: TpType;
+    type: CombatType;
     base_stats: BaseStats;
     learnset: { level: number; move_id: string }[];
 }
 
 export interface Offspring {
     speciesId: string;
-    type: TpType;
+    type: CombatType;
     base_stats: BaseStats;
     learnset: { level: number; move_id: string }[];
     level: number;
@@ -36,14 +36,14 @@ export interface Offspring {
 /**
  * Resolve the child's type. Rules:
  * - Same-type parents → child inherits that type.
- * - seli × telo → kasi (the type that beats neither — elemental neutral)
- * - seli × kasi → seli (fire-strong trait dominates)
- * - telo × kasi → telo (water dominant)
- * - wawa × anything → wawa (bruiser recessive)
- * - lete × anything non-lete → inherits the non-lete parent's type.
+ * - fire × water → grass (the type that beats neither — elemental neutral)
+ * - fire × grass → fire (fire-strong trait dominates)
+ * - water × grass → water (water dominant)
+ * - stone × anything → stone (bruiser dominant)
+ * - frost × anything non-frost → inherits the non-frost parent's type.
  * - Otherwise → parent-A's type wins (deterministic; test seed independent).
  */
-export function childType(a: TpType, b: TpType): TpType {
+export function childType(a: CombatType, b: CombatType): CombatType {
     if (a === b) return a;
     if (DAYCARE_CONFIG.typeInheritance.dominantTypes.includes(a)) return a;
     if (DAYCARE_CONFIG.typeInheritance.dominantTypes.includes(b)) return b;
@@ -129,12 +129,12 @@ export function inheritedLearnset(
  *
  * @example
  * hatch({
- *   parentA: { speciesId: 'ashcat', type: 'seli', base_stats: {...}, learnset: [...] },
- *   parentB: { speciesId: 'mireling', type: 'telo', base_stats: {...}, learnset: [...] },
+ *   parentA: { speciesId: 'ashcat', type: 'fire', base_stats: {...}, learnset: [...] },
+ *   parentB: { speciesId: 'mireling', type: 'water', base_stats: {...}, learnset: [...] },
  *   childSpeciesLearnset: [{ level: 1, move_id: 'leaf_jab' }],
  *   rng: () => 0.5,
  * })
- * // → { speciesId: 'ashcat_lili', type: 'kasi', level: 1, ... }
+ * // → { speciesId: 'ashcat_lili', type: 'grass', level: 1, ... }
  */
 export function hatch(params: {
     parentA: ParentSnapshot;

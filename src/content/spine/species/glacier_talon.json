@@ -6,7 +6,7 @@
   "description": {
     "en": "A sharp frozen hunter that cuts clean tracks through drifts."
   },
-  "type": "lete",
+  "type": "frost",
   "base_stats": {
     "hp": 56,
     "attack": 58,

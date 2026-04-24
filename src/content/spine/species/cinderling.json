@@ -6,7 +6,7 @@
   "description": {
     "en": "A flame spirit that rolls over hot stone without burning out."
   },
-  "type": "seli",
+  "type": "fire",
   "base_stats": {
     "hp": 62,
     "attack": 72,

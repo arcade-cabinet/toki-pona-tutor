@@ -17,10 +17,10 @@ async function setTextSpeed(page: Page, cps: number): Promise<void> {
     }, cps);
 }
 
-async function setSitelenOverlay(page: Page, enabled: boolean): Promise<void> {
+async function setGlyphOverlay(page: Page, enabled: boolean): Promise<void> {
     await page.evaluate(async (next) => {
-        const { setSitelenOverlay } = await import('./src/platform/persistence/settings.ts');
-        await setSitelenOverlay(next);
+        const { setGlyphOverlay } = await import('./src/platform/persistence/settings.ts');
+        await setGlyphOverlay(next);
     }, enabled);
 }
 
@@ -58,7 +58,7 @@ test('nonzero text speed keeps RPG.js dialog text on the typewriter path', async
 
 test('clue overlay setting renders a glyph line during RPG.js dialog', async ({ page }) => {
     await prepareFreshTitle(page, 0);
-    await setSitelenOverlay(page, true);
+    await setGlyphOverlay(page, true);
     const clueGlyph = await page.evaluate(async () => {
         const { glyphForDisplay } = await import('./src/styles/sitelen-glyph.ts');
         return glyphForDisplay('wild-signs');

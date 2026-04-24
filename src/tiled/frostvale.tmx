@@ -110,7 +110,7 @@
    <properties>
      <property name="target_map" value="dreadpeak_cavern"/>
      <property name="target_spawn" value="from_frostvale"/>
-     <property name="required_flag" value="badge_lete"/>
+     <property name="required_flag" value="badge_frostvale"/>
    </properties>
   </object>
  </objectgroup>

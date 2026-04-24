@@ -6,7 +6,7 @@
   "description": {
     "en": "A compact stone-backed creature that curls into a shield."
   },
-  "type": "wawa",
+  "type": "stone",
   "base_stats": {
     "hp": 55,
     "attack": 36,

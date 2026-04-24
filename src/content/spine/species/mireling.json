@@ -6,7 +6,7 @@
   "description": {
     "en": "A damp little water creature with a muddy grin."
   },
-  "type": "telo",
+  "type": "water",
   "base_stats": {
     "hp": 52,
     "attack": 44,

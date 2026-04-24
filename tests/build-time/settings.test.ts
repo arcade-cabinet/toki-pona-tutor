@@ -1,8 +1,8 @@
 import { describe, it, expect, beforeEach } from 'vitest';
 import { setPreferencesImpl, type PreferencesAdapter } from '../../src/platform/persistence/preferences';
 import {
-    getSitelenOverlay,
-    setSitelenOverlay,
+    getGlyphOverlay,
+    setGlyphOverlay,
     getTextSpeed,
     setTextSpeed,
     getHighContrast,
@@ -78,14 +78,14 @@ describe('parseNumber helper', () => {
 
 describe('clue glyph overlay — T8-04', () => {
     it('defaults to false', async () => {
-        expect(await getSitelenOverlay()).toBe(false);
+        expect(await getGlyphOverlay()).toBe(false);
     });
 
-    it('round-trips through setSitelenOverlay', async () => {
-        await setSitelenOverlay(true);
-        expect(await getSitelenOverlay()).toBe(true);
-        await setSitelenOverlay(false);
-        expect(await getSitelenOverlay()).toBe(false);
+    it('round-trips through setGlyphOverlay', async () => {
+        await setGlyphOverlay(true);
+        expect(await getGlyphOverlay()).toBe(true);
+        await setGlyphOverlay(false);
+        expect(await getGlyphOverlay()).toBe(false);
     });
 });
 

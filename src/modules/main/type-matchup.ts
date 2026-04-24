@@ -1,15 +1,19 @@
-import { TYPE_MATCHUP_CONFIG, type ConfiguredTpType } from "../../content/gameplay";
+import { TYPE_MATCHUP_CONFIG, type ConfiguredCombatType } from "../../content/gameplay";
 
-export type TpType = ConfiguredTpType;
+export type CombatType = ConfiguredCombatType;
 
-export const TP_TYPES: readonly TpType[] = TYPE_MATCHUP_CONFIG.types;
+export const COMBAT_TYPES: readonly CombatType[] = TYPE_MATCHUP_CONFIG.types;
 
 /**
  * Look up the damage multiplier when a move of `attacker` type hits a
  * defender with primary type `defender` and optional species tags.
  */
-export function typeMultiplier(attacker: TpType, defender: TpType, defenderIsWaso = false): number {
-    const defenderTags = defenderIsWaso ? ["waso"] : [];
+export function typeMultiplier(
+    attacker: CombatType,
+    defender: CombatType,
+    defenderIsBird = false,
+): number {
+    const defenderTags = defenderIsBird ? ["waso"] : [];
     const tagOverride = TYPE_MATCHUP_CONFIG.defenderTagOverrides.find(
         (override) =>
             override.attacker === attacker && defenderTags.includes(override.defender_tag),

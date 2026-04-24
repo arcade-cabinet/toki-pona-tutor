@@ -326,7 +326,7 @@ describe("authored map content contracts", () => {
             props: {
                 target_map: "frostvale",
                 target_spawn: "from_lakehaven",
-                required_flag: "badge_telo",
+                required_flag: "badge_lakehaven",
             },
         });
 
@@ -405,7 +405,7 @@ describe("authored map content contracts", () => {
             props: {
                 target_map: "dreadpeak_cavern",
                 target_spawn: "from_frostvale",
-                required_flag: "badge_lete",
+                required_flag: "badge_frostvale",
             },
         });
 
@@ -511,7 +511,7 @@ describe("authored map content contracts", () => {
             props: {
                 target_map: "lakehaven",
                 target_spawn: "from_highridge_pass",
-                required_flag: "badge_sewi",
+                required_flag: "badge_highridge",
             },
         });
 
@@ -603,7 +603,7 @@ describe("authored map content contracts", () => {
             props: {
                 target_map: "rivergate_approach",
                 target_spawn: "from_dreadpeak_cavern",
-                required_flag: "badge_suli",
+                required_flag: "badge_dreadpeak",
             },
         });
 

@@ -110,7 +110,7 @@ export default defineMap({
         props: {
           target_map: 'rivergate_approach',
           target_spawn: 'from_dreadpeak_cavern',
-          required_flag: 'badge_suli',
+          required_flag: 'badge_dreadpeak',
         },
       },
     ],

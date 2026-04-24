@@ -23,8 +23,13 @@ export const KEYS = {
     sfxVolume: "poki-soweli.settings.sfx_volume",
     bgmVolume: "poki-soweli.settings.bgm_volume",
     theme: "poki-soweli.settings.theme",
-    // Optional clue-icon overlay toggle during dialog.
-    sitelenOverlay: "poki-soweli.settings.sitelen_overlay",
+    // Optional glyph-icon overlay toggle during dialog. Save-compat note:
+    // the `poki-soweli.` prefix is preserved across all keys so existing
+    // saves keep loading; only the second half migrated from the former
+    // `sitelen_overlay` token to the English `glyph_overlay` token. The
+    // migration in `ensureLegacyKeyMigrated` below reads the old key on
+    // first access and rewrites it to the new key.
+    glyphOverlay: "poki-soweli.settings.glyph_overlay",
     // T3-06: text speed — characters per second for showText. Lower
     // = slower reveal. 0 disables animation (instant text).
     textSpeed: "poki-soweli.settings.text_speed",
@@ -93,10 +98,54 @@ export function setPreferencesImpl(next: PreferencesAdapter): void {
     impl = next;
 }
 
+/**
+ * Phase-C migration map: when a key has moved since the previous release,
+ * list the old key alongside the new one. On first access the old value
+ * is read, rewritten under the new key, and the old key removed so the
+ * migration is permanent after one run.
+ *
+ * Preserves save compatibility across the 0.13.x → 0.14.x rename.
+ */
+const LEGACY_KEY_MIGRATIONS: Record<string, string> = {
+    "poki-soweli.settings.sitelen_overlay": KEYS.glyphOverlay,
+};
+
+const migratedKeys = new Set<string>();
+
+async function ensureLegacyKeyMigrated(newKey: string): Promise<void> {
+    if (migratedKeys.has(newKey)) return;
+    migratedKeys.add(newKey);
+    const oldKey = Object.entries(LEGACY_KEY_MIGRATIONS).find(
+        ([, target]) => target === newKey,
+    )?.[0];
+    if (!oldKey) return;
+    const existing = await impl.get(newKey);
+    if (existing !== null) {
+        // The new key already has a value. Nothing to migrate; just drop
+        // the legacy key if it still exists.
+        await impl.remove(oldKey);
+        return;
+    }
+    const legacy = await impl.get(oldKey);
+    if (legacy !== null) {
+        await impl.set(newKey, legacy);
+        await impl.remove(oldKey);
+    }
+}
+
 export const preferences: IPreferences = {
-    get: (k) => impl.get(k),
-    set: (k, v) => impl.set(k, v),
-    remove: (k) => impl.remove(k),
+    get: async (k) => {
+        await ensureLegacyKeyMigrated(k);
+        return impl.get(k);
+    },
+    set: async (k, v) => {
+        await ensureLegacyKeyMigrated(k);
+        return impl.set(k, v);
+    },
+    remove: async (k) => {
+        await ensureLegacyKeyMigrated(k);
+        return impl.remove(k);
+    },
     clear: () => impl.clear(),
     keys: async () => (await impl.keys()).filter(isPreferenceKey),
 };

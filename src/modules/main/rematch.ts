@@ -46,7 +46,7 @@ export const REMATCH_COOLDOWN_HOURS = REMATCH_CONFIG.cooldown_hours;
  * 3. Otherwise `available`.
  *
  * @example
- * rematchStatus({ badgeFlag: 'badge_sewi', timesCleared: 1 },
+ * rematchStatus({ badgeFlag: 'badge_highridge', timesCleared: 1 },
  *               { flags: { game_cleared: '1' } },
  *               new Date('2026-04-20T00:00:00Z'))
  * // → 'available'
@@ -119,11 +119,11 @@ export function rematchReward(
  *
  * @example
  * applyRematchOutcome(
- *   { badgeFlag: 'badge_sewi', timesCleared: 1 },
+ *   { badgeFlag: 'badge_highridge', timesCleared: 1 },
  *   'victory',
  *   new Date('2026-04-20T00:00:00Z'),
  * )
- * // → { badgeFlag: 'badge_sewi', timesCleared: 2,
+ * // → { badgeFlag: 'badge_highridge', timesCleared: 2,
  * //     lastVictoryAt: '2026-04-20T00:00:00.000Z' }
  */
 export function applyRematchOutcome(

@@ -2,7 +2,7 @@
   "id": "stone_slam",
   "name": { "en": "stoneblow" },
   "description": { "en": "That animal is strong." },
-  "type": "wawa",
+  "type": "stone",
   "power": 40,
   "accuracy": 100,
   "pp": 20,

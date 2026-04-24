@@ -39,11 +39,11 @@
     --poki-peach: #f4b995; /* affection / cute highlight */
 
     /* Type accents — five elements */
-    --poki-seli: #e8553e; /* fire — warm red-orange */
-    --poki-telo: #4da3d4; /* water — soft blue */
-    --poki-kasi: #6fb35c; /* plant — soft green */
-    --poki-lete: #b8d4dc; /* cold — pale icy cream-blue */
-    --poki-wawa: #d4a84e; /* lightning/strong — warm gold */
+    --poki-fire: #e8553e; /* fire — warm red-orange */
+    --poki-water: #4da3d4; /* water — soft blue */
+    --poki-grass: #6fb35c; /* plant — soft green */
+    --poki-frost: #b8d4dc; /* cold — pale icy cream-blue */
+    --poki-stone: #d4a84e; /* lightning/strong — warm gold */
 
     /* Status */
     --poki-joy: #f2c158; /* celebration (catch success, level up) */
@@ -68,13 +68,13 @@
     --secondary-deep: var(--poki-amber-deep);
     --success: var(--poki-emerald);
     --danger: var(--poki-danger);
-    --info: var(--poki-telo);
+    --info: var(--poki-water);
     --accent: var(--poki-amber);
 
-    /* Back-compat: several components still reference `--poki-kasi-glow`
+    /* Back-compat: several components still reference `--poki-grass-glow`
        and `--poki-moli` from the prior palette. Map them to the new
        tokens to avoid a flag day; remove once every consumer migrates. */
-    --poki-kasi-glow: var(--poki-emerald);
+    --poki-grass-glow: var(--poki-emerald);
     --poki-moli: var(--poki-amber-deep);
     --poki-bark: var(--poki-parchment);
     --poki-wood: var(--poki-parchment-deep);
@@ -829,24 +829,24 @@ body.poki-accessible-mode {
     opacity: 0.68;
 }
 
-.poki-lead-movebar-move[data-type="seli"] {
-    border-color: color-mix(in srgb, var(--poki-seli), var(--poki-border) 45%);
+.poki-lead-movebar-move[data-type="fire"] {
+    border-color: color-mix(in srgb, var(--poki-fire), var(--poki-border) 45%);
 }
 
-.poki-lead-movebar-move[data-type="telo"] {
-    border-color: color-mix(in srgb, var(--poki-telo), var(--poki-border) 42%);
+.poki-lead-movebar-move[data-type="water"] {
+    border-color: color-mix(in srgb, var(--poki-water), var(--poki-border) 42%);
 }
 
-.poki-lead-movebar-move[data-type="kasi"] {
-    border-color: color-mix(in srgb, var(--poki-kasi), var(--poki-border) 42%);
+.poki-lead-movebar-move[data-type="grass"] {
+    border-color: color-mix(in srgb, var(--poki-grass), var(--poki-border) 42%);
 }
 
-.poki-lead-movebar-move[data-type="lete"] {
-    border-color: color-mix(in srgb, var(--poki-lete), var(--poki-border) 35%);
+.poki-lead-movebar-move[data-type="frost"] {
+    border-color: color-mix(in srgb, var(--poki-frost), var(--poki-border) 35%);
 }
 
-.poki-lead-movebar-move[data-type="wawa"] {
-    border-color: color-mix(in srgb, var(--poki-wawa), var(--poki-border) 38%);
+.poki-lead-movebar-move[data-type="stone"] {
+    border-color: color-mix(in srgb, var(--poki-stone), var(--poki-border) 38%);
 }
 
 .poki-lead-movebar-name {
@@ -1218,7 +1218,7 @@ body.poki-accessible-mode {
 }
 
 .poki-warp-loading-sigil span:nth-child(3) {
-    background: var(--poki-telo);
+    background: var(--poki-water);
     animation-delay: 240ms;
 }
 

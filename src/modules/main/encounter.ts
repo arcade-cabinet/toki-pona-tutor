@@ -24,7 +24,7 @@ import { formatGameplayTemplate } from "../../content/gameplay/templates";
 import { cueSfx } from "./audio-cues";
 import { formatItemDrop, rollSpeciesItemDrop, type SpeciesItemDrop } from "./item-drops";
 import { recordQuestEventForActive } from "./quest-runtime";
-import { TP_TYPES, typeMultiplier, type TpType } from "./type-matchup";
+import { COMBAT_TYPES, typeMultiplier, type CombatType } from "./type-matchup";
 import {
     applyWildFight,
     wildCatchChance,
@@ -280,15 +280,15 @@ async function resolveCatchAttempt(
     combat: WildCombatState,
     renderBattle: RenderWildBattle,
 ): Promise<"continue" | "resolved"> {
-    const poki = await lookupBestAvailablePoki();
+    const poki = await lookupBestAvailableCaptureTool();
     if (!poki) {
-        await player.showText(COMBAT_UI_CONFIG.wildBattle.missingPokiText);
+        await player.showText(COMBAT_UI_CONFIG.wildBattle.missingCaptureToolText);
         return "continue";
     }
 
     const consumed = await consumeInventoryItem(poki.id, 1);
     if (!consumed) {
-        await player.showText(COMBAT_UI_CONFIG.wildBattle.missingPokiText);
+        await player.showText(COMBAT_UI_CONFIG.wildBattle.missingCaptureToolText);
         return "continue";
     }
 
@@ -301,7 +301,7 @@ async function resolveCatchAttempt(
             targetHp: combat.targetHp,
             targetMaxHp: combat.targetMaxHp,
             catchRate: meta.catch_rate,
-            pokiPower: pokiPower(poki),
+            capturePower: capturePower(poki),
         });
     if (caught) {
         const slot = await addToParty(meta.id, level);
@@ -457,10 +457,10 @@ export function formatCombatItemResult(result: CombatItemUseResult): string {
     }
 }
 
-async function lookupBestAvailablePoki(): Promise<Item | null> {
+async function lookupBestAvailableCaptureTool(): Promise<Item | null> {
     const pokiItems = items
         .filter((item) => item.kind === "poki")
-        .sort((a, b) => pokiPower(b) - pokiPower(a));
+        .sort((a, b) => capturePower(b) - capturePower(a));
 
     for (const item of pokiItems) {
         if ((await getInventoryCount(item.id)) > 0) return item;
@@ -468,7 +468,7 @@ async function lookupBestAvailablePoki(): Promise<Item | null> {
     return null;
 }
 
-function pokiPower(item: Item): number {
+function capturePower(item: Item): number {
     const power = Number(item.power ?? 1);
     return Number.isFinite(power) && power > 0 ? power : 1;
 }
@@ -480,12 +480,12 @@ function delay(ms: number): Promise<void> {
 }
 
 function wildFightTypeMultiplier(attacker: Species | undefined, defender: Species): number {
-    if (!isTpType(attacker?.type) || !isTpType(defender.type)) return 1;
+    if (!isCombatType(attacker?.type) || !isCombatType(defender.type)) return 1;
     return typeMultiplier(attacker.type, defender.type, defender.id.startsWith("waso_"));
 }
 
-function isTpType(value: unknown): value is TpType {
-    return typeof value === "string" && (TP_TYPES as readonly string[]).includes(value);
+function isCombatType(value: unknown): value is CombatType {
+    return typeof value === "string" && (COMBAT_TYPES as readonly string[]).includes(value);
 }
 
 async function grantSpeciesDrop(player: RpgPlayer, meta: Species): Promise<void> {

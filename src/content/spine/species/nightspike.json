@@ -6,7 +6,7 @@
   "description": {
     "en": "A dark frost creature with a crest like frozen midnight."
   },
-  "type": "lete",
+  "type": "frost",
   "base_stats": {
     "hp": 55,
     "attack": 42,

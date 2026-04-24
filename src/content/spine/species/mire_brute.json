@@ -6,7 +6,7 @@
   "description": {
     "en": "A mud-splattered brute that charges from boggy ground."
   },
-  "type": "wawa",
+  "type": "stone",
   "base_stats": {
     "hp": 48,
     "attack": 50,

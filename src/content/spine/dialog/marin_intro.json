@@ -2,7 +2,7 @@
   "id": "marin_intro",
   "npc_id": "marin",
   "when_flags": {
-    "badge_telo": false
+    "badge_lakehaven": false
   },
   "priority": 10,
   "beats": [

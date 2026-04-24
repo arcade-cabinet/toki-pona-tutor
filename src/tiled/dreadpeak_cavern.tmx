@@ -118,7 +118,7 @@
    <properties>
      <property name="target_map" value="rivergate_approach"/>
      <property name="target_spawn" value="from_dreadpeak_cavern"/>
-     <property name="required_flag" value="badge_suli"/>
+     <property name="required_flag" value="badge_dreadpeak"/>
    </properties>
   </object>
  </objectgroup>

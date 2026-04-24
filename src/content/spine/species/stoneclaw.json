@@ -6,7 +6,7 @@
   "description": {
     "en": "A mountain bruiser that uses its claws like climbing picks."
   },
-  "type": "wawa",
+  "type": "stone",
   "base_stats": {
     "hp": 85,
     "attack": 80,

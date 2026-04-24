@@ -2,7 +2,7 @@
   "id": "gust_strike",
   "name": { "en": "windblast" },
   "description": { "en": "The wind blows." },
-  "type": "wawa",
+  "type": "stone",
   "power": 45,
   "accuracy": 90,
   "pp": 20,

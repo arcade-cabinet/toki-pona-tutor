@@ -2,7 +2,7 @@
   "id": "marin_victory",
   "npc_id": "marin",
   "when_flags": {
-    "badge_telo": true
+    "badge_lakehaven": true
   },
   "priority": 5,
   "beats": [

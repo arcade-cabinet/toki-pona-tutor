@@ -28,7 +28,7 @@ import {
     getBgmVolume,
     getHighContrast,
     getSfxVolume,
-    getSitelenOverlay,
+    getGlyphOverlay,
     getTextSpeed,
 } from "../../platform/persistence/settings";
 import { dictionarySize } from "./vocabulary";
@@ -622,7 +622,7 @@ async function showBestiaryReadText(player: RpgPlayer, speciesId: string): Promi
 
 async function buildSettingsContent(): Promise<{ title: string; rows: PauseEntry[] }> {
     const [sitelen, textSpeed, highContrast, accessibleMode, bgm, sfx] = await Promise.all([
-        getSitelenOverlay(),
+        getGlyphOverlay(),
         getTextSpeed(),
         getHighContrast(),
         getAccessibleMode(),
@@ -656,7 +656,7 @@ function settingsPauseSummaryMeta(
 ): string {
     const stateLabels = SETTINGS_CONFIG.stateLabels;
     switch (value) {
-        case "sitelen":
+        case "glyphs":
             return formatGameplayTemplate(template, {
                 state: state.sitelen ? stateLabels.on : stateLabels.off,
             });

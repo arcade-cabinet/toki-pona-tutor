@@ -40,7 +40,7 @@ export interface ChestDef {
 export type ChestStatus = "closed" | "locked" | "opened";
 
 export interface PlayerGateState {
-    /** SQLite flags that are set (e.g. `badge_sewi: '1'`). */
+    /** SQLite flags that are set (e.g. `badge_highridge: '1'`). */
     flags: Record<string, string>;
     /** Clues the player has seen enough times. */
     masteredWords: Set<string>;

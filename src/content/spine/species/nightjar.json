@@ -6,7 +6,7 @@
   "description": {
     "en": "A dusk bird that disappears when lanterns flare."
   },
-  "type": "lete",
+  "type": "frost",
   "base_stats": {
     "hp": 34,
     "attack": 42,

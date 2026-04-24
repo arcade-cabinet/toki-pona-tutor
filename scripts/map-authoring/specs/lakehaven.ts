@@ -145,7 +145,7 @@ export default defineMap({
                 props: {
                     target_map: "frostvale",
                     target_spawn: "from_lakehaven",
-                    required_flag: "badge_telo",
+                    required_flag: "badge_lakehaven",
                 },
             },
         ],

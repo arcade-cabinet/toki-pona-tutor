@@ -6,7 +6,7 @@
   "description": {
     "en": "A thick-horned beast that can shove aside loose stone."
   },
-  "type": "wawa",
+  "type": "stone",
   "base_stats": {
     "hp": 138,
     "attack": 118,

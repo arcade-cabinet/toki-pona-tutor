@@ -68,7 +68,7 @@ export function reducePartyLevel(member: PartySlot): PartySlot {
  * @example
  * deriveNewGamePlus({
  *   party: [{ slot: 0, species_id: 'ashcat', level: 35, xp: 42875 }],
- *   flags: { game_cleared: '1', badge_sewi: '1', starter_chosen: '1' },
+ *   flags: { game_cleared: '1', badge_highridge: '1', starter_chosen: '1' },
  *   masteredWords: { soweli: 12, poki: 8 },
  *   inventory: { capture_pod: 2, orchard_fruit: 5 },
  *   currentMapId: 'rivergate_approach',

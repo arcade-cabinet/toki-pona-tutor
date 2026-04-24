@@ -12,7 +12,7 @@
  * 2. **Weather.** Per-biome wet/dry-chance table; a deterministic PRNG
  *    keyed by the current real-time hour so the same player seeing the
  *    same map at the same wall-clock moment gets the same weather. Rain
- *    in kasi biomes, snow in lete, clear in seli/desert.
+ *    in forest biomes, snow in ice, clear in volcanic, etc.
  *
  * Both are pure functions. The runtime owns the wall clock; this module
  * translates (t, biome) → (phase, tint, weather) without reading the
@@ -20,10 +20,17 @@
  * state from silently drifting across save/load.
  */
 import { AMBIENT_CONFIG } from "../../content/gameplay";
+import type { MapBiome } from "../../content/map-metadata";
 
 export type DayPhase = "night" | "dawn" | "day" | "dusk";
 export type Weather = "clear" | "rain" | "snow" | "fog";
-export type Biome = "village" | "kasi" | "lete" | "seli" | "telo" | "nena" | "indoor";
+
+/**
+ * Re-export of the single biome enum from map-metadata. Ambient-event
+ * logic shares the same enum as map metadata so a map's declared biome
+ * drives both encounter tables and weather tables.
+ */
+export type Biome = MapBiome;
 
 export interface AmbientState {
     phase: DayPhase;

@@ -78,13 +78,13 @@ export function wildCatchChance(params: {
     targetHp: number;
     targetMaxHp: number;
     catchRate: number;
-    pokiPower: number;
+    capturePower: number;
 }): number {
     return catchProbability({
         hp: params.targetHp,
         hpMax: params.targetMaxHp,
         catchRate: params.catchRate,
-        pokiPower: params.pokiPower,
+        capturePower: params.capturePower,
     });
 }
 

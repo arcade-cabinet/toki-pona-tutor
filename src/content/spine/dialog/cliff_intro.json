@@ -2,7 +2,7 @@
   "id": "cliff_intro",
   "npc_id": "cliff",
   "when_flags": {
-    "badge_suli": false
+    "badge_dreadpeak": false
   },
   "priority": 10,
   "beats": [

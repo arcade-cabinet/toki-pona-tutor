@@ -2,7 +2,7 @@
   "id": "leaf_storm",
   "name": { "en": "bloom" },
   "description": { "en": "The tree falls." },
-  "type": "kasi",
+  "type": "grass",
   "power": 70,
   "accuracy": 95,
   "pp": 10,

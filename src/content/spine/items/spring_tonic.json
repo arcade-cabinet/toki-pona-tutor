@@ -6,7 +6,6 @@
   "description": {
     "en": "Clean spring water that restores a tired companion."
   },
-  "kind": "heal",
   "power": 50,
   "stackable": true,
   "sprite_frame": 65

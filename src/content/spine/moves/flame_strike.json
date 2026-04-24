@@ -2,7 +2,7 @@
   "id": "flame_strike",
   "name": { "en": "blaze" },
   "description": { "en": "This is very hot." },
-  "type": "seli",
+  "type": "fire",
   "power": 75,
   "accuracy": 90,
   "pp": 10,

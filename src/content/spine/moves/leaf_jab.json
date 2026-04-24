@@ -2,7 +2,7 @@
   "id": "leaf_jab",
   "name": { "en": "leaf" },
   "description": { "en": "Grass grew." },
-  "type": "kasi",
+  "type": "grass",
   "power": 25,
   "accuracy": 100,
   "pp": 25,

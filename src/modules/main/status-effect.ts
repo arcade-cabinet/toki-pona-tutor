@@ -20,7 +20,7 @@
  */
 
 import { STATUS_EFFECT_CONFIG, type ConfiguredStatusId } from "../../content/gameplay";
-import type { TpType } from "./type-matchup";
+import type { CombatType } from "./type-matchup";
 
 export type StatusId = ConfiguredStatusId;
 
@@ -43,7 +43,7 @@ export interface Status {
  * // → null (already burning)
  */
 export function rollStatusEffect(
-    moveType: TpType,
+    moveType: CombatType,
     targetStatuses: Status[],
     rng: () => number = Math.random,
 ): Status | null {
@@ -102,7 +102,7 @@ export function tickStatusEffects(
  * the incoming attack. Used alongside the type-matchup multiplier.
  */
 export function damageMultiplierFromStatuses(
-    incomingType: TpType,
+    incomingType: CombatType,
     targetStatuses: Status[],
 ): number {
     const modifier = STATUS_EFFECT_CONFIG.damageMultipliers.find(

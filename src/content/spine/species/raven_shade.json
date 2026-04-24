@@ -6,7 +6,7 @@
   "description": {
     "en": "A black-winged omen that appears near quiet places."
   },
-  "type": "lete",
+  "type": "frost",
   "base_stats": {
     "hp": 52,
     "attack": 68,

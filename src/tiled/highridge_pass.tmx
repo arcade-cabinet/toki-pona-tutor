@@ -102,7 +102,7 @@
    <properties>
      <property name="target_map" value="lakehaven"/>
      <property name="target_spawn" value="from_highridge_pass"/>
-     <property name="required_flag" value="badge_sewi"/>
+     <property name="required_flag" value="badge_highridge"/>
    </properties>
   </object>
  </objectgroup>

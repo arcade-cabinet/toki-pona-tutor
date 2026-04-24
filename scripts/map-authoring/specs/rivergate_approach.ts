@@ -6,8 +6,8 @@
  * Heavily aquatic encounters.
  *
  * With all four region badges (the virtual aggregate gate
- * `badges_all_four`, checked from badge_sewi ∧ badge_telo ∧
- * badge_lete ∧ badge_suli), stepping onto `final_boss_trigger` fires
+ * `badges_all_four`, checked from badge_highridge ∧ badge_lakehaven ∧
+ * badge_frostvale ∧ badge_dreadpeak), stepping onto `final_boss_trigger` fires
  * the green-dragon fight + unique death cutscene. Until all four
  * badges are in hand, that trigger is gated.
  */

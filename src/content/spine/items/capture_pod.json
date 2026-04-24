@@ -6,8 +6,8 @@
   "description": {
     "en": "A standard pod for catching wild companions."
   },
-  "kind": "poki",
   "power": 1,
   "stackable": true,
-  "sprite_frame": 80
+  "sprite_frame": 80,
+  "capture": true
 }

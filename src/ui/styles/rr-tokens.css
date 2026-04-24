@@ -54,11 +54,11 @@
     --touch-combat: 56px;
     --poki-emerald: var(--rr-forest);
     --poki-emerald-deep: var(--rr-forest);
-    --poki-telo: var(--rr-river);
-    --poki-lete: var(--rr-ice);
-    --poki-seli: var(--rr-danger);
-    --poki-kasi: var(--rr-forest);
-    --poki-wawa: var(--rr-umber);
+    --poki-water: var(--rr-river);
+    --poki-frost: var(--rr-ice);
+    --poki-fire: var(--rr-danger);
+    --poki-grass: var(--rr-forest);
+    --poki-stone: var(--rr-umber);
     --poki-danger: var(--rr-danger);
     --poki-caution: var(--rr-gold);
     --poki-border: var(--rr-border);

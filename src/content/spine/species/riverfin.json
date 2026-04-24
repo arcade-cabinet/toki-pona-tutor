@@ -6,7 +6,7 @@
   "description": {
     "en": "A nimble river fish that flicks water like thrown glass."
   },
-  "type": "telo",
+  "type": "water",
   "base_stats": {
     "hp": 62,
     "attack": 68,

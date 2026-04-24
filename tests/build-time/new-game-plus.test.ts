@@ -14,10 +14,10 @@ const clearedSave = (overrides: Partial<SaveState> = {}): SaveState => ({
     ],
     flags: {
         game_cleared: '1',
-        badge_sewi: '1',
-        badge_telo: '1',
-        badge_lete: '1',
-        badge_suli: '1',
+        badge_highridge: '1',
+        badge_lakehaven: '1',
+        badge_frostvale: '1',
+        badge_dreadpeak: '1',
         starter_chosen: '1',
     },
     masteredWords: { soweli: 12, poki: 8, seli: 5 },
@@ -60,7 +60,7 @@ describe('reducePartyLevel — -10 floor at 1', () => {
 
 describe('deriveNewGamePlus — full derivation', () => {
     it('throws if game_cleared flag not set', () => {
-        const uncleared = clearedSave({ flags: { badge_sewi: '1' } });
+        const uncleared = clearedSave({ flags: { badge_highridge: '1' } });
         expect(() => deriveNewGamePlus(uncleared)).toThrow(/game_cleared/);
     });
 

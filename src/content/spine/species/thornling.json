@@ -6,7 +6,7 @@
   "description": {
     "en": "A scrappy forest fighter that jabs before it thinks."
   },
-  "type": "kasi",
+  "type": "grass",
   "base_stats": {
     "hp": 40,
     "attack": 44,

@@ -2,7 +2,7 @@
   "id": "frost_nip",
   "name": { "en": "chill" },
   "description": { "en": "It's cold." },
-  "type": "lete",
+  "type": "frost",
   "power": 25,
   "accuracy": 100,
   "pp": 25,

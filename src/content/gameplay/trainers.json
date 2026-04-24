@@ -14,7 +14,7 @@
     "npc_id": "green_dragon",
     "defeated_flag": "green_dragon_defeated",
     "cleared_flag": "game_cleared",
-    "required_badge_flags": ["badge_sewi", "badge_telo", "badge_lete", "badge_suli"],
+    "required_badge_flags": ["badge_highridge", "badge_lakehaven", "badge_frostvale", "badge_dreadpeak"],
     "reward_clue": "green-dragon-proof",
     "ending_beat_id": "ending",
     "dialog_base": "green_dragon",
@@ -61,7 +61,7 @@
     },
     "tarrin": {
       "npc_id": "tarrin",
-      "badge_flag": "badge_sewi",
+      "badge_flag": "badge_highridge",
       "reward_clue": "highridge-proof",
       "next_beat_id": "beat_04_lakehaven",
       "dialog_base": "tarrin",
@@ -81,7 +81,7 @@
     },
     "marin": {
       "npc_id": "marin",
-      "badge_flag": "badge_telo",
+      "badge_flag": "badge_lakehaven",
       "reward_clue": "lakehaven-proof",
       "next_beat_id": "beat_05_frostvale",
       "dialog_base": "marin",
@@ -101,7 +101,7 @@
     },
     "frost": {
       "npc_id": "frost",
-      "badge_flag": "badge_lete",
+      "badge_flag": "badge_frostvale",
       "reward_clue": "frostvale-proof",
       "next_beat_id": "beat_06_dreadpeak_cavern",
       "dialog_base": "frost",
@@ -121,7 +121,7 @@
     },
     "cliff": {
       "npc_id": "cliff",
-      "badge_flag": "badge_suli",
+      "badge_flag": "badge_dreadpeak",
       "reward_clue": "dreadpeak-proof",
       "next_beat_id": "beat_07_rivergate_approach",
       "dialog_base": "cliff",

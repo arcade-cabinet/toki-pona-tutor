@@ -6,7 +6,7 @@
   "description": {
     "en": "A calm lake swimmer that flashes blue under clear water."
   },
-  "type": "telo",
+  "type": "water",
   "base_stats": {
     "hp": 38,
     "attack": 52,

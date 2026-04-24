@@ -2,7 +2,7 @@
   "id": "wave_slam",
   "name": { "en": "torrent" },
   "description": { "en": "The fish swam in the lake." },
-  "type": "telo",
+  "type": "water",
   "power": 80,
   "accuracy": 90,
   "pp": 8,

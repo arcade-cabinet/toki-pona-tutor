@@ -163,13 +163,13 @@ describe('wild encounter combat helpers', () => {
             targetHp: 48,
             targetMaxHp: 48,
             catchRate: 0.45,
-            pokiPower: 1,
+            capturePower: 1,
         })).toBe(0);
         expect(wildCatchChance({
             targetHp: 20,
             targetMaxHp: 48,
             catchRate: 0.45,
-            pokiPower: 1,
+            capturePower: 1,
         })).toBeGreaterThan(0.25);
     });
 

@@ -6,10 +6,10 @@ import { z } from "zod";
  * `src/content/gameplay/combat.json`.
  */
 export const typeId = z.enum([
-    "seli", // fire
-    "telo", // water
-    "kasi", // plant
-    "lete", // ice
-    "wawa", // strong / physical
+    "fire",
+    "water",
+    "grass",
+    "frost",
+    "stone",
 ]);
 export type TypeId = z.infer<typeof typeId>;

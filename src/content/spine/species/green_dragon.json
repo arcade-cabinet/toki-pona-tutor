@@ -6,7 +6,7 @@
   "description": {
     "en": "The rivergate dragon, ancient, brilliant, and far too proud to stay hidden."
   },
-  "type": "seli",
+  "type": "fire",
   "base_stats": {
     "hp": 140,
     "attack": 110,

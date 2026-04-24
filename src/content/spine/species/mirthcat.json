@@ -6,7 +6,7 @@
   "description": {
     "en": "A playful cat that turns every chase into a game."
   },
-  "type": "kasi",
+  "type": "grass",
   "base_stats": {
     "hp": 42,
     "attack": 48,

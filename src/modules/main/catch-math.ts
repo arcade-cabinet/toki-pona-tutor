@@ -13,26 +13,26 @@
  */
 /**
  * @example
- * catchProbability({ hp: 50, hpMax: 50, catchRate: 0.45, pokiPower: 1.0 })
+ * catchProbability({ hp: 50, hpMax: 50, catchRate: 0.45, capturePower: 1.0 })
  * // → 0 (full HP, can't catch)
- * catchProbability({ hp: 25, hpMax: 50, catchRate: 0.5, pokiPower: 1.0 })
+ * catchProbability({ hp: 25, hpMax: 50, catchRate: 0.5, capturePower: 1.0 })
  * // → 0.25 (half HP × 50% catch rate × 1.0 power)
- * catchProbability({ hp: 2, hpMax: 50, catchRate: 0.65, pokiPower: 1.5 })
+ * catchProbability({ hp: 2, hpMax: 50, catchRate: 0.65, capturePower: 1.5 })
  * // → 0.936 (near-dead target, heavy_capture_pod)
- * catchProbability({ hp: 0, hpMax: 50, catchRate: 0.9, pokiPower: 1.5 })
+ * catchProbability({ hp: 0, hpMax: 50, catchRate: 0.9, capturePower: 1.5 })
  * // → 1 (clamped — can't exceed 1.0)
  */
 export function catchProbability(params: {
     hp: number;
     hpMax: number;
     catchRate: number;
-    pokiPower: number;
+    capturePower: number;
 }): number {
-    const { hp, hpMax, catchRate, pokiPower } = params;
+    const { hp, hpMax, catchRate, capturePower } = params;
     if (hpMax <= 0) return 0;
     const clampedHp = Math.max(0, Math.min(hp, hpMax));
     const hpFactor = 1 - clampedHp / hpMax;
-    const raw = hpFactor * catchRate * pokiPower;
+    const raw = hpFactor * catchRate * capturePower;
     return Math.max(0, Math.min(1, raw));
 }
 
