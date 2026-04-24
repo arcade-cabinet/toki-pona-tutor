@@ -5541,7 +5541,7 @@
       ],
       "triggers": {},
       "when_flags": {
-        "quest_field_notes_complete": false
+        "quest_quest_field_notes_done": false
       }
     },
     {
@@ -5559,7 +5559,7 @@
       ],
       "triggers": {},
       "when_flags": {
-        "quest_field_notes_complete": true,
+        "quest_quest_field_notes_done": true,
         "game_cleared": false
       }
     },
@@ -5828,7 +5828,7 @@
       ],
       "triggers": {},
       "when_flags": {
-        "quest_shrine_stones_complete": false
+        "quest_quest_shrine_stones_done": false
       }
     },
     {
@@ -5846,7 +5846,7 @@
       ],
       "triggers": {},
       "when_flags": {
-        "quest_shrine_stones_complete": true,
+        "quest_quest_shrine_stones_done": true,
         "game_cleared": false
       }
     },

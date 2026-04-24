@@ -18,7 +18,7 @@
     {
       "id": "pack_runner",
       "when": {
-        "flag_absent": "quest_field_notes_complete"
+        "flag_absent": "quest_quest_field_notes_done"
       },
       "priority": 0,
       "beats": [
@@ -41,7 +41,7 @@
     {
       "id": "pack_post_quest",
       "when": {
-        "flag_present": "quest_field_notes_complete",
+        "flag_present": "quest_quest_field_notes_done",
         "flag_absent": "game_cleared"
       },
       "priority": 5,

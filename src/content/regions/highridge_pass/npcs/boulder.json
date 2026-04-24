@@ -18,7 +18,7 @@
     {
       "id": "boulder_mountain",
       "when": {
-        "flag_absent": "quest_shrine_stones_complete"
+        "flag_absent": "quest_quest_shrine_stones_done"
       },
       "priority": 0,
       "beats": [
@@ -48,7 +48,7 @@
     {
       "id": "boulder_post_quest",
       "when": {
-        "flag_present": "quest_shrine_stones_complete",
+        "flag_present": "quest_quest_shrine_stones_done",
         "flag_absent": "game_cleared"
       },
       "priority": 5,
