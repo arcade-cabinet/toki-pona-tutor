@@ -1,0 +1,83 @@
+{
+  "id": "frost",
+  "display_name": "Frost",
+  "home_region": "frostvale",
+  "role": "region_master",
+  "appearances": [
+    { "region": "frostvale", "spawn": [11, 5], "default": true }
+  ],
+  "dialog_states": [
+    {
+      "id": "frost_intro",
+      "when": { "flag_absent": "badge_lete" },
+      "priority": 10,
+      "beats": [
+        {
+          "text": { "en": "Frostvale tests patience first." },
+          "mood": "excited",
+          "glyph": "wild-signs"
+        },
+        {
+          "text": { "en": "Have some soup. Read Marin's letter while it warms." },
+          "mood": "thinking"
+        },
+        {
+          "text": { "en": "That's a dragon path she's describing. They don't walk these in peace." },
+          "mood": "sad",
+          "glyph": "wild-signs"
+        },
+        {
+          "text": { "en": "Show me your warmest heart." },
+          "mood": "excited",
+          "glyph": "battle-ready"
+        }
+      ]
+    },
+    {
+      "id": "frost_victory",
+      "when": { "flag_present": "badge_lete", "flag_absent": "badge_suli" },
+      "priority": 5,
+      "beats": [
+        {
+          "text": { "en": "You kept moving through the cold." },
+          "mood": "sad",
+          "glyph": "companion-bond"
+        },
+        {
+          "text": { "en": "Carry this badge onward. And this lantern — Last Light. Dreadpeak eats flames that aren't named." },
+          "mood": "thinking",
+          "glyph": "last-light"
+        }
+      ]
+    },
+    {
+      "id": "frost_post_fourth_gym",
+      "when": { "flag_present": "badge_suli", "flag_absent": "game_cleared" },
+      "priority": 5,
+      "beats": [
+        {
+          "text": { "en": "Cliff was the last of the four. Now there's only the Rivergate left." },
+          "mood": "thinking",
+          "glyph": "wild-signs"
+        },
+        {
+          "text": { "en": "Walk it with Last Light high. Don't put it out until you're home." },
+          "mood": "sad",
+          "glyph": "last-light"
+        }
+      ]
+    },
+    {
+      "id": "frost_post_clear",
+      "when": { "flag_present": "game_cleared" },
+      "priority": 3,
+      "beats": [
+        {
+          "text": { "en": "The soup's still warm, Rivers. Sit. Tell me what the dragon said." },
+          "mood": "happy",
+          "glyph": "companion-bond"
+        }
+      ]
+    }
+  ]
+}

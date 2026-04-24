@@ -1,0 +1,46 @@
+{
+  "id": "ember",
+  "display_name": "Ember",
+  "home_region": "dreadpeak_cavern",
+  "role": "torch_keeper",
+  "appearances": [
+    { "region": "frostvale", "spawn": [14, 8], "default": true },
+    { "region": "dreadpeak_cavern", "spawn": [8, 14], "requires_flag": "badge_lete" }
+  ],
+  "dialog_states": [
+    {
+      "id": "ember_frostvale",
+      "when": { "flag_absent": "badge_lete" },
+      "priority": 0,
+      "beats": [
+        {
+          "text": { "en": "I'm through Frostvale on my way home. Dreadpeak's colder than this." },
+          "mood": "thinking",
+          "glyph": "cave-shadow"
+        },
+        {
+          "text": { "en": "Bring a light. A real one, with a named flame." },
+          "mood": "sad",
+          "glyph": "last-light"
+        }
+      ]
+    },
+    {
+      "id": "ember_dreadpeak_intro",
+      "when": { "flag_present": "badge_lete", "flag_absent": "badge_suli" },
+      "priority": 5,
+      "beats": [
+        {
+          "text": { "en": "Told you it was colder. Give me your lantern — I'll relight it free." },
+          "mood": "happy",
+          "glyph": "last-light"
+        },
+        {
+          "text": { "en": "Walk the torch path first. Then come find me if you want to map the shadows." },
+          "mood": "thinking",
+          "glyph": "cave-shadow"
+        }
+      ]
+    }
+  ]
+}
