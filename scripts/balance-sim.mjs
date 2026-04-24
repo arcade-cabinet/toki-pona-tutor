@@ -54,6 +54,7 @@ function levelFromXp(xp) {
     for (let n = progression.level_curve.max_level; n >= 1; n--) if (xp >= xpForLevel(n)) return n;
     return 1;
 }
+globalThis.levelFromXp = levelFromXp;
 
 // ---------- simulators ----------
 function simulateSingleEncounter({ attackerLevel, attackerAttack = 52, target, pokiPower = 1, strategy = "fight-to-10pct-then-catch", rng = Math.random }) {
@@ -132,15 +133,31 @@ for (const scn of scenarios) {
     }
 }
 
-console.log("\nXP ECONOMY:");
+// T8b: scaledEncounterXp matches src/modules/main/encounter.ts
+function scaledXp(baseYield, enemyLevel) {
+    return Math.max(1, Math.floor(baseYield * Math.max(1, enemyLevel / 5)));
+}
+
+console.log("\nXP ECONOMY (level-scaled per scaledEncounterXp in encounter.ts):");
 const levels = [5, 8, 12, 17, 25];
 for (let i = 0; i < levels.length - 1; i++) {
     const from = levels[i], to = levels[i + 1];
     const xpNeeded = xpForLevel(to) - xpForLevel(from);
-    const avgSpXp = avg(scenarios[i].speciesIds.map(id => species[id]?.xp_yield || 60));
-    const defeatsNeeded = Math.ceil(xpNeeded / avgSpXp);
-    const catchesNeeded = Math.ceil(xpNeeded / (avgSpXp / 2));
-    console.log(`  L${from} → L${to}: need ${xpNeeded} XP = ${defeatsNeeded} defeats OR ${catchesNeeded} catches (avg xp_yield ${avgSpXp.toFixed(0)})`);
+    const enemyLvl = scenarios[i].enemyLevels[Math.floor(scenarios[i].enemyLevels.length / 2)];
+    const avgBaseXp = avg(scenarios[i].speciesIds.map(id => species[id]?.xp_yield || 60));
+    const scaledDefeatXp = scaledXp(avgBaseXp, enemyLvl);
+    const scaledCatchXp = Math.floor(scaledDefeatXp / 2);
+    const defeatsNeeded = Math.ceil(xpNeeded / scaledDefeatXp);
+    const catchesNeeded = Math.ceil(xpNeeded / scaledCatchXp);
+    console.log(`  L${from} → L${to}: need ${xpNeeded} XP, enemy L${enemyLvl} yields ${scaledDefeatXp}/defeat ${scaledCatchXp}/catch → ${defeatsNeeded} defeats OR ${catchesNeeded} catches`);
+}
+
+console.log("\nGYM MASTERS (one per badge, xp_yield in trainers.json):");
+const gymXp = progression.gym_xp_curve;
+let cumulative = xpForLevel(5);
+for (const [badge, xp] of Object.entries(gymXp)) {
+    cumulative += xp;
+    console.log(`  ${badge}: +${xp} XP → cumulative ${cumulative} (L${levelFromXp ? levelFromXp(cumulative) : '?'})`);
 }
 
 console.log("\nSHOP ECONOMY (earn rate vs prices):");

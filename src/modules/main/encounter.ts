@@ -230,6 +230,16 @@ async function runCaptureDialog(
                 await player.showText(
                     formatWildFightResult(result.appliedDamage, result.state, result.multiplier),
                 );
+                // T8b: wild DEFEAT grants full level-scaled xp_yield —
+                // parity with trainers/gyms. Pokémon's core balance:
+                // every defeated opponent pays XP using the same formula.
+                // Only the `xp_yield` base differs by species.
+                if (combat.targetHp <= 0) {
+                    await logEncounter(meta.id, mapId, "defeated");
+                    await grantSpeciesDrop(player, meta);
+                    await grantLeadXp(player, scaledEncounterXp(meta.xp_yield, level));
+                    return;
+                }
                 continue;
             }
 
@@ -313,9 +323,9 @@ async function resolveCatchAttempt(
             biome: mapMetadataFor(mapId)?.biome,
         });
         await grantSpeciesDrop(player, meta);
-        // Wild capture grants the lead party creature half the species'
+        // Wild capture grants the lead party creature half the level-scaled
         // xp_yield (catching is less risky than defeating, so less xp).
-        await grantLeadXp(player, Math.floor(meta.xp_yield / 2));
+        await grantLeadXp(player, Math.floor(scaledEncounterXp(meta.xp_yield, level) / 2));
     } else {
         await renderCatchResult(player, renderBattle, "escaped");
         await playDialog(player, COMBAT_UI_CONFIG.wildBattle.dialogIds.escaped);
@@ -489,4 +499,17 @@ async function grantSpeciesDrop(player: RpgPlayer, meta: Species): Promise<void>
 
 async function grantLeadXp(player: RpgPlayer, amount: number): Promise<void> {
     await awardLeadVictoryXp(player, amount);
+}
+
+/**
+ * Pokémon-style level-scaled XP: the higher the enemy level, the more XP
+ * a defeat/catch yields. Keeps late-game farming viable without inflating
+ * the raw `xp_yield` values in species data.
+ *
+ * Formula: `xp_yield * max(1, enemyLevel/5)` — at L5 yields 1× base,
+ * at L25 yields 5× base. Mirrors Pokémon's `base × level / 7` without
+ * the rounding floor at low levels that would trivialize L3-5 commons.
+ */
+export function scaledEncounterXp(baseYield: number, enemyLevel: number): number {
+    return Math.max(1, Math.floor(baseYield * Math.max(1, enemyLevel / 5)));
 }
