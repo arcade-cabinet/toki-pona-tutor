@@ -75,7 +75,7 @@
     "radix-ui": "^1.4.3",
     "react": "^19.2.5",
     "react-dom": "^19.2.5",
-    "sql.js": "1.11.0",
+    "sql.js": "1.14.1",
     "zod": "^4.3.6"
   },
   "devDependencies": {
@@ -90,25 +90,25 @@
     "@types/sql.js": "^1.4.11",
     "@vitejs/plugin-react": "^6.0.1",
     "@vitejs/plugin-vue": "^6.0.6",
-    "@vitest/coverage-v8": "^4.1.4",
+    "@vitest/coverage-v8": "^4.1.5",
     "canvas": "^3.2.3",
-    "fast-xml-parser": "^5.7.1",
+    "fast-xml-parser": "^5.7.2",
     "happy-dom": "^20.9.0",
     "image-size": "^2.0.2",
     "path-browserify": "^1.0.1",
     "playwright": "^1.59.1",
     "pngjs": "^7.0.0",
-    "prettier": "3.3.3",
+    "prettier": "3.8.3",
     "tsx": "^4.21.0",
     "typescript": "^6.0.3",
-    "vite": "^8.0.9",
-    "vitest": "^4.1.4",
+    "vite": "^8.0.10",
+    "vitest": "^4.1.5",
     "vitest-webgl-canvas-mock": "^1.1.0",
     "yaml": "^2.8.3"
   },
   "pnpm": {
     "overrides": {
-      "sql.js": "1.11.0"
+      "sql.js": "1.14.1"
     },
     "onlyBuiltDependencies": [
       "esbuild",
