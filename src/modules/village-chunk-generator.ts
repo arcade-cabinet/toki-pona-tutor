@@ -157,7 +157,7 @@ function placeBuildings(
 ): Building[] {
     const rng = createRng(
         ((seed >>> 0) ^ (coord.x * 1000003) ^ (coord.y * 999983) ^ 0xb1d1) >>> 0,
-        `village-bldg:${archetype}`,
+        `village-bldg:${coord.x}:${coord.y}:${archetype}`,
     );
     const slots = ARCHETYPE_SLOTS[archetype];
     const buildings: Building[] = [];

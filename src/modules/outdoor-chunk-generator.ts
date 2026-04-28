@@ -144,7 +144,7 @@ function buildCollision(seed: Seed, coord: { x: number; y: number }, type: Chunk
                 continue;
             }
             // Water tiles are impassable
-            if (tile.startsWith("water_deep")) {
+            if (tile.startsWith("water_")) {
                 coll[y]![x] = true;
                 continue;
             }

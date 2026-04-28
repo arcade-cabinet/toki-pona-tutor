@@ -134,11 +134,11 @@ export function generateIndoorChunk(
         }
     }
 
-    // Exit warp: bottom-center door tile
+    // Exit warp: bottom-center, one tile inside the border wall
     const exitX = Math.floor(INDOOR_WIDTH / 2);
-    const exitY = INDOOR_HEIGHT - 1;
+    const exitY = INDOOR_HEIGHT - 2;
     tiles[exitY]![exitX] = "door_exit";
-    coll[exitY]![exitX] = false; // walkable to exit
+    // exitY is interior — already false (walkable) by default
 
     // NPC spawns
     const npcRng = createRng(
