@@ -169,6 +169,7 @@ tests/e2e/__screenshots__/
 .claude/sessions/
 .claude/scheduled_tasks.lock
 .claude/settings.local.json
+.claude/worktrees/
 
 # Agent worktrees — per-agent isolated checkouts at .worktrees/<branch-name>
 .worktrees/
