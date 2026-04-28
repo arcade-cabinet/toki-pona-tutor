@@ -34,6 +34,8 @@ export const KEYS = {
     // T5-12 / accessibility: larger type + reduced motion, independent
     // from OS-level prefers-reduced-motion so players can opt in in-game.
     accessibleMode: "poki-soweli.settings.accessible_mode",
+    // T123: active world seed — set on New Game, read on Resume.
+    worldSeed: "poki-soweli.world.seed",
 } as const;
 
 export type PreferenceKey = (typeof KEYS)[keyof typeof KEYS];
