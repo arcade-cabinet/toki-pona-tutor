@@ -39,7 +39,9 @@ export type Seed = number;
 
 /**
  * Accept any seed input and return a canonical numeric seed. Accepts:
- *   - number: clamped to 32-bit unsigned.
+ *   - number: treated as 32-bit unsigned via `>>> 0`. Note: values outside
+ *     [0, 2^32-1] wrap — e.g. `parseSeed(2**32)` returns the same seed as
+ *     `parseSeed(0)`. Callers should clamp large timestamps before passing.
  *   - string: hashed via cyrb128.
  *   - `undefined` / empty string: generates a fresh seed from
  *     `Date.now()` + a weak entropy source. (Fresh seeds appear
@@ -121,7 +123,7 @@ export function createRng(seed: Seed, key?: string): Rng {
 export function hashCoord(seed: Seed, x: number, y: number, salt = 0): number {
     let h = seed >>> 0;
     h = Math.imul(h ^ ((x | 0) + 0x9e3779b9), 0x85ebca6b) >>> 0;
-    h = Math.imul(h ^ ((y | 0) + 0xc2b2ae35), 0xc2b2ae35) >>> 0;
+    h = Math.imul(h ^ ((y | 0) + 0xc2b2ae35), 0x1b873593) >>> 0;
     h = Math.imul(h ^ ((salt | 0) + 0x27d4eb2f), 0x27d4eb2f) >>> 0;
     h ^= h >>> 16;
     return h >>> 0;
