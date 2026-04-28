@@ -6,7 +6,10 @@
   "description": {
     "en": "A reinforced pod with better odds against stubborn companions."
   },
-  "kind": "poki",
+  "kind": "capture_pod",
+  "tier": 2,
+  "value": 50,
+  "capture": true,
   "power": 1.5,
   "stackable": true,
   "sprite_frame": 81

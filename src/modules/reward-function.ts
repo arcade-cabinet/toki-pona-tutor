@@ -22,7 +22,6 @@ export type RewardSource =
     | "rare_spot";
 
 export type RewardInput = {
-    playerLevel: number;
     partyStrength: number;
     chunkTier: number;
     source: RewardSource;

@@ -153,7 +153,6 @@ describe("dropLevel", () => {
 
 describe("reward", () => {
     const baseInput: RewardInput = {
-        playerLevel: 5,
         partyStrength: 5,
         chunkTier: 1,
         source: "wild_defeat",
@@ -176,8 +175,8 @@ describe("reward", () => {
         let tier0Total = 0;
         let tier5Total = 0;
         for (let i = 0; i < samples; i++) {
-            tier0Total += reward({ playerLevel: 10, partyStrength: 10, chunkTier: 0, source: "wild_defeat", rng: createRng(i) }).gold;
-            tier5Total += reward({ playerLevel: 10, partyStrength: 10, chunkTier: 5, source: "wild_defeat", rng: createRng(i) }).gold;
+            tier0Total += reward({ partyStrength: 10, chunkTier: 0, source: "wild_defeat", rng: createRng(i) }).gold;
+            tier5Total += reward({ partyStrength: 10, chunkTier: 5, source: "wild_defeat", rng: createRng(i) }).gold;
         }
         expect(tier5Total).toBeGreaterThan(tier0Total);
     });
@@ -187,8 +186,8 @@ describe("reward", () => {
         let wildTotal = 0;
         let rareTotal = 0;
         for (let i = 0; i < samples; i++) {
-            wildTotal += reward({ playerLevel: 10, partyStrength: 10, chunkTier: 2, source: "wild_defeat", rng: createRng(i) }).gold;
-            rareTotal += reward({ playerLevel: 10, partyStrength: 10, chunkTier: 2, source: "rare_spot", rng: createRng(i) }).gold;
+            wildTotal += reward({ partyStrength: 10, chunkTier: 2, source: "wild_defeat", rng: createRng(i) }).gold;
+            rareTotal += reward({ partyStrength: 10, chunkTier: 2, source: "rare_spot", rng: createRng(i) }).gold;
         }
         expect(rareTotal).toBeGreaterThan(wildTotal);
     });

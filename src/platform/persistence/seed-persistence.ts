@@ -23,6 +23,8 @@ export async function loadActiveSeed(): Promise<Seed | null> {
     const stored = await preferences.get(KEYS.worldSeed);
     if (stored === null) return null;
     const n = Number(stored);
+    // parseSeed guarantees [0, 2^32-1]; >>> 0 re-truncates as cheap insurance
+    // against a stored value that somehow slipped out of that range.
     return Number.isFinite(n) ? (n >>> 0) : null;
 }
 

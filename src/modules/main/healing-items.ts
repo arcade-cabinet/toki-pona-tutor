@@ -45,7 +45,7 @@ const itemIndex = new Map(world.items.map((item) => [item.id, item]));
 
 export function healingItem(itemId: string): HealingItem | null {
     const item = itemIndex.get(itemId);
-    if (!item || item.kind !== "heal") return null;
+    if (!item || item.kind !== "potion") return null;
     const power = Number(item.power ?? 0);
     const amount = Number.isFinite(power) ? Math.max(0, Math.round(power)) : 0;
     if (amount <= 0) return null;

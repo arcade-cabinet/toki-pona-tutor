@@ -6,7 +6,9 @@
   "description": {
     "en": "Clean spring water that restores a tired companion."
   },
-  "kind": "heal",
+  "kind": "potion",
+  "tier": 2,
+  "value": 30,
   "power": 50,
   "stackable": true,
   "sprite_frame": 65

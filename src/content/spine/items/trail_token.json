@@ -4,9 +4,11 @@
     "en": "Trail Token"
   },
   "description": {
-    "en": "A local token used for small route shops and favors."
+    "en": "A locally traded token, useful at small route stalls."
   },
-  "kind": "flavor",
+  "kind": "material",
+  "tier": 1,
+  "value": 5,
   "stackable": true,
   "sprite_frame": 96
 }

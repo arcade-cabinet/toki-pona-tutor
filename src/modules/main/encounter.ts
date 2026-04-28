@@ -83,6 +83,7 @@ type Species = {
 type Item = {
     id: string;
     kind: string;
+    capture?: boolean;
     power?: number;
 };
 
@@ -452,7 +453,7 @@ export function formatCombatItemResult(result: CombatItemUseResult): string {
 
 async function lookupBestAvailablePoki(): Promise<Item | null> {
     const pokiItems = items
-        .filter((item) => item.kind === "poki")
+        .filter((item) => item.capture === true)
         .sort((a, b) => pokiPower(b) - pokiPower(a));
 
     for (const item of pokiItems) {
