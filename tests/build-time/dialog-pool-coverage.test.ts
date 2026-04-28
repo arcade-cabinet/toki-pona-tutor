@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import type { Role, Context, LevelBand } from "../../src/modules/dialog-pool";
+import type { Role, Context, LevelBand, DialogLine } from "../../src/modules/dialog-pool";
 
 /**
  * T162: Dialog pool role coverage validation.
@@ -26,7 +26,7 @@ async function loadPool() {
         import("../../src/content/dialog_pool/rival").catch(() => ({ rival: [] })),
         import("../../src/content/dialog_pool/child").catch(() => ({ child: [] })),
     ]);
-    return modules.flatMap((m) => Object.values(m).flat());
+    return modules.flatMap((m) => Object.values(m).flat()) as DialogLine[];
 }
 
 const ROLES: Role[] = [
