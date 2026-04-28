@@ -90,7 +90,7 @@ export const CAUSE_AFFINITIES: Record<Role, CauseAffinity> = {
     guard:            { common: ["defeat_threat", "escort"], rare: ["guard_spot"] },
     villager_generic: { common: ["find_pet", "fetch_item", "deliver_message", "settle_dispute", "escort", "survey"], rare: ["recover_heirloom", "defeat_threat", "guard_spot"] },
     child:            { common: ["find_pet", "recover_heirloom"], rare: [] },
-    trainer:          { common: ["defeat_threat"], rare: ["survey"] },
+    trainer:          { common: ["defeat_threat"], rare: [] },
     rival:            { common: [], rare: [] },
     guide:            { common: [], rare: [] },
 };
@@ -112,9 +112,11 @@ const ALL_CAUSES: CauseKind[] = [
 
 function pickCause(seed: number, spawnIndex: number, role: Role): CauseKind {
     const aff = CAUSE_AFFINITIES[role];
-    const pool = aff.common.length > 0 ? aff.common : ALL_CAUSES;
     const h = ((seed >>> 0) ^ (spawnIndex * 2654435761)) >>> 0;
     const rng = createRng(h, `challenge-cause:${role}`);
+    // 15% chance to pull from rare pool when non-empty
+    if (aff.rare.length > 0 && rng.chance(0.15)) return rng.pick(aff.rare);
+    const pool = aff.common.length > 0 ? aff.common : ALL_CAUSES;
     return rng.pick(pool);
 }
 
