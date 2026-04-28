@@ -22,7 +22,7 @@ export const PERSISTENCE_CHANGED_EVENT = "poki:persistence-changed";
 // Increment DB_VERSION when the SCHEMA changes and add a migration step
 // in migrateSchema() below. The current version is tracked in SQLite's
 // PRAGMA user_version so future builds can apply incremental upgrades.
-const DB_VERSION = 6;
+const DB_VERSION = 7;
 
 const sqlite = new SQLiteConnection(CapacitorSQLite);
 let connectionPromise: Promise<DatabaseConnection> | null = null;
@@ -93,6 +93,23 @@ CREATE TABLE IF NOT EXISTS bestiary_entries (
   seen_at    TEXT,
   caught_at  TEXT
 );
+
+CREATE TABLE IF NOT EXISTS chunk_visits (
+  id         TEXT PRIMARY KEY,
+  seed       INTEGER NOT NULL,
+  x          INTEGER NOT NULL,
+  y          INTEGER NOT NULL,
+  visited_at TEXT NOT NULL
+);
+
+CREATE TABLE IF NOT EXISTS chunk_deltas (
+  id         TEXT PRIMARY KEY,
+  seed       INTEGER NOT NULL,
+  x          INTEGER NOT NULL,
+  y          INTEGER NOT NULL,
+  delta_json TEXT NOT NULL,
+  updated_at TEXT NOT NULL
+);
 `;
 
 export async function getDatabase(): Promise<DatabaseConnection> {
@@ -136,6 +153,7 @@ async function initDatabase(): Promise<DatabaseConnection> {
  *            heal and persist individual creature HP.
  *   v4 → v5: adds bestiary_entries for seen/caught state.
  *   v5 → v6: adds sentence_log for the player-visible field log.
+ *   v6 → v7: adds chunk_visits and chunk_deltas for Phase 3 persistence.
  */
 async function migrateSchema(db: DatabaseConnection): Promise<void> {
     const versionResult = await db.query("PRAGMA user_version");
@@ -177,6 +195,26 @@ CREATE TABLE IF NOT EXISTS sentence_log (
   first_seen TEXT NOT NULL,
   sightings  INTEGER NOT NULL DEFAULT 1,
   source     TEXT NOT NULL
+)`);
+    }
+
+    if (oldVersion < 7) {
+        await db.execute(`
+CREATE TABLE IF NOT EXISTS chunk_visits (
+  id         TEXT PRIMARY KEY,
+  seed       INTEGER NOT NULL,
+  x          INTEGER NOT NULL,
+  y          INTEGER NOT NULL,
+  visited_at TEXT NOT NULL
+)`);
+        await db.execute(`
+CREATE TABLE IF NOT EXISTS chunk_deltas (
+  id         TEXT PRIMARY KEY,
+  seed       INTEGER NOT NULL,
+  x          INTEGER NOT NULL,
+  y          INTEGER NOT NULL,
+  delta_json TEXT NOT NULL,
+  updated_at TEXT NOT NULL
 )`);
     }
 
