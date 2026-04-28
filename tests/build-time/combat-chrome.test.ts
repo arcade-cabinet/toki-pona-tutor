@@ -171,18 +171,6 @@ describe("combat chrome component wiring props", () => {
         expect(combatChromePropsForObject(object).isCombatEvent).toBe(false);
     });
 
-    it("accepts configured rival/gym/final event ids as combat targets on the client", () => {
-        const object = {
-            id: "jan-ike",
-            _type: "event",
-            hpSignal: () => 44,
-            hitbox: () => ({ w: 40, h: 32 }),
-            _param: () => ({ maxHp: 60 }),
-        } as CombatSpriteObject;
-
-        expect(combatChromePropsForObject(object).isCombatEvent).toBe(true);
-    });
-
     it("keeps non-event sprites hidden from combat chrome while preserving stable dependencies", () => {
         const object = {
             _type: "player",

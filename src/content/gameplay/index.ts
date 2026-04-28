@@ -2,12 +2,10 @@ import ambientRaw from "./ambient.json";
 import audioRaw from "./audio.json";
 import combatRaw from "./combat.json";
 import effectsRaw from "./effects.json";
-import eventsRaw from "./events.json";
 import itemDropsRaw from "./item-drops.json";
 import languageRaw from "./language.json";
 import mapsRaw from "./maps.json";
 import progressionRaw from "./progression.json";
-import questsRaw from "./quests.json";
 import shopsRaw from "./shops.json";
 import startersRaw from "./starters.json";
 import trainersRaw from "./trainers.json";
@@ -18,27 +16,23 @@ import {
     audioConfigSchema,
     combatConfigSchema,
     effectsConfigSchema,
-    eventsConfigSchema,
     itemDropsConfigSchema,
     languageConfigSchema,
     mapsConfigSchema,
     parseGameplayConfig,
     progressionConfigSchema,
-    questsConfigSchema,
     shopsConfigSchema,
     startersConfigSchema,
     trainersConfigSchema,
     uiConfigSchema,
     visualsConfigSchema,
     type EffectsConfig,
-    type QuestConfig,
 } from "./schema";
 
 const ambientConfig = parseGameplayConfig("ambient.json", ambientConfigSchema, ambientRaw);
 const audioConfig = parseGameplayConfig("audio.json", audioConfigSchema, audioRaw);
 const combatConfig = parseGameplayConfig("combat.json", combatConfigSchema, combatRaw);
 const effectsConfig = parseGameplayConfig("effects.json", effectsConfigSchema, effectsRaw);
-const eventsConfig = parseGameplayConfig("events.json", eventsConfigSchema, eventsRaw);
 const mapsConfig = parseGameplayConfig("maps.json", mapsConfigSchema, mapsRaw);
 const progressionConfig = parseGameplayConfig(
     "progression.json",
@@ -50,7 +44,6 @@ const trainersConfig = parseGameplayConfig("trainers.json", trainersConfigSchema
 const shopsConfig = parseGameplayConfig("shops.json", shopsConfigSchema, shopsRaw);
 const itemDropsConfig = parseGameplayConfig("item-drops.json", itemDropsConfigSchema, itemDropsRaw);
 const languageConfig = parseGameplayConfig("language.json", languageConfigSchema, languageRaw);
-const questsConfig = parseGameplayConfig("quests.json", questsConfigSchema, questsRaw);
 const uiConfig = parseGameplayConfig("ui.json", uiConfigSchema, uiRaw);
 const visualsConfig = parseGameplayConfig("visuals.json", visualsConfigSchema, visualsRaw);
 
@@ -120,27 +113,6 @@ export type RuntimeShopConfig = {
     stock: RuntimeShopStockItem[];
 };
 
-export type RuntimeQuestGoal =
-    | { kind: "catch_count"; speciesId: string; target: number }
-    | { kind: "catch_any_in_biome"; biome: string; target: number }
-    | { kind: "defeat_trainer"; npcId: string }
-    | { kind: "deliver_item"; itemId: string; toNpcId: string };
-
-export type RuntimeQuest = {
-    id: string;
-    giverNpcId: string;
-    mapId?: string;
-    title?: string;
-    summary?: string;
-    goal: RuntimeQuestGoal;
-    reward: {
-        xp?: number;
-        itemId?: string;
-        itemCount?: number;
-        rewardClue?: string;
-    };
-};
-
 export type RuntimeCombatantSpritesheetConfig = {
     id: string;
     image: string;
@@ -149,94 +121,6 @@ export type RuntimeCombatantSpritesheetConfig = {
     skillRow?: number;
     defenseRow?: number;
     hurtRow?: number;
-};
-
-export type RuntimeEnemyType = "aggressive" | "defensive" | "ranged" | "tank" | "berserker";
-
-export type RuntimeActionBattleConfig = {
-    attackCooldownMs: number;
-    visionRange: number;
-    attackRange: number;
-    fleeThreshold: number;
-};
-
-export type RuntimeTrainerBattlePhaseConfig = {
-    triggerAtHpFraction: number;
-    hp: number;
-    atk: number;
-    pdef: number;
-    enemyType?: RuntimeEnemyType;
-    graphic?: string;
-    transitionDialogId?: string;
-};
-
-export type RuntimeTrainerBattleConfig = {
-    npcId: string;
-    defeatedFlag?: string;
-    badgeFlag?: string;
-    rewardClue?: string;
-    nextBeatId: string;
-    hp: number;
-    atk: number;
-    pdef: number;
-    dialogBase: string;
-    xpYield?: number;
-    enemyType?: RuntimeEnemyType;
-    graphic: string;
-    actionBattle: RuntimeActionBattleConfig;
-    coinRewardKey?: string;
-    faintAnimation?: string;
-    phase2?: RuntimeTrainerBattlePhaseConfig;
-};
-
-export type RuntimeFinalBossConfig = {
-    npcId: string;
-    defeatedFlag: string;
-    clearedFlag: string;
-    requiredBadgeFlags: string[];
-    rewardClue: string;
-    endingBeatId: string;
-    dialogBase: string;
-    graphic: string;
-    hp: number;
-    atk: number;
-    pdef: number;
-    enemyType: RuntimeEnemyType;
-    coinRewardKey: string;
-    actionBattle: RuntimeActionBattleConfig;
-    deathVisual: {
-        graphic: string;
-        animationName: string;
-        durationMs: number;
-        dropPx: number;
-        fadeStart: number;
-    };
-};
-
-export type RuntimeNewGamePlusConfig = {
-    requiredClearedFlag: string;
-    levelReduction: number;
-    startMapId: string;
-    startJourneyBeatId: string;
-    rewardInventory: Record<string, number>;
-    legendaryMultiplierBase: number;
-    legendaryMultiplierPerClear: number;
-    legendaryMultiplierCap: number;
-};
-
-export type RuntimeDaycareConfig = {
-    offspringLevel: number;
-    defaultChildSuffix: string;
-    statJitterFraction: number;
-    statMin: number;
-    statMax: number;
-    parentInheritedMoveLevel: number;
-    childLearnsetMaxLevel: number;
-    typeInheritance: {
-        dominantTypes: ConfiguredTpType[];
-        deferToOtherTypes: ConfiguredTpType[];
-        pairOverrides: Record<string, ConfiguredTpType>;
-    };
 };
 
 export type RuntimeSpriteDirectionName = "down" | "left" | "right" | "up";
@@ -280,51 +164,18 @@ export type RuntimeEffectSpritesheetConfig = {
     animations: Record<string, RuntimeEffectAnimation>;
 };
 
-export type RuntimeMapEventConfig =
-    | {
-          kind: "ambient_npc";
-          id: string;
-          positionOffset?: RuntimePositionOffset;
-          graphic: string;
-          dialogId: string;
-      }
-    | {
-          kind: "quest_npc";
-          id: string;
-          positionOffset?: RuntimePositionOffset;
-          graphic: string;
-          dialogId: string;
-          questId: string;
-      }
-    | { kind: "starter_mentor"; id: string; positionOffset?: RuntimePositionOffset }
-    | { kind: "rival"; id: string; positionOffset?: RuntimePositionOffset; trainerId: string }
-    | { kind: "gym_leader"; id: string; positionOffset?: RuntimePositionOffset; trainerId: string }
-    | { kind: "shop"; id: string; positionOffset?: RuntimePositionOffset; shopId: string }
-    | { kind: "green_dragon"; id: string; positionOffset?: RuntimePositionOffset }
-    | {
-          kind: "warp";
-          id: string;
-          positionOffset?: RuntimePositionOffset;
-          targetPositionOffset?: RuntimePositionOffset;
-          gatedDialogId?: string;
-      }
-    | {
-          kind: "sign";
-          id: string;
-          positionOffset?: RuntimePositionOffset;
-          body: string;
-      };
-
 export type RuntimePositionOffset = { x: number; y: number };
+
+export type RuntimeMapEventConfig =
+    | { kind: "ambient_npc"; id: string; positionOffset?: RuntimePositionOffset; graphic: string; dialogId: string }
+    | { kind: "shop"; id: string; positionOffset?: RuntimePositionOffset; shopId: string }
+    | { kind: "warp"; id: string; positionOffset?: RuntimePositionOffset; targetPositionOffset?: RuntimePositionOffset; gatedDialogId?: string }
+    | { kind: "sign"; id: string; positionOffset?: RuntimePositionOffset; body: string };
+
+export const MAP_EVENT_CONFIGS: Record<string, RuntimeMapEventConfig[]> = {};
 
 export const GAMEPLAY_MAPS: Record<string, RuntimeMapConfig> = mapsConfig.maps;
 export const DEFAULT_RESPAWN = mapsConfig.default_respawn;
-export const MAP_EVENT_CONFIGS: Record<string, RuntimeMapEventConfig[]> = Object.fromEntries(
-    Object.entries(eventsConfig.maps).map(([mapId, events]) => [
-        mapId,
-        events.map(normalizeMapEvent),
-    ]),
-);
 export const MAP_METADATA_CONFIG: Record<string, RuntimeMapMetadata> = Object.fromEntries(
     Object.entries(GAMEPLAY_MAPS).map(([mapId, map]) => [
         mapId,
@@ -332,8 +183,6 @@ export const MAP_METADATA_CONFIG: Record<string, RuntimeMapMetadata> = Object.fr
     ]),
 );
 
-export const BADGE_DEFINITIONS = progressionConfig.badges;
-export const REGION_XP_CURVE = progressionConfig.gym_xp_curve;
 export const LEVEL_CURVE_CONFIG = {
     minLevel: progressionConfig.level_curve.min_level,
     maxLevel: progressionConfig.level_curve.max_level,
@@ -344,102 +193,10 @@ export const GAME_RULES_CONFIG = {
     autosaveSlot: progressionConfig.game_rules.autosave_slot,
     manualSaveSlots: progressionConfig.game_rules.manual_save_slots,
 };
-export const NEW_GAME_PLUS_CONFIG: RuntimeNewGamePlusConfig = {
-    requiredClearedFlag: progressionConfig.new_game_plus.required_cleared_flag,
-    levelReduction: progressionConfig.new_game_plus.level_reduction,
-    startMapId: progressionConfig.new_game_plus.start_map_id,
-    startJourneyBeatId: progressionConfig.new_game_plus.start_journey_beat_id,
-    rewardInventory: Object.fromEntries(
-        progressionConfig.new_game_plus.reward_inventory.map((item) => [item.item_id, item.count]),
-    ),
-    legendaryMultiplierBase: progressionConfig.new_game_plus.legendary_multiplier_base,
-    legendaryMultiplierPerClear: progressionConfig.new_game_plus.legendary_multiplier_per_clear,
-    legendaryMultiplierCap: progressionConfig.new_game_plus.legendary_multiplier_cap,
-};
-export const DAYCARE_CONFIG: RuntimeDaycareConfig = {
-    offspringLevel: progressionConfig.daycare.offspring_level,
-    defaultChildSuffix: progressionConfig.daycare.default_child_suffix,
-    statJitterFraction: progressionConfig.daycare.stat_jitter_fraction,
-    statMin: progressionConfig.daycare.stat_min,
-    statMax: progressionConfig.daycare.stat_max,
-    parentInheritedMoveLevel: progressionConfig.daycare.parent_inherited_move_level,
-    childLearnsetMaxLevel: progressionConfig.daycare.child_learnset_max_level,
-    typeInheritance: {
-        dominantTypes: progressionConfig.daycare.type_inheritance.dominant_types,
-        deferToOtherTypes: progressionConfig.daycare.type_inheritance.defer_to_other_types,
-        pairOverrides: progressionConfig.daycare.type_inheritance.pair_overrides,
-    },
-};
-export const REMATCH_CONFIG = progressionConfig.rematch;
 export const BATTLE_AI_BOOTSTRAP_CONFIG = {
     maxAttempts: trainersConfig.battle_ai_bootstrap.max_attempts,
     retryMs: trainersConfig.battle_ai_bootstrap.retry_ms,
 };
-export const GYM_PHASE_POLL_MS = trainersConfig.gym_phase_poll_ms;
-const defaultActionBattleConfig: RuntimeActionBattleConfig = {
-    attackCooldownMs: trainersConfig.default_action_battle.attack_cooldown_ms,
-    visionRange: trainersConfig.default_action_battle.vision_range,
-    attackRange: trainersConfig.default_action_battle.attack_range,
-    fleeThreshold: trainersConfig.default_action_battle.flee_threshold,
-};
-export const FINAL_BOSS_CONFIG: RuntimeFinalBossConfig = {
-    npcId: trainersConfig.final_boss.npc_id,
-    defeatedFlag: trainersConfig.final_boss.defeated_flag,
-    clearedFlag: trainersConfig.final_boss.cleared_flag,
-    requiredBadgeFlags: trainersConfig.final_boss.required_badge_flags,
-    rewardClue: trainersConfig.final_boss.reward_clue,
-    endingBeatId: trainersConfig.final_boss.ending_beat_id,
-    dialogBase: trainersConfig.final_boss.dialog_base,
-    graphic: trainersConfig.final_boss.graphic,
-    hp: trainersConfig.final_boss.hp,
-    atk: trainersConfig.final_boss.atk,
-    pdef: trainersConfig.final_boss.pdef,
-    enemyType: trainersConfig.final_boss.enemy_type,
-    coinRewardKey: trainersConfig.final_boss.coin_reward_key,
-    actionBattle: normalizeActionBattleConfig(trainersConfig.final_boss.action_battle),
-    deathVisual: {
-        graphic: trainersConfig.final_boss.death_visual.graphic,
-        animationName: trainersConfig.final_boss.death_visual.animation_name,
-        durationMs: trainersConfig.final_boss.death_visual.duration_ms,
-        dropPx: trainersConfig.final_boss.death_visual.drop_px,
-        fadeStart: trainersConfig.final_boss.death_visual.fade_start,
-    },
-};
-export const TRAINER_BATTLE_CONFIGS: Record<string, RuntimeTrainerBattleConfig> =
-    Object.fromEntries(
-        Object.entries(trainersConfig.trainers).map(([trainerId, trainer]) => [
-            trainerId,
-            {
-                npcId: trainer.npc_id,
-                defeatedFlag: trainer.defeated_flag,
-                badgeFlag: trainer.badge_flag,
-                rewardClue: trainer.reward_clue,
-                nextBeatId: trainer.next_beat_id,
-                hp: trainer.hp,
-                atk: trainer.atk,
-                pdef: trainer.pdef,
-                dialogBase: trainer.dialog_base,
-                xpYield: trainer.xp_yield,
-                enemyType: trainer.enemy_type,
-                graphic: trainer.graphic,
-                actionBattle: normalizeActionBattleConfig(trainer.action_battle),
-                coinRewardKey: trainer.coin_reward_key,
-                faintAnimation: trainer.faint_animation,
-                phase2: trainer.phase2
-                    ? {
-                          triggerAtHpFraction: trainer.phase2.trigger_at_hp_fraction,
-                          hp: trainer.phase2.hp,
-                          atk: trainer.phase2.atk,
-                          pdef: trainer.phase2.pdef,
-                          enemyType: trainer.phase2.enemy_type,
-                          graphic: trainer.phase2.graphic,
-                          transitionDialogId: trainer.phase2.transition_dialog_id,
-                      }
-                    : undefined,
-            },
-        ]),
-    );
-
 export const STARTER_LEVEL = startersConfig.starter_level;
 export const STARTER_INITIAL_ITEMS = startersConfig.initial_items.map((item) => ({
     itemId: item.item_id,
@@ -1027,26 +784,6 @@ export const SAVE_MENU_CONFIG = {
     loadErrorTemplate: uiConfig.save_menu.load_error_template,
     loadedPositionSnapDelayMs: uiConfig.save_menu.loaded_position_snap_delay_ms,
 };
-export const QUEST_UI_CONFIG = {
-    offerTemplate: uiConfig.quest.offer_template,
-    progressTemplate: uiConfig.quest.progress_template,
-    journalActiveMark: uiConfig.quest.journal_active_mark,
-    journalCompletedMark: uiConfig.quest.journal_completed_mark,
-    journalLineTemplate: uiConfig.quest.journal_line_template,
-    acceptedTemplate: uiConfig.quest.accepted_template,
-    completedText: uiConfig.quest.completed_text,
-    acceptLabel: uiConfig.quest.accept_label,
-    backLabel: uiConfig.quest.back_label,
-    rewardSuccessTemplate: uiConfig.quest.reward_success_template,
-    rewardNotReadyTemplate: uiConfig.quest.reward_not_ready_template,
-    deliveryTemplate: uiConfig.quest.delivery_template,
-    goalTemplates: uiConfig.quest.goal_templates,
-    rewardTemplates: uiConfig.quest.reward_templates,
-    notificationRewardTemplate: uiConfig.quest.notification_reward_template,
-    notificationProgressTemplate: uiConfig.quest.notification_progress_template,
-    notificationReadyTemplate: uiConfig.quest.notification_ready_template,
-    notificationMs: uiConfig.quest.notification_ms,
-};
 export const DICTIONARY_EXPORT_CONFIG = {
     runtime: {
         action: normalizeLabelMetaCopy(uiConfig.dictionary_export.runtime.action),
@@ -1166,25 +903,6 @@ export const OPENING_SCENE_CONFIG = {
 } as const;
 export const PIXI_GUARDED_FX_ALIASES = visualsConfig.pixi.guarded_fx_aliases;
 
-export const SIDE_QUEST_CONFIGS: RuntimeQuest[] = questsConfig.quests.map(normalizeQuest);
-
-function normalizeQuest(quest: QuestConfig): RuntimeQuest {
-    return {
-        id: quest.id,
-        giverNpcId: quest.giver_npc_id,
-        mapId: quest.map_id,
-        title: quest.title,
-        summary: quest.summary,
-        goal: normalizeQuestGoal(quest.goal),
-        reward: {
-            xp: quest.reward.xp,
-            itemId: quest.reward.item_id,
-            itemCount: quest.reward.item_count,
-            rewardClue: quest.reward.reward_clue,
-        },
-    };
-}
-
 function normalizeLabelMetaCopy(copy: { label: string; meta: string }): {
     label: string;
     meta: string;
@@ -1225,90 +943,6 @@ function normalizeSpritesheetConfig(sheet: {
     };
 }
 
-function normalizeMapEvent(
-    event: (typeof eventsConfig.maps)[string][number],
-): RuntimeMapEventConfig {
-    const base = {
-        id: event.id,
-        positionOffset: normalizePositionOffset(event.position_offset),
-    };
-    switch (event.kind) {
-        case "ambient_npc":
-            return {
-                ...base,
-                kind: event.kind,
-                graphic: event.graphic,
-                dialogId: event.dialog_id,
-            };
-        case "quest_npc":
-            return {
-                ...base,
-                kind: event.kind,
-                graphic: event.graphic,
-                dialogId: event.dialog_id,
-                questId: event.quest_id,
-            };
-        case "starter_mentor":
-        case "green_dragon":
-            return {
-                ...base,
-                kind: event.kind,
-            };
-        case "rival":
-        case "gym_leader":
-            return {
-                ...base,
-                kind: event.kind,
-                trainerId: event.trainer_id,
-            };
-        case "shop":
-            return {
-                ...base,
-                kind: event.kind,
-                shopId: event.shop_id,
-            };
-        case "warp":
-            return {
-                ...base,
-                kind: event.kind,
-                targetPositionOffset: normalizePositionOffset(event.target_position_offset),
-                gatedDialogId: event.gated_dialog_id,
-            };
-        case "sign":
-            return {
-                ...base,
-                kind: event.kind,
-                body: event.body,
-            };
-    }
-}
-
-function normalizePositionOffset(offset?: {
-    x: number;
-    y: number;
-}): RuntimePositionOffset | undefined {
-    return offset ? { x: offset.x, y: offset.y } : undefined;
-}
-
-function normalizeActionBattleConfig(
-    override:
-        | {
-              attack_cooldown_ms?: number;
-              vision_range?: number;
-              attack_range?: number;
-              flee_threshold?: number;
-          }
-        | undefined,
-): RuntimeActionBattleConfig {
-    return {
-        attackCooldownMs:
-            override?.attack_cooldown_ms ?? defaultActionBattleConfig.attackCooldownMs,
-        visionRange: override?.vision_range ?? defaultActionBattleConfig.visionRange,
-        attackRange: override?.attack_range ?? defaultActionBattleConfig.attackRange,
-        fleeThreshold: override?.flee_threshold ?? defaultActionBattleConfig.fleeThreshold,
-    };
-}
-
 export function spriteLayout(layoutId: string): RuntimeSpriteLayoutConfig {
     const layout = SPRITE_LAYOUTS[layoutId];
     if (!layout) throw new Error(`[gameplay-config] missing sprite layout: ${layoutId}`);
@@ -1318,19 +952,6 @@ export function spriteLayout(layoutId: string): RuntimeSpriteLayoutConfig {
 function assertSpriteLayoutId(layoutId: string): string {
     spriteLayout(layoutId);
     return layoutId;
-}
-
-function normalizeQuestGoal(goal: QuestConfig["goal"]): RuntimeQuestGoal {
-    switch (goal.kind) {
-        case "catch_count":
-            return { kind: "catch_count", speciesId: goal.species_id, target: goal.target };
-        case "catch_any_in_biome":
-            return { kind: "catch_any_in_biome", biome: goal.biome, target: goal.target };
-        case "defeat_trainer":
-            return { kind: "defeat_trainer", npcId: goal.npc_id };
-        case "deliver_item":
-            return { kind: "deliver_item", itemId: goal.item_id, toNpcId: goal.to_npc_id };
-    }
 }
 
 function normalizeEffectAnimations(

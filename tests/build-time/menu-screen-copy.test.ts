@@ -17,12 +17,12 @@ describe('secondary pause screen copy', () => {
 
     it('formats vocabulary detail rows through gameplay JSON templates', () => {
         expect(formatVocabularySummary(7, 27)).toBe('7 / 27');
-        expect(formatVocabularyEntry('wild-signs', 4)).toBe('Wild signs  (4x)');
+        expect(formatVocabularyEntry('wild-signs', 4)).toBe('wild signs  (4x)');
         expect(formatVocabularyRowLabel('wild-signs')).toBe(
-            `${glyphForDisplay('wild-signs')} Wild signs`,
+            `${glyphForDisplay('wild-signs')} wild signs`,
         );
         expect(formatVocabularyGlyphCard('wild-signs', 4)).toBe(
-            `${glyphForDisplay('wild-signs')}\nWild signs\nseen: 4x`,
+            `${glyphForDisplay('wild-signs')}\nwild signs\nseen: 4x`,
         );
         expect(formatSentenceLogSummary(2)).toBe('Field log: 2');
     });

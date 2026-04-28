@@ -1,6 +1,5 @@
 import { afterEach, beforeEach, describe, it, expect } from 'vitest';
 import type { RpgPlayer } from '@rpgjs/server';
-import { FINAL_BOSS_CONFIG } from '../../src/content/gameplay';
 import {
     DICTIONARY_EXPORT_EVENT,
     buildDictionaryExportSnapshot,
@@ -13,7 +12,6 @@ import {
 } from '../../src/modules/main/dictionary-export';
 import {
     recordClue,
-    setFlag,
 } from '../../src/platform/persistence/queries';
 import { resetPersistedRuntimeState } from '../../src/platform/persistence/runtime-state';
 
@@ -56,8 +54,8 @@ describe('exportTextCard', () => {
 
     it('sorts top clues by sightings desc', () => {
         const out = exportTextCard(snap());
-        const wildIdx = out.indexOf('Wild signs');
-        const fireIdx = out.indexOf('Fire type');
+        const wildIdx = out.indexOf('wild signs');
+        const fireIdx = out.indexOf('fire type');
         expect(wildIdx).toBeLessThan(fireIdx);
     });
 
@@ -145,13 +143,12 @@ describe('clue export runtime wiring', () => {
         await resetPersistedRuntimeState({ includeSaves: true });
     });
 
-    it('builds a snapshot from persisted clues and clear flag', async () => {
+    it('builds a snapshot from persisted clues', async () => {
         await recordClue('wild-signs');
         await recordClue('wild-signs');
         await recordClue('wild-signs');
         await recordClue('capture-pods');
         await recordClue('capture-pods');
-        await setFlag(FINAL_BOSS_CONFIG.clearedFlag, '1');
 
         const snapshot = await buildDictionaryExportSnapshot({
             playerName: 'Sam',
@@ -159,7 +156,7 @@ describe('clue export runtime wiring', () => {
         });
 
         expect(snapshot.playerName).toBe('Sam');
-        expect(snapshot.journeyCleared).toBe(true);
+        expect(snapshot.journeyCleared).toBe(false);
         expect(snapshot.words.map((entry) => entry.id)).toEqual(['wild-signs']);
         expect(snapshot.words[0]?.sightings).toBe(3);
     });
@@ -184,7 +181,7 @@ describe('clue export runtime wiring', () => {
         expect(emitted[0]?.event).toBe(DICTIONARY_EXPORT_EVENT);
         expect(isDictionaryExportPayload(emitted[0]?.payload)).toBe(true);
         expect(payload.filename).toBe('rivers-reckoning-clues.svg');
-        expect(payload.textCard).toContain('Wild signs');
+        expect(payload.textCard).toContain('wild signs');
         expect(payload.svgCard).toContain('<svg');
         expect(shown[0]).toContain('Clue Journal');
     });

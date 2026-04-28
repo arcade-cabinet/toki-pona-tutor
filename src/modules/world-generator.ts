@@ -139,7 +139,7 @@ const TWO_PI = Math.PI * 2;
 
 function biomeAngles(seed: Seed): Record<BiomeArchetype, number> {
     // Each biome gets an angle derived from seed, spread ~60° apart
-    const base = (deriveSeed(seed, "compass-base") / 0xffffffff) * TWO_PI;
+    const base = (deriveSeed(seed, "compass-base") / 0x100000000) * TWO_PI;
     const step = TWO_PI / BIOMES.length;
     const order = createRng(deriveSeed(seed, "compass-order")).shuffle(BIOMES.slice());
     const result = {} as Record<BiomeArchetype, number>;
@@ -176,13 +176,13 @@ function baseBiome(seed: Seed, x: number, y: number): BiomeArchetype {
         const distFactor = Math.min(1, len / 3);
         const weight = 1 + dot * distFactor;
         // Stir in coord hash for local variation
-        const localHash = hashCoord(seed, x, y, BIOMES.indexOf(biome)) / 0xffffffff;
+        const localHash = hashCoord(seed, x, y, BIOMES.indexOf(biome)) / 0x100000000;
         return weight * 0.7 + localHash * 0.3;
     });
 
     // Weighted pick
     const total = weights.reduce((s, w) => s + w, 0);
-    const threshold = (hashCoord(seed, x, y, 0xff) / 0xffffffff) * total;
+    const threshold = (hashCoord(seed, x, y, 0xff) / 0x100000000) * total;
     let acc = 0;
     for (let i = 0; i < BIOMES.length; i++) {
         acc += weights[i]!;
