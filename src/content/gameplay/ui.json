@@ -66,7 +66,9 @@
       "bestiary_row_meta_total_template": "{total} known species",
       "objective_row_label_pre_starter": "Next: Speak with Selby",
       "objective_row_label_post_starter": "Next: Explore beyond the village",
-      "objective_row_meta": "your current goal"
+      "objective_row_meta": "your current goal",
+      "seed_row_label_template": "Seed {seed}",
+      "seed_row_meta": "share to replay this world"
     },
     "party": {
       "title_template": "Party {count} / {max}",

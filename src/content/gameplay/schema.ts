@@ -658,6 +658,8 @@ export const uiConfigSchema = z.object({
             objective_row_label_pre_starter: idSchema,
             objective_row_label_post_starter: idSchema,
             objective_row_meta: idSchema,
+            seed_row_label_template: idSchema,
+            seed_row_meta: idSchema,
         }),
         party: z.object({
             title_template: idSchema,

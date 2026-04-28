@@ -377,6 +377,11 @@ describe('gameplay JSON config', () => {
         expect(CREDITS_PAGES[0]).toContain('Rivers Reckoning');
     });
 
+    it('T154: glance screen has a seed row template', () => {
+        // Seed display — players share the seed string to replay worlds.
+        expect(PAUSE_MENU_CONFIG.glance.seedRowLabelTemplate).toMatch(/\{seed\}/);
+    });
+
     it('keeps visual config usable by runtime render adapters', () => {
         expect(COMBAT_CHROME_CONFIG.hpBar.hpLabelTemplate).toBe('HP {current} / {max}');
         expect(COMBAT_CHROME_CONFIG.hpBar.damageLabelTemplate).toBe('-{damage}');

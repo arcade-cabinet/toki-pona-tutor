@@ -505,6 +505,8 @@ export const PAUSE_MENU_CONFIG = {
         objectiveRowLabelPreStarter: uiConfig.pause.glance.objective_row_label_pre_starter,
         objectiveRowLabelPostStarter: uiConfig.pause.glance.objective_row_label_post_starter,
         objectiveRowMeta: uiConfig.pause.glance.objective_row_meta,
+        seedRowLabelTemplate: uiConfig.pause.glance.seed_row_label_template,
+        seedRowMeta: uiConfig.pause.glance.seed_row_meta,
     },
     party: {
         titleTemplate: uiConfig.pause.party.title_template,

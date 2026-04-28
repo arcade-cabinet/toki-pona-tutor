@@ -1,5 +1,7 @@
 import type { RpgPlayer } from "@rpgjs/server";
 import { AUTOSAVE_SLOT } from "../../platform/persistence/constants";
+import { loadActiveSeed } from "../../platform/persistence/seed-persistence";
+import { seedDisplay } from "../seed";
 import { showInventory } from "./inventory-screen";
 import {
     consumeInventoryItem,
@@ -267,11 +269,12 @@ async function buildRouteContent(
  */
 async function buildGlanceContent(): Promise<{ title: string; rows: PauseEntry[] }> {
     const copy = PAUSE_MENU_CONFIG.glance;
-    const [party, mastered, bestiary, starterFlag] = await Promise.all([
+    const [party, mastered, bestiary, starterFlag, activeSeed] = await Promise.all([
         getPartyWithHealth(),
         listMasteredWords(VOCABULARY_SCREEN_CONFIG.masteryThreshold),
         getBestiaryState(),
         getFlag("starter_chosen"),
+        loadActiveSeed(),
     ]);
     const partyMax = GAME_RULES_CONFIG.partySizeMax;
     const lead = party[0];
@@ -335,6 +338,15 @@ async function buildGlanceContent(): Promise<{ title: string; rows: PauseEntry[]
                 : copy.objectiveRowLabelPreStarter,
             meta: copy.objectiveRowMeta,
             testId: "glance-objective",
+            disabled: true,
+        },
+        {
+            id: "glance-seed",
+            label: activeSeed !== null
+                ? formatGameplayTemplate(copy.seedRowLabelTemplate, { seed: seedDisplay(activeSeed) })
+                : copy.seedRowLabelTemplate.replace("{seed}", "—"),
+            meta: copy.seedRowMeta,
+            testId: "glance-seed",
             disabled: true,
         },
     ];
