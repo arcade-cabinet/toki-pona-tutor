@@ -61,6 +61,14 @@ jobs:
       - name: Unit suite + coverage gate (pure-logic only)
         run: pnpm test:coverage
 
+      - name: Maestro flow syntax check
+        run: |
+          curl -fsSL "https://github.com/mobile-dev-inc/maestro/releases/download/cli-2.4.0/maestro.zip" -o /tmp/maestro.zip
+          echo "aea22ce67ab6718997ec990c58652ede0c2be8f10ac4799039ca3dce3390d634  /tmp/maestro.zip" | sha256sum -c -
+          unzip -q /tmp/maestro.zip -d "$HOME/.maestro"
+          export PATH="$HOME/.maestro/maestro/bin:$PATH"
+          pnpm maestro:check
+
       - name: Upload coverage report
         uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
         with:
