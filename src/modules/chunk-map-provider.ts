@@ -198,25 +198,25 @@ function edgeWarpObjects(coord: ChunkCoord, w: number, h: number): TmjObject[] {
         {
             dir: "north",
             x: 0, y: 0, width: pw, height: thickness,
-            targetX: Math.floor(pw / 2), targetY: ph - TILE_SIZE * 2,
+            targetX: Math.floor(w / 2), targetY: h - 2,
             targetDx: 0, targetDy: -1,
         },
         {
             dir: "south",
             x: 0, y: ph - thickness, width: pw, height: thickness,
-            targetX: Math.floor(pw / 2), targetY: TILE_SIZE * 2,
+            targetX: Math.floor(w / 2), targetY: 2,
             targetDx: 0, targetDy: 1,
         },
         {
             dir: "west",
             x: 0, y: 0, width: thickness, height: ph,
-            targetX: pw - TILE_SIZE * 2, targetY: Math.floor(ph / 2),
+            targetX: w - 2, targetY: Math.floor(h / 2),
             targetDx: -1, targetDy: 0,
         },
         {
             dir: "east",
             x: pw - thickness, y: 0, width: thickness, height: ph,
-            targetX: TILE_SIZE * 2, targetY: Math.floor(ph / 2),
+            targetX: 2, targetY: Math.floor(h / 2),
             targetDx: 1, targetDy: 0,
         },
     ];

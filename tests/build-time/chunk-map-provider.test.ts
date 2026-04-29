@@ -121,6 +121,22 @@ describe("buildChunkParsedMap", () => {
         expect(targetProp?.value).toBe("chunk_0_-1");
     });
 
+    it("warp landing coords (targetX/targetY) are tile-unit integers within the target chunk grid", () => {
+        const map = buildChunkParsedMap(seed, { x: 0, y: 0 }) as TmjParsedMap;
+        const objLayer = map.layers.find((l: TmjLayer) => l.type === "objectgroup")!;
+        const warps = objLayer.objects.filter((o: TmjObject) => o.type === "edge_warp");
+        for (const warp of warps) {
+            const tx = warp.properties?.find((p: { name: string }) => p.name === "targetX")?.value as number;
+            const ty = warp.properties?.find((p: { name: string }) => p.name === "targetY")?.value as number;
+            expect(Number.isInteger(tx)).toBe(true);
+            expect(Number.isInteger(ty)).toBe(true);
+            expect(tx).toBeGreaterThanOrEqual(0);
+            expect(tx).toBeLessThanOrEqual(CHUNK_WIDTH);
+            expect(ty).toBeGreaterThanOrEqual(0);
+            expect(ty).toBeLessThanOrEqual(CHUNK_HEIGHT);
+        }
+    });
+
     it("produces deterministic output for the same seed+coord", () => {
         const a = buildChunkParsedMap(seed, { x: 3, y: -2 });
         const b = buildChunkParsedMap(seed, { x: 3, y: -2 });
