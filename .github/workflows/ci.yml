@@ -64,6 +64,7 @@ jobs:
       - name: Maestro flow syntax check
         run: |
           curl -fsSL "https://github.com/mobile-dev-inc/maestro/releases/download/cli-2.4.0/maestro.zip" -o /tmp/maestro.zip
+          echo "aea22ce67ab6718997ec990c58652ede0c2be8f10ac4799039ca3dce3390d634  /tmp/maestro.zip" | sha256sum -c -
           unzip -q /tmp/maestro.zip -d "$HOME/.maestro"
           export PATH="$HOME/.maestro/maestro/bin:$PATH"
           pnpm maestro:check
