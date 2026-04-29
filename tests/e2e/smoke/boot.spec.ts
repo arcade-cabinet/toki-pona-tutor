@@ -155,6 +155,9 @@ test("boots on the starter map and shows the title menu with brand chrome applie
     const KNOWN_CI_WASM_ERRORS = [
         /WebAssembly\.instantiate\(\): Import #\d+ .* function import requires a callable/,
         /Aborted\(LinkError:/,
+        // Emscripten log line when streaming compile fails and falls back to ArrayBuffer
+        /falling back to ArrayBuffer instantiation/,
+        /wasm streaming compile failed/,
     ];
     const fatalPageErrors = pageErrors.filter(
         (msg) => !KNOWN_CI_WASM_ERRORS.some((re) => re.test(msg)),
