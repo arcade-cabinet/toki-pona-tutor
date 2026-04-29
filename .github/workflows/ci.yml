@@ -159,9 +159,6 @@ jobs:
       - name: Install Playwright Chromium + OS deps
         run: pnpm exec playwright install --with-deps --no-shell chromium
 
-      - name: Compile spine
-        run: pnpm build-spine
-
       # xvfb-run gives the headed Chromium launch a virtual display so
       # Pixi/CanvasEngine renders with real WebGL in CI.
       # Smoke only — full feature-level E2E runs locally or on a
