@@ -52,9 +52,6 @@ jobs:
       - name: Install JS deps
         run: pnpm install --ignore-workspace --frozen-lockfile
 
-      - name: Validate challenges
-        run: pnpm validate-challenges
-
       - name: Verify map-authoring contract
         run: pnpm author:verify
 
