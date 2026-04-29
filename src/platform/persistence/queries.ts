@@ -363,6 +363,27 @@ export async function logEncounter(
     await saveWebStore();
 }
 
+export type RecentEncounter = {
+    speciesId: string;
+    mapId: string;
+    outcome: string;
+    loggedAt: string;
+};
+
+export async function listRecentEncounters(limit = 5): Promise<RecentEncounter[]> {
+    const db = await getDatabase();
+    const result = await db.query(
+        `SELECT species_id, map_id, outcome, logged_at FROM encounter_log ORDER BY id DESC LIMIT ?`,
+        [limit],
+    );
+    return (result.values ?? []).map((row) => ({
+        speciesId: String(row.species_id),
+        mapId: String(row.map_id),
+        outcome: String(row.outcome),
+        loggedAt: String(row.logged_at),
+    }));
+}
+
 export async function getBestiaryState(): Promise<BestiaryState> {
     const db = await getDatabase();
     const result = await db.query(

@@ -50,29 +50,27 @@ const world = assertContentWorld(worldRaw);
 
 export function buildBestiaryPanel(state: BestiaryState): BestiaryPanel {
     const caught = Object.values(state).filter((r) => r.caughtAt).length;
+    const rows: BestiaryPanelEntry[] = [];
+    for (const species of world.species) {
+        const tier = bestiaryTier(state, species.id);
+        if (tier === "unknown") continue;
+        const label = speciesLabel(species.id);
+        const description = bestiaryDescription(tier, species);
+        const readText = bestiaryReadText(tier, label, description);
+        const entry: BestiaryPanelEntry = {
+            speciesId: species.id,
+            tier,
+            label,
+            meta: bestiaryMeta(tier, species.type),
+            testId: `bestiary-entry-${species.id}`,
+        };
+        if (description) entry.description = description;
+        if (readText) entry.readText = readText;
+        rows.push(entry);
+    }
     return {
         title: formatGameplayTemplate(BESTIARY_PANEL_CONFIG.titleTemplate, { caught }),
-        rows: world.species.map((species, index) => {
-            const tier = bestiaryTier(state, species.id);
-            const label =
-                tier === "unknown"
-                    ? formatGameplayTemplate(BESTIARY_PANEL_CONFIG.unknownLabelTemplate, {
-                          index: index + 1,
-                      })
-                    : speciesLabel(species.id);
-            const description = bestiaryDescription(tier, species);
-            const readText = bestiaryReadText(tier, label, description);
-            const entry: BestiaryPanelEntry = {
-                speciesId: species.id,
-                tier,
-                label,
-                meta: bestiaryMeta(tier, species.type),
-                testId: `bestiary-entry-${species.id}`,
-            };
-            if (description) entry.description = description;
-            if (readText) entry.readText = readText;
-            return entry;
-        }),
+        rows,
     };
 }
 
