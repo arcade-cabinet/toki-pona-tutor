@@ -179,7 +179,14 @@ function buildTileLayer(seed: Seed, coord: ChunkCoord, w: number, h: number): nu
 
 type Direction = "north" | "south" | "east" | "west";
 
-function edgeWarpObjects(coord: ChunkCoord, w: number, h: number): TmjObject[] {
+function chunkDims(seed: Seed, cx: number, cy: number): { tw: number; th: number } {
+    const kind = chunkType(seed, cx, cy).kind;
+    return kind === "indoor"
+        ? { tw: 16, th: 12 }
+        : { tw: CHUNK_WIDTH, th: CHUNK_HEIGHT };
+}
+
+function edgeWarpObjects(seed: Seed, coord: ChunkCoord, w: number, h: number): TmjObject[] {
     const pw = w * TILE_SIZE;
     const ph = h * TILE_SIZE;
     const thickness = TILE_SIZE; // 1 tile thick trigger zone
@@ -190,41 +197,43 @@ function edgeWarpObjects(coord: ChunkCoord, w: number, h: number): TmjObject[] {
         y: number;
         width: number;
         height: number;
-        targetX: number;
-        targetY: number;
         targetDx: number;
         targetDy: number;
+        // Landing position within target chunk — computed per direction using target dims.
+        landingFn: (tw: number, th: number) => { targetX: number; targetY: number };
     }> = [
         {
             dir: "north",
             x: 0, y: 0, width: pw, height: thickness,
-            targetX: Math.floor(w / 2), targetY: h - 2,
             targetDx: 0, targetDy: -1,
+            landingFn: (tw, th) => ({ targetX: Math.floor(tw / 2), targetY: th - 2 }),
         },
         {
             dir: "south",
             x: 0, y: ph - thickness, width: pw, height: thickness,
-            targetX: Math.floor(w / 2), targetY: 2,
             targetDx: 0, targetDy: 1,
+            landingFn: (tw) => ({ targetX: Math.floor(tw / 2), targetY: 2 }),
         },
         {
             dir: "west",
             x: 0, y: 0, width: thickness, height: ph,
-            targetX: w - 2, targetY: Math.floor(h / 2),
             targetDx: -1, targetDy: 0,
+            landingFn: (tw, th) => ({ targetX: tw - 2, targetY: Math.floor(th / 2) }),
         },
         {
             dir: "east",
             x: pw - thickness, y: 0, width: thickness, height: ph,
-            targetX: 2, targetY: Math.floor(h / 2),
             targetDx: 1, targetDy: 0,
+            landingFn: (_tw, th) => ({ targetX: 2, targetY: Math.floor(th / 2) }),
         },
     ];
 
     return directions.map((d, i) => {
-        const targetX = coord.x + d.targetDx;
-        const targetY = coord.y + d.targetDy;
-        const targetMap = chunkMapId(targetX, targetY);
+        const tcx = coord.x + d.targetDx;
+        const tcy = coord.y + d.targetDy;
+        const targetMap = chunkMapId(tcx, tcy);
+        const { tw, th } = chunkDims(seed, tcx, tcy);
+        const { targetX, targetY } = d.landingFn(tw, th);
         return {
             id: i + 1,
             name: `edge_warp_${d.dir}`,
@@ -237,8 +246,8 @@ function edgeWarpObjects(coord: ChunkCoord, w: number, h: number): TmjObject[] {
             properties: [
                 { name: "direction", type: "string" as const, value: d.dir },
                 { name: "targetMap", type: "string" as const, value: targetMap },
-                { name: "targetX", type: "int" as const, value: d.targetX },
-                { name: "targetY", type: "int" as const, value: d.targetY },
+                { name: "targetX", type: "int" as const, value: targetX },
+                { name: "targetY", type: "int" as const, value: targetY },
             ],
         };
     });
@@ -272,7 +281,7 @@ export function buildChunkParsedMap(seed: Seed, coord: ChunkCoord): TmjParsedMap
             : GRASSLAND_TILESET;
 
     const tileData = buildTileLayer(seed, coord, w, h);
-    const warpObjects = edgeWarpObjects(coord, w, h);
+    const warpObjects = edgeWarpObjects(seed, coord, w, h);
 
     const map: TmjParsedMap = {
         type: "map",
