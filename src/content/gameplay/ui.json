@@ -26,7 +26,19 @@
       { "id": "new", "label": "New Game" },
       { "id": "settings", "label": "Settings" },
       { "id": "quit", "label": "Quit" }
-    ]
+    ],
+    "seed_picker": {
+      "prompt": "Choose a world seed",
+      "random_label": "Random world",
+      "famous_seed_template": "{label} (#{seed})",
+      "famous_seeds": [
+        { "label": "Riverflow",  "input": "riverflow"  },
+        { "label": "Stormwatch", "input": "stormwatch" },
+        { "label": "Duskwood",   "input": "duskwood"   },
+        { "label": "Emberpeak",  "input": "emberpeak"  },
+        { "label": "Tidecrest",  "input": "tidecrest"  }
+      ]
+    }
   },
   "starter_ceremony": {
     "already_chosen_dialog_id": "selby_after_pick",

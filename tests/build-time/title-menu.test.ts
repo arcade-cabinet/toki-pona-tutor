@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest';
-import { buildTitleMenuEntries } from '../../src/modules/main/title-menu';
+import { buildTitleMenuEntries, FAMOUS_SEEDS } from '../../src/modules/main/title-menu';
 
 describe('title menu model', () => {
     it('shows new game, settings, and quit with no save present', () => {
@@ -17,5 +17,21 @@ describe('title menu model', () => {
             { id: 'settings', label: 'Settings' },
             { id: 'quit', label: 'Quit' },
         ]);
+    });
+});
+
+describe('T156: famous seeds (seed picker presets)', () => {
+    it('exports at least 3 named seeds for the demo picker', () => {
+        expect(FAMOUS_SEEDS.length).toBeGreaterThanOrEqual(3);
+    });
+
+    it('each famous seed has a label and a valid 32-bit seed value', () => {
+        for (const entry of FAMOUS_SEEDS) {
+            expect(typeof entry.label).toBe('string');
+            expect(entry.label.length).toBeGreaterThan(0);
+            expect(Number.isInteger(entry.seed)).toBe(true);
+            expect(entry.seed).toBeGreaterThanOrEqual(0);
+            expect(entry.seed).toBeLessThan(2 ** 32);
+        }
     });
 });

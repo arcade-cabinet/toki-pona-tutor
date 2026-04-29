@@ -613,6 +613,12 @@ export const uiConfigSchema = z.object({
                 }),
             )
             .min(1),
+        seed_picker: z.object({
+            prompt: idSchema,
+            random_label: idSchema,
+            famous_seed_template: idSchema,
+            famous_seeds: z.array(z.object({ label: idSchema, input: idSchema })).min(1),
+        }),
     }),
     starter_ceremony: z.object({
         already_chosen_dialog_id: idSchema,

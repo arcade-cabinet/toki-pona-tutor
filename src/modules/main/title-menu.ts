@@ -8,6 +8,12 @@ import { markSafeMapIfVillage } from "./respawn";
 import { runOpeningScene } from "./opening-scene";
 import { getSaveSlotTimestamp, listSaveSlots } from "./save-slots";
 import { showSettings } from "./settings-screen";
+import { parseSeed, seedDisplay, type Seed } from "../seed";
+import { newGameSeed } from "../../platform/persistence/seed-persistence";
+
+export type FamousSeed = { label: string; seed: Seed };
+
+export const FAMOUS_SEEDS: FamousSeed[] = TITLE_MENU_CONFIG.seedPicker.famousSeeds;
 
 type FilledSlot = {
     index: number;
@@ -56,9 +62,11 @@ export async function showTitleMenu(player: RpgPlayer): Promise<TitleMenuAction>
                 break;
             case "new":
                 if (filled.length === 0) {
+                    await pickAndPersistSeed(player);
                     return { kind: "new", wipeExistingSaves: false };
                 }
                 if (await confirmWipeExistingSaves(player)) {
+                    await pickAndPersistSeed(player);
                     return { kind: "new", wipeExistingSaves: true };
                 }
                 break;
@@ -109,6 +117,33 @@ export function buildTitleMenuEntries(filled: readonly FilledSlot[]): TitleMenuE
             : []),
         ...TITLE_MENU_CONFIG.entries,
     ];
+}
+
+/**
+ * T156: seed picker — shown after "New Game" is chosen.
+ * Player picks: random seed, one of the famous seeds, or enters a custom string.
+ * Returns the chosen Seed so startFreshGame can persist it via newGameSeed().
+ */
+export async function showSeedPicker(player: RpgPlayer): Promise<Seed> {
+    const RANDOM_VALUE = "__random__";
+    const choices = [
+        { text: TITLE_MENU_CONFIG.seedPicker.randomLabel, value: RANDOM_VALUE },
+        ...FAMOUS_SEEDS.map((fs) => ({
+            text: formatGameplayTemplate(TITLE_MENU_CONFIG.seedPicker.famousSeedTemplate, {
+                label: fs.label,
+                seed: seedDisplay(fs.seed),
+            }),
+            value: String(fs.seed),
+        })),
+    ];
+    const choice = await player.showChoices(TITLE_MENU_CONFIG.seedPicker.prompt, choices);
+    const value = choice?.value ?? RANDOM_VALUE;
+    return parseSeed(value === RANDOM_VALUE ? undefined : value);
+}
+
+async function pickAndPersistSeed(player: RpgPlayer): Promise<void> {
+    const seed = await showSeedPicker(player);
+    await newGameSeed(seed);
 }
 
 async function requestQuitIntent(player: RpgPlayer): Promise<void> {

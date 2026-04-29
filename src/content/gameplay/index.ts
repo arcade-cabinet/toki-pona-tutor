@@ -11,6 +11,7 @@ import startersRaw from "./starters.json";
 import trainersRaw from "./trainers.json";
 import uiRaw from "./ui.json";
 import visualsRaw from "./visuals.json";
+import { parseSeed } from "../../modules/seed";
 import {
     ambientConfigSchema,
     audioConfigSchema,
@@ -468,6 +469,15 @@ export const TITLE_MENU_CONFIG = {
     confirmNewChoices: uiConfig.title.confirm_new_choices,
     quitWebMessage: uiConfig.title.quit_web_message,
     entries: uiConfig.title.entries,
+    seedPicker: {
+        prompt: uiConfig.title.seed_picker.prompt,
+        randomLabel: uiConfig.title.seed_picker.random_label,
+        famousSeedTemplate: uiConfig.title.seed_picker.famous_seed_template,
+        famousSeeds: uiConfig.title.seed_picker.famous_seeds.map((fs) => ({
+            label: fs.label,
+            seed: parseSeed(fs.input),
+        })),
+    },
 };
 export const STARTER_CEREMONY_CONFIG = {
     alreadyChosenDialogId: uiConfig.starter_ceremony.already_chosen_dialog_id,
