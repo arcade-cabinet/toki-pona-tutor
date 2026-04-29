@@ -342,9 +342,9 @@ async function buildGlanceContent(): Promise<{ title: string; rows: PauseEntry[]
         },
         {
             id: "glance-seed",
-            label: activeSeed !== null
-                ? formatGameplayTemplate(copy.seedRowLabelTemplate, { seed: seedDisplay(activeSeed) })
-                : copy.seedRowLabelTemplate.replace("{seed}", "—"),
+            label: formatGameplayTemplate(copy.seedRowLabelTemplate, {
+                seed: activeSeed !== null ? seedDisplay(activeSeed) : "—",
+            }),
             meta: copy.seedRowMeta,
             testId: "glance-seed",
             disabled: true,

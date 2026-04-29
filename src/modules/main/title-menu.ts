@@ -138,7 +138,11 @@ export async function showSeedPicker(player: RpgPlayer): Promise<Seed> {
     ];
     const choice = await player.showChoices(TITLE_MENU_CONFIG.seedPicker.prompt, choices);
     const value = choice?.value ?? RANDOM_VALUE;
-    return parseSeed(value === RANDOM_VALUE ? undefined : value);
+    if (value === RANDOM_VALUE) return parseSeed(undefined);
+    // Famous seeds are stored as stringified 32-bit integers; parse as number
+    // so parseSeed routes to the integer identity path, not the string-hash path.
+    const asNum = Number(value);
+    return parseSeed(Number.isInteger(asNum) && asNum >= 0 ? asNum : value);
 }
 
 async function pickAndPersistSeed(player: RpgPlayer): Promise<void> {
