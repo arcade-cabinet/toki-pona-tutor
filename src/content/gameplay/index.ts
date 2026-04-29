@@ -908,6 +908,16 @@ export const SETTINGS_CONFIG = {
     choices: uiConfig.settings.choices,
 };
 export const CREDITS_PAGES = uiConfig.credits_pages.map((page) => page.join("\n"));
+export const CHALLENGE_UI_CONFIG = {
+    acceptLabel: uiConfig.challenge.accept_label,
+    declineLabel: uiConfig.challenge.decline_label,
+    deferLabel: uiConfig.challenge.defer_label,
+    offerFooter: uiConfig.challenge.offer_footer,
+    resolveFallback: uiConfig.challenge.resolve_fallback,
+    journalSectionLabel: uiConfig.challenge.journal_section_label,
+    journalEmptyLabel: uiConfig.challenge.journal_empty_label,
+    journalEntryTemplate: uiConfig.challenge.journal_entry_template,
+} as const;
 export const OPENING_SCENE_CONFIG = {
     flagId: uiConfig.opening_scene.flag_id,
     postSceneDialogId: uiConfig.opening_scene.post_scene_dialog_id,

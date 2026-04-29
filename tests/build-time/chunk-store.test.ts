@@ -51,6 +51,7 @@ describe("loadChunkDelta / persistChunkDelta", () => {
             openedChestIds: ["chest_nw"],
             despawnedNpcIds: [],
             resolvedChallengeIds: [],
+            challengeStates: {},
         };
         await persistChunkDelta(SEED, { x: 3, y: -1 }, delta);
         const loaded = await loadChunkDelta(SEED, { x: 3, y: -1 });
@@ -62,11 +63,13 @@ describe("loadChunkDelta / persistChunkDelta", () => {
             openedChestIds: ["chest_nw"],
             despawnedNpcIds: [],
             resolvedChallengeIds: [],
+            challengeStates: {},
         };
         const second: ChunkDelta = {
             openedChestIds: ["chest_nw", "chest_se"],
             despawnedNpcIds: ["npc_guide"],
             resolvedChallengeIds: ["challenge_1"],
+            challengeStates: { "42:3:2": "accepted" },
         };
         await persistChunkDelta(SEED, { x: 0, y: 0 }, first);
         await persistChunkDelta(SEED, { x: 0, y: 0 }, second);
@@ -79,6 +82,7 @@ describe("loadChunkDelta / persistChunkDelta", () => {
             openedChestIds: ["chest_a"],
             despawnedNpcIds: [],
             resolvedChallengeIds: [],
+            challengeStates: {},
         };
         await persistChunkDelta(SEED, { x: 2, y: 2 }, delta);
         expect(await loadChunkDelta(999, { x: 2, y: 2 })).toBeNull();
@@ -89,6 +93,7 @@ describe("loadChunkDelta / persistChunkDelta", () => {
             openedChestIds: [],
             despawnedNpcIds: ["npc_1"],
             resolvedChallengeIds: [],
+            challengeStates: {},
         };
         await persistChunkDelta(SEED, { x: -10, y: -20 }, delta);
         const loaded = await loadChunkDelta(SEED, { x: -10, y: -20 });

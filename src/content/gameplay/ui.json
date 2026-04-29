@@ -608,6 +608,16 @@
     ["game / code / maps", "project team", "", "engine", "RPGJS / CanvasEngine / Pixi"],
     ["art / tiles / creatures", "Fan-tasy asset family", "", "special thanks", "Rivers"]
   ],
+  "challenge": {
+    "accept_label": "Accept",
+    "decline_label": "No thanks",
+    "defer_label": "Maybe later",
+    "offer_footer": "(you can ask again next time)",
+    "resolve_fallback": "Thank you — I couldn't have done it without you.",
+    "journal_section_label": "Challenges",
+    "journal_empty_label": "No active challenges.",
+    "journal_entry_template": "{npc}: {cause}"
+  },
   "opening_scene": {
     "flag_id": "opening_scene_complete",
     "post_scene_dialog_id": "selby_starter_intro",

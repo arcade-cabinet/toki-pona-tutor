@@ -9,11 +9,14 @@
 
 import { getDatabase } from "../platform/persistence/database";
 import type { ChunkCoord } from "./world-generator";
+import type { ChallengeState } from "./challenge-template";
 
 export type ChunkDelta = {
     openedChestIds: string[];
     despawnedNpcIds: string[];
     resolvedChallengeIds: string[];
+    /** NPC key (e.g. "3:2:1" = seed:spawnX:spawnY) → challenge lifecycle state. */
+    challengeStates: Record<string, ChallengeState>;
 };
 
 function chunkId(seed: number, { x, y }: ChunkCoord): string {

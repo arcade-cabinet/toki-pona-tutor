@@ -1136,6 +1136,16 @@ export const uiConfigSchema = z.object({
             .min(1),
     }),
     credits_pages: z.array(z.array(z.string())).min(1),
+    challenge: z.object({
+        accept_label: idSchema,
+        decline_label: idSchema,
+        defer_label: idSchema,
+        offer_footer: idSchema,
+        resolve_fallback: idSchema,
+        journal_section_label: idSchema,
+        journal_empty_label: idSchema,
+        journal_entry_template: idSchema,
+    }),
     opening_scene: z.object({
         flag_id: idSchema,
         post_scene_dialog_id: idSchema,
