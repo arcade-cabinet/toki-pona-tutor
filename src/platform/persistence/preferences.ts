@@ -36,6 +36,8 @@ export const KEYS = {
     accessibleMode: "poki-soweli.settings.accessible_mode",
     // T123: active world seed — set on New Game, read on Resume.
     worldSeed: "poki-soweli.world.seed",
+    // T152: active rumor list — JSON-serialized Rumor[].
+    activeRumors: "poki-soweli.world.active_rumors",
 } as const;
 
 export type PreferenceKey = (typeof KEYS)[keyof typeof KEYS];

@@ -29,6 +29,8 @@ const pauseRouteIdSchema = z.enum([
     "vocab",
     "inventory",
     "bestiary",
+    "rumors",
+    "challenges",
     "settings",
 ]);
 const pauseFooterIdSchema = z.enum(["resume", "save", "title"]);

@@ -58,6 +58,8 @@
       { "id": "vocab", "label": "Clues", "test_id": "pause-vocab" },
       { "id": "inventory", "label": "Gear", "test_id": "pause-inventory" },
       { "id": "bestiary", "label": "Bestiary", "test_id": "pause-bestiary" },
+      { "id": "rumors", "label": "Rumors", "test_id": "pause-rumors" },
+      { "id": "challenges", "label": "Challenges", "test_id": "pause-challenges" },
       { "id": "settings", "label": "Settings", "test_id": "pause-settings" }
     ],
     "footer_entries": [

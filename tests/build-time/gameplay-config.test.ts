@@ -215,6 +215,8 @@ describe('gameplay JSON config', () => {
             'vocab',
             'inventory',
             'bestiary',
+            'rumors',
+            'challenges',
             'settings',
         ]);
         expect(PAUSE_FOOTER_ENTRIES.map((entry) => entry.id)).toEqual(['resume', 'save', 'title']);
