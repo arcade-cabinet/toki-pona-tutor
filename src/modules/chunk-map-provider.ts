@@ -378,9 +378,10 @@ export const chunkMapProviderModule = defineModule<RpgServer>({
                         const targetX = prop("targetX") as number;
                         const targetY = prop("targetY") as number;
                         // RPG.js event registration uses tile coords, not pixels.
-                        // Centre the trigger on the edge zone in tile units.
-                        const tileX = Math.round((obj.x + obj.width / 2) / TILE_SIZE);
-                        const tileY = Math.round((obj.y + obj.height / 2) / TILE_SIZE);
+                        // Use floor of zone origin (not round of centre) so the
+                        // east/south zones don't land one tile past the map edge.
+                        const tileX = Math.floor(obj.x / TILE_SIZE);
+                        const tileY = Math.floor(obj.y / TILE_SIZE);
                         return {
                             name: obj.name,
                             x: tileX,

@@ -130,11 +130,34 @@ describe("buildChunkParsedMap", () => {
             const ty = warp.properties?.find((p: { name: string }) => p.name === "targetY")?.value as number;
             expect(Number.isInteger(tx)).toBe(true);
             expect(Number.isInteger(ty)).toBe(true);
+            // Must be strictly within tile grid (not >= width/height)
             expect(tx).toBeGreaterThanOrEqual(0);
-            expect(tx).toBeLessThanOrEqual(CHUNK_WIDTH);
+            expect(tx).toBeLessThan(CHUNK_WIDTH);
             expect(ty).toBeGreaterThanOrEqual(0);
-            expect(ty).toBeLessThanOrEqual(CHUNK_HEIGHT);
+            expect(ty).toBeLessThan(CHUNK_HEIGHT);
         }
+
+        const prop = (warp: TmjObject, name: string) =>
+            warp.properties?.find((p: { name: string }) => p.name === name)?.value;
+        const byDir = (dir: string) =>
+            warps.find((w: TmjObject) => prop(w, "direction") === dir)!;
+
+        // Per-direction: player lands 2 tiles from the opposite edge, centred on the perpendicular axis.
+        const n = byDir("north");
+        expect(prop(n, "targetX")).toBe(Math.floor(CHUNK_WIDTH / 2));
+        expect(prop(n, "targetY")).toBe(CHUNK_HEIGHT - 2);
+
+        const s = byDir("south");
+        expect(prop(s, "targetX")).toBe(Math.floor(CHUNK_WIDTH / 2));
+        expect(prop(s, "targetY")).toBe(2);
+
+        const w = byDir("west");
+        expect(prop(w, "targetX")).toBe(CHUNK_WIDTH - 2);
+        expect(prop(w, "targetY")).toBe(Math.floor(CHUNK_HEIGHT / 2));
+
+        const e = byDir("east");
+        expect(prop(e, "targetX")).toBe(2);
+        expect(prop(e, "targetY")).toBe(Math.floor(CHUNK_HEIGHT / 2));
     });
 
     it("produces deterministic output for the same seed+coord", () => {
@@ -164,16 +187,17 @@ describe("buildChunkParsedMap", () => {
         }
     });
 
-    it("warp zone centre in tile coords is within the tile grid", () => {
+    it("warp zone trigger tile is strictly within the tile grid", () => {
         const map = buildChunkParsedMap(seed, { x: 0, y: 0 });
         const objLayer = map.layers.find((l: TmjLayer) => l.type === "objectgroup")! as Extract<TmjLayer, { type: "objectgroup" }>;
         for (const obj of objLayer.objects.filter((o: TmjObject) => o.type === "edge_warp")) {
-            const tileX = Math.round((obj.x + obj.width / 2) / TILE_SIZE);
-            const tileY = Math.round((obj.y + obj.height / 2) / TILE_SIZE);
+            // Mirror the production formula: floor of zone origin (not round of centre)
+            const tileX = Math.floor(obj.x / TILE_SIZE);
+            const tileY = Math.floor(obj.y / TILE_SIZE);
             expect(tileX).toBeGreaterThanOrEqual(0);
-            expect(tileX).toBeLessThanOrEqual(map.width);
+            expect(tileX).toBeLessThan(map.width);
             expect(tileY).toBeGreaterThanOrEqual(0);
-            expect(tileY).toBeLessThanOrEqual(map.height);
+            expect(tileY).toBeLessThan(map.height);
         }
     });
 
