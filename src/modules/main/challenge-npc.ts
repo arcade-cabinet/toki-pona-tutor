@@ -67,6 +67,22 @@ export function buildJournalEntries(
     }));
 }
 
+/**
+ * Pick the appropriate post-resolve dialog line based on challenge state.
+ * - resolved → challenge_thanks (NPC is still grateful)
+ * - degraded → idle_after_resolve (NPC has moved on)
+ * - any other state → null (not post-resolve; don't use this function)
+ */
+export function pickPostResolveLine(
+    challenge: ChallengeInstance,
+    profile: NpcDialogProfile,
+    playerLevel: number,
+): import("../dialog-pool").DialogLine | null {
+    if (challenge.state === "resolved") return pickLine(profile, "challenge_thanks", playerLevel);
+    if (challenge.state === "degraded") return pickLine(profile, "idle_after_resolve", playerLevel);
+    return null;
+}
+
 /** NPC key for chunk-delta indexing: `"<spawnX>:<spawnY>"`. */
 export function npcKey(spawnX: number, spawnY: number): string {
     return `${spawnX}:${spawnY}`;
