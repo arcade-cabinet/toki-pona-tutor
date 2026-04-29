@@ -255,22 +255,16 @@ function edgeWarpObjects(coord: ChunkCoord, w: number, h: number): TmjObject[] {
  * `tilesets`. Tile data uses inline GIDs; no external tileset source
  * references that would require file fetching.
  *
- * Returns null for indoor chunk archetypes whose dimensions differ from
- * the outdoor 32×24 grid (handled separately in a later pass).
+ * All chunk kinds are supported. Indoor chunks use 16×12 tiles; all others
+ * use 32×24. Village and landmark chunks use outdoor dimensions.
  */
-export function buildChunkParsedMap(seed: Seed, coord: ChunkCoord): TmjParsedMap | null {
+export function buildChunkParsedMap(seed: Seed, coord: ChunkCoord): TmjParsedMap {
     const type = chunkType(seed, coord.x, coord.y);
     const name = chunkName(seed, coord);
 
-    let w = CHUNK_WIDTH;
-    let h = CHUNK_HEIGHT;
-
-    // Indoor chunks are 16×12 per spec; handled later.
-    // For now emit outdoor dimensions for all types.
-    if (type.kind === "indoor") {
-        w = 16;
-        h = 12;
-    }
+    // Indoor chunks are 16×12 per spec; all other kinds use outdoor dimensions.
+    const w = type.kind === "indoor" ? 16 : CHUNK_WIDTH;
+    const h = type.kind === "indoor" ? 12 : CHUNK_HEIGHT;
 
     const tileset =
         type.kind === "outdoor"
@@ -362,30 +356,42 @@ export const chunkMapProviderModule = defineModule<RpgServer>({
             }
 
             const parsedMap = buildChunkParsedMap(seed, coord);
-            if (!parsedMap) return map;
 
             mapData.parsedMap = parsedMap;
             mapData.width = parsedMap.width * parsedMap.tilewidth;
             mapData.height = parsedMap.height * parsedMap.tileheight;
 
-            // Register edge-warp events for each direction so the Warp event
-            // handler fires when a player touches the border zone.
-            const existingEvents = Array.isArray(mapData.events) ? mapData.events : [];
-            const { Warp } = await import("./main/warp");
-            const warpEvents = edgeWarpObjects(coord, parsedMap.width, parsedMap.height).map(
-                (obj) => {
-                    const targetMap = obj.properties?.find((p: TmjProperty) => p.name === "targetMap")?.value as string;
-                    const targetX = obj.properties?.find((p: TmjProperty) => p.name === "targetX")?.value as number;
-                    const targetY = obj.properties?.find((p: TmjProperty) => p.name === "targetY")?.value as number;
-                    return {
-                        name: obj.name,
-                        x: obj.x + obj.width / 2,
-                        y: obj.y + obj.height / 2,
-                        event: Warp({ targetMap, position: { x: targetX, y: targetY } }),
-                    };
-                },
+            // Re-use the warp objects already embedded in the Objects layer to
+            // avoid computing them twice and to guarantee consistency.
+            const objLayer = parsedMap.layers.find(
+                (l): l is Extract<TmjLayer, { type: "objectgroup" }> => l.type === "objectgroup",
             );
-            mapData.events = [...existingEvents, ...warpEvents];
+            const existingEvents = Array.isArray(mapData.events) ? mapData.events : [];
+            if (objLayer) {
+                const { Warp } = await import("./main/warp");
+                const warpEvents = objLayer.objects
+                    .filter((obj) => obj.type === "edge_warp")
+                    .map((obj) => {
+                        const prop = (name: string) =>
+                            obj.properties?.find((p: TmjProperty) => p.name === name)?.value;
+                        const targetMap = prop("targetMap") as string;
+                        const targetX = prop("targetX") as number;
+                        const targetY = prop("targetY") as number;
+                        // RPG.js event registration uses tile coords, not pixels.
+                        // Centre the trigger on the edge zone in tile units.
+                        const tileX = Math.round((obj.x + obj.width / 2) / TILE_SIZE);
+                        const tileY = Math.round((obj.y + obj.height / 2) / TILE_SIZE);
+                        return {
+                            name: obj.name,
+                            x: tileX,
+                            y: tileY,
+                            event: Warp({ targetMap, position: { x: targetX, y: targetY } }),
+                        };
+                    });
+                mapData.events = [...existingEvents, ...warpEvents];
+            } else {
+                mapData.events = existingEvents;
+            }
 
             return map;
         },
