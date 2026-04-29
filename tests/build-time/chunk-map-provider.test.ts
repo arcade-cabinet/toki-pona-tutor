@@ -11,6 +11,7 @@ import {
     type TmjObject,
 } from "../../src/modules/chunk-map-provider";
 import { parseSeed } from "../../src/modules/seed";
+import { VILLAGE_WIDTH, VILLAGE_HEIGHT } from "../../src/modules/village-chunk-generator";
 
 describe("parseChunkMapId", () => {
     it("parses origin chunk", () => {
@@ -199,6 +200,27 @@ describe("buildChunkParsedMap", () => {
             expect(tileY).toBeGreaterThanOrEqual(0);
             expect(tileY).toBeLessThan(map.height);
         }
+    });
+
+    it("warp landing coords into a village neighbor use village dimensions", () => {
+        // Period-7 grid: village anchors at coords where x%7===3 && y%7===3.
+        // Chunk (3,2) is outdoor; its south neighbor (3,3) is a village (28×20).
+        const map = buildChunkParsedMap(seed, { x: 3, y: 2 }) as TmjParsedMap;
+        const objLayer = map.layers.find((l: TmjLayer) => l.type === "objectgroup")!;
+        const southWarp = objLayer.objects.find(
+            (o: TmjObject) => o.type === "edge_warp" &&
+                o.properties?.find((p: { name: string }) => p.name === "direction")?.value === "south",
+        )!;
+        const tx = southWarp.properties?.find((p: { name: string }) => p.name === "targetX")?.value as number;
+        const ty = southWarp.properties?.find((p: { name: string }) => p.name === "targetY")?.value as number;
+        // Must be within village tile grid (28×20), not outdoor grid (32×24)
+        expect(tx).toBeGreaterThanOrEqual(0);
+        expect(tx).toBeLessThan(VILLAGE_WIDTH);
+        expect(ty).toBeGreaterThanOrEqual(0);
+        expect(ty).toBeLessThan(VILLAGE_HEIGHT);
+        // Landing point should be centred on village width
+        expect(tx).toBe(Math.floor(VILLAGE_WIDTH / 2));
+        expect(ty).toBe(2);
     });
 
     it("does not throw for village chunk types", () => {

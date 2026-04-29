@@ -16,6 +16,7 @@ import { defineModule } from "@rpgjs/common";
 import type { RpgServer } from "@rpgjs/server";
 import { chunkType, chunkName } from "./world-generator";
 import { OUTDOOR_WIDTH, OUTDOOR_HEIGHT } from "./outdoor-chunk-generator";
+import { VILLAGE_WIDTH, VILLAGE_HEIGHT } from "./village-chunk-generator";
 import { createRng, hashCoord, type Seed } from "./seed";
 import type { ChunkCoord } from "./world-generator";
 
@@ -181,9 +182,10 @@ type Direction = "north" | "south" | "east" | "west";
 
 function chunkDims(seed: Seed, cx: number, cy: number): { tw: number; th: number } {
     const kind = chunkType(seed, cx, cy).kind;
-    return kind === "indoor"
-        ? { tw: 16, th: 12 }
-        : { tw: CHUNK_WIDTH, th: CHUNK_HEIGHT };
+    // indoor never occupies a standalone grid coordinate (it's a sub-space
+    // entered via a village door warp). Village has its own tile dimensions.
+    if (kind === "village") return { tw: VILLAGE_WIDTH, th: VILLAGE_HEIGHT };
+    return { tw: CHUNK_WIDTH, th: CHUNK_HEIGHT };
 }
 
 function edgeWarpObjects(seed: Seed, coord: ChunkCoord, w: number, h: number): TmjObject[] {
