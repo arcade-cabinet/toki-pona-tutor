@@ -2,6 +2,7 @@ import { describe, it, expect, afterEach } from 'vitest';
 import { testing, clear } from '@rpgjs/testing';
 import { Container, h } from 'canvasengine';
 import server from '../../src/modules/main/server';
+import { chunkMapProviderModule } from '../../src/modules/chunk-map-provider';
 import { COMBAT_FAINT_ANIMATION_ID } from '../../src/modules/main/combat-visuals';
 import { WILD_BATTLE_GUI_ID } from '../../src/modules/main/wild-battle-view';
 import { resetPersistedRuntimeState } from '../../src/platform/persistence/runtime-state';
@@ -54,6 +55,10 @@ function integrationModules() {
             }],
         },
     }];
+}
+
+function chunkModules() {
+    return [...integrationModules(), { server: chunkMapProviderModule }];
 }
 
 describe('opening scene branching (T163)', () => {
@@ -117,12 +122,37 @@ describe('chunk-delta save / resume (T163)', () => {
 
 describe('faint → respawn (T163, engine)', () => {
     it('engine boots player onto starter map', async () => {
-        // Full faint→respawn cross-map validation requires a second registered
-        // map in the test fixture; deferred until T157 wires the chunk-realize
-        // pipeline. This test verifies the boot path only.
         const fixture = await testing(integrationModules());
         const client = await fixture.createClient();
         await client.waitForMapChange('riverside_home', 5000);
         expect(client.player.getCurrentMap()?.id).toBe('riverside_home');
+    });
+});
+
+describe('chunk-map-provider integration (T157)', () => {
+    it('player.changeMap to chunk_0_0 resolves via chunkMapProviderModule', async () => {
+        const fixture = await testing(chunkModules());
+        const client = await fixture.createClient();
+        await client.waitForMapChange('riverside_home', 5000);
+
+        // Trigger a cross-chunk warp: move the server-side player to chunk_0_0.
+        await client.player.changeMap('chunk_0_0', { x: 16, y: 12 });
+        await client.waitForMapChange('chunk_0_0', 5000);
+
+        expect(client.player.getCurrentMap()?.id).toBe('chunk_0_0');
+    });
+
+    it('different chunk ids produce distinct map loads', async () => {
+        const fixture = await testing(chunkModules());
+        const client = await fixture.createClient();
+        await client.waitForMapChange('riverside_home', 5000);
+
+        await client.player.changeMap('chunk_1_0', { x: 16, y: 12 });
+        await client.waitForMapChange('chunk_1_0', 5000);
+        expect(client.player.getCurrentMap()?.id).toBe('chunk_1_0');
+
+        await client.player.changeMap('chunk_0_1', { x: 16, y: 12 });
+        await client.waitForMapChange('chunk_0_1', 5000);
+        expect(client.player.getCurrentMap()?.id).toBe('chunk_0_1');
     });
 });
