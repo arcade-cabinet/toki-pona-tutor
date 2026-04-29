@@ -65,6 +65,8 @@ import {
     COMBAT_UI_CONFIG,
     COMBAT_AUDIO_CONFIG,
     TYPE_MATCHUP_CONFIG,
+    CHUNK_OVERLAY_CONFIG,
+    CHALLENGE_UI_CONFIG,
 } from '../../src/content/gameplay';
 
 const WORLD = worldRaw as {
@@ -382,6 +384,25 @@ describe('gameplay JSON config', () => {
     it('T154: glance screen has a seed row template', () => {
         // Seed display — players share the seed string to replay worlds.
         expect(PAUSE_MENU_CONFIG.glance.seedRowLabelTemplate).toMatch(/\{seed\}/);
+    });
+
+    it('T150: world map data — CHUNK_OVERLAY_CONFIG.guiId is a non-empty string', () => {
+        expect(typeof CHUNK_OVERLAY_CONFIG.guiId).toBe('string');
+        expect(CHUNK_OVERLAY_CONFIG.guiId.length).toBeGreaterThan(0);
+    });
+
+    it('T151: chunk overlay — fade_ms is a positive integer and template has {name}', () => {
+        expect(Number.isInteger(CHUNK_OVERLAY_CONFIG.fadeMs)).toBe(true);
+        expect(CHUNK_OVERLAY_CONFIG.fadeMs).toBeGreaterThan(0);
+        expect(CHUNK_OVERLAY_CONFIG.enteringTemplate).toMatch(/\{name\}/);
+    });
+
+    it('T152/T153: challenge UI config has accept/decline/defer labels', () => {
+        expect(typeof CHALLENGE_UI_CONFIG.acceptLabel).toBe('string');
+        expect(typeof CHALLENGE_UI_CONFIG.declineLabel).toBe('string');
+        expect(typeof CHALLENGE_UI_CONFIG.deferLabel).toBe('string');
+        expect(CHALLENGE_UI_CONFIG.journalEntryTemplate).toMatch(/\{npc\}/);
+        expect(CHALLENGE_UI_CONFIG.journalEntryTemplate).toMatch(/\{cause\}/);
     });
 
     it('T155: bestiary title shows caught count without total (no completion nag)', () => {

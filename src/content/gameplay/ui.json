@@ -610,6 +610,11 @@
     ["game / code / maps", "project team", "", "engine", "RPGJS / CanvasEngine / Pixi"],
     ["art / tiles / creatures", "Fan-tasy asset family", "", "special thanks", "Rivers"]
   ],
+  "chunk_overlay": {
+    "fade_ms": 2000,
+    "gui_id": "rr-chunk-overlay",
+    "entering_template": "{name}"
+  },
   "challenge": {
     "accept_label": "Accept",
     "decline_label": "No thanks",

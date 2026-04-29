@@ -1138,6 +1138,11 @@ export const uiConfigSchema = z.object({
             .min(1),
     }),
     credits_pages: z.array(z.array(z.string())).min(1),
+    chunk_overlay: z.object({
+        fade_ms: positiveIntSchema,
+        gui_id: idSchema,
+        entering_template: idSchema,
+    }),
     challenge: z.object({
         accept_label: idSchema,
         decline_label: idSchema,

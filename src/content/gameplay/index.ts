@@ -908,6 +908,11 @@ export const SETTINGS_CONFIG = {
     choices: uiConfig.settings.choices,
 };
 export const CREDITS_PAGES = uiConfig.credits_pages.map((page) => page.join("\n"));
+export const CHUNK_OVERLAY_CONFIG = {
+    fadeMs: uiConfig.chunk_overlay.fade_ms,
+    guiId: uiConfig.chunk_overlay.gui_id,
+    enteringTemplate: uiConfig.chunk_overlay.entering_template,
+} as const;
 export const CHALLENGE_UI_CONFIG = {
     acceptLabel: uiConfig.challenge.accept_label,
     declineLabel: uiConfig.challenge.decline_label,
