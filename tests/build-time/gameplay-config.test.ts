@@ -348,7 +348,7 @@ describe('gameplay JSON config', () => {
         expect(INVENTORY_SCREEN_CONFIG.itemLineTemplate).toBe('  {item} ×{count}');
         expect(PARTY_PANEL_CONFIG.hpLabelTemplate).toBe('HP {current} / {max}');
         expect(PARTY_PANEL_CONFIG.movesEmptyLabel).toBe('moves: none');
-        expect(BESTIARY_PANEL_CONFIG.titleTemplate).toBe('Bestiary {caught} / {total}');
+        expect(BESTIARY_PANEL_CONFIG.titleTemplate).toBe('Bestiary — {caught} caught');
         expect(BESTIARY_PANEL_CONFIG.unknownLabelTemplate).toBe('??? {index}');
         expect(BESTIARY_PANEL_CONFIG.descriptionTextTemplate).toBe('{label}\n{description}');
         expect(BESTIARY_PANEL_CONFIG.missingDescriptionText).toBe('Details are still unknown.');
@@ -380,6 +380,12 @@ describe('gameplay JSON config', () => {
     it('T154: glance screen has a seed row template', () => {
         // Seed display — players share the seed string to replay worlds.
         expect(PAUSE_MENU_CONFIG.glance.seedRowLabelTemplate).toMatch(/\{seed\}/);
+    });
+
+    it('T155: bestiary title shows caught count without total (no completion nag)', () => {
+        // No "X / 43" fraction — that creates dex-panic. Just caught count.
+        expect(BESTIARY_PANEL_CONFIG.titleTemplate).toMatch(/\{caught\}/);
+        expect(BESTIARY_PANEL_CONFIG.titleTemplate).not.toMatch(/\{total\}/);
     });
 
     it('keeps visual config usable by runtime render adapters', () => {

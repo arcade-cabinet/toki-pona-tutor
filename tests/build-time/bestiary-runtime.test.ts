@@ -59,7 +59,7 @@ describe('buildBestiaryPanel', () => {
             },
         });
 
-        expect(panel.title).toBe('Bestiary 1 / 43');
+        expect(panel.title).toBe('Bestiary — 1 caught');
         expect(panel.rows.find((row) => row.speciesId === 'ashcat')).toEqual({
             speciesId: 'ashcat',
             tier: 'caught',

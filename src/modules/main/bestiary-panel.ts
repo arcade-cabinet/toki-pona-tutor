@@ -7,7 +7,7 @@ import {
     typeLabel,
     type RuntimeName,
 } from "../../content/runtime-labels";
-import { bestiaryTier, progressRatio, type BestiaryState, type BestiaryTier } from "./bestiary";
+import { bestiaryTier, type BestiaryState, type BestiaryTier } from "./bestiary";
 
 type SpeciesEntry = {
     id: string;
@@ -49,13 +49,9 @@ function assertContentWorld(raw: unknown): ContentWorld {
 const world = assertContentWorld(worldRaw);
 
 export function buildBestiaryPanel(state: BestiaryState): BestiaryPanel {
-    const speciesIds = world.species.map((species) => species.id);
-    const caught = Math.round(progressRatio(state, speciesIds) * speciesIds.length);
+    const caught = Object.values(state).filter((r) => r.caughtAt).length;
     return {
-        title: formatGameplayTemplate(BESTIARY_PANEL_CONFIG.titleTemplate, {
-            caught,
-            total: speciesIds.length,
-        }),
+        title: formatGameplayTemplate(BESTIARY_PANEL_CONFIG.titleTemplate, { caught }),
         rows: world.species.map((species, index) => {
             const tier = bestiaryTier(state, species.id);
             const label =

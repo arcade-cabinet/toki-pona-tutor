@@ -354,7 +354,7 @@
     "move_separator": " · "
   },
   "bestiary_panel": {
-    "title_template": "Bestiary {caught} / {total}",
+    "title_template": "Bestiary — {caught} caught",
     "unknown_label_template": "??? {index}",
     "unknown_type_label": "unknown",
     "caught_meta_template": "caught · {type}",
