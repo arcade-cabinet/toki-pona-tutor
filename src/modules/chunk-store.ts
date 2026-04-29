@@ -52,7 +52,9 @@ export async function loadChunkDelta(
     );
     const row = result.values?.[0];
     if (!row) return null;
-    return JSON.parse(row.delta_json as string) as ChunkDelta;
+    return JSON.parse(row.delta_json as string, (k, v) =>
+        k === "__proto__" || k === "constructor" ? undefined : v,
+    ) as ChunkDelta;
 }
 
 export async function persistChunkDelta(

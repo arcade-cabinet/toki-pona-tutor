@@ -309,19 +309,22 @@ export async function setPartyOrder(orderedParty: ReadonlyArray<{ slot: number }
 
     if (current.map((member) => member.slot).join(",") === requestedSlots.join(",")) return;
 
-    const statements = [
-        "UPDATE party_roster SET slot = slot + 1000",
-        ...orderedParty.map((member, newSlot) => {
-            const originalSlot = Number(member.slot);
-            if (!Number.isInteger(originalSlot) || !Number.isInteger(newSlot)) {
-                throw new Error("[party] reordered party slots must be integers");
-            }
-            return `UPDATE party_roster SET slot = ${newSlot} WHERE slot = ${originalSlot + 1000}`;
-        }),
-    ].join(";\n");
-
     const db = await getDatabase();
-    await db.execute(statements);
+    // Two-pass swap: shift all slots by +1000 to avoid unique-key collisions,
+    // then assign final positions. Values are DB-sourced integers validated above.
+    await db.run("UPDATE party_roster SET slot = slot + 1000");
+    for (const [newSlot, member] of orderedParty.entries()) {
+        const originalSlot = Number(member.slot);
+        // Both are already guaranteed integers by the validation block above,
+        // but assert here so this loop can never interpolate unexpected values.
+        if (!Number.isInteger(originalSlot) || originalSlot < 0 || originalSlot > 999) {
+            throw new Error("[party] slot out of safe integer range");
+        }
+        await db.run("UPDATE party_roster SET slot = ? WHERE slot = ?", [
+            newSlot,
+            originalSlot + 1000,
+        ]);
+    }
     await saveWebStore();
 }
 
