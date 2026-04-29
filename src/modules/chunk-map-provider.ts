@@ -362,8 +362,14 @@ export const chunkMapProviderModule = defineModule<RpgServer>({
                 const { parseSeed } = await import("./seed");
                 const raw = await preferences.get(KEYS.worldSeed);
                 if (raw) seed = parseSeed(raw);
-            } catch {
-                // persistence unavailable during unit tests — use seed 0
+            } catch (err) {
+                // Module not found = unit-test environment without persistence — expected.
+                // Anything else (storage error, corrupt data) is logged but not fatal.
+                const isModuleNotFound =
+                    err instanceof Error && err.message.includes("Cannot find module");
+                if (!isModuleNotFound) {
+                    console.error("[chunk-map-provider] seed resolution failed, using seed 0:", err);
+                }
             }
 
             const parsedMap = buildChunkParsedMap(seed, coord);
