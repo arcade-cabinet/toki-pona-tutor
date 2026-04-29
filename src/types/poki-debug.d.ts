@@ -19,7 +19,7 @@ export interface PokiDebugState {
     playerId: string | null;
     serverPlayerId: string | null;
     currentMapId: string | null;
-    journeyBeat: string | null;
+    worldSeed: string | null;
     starterChosen: string | null;
     serverGraphic: string | null;
     position: {

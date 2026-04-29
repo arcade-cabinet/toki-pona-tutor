@@ -447,7 +447,6 @@ export const AUDIO_RUNTIME_CONFIG = {
 export const TITLE_START = {
     mapId: uiConfig.title.start_map_id,
     spawn: uiConfig.title.start_spawn,
-    journeyBeatId: uiConfig.title.start_journey_beat_id,
 };
 export const PLAYER_CONFIG = {
     defaultGraphic: uiConfig.title.player_default_graphic,
@@ -785,7 +784,7 @@ export const SAVE_MENU_CONFIG = {
     emptyDetailTemplate: uiConfig.save_menu.empty_detail_template,
     filledSlotTemplate: uiConfig.save_menu.filled_slot_template,
     filledDetailTemplate: uiConfig.save_menu.filled_detail_template,
-    beatSuffixTemplate: uiConfig.save_menu.beat_suffix_template,
+    chunkSuffixTemplate: uiConfig.save_menu.chunk_suffix_template,
     autoDetailTemplate: uiConfig.save_menu.auto_detail_template,
     existingSlotPromptTemplate: uiConfig.save_menu.existing_slot_prompt_template,
     actions: uiConfig.save_menu.actions,
@@ -805,9 +804,7 @@ export const DICTIONARY_EXPORT_CONFIG = {
     textCard: {
         header: uiConfig.dictionary_export.text_card.header,
         playerTemplate: uiConfig.dictionary_export.text_card.player_template,
-        clearedBadge: uiConfig.dictionary_export.text_card.cleared_badge,
-        ngPlusBadgeTemplate: uiConfig.dictionary_export.text_card.ng_plus_badge_template,
-        inProgressBadge: uiConfig.dictionary_export.text_card.in_progress_badge,
+        explorerRankTemplate: uiConfig.dictionary_export.text_card.explorer_rank_template,
         exportedAtTemplate: uiConfig.dictionary_export.text_card.exported_at_template,
         wordCountTemplate: uiConfig.dictionary_export.text_card.word_count_template,
         emptyWords: uiConfig.dictionary_export.text_card.empty_words,
@@ -850,7 +847,7 @@ export const DICTIONARY_EXPORT_CONFIG = {
         player: normalizeSvgText(uiConfig.dictionary_export.svg_card.player),
         wordCount: normalizeSvgText(uiConfig.dictionary_export.svg_card.word_count),
         wordCountLabel: normalizeSvgText(uiConfig.dictionary_export.svg_card.word_count_label),
-        clearedBadge: normalizeSvgText(uiConfig.dictionary_export.svg_card.cleared_badge),
+        explorerRank: normalizeSvgText(uiConfig.dictionary_export.svg_card.explorer_rank),
         date: normalizeSvgText(uiConfig.dictionary_export.svg_card.date),
     },
 };

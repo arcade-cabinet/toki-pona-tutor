@@ -195,7 +195,6 @@ describe('gameplay JSON config', () => {
 
         expect(mapIds.has(TITLE_START.mapId)).toBe(true);
         expect(TITLE_START.spawn).toEqual(GAMEPLAY_MAPS[TITLE_START.mapId]?.safe_spawn);
-        expect(TITLE_START.journeyBeatId).toBe('beat_01_riverside_home');
         expect(PLAYER_CONFIG.defaultGraphic).toBe('rivers_protagonist');
         expect(TITLE_MENU_CONFIG.guiId).toBe('rpg-title-screen');
         expect(TITLE_MENU_CONFIG.menuTitle).toBe('Rivers Reckoning');

@@ -184,7 +184,6 @@ export async function startFreshGame(
     }
 
     await preferences.set(KEYS.currentMapId, TITLE_START.mapId);
-    await preferences.set(KEYS.journeyBeat, TITLE_START.journeyBeatId);
     await markSafeMapIfVillage(TITLE_START.mapId);
 
     // T11-11: scripted opening scene — stages why Rivers is here, why

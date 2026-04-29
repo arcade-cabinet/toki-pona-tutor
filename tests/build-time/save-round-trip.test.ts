@@ -68,16 +68,16 @@ describe('save-strategy round-trip (mirror of CapacitorSaveStorageStrategy)', ()
 
     it('save then get returns the full slot including snapshot', async () => {
         const s = new InMemoryStrategy();
-        await s.save(player, 0, 'SNAPSHOT_DATA', { savedAt: '2026-04-20T00:00:00Z', beatId: 'beat_01' });
+        await s.save(player, 0, 'SNAPSHOT_DATA', { savedAt: '2026-04-20T00:00:00Z', chunkKey: '0:0' });
         const slot = await s.get(player, 0);
-        expect(slot).toMatchObject({ snapshot: 'SNAPSHOT_DATA', savedAt: '2026-04-20T00:00:00Z', beatId: 'beat_01' });
+        expect(slot).toMatchObject({ snapshot: 'SNAPSHOT_DATA', savedAt: '2026-04-20T00:00:00Z', chunkKey: '0:0' });
     });
 
     it('list strips snapshot from metadata but keeps other fields', async () => {
         const s = new InMemoryStrategy();
-        await s.save(player, 0, 'SNAPSHOT_DATA', { savedAt: '2026-04-20T00:00:00Z', beatId: 'beat_01' });
+        await s.save(player, 0, 'SNAPSHOT_DATA', { savedAt: '2026-04-20T00:00:00Z', chunkKey: '0:0' });
         const list = await s.list(player);
-        expect(list[0]).toEqual({ savedAt: '2026-04-20T00:00:00Z', beatId: 'beat_01' });
+        expect(list[0]).toEqual({ savedAt: '2026-04-20T00:00:00Z', chunkKey: '0:0' });
         expect((list[0] as Record<string, unknown>).snapshot).toBeUndefined();
     });
 
@@ -103,10 +103,10 @@ describe('save-strategy round-trip (mirror of CapacitorSaveStorageStrategy)', ()
 
     it('overwriting a slot merges new meta and snapshot', async () => {
         const s = new InMemoryStrategy();
-        await s.save(player, 0, 'V1', { savedAt: '2026-04-20T00:00:00Z', beatId: 'beat_01' });
-        await s.save(player, 0, 'V2', { savedAt: '2026-04-20T01:00:00Z', beatId: 'beat_02' });
+        await s.save(player, 0, 'V1', { savedAt: '2026-04-20T00:00:00Z', chunkKey: '0:0' });
+        await s.save(player, 0, 'V2', { savedAt: '2026-04-20T01:00:00Z', chunkKey: '1:0' });
         const slot = await s.get(player, 0);
-        expect(slot).toMatchObject({ snapshot: 'V2', savedAt: '2026-04-20T01:00:00Z', beatId: 'beat_02' });
+        expect(slot).toMatchObject({ snapshot: 'V2', savedAt: '2026-04-20T01:00:00Z', chunkKey: '1:0' });
     });
 
     it('invalid slot index throws RangeError on save', async () => {

@@ -14,7 +14,6 @@
 /** Well-known keys. Add here; never scatter string literals across the codebase. */
 export const KEYS = {
     currentMapId: "poki-soweli.world.current_map_id",
-    journeyBeat: "poki-soweli.world.journey_beat",
     partySlot: "poki-soweli.world.party_slot",
     lastSafeMapId: "poki-soweli.world.last_safe_map_id",
     lastSafeSpawnX: "poki-soweli.world.last_safe_spawn_x",

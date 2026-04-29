@@ -24,8 +24,7 @@ const word = (id: string, sightings: number, at = '2026-04-20T00:00:00Z'): ClueR
 const snap = (overrides: Partial<ExportSnapshot> = {}): ExportSnapshot => ({
     playerName: 'Sam',
     words: [word('wild-signs', 12), word('capture-pods', 8), word('fire-type', 5)],
-    journeyCleared: true,
-    ngPlusCount: 0,
+    chunksVisited: 7,
     exportedAt: '2026-04-20T12:00:00Z',
     ...overrides,
 });
@@ -40,16 +39,15 @@ describe('exportTextCard', () => {
         expect(out).toContain('clues found: 3');
     });
 
-    it('shows the cleared badge when journeyCleared', () => {
-        expect(exportTextCard(snap({ journeyCleared: true, ngPlusCount: 0 }))).toContain('Green dragon defeated');
+    it('shows explorer rank based on chunks visited', () => {
+        expect(exportTextCard(snap({ chunksVisited: 0 }))).toContain('novice explorer');
+        expect(exportTextCard(snap({ chunksVisited: 7 }))).toContain('wandering explorer');
+        expect(exportTextCard(snap({ chunksVisited: 25 }))).toContain('roaming explorer');
+        expect(exportTextCard(snap({ chunksVisited: 60 }))).toContain('seasoned explorer');
     });
 
-    it('shows NG+ multiplier on repeat clears', () => {
-        expect(exportTextCard(snap({ ngPlusCount: 2 }))).toContain('× 3');
-    });
-
-    it('shows in-progress marker when not cleared', () => {
-        expect(exportTextCard(snap({ journeyCleared: false }))).toContain('journey in progress');
+    it('includes chunk count in explorer rank line', () => {
+        expect(exportTextCard(snap({ chunksVisited: 7 }))).toContain('7 chunks visited');
     });
 
     it('sorts top clues by sightings desc', () => {
@@ -111,12 +109,12 @@ describe('exportSvgCard', () => {
         expect(svg).toMatch(/<text[^>]*>3<\/text>/);
     });
 
-    it('includes the cleared marker when journeyCleared', () => {
-        expect(exportSvgCard(snap())).toContain('green dragon defeated');
+    it('includes the explorer rank badge', () => {
+        expect(exportSvgCard(snap({ chunksVisited: 7 }))).toContain('wandering');
     });
 
-    it('omits the cleared marker when not cleared', () => {
-        expect(exportSvgCard(snap({ journeyCleared: false }))).not.toContain('green dragon defeated');
+    it('shows chunk count in explorer rank badge', () => {
+        expect(exportSvgCard(snap({ chunksVisited: 7 }))).toContain('7 chunks');
     });
 
     it('renders up to 24 clue cells', () => {
@@ -156,7 +154,7 @@ describe('clue export runtime wiring', () => {
         });
 
         expect(snapshot.playerName).toBe('Sam');
-        expect(snapshot.journeyCleared).toBe(false);
+        expect(snapshot.chunksVisited).toBe(0);
         expect(snapshot.words.map((entry) => entry.id)).toEqual(['wild-signs']);
         expect(snapshot.words[0]?.sightings).toBe(3);
     });

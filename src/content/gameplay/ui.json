@@ -13,7 +13,6 @@
     },
     "start_map_id": "riverside_home",
     "start_spawn": { "x": 128, "y": 128 },
-    "start_journey_beat_id": "beat_01_riverside_home",
     "continue_label_prefix": "Continue",
     "continue_label_template": "{prefix} — {slot}",
     "confirm_new_prompt": "Start a new game?",
@@ -384,9 +383,9 @@
     "empty_label": "empty",
     "empty_slot_template": "{tag} — {empty}",
     "empty_detail_template": "{empty}",
-    "filled_slot_template": "{tag} — {date}{beat}",
-    "filled_detail_template": "{date}{beat}",
-    "beat_suffix_template": " · {beat}",
+    "filled_slot_template": "{tag} — {date}{chunk}",
+    "filled_detail_template": "{date}{chunk}",
+    "chunk_suffix_template": " · {chunk}",
     "auto_detail_template": "auto\n{label}",
     "existing_slot_prompt_template": "{slot}?",
     "actions": [
@@ -439,9 +438,7 @@
     "text_card": {
       "header": "═══ Clue Journal — Rivers Reckoning ═══",
       "player_template": "  Explorer {player}",
-      "cleared_badge": "★ Green dragon defeated",
-      "ng_plus_badge_template": "★ Green dragon defeated × {count}",
-      "in_progress_badge": "… journey in progress",
+      "explorer_rank_template": "  {rank} explorer — {chunks} chunks visited",
       "exported_at_template": "  exported: {date}",
       "word_count_template": "  clues found: {count}",
       "empty_words": "  (no clues yet — catch creatures and talk to people)",
@@ -512,11 +509,10 @@
         "font_size": 11,
         "fill": "#c9a268"
       },
-      "cleared_badge": {
-        "text": "green dragon defeated",
+      "explorer_rank": {
         "x": 200,
         "y": 220,
-        "font_size": 14,
+        "font_size": 11,
         "fill": "#e5a42c"
       },
       "date": {

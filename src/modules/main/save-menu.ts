@@ -81,13 +81,13 @@ export function formatSlotLabel(tag: string, meta: SaveSlotMeta | null): string 
               });
     }
     const date = timestamp.slice(0, 10);
-    const beatId = meta?.beatId ?? null;
-    const beat = beatId
-        ? formatGameplayTemplate(SAVE_MENU_CONFIG.beatSuffixTemplate, { beat: beatId })
+    const chunkKey = meta?.chunkKey ?? null;
+    const chunk = chunkKey
+        ? formatGameplayTemplate(SAVE_MENU_CONFIG.chunkSuffixTemplate, { chunk: chunkKey })
         : "";
     return tag
-        ? formatGameplayTemplate(SAVE_MENU_CONFIG.filledSlotTemplate, { tag, date, beat })
-        : formatGameplayTemplate(SAVE_MENU_CONFIG.filledDetailTemplate, { date, beat });
+        ? formatGameplayTemplate(SAVE_MENU_CONFIG.filledSlotTemplate, { tag, date, chunk })
+        : formatGameplayTemplate(SAVE_MENU_CONFIG.filledDetailTemplate, { date, chunk });
 }
 
 async function saveToSlot(player: RpgPlayer, index: number): Promise<void> {

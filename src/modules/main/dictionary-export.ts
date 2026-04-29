@@ -37,8 +37,7 @@ export type MasteredWord = ClueRecord;
 export interface ExportSnapshot {
     playerName: string;
     words: ClueRecord[];
-    journeyCleared: boolean;
-    ngPlusCount: number;
+    chunksVisited: number;
     exportedAt: string; // ISO
 }
 
@@ -57,8 +56,7 @@ export interface DictionaryExportPayload {
  * exportTextCard({
  *   playerName: 'Sam',
  *   words: [{ id: 'wild-signs', sightings: 12, mastered_at: '2026-04-20T00:00:00Z' }],
- *   journeyCleared: true,
- *   ngPlusCount: 0,
+ *   chunksVisited: 7,
  *   exportedAt: '2026-04-20T12:00:00Z',
  * })
  * // → (multi-line string with the player's stats)
@@ -69,7 +67,7 @@ export function exportTextCard(snap: ExportSnapshot): string {
 
     lines.push(config.header);
     lines.push(formatGameplayTemplate(config.playerTemplate, { player: snap.playerName }));
-    lines.push(`  ${textJourneyBadge(snap)}`);
+    lines.push(formatGameplayTemplate(config.explorerRankTemplate, { rank: explorerRank(snap.chunksVisited), chunks: snap.chunksVisited }));
     lines.push(formatGameplayTemplate(config.exportedAtTemplate, { date: exportDate(snap) }));
     lines.push(formatGameplayTemplate(config.wordCountTemplate, { count: snap.words.length }));
     lines.push("");
@@ -136,13 +134,11 @@ export function exportSvgCard(snap: ExportSnapshot): string {
         })
         .join("");
 
-    const clearedBadge = snap.journeyCleared
-        ? svgText({
-              ...config.clearedBadge,
-              fontFamily: config.fontFamily,
-              text: config.clearedBadge.text ?? "",
-          })
-        : "";
+    const rankBadge = svgText({
+        ...config.explorerRank,
+        fontFamily: config.fontFamily,
+        text: `${explorerRank(snap.chunksVisited)} · ${snap.chunksVisited} chunks`,
+    });
 
     return [
         `<svg xmlns="http://www.w3.org/2000/svg" viewBox="${config.viewBox}" width="${config.width}" height="${config.height}">`,
@@ -171,7 +167,7 @@ export function exportSvgCard(snap: ExportSnapshot): string {
             fontFamily: config.fontFamily,
             text: config.wordCountLabel.text ?? "",
         }),
-        clearedBadge,
+        rankBadge,
         cells,
         svgText({ ...config.date, fontFamily: config.fontFamily, text: exportDate(snap) }),
         `</svg>`,
@@ -183,6 +179,7 @@ export async function buildDictionaryExportSnapshot(
         playerName?: string;
         exportedAt?: string;
         masteryThreshold?: number;
+        chunksVisited?: number;
     } = {},
 ): Promise<ExportSnapshot> {
     const words = await listClueRecords(
@@ -191,8 +188,7 @@ export async function buildDictionaryExportSnapshot(
     return {
         playerName: options.playerName ?? DICTIONARY_EXPORT_CONFIG.runtime.defaultPlayerName,
         words,
-        journeyCleared: false,
-        ngPlusCount: 0,
+        chunksVisited: options.chunksVisited ?? 0,
         exportedAt: options.exportedAt ?? new Date().toISOString(),
     };
 }
@@ -221,11 +217,11 @@ export function isDictionaryExportPayload(value: unknown): value is DictionaryEx
     );
 }
 
-function textJourneyBadge(snap: ExportSnapshot): string {
-    const config = DICTIONARY_EXPORT_CONFIG.textCard;
-    if (!snap.journeyCleared) return config.inProgressBadge;
-    if (snap.ngPlusCount <= 0) return config.clearedBadge;
-    return formatGameplayTemplate(config.ngPlusBadgeTemplate, { count: snap.ngPlusCount + 1 });
+function explorerRank(chunks: number): string {
+    if (chunks >= 50) return "seasoned";
+    if (chunks >= 20) return "roaming";
+    if (chunks >= 5) return "wandering";
+    return "novice";
 }
 
 function exportDate(snap: ExportSnapshot): string {

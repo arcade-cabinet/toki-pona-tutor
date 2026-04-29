@@ -32,7 +32,7 @@ describe('secondary pause screen copy', () => {
         expect(formatSlotLabel('', null)).toBe('empty');
         expect(formatSlotLabel('2', {
             savedAt: '2026-04-21T19:15:00.000Z',
-            beatId: 'beat_01_riverside_home',
-        })).toBe('2 — 2026-04-21 · beat_01_riverside_home');
+            chunkKey: '2:-1',
+        })).toBe('2 — 2026-04-21 · 2:-1');
     });
 });

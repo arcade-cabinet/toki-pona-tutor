@@ -3,7 +3,7 @@ import { expect, test, type Page } from '@playwright/test';
 type BrowserDebugState = {
     playerId: string | null;
     currentMapId: string | null;
-    journeyBeat: string | null;
+    worldSeed: string | null;
     position: {
         x: number | null;
         y: number | null;
@@ -55,7 +55,6 @@ async function seedRouteSave(page: Page): Promise<void> {
         const { preferences, KEYS } = await import('./src/platform/persistence/preferences.ts');
         const { getDatabase, saveWebStore } = await import('./src/platform/persistence/database.ts');
         await preferences.set(KEYS.currentMapId, 'greenwood_road');
-        await preferences.set(KEYS.journeyBeat, 'beat_02_greenwood_road');
         await preferences.set(KEYS.starterChosen, 'ashcat');
         await player.save(3, { map: 'greenwood_road' });
 
@@ -164,10 +163,6 @@ test('reload shows Continue and restores the saved map, beat, and tile', async (
     }).toBe('greenwood_road');
     await expect.poll(async () => {
         const state = await getState(page);
-        return state.journeyBeat;
-    }).toBe('beat_02_greenwood_road');
-    await expect.poll(async () => {
-        const state = await getState(page);
         return `${state.serverPosition.x},${state.serverPosition.y}`;
     }).toBe('32,96');
     await expect.poll(async () => {
@@ -178,7 +173,6 @@ test('reload shows Continue and restores the saved map, beat, and tile', async (
 
     const resumed = await getState(page);
     expect(resumed.currentMapId).toBe('greenwood_road');
-    expect(resumed.journeyBeat).toBe('beat_02_greenwood_road');
     expect(resumed.serverPosition).toEqual({ x: 32, y: 96 });
     expect(Math.abs((resumed.position.x ?? 0) - 32)).toBeLessThanOrEqual(16);
     expect(Math.abs((resumed.position.y ?? 0) - 96)).toBeLessThanOrEqual(16);
@@ -237,8 +231,8 @@ test('new game prompts before wiping an existing save and resets to the starter 
     }).toBe('riverside_home');
     await expect.poll(async () => {
         const state = await getState(page);
-        return state.journeyBeat;
-    }).toBe('beat_01_riverside_home');
+        return state.worldSeed !== null;
+    }).toBe(true);
     await expect.poll(async () => {
         const state = await getState(page);
         return state.saves.some((slot) => slot?.map === 'greenwood_road');
