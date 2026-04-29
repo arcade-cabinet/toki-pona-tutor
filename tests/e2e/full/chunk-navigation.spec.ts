@@ -15,16 +15,21 @@ async function waitForReady(page: Page): Promise<void> {
     });
 }
 
-async function moveToChunk(page: Page, mapId: string, x = 16, y = 12): Promise<void> {
+// Center of a 32×24 outdoor chunk — guaranteed walkable (no collision at origin center).
+const CHUNK_CENTER = { x: 16, y: 12 };
+
+async function moveToChunk(page: Page, mapId: string, pos = CHUNK_CENTER): Promise<void> {
     await page.evaluate(
-        ({ id, pos }) => window.__POKI__!.testing.moveServerPlayer(pos, id),
-        { id: mapId, pos: { x, y } },
+        ({ id, position }) => window.__POKI__!.testing.moveServerPlayer(position, id),
+        { id: mapId, position: pos },
     );
 }
 
 async function pollServerMapId(page: Page): Promise<string | null> {
-    const state = await page.evaluate(() => window.__POKI__!.testing.getState());
-    return state.serverMapId ?? null;
+    return page.evaluate(() => {
+        if (!window.__POKI__?.ready) return null;
+        return window.__POKI__.testing.getState().then((s) => s.serverMapId ?? null);
+    });
 }
 
 test.beforeEach(async ({ page }) => {
