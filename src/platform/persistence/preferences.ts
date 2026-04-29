@@ -14,7 +14,6 @@
 /** Well-known keys. Add here; never scatter string literals across the codebase. */
 export const KEYS = {
     currentMapId: "poki-soweli.world.current_map_id",
-    journeyBeat: "poki-soweli.world.journey_beat",
     partySlot: "poki-soweli.world.party_slot",
     lastSafeMapId: "poki-soweli.world.last_safe_map_id",
     lastSafeSpawnX: "poki-soweli.world.last_safe_spawn_x",
@@ -34,6 +33,10 @@ export const KEYS = {
     // T5-12 / accessibility: larger type + reduced motion, independent
     // from OS-level prefers-reduced-motion so players can opt in in-game.
     accessibleMode: "poki-soweli.settings.accessible_mode",
+    // T123: active world seed — set on New Game, read on Resume.
+    worldSeed: "poki-soweli.world.seed",
+    // T152: active rumor list — JSON-serialized Rumor[].
+    activeRumors: "poki-soweli.world.active_rumors",
 } as const;
 
 export type PreferenceKey = (typeof KEYS)[keyof typeof KEYS];

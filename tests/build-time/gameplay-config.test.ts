@@ -1,9 +1,7 @@
 import { describe, expect, it } from 'vitest';
 import worldRaw from '../../src/content/generated/world.json';
 import {
-    BADGE_DEFINITIONS,
     AUDIO_RUNTIME_CONFIG,
-    BATTLE_AI_BOOTSTRAP_CONFIG,
     BGM_FILES,
     BGM_SELECTION_CONFIG,
     BOSS_SPRITESHEET_CONFIGS,
@@ -13,17 +11,14 @@ import {
     COMBATANT_SPRITESHEET_CONFIGS,
     COMBAT_CHROME_CONFIG,
     CREDITS_PAGES,
-    DAYCARE_CONFIG,
     DEFAULT_RESPAWN,
     DEFEAT_SCREEN_CONFIG,
     DIALOG_UI_CONFIG,
     DICTIONARY_EXPORT_CONFIG,
     EFFECT_SPRITESHEET_CONFIGS,
     ENCOUNTER_CONFIG,
-    FINAL_BOSS_CONFIG,
     GAMEPLAY_MAPS,
     GAME_RULES_CONFIG,
-    GYM_PHASE_POLL_MS,
     HUD_HINT_CONFIG,
     HUD_MENU_CONFIG,
     HUD_NON_BLOCKING_GUI_IDS,
@@ -35,9 +30,7 @@ import {
     ITEM_DROP_FALLBACK_BY_TYPE,
     ITEM_DROP_TIER_DEFAULTS,
     LEVEL_CURVE_CONFIG,
-    MAP_EVENT_CONFIGS,
     MICRO_GAME_CONFIG,
-    NEW_GAME_PLUS_CONFIG,
     NOTIFICATION_CONFIG,
     NPC_SPRITESHEET_CONFIGS,
     PAUSE_MENU_CONFIG,
@@ -48,8 +41,6 @@ import {
     PIXI_GUARDED_FX_ALIASES,
     PLAYER_CONFIG,
     PLAYER_SPRITESHEET_CONFIGS,
-    REGION_XP_CURVE,
-    REMATCH_CONFIG,
     SAVE_MENU_CONFIG,
     SETTINGS_CONFIG,
     SFX_BASE_VOLUMES,
@@ -61,8 +52,6 @@ import {
     TAP_CONTROL_TARGET_BLOCKING_UI_SELECTORS,
     TAP_ROUTE_CONFIG,
     SHOPS,
-    SIDE_QUEST_CONFIGS,
-    QUEST_UI_CONFIG,
     STARTER_INITIAL_ITEMS,
     STARTER_CEREMONY_CONFIG,
     STARTERS,
@@ -70,15 +59,15 @@ import {
     SPRITE_LAYOUTS,
     TITLE_MENU_CONFIG,
     TITLE_START,
-    TRAINER_BATTLE_CONFIGS,
     WARP_LOADING_CONFIG,
     WILD_COMBAT_CONFIG,
     VOCABULARY_SCREEN_CONFIG,
     COMBAT_UI_CONFIG,
     COMBAT_AUDIO_CONFIG,
     TYPE_MATCHUP_CONFIG,
+    CHUNK_OVERLAY_CONFIG,
+    CHALLENGE_UI_CONFIG,
 } from '../../src/content/gameplay';
-import { runtimeEventPosition, runtimeWarpTarget } from '../../src/modules/main/runtime-map-events';
 
 const WORLD = worldRaw as {
     species: Array<{ id: string }>;
@@ -86,11 +75,9 @@ const WORLD = worldRaw as {
     dialog: Array<{ id: string }>;
 };
 
-const speciesIds = new Set(WORLD.species.map((species) => species.id));
 const itemIds = new Set(WORLD.items.map((item) => item.id));
 const dialogIds = new Set(WORLD.dialog.map((dialog) => dialog.id));
 const mapIds = new Set(Object.keys(GAMEPLAY_MAPS));
-const biomeIds = new Set(Object.values(GAMEPLAY_MAPS).map((map) => map.biome));
 
 describe('gameplay JSON config', () => {
     it('keeps map labels, music, and respawn anchors in config', () => {
@@ -103,16 +90,7 @@ describe('gameplay JSON config', () => {
         expect(GAMEPLAY_MAPS.rivergate_approach?.label).toBe('Rivergate Approach');
     });
 
-    it('keeps badge, starter, and shop data referentially valid', () => {
-        expect(BADGE_DEFINITIONS.map((badge) => badge.flag)).toEqual([
-            'badge_sewi',
-            'badge_telo',
-            'badge_lete',
-            'badge_suli',
-        ]);
-        for (const badge of BADGE_DEFINITIONS) {
-            expect(REGION_XP_CURVE[badge.flag], badge.flag).toBeGreaterThan(0);
-        }
+    it('keeps level curve, game rules, coins, starters, and shops referentially valid', () => {
         expect(LEVEL_CURVE_CONFIG).toEqual({
             minLevel: 1,
             maxLevel: 50,
@@ -123,23 +101,9 @@ describe('gameplay JSON config', () => {
             autosaveSlot: 0,
             manualSaveSlots: [1, 2, 3],
         });
-        expect(mapIds.has(NEW_GAME_PLUS_CONFIG.startMapId)).toBe(true);
-        expect(NEW_GAME_PLUS_CONFIG.startJourneyBeatId).toBe('beat_01_riverside_home');
-        expect(NEW_GAME_PLUS_CONFIG.requiredClearedFlag).toBe('game_cleared');
-        expect(NEW_GAME_PLUS_CONFIG.levelReduction).toBeGreaterThan(0);
-        expect(NEW_GAME_PLUS_CONFIG.legendaryMultiplierCap).toBeGreaterThanOrEqual(
-            NEW_GAME_PLUS_CONFIG.legendaryMultiplierBase,
-        );
-        for (const itemId of Object.keys(NEW_GAME_PLUS_CONFIG.rewardInventory)) {
-            expect(itemIds.has(itemId), itemId).toBe(true);
-        }
         expect(itemIds.has(COIN_ITEM_ID)).toBe(true);
         expect(Object.values(BATTLE_COIN_REWARDS).every((amount) => amount > 0)).toBe(true);
 
-        for (const starter of STARTERS) {
-            expect(speciesIds.has(starter.id), starter.id).toBe(true);
-            expect(starter.starting_clues).toContain('capture-pods');
-        }
         for (const item of STARTER_INITIAL_ITEMS) {
             expect(itemIds.has(item.itemId), item.itemId).toBe(true);
         }
@@ -153,73 +117,7 @@ describe('gameplay JSON config', () => {
         }
     });
 
-    it('keeps side quests connected to known maps, items, species, and biomes', () => {
-        const questIds = new Set<string>();
-        for (const quest of SIDE_QUEST_CONFIGS) {
-            expect(questIds.has(quest.id), quest.id).toBe(false);
-            questIds.add(quest.id);
 
-            if (quest.mapId) expect(mapIds.has(quest.mapId), quest.id).toBe(true);
-            if (quest.reward.itemId) expect(itemIds.has(quest.reward.itemId), quest.id).toBe(true);
-
-            switch (quest.goal.kind) {
-                case 'catch_count':
-                    expect(speciesIds.has(quest.goal.speciesId), quest.id).toBe(true);
-                    break;
-                case 'catch_any_in_biome':
-                    expect(biomeIds.has(quest.goal.biome), quest.id).toBe(true);
-                    break;
-                case 'deliver_item':
-                    expect(itemIds.has(quest.goal.itemId), quest.id).toBe(true);
-                    break;
-                case 'defeat_trainer':
-                    expect(quest.goal.npcId.length, quest.id).toBeGreaterThan(0);
-                    break;
-            }
-        }
-    });
-
-    it('keeps runtime map events connected to known maps, dialogs, quests, and trainers', () => {
-        const questIds = new Set(SIDE_QUEST_CONFIGS.map((quest) => quest.id));
-        for (const [mapId, events] of Object.entries(MAP_EVENT_CONFIGS)) {
-            expect(mapIds.has(mapId), mapId).toBe(true);
-            expect(events.length, mapId).toBeGreaterThanOrEqual(5);
-
-            const eventIds = new Set<string>();
-            for (const event of events) {
-                expect(eventIds.has(event.id), `${mapId}:${event.id}`).toBe(false);
-                eventIds.add(event.id);
-                expect(runtimeEventPosition(mapId, event), `${mapId}:${event.id}`).toMatchObject({
-                    x: expect.any(Number),
-                    y: expect.any(Number),
-                });
-
-                if (event.kind === 'ambient_npc' || event.kind === 'quest_npc') {
-                    expect(dialogIds.has(event.dialogId), `${mapId}:${event.id}`).toBe(true);
-                }
-                if (event.kind === 'quest_npc') {
-                    expect(questIds.has(event.questId), `${mapId}:${event.id}`).toBe(true);
-                }
-                if (event.kind === 'rival' || event.kind === 'gym_leader') {
-                    expect(TRAINER_BATTLE_CONFIGS[event.trainerId], `${mapId}:${event.id}`).toBeDefined();
-                }
-                if (event.kind === 'warp') {
-                    const target = runtimeWarpTarget(mapId, event);
-                    expect(mapIds.has(target.targetMap), `${mapId}:${event.id}`).toBe(true);
-                }
-            }
-        }
-        expect(MAP_EVENT_CONFIGS.rivergate_approach?.some((event) => event.kind === 'green_dragon')).toBe(true);
-        expect(runtimeEventPosition('greenwood_road', MAP_EVENT_CONFIGS.greenwood_road!.find((event) => event.id === 'jan-ike')!))
-            .toEqual({ x: 448, y: 88 });
-        expect(runtimeWarpTarget(
-            'riverside_home',
-            MAP_EVENT_CONFIGS.riverside_home!.find((event) => event.id === 'warp_east') as Extract<
-                (typeof MAP_EVENT_CONFIGS.riverside_home)[number],
-                { kind: 'warp' }
-            >,
-        ).position).toEqual({ x: 32, y: 96 });
-    });
 
     it('keeps species item-drop fallback data item-backed and tier-backed', () => {
         for (const itemId of Object.values(ITEM_DROP_FALLBACK_BY_TYPE)) {
@@ -267,17 +165,6 @@ describe('gameplay JSON config', () => {
         expect(WILD_COMBAT_CONFIG.applyDamage.targetHpFloorAfterAttack).toBe(1);
     });
 
-    it('keeps daycare offspring tuning data-backed', () => {
-        expect(DAYCARE_CONFIG.offspringLevel).toBe(1);
-        expect(DAYCARE_CONFIG.defaultChildSuffix).toBe('_lili');
-        expect(DAYCARE_CONFIG.statJitterFraction).toBe(0.1);
-        expect(DAYCARE_CONFIG.statMin).toBeLessThan(DAYCARE_CONFIG.statMax);
-        expect(DAYCARE_CONFIG.parentInheritedMoveLevel).toBe(1);
-        expect(DAYCARE_CONFIG.childLearnsetMaxLevel).toBe(5);
-        expect(DAYCARE_CONFIG.typeInheritance.dominantTypes).toEqual(['wawa']);
-        expect(DAYCARE_CONFIG.typeInheritance.deferToOtherTypes).toEqual(['lete']);
-        expect(DAYCARE_CONFIG.typeInheritance.pairOverrides.seli_telo).toBe('kasi');
-    });
 
     it('keeps audio, title, and credits config structurally usable', () => {
         expect(Object.keys(BGM_FILES)).toContain('bgm_menu');
@@ -308,7 +195,6 @@ describe('gameplay JSON config', () => {
 
         expect(mapIds.has(TITLE_START.mapId)).toBe(true);
         expect(TITLE_START.spawn).toEqual(GAMEPLAY_MAPS[TITLE_START.mapId]?.safe_spawn);
-        expect(TITLE_START.journeyBeatId).toBe('beat_01_riverside_home');
         expect(PLAYER_CONFIG.defaultGraphic).toBe('rivers_protagonist');
         expect(TITLE_MENU_CONFIG.guiId).toBe('rpg-title-screen');
         expect(TITLE_MENU_CONFIG.menuTitle).toBe('Rivers Reckoning');
@@ -330,6 +216,8 @@ describe('gameplay JSON config', () => {
             'vocab',
             'inventory',
             'bestiary',
+            'rumors',
+            'challenges',
             'settings',
         ]);
         expect(PAUSE_FOOTER_ENTRIES.map((entry) => entry.id)).toEqual(['resume', 'save', 'title']);
@@ -463,7 +351,7 @@ describe('gameplay JSON config', () => {
         expect(INVENTORY_SCREEN_CONFIG.itemLineTemplate).toBe('  {item} ×{count}');
         expect(PARTY_PANEL_CONFIG.hpLabelTemplate).toBe('HP {current} / {max}');
         expect(PARTY_PANEL_CONFIG.movesEmptyLabel).toBe('moves: none');
-        expect(BESTIARY_PANEL_CONFIG.titleTemplate).toBe('Bestiary {caught} / {total}');
+        expect(BESTIARY_PANEL_CONFIG.titleTemplate).toBe('Bestiary — {caught} caught');
         expect(BESTIARY_PANEL_CONFIG.unknownLabelTemplate).toBe('??? {index}');
         expect(BESTIARY_PANEL_CONFIG.descriptionTextTemplate).toBe('{label}\n{description}');
         expect(BESTIARY_PANEL_CONFIG.missingDescriptionText).toBe('Details are still unknown.');
@@ -475,10 +363,6 @@ describe('gameplay JSON config', () => {
         expect(DIALOG_UI_CONFIG.sitelenOverlayTestId).toBe('dialog-sitelen-overlay');
         expect(DIALOG_UI_CONFIG.confirmSfxId).toBe('sfx_menu_confirm');
         expect(DIALOG_UI_CONFIG.tickSfxId).toBe('sfx_menu_tick');
-        expect(QUEST_UI_CONFIG.acceptLabel).toBe('Accept');
-        expect(QUEST_UI_CONFIG.goalTemplates.deliver_item).toBe('Deliver: {item} -> {npc}');
-        expect(QUEST_UI_CONFIG.journalLineTemplate).toBe('  {mark} {title}: {progress}');
-        expect(QUEST_UI_CONFIG.notificationMs).toBe(2500);
         expect(DICTIONARY_EXPORT_CONFIG.runtime).toEqual({
             action: { label: 'Export Clues', meta: 'SVG' },
             defaultPlayerName: 'Rivers',
@@ -494,6 +378,36 @@ describe('gameplay JSON config', () => {
         expect(NOTIFICATION_CONFIG.benchSwitch.timeMs).toBe(1500);
         expect(CREDITS_PAGES.length).toBeGreaterThan(0);
         expect(CREDITS_PAGES[0]).toContain('Rivers Reckoning');
+    });
+
+    it('T154: glance screen has a seed row template', () => {
+        // Seed display — players share the seed string to replay worlds.
+        expect(PAUSE_MENU_CONFIG.glance.seedRowLabelTemplate).toMatch(/\{seed\}/);
+    });
+
+    it('T150: world map data — CHUNK_OVERLAY_CONFIG.guiId is a non-empty string', () => {
+        expect(typeof CHUNK_OVERLAY_CONFIG.guiId).toBe('string');
+        expect(CHUNK_OVERLAY_CONFIG.guiId.length).toBeGreaterThan(0);
+    });
+
+    it('T151: chunk overlay — fade_ms is a positive integer and template has {name}', () => {
+        expect(Number.isInteger(CHUNK_OVERLAY_CONFIG.fadeMs)).toBe(true);
+        expect(CHUNK_OVERLAY_CONFIG.fadeMs).toBeGreaterThan(0);
+        expect(CHUNK_OVERLAY_CONFIG.enteringTemplate).toMatch(/\{name\}/);
+    });
+
+    it('T152/T153: challenge UI config has accept/decline/defer labels', () => {
+        expect(typeof CHALLENGE_UI_CONFIG.acceptLabel).toBe('string');
+        expect(typeof CHALLENGE_UI_CONFIG.declineLabel).toBe('string');
+        expect(typeof CHALLENGE_UI_CONFIG.deferLabel).toBe('string');
+        expect(CHALLENGE_UI_CONFIG.journalEntryTemplate).toMatch(/\{npc\}/);
+        expect(CHALLENGE_UI_CONFIG.journalEntryTemplate).toMatch(/\{cause\}/);
+    });
+
+    it('T155: bestiary title shows caught count without total (no completion nag)', () => {
+        // No "X / 43" fraction — that creates dex-panic. Just caught count.
+        expect(BESTIARY_PANEL_CONFIG.titleTemplate).toMatch(/\{caught\}/);
+        expect(BESTIARY_PANEL_CONFIG.titleTemplate).not.toMatch(/\{total\}/);
     });
 
     it('keeps visual config usable by runtime render adapters', () => {
@@ -633,83 +547,4 @@ describe('gameplay JSON config', () => {
         });
     });
 
-    it('keeps trainer battle stats and action-battle tuning config-driven', () => {
-        expect(BATTLE_AI_BOOTSTRAP_CONFIG).toEqual({
-            maxAttempts: 20,
-            retryMs: 25,
-        });
-        expect(GYM_PHASE_POLL_MS).toBe(250);
-
-        expect(Object.keys(TRAINER_BATTLE_CONFIGS).sort()).toEqual([
-            'cliff',
-            'frost',
-            'marin',
-            'rook',
-            'tarrin',
-        ]);
-        expect(TRAINER_BATTLE_CONFIGS.rook).toMatchObject({
-            npcId: 'rook',
-            defeatedFlag: 'rook_defeated',
-            graphic: 'combatant_rogue_hooded',
-            hp: 60,
-            atk: 14,
-            pdef: 8,
-            xpYield: 100,
-            enemyType: 'aggressive',
-            actionBattle: {
-                attackCooldownMs: 900,
-                visionRange: 140,
-                attackRange: 28,
-                fleeThreshold: 0,
-            },
-        });
-        expect(TRAINER_BATTLE_CONFIGS.tarrin).toMatchObject({
-            badgeFlag: 'badge_sewi',
-            rewardClue: 'highridge-proof',
-            phase2: {
-                hp: 80,
-                enemyType: 'tank',
-            },
-        });
-        for (const trainer of Object.values(TRAINER_BATTLE_CONFIGS)) {
-            expect(trainer.actionBattle.attackCooldownMs, trainer.npcId).toBeGreaterThan(0);
-            expect(trainer.actionBattle.visionRange, trainer.npcId).toBeGreaterThan(0);
-        }
-
-        expect(FINAL_BOSS_CONFIG).toMatchObject({
-            npcId: 'green_dragon',
-            defeatedFlag: 'green_dragon_defeated',
-            clearedFlag: 'game_cleared',
-            rewardClue: 'green-dragon-proof',
-            endingBeatId: 'ending',
-            dialogBase: 'green_dragon',
-            graphic: 'green_dragon_idle',
-            hp: 320,
-            atk: 42,
-            pdef: 28,
-            enemyType: 'berserker',
-            coinRewardKey: 'greenDragon',
-            actionBattle: {
-                attackCooldownMs: 700,
-                visionRange: 200,
-                attackRange: 40,
-                fleeThreshold: 0,
-            },
-            deathVisual: {
-                graphic: 'green_dragon_death',
-                animationName: 'death',
-                durationMs: 1200,
-            },
-        });
-        expect(FINAL_BOSS_CONFIG.requiredBadgeFlags).toEqual(BADGE_DEFINITIONS.map((badge) => badge.flag));
-        expect(BATTLE_COIN_REWARDS[FINAL_BOSS_CONFIG.coinRewardKey]).toBeGreaterThan(0);
-    });
-
-    it('keeps rematch scaling and rewards config-driven', () => {
-        expect(REMATCH_CONFIG.cooldown_hours).toBeGreaterThan(0);
-        expect(REMATCH_CONFIG.xp_multiplier_cap).toBeGreaterThan(1);
-        expect(REMATCH_CONFIG.level_cap).toBeGreaterThan(REMATCH_CONFIG.level_step);
-        expect(REMATCH_CONFIG.default_reward.flag_prefix).toBe('trophy_');
-        expect(REMATCH_CONFIG.rewards.map((reward) => reward.clear_count)).toEqual([1, 2, 3]);
-    });
 });

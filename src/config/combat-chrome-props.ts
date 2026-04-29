@@ -1,17 +1,4 @@
 import { COMBAT_TARGET_PARAM } from "../modules/main/combat-visuals";
-import { MAP_EVENT_CONFIGS } from "../content/gameplay";
-
-const COMBAT_CHROME_TARGET_IDS = new Set(
-    Object.values(MAP_EVENT_CONFIGS)
-        .flat()
-        .filter(
-            (event) =>
-                event.kind === "rival" ||
-                event.kind === "gym_leader" ||
-                event.kind === "green_dragon",
-        )
-        .map((event) => event.id),
-);
 
 export type CombatSpriteObject = {
     id?: string;
@@ -56,7 +43,5 @@ function isCombatTargetObject(
     object: CombatSpriteObject,
     params: Record<string, unknown>,
 ): boolean {
-    if (Number(params[COMBAT_TARGET_PARAM] ?? 0) === 1) return true;
-    const id = String(object.id ?? object.name ?? params.id ?? params.name ?? "");
-    return COMBAT_CHROME_TARGET_IDS.has(id);
+    return Number(params[COMBAT_TARGET_PARAM] ?? 0) === 1;
 }

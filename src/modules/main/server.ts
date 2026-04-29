@@ -7,11 +7,6 @@ import { Warp } from "./warp";
 import { JanMokuShop } from "./shop-npc";
 import { SignEvent } from "./sign";
 import { LEAD_ACTION_BATTLE_SKILL_DATABASE } from "./lead-battle-skills";
-import { runtimeEventPosition, runtimeWarpTarget } from "./runtime-map-events";
-import {
-    MAP_EVENT_CONFIGS,
-    type RuntimeMapEventConfig,
-} from "../../content/gameplay";
 import worldRaw from "../../content/generated/world.json";
 
 type WorldSign = { region: string; at: [number, number]; title: string; body: { en: string } };
@@ -64,29 +59,17 @@ function signEventsForMap(mapId: string) {
  * from the dossier's `appearances[].requires_flag`) hides the sprite and
  * makes onAction a no-op until the flag is set — AmbientNpc swaps the
  * graphic reactively on every sync.
- *
- * Green dragon is excluded: it lives as a dedicated `green_dragon` event
- * kind in events.json (the endgame encounter), not an ambient NPC.
  */
 const DOSSIER_NPC_GRAPHIC = "npc_villager_masc_janik";
-const DOSSIER_NPC_EXCLUDED_IDS = new Set(["green_dragon"]);
 
 function dossierNpcEventsForMap(mapId: string) {
     const map = worldMaps.find((m) => m.id === mapId);
     if (!map) return [];
-    const handAuthoredIds = new Set(
-        (MAP_EVENT_CONFIGS[mapId] ?? []).map((event) => event.id),
-    );
     return map.objects
         .filter((o) => o.type === "NPC" && o.name.startsWith("npc-"))
         .filter((o) => {
             const dossierId = String(o.properties.id ?? "");
-            if (!dossierId) return false;
-            if (DOSSIER_NPC_EXCLUDED_IDS.has(dossierId)) return false;
-            // Collision guard: a hand-authored event.id that matches the
-            // dossier NPC's marker name would double-spawn the position.
-            if (handAuthoredIds.has(o.name)) return false;
-            return true;
+            return Boolean(dossierId);
         })
         .map((o) => {
             const dialogId = String(o.properties.dialog_id ?? "");
@@ -106,7 +89,6 @@ function dossierNpcEventsForMap(mapId: string) {
 }
 
 const mapIds = new Set<string>([
-    ...Object.keys(MAP_EVENT_CONFIGS),
     ...worldSigns.map((s) => s.region),
     ...worldMaps.map((m) => m.id),
 ]);
@@ -117,51 +99,8 @@ export default defineModule<RpgServer>({
     maps: Array.from(mapIds).map((id) => ({
         id,
         events: [
-            ...(MAP_EVENT_CONFIGS[id] ?? []).map((event) => runtimeEvent(id, event)),
             ...signEventsForMap(id),
             ...dossierNpcEventsForMap(id),
         ],
     })),
 });
-
-function runtimeEvent(mapId: string, config: RuntimeMapEventConfig) {
-    const position = runtimeEventPosition(mapId, config);
-    return {
-        id: config.id,
-        x: position.x,
-        y: position.y,
-        event: eventDefinition(mapId, config),
-    };
-}
-
-function eventDefinition(mapId: string, config: RuntimeMapEventConfig) {
-    switch (config.kind) {
-        case "ambient_npc":
-            return AmbientNpc(config.graphic, config.dialogId);
-        case "starter_mentor":
-            return JanSewi();
-        case "shop":
-            if (config.shopId !== "shopkeep") {
-                throw new Error(`[server] unsupported shop event: ${config.shopId}`);
-            }
-            return JanMokuShop();
-        case "warp":
-            const target = runtimeWarpTarget(mapId, config);
-            return Warp({
-                targetMap: target.targetMap,
-                position: target.position,
-                requiredFlag: target.requiredFlag,
-                gatedDialogId: config.gatedDialogId,
-            });
-        case "sign":
-            return SignEvent(config.body);
-        default:
-            // quest_npc / rival / gym_leader / green_dragon were retired in T108.
-            // Runtime config entries of those kinds are now orphans until the
-            // Phase-2 world-gen pipeline replaces events.json. Fail fast so
-            // a stale config doesn't silently spawn a broken event.
-            throw new Error(
-                `[server] retired event kind '${(config as { kind: string }).kind}' — Phase 1 teardown (T108)`,
-            );
-    }
-}

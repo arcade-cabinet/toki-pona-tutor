@@ -3,12 +3,12 @@ import { preferences, KEYS } from "./preferences";
 
 const GAMEPLAY_PREFERENCE_KEYS = [
     KEYS.currentMapId,
-    KEYS.journeyBeat,
     KEYS.partySlot,
     KEYS.lastSafeMapId,
     KEYS.lastSafeSpawnX,
     KEYS.lastSafeSpawnY,
     KEYS.starterChosen,
+    KEYS.worldSeed,
 ] as const;
 
 export const SAVE_RUNTIME_STATE_KEY = "__pokiSoweliRuntimeState";

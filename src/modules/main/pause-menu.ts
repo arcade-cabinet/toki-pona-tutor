@@ -1,5 +1,7 @@
 import type { RpgPlayer } from "@rpgjs/server";
 import { AUTOSAVE_SLOT } from "../../platform/persistence/constants";
+import { loadActiveSeed } from "../../platform/persistence/seed-persistence";
+import { seedDisplay } from "../seed";
 import { showInventory } from "./inventory-screen";
 import {
     consumeInventoryItem,
@@ -41,6 +43,9 @@ import {
     syncLeadCreatureStats,
 } from "./lead-battle-avatar";
 import { buildBestiaryPanel } from "./bestiary-panel";
+import { buildJournalEntries } from "./challenge-npc";
+import { loadActiveRumors } from "../../platform/persistence/rumor-persistence";
+import { CHALLENGE_UI_CONFIG } from "../../content/gameplay";
 import { playMicroGame } from "./micro-game";
 import { showDictionaryExport } from "./dictionary-export";
 import {
@@ -250,6 +255,10 @@ async function buildRouteContent(
             return buildInventoryContent();
         case "bestiary":
             return buildBestiaryContent();
+        case "rumors":
+            return buildRumorsContent();
+        case "challenges":
+            return buildChallengesContent();
         case "settings":
             return buildSettingsContent();
     }
@@ -267,11 +276,12 @@ async function buildRouteContent(
  */
 async function buildGlanceContent(): Promise<{ title: string; rows: PauseEntry[] }> {
     const copy = PAUSE_MENU_CONFIG.glance;
-    const [party, mastered, bestiary, starterFlag] = await Promise.all([
+    const [party, mastered, bestiary, starterFlag, activeSeed] = await Promise.all([
         getPartyWithHealth(),
         listMasteredWords(VOCABULARY_SCREEN_CONFIG.masteryThreshold),
         getBestiaryState(),
         getFlag("starter_chosen"),
+        loadActiveSeed(),
     ]);
     const partyMax = GAME_RULES_CONFIG.partySizeMax;
     const lead = party[0];
@@ -335,6 +345,15 @@ async function buildGlanceContent(): Promise<{ title: string; rows: PauseEntry[]
                 : copy.objectiveRowLabelPreStarter,
             meta: copy.objectiveRowMeta,
             testId: "glance-objective",
+            disabled: true,
+        },
+        {
+            id: "glance-seed",
+            label: formatGameplayTemplate(copy.seedRowLabelTemplate, {
+                seed: activeSeed !== null ? seedDisplay(activeSeed) : "—",
+            }),
+            meta: copy.seedRowMeta,
+            testId: "glance-seed",
             disabled: true,
         },
     ];
@@ -635,4 +654,26 @@ function settingsPauseSummaryMeta(
         default:
             return template;
     }
+}
+
+async function buildRumorsContent(): Promise<{ title: string; rows: PauseEntry[] }> {
+    const rumors = await loadActiveRumors();
+    const rows: PauseEntry[] =
+        rumors.length === 0
+            ? [{ label: CHALLENGE_UI_CONFIG.journalEmptyLabel, disabled: true }]
+            : rumors.map((r) => ({
+                  label: `${r.direction} — ${r.distanceHint}`,
+                  meta: r.templateId,
+                  disabled: true,
+              }));
+    return { title: CHALLENGE_UI_CONFIG.journalSectionLabel, rows };
+}
+
+async function buildChallengesContent(): Promise<{ title: string; rows: PauseEntry[] }> {
+    // Challenges come from chunk deltas across all visited chunks.
+    // Without a live seed + visited-chunk scan this returns the empty state.
+    // Full implementation wires in loadAllChallenges in Phase 9.
+    const entries = buildJournalEntries([], CHALLENGE_UI_CONFIG);
+    const rows: PauseEntry[] = entries.map((e) => ({ label: e.text, disabled: true }));
+    return { title: CHALLENGE_UI_CONFIG.journalSectionLabel, rows };
 }

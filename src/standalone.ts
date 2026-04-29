@@ -131,7 +131,7 @@ if (import.meta.env.DEV || import.meta.env.MODE === "test") {
         playerId: string | null;
         serverPlayerId: string | null;
         currentMapId: string | null;
-        journeyBeat: string | null;
+        worldSeed: string | null;
         starterChosen: string | null;
         serverGraphic: string | null;
         position: DebugPosition;
@@ -205,7 +205,7 @@ if (import.meta.env.DEV || import.meta.env.MODE === "test") {
         playerId: null,
         serverPlayerId: null,
         currentMapId: null,
-        journeyBeat: null,
+        worldSeed: null,
         starterChosen: null,
         serverGraphic: null,
         position: { x: null, y: null },
@@ -352,7 +352,7 @@ if (import.meta.env.DEV || import.meta.env.MODE === "test") {
             playerId,
             serverPlayerId: serverPlayer?.id ?? null,
             currentMapId: await preferences.get(KEYS.currentMapId),
-            journeyBeat: await preferences.get(KEYS.journeyBeat),
+            worldSeed: await preferences.get(KEYS.worldSeed),
             starterChosen: await preferences.get(KEYS.starterChosen),
             serverGraphic: readServerGraphic(serverPlayer),
             position: {

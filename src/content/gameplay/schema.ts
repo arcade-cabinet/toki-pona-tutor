@@ -29,6 +29,8 @@ const pauseRouteIdSchema = z.enum([
     "vocab",
     "inventory",
     "bestiary",
+    "rumors",
+    "challenges",
     "settings",
 ]);
 const pauseFooterIdSchema = z.enum(["resume", "save", "title"]);
@@ -186,16 +188,6 @@ export const mapsConfigSchema = z.object({
 });
 
 export const progressionConfigSchema = z.object({
-    badges: z
-        .array(
-            z.object({
-                flag: idSchema,
-                label: idSchema,
-                region: idSchema,
-            }),
-        )
-        .min(1),
-    gym_xp_curve: z.record(idSchema, positiveIntSchema),
     level_curve: z
         .object({
             min_level: positiveIntSchema,
@@ -207,64 +199,6 @@ export const progressionConfigSchema = z.object({
         party_size_max: positiveIntSchema,
         autosave_slot: nonNegativeIntSchema,
         manual_save_slots: z.array(positiveIntSchema).min(1),
-    }),
-    new_game_plus: z
-        .object({
-            required_cleared_flag: idSchema,
-            level_reduction: positiveIntSchema,
-            start_map_id: idSchema,
-            start_journey_beat_id: idSchema,
-            reward_inventory: z.array(itemStackSchema).min(1),
-            legendary_multiplier_base: z.number().positive(),
-            legendary_multiplier_per_clear: z.number().positive(),
-            legendary_multiplier_cap: z.number().positive(),
-        })
-        .refine(
-            (config) => config.legendary_multiplier_cap >= config.legendary_multiplier_base,
-            "legendary_multiplier_cap must be >= legendary_multiplier_base",
-        ),
-    daycare: z
-        .object({
-            offspring_level: positiveIntSchema,
-            default_child_suffix: idSchema,
-            stat_jitter_fraction: chanceSchema,
-            stat_min: positiveIntSchema,
-            stat_max: positiveIntSchema,
-            parent_inherited_move_level: positiveIntSchema,
-            child_learnset_max_level: positiveIntSchema,
-            type_inheritance: z.object({
-                dominant_types: z.array(combatTypeSchema),
-                defer_to_other_types: z.array(combatTypeSchema),
-                pair_overrides: z.record(idSchema, combatTypeSchema),
-            }),
-        })
-        .refine((config) => config.stat_max >= config.stat_min, "stat_max must be >= stat_min"),
-    rematch: z.object({
-        cooldown_hours: positiveIntSchema,
-        default_base_xp: positiveIntSchema,
-        xp_multiplier_per_clear: z.number().positive(),
-        xp_multiplier_cap: z.number().positive(),
-        level_step: positiveIntSchema,
-        level_cap: positiveIntSchema,
-        rewards: z.array(
-            z.discriminatedUnion("kind", [
-                z.object({
-                    clear_count: positiveIntSchema,
-                    kind: z.literal("item"),
-                    item_id: idSchema,
-                    count: positiveIntSchema,
-                }),
-                z.object({
-                    clear_count: positiveIntSchema,
-                    kind: z.literal("flag"),
-                    flag_id: idSchema,
-                }),
-            ]),
-        ),
-        default_reward: z.object({
-            kind: z.literal("flag"),
-            flag_prefix: idSchema,
-        }),
     }),
 });
 
@@ -598,65 +532,6 @@ export const effectsConfigSchema = z.object({
         .min(1),
 });
 
-const baseRuntimeEventSchema = z.object({
-    id: idSchema,
-    position_offset: positionOffsetSchema.optional(),
-});
-
-const npcRuntimeEventSchema = baseRuntimeEventSchema.extend({
-    kind: z.enum(["ambient_npc", "quest_npc"]),
-    graphic: idSchema,
-    dialog_id: idSchema,
-    quest_id: idSchema.optional(),
-});
-
-export const eventsConfigSchema = z.object({
-    maps: z.record(
-        idSchema,
-        z
-            .array(
-                z.discriminatedUnion("kind", [
-                    npcRuntimeEventSchema.extend({
-                        kind: z.literal("ambient_npc"),
-                        quest_id: z.undefined().optional(),
-                    }),
-                    npcRuntimeEventSchema.extend({
-                        kind: z.literal("quest_npc"),
-                        quest_id: idSchema,
-                    }),
-                    baseRuntimeEventSchema.extend({
-                        kind: z.literal("starter_mentor"),
-                    }),
-                    baseRuntimeEventSchema.extend({
-                        kind: z.literal("rival"),
-                        trainer_id: idSchema,
-                    }),
-                    baseRuntimeEventSchema.extend({
-                        kind: z.literal("gym_leader"),
-                        trainer_id: idSchema,
-                    }),
-                    baseRuntimeEventSchema.extend({
-                        kind: z.literal("shop"),
-                        shop_id: idSchema,
-                    }),
-                    baseRuntimeEventSchema.extend({
-                        kind: z.literal("green_dragon"),
-                    }),
-                    baseRuntimeEventSchema.extend({
-                        kind: z.literal("warp"),
-                        target_position_offset: positionOffsetSchema.optional(),
-                        gated_dialog_id: idSchema.optional(),
-                    }),
-                    baseRuntimeEventSchema.extend({
-                        kind: z.literal("sign"),
-                        body: z.string().min(1),
-                    }),
-                ]),
-            )
-            .min(1),
-    ),
-});
-
 const actionBattleTuningSchema = z.object({
     attack_cooldown_ms: positiveIntSchema.optional(),
     vision_range: positiveIntSchema.optional(),
@@ -681,29 +556,6 @@ export const trainersConfigSchema = z.object({
     }),
     gym_phase_poll_ms: positiveIntSchema,
     default_action_battle: actionBattleConfigSchema,
-    final_boss: z.object({
-        npc_id: idSchema,
-        defeated_flag: idSchema,
-        cleared_flag: idSchema,
-        required_badge_flags: z.array(idSchema).min(1),
-        reward_clue: idSchema,
-        ending_beat_id: idSchema,
-        dialog_base: idSchema,
-        graphic: idSchema,
-        hp: positiveIntSchema,
-        atk: positiveIntSchema,
-        pdef: positiveIntSchema,
-        enemy_type: enemyTypeSchema,
-        coin_reward_key: idSchema,
-        action_battle: actionBattleConfigSchema,
-        death_visual: z.object({
-            graphic: idSchema,
-            animation_name: idSchema,
-            duration_ms: positiveIntSchema,
-            drop_px: nonNegativeIntSchema,
-            fade_start: alphaSchema,
-        }),
-    }),
     trainers: z.record(
         idSchema,
         z.object({
@@ -742,7 +594,6 @@ export const uiConfigSchema = z.object({
         }),
         start_map_id: idSchema,
         start_spawn: spawnSchema,
-        start_journey_beat_id: idSchema,
         continue_label_prefix: idSchema,
         continue_label_template: idSchema,
         confirm_new_prompt: idSchema,
@@ -763,6 +614,12 @@ export const uiConfigSchema = z.object({
                 }),
             )
             .min(1),
+        seed_picker: z.object({
+            prompt: idSchema,
+            random_label: idSchema,
+            famous_seed_template: idSchema,
+            famous_seeds: z.array(z.object({ label: idSchema, input: idSchema })).min(1),
+        }),
     }),
     starter_ceremony: z.object({
         already_chosen_dialog_id: idSchema,
@@ -808,6 +665,8 @@ export const uiConfigSchema = z.object({
             objective_row_label_pre_starter: idSchema,
             objective_row_label_post_starter: idSchema,
             objective_row_meta: idSchema,
+            seed_row_label_template: idSchema,
+            seed_row_meta: idSchema,
         }),
         party: z.object({
             title_template: idSchema,
@@ -1092,7 +951,7 @@ export const uiConfigSchema = z.object({
         empty_detail_template: idSchema,
         filled_slot_template: idSchema,
         filled_detail_template: idSchema,
-        beat_suffix_template: idSchema,
+        chunk_suffix_template: idSchema,
         auto_detail_template: idSchema,
         existing_slot_prompt_template: idSchema,
         actions: z
@@ -1148,9 +1007,7 @@ export const uiConfigSchema = z.object({
         text_card: z.object({
             header: idSchema,
             player_template: idSchema,
-            cleared_badge: idSchema,
-            ng_plus_badge_template: idSchema,
-            in_progress_badge: idSchema,
+            explorer_rank_template: idSchema,
             exported_at_template: idSchema,
             word_count_template: idSchema,
             empty_words: idSchema,
@@ -1192,7 +1049,7 @@ export const uiConfigSchema = z.object({
             player: svgTextSchema.extend({ template: idSchema }),
             word_count: svgTextSchema,
             word_count_label: svgTextSchema.extend({ text: idSchema }),
-            cleared_badge: svgTextSchema.extend({ text: idSchema }),
+            explorer_rank: svgTextSchema,
             date: svgTextSchema,
         }),
     }),
@@ -1278,54 +1135,26 @@ export const uiConfigSchema = z.object({
             .min(1),
     }),
     credits_pages: z.array(z.array(z.string())).min(1),
+    chunk_overlay: z.object({
+        fade_ms: positiveIntSchema,
+        gui_id: idSchema,
+        entering_template: idSchema,
+    }),
+    challenge: z.object({
+        accept_label: idSchema,
+        decline_label: idSchema,
+        defer_label: idSchema,
+        offer_footer: idSchema,
+        resolve_fallback: idSchema,
+        journal_section_label: idSchema,
+        journal_empty_label: idSchema,
+        journal_entry_template: idSchema,
+    }),
     opening_scene: z.object({
         flag_id: idSchema,
         post_scene_dialog_id: idSchema,
         beats: z.array(z.string()).min(1),
     }),
-});
-
-const questGoalSchema = z.discriminatedUnion("kind", [
-    z.object({
-        kind: z.literal("catch_count"),
-        species_id: idSchema,
-        target: positiveIntSchema,
-    }),
-    z.object({
-        kind: z.literal("catch_any_in_biome"),
-        biome: mapBiomeSchema,
-        target: positiveIntSchema,
-    }),
-    z.object({
-        kind: z.literal("defeat_trainer"),
-        npc_id: idSchema,
-    }),
-    z.object({
-        kind: z.literal("deliver_item"),
-        item_id: idSchema,
-        to_npc_id: idSchema,
-    }),
-]);
-
-export const questsConfigSchema = z.object({
-    quests: z
-        .array(
-            z.object({
-                id: idSchema,
-                giver_npc_id: idSchema,
-                map_id: idSchema.optional(),
-                title: idSchema.optional(),
-                summary: z.string().optional(),
-                goal: questGoalSchema,
-                reward: z.object({
-                    xp: positiveIntSchema.optional(),
-                    item_id: idSchema.optional(),
-                    item_count: positiveIntSchema.optional(),
-                    reward_clue: idSchema.optional(),
-                }),
-            }),
-        )
-        .min(1),
 });
 
 export type MapsConfig = z.infer<typeof mapsConfigSchema>;
@@ -1339,11 +1168,8 @@ export type AmbientConfig = z.infer<typeof ambientConfigSchema>;
 export type CombatConfig = z.infer<typeof combatConfigSchema>;
 export type VisualsConfig = z.infer<typeof visualsConfigSchema>;
 export type EffectsConfig = z.infer<typeof effectsConfigSchema>;
-export type EventsConfig = z.infer<typeof eventsConfigSchema>;
 export type TrainersConfig = z.infer<typeof trainersConfigSchema>;
 export type UiConfig = z.infer<typeof uiConfigSchema>;
-export type QuestsConfig = z.infer<typeof questsConfigSchema>;
-export type QuestConfig = QuestsConfig["quests"][number];
 
 export function parseGameplayConfig<T>(label: string, schema: z.ZodType<T>, raw: unknown): T {
     const result = schema.safeParse(raw);

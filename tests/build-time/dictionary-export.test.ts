@@ -1,6 +1,5 @@
 import { afterEach, beforeEach, describe, it, expect } from 'vitest';
 import type { RpgPlayer } from '@rpgjs/server';
-import { FINAL_BOSS_CONFIG } from '../../src/content/gameplay';
 import {
     DICTIONARY_EXPORT_EVENT,
     buildDictionaryExportSnapshot,
@@ -13,7 +12,6 @@ import {
 } from '../../src/modules/main/dictionary-export';
 import {
     recordClue,
-    setFlag,
 } from '../../src/platform/persistence/queries';
 import { resetPersistedRuntimeState } from '../../src/platform/persistence/runtime-state';
 
@@ -26,8 +24,7 @@ const word = (id: string, sightings: number, at = '2026-04-20T00:00:00Z'): ClueR
 const snap = (overrides: Partial<ExportSnapshot> = {}): ExportSnapshot => ({
     playerName: 'Sam',
     words: [word('wild-signs', 12), word('capture-pods', 8), word('fire-type', 5)],
-    journeyCleared: true,
-    ngPlusCount: 0,
+    chunksVisited: 7,
     exportedAt: '2026-04-20T12:00:00Z',
     ...overrides,
 });
@@ -42,22 +39,21 @@ describe('exportTextCard', () => {
         expect(out).toContain('clues found: 3');
     });
 
-    it('shows the cleared badge when journeyCleared', () => {
-        expect(exportTextCard(snap({ journeyCleared: true, ngPlusCount: 0 }))).toContain('Green dragon defeated');
+    it('shows explorer rank based on chunks visited', () => {
+        expect(exportTextCard(snap({ chunksVisited: 0 }))).toContain('novice explorer');
+        expect(exportTextCard(snap({ chunksVisited: 7 }))).toContain('wandering explorer');
+        expect(exportTextCard(snap({ chunksVisited: 25 }))).toContain('roaming explorer');
+        expect(exportTextCard(snap({ chunksVisited: 60 }))).toContain('seasoned explorer');
     });
 
-    it('shows NG+ multiplier on repeat clears', () => {
-        expect(exportTextCard(snap({ ngPlusCount: 2 }))).toContain('× 3');
-    });
-
-    it('shows in-progress marker when not cleared', () => {
-        expect(exportTextCard(snap({ journeyCleared: false }))).toContain('journey in progress');
+    it('includes chunk count in explorer rank line', () => {
+        expect(exportTextCard(snap({ chunksVisited: 7 }))).toContain('7 chunks visited');
     });
 
     it('sorts top clues by sightings desc', () => {
         const out = exportTextCard(snap());
-        const wildIdx = out.indexOf('Wild signs');
-        const fireIdx = out.indexOf('Fire type');
+        const wildIdx = out.indexOf('wild signs');
+        const fireIdx = out.indexOf('fire type');
         expect(wildIdx).toBeLessThan(fireIdx);
     });
 
@@ -113,12 +109,12 @@ describe('exportSvgCard', () => {
         expect(svg).toMatch(/<text[^>]*>3<\/text>/);
     });
 
-    it('includes the cleared marker when journeyCleared', () => {
-        expect(exportSvgCard(snap())).toContain('green dragon defeated');
+    it('includes the explorer rank badge', () => {
+        expect(exportSvgCard(snap({ chunksVisited: 7 }))).toContain('wandering');
     });
 
-    it('omits the cleared marker when not cleared', () => {
-        expect(exportSvgCard(snap({ journeyCleared: false }))).not.toContain('green dragon defeated');
+    it('shows chunk count in explorer rank badge', () => {
+        expect(exportSvgCard(snap({ chunksVisited: 7 }))).toContain('7 chunks');
     });
 
     it('renders up to 24 clue cells', () => {
@@ -145,13 +141,12 @@ describe('clue export runtime wiring', () => {
         await resetPersistedRuntimeState({ includeSaves: true });
     });
 
-    it('builds a snapshot from persisted clues and clear flag', async () => {
+    it('builds a snapshot from persisted clues', async () => {
         await recordClue('wild-signs');
         await recordClue('wild-signs');
         await recordClue('wild-signs');
         await recordClue('capture-pods');
         await recordClue('capture-pods');
-        await setFlag(FINAL_BOSS_CONFIG.clearedFlag, '1');
 
         const snapshot = await buildDictionaryExportSnapshot({
             playerName: 'Sam',
@@ -159,7 +154,7 @@ describe('clue export runtime wiring', () => {
         });
 
         expect(snapshot.playerName).toBe('Sam');
-        expect(snapshot.journeyCleared).toBe(true);
+        expect(snapshot.chunksVisited).toBe(0);
         expect(snapshot.words.map((entry) => entry.id)).toEqual(['wild-signs']);
         expect(snapshot.words[0]?.sightings).toBe(3);
     });
@@ -184,7 +179,7 @@ describe('clue export runtime wiring', () => {
         expect(emitted[0]?.event).toBe(DICTIONARY_EXPORT_EVENT);
         expect(isDictionaryExportPayload(emitted[0]?.payload)).toBe(true);
         expect(payload.filename).toBe('rivers-reckoning-clues.svg');
-        expect(payload.textCard).toContain('Wild signs');
+        expect(payload.textCard).toContain('wild signs');
         expect(payload.svgCard).toContain('<svg');
         expect(shown[0]).toContain('Clue Journal');
     });

@@ -7,7 +7,7 @@ import {
     typeLabel,
     type RuntimeName,
 } from "../../content/runtime-labels";
-import { bestiaryTier, progressRatio, type BestiaryState, type BestiaryTier } from "./bestiary";
+import { bestiaryTier, type BestiaryState, type BestiaryTier } from "./bestiary";
 
 type SpeciesEntry = {
     id: string;
@@ -49,34 +49,28 @@ function assertContentWorld(raw: unknown): ContentWorld {
 const world = assertContentWorld(worldRaw);
 
 export function buildBestiaryPanel(state: BestiaryState): BestiaryPanel {
-    const speciesIds = world.species.map((species) => species.id);
-    const caught = Math.round(progressRatio(state, speciesIds) * speciesIds.length);
+    const rows: BestiaryPanelEntry[] = [];
+    for (const species of world.species) {
+        const tier = bestiaryTier(state, species.id);
+        if (tier === "unknown") continue;
+        const label = speciesLabel(species.id);
+        const description = bestiaryDescription(tier, species);
+        const readText = bestiaryReadText(tier, label, description);
+        const entry: BestiaryPanelEntry = {
+            speciesId: species.id,
+            tier,
+            label,
+            meta: bestiaryMeta(tier, species.type),
+            testId: `bestiary-entry-${species.id}`,
+        };
+        if (description) entry.description = description;
+        if (readText) entry.readText = readText;
+        rows.push(entry);
+    }
+    const caught = rows.filter((r) => r.tier === "caught").length;
     return {
-        title: formatGameplayTemplate(BESTIARY_PANEL_CONFIG.titleTemplate, {
-            caught,
-            total: speciesIds.length,
-        }),
-        rows: world.species.map((species, index) => {
-            const tier = bestiaryTier(state, species.id);
-            const label =
-                tier === "unknown"
-                    ? formatGameplayTemplate(BESTIARY_PANEL_CONFIG.unknownLabelTemplate, {
-                          index: index + 1,
-                      })
-                    : speciesLabel(species.id);
-            const description = bestiaryDescription(tier, species);
-            const readText = bestiaryReadText(tier, label, description);
-            const entry: BestiaryPanelEntry = {
-                speciesId: species.id,
-                tier,
-                label,
-                meta: bestiaryMeta(tier, species.type),
-                testId: `bestiary-entry-${species.id}`,
-            };
-            if (description) entry.description = description;
-            if (readText) entry.readText = readText;
-            return entry;
-        }),
+        title: formatGameplayTemplate(BESTIARY_PANEL_CONFIG.titleTemplate, { caught }),
+        rows,
     };
 }
 

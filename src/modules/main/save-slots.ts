@@ -12,7 +12,7 @@ import { emitPlayerPositionSnap } from "./tap-route";
 export type SaveSlotMeta = {
     savedAt?: string;
     date?: string;
-    beatId?: string;
+    chunkKey?: string;
     map?: string;
 };
 

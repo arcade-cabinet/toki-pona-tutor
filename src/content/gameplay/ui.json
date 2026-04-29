@@ -13,7 +13,6 @@
     },
     "start_map_id": "riverside_home",
     "start_spawn": { "x": 128, "y": 128 },
-    "start_journey_beat_id": "beat_01_riverside_home",
     "continue_label_prefix": "Continue",
     "continue_label_template": "{prefix} — {slot}",
     "confirm_new_prompt": "Start a new game?",
@@ -26,7 +25,19 @@
       { "id": "new", "label": "New Game" },
       { "id": "settings", "label": "Settings" },
       { "id": "quit", "label": "Quit" }
-    ]
+    ],
+    "seed_picker": {
+      "prompt": "Choose a world seed",
+      "random_label": "Random world",
+      "famous_seed_template": "{label} (#{seed})",
+      "famous_seeds": [
+        { "label": "Riverflow",  "input": "riverflow"  },
+        { "label": "Stormwatch", "input": "stormwatch" },
+        { "label": "Duskwood",   "input": "duskwood"   },
+        { "label": "Emberpeak",  "input": "emberpeak"  },
+        { "label": "Tidecrest",  "input": "tidecrest"  }
+      ]
+    }
   },
   "starter_ceremony": {
     "already_chosen_dialog_id": "selby_after_pick",
@@ -46,6 +57,8 @@
       { "id": "vocab", "label": "Clues", "test_id": "pause-vocab" },
       { "id": "inventory", "label": "Gear", "test_id": "pause-inventory" },
       { "id": "bestiary", "label": "Bestiary", "test_id": "pause-bestiary" },
+      { "id": "rumors", "label": "Rumors", "test_id": "pause-rumors" },
+      { "id": "challenges", "label": "Challenges", "test_id": "pause-challenges" },
       { "id": "settings", "label": "Settings", "test_id": "pause-settings" }
     ],
     "footer_entries": [
@@ -66,7 +79,9 @@
       "bestiary_row_meta_total_template": "{total} known species",
       "objective_row_label_pre_starter": "Next: Speak with Selby",
       "objective_row_label_post_starter": "Next: Explore beyond the village",
-      "objective_row_meta": "your current goal"
+      "objective_row_meta": "your current goal",
+      "seed_row_label_template": "Seed {seed}",
+      "seed_row_meta": "share to replay this world"
     },
     "party": {
       "title_template": "Party {count} / {max}",
@@ -352,7 +367,7 @@
     "move_separator": " · "
   },
   "bestiary_panel": {
-    "title_template": "Bestiary {caught} / {total}",
+    "title_template": "Bestiary — {caught} caught",
     "unknown_label_template": "??? {index}",
     "unknown_type_label": "unknown",
     "caught_meta_template": "caught · {type}",
@@ -368,9 +383,9 @@
     "empty_label": "empty",
     "empty_slot_template": "{tag} — {empty}",
     "empty_detail_template": "{empty}",
-    "filled_slot_template": "{tag} — {date}{beat}",
-    "filled_detail_template": "{date}{beat}",
-    "beat_suffix_template": " · {beat}",
+    "filled_slot_template": "{tag} — {date}{chunk}",
+    "filled_detail_template": "{date}{chunk}",
+    "chunk_suffix_template": " · {chunk}",
     "auto_detail_template": "auto\n{label}",
     "existing_slot_prompt_template": "{slot}?",
     "actions": [
@@ -423,9 +438,7 @@
     "text_card": {
       "header": "═══ Clue Journal — Rivers Reckoning ═══",
       "player_template": "  Explorer {player}",
-      "cleared_badge": "★ Green dragon defeated",
-      "ng_plus_badge_template": "★ Green dragon defeated × {count}",
-      "in_progress_badge": "… journey in progress",
+      "explorer_rank_template": "  {rank} explorer — {chunks} chunks visited",
       "exported_at_template": "  exported: {date}",
       "word_count_template": "  clues found: {count}",
       "empty_words": "  (no clues yet — catch creatures and talk to people)",
@@ -496,11 +509,10 @@
         "font_size": 11,
         "fill": "#c9a268"
       },
-      "cleared_badge": {
-        "text": "green dragon defeated",
+      "explorer_rank": {
         "x": 200,
         "y": 220,
-        "font_size": 14,
+        "font_size": 11,
         "fill": "#e5a42c"
       },
       "date": {
@@ -594,6 +606,21 @@
     ["game / code / maps", "project team", "", "engine", "RPGJS / CanvasEngine / Pixi"],
     ["art / tiles / creatures", "Fan-tasy asset family", "", "special thanks", "Rivers"]
   ],
+  "chunk_overlay": {
+    "fade_ms": 2000,
+    "gui_id": "rr-chunk-overlay",
+    "entering_template": "{name}"
+  },
+  "challenge": {
+    "accept_label": "Accept",
+    "decline_label": "No thanks",
+    "defer_label": "Maybe later",
+    "offer_footer": "(you can ask again next time)",
+    "resolve_fallback": "Thank you — I couldn't have done it without you.",
+    "journal_section_label": "Challenges",
+    "journal_empty_label": "No active challenges.",
+    "journal_entry_template": "{npc}: {cause}"
+  },
   "opening_scene": {
     "flag_id": "opening_scene_complete",
     "post_scene_dialog_id": "selby_starter_intro",

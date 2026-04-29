@@ -52,14 +52,8 @@ jobs:
       - name: Install JS deps
         run: pnpm install --ignore-workspace --frozen-lockfile
 
-      - name: Validate challenges
-        run: pnpm validate-challenges
-
       - name: Verify map-authoring contract
         run: pnpm author:verify
-
-      - name: Compile spine
-        run: pnpm build-spine
 
       - name: Typecheck
         run: pnpm typecheck
@@ -140,9 +134,6 @@ jobs:
       - name: Install JS deps
         run: pnpm install --ignore-workspace --frozen-lockfile
 
-      - name: Compile spine
-        run: pnpm build-spine
-
       - name: Run integration suite (@rpgjs/testing)
         run: pnpm test:integration
 
@@ -167,9 +158,6 @@ jobs:
 
       - name: Install Playwright Chromium + OS deps
         run: pnpm exec playwright install --with-deps --no-shell chromium
-
-      - name: Compile spine
-        run: pnpm build-spine
 
       # xvfb-run gives the headed Chromium launch a virtual display so
       # Pixi/CanvasEngine renders with real WebGL in CI.

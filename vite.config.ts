@@ -27,9 +27,11 @@ const base = resolveBase();
 function copySqlJsWasmAssets() {
     const dest = resolve(__dirname, "public/assets");
     mkdirSync(dest, { recursive: true });
-    const jeepSqliteRoot = dirname(require.resolve("jeep-sqlite/package.json"));
-    const sqlJsRoot = dirname(require.resolve("sql.js/package.json", { paths: [jeepSqliteRoot] }));
-    const sqlDist = resolve(sqlJsRoot, "dist");
+    // sql.js is a direct dependency — resolve its dist via its main entry.
+    // require.resolve("sql.js") returns dist/sql-wasm.js; dirname() gives dist/.
+    // Avoids resolving "sql.js/package.json" which strict exports mode rejects
+    // when an empty "exports" field is present (as in jeep-sqlite's bundled copy).
+    const sqlDist = dirname(require.resolve("sql.js"));
     copyFileSync(resolve(sqlDist, "sql-wasm.wasm"), resolve(dest, "sql-wasm.wasm"));
     copyFileSync(resolve(sqlDist, "sql-wasm.js"), resolve(dest, "sql-wasm.js"));
 }
@@ -60,6 +62,14 @@ export default defineConfig({
         alias: {
             src: resolve(__dirname, "src"),
         },
+    },
+    optimizeDeps: {
+        // jeep-sqlite and its Capacitor wrapper use Emscripten WASM with a
+        // custom locateFile() hook. Vite's dep pre-bundler rewrites module
+        // boundaries in ways that break the WASM binary reference, causing a
+        // LinkError at instantiation time. Excluding them keeps the stencil
+        // component bundle intact so the locateFile path resolves correctly.
+        exclude: ["@capacitor-community/sqlite", "jeep-sqlite"],
     },
     plugins: [
         react(),

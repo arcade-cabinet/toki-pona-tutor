@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <map version="1.10" tiledversion="1.11.2" orientation="orthogonal" renderorder="right-down"
      width="28" height="14" tilewidth="16" tileheight="16" infinite="0"
-     nextlayerid="5" nextobjectid="19">
+     nextlayerid="5" nextobjectid="10">
  <properties>
    <property name="biome" value="water"/>
    <property name="music_track" value="bgm_water"/>
@@ -86,76 +86,16 @@
      <property name="required_flag" value="badges_all_four"/>
    </properties>
   </object>
-  <object id="8" name="npc-rook" type="NPC" x="32" y="112" width="0" height="0" visible="1" rotation="0">
-   <properties>
-     <property name="id" value="rook"/>
-     <property name="dialog_id" value="rook_intro"/>
-     <property name="required_flag" value="badge_suli"/>
-     <property name="graphic" value="npc_warrior_sword_shield"/>
-   </properties>
-  </object>
-  <object id="9" name="npc-kala_lili" type="NPC" x="160" y="144" width="0" height="0" visible="1" rotation="0">
-   <properties>
-     <property name="id" value="kala_lili"/>
-     <property name="dialog_id" value="kala_lili_intro"/>
-     <property name="required_flag" value="badge_suli"/>
-     <property name="graphic" value="npc_villager_fem_julz"/>
-   </properties>
-  </object>
-  <object id="10" name="npc-kala_suli" type="NPC" x="176" y="128" width="0" height="0" visible="1" rotation="0">
-   <properties>
-     <property name="id" value="kala_suli"/>
-     <property name="dialog_id" value="kala_suli_intro"/>
-     <property name="required_flag" value="badge_suli"/>
-     <property name="graphic" value="npc_villager_fem_vash"/>
-   </properties>
-  </object>
-  <object id="11" name="npc-green_dragon" type="NPC" x="224" y="32" width="0" height="0" visible="1" rotation="0">
-   <properties>
-     <property name="id" value="green_dragon"/>
-     <property name="dialog_id" value="green_dragon_intro"/>
-   </properties>
-  </object>
-  <object id="12" name="sign-4-12" type="Sign" x="64" y="192" width="0" height="0" visible="1" rotation="0">
-   <properties>
-     <property name="text" value="Beyond here is the source."/>
-     <property name="title" value="RIVERGATE APPROACH"/>
-   </properties>
-  </object>
-  <object id="13" name="sign-14-8" type="Sign" x="224" y="128" width="0" height="0" visible="1" rotation="0">
-   <properties>
-     <property name="text" value="The current above the lock is stronger than it looks."/>
-     <property name="title" value="DEEP WATER — USE THE SANDBAR"/>
-   </properties>
-  </object>
-  <object id="14" name="sign-14-2" type="Sign" x="224" y="32" width="0" height="0" visible="1" rotation="0">
-   <properties>
-     <property name="text" value="Four stones make a door. The door waits."/>
-     <property name="title" value="THE RIVERGATE"/>
-   </properties>
-  </object>
-  <object id="15" name="sign-2-11" type="Sign" x="32" y="176" width="0" height="0" visible="1" rotation="0">
-   <properties>
-     <property name="text" value="Hot food. Free soup if the dragon watched you pass."/>
-     <property name="title" value="GRILL&apos;S LODGE"/>
-   </properties>
-  </object>
-  <object id="16" name="sign-24-6" type="Sign" x="384" y="96" width="0" height="0" visible="1" rotation="0">
-   <properties>
-     <property name="text" value="Iron teeth set into the stone. Whatever was here snapped free."/>
-     <property name="title" value="OLD CHAIN MOUNT"/>
-   </properties>
-  </object>
  </objectgroup>
  <objectgroup id="4" name="Encounters" visible="1" opacity="1">
-  <object id="17" name="encounter_0" type="Encounter" x="64" y="160" width="80" height="48" visible="1" rotation="0">
+  <object id="8" name="encounter_0" type="Encounter" x="64" y="160" width="80" height="48" visible="1" rotation="0">
    <properties>
      <property name="species" value="{&quot;bog_wisp&quot;:20,&quot;ashcat&quot;:15,&quot;mireling&quot;:15,&quot;bluefin&quot;:15,&quot;snapper&quot;:15,&quot;reedfrog&quot;:15,&quot;iron_wraith&quot;:5}"/>
      <property name="level_min" type="int" value="7"/>
      <property name="level_max" type="int" value="10"/>
    </properties>
   </object>
-  <object id="18" name="encounter_1" type="Encounter" x="224" y="160" width="96" height="48" visible="1" rotation="0">
+  <object id="9" name="encounter_1" type="Encounter" x="224" y="160" width="96" height="48" visible="1" rotation="0">
    <properties>
      <property name="species" value="{&quot;bog_wisp&quot;:14,&quot;ashcat&quot;:14,&quot;mireling&quot;:14,&quot;bluefin&quot;:14,&quot;riverfin&quot;:14,&quot;snapper&quot;:14,&quot;cinderling&quot;:6,&quot;marshjaw&quot;:4,&quot;green_dragon&quot;:2}"/>
      <property name="level_min" type="int" value="9"/>

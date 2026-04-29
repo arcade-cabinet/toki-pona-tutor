@@ -90,7 +90,7 @@ type RuntimeDiagnostics = {
         serverPlayerId: string | null;
         currentMapId: string | null;
         serverMapId: string | null;
-        journeyBeat: string | null;
+        worldSeed: string | null;
         starterChosen: string | null;
         serverGraphic: string | null;
         position: { x: number | null; y: number | null };
@@ -692,7 +692,7 @@ async function collectRuntimeDiagnostics(page: Page): Promise<RuntimeDiagnostics
                     serverPlayerId: state.serverPlayerId,
                     currentMapId: state.currentMapId,
                     serverMapId: state.serverMapId,
-                    journeyBeat: state.journeyBeat,
+                    worldSeed: state.worldSeed,
                     starterChosen: state.starterChosen,
                     serverGraphic: state.serverGraphic,
                     position: state.position,
@@ -1283,7 +1283,7 @@ function renderMarkdownChecklist(diagnostic: {
         `- Map: client=${diagnostic.runtime.state.currentMapId ?? "null"} server=${
             diagnostic.runtime.state.serverMapId ?? "null"
         }`,
-        `- Beat: ${diagnostic.runtime.state.journeyBeat ?? "null"}`,
+        `- Seed: ${diagnostic.runtime.state.worldSeed ?? "null"}`,
         `- Graphic: ${diagnostic.runtime.state.serverGraphic ?? "null"}`,
         `- Position: client=${formatPoint(diagnostic.runtime.state.position)} server=${formatPoint(
             diagnostic.runtime.state.serverPosition,
