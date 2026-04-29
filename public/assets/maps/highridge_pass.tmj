@@ -11,7 +11,7 @@
   "infinite": false,
   "compressionlevel": -1,
   "nextlayerid": 6,
-  "nextobjectid": 20,
+  "nextobjectid": 10,
   "properties": [
     {
       "name": "biome",
@@ -1596,261 +1596,6 @@
               "value": "badge_sewi"
             }
           ]
-        },
-        {
-          "id": 8,
-          "name": "npc-ansel",
-          "type": "NPC",
-          "x": 160,
-          "y": 144,
-          "width": 0,
-          "height": 0,
-          "visible": true,
-          "rotation": 0,
-          "properties": [
-            {
-              "name": "id",
-              "type": "string",
-              "value": "ansel"
-            },
-            {
-              "name": "dialog_id",
-              "type": "string",
-              "value": "ansel_greenwood"
-            },
-            {
-              "name": "graphic",
-              "type": "string",
-              "value": "npc_villager_masc_artun"
-            }
-          ]
-        },
-        {
-          "id": 9,
-          "name": "npc-breeze",
-          "type": "NPC",
-          "x": 224,
-          "y": 128,
-          "width": 0,
-          "height": 0,
-          "visible": true,
-          "rotation": 0,
-          "properties": [
-            {
-              "name": "id",
-              "type": "string",
-              "value": "breeze"
-            },
-            {
-              "name": "dialog_id",
-              "type": "string",
-              "value": "breeze_intro"
-            },
-            {
-              "name": "graphic",
-              "type": "string",
-              "value": "npc_villager_fem_julz"
-            }
-          ]
-        },
-        {
-          "id": 10,
-          "name": "npc-hiker",
-          "type": "NPC",
-          "x": 352,
-          "y": 96,
-          "width": 0,
-          "height": 0,
-          "visible": true,
-          "rotation": 0,
-          "properties": [
-            {
-              "name": "id",
-              "type": "string",
-              "value": "hiker"
-            },
-            {
-              "name": "dialog_id",
-              "type": "string",
-              "value": "hiker_intro"
-            },
-            {
-              "name": "graphic",
-              "type": "string",
-              "value": "npc_villager_masc_artun"
-            }
-          ]
-        },
-        {
-          "id": 11,
-          "name": "npc-shrine_kid",
-          "type": "NPC",
-          "x": 320,
-          "y": 80,
-          "width": 0,
-          "height": 0,
-          "visible": true,
-          "rotation": 0,
-          "properties": [
-            {
-              "name": "id",
-              "type": "string",
-              "value": "shrine_kid"
-            },
-            {
-              "name": "dialog_id",
-              "type": "string",
-              "value": "shrine_kid_intro"
-            },
-            {
-              "name": "graphic",
-              "type": "string",
-              "value": "npc_villager_fem_nel"
-            }
-          ]
-        },
-        {
-          "id": 12,
-          "name": "npc-stoneminder",
-          "type": "NPC",
-          "x": 176,
-          "y": 80,
-          "width": 0,
-          "height": 0,
-          "visible": true,
-          "rotation": 0,
-          "properties": [
-            {
-              "name": "id",
-              "type": "string",
-              "value": "stoneminder"
-            },
-            {
-              "name": "dialog_id",
-              "type": "string",
-              "value": "stoneminder_intro"
-            },
-            {
-              "name": "graphic",
-              "type": "string",
-              "value": "npc_villager_masc_nyro"
-            }
-          ]
-        },
-        {
-          "id": 13,
-          "name": "sign-4-11",
-          "type": "Sign",
-          "x": 64,
-          "y": 176,
-          "width": 0,
-          "height": 0,
-          "visible": true,
-          "rotation": 0,
-          "properties": [
-            {
-              "name": "text",
-              "type": "string",
-              "value": "Three switchbacks. Take them slow."
-            },
-            {
-              "name": "title",
-              "type": "string",
-              "value": "HIGHRIDGE PASS"
-            }
-          ]
-        },
-        {
-          "id": 14,
-          "name": "sign-12-7",
-          "type": "Sign",
-          "x": 192,
-          "y": 112,
-          "width": 0,
-          "height": 0,
-          "visible": true,
-          "rotation": 0,
-          "properties": [
-            {
-              "name": "text",
-              "type": "string",
-              "value": "It's the mountain breathing."
-            },
-            {
-              "name": "title",
-              "type": "string",
-              "value": "FEEL THE WIND"
-            }
-          ]
-        },
-        {
-          "id": 15,
-          "name": "sign-20-3",
-          "type": "Sign",
-          "x": 320,
-          "y": 48,
-          "width": 0,
-          "height": 0,
-          "visible": true,
-          "rotation": 0,
-          "properties": [
-            {
-              "name": "text",
-              "type": "string",
-              "value": "One of four, laid by the first wardens."
-            },
-            {
-              "name": "title",
-              "type": "string",
-              "value": "THE FIRST STONE"
-            }
-          ]
-        },
-        {
-          "id": 16,
-          "name": "sign-16-3",
-          "type": "Sign",
-          "x": 256,
-          "y": 48,
-          "width": 0,
-          "height": 0,
-          "visible": true,
-          "rotation": 0,
-          "properties": [
-            {
-              "name": "text",
-              "type": "string",
-              "value": "One of four. Tarrin knows whose name is carved here."
-            },
-            {
-              "name": "title",
-              "type": "string",
-              "value": "THE SECOND STONE"
-            }
-          ]
-        },
-        {
-          "id": 17,
-          "name": "sign-22-6",
-          "type": "Sign",
-          "x": 352,
-          "y": 96,
-          "width": 0,
-          "height": 0,
-          "visible": true,
-          "rotation": 0,
-          "properties": [
-            {
-              "name": "text",
-              "type": "string",
-              "value": "North past the shrine. Three hours to the water if you don't stop."
-            },
-            {
-              "name": "title",
-              "type": "string",
-              "value": "LAKEHAVEN TRAIL"
-            }
-          ]
         }
       ]
     },
@@ -1864,7 +1609,7 @@
       "opacity": 1,
       "objects": [
         {
-          "id": 18,
+          "id": 8,
           "name": "encounter_0",
           "type": "Encounter",
           "x": 64,
@@ -1892,7 +1637,7 @@
           ]
         },
         {
-          "id": 19,
+          "id": 9,
           "name": "encounter_1",
           "type": "Encounter",
           "x": 224,
