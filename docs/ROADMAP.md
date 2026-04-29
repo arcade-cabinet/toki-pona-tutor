@@ -166,18 +166,21 @@ Most v1 teardown happens in Phase 1 (in-place refactor). Phase 9 wraps the tests
 | T161 | (retired — subsumed by T159/T160) |
 | T162 | Add v2 build-time tests |
 | T163 | Add v2 integration tests |
+| post-T157 | Maestro 2.4.0 syntax check in CI unit job (SHA-256 verified) |
+| post-T157 | Chunk integration tests: `changeMap` round-trip for `chunk_X_Y` (10 tests) |
+| post-T163 | E2E chunk navigation: `moveServerPlayer` round-trip for `chunk_-1_-1` to `chunk_1_0` |
 
 Acceptance: build clean, no v1 test references, v2 tests pass.
 
 ## Phase 10 — Release
 
-| Task | Description |
-|---|---|
-| T164 | Update CI/release/CD workflows if needed |
-| T165 | Tag `v2.0.0-alpha.1` on `main` |
-| T166 | Playtest on iPhone Safari + Android debug APK |
-| T167 | Iterate alpha → beta → v2.0.0 (tags on `main`) |
-| T168 | Tag `v2.0.0` on `main` |
+| Task | Description | Status |
+|---|---|---|
+| T164 | Update CI/release/CD workflows if needed | done |
+| T165 | Tag `v2.0.0-alpha.1` on `main`. Deploy Pages. | done — tag pushed; cd.yml run 25087444133 |
+| T166 | Playtest on iPhone Safari + Android debug APK | **WAIT: human device testing** |
+| T167 | Iterate alpha → beta → v2.0.0 (tags on `main`) | blocked on T166 |
+| T168 | Tag `v2.0.0` on `main` | blocked on T166 |
 
 Acceptance: `v2.0.0` tagged, Pages deployed, playtested on real devices, merged to main.
 
