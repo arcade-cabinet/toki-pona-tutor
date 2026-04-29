@@ -49,7 +49,6 @@ function assertContentWorld(raw: unknown): ContentWorld {
 const world = assertContentWorld(worldRaw);
 
 export function buildBestiaryPanel(state: BestiaryState): BestiaryPanel {
-    const caught = Object.values(state).filter((r) => r.caughtAt).length;
     const rows: BestiaryPanelEntry[] = [];
     for (const species of world.species) {
         const tier = bestiaryTier(state, species.id);
@@ -68,6 +67,7 @@ export function buildBestiaryPanel(state: BestiaryState): BestiaryPanel {
         if (readText) entry.readText = readText;
         rows.push(entry);
     }
+    const caught = rows.filter((r) => r.tier === "caught").length;
     return {
         title: formatGameplayTemplate(BESTIARY_PANEL_CONFIG.titleTemplate, { caught }),
         rows,
