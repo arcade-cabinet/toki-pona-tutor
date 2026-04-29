@@ -10,6 +10,7 @@
  */
 
 import type { Rng } from "./seed";
+import { rollItem, type LootPoolEntry } from "./loot-roll";
 
 export type RewardSource =
     | "wild_defeat"
@@ -27,6 +28,7 @@ export type RewardInput = {
     source: RewardSource;
     rng: Rng;
     rareFlagMultiplier?: number;
+    lootPool?: LootPoolEntry[];
 };
 
 export type ItemDrop = {
@@ -109,7 +111,7 @@ export function dropLevel(encLevel: number, rng: Rng): number {
  * Per docs/ECONOMY.md § Universal reward function.
  */
 export function reward(input: RewardInput): RewardOutput {
-    const { partyStrength: strength, chunkTier: tier, source, rng, rareFlagMultiplier = 1.0 } = input;
+    const { partyStrength: strength, chunkTier: tier, source, rng, rareFlagMultiplier = 1.0, lootPool = [] } = input;
     const modifier = SOURCE_MODIFIER[source];
 
     // Gold formula: BASE_GOLD × (1 + tier×0.5) × log2(strength+2) × modifier × noise
@@ -122,9 +124,15 @@ export function reward(input: RewardInput): RewardOutput {
         noiseFactor;
     const gold = Math.max(0, Math.floor(rawGold));
 
-    // Item drop
+    // Item drop: roll against loot pool if provided
     const dropChance = Math.min(1, (BASE_DROP_CHANCE + tier * TIER_DROP_BONUS) * modifier * rareFlagMultiplier);
-    const items: ItemDrop[] = rng.next() < dropChance ? [{ itemId: "placeholder", count: 1 }] : [];
+    let items: ItemDrop[] = [];
+    if (rng.next() < dropChance && lootPool.length > 0) {
+        const encLvl = encounterLevel(tier, strength, rng);
+        const dl = dropLevel(encLvl, rng);
+        const rolled = rollItem(lootPool, dl, rng);
+        if (rolled) items = [{ itemId: rolled.itemId, count: 1 }];
+    }
 
     return { gold, items };
 }

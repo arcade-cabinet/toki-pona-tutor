@@ -1,8 +1,10 @@
 import { describe, expect, it } from "vitest";
 import {
     generateChallenge,
+    isConditionMet,
     type CauseKind,
     type ChallengeInstance,
+    type ConditionContext,
     CAUSE_AFFINITIES,
     EFFECT_FOR_CAUSE,
 } from "../../src/modules/challenge-template";
@@ -114,6 +116,140 @@ describe("generateChallenge — role affinity", () => {
         // rival has no affinities, so picks from all causes as fallback
         const c = generateChallenge(SEED, CHUNK, 0, "rival");
         expect(c.state).toBe("pending");
+    });
+});
+
+describe("isConditionMet", () => {
+    function ctx(overrides: Partial<ConditionContext> = {}): ConditionContext {
+        return {
+            getInventoryCount: async () => 0,
+            getParty: async () => [],
+            getBestiaryUniqueCount: async () => 0,
+            getCurrentChunk: async () => ({ x: 0, y: 0 }),
+            ...overrides,
+        };
+    }
+
+    function makeChallenge(overrides: Partial<ChallengeInstance>): ChallengeInstance {
+        return {
+            cause: "find_pet",
+            effect: "catch_species",
+            params: {},
+            rewardModifier: "challenge_normal",
+            state: "accepted",
+            ...overrides,
+        };
+    }
+
+    it("catch_species: true when species in party", async () => {
+        const c = makeChallenge({ effect: "catch_species", params: { species: "applepup" } });
+        const result = await isConditionMet(c, ctx({
+            getParty: async () => [{ species_id: "applepup" }],
+        }));
+        expect(result).toBe(true);
+    });
+
+    it("catch_species: false when species not in party", async () => {
+        const c = makeChallenge({ effect: "catch_species", params: { species: "applepup" } });
+        const result = await isConditionMet(c, ctx({
+            getParty: async () => [{ species_id: "stoneback" }],
+        }));
+        expect(result).toBe(false);
+    });
+
+    it("catch_species: false when party is empty", async () => {
+        const c = makeChallenge({ effect: "catch_species", params: { species: "applepup" } });
+        const result = await isConditionMet(c, ctx());
+        expect(result).toBe(false);
+    });
+
+    it("inventory_count: true when player has enough items (fetch_item)", async () => {
+        const c = makeChallenge({ cause: "fetch_item", effect: "inventory_count", params: { item: "orchard_fruit", count: 3 } });
+        const result = await isConditionMet(c, ctx({
+            getInventoryCount: async (id) => (id === "orchard_fruit" ? 5 : 0),
+        }));
+        expect(result).toBe(true);
+    });
+
+    it("inventory_count: false when player has fewer items", async () => {
+        const c = makeChallenge({ cause: "fetch_item", effect: "inventory_count", params: { item: "orchard_fruit", count: 3 } });
+        const result = await isConditionMet(c, ctx({
+            getInventoryCount: async () => 2,
+        }));
+        expect(result).toBe(false);
+    });
+
+    it("inventory_count: settle_dispute uses evidence_item param", async () => {
+        const c = makeChallenge({ cause: "settle_dispute", effect: "inventory_count", params: { evidence_item: "spring_tonic", count: 1 } });
+        const result = await isConditionMet(c, ctx({
+            getInventoryCount: async (id) => (id === "spring_tonic" ? 1 : 0),
+        }));
+        expect(result).toBe(true);
+    });
+
+    it("deliver_item_to_npc: true when player holds the item", async () => {
+        const c = makeChallenge({ cause: "deliver_message", effect: "deliver_item_to_npc", params: { item: "sealed_letter" } });
+        const result = await isConditionMet(c, ctx({
+            getInventoryCount: async (id) => (id === "sealed_letter" ? 1 : 0),
+        }));
+        expect(result).toBe(true);
+    });
+
+    it("deliver_item_to_npc: false when player lacks the item", async () => {
+        const c = makeChallenge({ cause: "deliver_message", effect: "deliver_item_to_npc", params: { item: "sealed_letter" } });
+        const result = await isConditionMet(c, ctx());
+        expect(result).toBe(false);
+    });
+
+    it("bestiary_delta: true when unique caught count meets target", async () => {
+        const c = makeChallenge({ cause: "survey", effect: "bestiary_delta", params: { count: 4 } });
+        const result = await isConditionMet(c, ctx({
+            getBestiaryUniqueCount: async () => 5,
+        }));
+        expect(result).toBe(true);
+    });
+
+    it("bestiary_delta: false when unique caught count below target", async () => {
+        const c = makeChallenge({ cause: "survey", effect: "bestiary_delta", params: { count: 4 } });
+        const result = await isConditionMet(c, ctx({
+            getBestiaryUniqueCount: async () => 2,
+        }));
+        expect(result).toBe(false);
+    });
+
+    it("reach_chunk: true when player is in the destination chunk", async () => {
+        const c = makeChallenge({ cause: "escort", effect: "reach_chunk", params: { dest_chunk_dx: 2, dest_chunk_dy: 1 }, });
+        // Not testable without knowing origin chunk — context supplies current chunk
+        const result = await isConditionMet(c, ctx({
+            getCurrentChunk: async () => ({ x: 2, y: 1 }),
+        }));
+        expect(result).toBe(true);
+    });
+
+    it("reach_chunk: false when player is in the wrong chunk", async () => {
+        const c = makeChallenge({ cause: "escort", effect: "reach_chunk", params: { dest_chunk_dx: 2, dest_chunk_dy: 1 } });
+        const result = await isConditionMet(c, ctx({
+            getCurrentChunk: async () => ({ x: 0, y: 0 }),
+        }));
+        expect(result).toBe(false);
+    });
+
+    it("defeat_flagged_wild: false (runtime-only, can't be true at DB-check time)", async () => {
+        const c = makeChallenge({ cause: "defeat_threat", effect: "defeat_flagged_wild", params: {} });
+        const result = await isConditionMet(c, ctx());
+        expect(result).toBe(false);
+    });
+
+    it("timer_on_tile: false (runtime-only, timer state not in DB)", async () => {
+        const c = makeChallenge({ cause: "guard_spot", effect: "timer_on_tile", params: { seconds: 120 } });
+        const result = await isConditionMet(c, ctx());
+        expect(result).toBe(false);
+    });
+
+    it("pickup_object: false (runtime-only, object presence checked at interaction time)", async () => {
+        const c = makeChallenge({ cause: "recover_heirloom", effect: "pickup_object", params: {}, rewardModifier: "challenge_heirloom" });
+        const result = await isConditionMet(c, ctx());
+        expect(result).toBe(false);
     });
 });
 

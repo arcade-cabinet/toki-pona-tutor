@@ -200,10 +200,63 @@ export function generateChallenge(
 }
 
 /**
- * Check whether the response condition for this challenge is currently
- * satisfied by player state (inventory / party / bestiary / etc).
- * Full wiring in T148.
+ * Query context for isConditionMet — injected so callers can pass real DB
+ * functions in production or stubs in tests.
  */
-export function isConditionMet(_challenge: ChallengeInstance): Promise<boolean> {
-    throw new Error("challenge-template.isConditionMet unimplemented (T148)");
+export type ConditionContext = {
+    getInventoryCount: (itemId: string) => Promise<number>;
+    getParty: () => Promise<Array<{ species_id: string }>>;
+    getBestiaryUniqueCount: () => Promise<number>;
+    getCurrentChunk: () => Promise<{ x: number; y: number }>;
+};
+
+/**
+ * Check whether the response condition for this challenge is satisfied by
+ * current player state. Inject a ConditionContext so the function remains
+ * pure and testable without a live DB.
+ *
+ * Runtime-only effects (defeat_flagged_wild, timer_on_tile, pickup_object)
+ * return false here — the runtime fires resolve directly on detection.
+ */
+export async function isConditionMet(
+    challenge: ChallengeInstance,
+    ctx: ConditionContext,
+): Promise<boolean> {
+    const { effect, params } = challenge;
+
+    switch (effect) {
+        case "catch_species": {
+            const party = await ctx.getParty();
+            return party.some((m) => m.species_id === String(params["species"] ?? ""));
+        }
+        case "inventory_count": {
+            const itemId = String(
+                challenge.cause === "settle_dispute"
+                    ? (params["evidence_item"] ?? "")
+                    : (params["item"] ?? ""),
+            );
+            const count = await ctx.getInventoryCount(itemId);
+            return count >= Number(params["count"] ?? 1);
+        }
+        case "deliver_item_to_npc": {
+            const itemId = String(params["item"] ?? "");
+            const count = await ctx.getInventoryCount(itemId);
+            return count >= 1;
+        }
+        case "bestiary_delta": {
+            const unique = await ctx.getBestiaryUniqueCount();
+            return unique >= Number(params["count"] ?? 1);
+        }
+        case "reach_chunk": {
+            const current = await ctx.getCurrentChunk();
+            const dx = Number(params["dest_chunk_dx"] ?? 0);
+            const dy = Number(params["dest_chunk_dy"] ?? 0);
+            return current.x === dx && current.y === dy;
+        }
+        case "defeat_flagged_wild":
+        case "timer_on_tile":
+        case "pickup_object":
+            // Runtime-only: the engine fires resolve on detection; DB can't verify these.
+            return false;
+    }
 }

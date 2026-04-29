@@ -350,8 +350,8 @@ export function chunkName(seed: Seed, coord: ChunkCoord): string {
  * Realize a chunk on first visit. For `(0, 0)` on a fresh save, plants the
  * Guide NPC at the known spawn point.
  *
- * Phase 2 stub: returns coord, type, name, and optional guideNpc.
- * Tile grid, encounters, NPCs, chests, signs, and warps are Phase 5+.
+ * Returns coord, type, name, and optional guideNpc. Full tile grid,
+ * encounters, NPCs, chests, signs, and warps expand in later phases.
  */
 export function realizeChunk(
     seed: Seed,
