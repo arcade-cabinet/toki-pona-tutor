@@ -63,6 +63,14 @@ export default defineConfig({
             src: resolve(__dirname, "src"),
         },
     },
+    optimizeDeps: {
+        // jeep-sqlite and its Capacitor wrapper use Emscripten WASM with a
+        // custom locateFile() hook. Vite's dep pre-bundler rewrites module
+        // boundaries in ways that break the WASM binary reference, causing a
+        // LinkError at instantiation time. Excluding them keeps the stencil
+        // component bundle intact so the locateFile path resolves correctly.
+        exclude: ["@capacitor-community/sqlite", "jeep-sqlite"],
+    },
     plugins: [
         react(),
         copyWasmPlugin(),
