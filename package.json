@@ -51,7 +51,7 @@
     "android:configure-release-signing": "node scripts/capacitor/configure-release-signing.mjs"
   },
   "dependencies": {
-    "@canvasengine/presets": "2.0.0-beta.56",
+    "@canvasengine/presets": "2.0.0-beta.58",
     "@canvasengine/tiled": "2.0.0-beta.58",
     "@capacitor-community/sqlite": "^8.1.0",
     "@capacitor/app": "^8.1.0",
