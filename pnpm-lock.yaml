@@ -15,8 +15,8 @@ importers:
         specifier: 2.0.0-beta.56
         version: 2.0.0-beta.56(canvasengine@2.0.0-beta.56(@types/react@19.2.14)(pixi.js@8.18.1)(react@19.2.5))(pixi.js@8.18.1)
       '@canvasengine/tiled':
-        specifier: 2.0.0-beta.56
-        version: 2.0.0-beta.56
+        specifier: 2.0.0-beta.58
+        version: 2.0.0-beta.58
       '@capacitor-community/sqlite':
         specifier: ^8.1.0
         version: 8.1.0(@capacitor/core@8.3.1)
@@ -184,6 +184,11 @@ packages:
     engines: {node: '>=6.0.0'}
     hasBin: true
 
+  '@babel/parser@7.29.3':
+    resolution: {integrity: sha512-b3ctpQwp+PROvU/cttc4OYl4MzfJUWy6FZg+PMXfzmt/+39iHVF0sDfqay8TQM3JA2EUOyKcFZt75jWriQijsA==}
+    engines: {node: '>=6.0.0'}
+    hasBin: true
+
   '@babel/types@7.29.0':
     resolution: {integrity: sha512-LwdZHpScM4Qz8Xw2iKSzS+cfglZzJGvofQICy7W7v4caru4EaAmyUuO6BGrbyQ2mYV11W0U8j5mBhd14dd3B0A==}
     engines: {node: '>=6.9.0'}
@@ -220,6 +225,9 @@ packages:
 
   '@canvasengine/tiled@2.0.0-beta.56':
     resolution: {integrity: sha512-HVoDMzF+UZHxg0LKDGHNgJqnhh8JYIlAeanusL1HgcwV1xcmOonW0/1JhQX/7RPXfNONlZ0jnczasKBp/9I9/g==}
+
+  '@canvasengine/tiled@2.0.0-beta.58':
+    resolution: {integrity: sha512-Iu4sbQ1tePtt3B0/opA+v8FJBLHkkQoTNInrMlySe1lN/AeA9gGUPqi+vi1WOHta3oqzjjuqeTD5dvaJcrjmdg==}
 
   '@canvasengine/tilemap@5.0.1':
     resolution: {integrity: sha512-QZgTueWWYLwkdwYo+9oQ5aVxHGB15Oyac0VTiKinnOO+NDzBGJZi9GUu/s9AW7cJA4w36I0JwsqpW84J77gm7Q==}
@@ -2622,6 +2630,11 @@ packages:
     engines: {node: ^10 || ^12 || ^13.7 || ^14 || >=15.0.1}
     hasBin: true
 
+  nanoid@3.3.12:
+    resolution: {integrity: sha512-ZB9RH/39qpq5Vu6Y+NmUaFhQR6pp+M2Xt76XBnEwDaGcVAqhlvxrl3B2bKS5D3NH3QR76v3aSrKaF/Kiy7lEtQ==}
+    engines: {node: ^10 || ^12 || ^13.7 || ^14 || >=15.0.1}
+    hasBin: true
+
   napi-build-utils@2.0.0:
     resolution: {integrity: sha512-GEbrYkbfF7MoNaoh2iGG84Mnf/WZfB0GdGEsM8wz7Expx/LlWf5U8t9nvJKXSp3qr5IsEbK04cBGhol/KwOsWA==}
 
@@ -2745,6 +2758,10 @@ packages:
 
   postcss@8.5.12:
     resolution: {integrity: sha512-W62t/Se6rA0Az3DfCL0AqJwXuKwBeYg6nOaIgzP+xZ7N5BFCI7DYi1qs6ygUYT6rvfi6t9k65UMLJC+PHZpDAA==}
+    engines: {node: ^10 || ^12 || >=14}
+
+  postcss@8.5.14:
+    resolution: {integrity: sha512-SoSL4+OSEtR99LHFZQiJLkT59C5B1amGO1NzTwj7TT1qCUgUO6hxOvzkOYxD+vMrXBM3XJIKzokoERdqQq/Zmg==}
     engines: {node: ^10 || ^12 || >=14}
 
   prebuild-install@7.1.3:
@@ -3372,6 +3389,10 @@ snapshots:
     dependencies:
       '@babel/types': 7.29.0
 
+  '@babel/parser@7.29.3':
+    dependencies:
+      '@babel/types': 7.29.0
+
   '@babel/types@7.29.0':
     dependencies:
       '@babel/helper-string-parser': 7.27.1
@@ -3443,6 +3464,12 @@ snapshots:
       xmlbuilder: 15.1.1
 
   '@canvasengine/tiled@2.0.0-beta.56':
+    dependencies:
+      buffer: 6.0.3
+      xml-js: 1.6.11
+      xmlbuilder: 15.1.1
+
+  '@canvasengine/tiled@2.0.0-beta.58':
     dependencies:
       buffer: 6.0.3
       xml-js: 1.6.11
@@ -4872,7 +4899,7 @@ snapshots:
   '@rpgjs/tiledmap@5.0.0-beta.1(5058acc4ef598a7d935b14de522d5a8e)':
     dependencies:
       '@canvasengine/presets': 2.0.0-beta.56(canvasengine@2.0.0-beta.56(@types/react@19.2.14)(pixi.js@8.18.1)(react@19.2.5))(pixi.js@8.18.1)
-      '@canvasengine/tiled': 2.0.0-beta.56
+      '@canvasengine/tiled': 2.0.0-beta.58
       '@rpgjs/client': 5.0.0-beta.1(@canvasengine/presets@2.0.0-beta.56(canvasengine@2.0.0-beta.56(@types/react@19.2.14)(pixi.js@8.18.1)(react@19.2.5))(pixi.js@8.18.1))(@types/react@19.2.14)(canvasengine@2.0.0-beta.56(@types/react@19.2.14)(pixi.js@8.18.1)(react@19.2.5))(pixi.js@8.18.1)(react@19.2.5)(vitest@4.1.5)
       '@rpgjs/common': 5.0.0-beta.1(react@19.2.5)
       '@rpgjs/server': 5.0.0-beta.1(@canvasengine/presets@2.0.0-beta.56(canvasengine@2.0.0-beta.56(@types/react@19.2.14)(pixi.js@8.18.1)(react@19.2.5))(pixi.js@8.18.1))(@types/react@19.2.14)(pixi.js@8.18.1)(react@19.2.5)(vitest@4.1.5)
@@ -5166,14 +5193,14 @@ snapshots:
 
   '@vue/compiler-sfc@3.5.32':
     dependencies:
-      '@babel/parser': 7.29.2
+      '@babel/parser': 7.29.3
       '@vue/compiler-core': 3.5.32
       '@vue/compiler-dom': 3.5.32
       '@vue/compiler-ssr': 3.5.32
       '@vue/shared': 3.5.32
       estree-walker: 2.0.2
       magic-string: 0.30.21
-      postcss: 8.5.12
+      postcss: 8.5.14
       source-map-js: 1.2.1
 
   '@vue/compiler-ssr@3.5.32':
@@ -5841,6 +5868,8 @@ snapshots:
 
   nanoid@3.3.11: {}
 
+  nanoid@3.3.12: {}
+
   napi-build-utils@2.0.0: {}
 
   native-run@2.0.3:
@@ -5980,6 +6009,12 @@ snapshots:
   postcss@8.5.12:
     dependencies:
       nanoid: 3.3.11
+      picocolors: 1.1.1
+      source-map-js: 1.2.1
+
+  postcss@8.5.14:
+    dependencies:
+      nanoid: 3.3.12
       picocolors: 1.1.1
       source-map-js: 1.2.1
 
