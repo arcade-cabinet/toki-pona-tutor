@@ -15,8 +15,8 @@ importers:
         specifier: 2.0.0-beta.56
         version: 2.0.0-beta.56(canvasengine@2.0.0-beta.56(@types/react@19.2.14)(pixi.js@8.18.1)(react@19.2.5))(pixi.js@8.18.1)
       '@canvasengine/tiled':
-        specifier: 2.0.0-beta.56
-        version: 2.0.0-beta.56
+        specifier: 2.0.0-beta.58
+        version: 2.0.0-beta.58
       '@capacitor-community/sqlite':
         specifier: ^8.1.0
         version: 8.1.0(@capacitor/core@8.3.1)
@@ -225,6 +225,9 @@ packages:
 
   '@canvasengine/tiled@2.0.0-beta.56':
     resolution: {integrity: sha512-HVoDMzF+UZHxg0LKDGHNgJqnhh8JYIlAeanusL1HgcwV1xcmOonW0/1JhQX/7RPXfNONlZ0jnczasKBp/9I9/g==}
+
+  '@canvasengine/tiled@2.0.0-beta.58':
+    resolution: {integrity: sha512-Iu4sbQ1tePtt3B0/opA+v8FJBLHkkQoTNInrMlySe1lN/AeA9gGUPqi+vi1WOHta3oqzjjuqeTD5dvaJcrjmdg==}
 
   '@canvasengine/tilemap@5.0.1':
     resolution: {integrity: sha512-QZgTueWWYLwkdwYo+9oQ5aVxHGB15Oyac0VTiKinnOO+NDzBGJZi9GUu/s9AW7cJA4w36I0JwsqpW84J77gm7Q==}
@@ -3466,6 +3469,12 @@ snapshots:
       xml-js: 1.6.11
       xmlbuilder: 15.1.1
 
+  '@canvasengine/tiled@2.0.0-beta.58':
+    dependencies:
+      buffer: 6.0.3
+      xml-js: 1.6.11
+      xmlbuilder: 15.1.1
+
   '@canvasengine/tilemap@5.0.1(pixi.js@8.18.1)':
     dependencies:
       pixi.js: 8.18.1
@@ -4890,7 +4899,7 @@ snapshots:
   '@rpgjs/tiledmap@5.0.0-beta.1(ee784e02f9fcf732d7e3b620e66167e9)':
     dependencies:
       '@canvasengine/presets': 2.0.0-beta.56(canvasengine@2.0.0-beta.56(@types/react@19.2.14)(pixi.js@8.18.1)(react@19.2.5))(pixi.js@8.18.1)
-      '@canvasengine/tiled': 2.0.0-beta.56
+      '@canvasengine/tiled': 2.0.0-beta.58
       '@rpgjs/client': 5.0.0-beta.1(@canvasengine/presets@2.0.0-beta.56(canvasengine@2.0.0-beta.56(@types/react@19.2.14)(pixi.js@8.18.1)(react@19.2.5))(pixi.js@8.18.1))(@types/react@19.2.14)(canvasengine@2.0.0-beta.56(@types/react@19.2.14)(pixi.js@8.18.1)(react@19.2.5))(pixi.js@8.18.1)(react@19.2.5)(vitest@4.1.5)
       '@rpgjs/common': 5.0.0-beta.1(react@19.2.5)
       '@rpgjs/server': 5.0.0-beta.1(@canvasengine/presets@2.0.0-beta.56(canvasengine@2.0.0-beta.56(@types/react@19.2.14)(pixi.js@8.18.1)(react@19.2.5))(pixi.js@8.18.1))(@types/react@19.2.14)(pixi.js@8.18.1)(react@19.2.5)(vitest@4.1.5)
