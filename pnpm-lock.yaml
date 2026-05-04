@@ -54,8 +54,8 @@ importers:
         specifier: 5.0.0-beta.1
         version: 5.0.0-beta.1(ee784e02f9fcf732d7e3b620e66167e9)
       '@rpgjs/ui-css':
-        specifier: 5.0.0-beta.1
-        version: 5.0.0-beta.1
+        specifier: 5.0.0-beta.5
+        version: 5.0.0-beta.5
       '@rpgjs/vite':
         specifier: 5.0.0-beta.1
         version: 5.0.0-beta.1(@canvasengine/presets@2.0.0-beta.56(canvasengine@2.0.0-beta.56(@types/react@19.2.14)(pixi.js@8.18.1)(react@19.2.5))(pixi.js@8.18.1))(@types/react@19.2.14)(@vitest/coverage-v8@4.1.5)(happy-dom@20.9.0)(hono@4.12.14)(jiti@1.21.7)(lightningcss@1.32.0)(pixi.js@8.18.1)(react@19.2.5)(rollup@4.60.2)(tsx@4.21.0)(yaml@2.8.4)
@@ -1752,6 +1752,9 @@ packages:
 
   '@rpgjs/ui-css@5.0.0-beta.1':
     resolution: {integrity: sha512-yCNRlFuxFL8Txltdt7gydQIK6QMYDiUP08Hsg3jg4G4RgOqd1HW3RoyjOpF3hZcmfCq6srm7gCeiDShSyJ6JUw==}
+
+  '@rpgjs/ui-css@5.0.0-beta.5':
+    resolution: {integrity: sha512-jgkfmu7aCOmCfoNwCiaA7/a60jTzWslLfbLG9RTatAZYoPLQsg1uCTONnaisgcc+MvtuZhrR0oiyKvyH9PHDTw==}
 
   '@rpgjs/vite@5.0.0-beta.1':
     resolution: {integrity: sha512-5MMs6v3PCimJyNe5KdgedvQ1PrTguRQgjm+en3gRRU8pXFHoK3Cv9aJ/zbAoaZvw6IL2Qv6yJCRZfYOcW5M4Ag==}
@@ -4907,6 +4910,8 @@ snapshots:
       canvasengine: 2.0.0-beta.56(@types/react@19.2.14)(pixi.js@8.18.1)(react@19.2.5)
 
   '@rpgjs/ui-css@5.0.0-beta.1': {}
+
+  '@rpgjs/ui-css@5.0.0-beta.5': {}
 
   '@rpgjs/vite@5.0.0-beta.1(@canvasengine/presets@2.0.0-beta.56(canvasengine@2.0.0-beta.56(@types/react@19.2.14)(pixi.js@8.18.1)(react@19.2.5))(pixi.js@8.18.1))(@types/react@19.2.14)(@vitest/coverage-v8@4.1.5)(happy-dom@20.9.0)(hono@4.12.14)(jiti@1.21.7)(lightningcss@1.32.0)(pixi.js@8.18.1)(react@19.2.5)(rollup@4.60.2)(tsx@4.21.0)(yaml@2.8.4)':
     dependencies:
