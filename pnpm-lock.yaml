@@ -91,8 +91,8 @@ importers:
         version: 4.4.3
     devDependencies:
       '@canvasengine/compiler':
-        specifier: 2.0.0-beta.56
-        version: 2.0.0-beta.56(@types/node@25.6.0)(jiti@1.21.7)(lightningcss@1.32.0)(tsx@4.21.0)(yaml@2.8.4)
+        specifier: 2.0.0-beta.58
+        version: 2.0.0-beta.58(@types/node@25.6.0)(esbuild@0.27.7)(jiti@1.21.7)(tsx@4.21.0)(yaml@2.8.4)
       '@capacitor/android':
         specifier: ^8.3.1
         version: 8.3.1(@capacitor/core@8.3.1)
@@ -205,8 +205,8 @@ packages:
   '@canvasengine/compiler@2.0.0-beta.54':
     resolution: {integrity: sha512-Kqq5+Ja8TFGZ8zN+i1daGOPKhHOdXuC7GK9bFDm1STaIRqjWbuddUr2KQfJhT0kwz4h1aZStT6/6tBUIrSH1gA==}
 
-  '@canvasengine/compiler@2.0.0-beta.56':
-    resolution: {integrity: sha512-qH/lGNDmdrmFzhBIyqsDqiPcqHhryxooDzhwxT+rt7/ji3i1s0tU4dO5JTUK77WjEXa+QwLZscKBFF4qxz520g==}
+  '@canvasengine/compiler@2.0.0-beta.58':
+    resolution: {integrity: sha512-2oHr8JN5F6lTPuunxYofpac17Wc6wr9lAmnTYBXRkBZn40JO6XmIk4RK1Yb2NNdf9gYNp648ZIqsGNP9Ff35+w==}
 
   '@canvasengine/presets@2.0.0-beta.56':
     resolution: {integrity: sha512-eL+V27UgJJI/+GyweCB8FlFtnN+5UsXyr1xrB8G0ah8S+VeMer0SVyyITAZ+U+G+hH/eTUiIw63FclVY1mSfgA==}
@@ -702,6 +702,10 @@ packages:
   '@peggyjs/from-mem@1.3.5':
     resolution: {integrity: sha512-oRyzXE7nirAn+5yYjCdWQHg3EG2XXcYRoYNOK8Quqnmm+9FyK/2YWVunwudlYl++M3xY+gIAdf0vAYS+p0nKfQ==}
     engines: {node: '>=18'}
+
+  '@peggyjs/from-mem@3.1.3':
+    resolution: {integrity: sha512-LLlgtfXIaeYXoOYovOI0spLM8ZXaqkAlmcRRrLzHJzLMqkU6Sw0R4KMoCoHx1PjaP815pSCBlS+BN6aD8t1Jgg==}
+    engines: {node: '>=20.8'}
 
   '@pixi/colord@2.9.6':
     resolution: {integrity: sha512-nezytU2pw587fQstUu1AsJZDVEynjskwOL+kibwcdxsMBFqPsFFNA7xl0ii/gXuDi6M0xj3mfRJj8pBSc2jCfA==}
@@ -2121,6 +2125,10 @@ packages:
     resolution: {integrity: sha512-Vw8qHK3bZM9y/P10u3Vib8o/DdkvA2OtPtZvD871QKjy74Wj1WSKFILMPRPSdUSx5RFK1arlJzEtA4PkFgnbuA==}
     engines: {node: '>=18'}
 
+  commander@14.0.3:
+    resolution: {integrity: sha512-H+y0Jo/T1RZ9qPP4Eh1pkcQcLRglraJaSLoyOtHxu6AapkjWVCy2Sit1QQ4x3Dng8qDlSsZEet7g5Pq06MvTgw==}
+    engines: {node: '>=20'}
+
   compare-versions@6.1.1:
     resolution: {integrity: sha512-4hm4VPpIecmlg59CHXnRDnqGplJFrbLG4aFEl5vl6cK1u76ws3LLvX7ikFnTDl5vo39sjWD6AaDPYodJp/NNHg==}
 
@@ -2709,6 +2717,11 @@ packages:
     engines: {node: '>=18'}
     hasBin: true
 
+  peggy@5.1.0:
+    resolution: {integrity: sha512-IEo5aYRZ2kXH4Qby06cjtL114PZnwLoTiA41vUmg2vPZgANn+c87m5BUurhuDr5/cu758ZlpgsAfBVx+hhO5+w==}
+    engines: {node: '>=20'}
+    hasBin: true
+
   pend@1.2.0:
     resolution: {integrity: sha512-F3asv42UuXchdzt+xXqfW1OGlVBe+mxa2mqI0pg5yAHZPvFmY3Y6drSf/GQ1A86WgWEN9Kzh/WrgKa6iGcHXLg==}
 
@@ -2957,6 +2970,10 @@ packages:
   source-map-generator@0.8.0:
     resolution: {integrity: sha512-psgxdGMwl5MZM9S3FWee4EgsEaIjahYV5AzGnwUvPhWeITz/j6rKpysQHlQ4USdxvINlb8lKfWGIXwfkrgtqkA==}
     engines: {node: '>= 10'}
+
+  source-map-generator@2.0.6:
+    resolution: {integrity: sha512-IlassDs1Ve8nV6uyQZXF9kdkJpVKnMte2JZQXu13M0A5zwc+vu6+LNHfmxsHBMDtoZE21RHiKI0/xvpecZRCNg==}
+    engines: {node: '>=20'}
 
   source-map-js@1.2.1:
     resolution: {integrity: sha512-UXWMKhLOwVKb728IUtQPXxfYU+usdybtUrK/8uGE8CQMvrhOpwvzDBwj0QhSL7MQc7vIsISBG8VQ8+IDQxpfQA==}
@@ -3426,17 +3443,18 @@ snapshots:
       - tsx
       - yaml
 
-  '@canvasengine/compiler@2.0.0-beta.56(@types/node@25.6.0)(jiti@1.21.7)(lightningcss@1.32.0)(tsx@4.21.0)(yaml@2.8.4)':
+  '@canvasengine/compiler@2.0.0-beta.58(@types/node@25.6.0)(esbuild@0.27.7)(jiti@1.21.7)(tsx@4.21.0)(yaml@2.8.4)':
     dependencies:
       acorn: 8.16.0
-      peggy: 4.2.0
-      typescript: 5.9.3
-      vite: 6.4.2(@types/node@25.6.0)(jiti@1.21.7)(lightningcss@1.32.0)(tsx@4.21.0)(yaml@2.8.4)
+      peggy: 5.1.0
+      typescript: 6.0.3
+      vite: 8.0.10(@types/node@25.6.0)(esbuild@0.27.7)(jiti@1.21.7)(tsx@4.21.0)(yaml@2.8.4)
     transitivePeerDependencies:
       - '@types/node'
+      - '@vitejs/devtools'
+      - esbuild
       - jiti
       - less
-      - lightningcss
       - sass
       - sass-embedded
       - stylus
@@ -3870,6 +3888,10 @@ snapshots:
   '@peggyjs/from-mem@1.3.5':
     dependencies:
       semver: 7.6.3
+
+  '@peggyjs/from-mem@3.1.3':
+    dependencies:
+      semver: 7.7.4
 
   '@pixi/colord@2.9.6': {}
 
@@ -5403,6 +5425,8 @@ snapshots:
 
   commander@12.1.0: {}
 
+  commander@14.0.3: {}
+
   compare-versions@6.1.1: {}
 
   confbox@0.1.8: {}
@@ -5948,6 +5972,12 @@ snapshots:
       commander: 12.1.0
       source-map-generator: 0.8.0
 
+  peggy@5.1.0:
+    dependencies:
+      '@peggyjs/from-mem': 3.1.3
+      commander: 14.0.3
+      source-map-generator: 2.0.6
+
   pend@1.2.0: {}
 
   picocolors@1.1.1: {}
@@ -6302,6 +6332,8 @@ snapshots:
       is-fullwidth-code-point: 3.0.0
 
   source-map-generator@0.8.0: {}
+
+  source-map-generator@2.0.6: {}
 
   source-map-js@1.2.1: {}
 
