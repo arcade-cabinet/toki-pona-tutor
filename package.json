@@ -68,7 +68,7 @@
     "@rpgjs/ui-css": "5.0.0-beta.5",
     "@rpgjs/vite": "5.0.0-beta.1",
     "@signe/di": "^2.9.0",
-    "canvasengine": "2.0.0-beta.56",
+    "canvasengine": "2.0.0-beta.58",
     "jeep-sqlite": "^2.8.0",
     "motion": "^12.38.0",
     "pixi.js": "^8.18.1",
